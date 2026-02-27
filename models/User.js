@@ -36,6 +36,29 @@ const userSchema = new mongoose.Schema({
   expertise: {
     type: [String],
     default: []
+  },
+  notificationPreferences: {
+    email: { type: Boolean, default: true },
+    push: { type: Boolean, default: true },
+    sms: { type: Boolean, default: false }
+  },
+  privacySettings: {
+    profileVisibility: {
+      type: String,
+      enum: ["public", "private"],
+      default: "public"
+    },
+    showEmail: { type: Boolean, default: false },
+    showSessionHistory: { type: Boolean, default: true }
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+  deletedAt: {
+    type: Date,
+    default: null
   }
 }, { timestamps: true });
 

@@ -9,6 +9,12 @@ const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const mentorRoutes = require("./routes/mentorRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const availabilityRoutes = require("./routes/availabilityRoutes");
+const sessionRoutes = require("./routes/sessionRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
+const accountRoutes = require("./routes/accountRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -37,6 +43,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/mentors", mentorRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/availability", availabilityRoutes);
+app.use("/api/sessions", sessionRoutes);
+app.use("/api/profiles", profileRoutes);
+app.use("/api/settings", settingsRoutes);
+app.use("/api/account", accountRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

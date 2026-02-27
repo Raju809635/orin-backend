@@ -33,8 +33,6 @@ router.get("/by-domain/:domain", async (req, res) => {
   }
 });
 
-router.get("/:mentorId", getPublicMentorProfile);
-
 router.get("/me/profile", verifyToken, authorizeRoles("mentor"), getMyMentorProfile);
 router.patch(
   "/me/profile",
@@ -43,5 +41,7 @@ router.patch(
   validate(updateMentorProfileSchema),
   updateMyMentorProfile
 );
+
+router.get("/:mentorId", getPublicMentorProfile);
 
 module.exports = router;
