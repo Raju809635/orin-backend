@@ -101,10 +101,6 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  if (user.role === "mentor" && user.status !== "approved") {
-    throw new ApiError(403, "Mentor not approved yet");
-  }
-
   const accessToken = createAccessToken(user);
   const refreshToken = createRefreshToken(user);
   await persistRefreshToken({ user, refreshToken, req });
