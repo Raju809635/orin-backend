@@ -17,16 +17,63 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["student", "mentor", "admin"],
+    enum: ["student", "mentor"],
     default: "student"
   },
-  status: {
-    type: String,
-    enum: ["pending", "approved"],
-    default: "pending"
+  isAdmin: {
+    type: Boolean,
+    default: false,
+    index: true
   },
-  domain: {
-    type: String
+  approvalStatus: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "approved"
+  },
+  primaryCategory: {
+    type: String,
+    default: ""
+  },
+  subCategory: {
+    type: String,
+    default: ""
+  },
+  specializations: {
+    type: [String],
+    default: []
+  },
+  sessionPrice: {
+    type: Number,
+    default: 0
+  },
+  availability: {
+    type: [
+      {
+        day: { type: String, default: "" },
+        slots: { type: [String], default: [] }
+      }
+    ],
+    default: []
+  },
+  educationLevel: {
+    type: String,
+    default: ""
+  },
+  targetExam: {
+    type: String,
+    default: ""
+  },
+  interestedCategories: {
+    type: [String],
+    default: []
+  },
+  preferredLanguage: {
+    type: String,
+    default: ""
+  },
+  goals: {
+    type: String,
+    default: ""
   },
   bio: {
     type: String,

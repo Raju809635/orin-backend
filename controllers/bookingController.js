@@ -14,7 +14,7 @@ exports.createBooking = asyncHandler(async (req, res) => {
   const mentor = await User.findOne({
     _id: mentorId,
     role: "mentor",
-    status: "approved"
+    approvalStatus: "approved"
   });
 
   if (!mentor) {
@@ -45,7 +45,7 @@ exports.getMentorBookings = asyncHandler(async (req, res) => {
 
 exports.getStudentBookings = asyncHandler(async (req, res) => {
   const bookings = await Booking.find({ student: req.user.id })
-    .populate("mentor", "name email domain")
+    .populate("mentor", "name email primaryCategory subCategory")
     .sort({ createdAt: -1 })
     .lean();
 
@@ -66,7 +66,7 @@ exports.updateBookingStatus = asyncHandler(async (req, res) => {
     { new: true, runValidators: true }
   )
     .populate("student", "name email")
-    .populate("mentor", "name email domain");
+    .populate("mentor", "name email primaryCategory subCategory");
 
   if (!booking) {
     throw new ApiError(404, "Booking not found for this mentor");

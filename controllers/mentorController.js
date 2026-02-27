@@ -13,8 +13,8 @@ exports.getPublicMentorProfile = asyncHandler(async (req, res) => {
   const mentor = await User.findOne({
     _id: mentorId,
     role: "mentor",
-    status: "approved"
-  }).select("name email domain bio expertise createdAt");
+    approvalStatus: "approved"
+  }).select("name email primaryCategory subCategory specializations bio expertise createdAt");
 
   if (!mentor) {
     throw new ApiError(404, "Mentor not found");
@@ -27,7 +27,9 @@ exports.getMyMentorProfile = asyncHandler(async (req, res) => {
   const mentor = await User.findOne({
     _id: req.user.id,
     role: "mentor"
-  }).select("name email role status domain bio expertise createdAt updatedAt");
+  }).select(
+    "name email role approvalStatus primaryCategory subCategory specializations bio expertise sessionPrice availability createdAt updatedAt"
+  );
 
   if (!mentor) {
     throw new ApiError(404, "Mentor profile not found");
@@ -41,7 +43,9 @@ exports.updateMyMentorProfile = asyncHandler(async (req, res) => {
     { _id: req.user.id, role: "mentor" },
     req.body,
     { new: true, runValidators: true }
-  ).select("name email role status domain bio expertise createdAt updatedAt");
+  ).select(
+    "name email role approvalStatus primaryCategory subCategory specializations bio expertise sessionPrice availability createdAt updatedAt"
+  );
 
   if (!mentor) {
     throw new ApiError(404, "Mentor profile not found");

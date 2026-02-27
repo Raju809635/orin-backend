@@ -18,7 +18,9 @@ function computeProfileCompleteness(fields) {
 }
 
 exports.getMyStudentProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id, role: "student" }).select("name email role");
+  const user = await User.findOne({ _id: req.user.id, role: "student" }).select(
+    "name email role educationLevel targetExam interestedCategories preferredLanguage goals"
+  );
   if (!user) throw new ApiError(404, "Student user not found");
 
   let profile = await StudentProfile.findOne({ userId: req.user.id }).lean();
@@ -50,6 +52,16 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
     { upsert: true, new: true, runValidators: true }
   );
 
+  await User.findByIdAndUpdate(req.user.id, {
+    $set: {
+      educationLevel: req.body.educationLevel || "",
+      targetExam: req.body.targetExam || "",
+      interestedCategories: req.body.interestedCategories || [],
+      preferredLanguage: req.body.preferredLanguage || "",
+      goals: req.body.goals || ""
+    }
+  });
+
   await createAuditLog({
     req,
     actorId: req.user.id,
@@ -63,7 +75,9 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
 });
 
 exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select("name email role status domain");
+  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select(
+    "name email role approvalStatus primaryCategory subCategory specializations sessionPrice availability"
+  );
   if (!user) throw new ApiError(404, "Mentor user not found");
 
   let profile = await MentorProfile.findOne({ userId: req.user.id }).lean();
@@ -95,6 +109,28 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     { upsert: true, new: true, runValidators: true }
   );
 
+  const availability = (nextPayload.weeklyAvailabilitySlots || []).reduce((acc, slot) => {
+    if (!slot.day || !slot.startTime || !slot.endTime) return acc;
+    const range = `${slot.startTime}-${slot.endTime}`;
+    const existing = acc.find((entry) => entry.day === slot.day);
+    if (existing) {
+      if (!existing.slots.includes(range)) existing.slots.push(range);
+      return acc;
+    }
+    acc.push({ day: slot.day, slots: [range] });
+    return acc;
+  }, []);
+
+  await User.findByIdAndUpdate(req.user.id, {
+    $set: {
+      primaryCategory: nextPayload.primaryCategory || "",
+      subCategory: nextPayload.subCategory || "",
+      specializations: nextPayload.expertiseDomains || [],
+      sessionPrice: nextPayload.sessionPrice || 0,
+      availability
+    }
+  });
+
   await createAuditLog({
     req,
     actorId: req.user.id,
@@ -111,8 +147,8 @@ exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {
   const user = await User.findOne({
     _id: req.params.mentorUserId,
     role: "mentor",
-    status: "approved"
-  }).select("name email role status domain");
+    approvalStatus: "approved"
+  }).select("name email role approvalStatus primaryCategory subCategory specializations sessionPrice");
 
   if (!user) throw new ApiError(404, "Mentor not found");
 

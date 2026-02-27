@@ -15,6 +15,7 @@ const profileRoutes = require("./routes/profileRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const accountRoutes = require("./routes/accountRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const collaborateRoutes = require("./routes/collaborateRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -49,6 +50,7 @@ app.use("/api/profiles", profileRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/account", accountRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/collaborate", collaborateRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

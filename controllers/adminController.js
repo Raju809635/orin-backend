@@ -3,15 +3,16 @@ const User = require("../models/User");
 const Booking = require("../models/Booking");
 const Notification = require("../models/Notification");
 const AuditLog = require("../models/AuditLog");
+const CollaborateApplication = require("../models/CollaborateApplication");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
 exports.getPendingMentors = asyncHandler(async (req, res) => {
   const mentors = await User.find({
     role: "mentor",
-    status: "pending"
+    approvalStatus: "pending"
   })
-    .select("name email role status domain createdAt")
+    .select("name email role approvalStatus primaryCategory subCategory specializations createdAt")
     .lean();
 
   res.status(200).json(mentors);
@@ -26,9 +27,9 @@ exports.approveMentor = asyncHandler(async (req, res) => {
 
   const mentor = await User.findOneAndUpdate(
     { _id: id, role: "mentor" },
-    { status: "approved" },
+    { approvalStatus: "approved" },
     { new: true }
-  ).select("name email role status domain");
+  ).select("name email role approvalStatus primaryCategory subCategory");
 
   if (!mentor) {
     throw new ApiError(404, "Mentor not found");
@@ -40,9 +41,21 @@ exports.approveMentor = asyncHandler(async (req, res) => {
   });
 });
 
+exports.getApprovedMentors = asyncHandler(async (req, res) => {
+  const mentors = await User.find({
+    role: "mentor",
+    approvalStatus: "approved"
+  })
+    .select("name email role approvalStatus primaryCategory subCategory specializations")
+    .sort({ updatedAt: -1 })
+    .lean();
+
+  res.status(200).json(mentors);
+});
+
 exports.getStudents = asyncHandler(async (req, res) => {
   const students = await User.find({ role: "student" })
-    .select("name email role status createdAt updatedAt")
+    .select("name email role educationLevel targetExam interestedCategories goals preferredLanguage createdAt updatedAt")
     .sort({ createdAt: -1 })
     .lean();
 
@@ -50,33 +63,37 @@ exports.getStudents = asyncHandler(async (req, res) => {
 });
 
 exports.getDemographics = asyncHandler(async (req, res) => {
-  const [roleCounts, mentorDomainCounts, bookingStatusCounts] = await Promise.all([
+  const [roleCounts, mentorCategoryCounts, studentInterestCounts, bookingStatusCounts] = await Promise.all([
     User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
     User.aggregate([
-      { $match: { role: "mentor", status: "approved" } },
-      { $group: { _id: "$domain", count: { $sum: 1 } } },
+      { $match: { role: "mentor", approvalStatus: "approved" } },
+      { $group: { _id: "$primaryCategory", count: { $sum: 1 } } },
+      { $sort: { count: -1 } }
+    ]),
+    User.aggregate([
+      { $match: { role: "student" } },
+      { $unwind: { path: "$interestedCategories", preserveNullAndEmptyArrays: false } },
+      { $group: { _id: "$interestedCategories", count: { $sum: 1 } } },
       { $sort: { count: -1 } }
     ]),
     Booking.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
   ]);
 
   const [pendingMentors, approvedMentors, totalUsers, totalBookings] = await Promise.all([
-    User.countDocuments({ role: "mentor", status: "pending" }),
-    User.countDocuments({ role: "mentor", status: "approved" }),
+    User.countDocuments({ role: "mentor", approvalStatus: "pending" }),
+    User.countDocuments({ role: "mentor", approvalStatus: "approved" }),
     User.countDocuments(),
     Booking.countDocuments()
   ]);
 
   const roleSummary = {
     students: 0,
-    mentors: 0,
-    admins: 0
+    mentors: 0
   };
 
   roleCounts.forEach((row) => {
     if (row._id === "student") roleSummary.students = row.count;
     if (row._id === "mentor") roleSummary.mentors = row.count;
-    if (row._id === "admin") roleSummary.admins = row.count;
   });
 
   const bookingSummary = {
@@ -100,8 +117,12 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     },
     roles: roleSummary,
     bookings: bookingSummary,
-    mentorDomains: mentorDomainCounts.map((row) => ({
-      domain: row._id || "Unspecified",
+    mentorCategories: mentorCategoryCounts.map((row) => ({
+      category: row._id || "Unspecified",
+      count: row.count
+    })),
+    studentInterests: studentInterestCounts.map((row) => ({
+      category: row._id || "Unspecified",
       count: row.count
     }))
   });
@@ -159,6 +180,15 @@ exports.getNotifications = asyncHandler(async (req, res) => {
     .lean();
 
   res.status(200).json(notifications);
+});
+
+exports.getCollaborateApplications = asyncHandler(async (req, res) => {
+  const applications = await CollaborateApplication.find()
+    .sort({ createdAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.status(200).json(applications);
 });
 
 exports.getAuditLogs = asyncHandler(async (req, res) => {

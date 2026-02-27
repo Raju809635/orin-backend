@@ -65,7 +65,11 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
   const { mentorId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(mentorId)) throw new ApiError(400, "Invalid mentor id");
 
-  const mentor = await User.findOne({ _id: mentorId, role: "mentor", status: "approved" }).select("name email");
+  const requestingOwnAvailability = req.user?.id && req.user.id.toString() === mentorId.toString();
+  const baseFilter = { _id: mentorId, role: "mentor" };
+  const mentor = requestingOwnAvailability
+    ? await User.findOne(baseFilter).select("name email approvalStatus")
+    : await User.findOne({ ...baseFilter, approvalStatus: "approved" }).select("name email approvalStatus");
   if (!mentor) throw new ApiError(404, "Mentor not found");
 
   const [weeklySlots, blockedDates] = await Promise.all([

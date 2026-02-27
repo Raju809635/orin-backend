@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken, authorizeRoles } = require("../middleware/authMiddleware");
+const { verifyToken, authorizeAdmin } = require("../middleware/authMiddleware");
 const validate = require("../middleware/validate");
 const { sendNotificationSchema } = require("../validators/adminValidator");
 const {
@@ -10,19 +10,23 @@ const {
   getDemographics,
   sendNotification,
   getNotifications,
-  getAuditLogs
+  getAuditLogs,
+  getApprovedMentors,
+  getCollaborateApplications
 } = require("../controllers/adminController");
 
-router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
-router.put("/approve/:id", verifyToken, authorizeRoles("admin"), approveMentor);
-router.get("/students", verifyToken, authorizeRoles("admin"), getStudents);
-router.get("/demographics", verifyToken, authorizeRoles("admin"), getDemographics);
-router.get("/notifications", verifyToken, authorizeRoles("admin"), getNotifications);
-router.get("/audit-logs", verifyToken, authorizeRoles("admin"), getAuditLogs);
+router.get("/pending-mentors", verifyToken, authorizeAdmin, getPendingMentors);
+router.get("/approved-mentors", verifyToken, authorizeAdmin, getApprovedMentors);
+router.put("/approve/:id", verifyToken, authorizeAdmin, approveMentor);
+router.get("/students", verifyToken, authorizeAdmin, getStudents);
+router.get("/demographics", verifyToken, authorizeAdmin, getDemographics);
+router.get("/notifications", verifyToken, authorizeAdmin, getNotifications);
+router.get("/collaborate-applications", verifyToken, authorizeAdmin, getCollaborateApplications);
+router.get("/audit-logs", verifyToken, authorizeAdmin, getAuditLogs);
 router.post(
   "/notifications",
   verifyToken,
-  authorizeRoles("admin"),
+  authorizeAdmin,
   validate(sendNotificationSchema),
   sendNotification
 );

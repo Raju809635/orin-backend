@@ -11,20 +11,25 @@ const {
   getPublicMentorProfile
 } = require("../controllers/mentorController");
 
-router.get("/by-domain/:domain", async (req, res) => {
+router.get("/filter", async (req, res) => {
   try {
-    const domain = decodeURIComponent(req.params.domain || "").trim();
+    const primary = decodeURIComponent(req.query.primary || "").trim();
+    const sub = decodeURIComponent(req.query.sub || "").trim();
+    const spec = decodeURIComponent(req.query.spec || "").trim();
 
-    if (!domain) {
-      return res.status(400).json({ message: "Domain is required" });
-    }
-
-    const mentors = await User.find({
+    const filter = {
       role: "mentor",
-      status: "approved",
-      domain
-    })
-      .select("name email role status domain bio expertise createdAt updatedAt")
+      approvalStatus: "approved"
+    };
+
+    if (primary) filter.primaryCategory = primary;
+    if (sub) filter.subCategory = sub;
+    if (spec) filter.specializations = spec;
+
+    const mentors = await User.find(filter)
+      .select(
+        "name email role approvalStatus primaryCategory subCategory specializations bio expertise sessionPrice availability createdAt updatedAt"
+      )
       .lean();
 
     const mentorIds = mentors.map((mentor) => mentor._id);
@@ -51,7 +56,7 @@ router.get("/by-domain/:domain", async (req, res) => {
     return res.status(200).json(merged);
   } catch (error) {
     console.error("[MENTOR_ROUTE_ERROR]", error);
-    return res.status(500).json({ message: "Failed to fetch mentors by domain" });
+    return res.status(500).json({ message: "Failed to fetch mentors by filters" });
   }
 });
 
