@@ -19,6 +19,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const collaborateRoutes = require("./routes/collaborateRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const complaintRoutes = require("./routes/complaintRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -57,6 +58,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/collaborate", collaborateRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/complaints", complaintRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
