@@ -16,6 +16,7 @@ const settingsRoutes = require("./routes/settingsRoutes");
 const accountRoutes = require("./routes/accountRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const collaborateRoutes = require("./routes/collaborateRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -51,6 +52,7 @@ app.use("/api/settings", settingsRoutes);
 app.use("/api/account", accountRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/collaborate", collaborateRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
