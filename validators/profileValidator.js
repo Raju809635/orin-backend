@@ -25,11 +25,6 @@ const studentProfileUpdateSchema = Joi.object({
     .optional(),
   certifications: Joi.array().items(Joi.string()).optional(),
   careerGoals: Joi.string().max(500).allow("").optional(),
-  educationLevel: Joi.string().allow("").optional(),
-  targetExam: Joi.string().allow("").optional(),
-  interestedCategories: Joi.array().items(Joi.string()).optional(),
-  preferredLanguage: Joi.string().allow("").optional(),
-  goals: Joi.string().max(500).allow("").optional(),
   availabilityStatus: Joi.string().valid("available", "busy", "offline").optional(),
   resumeUrl: Joi.string().allow("").optional()
 });
@@ -37,14 +32,16 @@ const studentProfileUpdateSchema = Joi.object({
 const mentorProfileUpdateSchema = Joi.object({
   profilePhotoUrl: Joi.string().allow("").optional(),
   title: Joi.string().max(120).allow("").optional(),
+  phoneNumber: Joi.string().max(30).allow("").optional(),
   company: Joi.string().max(120).allow("").optional(),
   experienceYears: Joi.number().min(0).max(80).optional(),
   expertiseDomains: Joi.array().items(Joi.string()).optional(),
+  primaryCategory: Joi.string().max(100).allow("").optional(),
+  subCategory: Joi.string().max(100).allow("").optional(),
+  specializations: Joi.array().items(Joi.string()).optional(),
   about: Joi.string().max(1200).allow("").optional(),
   achievements: Joi.array().items(Joi.string()).optional(),
   linkedInUrl: Joi.string().allow("").optional(),
-  primaryCategory: Joi.string().allow("").optional(),
-  subCategory: Joi.string().allow("").optional(),
   sessionPrice: Joi.number().min(0).optional(),
   weeklyAvailabilitySlots: Joi.array()
     .items(

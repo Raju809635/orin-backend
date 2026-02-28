@@ -14,7 +14,7 @@ const notificationSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["announcement", "system", "booking", "approval"],
+      enum: ["announcement", "system", "booking", "approval", "direct"],
       default: "announcement"
     },
     sentBy: {
@@ -30,6 +30,10 @@ const notificationSchema = new mongoose.Schema(
     recipient: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
+    },
+    readByRecipient: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

@@ -4,6 +4,10 @@ const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
+const {
+  getMentorCategoryOptions,
+  isValidMentorCategorySelection
+} = require("../config/mentorCategories");
 
 function computeProfileCompleteness(fields) {
   let score = 0;
@@ -18,9 +22,7 @@ function computeProfileCompleteness(fields) {
 }
 
 exports.getMyStudentProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id, role: "student" }).select(
-    "name email role educationLevel targetExam interestedCategories preferredLanguage goals"
-  );
+  const user = await User.findOne({ _id: req.user.id, role: "student" }).select("name email role");
   if (!user) throw new ApiError(404, "Student user not found");
 
   let profile = await StudentProfile.findOne({ userId: req.user.id }).lean();
@@ -52,16 +54,6 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
     { upsert: true, new: true, runValidators: true }
   );
 
-  await User.findByIdAndUpdate(req.user.id, {
-    $set: {
-      educationLevel: req.body.educationLevel || "",
-      targetExam: req.body.targetExam || "",
-      interestedCategories: req.body.interestedCategories || [],
-      preferredLanguage: req.body.preferredLanguage || "",
-      goals: req.body.goals || ""
-    }
-  });
-
   await createAuditLog({
     req,
     actorId: req.user.id,
@@ -75,9 +67,7 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
 });
 
 exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select(
-    "name email role approvalStatus primaryCategory subCategory specializations sessionPrice availability"
-  );
+  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select("name email role status domain");
   if (!user) throw new ApiError(404, "Mentor user not found");
 
   let profile = await MentorProfile.findOne({ userId: req.user.id }).lean();
@@ -89,14 +79,38 @@ exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
   res.json({ user, profile });
 });
 
+exports.getMentorCategoryOptions = asyncHandler(async (_req, res) => {
+  res.json({ categories: getMentorCategoryOptions() });
+});
+
 exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   const nextPayload = { ...req.body };
+
+  if (
+    nextPayload.primaryCategory !== undefined ||
+    nextPayload.subCategory !== undefined ||
+    nextPayload.specializations !== undefined
+  ) {
+    const primaryCategory = nextPayload.primaryCategory || "";
+    const subCategory = nextPayload.subCategory || "";
+    const specializations = nextPayload.specializations || [];
+
+    const isValid = isValidMentorCategorySelection(primaryCategory, subCategory, specializations);
+    if (!isValid) {
+      throw new ApiError(400, "Invalid category selection. Choose from allowed backend categories.");
+    }
+
+    nextPayload.expertiseDomains = specializations;
+  }
+
   nextPayload.profileCompleteness = computeProfileCompleteness([
     nextPayload.profilePhotoUrl,
     nextPayload.title,
     nextPayload.company,
     nextPayload.experienceYears,
-    nextPayload.expertiseDomains,
+    nextPayload.primaryCategory,
+    nextPayload.subCategory,
+    nextPayload.specializations,
     nextPayload.about,
     nextPayload.achievements,
     nextPayload.linkedInUrl,
@@ -108,28 +122,6 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     { $set: nextPayload, $setOnInsert: { userId: req.user.id } },
     { upsert: true, new: true, runValidators: true }
   );
-
-  const availability = (nextPayload.weeklyAvailabilitySlots || []).reduce((acc, slot) => {
-    if (!slot.day || !slot.startTime || !slot.endTime) return acc;
-    const range = `${slot.startTime}-${slot.endTime}`;
-    const existing = acc.find((entry) => entry.day === slot.day);
-    if (existing) {
-      if (!existing.slots.includes(range)) existing.slots.push(range);
-      return acc;
-    }
-    acc.push({ day: slot.day, slots: [range] });
-    return acc;
-  }, []);
-
-  await User.findByIdAndUpdate(req.user.id, {
-    $set: {
-      primaryCategory: nextPayload.primaryCategory || "",
-      subCategory: nextPayload.subCategory || "",
-      specializations: nextPayload.expertiseDomains || [],
-      sessionPrice: nextPayload.sessionPrice || 0,
-      availability
-    }
-  });
 
   await createAuditLog({
     req,
@@ -147,8 +139,8 @@ exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {
   const user = await User.findOne({
     _id: req.params.mentorUserId,
     role: "mentor",
-    approvalStatus: "approved"
-  }).select("name email role approvalStatus primaryCategory subCategory specializations sessionPrice");
+    status: "approved"
+  }).select("name email role status domain");
 
   if (!user) throw new ApiError(404, "Mentor not found");
 

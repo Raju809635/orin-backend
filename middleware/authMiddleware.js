@@ -14,16 +14,15 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   const decoded = jwt.verify(token, accessTokenSecret);
 
-  const user = await User.findOne({ _id: decoded.id, isDeleted: { $ne: true } }).select("-password").lean();
+  const user = await User.findOne({ _id: decoded.id, isDeleted: false }).select("-password").lean();
   if (!user) {
     throw new ApiError(401, "Invalid token user");
   }
 
   req.user = {
     id: user._id.toString(),
-    role: user.role === "admin" ? "mentor" : user.role,
-    isAdmin: Boolean(user.isAdmin || user.role === "admin"),
-    approvalStatus: user.approvalStatus || "approved"
+    role: user.role,
+    status: user.status
   };
 
   next();
@@ -38,15 +37,7 @@ const authorizeRoles = (...allowedRoles) => {
   };
 };
 
-const authorizeAdmin = (req, res, next) => {
-  if (!req.user || !req.user.isAdmin) {
-    return next(new ApiError(403, "Admin access required"));
-  }
-  return next();
-};
-
 module.exports = {
   verifyToken,
-  authorizeRoles,
-  authorizeAdmin
+  authorizeRoles
 };

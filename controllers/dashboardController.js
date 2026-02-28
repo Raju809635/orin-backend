@@ -38,7 +38,7 @@ exports.getStudentDashboard = asyncHandler(async (req, res) => {
     scheduledStart: { $gt: new Date() }
   })
     .sort({ scheduledStart: 1 })
-    .populate("mentorId", "name email primaryCategory subCategory")
+    .populate("mentorId", "name email domain")
     .lean();
 
   const completedSessions = await Session.find({
@@ -50,7 +50,7 @@ exports.getStudentDashboard = asyncHandler(async (req, res) => {
 
   let assignedMentor = null;
   if (profile?.assignedMentorId) {
-    assignedMentor = await User.findById(profile.assignedMentorId).select("name email primaryCategory subCategory");
+    assignedMentor = await User.findById(profile.assignedMentorId).select("name email domain");
   }
 
   const tasks = [];
@@ -86,8 +86,7 @@ exports.getStudentDashboard = asyncHandler(async (req, res) => {
           id: assignedMentor._id,
           name: assignedMentor.name,
           email: assignedMentor.email,
-          primaryCategory: assignedMentor.primaryCategory || null,
-          subCategory: assignedMentor.subCategory || null
+          domain: assignedMentor.domain || null
         }
       : null,
     progressScore: profile?.profileCompleteness || 0,

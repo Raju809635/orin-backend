@@ -8,6 +8,13 @@ const sendNotificationSchema = Joi.object({
   recipientUserId: Joi.string().hex().length(24).optional()
 });
 
+const sendMentorMessageSchema = Joi.object({
+  title: Joi.string().min(3).max(120).required(),
+  message: Joi.string().min(3).max(1000).required(),
+  recipientUserIds: Joi.array().items(Joi.string().hex().length(24)).min(1).required()
+});
+
 module.exports = {
-  sendNotificationSchema
+  sendNotificationSchema,
+  sendMentorMessageSchema
 };

@@ -11,52 +11,104 @@ const {
   getPublicMentorProfile
 } = require("../controllers/mentorController");
 
-router.get("/filter", async (req, res) => {
+async function fetchApprovedMentors(filters = {}) {
+  const matchStage = {};
+
+  if (filters.primaryCategory) {
+    matchStage.primaryCategory = filters.primaryCategory;
+  }
+
+  if (filters.subCategory) {
+    matchStage.subCategory = filters.subCategory;
+  }
+
+  if (filters.specialization) {
+    matchStage.specializations = filters.specialization;
+  }
+
+  const pipeline = [
+    { $match: matchStage },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    { $unwind: "$user" },
+    {
+      $match: {
+        "user.role": "mentor",
+        "user.status": "approved",
+        "user.isDeleted": { $ne: true }
+      }
+    },
+    {
+      $project: {
+        _id: "$user._id",
+        name: "$user.name",
+        email: "$user.email",
+        role: "$user.role",
+        status: "$user.status",
+        profilePhotoUrl: "$profilePhotoUrl",
+        primaryCategory: "$primaryCategory",
+        subCategory: "$subCategory",
+        specializations: "$specializations",
+        sessionPrice: "$sessionPrice",
+        rating: "$rating",
+        totalSessionsConducted: "$totalSessionsConducted",
+        updatedAt: "$updatedAt"
+      }
+    },
+    { $sort: { rating: -1, totalSessionsConducted: -1, updatedAt: -1 } }
+  ];
+
+  return MentorProfile.aggregate(pipeline);
+}
+
+router.get("/", async (req, res) => {
   try {
-    const primary = decodeURIComponent(req.query.primary || "").trim();
-    const sub = decodeURIComponent(req.query.sub || "").trim();
-    const spec = decodeURIComponent(req.query.spec || "").trim();
-
-    const filter = {
-      role: "mentor",
-      approvalStatus: "approved"
-    };
-
-    if (primary) filter.primaryCategory = primary;
-    if (sub) filter.subCategory = sub;
-    if (spec) filter.specializations = spec;
-
-    const mentors = await User.find(filter)
-      .select(
-        "name email role approvalStatus primaryCategory subCategory specializations bio expertise sessionPrice availability createdAt updatedAt"
-      )
-      .lean();
-
-    const mentorIds = mentors.map((mentor) => mentor._id);
-    const profiles = await MentorProfile.find({ userId: { $in: mentorIds } })
-      .select("userId profilePhotoUrl title rating verifiedBadge rankingTier")
-      .lean();
-
-    const profileByUserId = new Map(
-      profiles.map((profile) => [profile.userId.toString(), profile])
-    );
-
-    const merged = mentors.map((mentor) => {
-      const profile = profileByUserId.get(mentor._id.toString());
-      return {
-        ...mentor,
-        profilePhotoUrl: profile?.profilePhotoUrl || "",
-        title: profile?.title || "",
-        rating: profile?.rating || 0,
-        verifiedBadge: Boolean(profile?.verifiedBadge),
-        rankingTier: profile?.rankingTier || ""
-      };
-    });
-
-    return res.status(200).json(merged);
+    const mentors = await fetchApprovedMentors();
+    return res.status(200).json(mentors);
   } catch (error) {
     console.error("[MENTOR_ROUTE_ERROR]", error);
-    return res.status(500).json({ message: "Failed to fetch mentors by filters" });
+    return res.status(500).json({ message: "Failed to fetch mentors" });
+  }
+});
+
+router.get("/filter", async (req, res) => {
+  try {
+    const primaryCategory = (req.query.primary || "").toString().trim();
+    const subCategory = (req.query.sub || "").toString().trim();
+    const specialization = (req.query.spec || "").toString().trim();
+
+    const mentors = await fetchApprovedMentors({
+      primaryCategory: primaryCategory || undefined,
+      subCategory: subCategory || undefined,
+      specialization: specialization || undefined
+    });
+
+    return res.status(200).json(mentors);
+  } catch (error) {
+    console.error("[MENTOR_ROUTE_ERROR]", error);
+    return res.status(500).json({ message: "Failed to filter mentors" });
+  }
+});
+
+router.get("/by-domain/:domain", async (req, res) => {
+  try {
+    const primaryCategory = decodeURIComponent(req.params.domain || "").trim();
+
+    if (!primaryCategory) {
+      return res.status(400).json({ message: "Domain is required" });
+    }
+
+    const mentors = await fetchApprovedMentors({ primaryCategory });
+    return res.status(200).json(mentors);
+  } catch (error) {
+    console.error("[MENTOR_ROUTE_ERROR]", error);
+    return res.status(500).json({ message: "Failed to fetch mentors by domain" });
   }
 });
 

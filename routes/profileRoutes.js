@@ -11,7 +11,8 @@ const {
   updateMyStudentProfile,
   getMyMentorProfileV2,
   updateMyMentorProfileV2,
-  getPublicMentorProfileV2
+  getPublicMentorProfileV2,
+  getMentorCategoryOptions
 } = require("../controllers/profileController");
 
 router.get("/student/me", verifyToken, authorizeRoles("student"), getMyStudentProfile);
@@ -32,6 +33,7 @@ router.patch(
   updateMyMentorProfileV2
 );
 
+router.get("/mentor/categories", verifyToken, authorizeRoles("mentor"), getMentorCategoryOptions);
 router.get("/mentor/:mentorUserId", getPublicMentorProfileV2);
 
 module.exports = router;
