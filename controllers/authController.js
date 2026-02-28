@@ -101,7 +101,7 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  if (user.role === "mentor" && user.status !== "approved") {
+  if (user.role === "mentor" && user.approvalStatus !== "approved") {
     throw new ApiError(403, "Mentor not approved yet");
   }
 
