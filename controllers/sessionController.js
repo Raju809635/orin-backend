@@ -2,9 +2,15 @@ const mongoose = require("mongoose");
 const Availability = require("../models/Availability");
 const Session = require("../models/Session");
 const User = require("../models/User");
+const MentorProfile = require("../models/MentorProfile");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
+const {
+  createRazorpayOrder,
+  verifyRazorpaySignature,
+  razorpayKeyId
+} = require("../services/paymentService");
 
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -14,6 +20,13 @@ function toScheduledDate(date, time) {
 
 function inTimeRange(time, start, end) {
   return time >= start && time < end;
+}
+
+async function getSessionAmountForMentor(mentorId) {
+  const mentorProfile = await MentorProfile.findOne({ userId: mentorId }).select("sessionPrice").lean();
+  const profilePrice = Number(mentorProfile?.sessionPrice || 0);
+  if (profilePrice > 0) return profilePrice;
+  return 499;
 }
 
 async function validateSlot({ mentorId, date, time, durationMinutes }) {
@@ -70,6 +83,8 @@ exports.bookSession = asyncHandler(async (req, res) => {
   });
   if (conflict) throw new ApiError(409, "This slot is already booked");
 
+  const amount = await getSessionAmountForMentor(mentorId);
+
   const session = await Session.create({
     studentId: req.user.id,
     mentorId,
@@ -77,6 +92,9 @@ exports.bookSession = asyncHandler(async (req, res) => {
     time,
     durationMinutes,
     scheduledStart,
+    amount,
+    paymentStatus: "pending",
+    sessionStatus: "booked",
     notes: notes || "",
     status: "pending"
   });
@@ -92,6 +110,149 @@ exports.bookSession = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     message: "Session booking request created",
+    session
+  });
+});
+
+exports.createSessionOrder = asyncHandler(async (req, res) => {
+  const { mentorId, date, time, durationMinutes, notes } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(mentorId)) throw new ApiError(400, "Invalid mentor id");
+  if (mentorId === req.user.id) throw new ApiError(400, "Cannot book session with yourself");
+
+  const mentor = await User.findOne({ _id: mentorId, role: "mentor", status: "approved" });
+  if (!mentor) throw new ApiError(404, "Mentor not found");
+
+  await validateSlot({ mentorId, date, time, durationMinutes });
+
+  const scheduledStart = toScheduledDate(date, time);
+
+  const conflict = await Session.findOne({
+    mentorId,
+    scheduledStart,
+    status: { $in: ["pending", "approved"] }
+  });
+  if (conflict) throw new ApiError(409, "This slot is already booked");
+
+  const amount = await getSessionAmountForMentor(mentorId);
+  const order = await createRazorpayOrder({
+    amount,
+    currency: "INR",
+    receipt: `orin_sess_${Date.now()}`,
+    notes: {
+      studentId: req.user.id,
+      mentorId,
+      date,
+      time
+    }
+  });
+
+  const session = await Session.create({
+    studentId: req.user.id,
+    mentorId,
+    date,
+    time,
+    durationMinutes,
+    scheduledStart,
+    amount,
+    currency: "INR",
+    orderId: order.id,
+    paymentStatus: "pending",
+    sessionStatus: "booked",
+    notes: notes || "",
+    status: "pending"
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.order.create",
+    entityType: "Session",
+    entityId: session._id,
+    metadata: { orderId: order.id, amount }
+  });
+
+  res.status(201).json({
+    message: "Razorpay order created",
+    session,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId
+  });
+});
+
+exports.verifySessionPayment = asyncHandler(async (req, res) => {
+  const { sessionId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(sessionId)) throw new ApiError(400, "Invalid session id");
+
+  const session = await Session.findOne({ _id: sessionId, studentId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (session.paymentStatus === "paid") {
+    return res.status(200).json({ message: "Payment already verified", session });
+  }
+
+  if (session.orderId !== razorpay_order_id) {
+    throw new ApiError(400, "Order id mismatch");
+  }
+
+  const valid = verifyRazorpaySignature({
+    orderId: razorpay_order_id,
+    paymentId: razorpay_payment_id,
+    signature: razorpay_signature
+  });
+
+  if (!valid) {
+    throw new ApiError(400, "Invalid payment signature");
+  }
+
+  session.paymentStatus = "paid";
+  session.paymentId = razorpay_payment_id;
+  session.paymentSignature = razorpay_signature;
+  session.sessionStatus = "confirmed";
+  session.status = "approved";
+  await session.save();
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.payment.verify",
+    entityType: "Session",
+    entityId: session._id,
+    metadata: { orderId: razorpay_order_id, paymentId: razorpay_payment_id }
+  });
+
+  res.status(200).json({
+    message: "Payment verified and session confirmed",
+    session
+  });
+});
+
+exports.updateSessionMeetingLink = asyncHandler(async (req, res) => {
+  const session = await Session.findOne({ _id: req.params.id, mentorId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (session.paymentStatus !== "paid" || session.sessionStatus !== "confirmed") {
+    throw new ApiError(400, "Meeting link can be set only for confirmed paid sessions");
+  }
+
+  session.meetingLink = req.body.meetingLink;
+  await session.save();
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.meeting_link.update",
+    entityType: "Session",
+    entityId: session._id
+  });
+
+  res.status(200).json({
+    message: "Meeting link updated",
     session
   });
 });

@@ -37,6 +37,44 @@ const sessionSchema = new mongoose.Schema(
       default: "pending",
       index: true
     },
+    amount: {
+      type: Number,
+      min: 1,
+      default: 499
+    },
+    currency: {
+      type: String,
+      default: "INR"
+    },
+    orderId: {
+      type: String,
+      default: "",
+      index: true
+    },
+    paymentId: {
+      type: String,
+      default: ""
+    },
+    paymentSignature: {
+      type: String,
+      default: ""
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid"],
+      default: "pending",
+      index: true
+    },
+    sessionStatus: {
+      type: String,
+      enum: ["booked", "confirmed", "completed"],
+      default: "booked",
+      index: true
+    },
+    meetingLink: {
+      type: String,
+      default: ""
+    },
     notes: {
       type: String,
       default: ""

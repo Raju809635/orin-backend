@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Booking = require("../models/Booking");
+const Session = require("../models/Session");
 const Notification = require("../models/Notification");
 const AuditLog = require("../models/AuditLog");
 const MentorProfile = require("../models/MentorProfile");
@@ -61,11 +62,17 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     Booking.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
   ]);
 
-  const [pendingMentors, approvedMentors, totalUsers, totalBookings] = await Promise.all([
+  const [pendingMentors, approvedMentors, totalUsers, totalBookings, totalSessions, paidSessions, revenueRows] = await Promise.all([
     User.countDocuments({ role: "mentor", status: "pending" }),
     User.countDocuments({ role: "mentor", status: "approved" }),
     User.countDocuments(),
-    Booking.countDocuments()
+    Booking.countDocuments(),
+    Session.countDocuments(),
+    Session.countDocuments({ paymentStatus: "paid" }),
+    Session.aggregate([
+      { $match: { paymentStatus: "paid" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } }
+    ])
   ]);
 
   const roleSummary = {
@@ -96,6 +103,9 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     totals: {
       users: totalUsers,
       bookings: totalBookings,
+      sessions: totalSessions,
+      paidSessions,
+      revenue: revenueRows?.[0]?.total || 0,
       pendingMentors,
       approvedMentors
     },
