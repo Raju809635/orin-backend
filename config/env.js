@@ -16,8 +16,10 @@ const envSchema = Joi.object({
   SMTP_USER: Joi.string().allow("").optional(),
   SMTP_PASS: Joi.string().allow("").optional(),
   EMAIL_FROM: Joi.string().email().allow("").optional(),
-  OPENAI_API_KEY: Joi.string().min(20).required(),
+  OPENAI_API_KEY: Joi.string().min(20).allow("").optional(),
   OPENAI_MODEL: Joi.string().default("gpt-4o-mini"),
+  GEMINI_API_KEY: Joi.string().min(20).allow("").optional(),
+  GEMINI_MODEL: Joi.string().default("gemini-1.5-flash"),
   CORS_ORIGINS: Joi.string().allow("").optional()
 }).unknown(true);
 
@@ -51,7 +53,7 @@ module.exports = {
   smtpUser: value.SMTP_USER,
   smtpPass: value.SMTP_PASS,
   emailFrom: value.EMAIL_FROM,
-  openaiApiKey: value.OPENAI_API_KEY,
-  openaiModel: value.OPENAI_MODEL || "gpt-4o-mini",
+  geminiApiKey: value.GEMINI_API_KEY,
+  geminiModel: value.GEMINI_MODEL || "gemini-1.5-flash",
   corsOrigins
 };
