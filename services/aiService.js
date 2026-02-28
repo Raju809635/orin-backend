@@ -1,4 +1,11 @@
-const { openaiApiKey, openaiModel, geminiApiKey, geminiModel } = require("../config/env");
+const {
+  groqApiKey,
+  groqModel,
+  openaiApiKey,
+  openaiModel,
+  geminiApiKey,
+  geminiModel
+} = require("../config/env");
 const ApiError = require("../utils/ApiError");
 
 function buildSystemPrompt(role) {
@@ -25,6 +32,40 @@ function looksLikeMissingGeminiModelError(responseStatus, reason) {
 async function requestAiResponse({ role, message, context }) {
   if (typeof fetch !== "function") {
     throw new ApiError(500, "Server runtime does not support fetch for AI requests");
+  }
+
+  if (groqApiKey) {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${groqApiKey}`
+      },
+      body: JSON.stringify({
+        model: groqModel,
+        temperature: 0.2,
+        messages: [
+          { role: "system", content: buildSystemPrompt(role) },
+          {
+            role: "user",
+            content: `Context: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
+          }
+        ]
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const reason = data?.error?.message || "Failed to get AI response from Groq";
+      throw new ApiError(response.status || 500, reason);
+    }
+
+    const text = data?.choices?.[0]?.message?.content?.trim();
+    if (!text) {
+      throw new ApiError(502, "Groq returned an empty response");
+    }
+
+    return text;
   }
 
   if (geminiApiKey) {
@@ -115,7 +156,10 @@ async function requestAiResponse({ role, message, context }) {
     return text;
   }
 
-  throw new ApiError(500, "No AI provider configured. Set GEMINI_API_KEY or OPENAI_API_KEY.");
+  throw new ApiError(
+    500,
+    "No AI provider configured. Set GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY."
+  );
 }
 
 module.exports = {
