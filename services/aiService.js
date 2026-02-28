@@ -13,49 +13,72 @@ function buildSystemPrompt(role) {
   ].join(" ");
 }
 
+function normalizeGeminiModelName(name) {
+  if (!name) return "";
+  return name.startsWith("models/") ? name.replace("models/", "") : name;
+}
+
+function looksLikeMissingGeminiModelError(responseStatus, reason) {
+  return responseStatus === 404 || /not found|not supported for generateContent/i.test(reason || "");
+}
+
 async function requestAiResponse({ role, message, context }) {
   if (typeof fetch !== "function") {
     throw new ApiError(500, "Server runtime does not support fetch for AI requests");
   }
 
   if (geminiApiKey) {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${geminiApiKey}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: `${buildSystemPrompt(role)}\n\nContext: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
-                }
-              ]
+    const candidates = [
+      normalizeGeminiModelName(geminiModel),
+      "gemini-2.0-flash",
+      "gemini-1.5-flash",
+      "gemini-1.5-pro"
+    ].filter(Boolean);
+
+    let lastReason = "Failed to get AI response from Gemini";
+    for (const modelName of candidates) {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${geminiApiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text: `${buildSystemPrompt(role)}\n\nContext: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.2
             }
-          ],
-          generationConfig: {
-            temperature: 0.2
-          }
-        })
+          })
+        }
+      );
+
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        const text = data?.candidates?.[0]?.content?.parts?.map((part) => part?.text || "").join("").trim();
+        if (!text) {
+          throw new ApiError(502, "Gemini returned an empty response");
+        }
+        return text;
       }
-    );
 
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
       const reason = data?.error?.message || "Failed to get AI response from Gemini";
-      throw new ApiError(response.status || 500, reason);
+      lastReason = reason;
+      if (!looksLikeMissingGeminiModelError(response.status, reason)) {
+        throw new ApiError(response.status || 500, reason);
+      }
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.map((part) => part?.text || "").join("").trim();
-    if (!text) {
-      throw new ApiError(502, "Gemini returned an empty response");
-    }
-
-    return text;
+    throw new ApiError(500, lastReason);
   }
 
   if (openaiApiKey) {
