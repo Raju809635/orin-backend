@@ -9,13 +9,23 @@ const {
 const ApiError = require("../utils/ApiError");
 
 function buildSystemPrompt(role) {
+  const roleGuide =
+    role === "student"
+      ? "Tailor guidance to a student with practical study and session preparation steps."
+      : "Tailor guidance to a mentor with practical mentoring and session planning steps.";
+
   return [
     "You are ORIN Assistant, an education and mentorship copilot.",
     `Current user role: ${role}.`,
+    roleGuide,
     "Be concise, practical, and safe.",
     "Never invent platform data or claim actions were completed.",
     "If unsure, say what is missing and suggest next steps.",
     "Avoid legal/medical/financial definitive advice.",
+    "Response format rules:",
+    "Summary: one short line.",
+    "Next actions: 3-5 bullets prefixed with '-'.",
+    "Watchouts: 1-3 bullets prefixed with '-'.",
     "Return plain text only."
   ].join(" ");
 }
@@ -65,7 +75,11 @@ async function requestAiResponse({ role, message, context }) {
       throw new ApiError(502, "Groq returned an empty response");
     }
 
-    return text;
+    return {
+      answer: text,
+      provider: "groq",
+      model: groqModel
+    };
   }
 
   if (geminiApiKey) {
@@ -109,7 +123,11 @@ async function requestAiResponse({ role, message, context }) {
         if (!text) {
           throw new ApiError(502, "Gemini returned an empty response");
         }
-        return text;
+        return {
+          answer: text,
+          provider: "gemini",
+          model: modelName
+        };
       }
 
       const reason = data?.error?.message || "Failed to get AI response from Gemini";
@@ -153,7 +171,11 @@ async function requestAiResponse({ role, message, context }) {
       throw new ApiError(502, "OpenAI returned an empty response");
     }
 
-    return text;
+    return {
+      answer: text,
+      provider: "openai",
+      model: openaiModel
+    };
   }
 
   throw new ApiError(

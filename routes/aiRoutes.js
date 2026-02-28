@@ -3,8 +3,9 @@ const router = express.Router();
 const { verifyToken, authorizeRoles } = require("../middleware/authMiddleware");
 const validate = require("../middleware/validate");
 const { aiChatSchema } = require("../validators/aiValidator");
-const { chatWithAi } = require("../controllers/aiController");
+const { chatWithAi, getMyAiHistory } = require("../controllers/aiController");
 
+router.get("/history", verifyToken, authorizeRoles("student", "mentor"), getMyAiHistory);
 router.post(
   "/chat",
   verifyToken,
