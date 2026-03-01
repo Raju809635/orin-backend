@@ -11,9 +11,9 @@ const asyncHandler = require("../utils/asyncHandler");
 exports.getPendingMentors = asyncHandler(async (req, res) => {
   const mentors = await User.find({
     role: "mentor",
-    status: "pending"
+    approvalStatus: "pending"
   })
-    .select("name email role status domain createdAt")
+    .select("name email role approvalStatus primaryCategory subCategory specializations createdAt")
     .lean();
 
   res.status(200).json(mentors);
@@ -28,9 +28,9 @@ exports.approveMentor = asyncHandler(async (req, res) => {
 
   const mentor = await User.findOneAndUpdate(
     { _id: id, role: "mentor" },
-    { status: "approved" },
+    { approvalStatus: "approved" },
     { new: true }
-  ).select("name email role status domain");
+  ).select("name email role approvalStatus primaryCategory subCategory specializations");
 
   if (!mentor) {
     throw new ApiError(404, "Mentor not found");
@@ -44,7 +44,7 @@ exports.approveMentor = asyncHandler(async (req, res) => {
 
 exports.getStudents = asyncHandler(async (req, res) => {
   const students = await User.find({ role: "student" })
-    .select("name email role status createdAt updatedAt")
+    .select("name email role createdAt updatedAt")
     .sort({ createdAt: -1 })
     .lean();
 
@@ -52,19 +52,19 @@ exports.getStudents = asyncHandler(async (req, res) => {
 });
 
 exports.getDemographics = asyncHandler(async (req, res) => {
-  const [roleCounts, mentorDomainCounts, bookingStatusCounts] = await Promise.all([
+  const [roleCounts, mentorCategoryCounts, bookingStatusCounts] = await Promise.all([
     User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
     User.aggregate([
-      { $match: { role: "mentor", status: "approved" } },
-      { $group: { _id: "$domain", count: { $sum: 1 } } },
+      { $match: { role: "mentor", approvalStatus: "approved" } },
+      { $group: { _id: "$primaryCategory", count: { $sum: 1 } } },
       { $sort: { count: -1 } }
     ]),
     Booking.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
   ]);
 
   const [pendingMentors, approvedMentors, totalUsers, totalBookings, totalSessions, paidSessions, revenueRows] = await Promise.all([
-    User.countDocuments({ role: "mentor", status: "pending" }),
-    User.countDocuments({ role: "mentor", status: "approved" }),
+    User.countDocuments({ role: "mentor", approvalStatus: "pending" }),
+    User.countDocuments({ role: "mentor", approvalStatus: "approved" }),
     User.countDocuments(),
     Booking.countDocuments(),
     Session.countDocuments(),
@@ -111,8 +111,8 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     },
     roles: roleSummary,
     bookings: bookingSummary,
-    mentorDomains: mentorDomainCounts.map((row) => ({
-      domain: row._id || "Unspecified",
+    mentorCategories: mentorCategoryCounts.map((row) => ({
+      category: row._id || "Unspecified",
       count: row.count
     }))
   });
@@ -194,7 +194,8 @@ exports.getMentorProfiles = asyncHandler(async (_req, res) => {
         _id: "$user._id",
         name: "$user.name",
         email: "$user.email",
-        status: "$user.status",
+        approvalStatus: "$user.approvalStatus",
+        status: "$user.approvalStatus",
         createdAt: "$user.createdAt",
         profilePhotoUrl: "$profilePhotoUrl",
         phoneNumber: "$phoneNumber",
@@ -212,7 +213,7 @@ exports.getMentorProfiles = asyncHandler(async (_req, res) => {
         totalSessionsConducted: "$totalSessionsConducted"
       }
     },
-    { $sort: { status: 1, createdAt: -1 } }
+    { $sort: { approvalStatus: 1, createdAt: -1 } }
   ]);
 
   res.status(200).json(profiles);

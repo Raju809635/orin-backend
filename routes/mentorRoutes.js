@@ -40,7 +40,7 @@ async function fetchApprovedMentors(filters = {}) {
     {
       $match: {
         "user.role": "mentor",
-        "user.status": "approved",
+        "user.approvalStatus": "approved",
         "user.isDeleted": { $ne: true }
       }
     },
@@ -50,7 +50,8 @@ async function fetchApprovedMentors(filters = {}) {
         name: "$user.name",
         email: "$user.email",
         role: "$user.role",
-        status: "$user.status",
+        approvalStatus: "$user.approvalStatus",
+        status: "$user.approvalStatus",
         profilePhotoUrl: "$profilePhotoUrl",
         primaryCategory: "$primaryCategory",
         subCategory: "$subCategory",

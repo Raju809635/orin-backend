@@ -22,7 +22,8 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   req.user = {
     id: user._id.toString(),
     role: user.role,
-    status: user.status
+    approvalStatus: user.approvalStatus || "approved",
+    status: user.approvalStatus || "approved"
   };
 
   next();

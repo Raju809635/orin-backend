@@ -67,7 +67,9 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
 });
 
 exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select("name email role status domain");
+  const user = await User.findOne({ _id: req.user.id, role: "mentor" }).select(
+    "name email role approvalStatus primaryCategory subCategory specializations"
+  );
   if (!user) throw new ApiError(404, "Mentor user not found");
 
   let profile = await MentorProfile.findOne({ userId: req.user.id }).lean();
@@ -76,7 +78,13 @@ exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
     profile = profile.toObject();
   }
 
-  res.json({ user, profile });
+  res.json({
+    user: {
+      ...user.toObject(),
+      status: user.approvalStatus
+    },
+    profile
+  });
 });
 
 exports.getMentorCategoryOptions = asyncHandler(async (_req, res) => {
@@ -123,6 +131,37 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     { upsert: true, new: true, runValidators: true }
   );
 
+  const userUpdates = {};
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "primaryCategory")) {
+    userUpdates.primaryCategory = nextPayload.primaryCategory || "";
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "subCategory")) {
+    userUpdates.subCategory = nextPayload.subCategory || "";
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "specializations")) {
+    userUpdates.specializations = Array.isArray(nextPayload.specializations) ? nextPayload.specializations : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "sessionPrice")) {
+    userUpdates.sessionPrice = Number(nextPayload.sessionPrice || 0);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "about")) {
+    userUpdates.bio = nextPayload.about || "";
+  }
+  if (
+    Object.prototype.hasOwnProperty.call(nextPayload, "expertiseDomains") ||
+    Object.prototype.hasOwnProperty.call(nextPayload, "specializations")
+  ) {
+    userUpdates.expertise = Array.isArray(nextPayload.expertiseDomains)
+      ? nextPayload.expertiseDomains
+      : Array.isArray(nextPayload.specializations)
+        ? nextPayload.specializations
+        : [];
+  }
+
+  if (Object.keys(userUpdates).length > 0) {
+    await User.updateOne({ _id: req.user.id, role: "mentor" }, { $set: userUpdates });
+  }
+
   await createAuditLog({
     req,
     actorId: req.user.id,
@@ -139,12 +178,18 @@ exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {
   const user = await User.findOne({
     _id: req.params.mentorUserId,
     role: "mentor",
-    status: "approved"
-  }).select("name email role status domain");
+    approvalStatus: "approved"
+  }).select("name email role approvalStatus primaryCategory subCategory specializations");
 
   if (!user) throw new ApiError(404, "Mentor not found");
 
   const profile = await MentorProfile.findOne({ userId: user._id }).lean();
 
-  res.json({ user, profile });
+  res.json({
+    user: {
+      ...user.toObject(),
+      status: user.approvalStatus
+    },
+    profile
+  });
 });

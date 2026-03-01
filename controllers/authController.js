@@ -36,15 +36,18 @@ function userPayload(user) {
     name: user.name,
     email: user.email,
     role: user.role,
-    status: user.status,
-    domain: user.domain
+    approvalStatus: user.approvalStatus || "approved",
+    status: user.approvalStatus || "approved",
+    primaryCategory: user.primaryCategory || "",
+    subCategory: user.subCategory || "",
+    specializations: user.specializations || []
   };
 }
 
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password, role, domain } = req.body;
+  const { name, email, password, role } = req.body;
 
-  const existingUser = await User.findOne({ email, isDeleted: false });
+  const existingUser = await User.findOne({ email, isDeleted: { $ne: true } });
   if (existingUser) {
     throw new ApiError(409, "User already exists");
   }
@@ -57,8 +60,7 @@ exports.register = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     role: normalizedRole,
-    domain: normalizedRole === "mentor" ? domain : undefined,
-    status: normalizedRole === "mentor" ? "pending" : "approved"
+    approvalStatus: normalizedRole === "mentor" ? "pending" : "approved"
   });
 
   await user.save();
@@ -69,8 +71,7 @@ exports.register = asyncHandler(async (req, res) => {
 
   if (normalizedRole === "mentor") {
     await MentorProfile.create({
-      userId: user._id,
-      expertiseDomains: domain ? [domain] : []
+      userId: user._id
     });
   }
 
@@ -91,7 +92,7 @@ exports.register = asyncHandler(async (req, res) => {
 exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email, isDeleted: false }).select("+password");
+  const user = await User.findOne({ email, isDeleted: { $ne: true } }).select("+password");
   if (!user) {
     throw new ApiError(401, "Invalid credentials");
   }
