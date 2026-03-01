@@ -33,6 +33,11 @@ async function getSessionAmountForMentor(mentorId) {
   const mentorProfile = await MentorProfile.findOne({ userId: mentorId }).select("sessionPrice").lean();
   const profilePrice = Number(mentorProfile?.sessionPrice || 0);
   if (profilePrice > 0) return profilePrice;
+
+  const mentorUser = await User.findById(mentorId).select("sessionPrice").lean();
+  const userPrice = Number(mentorUser?.sessionPrice || 0);
+  if (userPrice > 0) return userPrice;
+
   return 499;
 }
 

@@ -20,7 +20,7 @@ const envSchema = Joi.object({
   RAZORPAY_KEY_ID: Joi.string().allow("").optional(),
   RAZORPAY_KEY_SECRET: Joi.string().allow("").optional(),
   PAYMENT_MODE: Joi.string().valid("manual", "razorpay").default("manual"),
-  ORIN_UPI_ID: Joi.string().allow("").default("orin@upi"),
+  ORIN_UPI_ID: Joi.string().allow("").default(""),
   ORIN_QR_IMAGE_URL: Joi.string().allow("").default(""),
   MANUAL_PAYMENT_WINDOW_MINUTES: Joi.number().integer().min(5).max(240).default(30),
   GROQ_API_KEY: Joi.string().min(20).allow("").optional(),
