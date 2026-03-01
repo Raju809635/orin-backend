@@ -557,8 +557,8 @@ exports.cancelSession = asyncHandler(async (req, res) => {
   const isMentor = session.mentorId.toString() === req.user.id;
   if (!isStudent && !isMentor) throw new ApiError(403, "Not authorized for this session");
 
-  if (!["pending", "approved"].includes(session.status)) {
-    throw new ApiError(400, "Only pending/approved sessions can be cancelled");
+  if (!["pending", "payment_pending", "approved"].includes(session.status)) {
+    throw new ApiError(400, "Only pending/payment_pending/approved sessions can be cancelled");
   }
 
   if (isStudent) {
