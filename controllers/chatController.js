@@ -24,7 +24,7 @@ async function getCounterpartUser(requestUser, counterpartId) {
     _id: counterpartId,
     isDeleted: false
   })
-    .select("_id name email role status")
+    .select("_id name email role approvalStatus")
     .lean();
 
   if (!counterpart) {
@@ -35,11 +35,14 @@ async function getCounterpartUser(requestUser, counterpartId) {
     throw new ApiError(403, "Chat allowed only between student and mentor");
   }
 
-  if (counterpart.role === "mentor" && counterpart.status !== "approved") {
+  if (counterpart.role === "mentor" && counterpart.approvalStatus !== "approved") {
     throw new ApiError(403, "Mentor is not approved yet");
   }
 
-  return counterpart;
+  return {
+    ...counterpart,
+    status: counterpart.approvalStatus || "approved"
+  };
 }
 
 exports.getConversations = asyncHandler(async (req, res) => {
@@ -84,11 +87,16 @@ exports.getConversations = asyncHandler(async (req, res) => {
     _id: { $in: counterpartIds },
     isDeleted: false
   })
-    .select("_id name email role status")
+    .select("_id name email role approvalStatus")
     .lean();
 
+  const normalizedCounterparts = counterparts.map((user) => ({
+    ...user,
+    status: user.approvalStatus || "approved"
+  }));
+
   const counterpartById = new Map(
-    counterparts.map((user) => [user._id.toString(), user])
+    normalizedCounterparts.map((user) => [user._id.toString(), user])
   );
 
   const conversations = [...conversationMap.values()]
