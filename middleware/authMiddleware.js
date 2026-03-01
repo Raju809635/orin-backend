@@ -12,7 +12,15 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
-  const decoded = jwt.verify(token, accessTokenSecret);
+  let decoded;
+  try {
+    decoded = jwt.verify(token, accessTokenSecret);
+  } catch (error) {
+    if (error?.name === "TokenExpiredError") {
+      throw new ApiError(401, "JWT expired");
+    }
+    throw new ApiError(401, "Invalid token");
+  }
 
   const user = await User.findOne({ _id: decoded.id, isDeleted: false }).select("-password").lean();
   if (!user) {

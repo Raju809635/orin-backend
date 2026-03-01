@@ -557,19 +557,33 @@ exports.cancelSession = asyncHandler(async (req, res) => {
   const isMentor = session.mentorId.toString() === req.user.id;
   if (!isStudent && !isMentor) throw new ApiError(403, "Not authorized for this session");
 
-  if (!["pending", "payment_pending", "approved"].includes(session.status)) {
-    throw new ApiError(400, "Only pending/payment_pending/approved sessions can be cancelled");
+  const isManualUnpaid =
+    session.paymentMode === "manual" &&
+    ["pending", "rejected"].includes(session.paymentStatus || "");
+
+  if (session.status === "cancelled" && isManualUnpaid) {
+    return res.status(200).json({ message: "Session already cancelled", session });
+  }
+
+  if (!["pending", "payment_pending", "approved", "rejected"].includes(session.status)) {
+    throw new ApiError(400, "Only pending/payment_pending/approved/rejected sessions can be cancelled");
   }
 
   if (isStudent) {
-    const diffMs = session.scheduledStart.getTime() - Date.now();
-    if (diffMs < 2 * 60 * 60 * 1000) {
-      throw new ApiError(400, "Students can cancel only at least 2 hours before session");
+    if (!isManualUnpaid) {
+      const diffMs = session.scheduledStart.getTime() - Date.now();
+      if (diffMs < 2 * 60 * 60 * 1000) {
+        throw new ApiError(400, "Students can cancel only at least 2 hours before session");
+      }
     }
   }
 
   const previousStatus = session.status;
   session.status = "cancelled";
+  if (isManualUnpaid && session.paymentStatus === "pending") {
+    session.paymentStatus = "rejected";
+    session.paymentRejectReason = session.paymentRejectReason || "Cancelled by student";
+  }
   await session.save();
 
   await createAuditLog({
@@ -635,7 +649,16 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
     .sort({ scheduledStart: 1 })
     .lean();
 
-  const enrichedSessions = sessions.map((session) => {
+  const visibleSessions = sessions.filter((session) => {
+    const hiddenCancelledManualPayment =
+      session.status === "cancelled" &&
+      session.paymentMode === "manual" &&
+      ["pending", "rejected"].includes(session.paymentStatus || "");
+
+    return !hiddenCancelledManualPayment;
+  });
+
+  const enrichedSessions = visibleSessions.map((session) => {
     const isManual = session.paymentMode === "manual";
     const needsPayment =
       isManual &&
