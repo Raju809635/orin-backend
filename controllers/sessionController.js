@@ -456,8 +456,25 @@ exports.updateSessionMeetingLink = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Meeting link can be set only for confirmed paid sessions");
   }
 
+  const now = Date.now();
+  const sessionStart = new Date(session.scheduledStart).getTime();
+  const earliestAllowed = sessionStart - 5 * 60 * 1000;
+
+  if (now < earliestAllowed) {
+    throw new ApiError(400, "Meeting link can be set only in the last 5 minutes before session start");
+  }
+
   session.meetingLink = req.body.meetingLink;
   await session.save();
+
+  await Notification.create({
+    title: "Meeting Link Available",
+    message: "Your mentor has added the session meet link. You can join now.",
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "student",
+    recipient: session.studentId
+  });
 
   await createAuditLog({
     req,

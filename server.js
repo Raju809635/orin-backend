@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 const { port, mongoUri } = require("./config/env");
 const corsOptions = require("./config/cors");
 
@@ -20,15 +21,18 @@ const collaborateRoutes = require("./routes/collaborateRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const complaintRoutes = require("./routes/complaintRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
+app.set("trust proxy", 1);
 
 mongoose.set("bufferCommands", false);
 mongoose.set("strictQuery", true);
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.send("ORIN Backend Running");
@@ -59,6 +63,7 @@ app.use("/api/collaborate", collaborateRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
