@@ -602,7 +602,28 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
     .populate("mentorId", "name email primaryCategory subCategory")
     .sort({ scheduledStart: 1 })
     .lean();
-  res.status(200).json(sessions);
+
+  const enrichedSessions = sessions.map((session) => {
+    const isManual = session.paymentMode === "manual";
+    const needsPayment =
+      isManual &&
+      ["pending", "waiting_verification", "rejected"].includes(session.paymentStatus || "");
+
+    return {
+      ...session,
+      paymentInstructions: needsPayment
+        ? {
+            upiId: orinUpiId || "",
+            qrImageUrl: orinQrImageUrl || "",
+            amount: session.amount || 0,
+            currency: session.currency || "INR",
+            dueAt: session.paymentDueAt || null
+          }
+        : null
+    };
+  });
+
+  res.status(200).json(enrichedSessions);
 });
 
 exports.getMentorSessions = asyncHandler(async (req, res) => {

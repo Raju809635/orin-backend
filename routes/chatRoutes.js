@@ -10,7 +10,7 @@ const {
   markConversationRead
 } = require("../controllers/chatController");
 
-router.use(verifyToken, authorizeRoles("student", "mentor"));
+router.use(verifyToken, authorizeRoles("student", "mentor", "admin"));
 
 router.get("/conversations", getConversations);
 router.get("/messages/:userId", getMessagesWithUser);

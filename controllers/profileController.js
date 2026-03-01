@@ -93,6 +93,11 @@ exports.getMentorCategoryOptions = asyncHandler(async (_req, res) => {
 
 exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   const nextPayload = { ...req.body };
+  const existingProfile = await MentorProfile.findOne({ userId: req.user.id }).lean();
+  const mergedProfile = {
+    ...(existingProfile || {}),
+    ...nextPayload
+  };
 
   if (
     nextPayload.primaryCategory !== undefined ||
@@ -112,17 +117,17 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   }
 
   nextPayload.profileCompleteness = computeProfileCompleteness([
-    nextPayload.profilePhotoUrl,
-    nextPayload.title,
-    nextPayload.company,
-    nextPayload.experienceYears,
-    nextPayload.primaryCategory,
-    nextPayload.subCategory,
-    nextPayload.specializations,
-    nextPayload.about,
-    nextPayload.achievements,
-    nextPayload.linkedInUrl,
-    nextPayload.weeklyAvailabilitySlots
+    mergedProfile.profilePhotoUrl,
+    mergedProfile.title,
+    mergedProfile.company,
+    mergedProfile.experienceYears,
+    mergedProfile.primaryCategory,
+    mergedProfile.subCategory,
+    mergedProfile.specializations,
+    mergedProfile.about,
+    mergedProfile.achievements,
+    mergedProfile.linkedInUrl,
+    mergedProfile.weeklyAvailabilitySlots
   ]);
 
   const profile = await MentorProfile.findOneAndUpdate(

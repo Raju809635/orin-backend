@@ -7,40 +7,73 @@ const asyncHandler = require("../utils/asyncHandler");
 function canChatRoles(roleA, roleB) {
   return (
     (roleA === "student" && roleB === "mentor") ||
-    (roleA === "mentor" && roleB === "student")
+    (roleA === "mentor" && roleB === "student") ||
+    (roleA === "mentor" && roleB === "admin") ||
+    (roleA === "admin" && roleB === "mentor")
   );
 }
 
+function effectiveRole(user) {
+  if (user.isAdmin) {
+    return "admin";
+  }
+  return user.role;
+}
+
 async function getCounterpartUser(requestUser, counterpartId) {
-  if (!mongoose.Types.ObjectId.isValid(counterpartId)) {
-    throw new ApiError(400, "Invalid user id");
-  }
+  let counterpart;
 
-  if (requestUser.id === counterpartId) {
-    throw new ApiError(400, "Cannot chat with yourself");
-  }
+  if (counterpartId === "admin") {
+    counterpart = await User.findOne({
+      isAdmin: true,
+      isDeleted: false
+    })
+      .sort({ createdAt: 1 })
+      .select("_id name email role isAdmin approvalStatus phoneNumber")
+      .lean();
 
-  const counterpart = await User.findOne({
-    _id: counterpartId,
-    isDeleted: false
-  })
-    .select("_id name email role approvalStatus")
-    .lean();
+    if (!counterpart) {
+      throw new ApiError(404, "Admin account not found");
+    }
+  } else {
+    if (!mongoose.Types.ObjectId.isValid(counterpartId)) {
+      throw new ApiError(400, "Invalid user id");
+    }
+
+    if (requestUser.id === counterpartId) {
+      throw new ApiError(400, "Cannot chat with yourself");
+    }
+
+    counterpart = await User.findOne({
+      _id: counterpartId,
+      isDeleted: false
+    })
+      .select("_id name email role isAdmin approvalStatus phoneNumber")
+      .lean();
+  }
 
   if (!counterpart) {
     throw new ApiError(404, "Chat user not found");
   }
 
-  if (!canChatRoles(requestUser.role, counterpart.role)) {
-    throw new ApiError(403, "Chat allowed only between student and mentor");
+  const requestRole = effectiveRole(requestUser);
+  const counterpartRole = effectiveRole(counterpart);
+
+  if (!canChatRoles(requestRole, counterpartRole)) {
+    throw new ApiError(403, "Chat allowed only between student-mentor or mentor-admin");
   }
 
-  if (counterpart.role === "mentor" && counterpart.approvalStatus !== "approved") {
+  if (
+    requestRole === "student" &&
+    counterpartRole === "mentor" &&
+    counterpart.approvalStatus !== "approved"
+  ) {
     throw new ApiError(403, "Mentor is not approved yet");
   }
 
   return {
     ...counterpart,
+    role: counterpartRole,
     status: counterpart.approvalStatus || "approved"
   };
 }
@@ -87,11 +120,12 @@ exports.getConversations = asyncHandler(async (req, res) => {
     _id: { $in: counterpartIds },
     isDeleted: false
   })
-    .select("_id name email role approvalStatus")
+    .select("_id name email role isAdmin approvalStatus phoneNumber")
     .lean();
 
   const normalizedCounterparts = counterparts.map((user) => ({
     ...user,
+    role: effectiveRole(user),
     status: user.approvalStatus || "approved"
   }));
 
@@ -105,6 +139,9 @@ exports.getConversations = asyncHandler(async (req, res) => {
       counterpart: counterpartById.get(conversation.counterpartId) || null
     }))
     .filter((conversation) => conversation.counterpart)
+    .filter((conversation) =>
+      canChatRoles(effectiveRole(req.user), effectiveRole(conversation.counterpart))
+    )
     .sort(
       (a, b) =>
         new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()

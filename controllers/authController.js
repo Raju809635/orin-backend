@@ -35,7 +35,9 @@ function userPayload(user) {
     id: user._id,
     name: user.name,
     email: user.email,
+    phoneNumber: user.phoneNumber || "",
     role: user.role,
+    isAdmin: Boolean(user.isAdmin),
     approvalStatus: user.approvalStatus || "approved",
     status: user.approvalStatus || "approved",
     primaryCategory: user.primaryCategory || "",
@@ -45,7 +47,7 @@ function userPayload(user) {
 }
 
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, phoneNumber } = req.body;
 
   const existingUser = await User.findOne({ email, isDeleted: { $ne: true } });
   if (existingUser) {
@@ -58,6 +60,7 @@ exports.register = asyncHandler(async (req, res) => {
   const user = new User({
     name,
     email,
+    phoneNumber: phoneNumber || "",
     password: hashedPassword,
     role: normalizedRole,
     approvalStatus: normalizedRole === "mentor" ? "pending" : "approved"
@@ -71,7 +74,8 @@ exports.register = asyncHandler(async (req, res) => {
 
   if (normalizedRole === "mentor") {
     await MentorProfile.create({
-      userId: user._id
+      userId: user._id,
+      phoneNumber: phoneNumber || ""
     });
   }
 

@@ -22,6 +22,8 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   req.user = {
     id: user._id.toString(),
     role: user.role,
+    isAdmin: Boolean(user.isAdmin),
+    phoneNumber: user.phoneNumber || "",
     approvalStatus: user.approvalStatus || "approved",
     status: user.approvalStatus || "approved"
   };
@@ -31,7 +33,10 @@ const verifyToken = asyncHandler(async (req, res, next) => {
 
 const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
-    if (!req.user || !allowedRoles.includes(req.user.role)) {
+    const roleAllowed = req.user && allowedRoles.includes(req.user.role);
+    const adminAllowed = req.user && req.user.isAdmin && allowedRoles.includes("admin");
+
+    if (!req.user || (!roleAllowed && !adminAllowed)) {
       return next(new ApiError(403, "Access denied"));
     }
     return next();
