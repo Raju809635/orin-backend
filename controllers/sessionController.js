@@ -116,7 +116,7 @@ exports.bookSession = asyncHandler(async (req, res) => {
   const conflict = await Session.findOne({
     mentorId,
     scheduledStart,
-    status: { $in: ["pending", "approved"] }
+    status: { $in: ["pending", "payment_pending", "approved", "confirmed"] }
   });
   if (conflict) throw new ApiError(409, "This slot is already booked");
 
@@ -169,7 +169,7 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
   const conflict = await Session.findOne({
     mentorId,
     scheduledStart,
-    status: { $in: ["pending", "approved"] }
+    status: { $in: ["pending", "payment_pending", "approved", "confirmed"] }
   });
   if (conflict) throw new ApiError(409, "This slot is already booked");
 
@@ -567,7 +567,7 @@ exports.rescheduleSession = asyncHandler(async (req, res) => {
     _id: { $ne: session._id },
     mentorId: session.mentorId,
     scheduledStart,
-    status: { $in: ["pending", "approved"] }
+    status: { $in: ["pending", "payment_pending", "approved", "confirmed"] }
   });
   if (conflict) throw new ApiError(409, "Selected slot is already booked");
 
