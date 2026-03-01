@@ -8,7 +8,11 @@ const collaborateApplySchema = Joi.object({
   message: Joi.string().max(1000).allow("").optional()
 });
 
-module.exports = {
-  collaborateApplySchema
-};
+const collaborateStatusQuerySchema = Joi.object({
+  email: Joi.string().email().required()
+});
 
+module.exports = {
+  collaborateApplySchema,
+  collaborateStatusQuerySchema
+};

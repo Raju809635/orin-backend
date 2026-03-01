@@ -14,7 +14,13 @@ const sendMentorMessageSchema = Joi.object({
   recipientUserIds: Joi.array().items(Joi.string().hex().length(24)).min(1).required()
 });
 
+const reviewCollaborateSchema = Joi.object({
+  action: Joi.string().valid("approve", "reject").required(),
+  adminNotes: Joi.string().max(500).allow("").optional()
+});
+
 module.exports = {
   sendNotificationSchema,
-  sendMentorMessageSchema
+  sendMentorMessageSchema,
+  reviewCollaborateSchema
 };

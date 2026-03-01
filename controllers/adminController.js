@@ -5,6 +5,7 @@ const Session = require("../models/Session");
 const Notification = require("../models/Notification");
 const AuditLog = require("../models/AuditLog");
 const MentorProfile = require("../models/MentorProfile");
+const CollaborateApplication = require("../models/CollaborateApplication");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -301,5 +302,54 @@ exports.getAuditLogs = asyncHandler(async (req, res) => {
     total,
     pages: Math.ceil(total / limit),
     logs
+  });
+});
+
+exports.getCollaborateApplications = asyncHandler(async (req, res) => {
+  const status = (req.query.status || "").toString().trim();
+  const filter = {};
+
+  if (status && ["pending", "approved", "rejected"].includes(status)) {
+    filter.status = status;
+  }
+
+  const applications = await CollaborateApplication.find(filter)
+    .populate("reviewedBy", "name email")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  res.status(200).json(applications);
+});
+
+exports.reviewCollaborateApplication = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { action, adminNotes } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new ApiError(400, "Invalid application id");
+  }
+
+  const nextStatus = action === "approve" ? "approved" : "rejected";
+
+  const application = await CollaborateApplication.findByIdAndUpdate(
+    id,
+    {
+      status: nextStatus,
+      adminNotes: (adminNotes || "").trim(),
+      reviewedBy: req.user.id,
+      reviewedAt: new Date()
+    },
+    { new: true }
+  )
+    .populate("reviewedBy", "name email")
+    .lean();
+
+  if (!application) {
+    throw new ApiError(404, "Application not found");
+  }
+
+  res.status(200).json({
+    message: nextStatus === "approved" ? "Collaboration approved" : "Collaboration rejected",
+    application
   });
 });

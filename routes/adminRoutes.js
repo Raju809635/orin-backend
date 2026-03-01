@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken, authorizeRoles } = require("../middleware/authMiddleware");
 const validate = require("../middleware/validate");
-const { sendNotificationSchema, sendMentorMessageSchema } = require("../validators/adminValidator");
+const { sendNotificationSchema, sendMentorMessageSchema, reviewCollaborateSchema } = require("../validators/adminValidator");
 const {
   getPendingMentors,
   approveMentor,
@@ -12,7 +12,9 @@ const {
   getNotifications,
   getAuditLogs,
   getMentorProfiles,
-  sendMentorDirectMessage
+  sendMentorDirectMessage,
+  getCollaborateApplications,
+  reviewCollaborateApplication
 } = require("../controllers/adminController");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
@@ -22,6 +24,14 @@ router.get("/mentors/profiles", verifyToken, authorizeRoles("admin"), getMentorP
 router.get("/demographics", verifyToken, authorizeRoles("admin"), getDemographics);
 router.get("/notifications", verifyToken, authorizeRoles("admin"), getNotifications);
 router.get("/audit-logs", verifyToken, authorizeRoles("admin"), getAuditLogs);
+router.get("/collaborate/applications", verifyToken, authorizeRoles("admin"), getCollaborateApplications);
+router.patch(
+  "/collaborate/applications/:id",
+  verifyToken,
+  authorizeRoles("admin"),
+  validate(reviewCollaborateSchema),
+  reviewCollaborateApplication
+);
 router.post(
   "/notifications",
   verifyToken,

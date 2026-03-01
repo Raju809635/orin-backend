@@ -10,10 +10,18 @@ const collaborateApplicationSchema = new mongoose.Schema(
       enum: ["leader", "founder", "mentor"],
       required: true
     },
-    message: { type: String, default: "", trim: true }
+    message: { type: String, default: "", trim: true },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+      index: true
+    },
+    adminNotes: { type: String, default: "", trim: true },
+    reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    reviewedAt: { type: Date, default: null }
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model("CollaborateApplication", collaborateApplicationSchema);
-
