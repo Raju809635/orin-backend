@@ -69,7 +69,7 @@ exports.bookSession = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(mentorId)) throw new ApiError(400, "Invalid mentor id");
   if (mentorId === req.user.id) throw new ApiError(400, "Cannot book session with yourself");
 
-  const mentor = await User.findOne({ _id: mentorId, role: "mentor", status: "approved" });
+  const mentor = await User.findOne({ _id: mentorId, role: "mentor", approvalStatus: "approved" });
   if (!mentor) throw new ApiError(404, "Mentor not found");
 
   await validateSlot({ mentorId, date, time, durationMinutes });
@@ -120,7 +120,7 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(mentorId)) throw new ApiError(400, "Invalid mentor id");
   if (mentorId === req.user.id) throw new ApiError(400, "Cannot book session with yourself");
 
-  const mentor = await User.findOne({ _id: mentorId, role: "mentor", status: "approved" });
+  const mentor = await User.findOne({ _id: mentorId, role: "mentor", approvalStatus: "approved" });
   if (!mentor) throw new ApiError(404, "Mentor not found");
 
   await validateSlot({ mentorId, date, time, durationMinutes });
@@ -381,7 +381,7 @@ exports.rescheduleSession = asyncHandler(async (req, res) => {
 
 exports.getStudentSessions = asyncHandler(async (req, res) => {
   const sessions = await Session.find({ studentId: req.user.id })
-    .populate("mentorId", "name email domain")
+    .populate("mentorId", "name email primaryCategory subCategory")
     .sort({ scheduledStart: 1 })
     .lean();
   res.status(200).json(sessions);

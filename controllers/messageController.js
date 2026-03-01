@@ -19,23 +19,24 @@ exports.getMyMessages = asyncHandler(async (req, res) => {
 exports.sendMessageToAdmin = asyncHandler(async (req, res) => {
   const { title, message } = req.body;
   const adminUser = await User.findOne({
-    role: "admin",
-    status: "approved",
-    isDeleted: false
+    $or: [{ role: "admin" }, { isAdmin: true }],
+    isDeleted: { $ne: true }
   })
-    .select("_id role")
+    .select("_id role isAdmin")
     .lean();
 
   if (!adminUser) {
     throw new ApiError(404, "Admin account not found");
   }
 
+  const targetRole = adminUser.role === "admin" ? "admin" : "mentor";
+
   const notification = await Notification.create({
     title,
     message,
     type: "direct",
     sentBy: req.user.id,
-    targetRole: "admin",
+    targetRole,
     recipient: adminUser._id
   });
 

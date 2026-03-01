@@ -10,8 +10,7 @@ exports.softDeleteMe = asyncHandler(async (req, res) => {
     {
       $set: {
         isDeleted: true,
-        deletedAt: new Date(),
-        status: "pending"
+        deletedAt: new Date()
       }
     },
     { new: true }
