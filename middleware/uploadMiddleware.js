@@ -3,12 +3,14 @@ const path = require("path");
 const multer = require("multer");
 const ApiError = require("../utils/ApiError");
 
-const uploadRoot = path.join(__dirname, "..", "uploads", "profile");
-fs.mkdirSync(uploadRoot, { recursive: true });
+const profileUploadRoot = path.join(__dirname, "..", "uploads", "profile");
+const paymentUploadRoot = path.join(__dirname, "..", "uploads", "payment-screenshots");
+fs.mkdirSync(profileUploadRoot, { recursive: true });
+fs.mkdirSync(paymentUploadRoot, { recursive: true });
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, uploadRoot);
+    cb(null, profileUploadRoot);
   },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
@@ -33,6 +35,26 @@ const uploadProfilePhoto = multer({
   }
 }).single("file");
 
+const paymentScreenshotStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, paymentUploadRoot);
+  },
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
+    const safeExt = [".jpg", ".jpeg", ".png", ".webp"].includes(ext) ? ext : ".jpg";
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExt}`);
+  }
+});
+
+const uploadPaymentScreenshot = multer({
+  storage: paymentScreenshotStorage,
+  fileFilter,
+  limits: {
+    fileSize: 8 * 1024 * 1024
+  }
+}).single("paymentScreenshotFile");
+
 module.exports = {
-  uploadProfilePhoto
+  uploadProfilePhoto,
+  uploadPaymentScreenshot
 };

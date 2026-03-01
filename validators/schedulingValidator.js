@@ -44,7 +44,7 @@ const verifySessionPaymentSchema = Joi.object({
 });
 
 const submitManualPaymentSchema = Joi.object({
-  paymentScreenshot: Joi.string().uri().required(),
+  paymentScreenshot: Joi.string().uri().allow("").optional(),
   transactionReference: Joi.string().max(120).allow("").optional()
 });
 

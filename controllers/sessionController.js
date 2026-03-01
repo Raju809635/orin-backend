@@ -16,7 +16,8 @@ const {
   paymentMode,
   orinUpiId,
   orinQrImageUrl,
-  manualPaymentWindowMinutes
+  manualPaymentWindowMinutes,
+  publicBaseUrl
 } = require("../config/env");
 
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -27,6 +28,12 @@ function toScheduledDate(date, time) {
 
 function inTimeRange(time, start, end) {
   return time >= start && time < end;
+}
+
+function getBaseUrl(req) {
+  if (publicBaseUrl) return publicBaseUrl.replace(/\/+$/, "");
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  return `${protocol}://${req.get("host")}`;
 }
 
 async function getSessionAmountForMentor(mentorId) {
@@ -338,7 +345,15 @@ exports.submitManualPaymentProof = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Payment proof can be submitted only for pending payment sessions");
   }
 
-  session.paymentScreenshot = req.body.paymentScreenshot;
+  let screenshotUrl = (req.body.paymentScreenshot || "").trim();
+  if (req.file?.filename) {
+    screenshotUrl = `${getBaseUrl(req)}/uploads/payment-screenshots/${req.file.filename}`;
+  }
+  if (!screenshotUrl) {
+    throw new ApiError(400, "Payment screenshot is required");
+  }
+
+  session.paymentScreenshot = screenshotUrl;
   session.transactionReference = (req.body.transactionReference || "").trim();
   session.paymentStatus = "waiting_verification";
   session.status = "pending";
@@ -402,7 +417,7 @@ exports.reviewManualPayment = asyncHandler(async (req, res) => {
 
   const notifyMessage =
     action === "verify"
-      ? "Your session payment is verified. Session is confirmed."
+      ? `Your payment is verified. Session is confirmed for ${session.date} ${session.time}. Please wait for mentor meet link.`
       : `Your session payment was rejected.${session.paymentRejectReason ? ` Reason: ${session.paymentRejectReason}` : ""}`;
 
   await Notification.insertMany([
@@ -418,7 +433,7 @@ exports.reviewManualPayment = asyncHandler(async (req, res) => {
       title: action === "verify" ? "Session Confirmed" : "Session Payment Rejected",
       message:
         action === "verify"
-          ? "A student's manual payment was verified. Session is now confirmed."
+          ? `Student payment is verified for session on ${session.date} ${session.time}. Please prepare and share meet link near session time.`
           : "A student's manual payment was rejected. Session has been cancelled.",
       type: "booking",
       sentBy: req.user.id,

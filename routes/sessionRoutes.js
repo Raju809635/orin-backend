@@ -26,6 +26,7 @@ const {
   getStudentSessions,
   getMentorSessions
 } = require("../controllers/sessionController");
+const { uploadPaymentScreenshot } = require("../middleware/uploadMiddleware");
 
 router.post("/create-order", verifyToken, authorizeRoles("student"), validate(createSessionOrderSchema), createSessionOrder);
 router.post("/verify-payment", verifyToken, authorizeRoles("student"), validate(verifySessionPaymentSchema), verifySessionPayment);
@@ -33,6 +34,12 @@ router.post(
   "/:id/manual-payment",
   verifyToken,
   authorizeRoles("student"),
+  (req, res, next) => {
+    uploadPaymentScreenshot(req, res, (error) => {
+      if (error) return next(error);
+      return next();
+    });
+  },
   validate(submitManualPaymentSchema),
   submitManualPaymentProof
 );
