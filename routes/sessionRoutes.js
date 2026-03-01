@@ -7,12 +7,17 @@ const {
   rescheduleSessionSchema,
   createSessionOrderSchema,
   verifySessionPaymentSchema,
+  submitManualPaymentSchema,
+  reviewManualPaymentSchema,
   updateMeetingLinkSchema
 } = require("../validators/schedulingValidator");
 const {
   bookSession,
   createSessionOrder,
   verifySessionPayment,
+  submitManualPaymentProof,
+  getPendingManualPayments,
+  reviewManualPayment,
   approveSession,
   rejectSession,
   cancelSession,
@@ -24,6 +29,21 @@ const {
 
 router.post("/create-order", verifyToken, authorizeRoles("student"), validate(createSessionOrderSchema), createSessionOrder);
 router.post("/verify-payment", verifyToken, authorizeRoles("student"), validate(verifySessionPaymentSchema), verifySessionPayment);
+router.post(
+  "/:id/manual-payment",
+  verifyToken,
+  authorizeRoles("student"),
+  validate(submitManualPaymentSchema),
+  submitManualPaymentProof
+);
+router.get("/admin/manual-payments", verifyToken, authorizeRoles("admin"), getPendingManualPayments);
+router.patch(
+  "/admin/manual-payments/:id/review",
+  verifyToken,
+  authorizeRoles("admin"),
+  validate(reviewManualPaymentSchema),
+  reviewManualPayment
+);
 router.post("/book", verifyToken, authorizeRoles("student"), validate(bookSessionSchema), bookSession);
 router.patch("/:id/approve", verifyToken, authorizeRoles("mentor"), approveSession);
 router.patch("/:id/reject", verifyToken, authorizeRoles("mentor"), rejectSession);

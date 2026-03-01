@@ -43,6 +43,16 @@ const verifySessionPaymentSchema = Joi.object({
   razorpay_signature: Joi.string().required()
 });
 
+const submitManualPaymentSchema = Joi.object({
+  paymentScreenshot: Joi.string().uri().required(),
+  transactionReference: Joi.string().max(120).allow("").optional()
+});
+
+const reviewManualPaymentSchema = Joi.object({
+  action: Joi.string().valid("verify", "reject").required(),
+  rejectReason: Joi.string().max(300).allow("").optional()
+});
+
 const updateMeetingLinkSchema = Joi.object({
   meetingLink: Joi.string().uri().required()
 });
@@ -61,5 +71,7 @@ module.exports = {
   rescheduleSessionSchema,
   createSessionOrderSchema,
   verifySessionPaymentSchema,
+  submitManualPaymentSchema,
+  reviewManualPaymentSchema,
   updateMeetingLinkSchema
 };

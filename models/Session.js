@@ -33,7 +33,7 @@ const sessionSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "approved", "completed", "cancelled", "rejected"],
+      enum: ["pending", "payment_pending", "confirmed", "approved", "completed", "cancelled", "rejected"],
       default: "pending",
       index: true
     },
@@ -61,8 +61,39 @@ const sessionSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      enum: ["pending", "paid"],
+      enum: ["pending", "waiting_verification", "verified", "rejected", "paid"],
       default: "pending",
+      index: true
+    },
+    paymentMode: {
+      type: String,
+      enum: ["manual", "razorpay"],
+      default: "razorpay",
+      index: true
+    },
+    paymentScreenshot: {
+      type: String,
+      default: ""
+    },
+    transactionReference: {
+      type: String,
+      default: ""
+    },
+    paymentRejectReason: {
+      type: String,
+      default: ""
+    },
+    verifiedByAdmin: {
+      type: Boolean,
+      default: false
+    },
+    verifiedAt: {
+      type: Date,
+      default: null
+    },
+    paymentDueAt: {
+      type: Date,
+      default: null,
       index: true
     },
     sessionStatus: {
