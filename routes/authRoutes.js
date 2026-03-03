@@ -3,6 +3,8 @@ const router = express.Router();
 const {
   register,
   login,
+  verifyEmailOtp,
+  resendEmailOtp,
   refresh,
   forgotPassword,
   resetPassword,
@@ -13,6 +15,8 @@ const { verifyToken } = require("../middleware/authMiddleware");
 const {
   registerSchema,
   loginSchema,
+  verifyEmailOtpSchema,
+  resendEmailOtpSchema,
   refreshTokenSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
@@ -21,6 +25,8 @@ const {
 
 router.post("/register", validate(registerSchema), register);
 router.post("/login", validate(loginSchema), login);
+router.post("/verify-email-otp", validate(verifyEmailOtpSchema), verifyEmailOtp);
+router.post("/resend-email-otp", validate(resendEmailOtpSchema), resendEmailOtp);
 router.post("/refresh", validate(refreshTokenSchema), refresh);
 router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword);
 router.post("/reset-password", validate(resetPasswordSchema), resetPassword);

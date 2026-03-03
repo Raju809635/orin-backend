@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const RefreshToken = require("../models/RefreshToken");
 const PasswordResetToken = require("../models/PasswordResetToken");
 const StudentProfile = require("../models/StudentProfile");
@@ -15,7 +16,7 @@ const {
   verifyRefreshToken,
   buildPasswordResetToken
 } = require("../utils/authTokenService");
-const { passwordResetTokenTtlMinutes, passwordResetUrl } = require("../config/env");
+const { passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
 
 async function persistRefreshToken({ user, refreshToken, req }) {
   const refreshTokenHash = hashToken(refreshToken);
@@ -46,6 +47,22 @@ function userPayload(user) {
   };
 }
 
+function buildEmailOtpToken() {
+  const raw = `${Math.floor(100000 + Math.random() * 900000)}`;
+  const hash = crypto.createHash("sha256").update(raw).digest("hex");
+  const expiresAt = new Date(Date.now() + emailOtpTtlMinutes * 60 * 1000);
+  return { raw, hash, expiresAt };
+}
+
+async function sendVerificationOtpEmail(user, otp) {
+  await sendEmail({
+    to: user.email,
+    subject: "ORIN Email Verification OTP",
+    text: `Your ORIN verification OTP is ${otp}. It expires in ${emailOtpTtlMinutes} minutes.`,
+    html: `<p>Your ORIN verification OTP is: <strong>${otp}</strong></p><p>This OTP expires in ${emailOtpTtlMinutes} minutes.</p>`
+  });
+}
+
 exports.register = asyncHandler(async (req, res) => {
   const { name, email, password, role, phoneNumber } = req.body;
 
@@ -56,6 +73,7 @@ exports.register = asyncHandler(async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const normalizedRole = role || "student";
+  const otp = buildEmailOtpToken();
 
   const user = new User({
     name,
@@ -63,7 +81,13 @@ exports.register = asyncHandler(async (req, res) => {
     phoneNumber: phoneNumber || "",
     password: hashedPassword,
     role: normalizedRole,
-    approvalStatus: normalizedRole === "mentor" ? "pending" : "approved"
+    approvalStatus: normalizedRole === "mentor" ? "pending" : "approved",
+    isEmailVerified: false,
+    emailVerifiedAt: null,
+    emailVerificationOtpHash: otp.hash,
+    emailVerificationOtpExpiresAt: otp.expiresAt,
+    emailVerificationOtpSentAt: new Date(),
+    emailVerificationOtpAttempts: 0
   });
 
   await user.save();
@@ -79,8 +103,14 @@ exports.register = asyncHandler(async (req, res) => {
     });
   }
 
+  await sendVerificationOtpEmail(user, otp.raw);
+
   res.status(201).json({
-    message: "User registered successfully"
+    message: "User registered. Verify your email with OTP.",
+    requiresEmailVerification: true,
+    email: user.email,
+    role: user.role,
+    otpExpiresAt: otp.expiresAt
   });
 
   await createAuditLog({
@@ -106,6 +136,10 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
+  if (user.isEmailVerified === false) {
+    throw new ApiError(403, "Email not verified. Please verify OTP sent to your email.");
+  }
+
   if (user.role === "mentor" && user.approvalStatus !== "approved") {
     throw new ApiError(403, "Mentor not approved yet");
   }
@@ -127,6 +161,98 @@ exports.login = asyncHandler(async (req, res) => {
     token: accessToken,
     refreshToken,
     user: userPayload(user)
+  });
+});
+
+exports.verifyEmailOtp = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+  const user = await User.findOne({ email, isDeleted: { $ne: true } });
+
+  if (!user) {
+    throw new ApiError(400, "Invalid verification request");
+  }
+
+  if (user.isEmailVerified) {
+    return res.status(200).json({
+      message: "Email already verified",
+      role: user.role
+    });
+  }
+
+  if (!user.emailVerificationOtpHash || !user.emailVerificationOtpExpiresAt) {
+    throw new ApiError(400, "OTP not generated. Please request a new OTP.");
+  }
+
+  if (new Date(user.emailVerificationOtpExpiresAt).getTime() < Date.now()) {
+    throw new ApiError(400, "OTP expired. Please request a new OTP.");
+  }
+
+  if ((user.emailVerificationOtpAttempts || 0) >= 5) {
+    throw new ApiError(429, "Too many invalid attempts. Please request a new OTP.");
+  }
+
+  const incomingHash = hashToken(otp);
+  if (incomingHash !== user.emailVerificationOtpHash) {
+    user.emailVerificationOtpAttempts = (user.emailVerificationOtpAttempts || 0) + 1;
+    await user.save();
+    throw new ApiError(400, "Invalid OTP");
+  }
+
+  user.isEmailVerified = true;
+  user.emailVerifiedAt = new Date();
+  user.emailVerificationOtpHash = "";
+  user.emailVerificationOtpExpiresAt = null;
+  user.emailVerificationOtpSentAt = null;
+  user.emailVerificationOtpAttempts = 0;
+  await user.save();
+
+  await createAuditLog({
+    req,
+    actorId: user._id,
+    action: "auth.email_verify",
+    entityType: "User",
+    entityId: user._id
+  });
+
+  res.status(200).json({
+    message: "Email verified successfully",
+    role: user.role
+  });
+});
+
+exports.resendEmailOtp = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email, isDeleted: { $ne: true } });
+
+  if (!user) {
+    return res.status(200).json({
+      message: "If this account exists, a verification OTP has been sent."
+    });
+  }
+
+  if (user.isEmailVerified) {
+    return res.status(200).json({
+      message: "Email already verified"
+    });
+  }
+
+  const lastSent = user.emailVerificationOtpSentAt ? new Date(user.emailVerificationOtpSentAt).getTime() : 0;
+  if (Date.now() - lastSent < 60 * 1000) {
+    throw new ApiError(429, "Please wait 60 seconds before requesting another OTP.");
+  }
+
+  const otp = buildEmailOtpToken();
+  user.emailVerificationOtpHash = otp.hash;
+  user.emailVerificationOtpExpiresAt = otp.expiresAt;
+  user.emailVerificationOtpSentAt = new Date();
+  user.emailVerificationOtpAttempts = 0;
+  await user.save();
+
+  await sendVerificationOtpEmail(user, otp.raw);
+
+  res.status(200).json({
+    message: "Verification OTP sent",
+    otpExpiresAt: otp.expiresAt
   });
 });
 
