@@ -3,14 +3,21 @@ const Joi = require("joi");
 const dayEnum = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const createAvailabilitySchema = Joi.object({
-  day: Joi.string().valid(...dayEnum).required(),
+  day: Joi.string().valid(...dayEnum).optional(),
+  specificDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).allow("", null).optional(),
   startTime: Joi.string().pattern(/^\d{2}:\d{2}$/).required(),
   endTime: Joi.string().pattern(/^\d{2}:\d{2}$/).required(),
   sessionDurationMinutes: Joi.number().valid(30, 60).default(60)
-});
+}).custom((value, helpers) => {
+  if (!value.day && !value.specificDate) {
+    return helpers.error("any.custom", { message: "Either day or specificDate is required" });
+  }
+  return value;
+}, "day/specificDate requirement");
 
 const updateAvailabilitySchema = Joi.object({
   day: Joi.string().valid(...dayEnum).optional(),
+  specificDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).allow("", null).optional(),
   startTime: Joi.string().pattern(/^\d{2}:\d{2}$/).optional(),
   endTime: Joi.string().pattern(/^\d{2}:\d{2}$/).optional(),
   sessionDurationMinutes: Joi.number().valid(30, 60).optional()

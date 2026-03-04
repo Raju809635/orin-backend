@@ -25,6 +25,10 @@ const availabilitySchema = new mongoose.Schema(
       type: Number,
       default: 60
     },
+    specificDate: {
+      type: String,
+      default: null
+    },
     blockedDate: {
       type: String,
       default: null
@@ -38,6 +42,7 @@ const availabilitySchema = new mongoose.Schema(
 );
 
 availabilitySchema.index({ mentorId: 1, day: 1, startTime: 1, endTime: 1 });
+availabilitySchema.index({ mentorId: 1, specificDate: 1, startTime: 1, endTime: 1 });
 availabilitySchema.index({ mentorId: 1, blockedDate: 1, isBlockedDate: 1 });
 
 module.exports = mongoose.model("Availability", availabilitySchema);

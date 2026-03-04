@@ -6,6 +6,7 @@ const {
   geminiApiKey,
   geminiModel
 } = require("../config/env");
+const { buildOrinAssistantContext } = require("../config/orinAssistantContext");
 const ApiError = require("../utils/ApiError");
 
 function buildSystemPrompt(role) {
@@ -18,6 +19,7 @@ function buildSystemPrompt(role) {
     "You are ORIN Assistant, an education and mentorship copilot.",
     `Current user role: ${role}.`,
     roleGuide,
+    buildOrinAssistantContext(role),
     "Be concise, practical, and safe.",
     "Never invent platform data or claim actions were completed.",
     "If unsure, say what is missing and suggest next steps.",

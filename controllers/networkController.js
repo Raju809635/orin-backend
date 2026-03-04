@@ -32,6 +32,16 @@ function computeLevelTag(score) {
   return "Starter";
 }
 
+function toFeedResponse(post, userId, comments = []) {
+  return {
+    ...post,
+    isLiked: (post.likedBy || []).some((id) => String(id) === String(userId)),
+    isSaved: (post.savedBy || []).some((id) => String(id) === String(userId)),
+    isShared: (post.sharedBy || []).some((id) => String(id) === String(userId)),
+    comments
+  };
+}
+
 async function ensureReputation(userId) {
   let rep = await ReputationScore.findOne({ userId });
   if (!rep) {
@@ -279,24 +289,30 @@ exports.getFeed = asyncHandler(async (req, res) => {
     return acc;
   }, {});
 
-  const data = posts.map((post) => ({
-    ...post,
-    isLiked: (post.likedBy || []).some((id) => String(id) === userId),
-    isSaved: (post.savedBy || []).some((id) => String(id) === userId),
-    comments: commentsByPostId[String(post._id)] || []
-  }));
+  const data = posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || []));
 
   res.json(data);
 });
 
-exports.getPublicFeed = asyncHandler(async (_req, res) => {
+exports.getPublicFeed = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
   const posts = await FeedPost.find({ visibility: "public" })
     .populate("authorId", "name role")
     .sort({ createdAt: -1 })
     .limit(80)
     .lean();
-
-  res.json(posts);
+  const postIds = posts.map((p) => p._id);
+  const comments = await FeedComment.find({ postId: { $in: postIds } })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .lean();
+  const commentsByPostId = comments.reduce((acc, item) => {
+    const key = String(item.postId);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
 });
 
 exports.createPost = asyncHandler(async (req, res) => {
@@ -339,6 +355,18 @@ exports.addComment = asyncHandler(async (req, res) => {
 
   post.commentCount += 1;
   await post.save();
+
+  if (String(post.authorId) !== String(authorId)) {
+    await Notification.create({
+      title: "New Comment",
+      message: "Someone commented on your post.",
+      type: "direct",
+      sentBy: authorId,
+      targetRole: "all",
+      recipient: post.authorId
+    });
+  }
+
   res.status(201).json(comment);
 });
 
@@ -360,6 +388,17 @@ exports.reactToPost = asyncHandler(async (req, res) => {
     } else {
       post.likedBy.push(userId);
       post.likeCount += 1;
+
+      if (String(post.authorId) !== String(userId)) {
+        await Notification.create({
+          title: "New Like",
+          message: "Someone liked your post.",
+          type: "direct",
+          sentBy: userId,
+          targetRole: "all",
+          recipient: post.authorId
+        });
+      }
     }
   }
 
@@ -379,6 +418,17 @@ exports.reactToPost = asyncHandler(async (req, res) => {
     if (!hasShared) {
       post.sharedBy.push(userId);
       post.shareCount += 1;
+
+      if (String(post.authorId) !== String(userId)) {
+        await Notification.create({
+          title: "Post Shared",
+          message: "Someone shared your post.",
+          type: "direct",
+          sentBy: userId,
+          targetRole: "all",
+          recipient: post.authorId
+        });
+      }
     }
   }
 

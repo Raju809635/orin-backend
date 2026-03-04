@@ -16,7 +16,7 @@ const {
   verifyRefreshToken,
   buildPasswordResetToken
 } = require("../utils/authTokenService");
-const { env, passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
+const { passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
 
 async function persistRefreshToken({ user, refreshToken, req }) {
   const refreshTokenHash = hashToken(refreshToken);
@@ -66,68 +66,12 @@ async function sendVerificationOtpEmail(user, otp) {
 exports.register = asyncHandler(async (req, res) => {
   const { name, email, password, role, phoneNumber } = req.body;
   const normalizedRole = role || "student";
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const otp = buildEmailOtpToken();
 
   const existingUser = await User.findOne({ email, isDeleted: { $ne: true } });
   if (existingUser) {
-    if (!existingUser.isEmailVerified) {
-      existingUser.name = name;
-      existingUser.password = hashedPassword;
-      existingUser.role = normalizedRole;
-      existingUser.phoneNumber = phoneNumber || "";
-      existingUser.approvalStatus = normalizedRole === "mentor" ? "pending" : "approved";
-      existingUser.emailVerificationOtpHash = otp.hash;
-      existingUser.emailVerificationOtpExpiresAt = otp.expiresAt;
-      existingUser.emailVerificationOtpSentAt = new Date();
-      existingUser.emailVerificationOtpAttempts = 0;
-      await existingUser.save();
-
-      if (normalizedRole === "student") {
-        await StudentProfile.updateOne(
-          { userId: existingUser._id },
-          { $setOnInsert: { userId: existingUser._id } },
-          { upsert: true }
-        );
-      }
-
-      if (normalizedRole === "mentor") {
-        await MentorProfile.updateOne(
-          { userId: existingUser._id },
-          {
-            $set: { phoneNumber: phoneNumber || "" },
-            $setOnInsert: { userId: existingUser._id }
-          },
-          { upsert: true }
-        );
-      }
-
-      let otpDispatched = true;
-      let otpDispatchError = "";
-      try {
-        await sendVerificationOtpEmail(existingUser, otp.raw);
-      } catch (error) {
-        otpDispatched = false;
-        otpDispatchError = error?.message || "OTP delivery failed";
-        console.error("[AUTH] OTP send failed for unverified existing user:", otpDispatchError);
-      }
-
-      return res.status(200).json({
-        message: otpDispatched
-          ? "Account already existed but was unverified. OTP has been resent."
-          : "Account exists and is unverified, but OTP email could not be sent. Please check SMTP setup and use Resend OTP.",
-        requiresEmailVerification: true,
-        email: existingUser.email,
-        role: existingUser.role,
-        otpDispatched,
-        otpDispatchError: otpDispatched ? "" : otpDispatchError,
-        otpExpiresAt: otp.expiresAt,
-        ...(env !== "production" && !otpDispatched ? { debugOtp: otp.raw } : {})
-      });
-    }
-
     throw new ApiError(409, "User already exists");
   }
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = new User({
     name,
@@ -136,11 +80,11 @@ exports.register = asyncHandler(async (req, res) => {
     password: hashedPassword,
     role: normalizedRole,
     approvalStatus: normalizedRole === "mentor" ? "pending" : "approved",
-    isEmailVerified: false,
-    emailVerifiedAt: null,
-    emailVerificationOtpHash: otp.hash,
-    emailVerificationOtpExpiresAt: otp.expiresAt,
-    emailVerificationOtpSentAt: new Date(),
+    isEmailVerified: true,
+    emailVerifiedAt: new Date(),
+    emailVerificationOtpHash: "",
+    emailVerificationOtpExpiresAt: null,
+    emailVerificationOtpSentAt: null,
     emailVerificationOtpAttempts: 0
   });
 
@@ -157,27 +101,11 @@ exports.register = asyncHandler(async (req, res) => {
     });
   }
 
-  let otpDispatched = true;
-  let otpDispatchError = "";
-  try {
-    await sendVerificationOtpEmail(user, otp.raw);
-  } catch (error) {
-    otpDispatched = false;
-    otpDispatchError = error?.message || "OTP delivery failed";
-    console.error("[AUTH] OTP send failed during register:", otpDispatchError);
-  }
-
   res.status(201).json({
-    message: otpDispatched
-      ? "User registered. Verify your email with OTP."
-      : "User registered, but OTP email could not be sent. Fix SMTP config and tap Resend OTP.",
-    requiresEmailVerification: true,
+    message: "User registered successfully. Please login.",
+    requiresEmailVerification: false,
     email: user.email,
-    role: user.role,
-    otpDispatched,
-    otpDispatchError: otpDispatched ? "" : otpDispatchError,
-    otpExpiresAt: otp.expiresAt,
-    ...(env !== "production" && !otpDispatched ? { debugOtp: otp.raw } : {})
+    role: user.role
   });
 
   await createAuditLog({
@@ -203,8 +131,15 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  if (user.isEmailVerified === false) {
-    throw new ApiError(403, "Email not verified. Please verify OTP sent to your email.");
+  // Backward compatibility: if legacy accounts are stuck unverified, do not block login.
+  if (!user.isEmailVerified) {
+    user.isEmailVerified = true;
+    user.emailVerifiedAt = new Date();
+    user.emailVerificationOtpHash = "";
+    user.emailVerificationOtpExpiresAt = null;
+    user.emailVerificationOtpSentAt = null;
+    user.emailVerificationOtpAttempts = 0;
+    await user.save();
   }
 
   if (user.role === "mentor" && user.approvalStatus !== "approved") {
@@ -232,37 +167,13 @@ exports.login = asyncHandler(async (req, res) => {
 });
 
 exports.verifyEmailOtp = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
+  const { email } = req.body;
   const user = await User.findOne({ email, isDeleted: { $ne: true } });
 
   if (!user) {
-    throw new ApiError(400, "Invalid verification request");
-  }
-
-  if (user.isEmailVerified) {
     return res.status(200).json({
-      message: "Email already verified",
-      role: user.role
+      message: "Email verification is not required. Please login."
     });
-  }
-
-  if (!user.emailVerificationOtpHash || !user.emailVerificationOtpExpiresAt) {
-    throw new ApiError(400, "OTP not generated. Please request a new OTP.");
-  }
-
-  if (new Date(user.emailVerificationOtpExpiresAt).getTime() < Date.now()) {
-    throw new ApiError(400, "OTP expired. Please request a new OTP.");
-  }
-
-  if ((user.emailVerificationOtpAttempts || 0) >= 5) {
-    throw new ApiError(429, "Too many invalid attempts. Please request a new OTP.");
-  }
-
-  const incomingHash = hashToken(otp);
-  if (incomingHash !== user.emailVerificationOtpHash) {
-    user.emailVerificationOtpAttempts = (user.emailVerificationOtpAttempts || 0) + 1;
-    await user.save();
-    throw new ApiError(400, "Invalid OTP");
   }
 
   user.isEmailVerified = true;
@@ -282,7 +193,7 @@ exports.verifyEmailOtp = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({
-    message: "Email verified successfully",
+    message: "Email verification is not required. Please login.",
     role: user.role
   });
 });
@@ -291,40 +202,18 @@ exports.resendEmailOtp = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email, isDeleted: { $ne: true } });
 
-  if (!user) {
-    return res.status(200).json({
-      message: "If this account exists, a verification OTP has been sent."
-    });
-  }
-
-  if (user.isEmailVerified) {
-    return res.status(200).json({
-      message: "Email already verified"
-    });
-  }
-
-  const lastSent = user.emailVerificationOtpSentAt ? new Date(user.emailVerificationOtpSentAt).getTime() : 0;
-  if (Date.now() - lastSent < 60 * 1000) {
-    throw new ApiError(429, "Please wait 60 seconds before requesting another OTP.");
-  }
-
-  const otp = buildEmailOtpToken();
-  user.emailVerificationOtpHash = otp.hash;
-  user.emailVerificationOtpExpiresAt = otp.expiresAt;
-  user.emailVerificationOtpSentAt = new Date();
-  user.emailVerificationOtpAttempts = 0;
-  await user.save();
-
-  try {
-    await sendVerificationOtpEmail(user, otp.raw);
-  } catch (error) {
-    const reason = error?.message || "OTP delivery failed";
-    throw new ApiError(502, `OTP sending failed. ${reason}`);
+  if (user && !user.isEmailVerified) {
+    user.isEmailVerified = true;
+    user.emailVerifiedAt = new Date();
+    user.emailVerificationOtpHash = "";
+    user.emailVerificationOtpExpiresAt = null;
+    user.emailVerificationOtpSentAt = null;
+    user.emailVerificationOtpAttempts = 0;
+    await user.save();
   }
 
   res.status(200).json({
-    message: "Verification OTP sent",
-    otpExpiresAt: otp.expiresAt
+    message: "Email verification is not required. Please login."
   });
 });
 

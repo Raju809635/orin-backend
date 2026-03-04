@@ -5,13 +5,30 @@ const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
+const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function dayFromDate(dateStr) {
+  if (!dateStr) return null;
+  const dateObj = new Date(`${dateStr}T00:00:00.000Z`);
+  if (Number.isNaN(dateObj.getTime())) return null;
+  return weekdayLabels[dateObj.getUTCDay()];
+}
+
 exports.createAvailability = asyncHandler(async (req, res) => {
+  const specificDate = req.body.specificDate || null;
+  const resolvedDay = req.body.day || dayFromDate(specificDate);
+
+  if (!resolvedDay) {
+    throw new ApiError(400, "Either valid day or specificDate is required");
+  }
+
   const availability = await Availability.create({
     mentorId: req.user.id,
-    day: req.body.day,
+    day: resolvedDay,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
     sessionDurationMinutes: req.body.sessionDurationMinutes || 60,
+    specificDate,
     isBlockedDate: false
   });
 
@@ -71,10 +88,12 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
   );
   if (!mentor) throw new ApiError(404, "Mentor not found");
 
-  const [weeklySlots, blockedDates] = await Promise.all([
+  const [allSlots, blockedDates] = await Promise.all([
     Availability.find({ mentorId, isBlockedDate: false }).sort({ day: 1, startTime: 1 }).lean(),
     Availability.find({ mentorId, isBlockedDate: true }).sort({ blockedDate: 1 }).lean()
   ]);
+  const weeklySlots = allSlots.filter((slot) => !slot.specificDate);
+  const dateSlots = allSlots.filter((slot) => slot.specificDate);
 
   const now = new Date();
   const end = new Date(now);
@@ -92,9 +111,8 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
 
   const bookedSlotSet = new Set(confirmedSessions.map((item) => `${item.date}|${item.time}`));
   const blockedDateSet = new Set(blockedDates.map((item) => item.blockedDate));
-  const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
   const upcomingSlots = [];
+  const seenSlotKeys = new Set();
 
   for (let offset = 0; offset < 7; offset += 1) {
     const dateObj = new Date(now);
@@ -107,7 +125,10 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
     }
 
     const dayLabel = weekdayLabels[dateObj.getUTCDay()];
-    const daySlots = weeklySlots.filter((slot) => slot.day === dayLabel);
+    const daySlots = [
+      ...weeklySlots.filter((slot) => slot.day === dayLabel),
+      ...dateSlots.filter((slot) => slot.specificDate === date)
+    ];
 
     daySlots.forEach((slot) => {
       const duration = Number(slot.sessionDurationMinutes || 60);
@@ -120,6 +141,12 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
         const h = String(Math.floor(cursor / 60)).padStart(2, "0");
         const m = String(cursor % 60).padStart(2, "0");
         const time = `${h}:${m}`;
+        const slotKey = `${date}|${time}|${duration}`;
+        if (seenSlotKeys.has(slotKey)) {
+          cursor += duration;
+          return;
+        }
+        seenSlotKeys.add(slotKey);
         const iso = new Date(`${date}T${time}:00.000Z`).toISOString();
         const isBooked = bookedSlotSet.has(`${date}|${time}`);
 
@@ -145,6 +172,7 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
   res.status(200).json({
     mentor,
     weeklySlots,
+    dateSlots,
     blockedDates,
     upcomingSlots
   });

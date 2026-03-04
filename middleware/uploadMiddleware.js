@@ -5,8 +5,10 @@ const ApiError = require("../utils/ApiError");
 
 const profileUploadRoot = path.join(__dirname, "..", "uploads", "profile");
 const paymentUploadRoot = path.join(__dirname, "..", "uploads", "payment-screenshots");
+const postUploadRoot = path.join(__dirname, "..", "uploads", "posts");
 fs.mkdirSync(profileUploadRoot, { recursive: true });
 fs.mkdirSync(paymentUploadRoot, { recursive: true });
+fs.mkdirSync(postUploadRoot, { recursive: true });
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
@@ -54,7 +56,27 @@ const uploadPaymentScreenshot = multer({
   }
 }).single("paymentScreenshotFile");
 
+const postMediaStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, postUploadRoot);
+  },
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
+    const safeExt = [".jpg", ".jpeg", ".png", ".webp"].includes(ext) ? ext : ".jpg";
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExt}`);
+  }
+});
+
+const uploadPostMedia = multer({
+  storage: postMediaStorage,
+  fileFilter,
+  limits: {
+    fileSize: 8 * 1024 * 1024
+  }
+}).single("file");
+
 module.exports = {
   uploadProfilePhoto,
-  uploadPaymentScreenshot
+  uploadPaymentScreenshot,
+  uploadPostMedia
 };

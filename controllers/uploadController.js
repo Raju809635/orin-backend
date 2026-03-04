@@ -22,3 +22,18 @@ exports.uploadProfilePhoto = (req, res) => {
     path: relativePath
   });
 };
+
+exports.uploadPostMedia = (req, res) => {
+  if (!req.file) {
+    throw new ApiError(400, "No file uploaded");
+  }
+
+  const relativePath = `/uploads/posts/${path.basename(req.file.filename)}`;
+  const fileUrl = `${getBaseUrl(req)}${relativePath}`;
+
+  res.status(201).json({
+    message: "Post media uploaded",
+    url: fileUrl,
+    path: relativePath
+  });
+};
