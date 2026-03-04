@@ -6,6 +6,12 @@ const Notification = require("../models/Notification");
 const AuditLog = require("../models/AuditLog");
 const MentorProfile = require("../models/MentorProfile");
 const CollaborateApplication = require("../models/CollaborateApplication");
+const FeedPost = require("../models/FeedPost");
+const Connection = require("../models/Connection");
+const UserFollow = require("../models/UserFollow");
+const MentorGroup = require("../models/MentorGroup");
+const MentorLiveSession = require("../models/MentorLiveSession");
+const CommunityChallenge = require("../models/CommunityChallenge");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -352,4 +358,152 @@ exports.reviewCollaborateApplication = asyncHandler(async (req, res) => {
     message: nextStatus === "approved" ? "Collaboration approved" : "Collaboration rejected",
     application
   });
+});
+
+exports.getNetworkAdminOverview = asyncHandler(async (_req, res) => {
+  const now = new Date();
+  const [posts, publicPosts, privatePosts, pendingConnections, acceptedConnections, totalFollows, activeGroups, activeChallenges, upcomingLives] =
+    await Promise.all([
+      FeedPost.countDocuments(),
+      FeedPost.countDocuments({ visibility: "public" }),
+      FeedPost.countDocuments({ visibility: "private" }),
+      Connection.countDocuments({ status: "pending" }),
+      Connection.countDocuments({ status: "accepted" }),
+      UserFollow.countDocuments(),
+      MentorGroup.countDocuments({ isActive: true }),
+      CommunityChallenge.countDocuments({ isActive: true }),
+      MentorLiveSession.countDocuments({ isCancelled: false, startsAt: { $gte: now } })
+    ]);
+
+  res.status(200).json({
+    posts: {
+      total: posts,
+      public: publicPosts,
+      private: privatePosts
+    },
+    network: {
+      pendingConnections,
+      acceptedConnections,
+      follows: totalFollows
+    },
+    communities: {
+      activeGroups,
+      activeChallenges,
+      upcomingLiveSessions: upcomingLives
+    }
+  });
+});
+
+exports.getNetworkAdminPosts = asyncHandler(async (req, res) => {
+  const limit = Math.min(Math.max(Number(req.query.limit || 100), 1), 300);
+  const posts = await FeedPost.find({})
+    .populate("authorId", "name email role")
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .lean();
+
+  res.status(200).json(posts);
+});
+
+exports.deleteNetworkPostByAdmin = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(postId)) throw new ApiError(400, "Invalid post id");
+
+  const deleted = await FeedPost.findByIdAndDelete(postId).lean();
+  if (!deleted) throw new ApiError(404, "Post not found");
+
+  res.status(200).json({ message: "Post deleted" });
+});
+
+exports.getNetworkAdminConnections = asyncHandler(async (req, res) => {
+  const status = (req.query.status || "").toString().trim();
+  const filter = {};
+  if (status && ["pending", "accepted", "rejected", "blocked"].includes(status)) {
+    filter.status = status;
+  }
+
+  const list = await Connection.find(filter)
+    .populate("requesterId", "name email role")
+    .populate("recipientId", "name email role")
+    .sort({ updatedAt: -1 })
+    .limit(300)
+    .lean();
+
+  res.status(200).json(list);
+});
+
+exports.getNetworkAdminFollows = asyncHandler(async (_req, res) => {
+  const follows = await UserFollow.find({})
+    .populate("followerId", "name email role")
+    .populate("followingId", "name email role")
+    .sort({ createdAt: -1 })
+    .limit(300)
+    .lean();
+
+  res.status(200).json(follows);
+});
+
+exports.getNetworkAdminMentorGroups = asyncHandler(async (_req, res) => {
+  const groups = await MentorGroup.find({})
+    .populate("mentorId", "name email role approvalStatus")
+    .sort({ updatedAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.status(200).json(groups);
+});
+
+exports.toggleNetworkAdminMentorGroup = asyncHandler(async (req, res) => {
+  const { groupId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(groupId)) throw new ApiError(400, "Invalid group id");
+
+  const group = await MentorGroup.findById(groupId);
+  if (!group) throw new ApiError(404, "Group not found");
+  group.isActive = !group.isActive;
+  await group.save();
+
+  res.status(200).json({ message: group.isActive ? "Group activated" : "Group disabled", group });
+});
+
+exports.getNetworkAdminLiveSessions = asyncHandler(async (_req, res) => {
+  const sessions = await MentorLiveSession.find({})
+    .populate("mentorId", "name email role")
+    .sort({ startsAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.status(200).json(sessions);
+});
+
+exports.toggleNetworkAdminLiveSession = asyncHandler(async (req, res) => {
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const session = await MentorLiveSession.findById(liveSessionId);
+  if (!session) throw new ApiError(404, "Live session not found");
+  session.isCancelled = !session.isCancelled;
+  await session.save();
+
+  res.status(200).json({ message: session.isCancelled ? "Live session cancelled" : "Live session reopened", session });
+});
+
+exports.getNetworkAdminChallenges = asyncHandler(async (_req, res) => {
+  const challenges = await CommunityChallenge.find({})
+    .sort({ updatedAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.status(200).json(challenges);
+});
+
+exports.toggleNetworkAdminChallenge = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challenge id");
+
+  const challenge = await CommunityChallenge.findById(challengeId);
+  if (!challenge) throw new ApiError(404, "Challenge not found");
+  challenge.isActive = !challenge.isActive;
+  await challenge.save();
+
+  res.status(200).json({ message: challenge.isActive ? "Challenge activated" : "Challenge disabled", challenge });
 });

@@ -14,7 +14,18 @@ const {
   getMentorProfiles,
   sendMentorDirectMessage,
   getCollaborateApplications,
-  reviewCollaborateApplication
+  reviewCollaborateApplication,
+  getNetworkAdminOverview,
+  getNetworkAdminPosts,
+  deleteNetworkPostByAdmin,
+  getNetworkAdminConnections,
+  getNetworkAdminFollows,
+  getNetworkAdminMentorGroups,
+  toggleNetworkAdminMentorGroup,
+  getNetworkAdminLiveSessions,
+  toggleNetworkAdminLiveSession,
+  getNetworkAdminChallenges,
+  toggleNetworkAdminChallenge
 } = require("../controllers/adminController");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
@@ -46,5 +57,17 @@ router.post(
   validate(sendMentorMessageSchema),
   sendMentorDirectMessage
 );
+
+router.get("/network/overview", verifyToken, authorizeRoles("admin"), getNetworkAdminOverview);
+router.get("/network/posts", verifyToken, authorizeRoles("admin"), getNetworkAdminPosts);
+router.delete("/network/posts/:postId", verifyToken, authorizeRoles("admin"), deleteNetworkPostByAdmin);
+router.get("/network/connections", verifyToken, authorizeRoles("admin"), getNetworkAdminConnections);
+router.get("/network/follows", verifyToken, authorizeRoles("admin"), getNetworkAdminFollows);
+router.get("/network/mentor-groups", verifyToken, authorizeRoles("admin"), getNetworkAdminMentorGroups);
+router.patch("/network/mentor-groups/:groupId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminMentorGroup);
+router.get("/network/live-sessions", verifyToken, authorizeRoles("admin"), getNetworkAdminLiveSessions);
+router.patch("/network/live-sessions/:liveSessionId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminLiveSession);
+router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
+router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 
 module.exports = router;
