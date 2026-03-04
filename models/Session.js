@@ -110,6 +110,10 @@ const sessionSchema = new mongoose.Schema(
       type: String,
       default: ""
     },
+    studentNotes: {
+      type: String,
+      default: ""
+    },
     feedback: {
       type: String,
       default: ""

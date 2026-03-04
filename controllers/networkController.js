@@ -8,6 +8,11 @@ const ReputationScore = require("../models/ReputationScore");
 const DailyTaskProgress = require("../models/DailyTaskProgress");
 const LeaderboardSnapshot = require("../models/LeaderboardSnapshot");
 const StudentProfile = require("../models/StudentProfile");
+const MentorProfile = require("../models/MentorProfile");
+const Session = require("../models/Session");
+const MentorReview = require("../models/MentorReview");
+const CareerOpportunity = require("../models/CareerOpportunity");
+const MentorLiveSession = require("../models/MentorLiveSession");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
 const ApiError = require("../utils/ApiError");
@@ -31,6 +36,76 @@ function computeLevelTag(score) {
   if (score >= 600) return "High Momentum";
   if (score >= 300) return "Consistent Builder";
   return "Starter";
+}
+
+function normalizeText(value = "") {
+  return String(value || "")
+    .toLowerCase()
+    .trim();
+}
+
+function tokenize(value = "") {
+  return normalizeText(value)
+    .split(/[^a-z0-9+#.]+/i)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function uniqueTokens(values = []) {
+  const set = new Set();
+  values.forEach((value) => {
+    tokenize(value).forEach((token) => set.add(token));
+  });
+  return set;
+}
+
+function getRoadmapForGoal(goal = "") {
+  const normalized = normalizeText(goal);
+
+  if (/(ai|ml|machine learning|data scientist|deep learning)/i.test(normalized)) {
+    return [
+      "Python Basics",
+      "Data Structures and Algorithms",
+      "Statistics and Linear Algebra",
+      "Machine Learning Fundamentals",
+      "Deep Learning and Model Deployment"
+    ];
+  }
+  if (/(web|frontend|backend|full stack|react|node)/i.test(normalized)) {
+    return [
+      "HTML, CSS, JavaScript Foundations",
+      "React and State Management",
+      "Node.js and REST APIs",
+      "Databases and Authentication",
+      "System Design and Deployment"
+    ];
+  }
+  if (/(cyber|security|ethical hacking|soc)/i.test(normalized)) {
+    return [
+      "Networking and Linux Basics",
+      "Security Fundamentals",
+      "Web and API Security",
+      "Vulnerability Assessment",
+      "Incident Response and Security Operations"
+    ];
+  }
+  if (/(upsc|civil services)/i.test(normalized)) {
+    return [
+      "NCERT Foundation",
+      "Polity, Economy and Geography Core",
+      "Current Affairs Revision Plan",
+      "Mains Answer Writing",
+      "Interview Preparation"
+    ];
+  }
+
+  return [
+    "Foundation Skills",
+    "Core Domain Concepts",
+    "Hands-on Projects",
+    "Interview and Communication Practice",
+    "Portfolio and Application Strategy"
+  ];
 }
 
 function toFeedResponse(post, userId, comments = []) {
@@ -707,5 +782,506 @@ exports.getCollegeNetwork = asyncHandler(async (req, res) => {
     topStudents,
     trendingProjects,
     skillRankings
+  });
+});
+
+exports.getMentorMatches = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const studentProfile = await StudentProfile.findOne({ userId }).lean();
+  const studentUser = await User.findById(userId).select("primaryCategory subCategory goals").lean();
+
+  const studentSignals = [
+    ...(studentProfile?.skills || []),
+    ...(studentProfile?.careerGoals ? [studentProfile.careerGoals] : []),
+    ...(studentUser?.goals ? [studentUser.goals] : []),
+    ...(studentUser?.primaryCategory ? [studentUser.primaryCategory] : []),
+    ...(studentUser?.subCategory ? [studentUser.subCategory] : [])
+  ];
+  const studentTokens = uniqueTokens(studentSignals);
+
+  const mentorProfiles = await MentorProfile.find({})
+    .populate("userId", "name email approvalStatus role isDeleted primaryCategory subCategory specializations")
+    .sort({ rating: -1, totalSessionsConducted: -1, updatedAt: -1 })
+    .limit(120)
+    .lean();
+
+  const scored = mentorProfiles
+    .filter((item) => {
+      const user = item.userId;
+      return (
+        user &&
+        user.role === "mentor" &&
+        user.approvalStatus === "approved" &&
+        user.isDeleted !== true
+      );
+    })
+    .map((mentor) => {
+      const mentorSignals = [
+        mentor.primaryCategory || "",
+        mentor.subCategory || "",
+        ...(mentor.specializations || []),
+        ...(mentor.expertiseDomains || []),
+        ...(mentor.userId?.specializations || [])
+      ];
+      const mentorTokens = uniqueTokens(mentorSignals);
+
+      let overlap = 0;
+      studentTokens.forEach((token) => {
+        if (mentorTokens.has(token)) overlap += 1;
+      });
+
+      const categoryExact =
+        normalizeText(mentor.primaryCategory) &&
+        normalizeText(mentor.primaryCategory) === normalizeText(studentUser?.primaryCategory || "")
+          ? 1
+          : 0;
+      const subCategoryExact =
+        normalizeText(mentor.subCategory) &&
+        normalizeText(mentor.subCategory) === normalizeText(studentUser?.subCategory || "")
+          ? 1
+          : 0;
+
+      const ratingFactor = Math.min(5, Number(mentor.rating || 0)) / 5;
+      const experienceFactor = Math.min(12, Number(mentor.experienceYears || 0)) / 12;
+      const sessionsFactor = Math.min(100, Number(mentor.totalSessionsConducted || 0)) / 100;
+
+      const scoreRaw =
+        overlap * 10 +
+        categoryExact * 18 +
+        subCategoryExact * 10 +
+        ratingFactor * 25 +
+        experienceFactor * 20 +
+        sessionsFactor * 17;
+      const matchScore = Math.max(25, Math.min(99, Math.round(scoreRaw)));
+
+      return {
+        mentorId: mentor.userId?._id,
+        name: mentor.userId?.name || "Mentor",
+        email: mentor.userId?.email || "",
+        title: mentor.title || "Mentor",
+        primaryCategory: mentor.primaryCategory || mentor.userId?.primaryCategory || "",
+        subCategory: mentor.subCategory || mentor.userId?.subCategory || "",
+        specializations: mentor.specializations || [],
+        expertiseDomains: mentor.expertiseDomains || [],
+        experienceYears: mentor.experienceYears || 0,
+        rating: Number(mentor.rating || 0),
+        totalSessionsConducted: Number(mentor.totalSessionsConducted || 0),
+        sessionPrice: Number(mentor.sessionPrice || 0),
+        profilePhotoUrl: mentor.profilePhotoUrl || "",
+        matchScore,
+        reasons: [
+          categoryExact ? "Same domain" : null,
+          subCategoryExact ? "Same sub-domain" : null,
+          overlap > 0 ? `Skill overlap (${overlap})` : null,
+          ratingFactor > 0 ? "Strong mentor rating" : null
+        ].filter(Boolean)
+      };
+    })
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .slice(0, 12);
+
+  res.json({
+    studentSignals: {
+      domain: studentUser?.primaryCategory || "",
+      subDomain: studentUser?.subCategory || "",
+      skills: studentProfile?.skills || [],
+      careerGoal: studentProfile?.careerGoals || studentUser?.goals || ""
+    },
+    recommendations: scored
+  });
+});
+
+exports.getSessionHistory = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const rows = await Session.find({
+    studentId: userId,
+    $or: [{ status: "completed" }, { sessionStatus: "completed" }, { paymentStatus: "verified" }, { paymentStatus: "paid" }]
+  })
+    .populate("mentorId", "name email")
+    .sort({ scheduledStart: -1 })
+    .limit(100)
+    .lean();
+
+  const history = rows.map((item) => ({
+    sessionId: item._id,
+    mentorId: item.mentorId?._id || null,
+    mentorName: item.mentorId?.name || "Mentor",
+    mentorEmail: item.mentorId?.email || "",
+    date: item.date,
+    time: item.time,
+    amount: item.amount,
+    paymentStatus: item.paymentStatus,
+    status: item.status,
+    sessionStatus: item.sessionStatus,
+    notes: item.studentNotes || item.notes || "",
+    feedback: item.feedback || "",
+    meetingLink: item.meetingLink || ""
+  }));
+
+  res.json(history);
+});
+
+exports.updateStudentSessionNote = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { sessionId } = req.params;
+  const { note } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(sessionId)) throw new ApiError(400, "Invalid sessionId");
+  const nextNote = String(note || "").trim();
+  if (!nextNote) throw new ApiError(400, "note is required");
+
+  const session = await Session.findOne({ _id: sessionId, studentId: userId });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  session.studentNotes = nextNote.slice(0, 2500);
+  await session.save();
+
+  res.json({ message: "Session note updated", sessionId: session._id, studentNotes: session.studentNotes });
+});
+
+exports.submitMentorReview = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { sessionId } = req.params;
+  const { rating, reviewText = "" } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(sessionId)) throw new ApiError(400, "Invalid sessionId");
+  const numericRating = Number(rating || 0);
+  if (!Number.isFinite(numericRating) || numericRating < 1 || numericRating > 5) {
+    throw new ApiError(400, "rating must be between 1 and 5");
+  }
+
+  const session = await Session.findOne({ _id: sessionId, studentId: userId });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  const review = await MentorReview.findOneAndUpdate(
+    { sessionId: session._id },
+    {
+      $set: {
+        mentorId: session.mentorId,
+        studentId: userId,
+        rating: numericRating,
+        reviewText: String(reviewText || "").trim().slice(0, 1200)
+      }
+    },
+    { upsert: true, new: true }
+  );
+
+  const stats = await MentorReview.aggregate([
+    { $match: { mentorId: session.mentorId } },
+    {
+      $group: {
+        _id: "$mentorId",
+        avgRating: { $avg: "$rating" },
+        totalReviews: { $sum: 1 }
+      }
+    }
+  ]);
+  const avgRating = Number(stats[0]?.avgRating || 0);
+  const totalReviews = Number(stats[0]?.totalReviews || 0);
+
+  await MentorProfile.findOneAndUpdate(
+    { userId: session.mentorId },
+    { $set: { rating: Math.round(avgRating * 10) / 10, totalSessionsConducted: Math.max(totalReviews, 0) } }
+  );
+
+  await applyReputationDelta(session.mentorId, { mentorReviews: 1 });
+
+  res.status(201).json({
+    message: "Review saved",
+    review: {
+      id: review._id,
+      rating: review.rating,
+      reviewText: review.reviewText
+    }
+  });
+});
+
+exports.getMentorReviews = asyncHandler(async (req, res) => {
+  const { mentorId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(mentorId)) throw new ApiError(400, "Invalid mentorId");
+
+  const rows = await MentorReview.find({ mentorId })
+    .populate("studentId", "name")
+    .sort({ createdAt: -1 })
+    .limit(40)
+    .lean();
+
+  const summary = await MentorReview.aggregate([
+    { $match: { mentorId: new mongoose.Types.ObjectId(mentorId) } },
+    { $group: { _id: "$mentorId", average: { $avg: "$rating" }, total: { $sum: 1 } } }
+  ]);
+
+  res.json({
+    averageRating: Number(summary[0]?.average || 0).toFixed(1),
+    totalReviews: Number(summary[0]?.total || 0),
+    reviews: rows.map((item) => ({
+      id: item._id,
+      rating: item.rating,
+      reviewText: item.reviewText,
+      studentName: item.studentId?.name || "Student",
+      createdAt: item.createdAt
+    }))
+  });
+});
+
+exports.getCareerRoadmap = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const studentProfile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
+  const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
+
+  const goal = req.query.goal || studentProfile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth";
+  const steps = getRoadmapForGoal(String(goal || ""));
+
+  res.json({
+    goal: String(goal),
+    steps: steps.map((title, idx) => ({
+      stepNumber: idx + 1,
+      title,
+      completed: false
+    })),
+    basedOn: {
+      skills: studentProfile?.skills || [],
+      domain: user?.primaryCategory || "",
+      subDomain: user?.subCategory || ""
+    }
+  });
+});
+
+exports.getCareerOpportunities = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const profile = await StudentProfile.findOne({ userId }).select("skills careerGoals").lean();
+  const user = await User.findById(userId).select("primaryCategory subCategory").lean();
+
+  const queryTokens = uniqueTokens([
+    ...(profile?.skills || []),
+    profile?.careerGoals || "",
+    user?.primaryCategory || "",
+    user?.subCategory || "",
+    String(req.query.q || "")
+  ]);
+
+  let opportunities = await CareerOpportunity.find({ isActive: true })
+    .sort({ createdAt: -1 })
+    .limit(80)
+    .lean();
+
+  if (opportunities.length === 0) {
+    opportunities = [
+      {
+        _id: "seed-1",
+        title: "ML Internship Program",
+        company: "AI Startup",
+        type: "internship",
+        role: "ML Intern",
+        duration: "3 months",
+        location: "Remote",
+        domainTags: ["ai", "ml", "python"],
+        applicationUrl: "",
+        description: "Hands-on internship for students interested in machine learning.",
+        createdAt: new Date()
+      },
+      {
+        _id: "seed-2",
+        title: "National Coding Hackathon",
+        company: "Open Innovation Forum",
+        type: "hackathon",
+        role: "Participant",
+        duration: "48 hours",
+        location: "Online",
+        domainTags: ["coding", "web", "ai"],
+        applicationUrl: "",
+        description: "Build a practical solution and compete with students nationwide.",
+        createdAt: new Date()
+      }
+    ];
+  }
+
+  const scored = opportunities
+    .map((item) => {
+      const tokens = uniqueTokens([
+        item.title,
+        item.company,
+        item.role,
+        item.description,
+        ...(item.domainTags || [])
+      ]);
+      let score = 0;
+      queryTokens.forEach((token) => {
+        if (tokens.has(token)) score += 1;
+      });
+      return {
+        ...item,
+        relevanceScore: score
+      };
+    })
+    .sort((a, b) => b.relevanceScore - a.relevanceScore || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 40);
+
+  res.json(scored);
+});
+
+exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const profile = await StudentProfile.findOne({ userId }).select("collegeName").lean();
+  const collegeName = profile?.collegeName || "";
+  const dateKey = toDateKey();
+
+  await upsertLeaderboardForToday({ collegeName });
+
+  const globalSnapshot = await LeaderboardSnapshot.findOne({ dateKey, scope: "global", collegeName: "" })
+    .populate("entries.userId", "name")
+    .lean();
+
+  const collegeSnapshot = collegeName
+    ? await LeaderboardSnapshot.findOne({ dateKey, scope: "college", collegeName })
+      .populate("entries.userId", "name")
+      .lean()
+    : null;
+
+  const mapEntries = (entries = []) =>
+    entries.slice(0, 20).map((item) => ({
+      rank: item.rank,
+      userId: item.userId?._id || item.userId || null,
+      name: item.userId?.name || "User",
+      score: item.score || 0
+    }));
+
+  res.json({
+    dateKey,
+    collegeName,
+    collegeTop: mapEntries(collegeSnapshot?.entries || []),
+    globalTop: mapEntries(globalSnapshot?.entries || [])
+  });
+});
+
+exports.getLiveSessions = asyncHandler(async (req, res) => {
+  const rows = await MentorLiveSession.find({
+    isPublic: true,
+    isCancelled: false,
+    startsAt: { $gte: new Date(Date.now() - 2 * 60 * 60 * 1000) }
+  })
+    .populate("mentorId", "name email")
+    .sort({ startsAt: 1 })
+    .limit(60)
+    .lean();
+
+  res.json(
+    rows.map((item) => ({
+      id: item._id,
+      title: item.title,
+      topic: item.topic,
+      description: item.description,
+      startsAt: item.startsAt,
+      endsAt: item.endsAt,
+      meetingLink: item.meetingLink,
+      domainTags: item.domainTags || [],
+      mentor: {
+        id: item.mentorId?._id || null,
+        name: item.mentorId?.name || "Mentor",
+        email: item.mentorId?.email || ""
+      }
+    }))
+  );
+});
+
+exports.createLiveSession = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create live sessions");
+
+  const { title, topic = "", description = "", startsAt, endsAt = null, meetingLink = "", domainTags = [] } = req.body;
+  if (!title || !String(title).trim()) throw new ApiError(400, "title is required");
+  const startDate = new Date(startsAt);
+  if (Number.isNaN(startDate.getTime())) throw new ApiError(400, "startsAt is invalid");
+
+  const doc = await MentorLiveSession.create({
+    mentorId: req.user.id,
+    title: String(title).trim(),
+    topic: String(topic || "").trim(),
+    description: String(description || "").trim(),
+    startsAt: startDate,
+    endsAt: endsAt ? new Date(endsAt) : null,
+    meetingLink: String(meetingLink || "").trim(),
+    domainTags: Array.isArray(domainTags) ? domainTags : [],
+    isPublic: true,
+    isCancelled: false
+  });
+
+  res.status(201).json({ message: "Live session created", liveSession: doc });
+});
+
+exports.generateResume = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const user = await User.findById(userId).select("name email phoneNumber").lean();
+  const profile = await StudentProfile.findOne({ userId }).lean();
+  if (!user) throw new ApiError(404, "User not found");
+
+  const payload = {
+    basics: {
+      name: user.name || "",
+      email: user.email || "",
+      phone: user.phoneNumber || "",
+      headline: profile?.headline || "",
+      about: profile?.about || ""
+    },
+    skills: profile?.skills || [],
+    projects: (profile?.projects || []).map((item) => ({
+      title: item.name || "",
+      description: item.summary || "",
+      techStack: item.techStack || [],
+      githubOrLink: item.link || "",
+      demoVideo: item.demoVideoUrl || "",
+      screenshots: item.screenshots || []
+    })),
+    achievements: profile?.achievements || [],
+    experience: profile?.experiences || [],
+    education: profile?.education || [],
+    careerGoals: profile?.careerGoals || ""
+  };
+
+  const markdown = [
+    `# ${payload.basics.name}`,
+    payload.basics.headline ? `**${payload.basics.headline}**` : "",
+    payload.basics.about ? payload.basics.about : "",
+    "",
+    "## Contact",
+    `- Email: ${payload.basics.email}`,
+    payload.basics.phone ? `- Phone: ${payload.basics.phone}` : "",
+    "",
+    "## Skills",
+    ...(payload.skills.length ? payload.skills.map((item) => `- ${item}`) : ["- Add your skills in profile"]),
+    "",
+    "## Projects",
+    ...(payload.projects.length
+      ? payload.projects.flatMap((project) => [
+          `- **${project.title || "Project"}**`,
+          project.description ? `  - ${project.description}` : "",
+          project.techStack.length ? `  - Tech: ${project.techStack.join(", ")}` : "",
+          project.githubOrLink ? `  - Link: ${project.githubOrLink}` : ""
+        ])
+      : ["- Add projects in profile"]),
+    "",
+    "## Achievements",
+    ...(payload.achievements.length
+      ? payload.achievements.map((item) => `- ${item.title || item.type || "Achievement"}`)
+      : ["- Add achievements in profile"]),
+    "",
+    "## Experience",
+    ...(payload.experience.length
+      ? payload.experience.map((item) => `- ${item.role || "Role"} at ${item.organization || "Organization"}`)
+      : ["- Add experiences in profile"]),
+    "",
+    "## Career Goal",
+    payload.careerGoals || "Career growth and mentorship"
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  res.json({
+    resume: payload,
+    markdown,
+    export: {
+      fileName: `${String(payload.basics.name || "orin_resume").replace(/\s+/g, "_")}.md`,
+      mimeType: "text/markdown"
+    }
   });
 });

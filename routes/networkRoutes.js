@@ -17,7 +17,18 @@ const {
   getDailyDashboard,
   completeDailyTask,
   getSmartSuggestions,
-  getCollegeNetwork
+  getCollegeNetwork,
+  getMentorMatches,
+  getSessionHistory,
+  updateStudentSessionNote,
+  submitMentorReview,
+  getMentorReviews,
+  getCareerRoadmap,
+  getCareerOpportunities,
+  getCollegeLeaderboard,
+  getLiveSessions,
+  createLiveSession,
+  generateResume
 } = require("../controllers/networkController");
 
 router.get("/overview", verifyToken, authorizeRoles("student", "mentor"), getNetworkOverview);
@@ -47,5 +58,16 @@ router.post("/daily-task/complete", verifyToken, authorizeRoles("student", "ment
 
 router.get("/suggestions", verifyToken, authorizeRoles("student", "mentor"), getSmartSuggestions);
 router.get("/college-network", verifyToken, authorizeRoles("student", "mentor"), getCollegeNetwork);
+router.get("/mentor-matches", verifyToken, authorizeRoles("student"), getMentorMatches);
+router.get("/session-history", verifyToken, authorizeRoles("student"), getSessionHistory);
+router.patch("/session-history/:sessionId/note", verifyToken, authorizeRoles("student"), updateStudentSessionNote);
+router.post("/sessions/:sessionId/review", verifyToken, authorizeRoles("student"), submitMentorReview);
+router.get("/mentors/:mentorId/reviews", verifyToken, authorizeRoles("student", "mentor"), getMentorReviews);
+router.get("/career-roadmap", verifyToken, authorizeRoles("student"), getCareerRoadmap);
+router.get("/opportunities", verifyToken, authorizeRoles("student", "mentor"), getCareerOpportunities);
+router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), getCollegeLeaderboard);
+router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
+router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
+router.get("/resume/generate", verifyToken, authorizeRoles("student"), generateResume);
 
 module.exports = router;
