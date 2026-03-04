@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const reactionEnum = ["like", "love", "care", "haha", "wow", "sad", "angry"];
+
 const feedPostSchema = new mongoose.Schema(
   {
     authorId: {
@@ -55,6 +57,32 @@ const feedPostSchema = new mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
       default: []
+    },
+    reactions: {
+      type: [
+        {
+          userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+          },
+          type: {
+            type: String,
+            enum: reactionEnum,
+            default: "like"
+          }
+        }
+      ],
+      default: []
+    },
+    reactionCounts: {
+      like: { type: Number, default: 0 },
+      love: { type: Number, default: 0 },
+      care: { type: Number, default: 0 },
+      haha: { type: Number, default: 0 },
+      wow: { type: Number, default: 0 },
+      sad: { type: Number, default: 0 },
+      angry: { type: Number, default: 0 }
     },
     savedBy: {
       type: [mongoose.Schema.Types.ObjectId],

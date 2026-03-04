@@ -19,6 +19,7 @@ const DAILY_TASKS = [
   { key: "resume_bullet", title: "Update 1 resume bullet", xp: 20 },
   { key: "domain_concept", title: "Explore 1 domain concept", xp: 15 }
 ];
+const REACTION_TYPES = ["like", "love", "care", "haha", "wow", "sad", "angry"];
 
 function toDateKey(date = new Date()) {
   return date.toISOString().slice(0, 10);
@@ -33,11 +34,23 @@ function computeLevelTag(score) {
 }
 
 function toFeedResponse(post, userId, comments = []) {
+  const myReaction = (post.reactions || []).find((entry) => String(entry.userId) === String(userId))?.type || null;
+  const reactionCounts = post.reactionCounts || {};
   return {
     ...post,
     isLiked: (post.likedBy || []).some((id) => String(id) === String(userId)),
     isSaved: (post.savedBy || []).some((id) => String(id) === String(userId)),
     isShared: (post.sharedBy || []).some((id) => String(id) === String(userId)),
+    userReaction: myReaction,
+    reactionCounts: {
+      like: reactionCounts.like || 0,
+      love: reactionCounts.love || 0,
+      care: reactionCounts.care || 0,
+      haha: reactionCounts.haha || 0,
+      wow: reactionCounts.wow || 0,
+      sad: reactionCounts.sad || 0,
+      angry: reactionCounts.angry || 0
+    },
     comments
   };
 }
@@ -373,26 +386,46 @@ exports.addComment = asyncHandler(async (req, res) => {
 exports.reactToPost = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { postId } = req.params;
-  const { action } = req.body;
+  const { action, reactionType } = req.body;
 
-  if (!["like", "save", "share"].includes(action)) throw new ApiError(400, "Invalid action");
+  if (!["like", "react", "save", "share"].includes(action)) throw new ApiError(400, "Invalid action");
 
   const post = await FeedPost.findById(postId);
   if (!post) throw new ApiError(404, "Post not found");
 
-  if (action === "like") {
-    const hasLiked = post.likedBy.some((id) => String(id) === userId);
-    if (hasLiked) {
-      post.likedBy = post.likedBy.filter((id) => String(id) !== userId);
-      post.likeCount = Math.max(0, post.likeCount - 1);
+  if (!post.reactionCounts) {
+    post.reactionCounts = { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 };
+  }
+  if (!Array.isArray(post.reactions)) {
+    post.reactions = [];
+  }
+
+  if (action === "like" || action === "react") {
+    const nextReaction = action === "like" ? "like" : String(reactionType || "").toLowerCase();
+    if (!REACTION_TYPES.includes(nextReaction)) {
+      throw new ApiError(400, "Invalid reactionType");
+    }
+
+    const existingIndex = post.reactions.findIndex((entry) => String(entry.userId) === String(userId));
+    const existing = existingIndex >= 0 ? post.reactions[existingIndex] : null;
+    const previousType = existing?.type || null;
+
+    if (existing && previousType === nextReaction) {
+      post.reactions.splice(existingIndex, 1);
+      post.reactionCounts[nextReaction] = Math.max(0, Number(post.reactionCounts[nextReaction] || 0) - 1);
     } else {
-      post.likedBy.push(userId);
-      post.likeCount += 1;
+      if (existing && previousType) {
+        post.reactionCounts[previousType] = Math.max(0, Number(post.reactionCounts[previousType] || 0) - 1);
+        post.reactions[existingIndex] = { userId, type: nextReaction };
+      } else {
+        post.reactions.push({ userId, type: nextReaction });
+      }
+      post.reactionCounts[nextReaction] = Number(post.reactionCounts[nextReaction] || 0) + 1;
 
       if (String(post.authorId) !== String(userId)) {
         await Notification.create({
-          title: "New Like",
-          message: "Someone liked your post.",
+          title: "New Reaction",
+          message: `Someone reacted (${nextReaction}) to your post.`,
           type: "direct",
           sentBy: userId,
           targetRole: "all",
@@ -400,6 +433,9 @@ exports.reactToPost = asyncHandler(async (req, res) => {
         });
       }
     }
+
+    post.likedBy = post.reactions.map((entry) => entry.userId);
+    post.likeCount = post.reactions.length;
   }
 
   if (action === "save") {
@@ -433,9 +469,12 @@ exports.reactToPost = asyncHandler(async (req, res) => {
   }
 
   await post.save();
+  const userReaction = post.reactions.find((entry) => String(entry.userId) === String(userId))?.type || null;
   res.json({
     postId: post._id,
     likeCount: post.likeCount,
+    reactionCounts: post.reactionCounts,
+    userReaction,
     saveCount: post.saveCount,
     shareCount: post.shareCount
   });
