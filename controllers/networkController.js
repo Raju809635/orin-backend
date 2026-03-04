@@ -289,6 +289,16 @@ exports.getFeed = asyncHandler(async (req, res) => {
   res.json(data);
 });
 
+exports.getPublicFeed = asyncHandler(async (_req, res) => {
+  const posts = await FeedPost.find({ visibility: "public" })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .limit(80)
+    .lean();
+
+  res.json(posts);
+});
+
 exports.createPost = asyncHandler(async (req, res) => {
   const authorId = req.user.id;
   const { content, postType, domainTags = [], mediaUrls = [], visibility = "public" } = req.body;
