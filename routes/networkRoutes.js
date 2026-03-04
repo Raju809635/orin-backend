@@ -28,7 +28,17 @@ const {
   getCollegeLeaderboard,
   getLiveSessions,
   createLiveSession,
-  generateResume
+  generateResume,
+  getSkillGapAnalysis,
+  getVerifiedMentors,
+  getCommunityChallenges,
+  joinCommunityChallenge,
+  getOrinCertifications,
+  getMentorGroups,
+  joinMentorGroup,
+  getProjectIdeas,
+  getKnowledgeLibrary,
+  getReputationSummary
 } = require("../controllers/networkController");
 
 router.get("/overview", verifyToken, authorizeRoles("student", "mentor"), getNetworkOverview);
@@ -69,5 +79,15 @@ router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), get
 router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
 router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
 router.get("/resume/generate", verifyToken, authorizeRoles("student"), generateResume);
+router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);
+router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor"), getVerifiedMentors);
+router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
+router.post("/challenges/:challengeId/join", verifyToken, authorizeRoles("student"), joinCommunityChallenge);
+router.get("/certifications", verifyToken, authorizeRoles("student", "mentor"), getOrinCertifications);
+router.get("/mentor-groups", verifyToken, authorizeRoles("student", "mentor"), getMentorGroups);
+router.post("/mentor-groups/:groupId/join", verifyToken, authorizeRoles("student"), joinMentorGroup);
+router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
+router.get("/knowledge-library", verifyToken, authorizeRoles("student", "mentor"), getKnowledgeLibrary);
+router.get("/reputation-summary", verifyToken, authorizeRoles("student", "mentor"), getReputationSummary);
 
 module.exports = router;

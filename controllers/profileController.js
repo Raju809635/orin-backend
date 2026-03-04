@@ -201,3 +201,27 @@ exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {
     profile
   });
 });
+
+exports.getPublicUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findOne({
+    _id: req.params.userId,
+    isDeleted: false
+  }).select("name email role approvalStatus primaryCategory subCategory specializations createdAt");
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  let profile = null;
+  if (user.role === "mentor") {
+    profile = await MentorProfile.findOne({ userId: user._id }).lean();
+  } else {
+    profile = await StudentProfile.findOne({ userId: user._id }).lean();
+  }
+
+  res.json({
+    user: {
+      ...user.toObject(),
+      status: user.approvalStatus
+    },
+    profile
+  });
+});

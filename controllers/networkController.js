@@ -13,6 +13,10 @@ const Session = require("../models/Session");
 const MentorReview = require("../models/MentorReview");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const MentorLiveSession = require("../models/MentorLiveSession");
+const CommunityChallenge = require("../models/CommunityChallenge");
+const OrinCertification = require("../models/OrinCertification");
+const MentorGroup = require("../models/MentorGroup");
+const KnowledgeResource = require("../models/KnowledgeResource");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
 const ApiError = require("../utils/ApiError");
@@ -105,6 +109,53 @@ function getRoadmapForGoal(goal = "") {
     "Hands-on Projects",
     "Interview and Communication Practice",
     "Portfolio and Application Strategy"
+  ];
+}
+
+function getRequiredSkillsForGoal(goal = "") {
+  const normalized = normalizeText(goal);
+
+  if (/(ai|ml|machine learning|data scientist|deep learning)/i.test(normalized)) {
+    return ["Python", "Machine Learning", "Deep Learning", "MLOps", "Statistics", "Data Structures"];
+  }
+  if (/(web|frontend|backend|full stack|react|node)/i.test(normalized)) {
+    return ["HTML", "CSS", "JavaScript", "React", "Node.js", "Databases", "APIs"];
+  }
+  if (/(cyber|security|ethical hacking|soc)/i.test(normalized)) {
+    return ["Networking", "Linux", "Web Security", "Cryptography", "Incident Response"];
+  }
+  if (/(upsc|civil services)/i.test(normalized)) {
+    return ["Polity", "Economy", "Geography", "History", "Ethics", "Current Affairs"];
+  }
+
+  return ["Communication", "Problem Solving", "Domain Fundamentals", "Projects", "Interview Preparation"];
+}
+
+function getProjectIdeasForGoal(goal = "") {
+  const normalized = normalizeText(goal);
+  if (/(ai|ml|machine learning|data scientist|deep learning)/i.test(normalized)) {
+    return [
+      "Gesture Controlled Game",
+      "AI Resume Analyzer",
+      "Face Recognition Attendance",
+      "Student Performance Predictor",
+      "Document Q&A Assistant"
+    ];
+  }
+  if (/(web|frontend|backend|full stack|react|node)/i.test(normalized)) {
+    return [
+      "Mentor Booking Platform",
+      "Realtime Group Chat App",
+      "Portfolio Builder",
+      "Task Management SaaS",
+      "Campus Events Web App"
+    ];
+  }
+  return [
+    "Career Roadmap Tracker",
+    "Skill Gap Analyzer Tool",
+    "Peer Learning Community App",
+    "Interview Prep Quiz App"
   ];
 }
 
@@ -341,6 +392,14 @@ exports.toggleFollow = asyncHandler(async (req, res) => {
   }
 
   await UserFollow.create({ followerId, followingId: userId });
+  await Notification.create({
+    title: "New Follower",
+    message: "Someone started following you on ORIN.",
+    type: "direct",
+    sentBy: followerId,
+    targetRole: "all",
+    recipient: userId
+  });
   return res.json({ following: true });
 });
 
@@ -1283,5 +1342,316 @@ exports.generateResume = asyncHandler(async (req, res) => {
       fileName: `${String(payload.basics.name || "orin_resume").replace(/\s+/g, "_")}.md`,
       mimeType: "text/markdown"
     }
+  });
+});
+
+exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const studentProfile = await StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean();
+  const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
+
+  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+  const requiredSkills = getRequiredSkillsForGoal(goal);
+  const currentSkills = (studentProfile?.skills || []).map((item) => String(item).trim()).filter(Boolean);
+  const currentTokens = new Set(currentSkills.map((item) => normalizeText(item)));
+  const missingSkills = requiredSkills.filter((skill) => !currentTokens.has(normalizeText(skill)));
+
+  const mentorProfiles = await MentorProfile.find({})
+    .populate("userId", "name approvalStatus role isDeleted")
+    .sort({ rating: -1, totalSessionsConducted: -1 })
+    .limit(80)
+    .lean();
+  const recommendedMentors = mentorProfiles
+    .filter((item) => item.userId?.role === "mentor" && item.userId?.approvalStatus === "approved" && item.userId?.isDeleted !== true)
+    .map((item) => {
+      const signals = uniqueTokens([
+        item.primaryCategory,
+        item.subCategory,
+        ...(item.specializations || []),
+        ...(item.expertiseDomains || [])
+      ]);
+      let score = 0;
+      missingSkills.forEach((skill) => {
+        if (signals.has(normalizeText(skill))) score += 1;
+      });
+      return {
+        mentorId: item.userId?._id,
+        name: item.userId?.name || "Mentor",
+        rating: Number(item.rating || 0),
+        verifiedBadge: Boolean(item.verifiedBadge),
+        score
+      };
+    })
+    .sort((a, b) => b.score - a.score || b.rating - a.rating)
+    .slice(0, 6);
+
+  const projectIdeas = getProjectIdeasForGoal(goal).slice(0, 5);
+  const roadmapSteps = getRoadmapForGoal(goal).slice(0, 5);
+
+  res.json({
+    goal,
+    currentSkills,
+    missingSkills,
+    suggestions: {
+      mentors: recommendedMentors,
+      courses: missingSkills.map((skill) => `${skill} Fundamentals`),
+      projects: projectIdeas,
+      roadmapUpdates: roadmapSteps
+    }
+  });
+});
+
+exports.getVerifiedMentors = asyncHandler(async (_req, res) => {
+  const mentors = await MentorProfile.find({ verifiedBadge: true })
+    .populate("userId", "name role approvalStatus isDeleted")
+    .sort({ rating: -1, totalSessionsConducted: -1, updatedAt: -1 })
+    .limit(60)
+    .lean();
+
+  const rows = mentors
+    .filter((item) => item.userId?.role === "mentor" && item.userId?.approvalStatus === "approved" && item.userId?.isDeleted !== true)
+    .map((item) => ({
+      mentorId: item.userId?._id,
+      name: item.userId?.name || "Mentor",
+      title: item.title || "Mentor",
+      company: item.company || "",
+      rating: Number(item.rating || 0),
+      totalSessionsConducted: Number(item.totalSessionsConducted || 0),
+      verifiedBadge: true,
+      profilePhotoUrl: item.profilePhotoUrl || "",
+      primaryCategory: item.primaryCategory || "",
+      subCategory: item.subCategory || ""
+    }));
+
+  res.json(rows);
+});
+
+exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
+  let challenges = await CommunityChallenge.find({ isActive: true })
+    .sort({ deadline: 1, createdAt: -1 })
+    .limit(40)
+    .lean();
+
+  if (!challenges.length) {
+    challenges = [
+      {
+        _id: "seed-challenge-ai",
+        title: "AI Challenge - Build Image Classifier",
+        domain: "AI & Machine Learning",
+        description: "Build and submit an image classifier project.",
+        deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        participants: new Array(320).fill(""),
+        topParticipants: []
+      }
+    ];
+  }
+
+  res.json(
+    challenges.map((item) => ({
+      id: item._id,
+      title: item.title,
+      domain: item.domain,
+      description: item.description,
+      deadline: item.deadline,
+      participantsCount: (item.participants || []).length,
+      topParticipants: item.topParticipants || []
+    }))
+  );
+});
+
+exports.joinCommunityChallenge = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  const userId = req.user.id;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challengeId");
+
+  const challenge = await CommunityChallenge.findOne({ _id: challengeId, isActive: true });
+  if (!challenge) throw new ApiError(404, "Challenge not found");
+
+  const already = challenge.participants.some((id) => String(id) === String(userId));
+  if (!already) {
+    challenge.participants.push(userId);
+    await challenge.save();
+  }
+
+  await applyReputationDelta(userId, { dailyChallenges: 1 });
+
+  res.json({ message: "Challenge joined", participantsCount: challenge.participants.length });
+});
+
+exports.getOrinCertifications = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const [certs, profile] = await Promise.all([
+    OrinCertification.find({ userId }).sort({ issuedAt: -1 }).limit(60).lean(),
+    StudentProfile.findOne({ userId }).select("certifications").lean()
+  ]);
+
+  const profileCerts = (profile?.certifications || []).map((title, idx) => ({
+    id: `profile-${idx}`,
+    title: String(title),
+    level: "Profile",
+    domain: "",
+    issuedAt: null,
+    source: "Profile"
+  }));
+
+  res.json([
+    ...certs.map((item) => ({
+      id: item._id,
+      title: item.title,
+      level: item.level,
+      domain: item.domain,
+      issuedAt: item.issuedAt,
+      source: item.source
+    })),
+    ...profileCerts
+  ]);
+});
+
+exports.getMentorGroups = asyncHandler(async (_req, res) => {
+  let groups = await MentorGroup.find({ isActive: true })
+    .populate("mentorId", "name role approvalStatus isDeleted")
+    .sort({ updatedAt: -1 })
+    .limit(60)
+    .lean();
+
+  if (!groups.length) {
+    groups = [
+      {
+        _id: "seed-group-ai",
+        mentorId: { _id: null, name: "Google ML Engineer", role: "mentor", approvalStatus: "approved", isDeleted: false },
+        name: "AI Beginners",
+        domain: "AI & Machine Learning",
+        description: "Weekly learning group for AI basics.",
+        maxStudents: 50,
+        memberIds: [],
+        schedule: "Weekly sessions",
+        isActive: true
+      }
+    ];
+  }
+
+  res.json(
+    groups
+      .filter((item) => !item.mentorId || (item.mentorId.role === "mentor" && item.mentorId.approvalStatus === "approved" && item.mentorId.isDeleted !== true))
+      .map((item) => ({
+        id: item._id,
+        name: item.name,
+        domain: item.domain,
+        description: item.description,
+        mentor: {
+          id: item.mentorId?._id || null,
+          name: item.mentorId?.name || "Mentor"
+        },
+        maxStudents: item.maxStudents || 0,
+        membersCount: (item.memberIds || []).length,
+        schedule: item.schedule || "Weekly sessions"
+      }))
+  );
+});
+
+exports.joinMentorGroup = asyncHandler(async (req, res) => {
+  const { groupId } = req.params;
+  const userId = req.user.id;
+  if (!mongoose.Types.ObjectId.isValid(groupId)) throw new ApiError(400, "Invalid groupId");
+
+  const group = await MentorGroup.findOne({ _id: groupId, isActive: true });
+  if (!group) throw new ApiError(404, "Group not found");
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can join groups");
+
+  const already = group.memberIds.some((id) => String(id) === String(userId));
+  if (!already) {
+    if (group.maxStudents > 0 && group.memberIds.length >= group.maxStudents) {
+      throw new ApiError(400, "Group is full");
+    }
+    group.memberIds.push(userId);
+    await group.save();
+  }
+
+  await applyReputationDelta(userId, { activityPosts: 1 });
+  res.json({ message: "Joined mentor group", membersCount: group.memberIds.length });
+});
+
+exports.getProjectIdeas = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const profile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
+  const user = await User.findById(userId).select("goals primaryCategory").lean();
+  const goal = String(req.query.goal || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+
+  res.json({
+    goal,
+    ideas: getProjectIdeasForGoal(goal).map((title) => ({
+      title,
+      level: "Intermediate",
+      tags: tokenize(goal).slice(0, 3)
+    }))
+  });
+});
+
+exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
+  const queryDomain = String(req.query.domain || "").trim();
+  let resources = await KnowledgeResource.find({
+    isActive: true,
+    ...(queryDomain ? { domain: queryDomain } : {})
+  })
+    .sort({ updatedAt: -1 })
+    .limit(100)
+    .lean();
+
+  if (!resources.length) {
+    resources = [
+      {
+        _id: "seed-lib-1",
+        domain: queryDomain || "AI & Machine Learning",
+        type: "interview_questions",
+        title: "Top 50 AI Interview Questions",
+        description: "Core ML, DL, and model deployment interview Q&A.",
+        url: ""
+      },
+      {
+        _id: "seed-lib-2",
+        domain: queryDomain || "Web Development",
+        type: "coding_resource",
+        title: "Full Stack Coding Resource Pack",
+        description: "Practice links, project references, and interview prep.",
+        url: ""
+      },
+      {
+        _id: "seed-lib-3",
+        domain: queryDomain || "Career",
+        type: "career_guide",
+        title: "Career Growth Guide",
+        description: "How to choose skills, projects, and mentorship path.",
+        url: ""
+      }
+    ];
+  }
+
+  res.json(
+    resources.map((item) => ({
+      id: item._id,
+      domain: item.domain || "",
+      type: item.type,
+      title: item.title,
+      description: item.description || "",
+      url: item.url || ""
+    }))
+  );
+});
+
+exports.getReputationSummary = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const [rep, globalSnapshot] = await Promise.all([
+    ensureReputation(userId),
+    LeaderboardSnapshot.findOne({ dateKey: toDateKey(), scope: "global", collegeName: "" }).lean()
+  ]);
+  const total = (globalSnapshot?.entries || []).length || 1;
+  const myRank = (globalSnapshot?.entries || []).find((item) => String(item.userId) === String(userId))?.rank || total;
+  const percentile = Math.max(1, Math.round((myRank / total) * 100));
+
+  res.json({
+    score: rep.score,
+    levelTag: rep.levelTag,
+    topPercent: percentile,
+    breakdown: rep.breakdown
   });
 });
