@@ -1,6 +1,8 @@
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
 const User = require("../models/User");
+const Connection = require("../models/Connection");
+const UserFollow = require("../models/UserFollow");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
@@ -217,11 +219,80 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
     profile = await StudentProfile.findOne({ userId: user._id }).lean();
   }
 
+  const viewerId = String(req.user?.id || "");
+  const targetUserId = String(user._id);
+
+  const [followers, following, acceptedConnections, isFollowing, followsYou, relation, followerRows, followingRows] =
+    await Promise.all([
+      UserFollow.countDocuments({ followingId: user._id }),
+      UserFollow.countDocuments({ followerId: user._id }),
+      Connection.countDocuments({
+        status: "accepted",
+        $or: [{ requesterId: user._id }, { recipientId: user._id }]
+      }),
+      viewerId && viewerId !== targetUserId
+        ? UserFollow.exists({ followerId: viewerId, followingId: user._id })
+        : null,
+      viewerId && viewerId !== targetUserId
+        ? UserFollow.exists({ followerId: user._id, followingId: viewerId })
+        : null,
+      viewerId && viewerId !== targetUserId
+        ? Connection.findOne({
+            $or: [
+              { requesterId: viewerId, recipientId: user._id },
+              { requesterId: user._id, recipientId: viewerId }
+            ]
+          })
+            .select("_id requesterId recipientId status")
+            .lean()
+        : null,
+      UserFollow.find({ followingId: user._id })
+        .populate("followerId", "name role")
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .lean(),
+      UserFollow.find({ followerId: user._id })
+        .populate("followingId", "name role")
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .lean()
+    ]);
+
+  let connectionStatus = "none";
+  if (relation) {
+    if (relation.status === "accepted") {
+      connectionStatus = "accepted";
+    } else if (relation.status === "pending") {
+      connectionStatus = String(relation.requesterId) === viewerId ? "pending_outgoing" : "pending_incoming";
+    } else {
+      connectionStatus = relation.status;
+    }
+  }
+
   res.json({
     user: {
       ...user.toObject(),
       status: user.approvalStatus
     },
-    profile
+    profile,
+    social: {
+      followers,
+      following,
+      connections: acceptedConnections,
+      isFollowing: !!isFollowing,
+      followsYou: !!followsYou,
+      connectionStatus,
+      connectionId: relation?._id ? String(relation._id) : null
+    },
+    socialPreview: {
+      followers: (followerRows || [])
+        .map((item) => item.followerId)
+        .filter(Boolean)
+        .map((row) => ({ _id: row._id, name: row.name, role: row.role })),
+      following: (followingRows || [])
+        .map((item) => item.followingId)
+        .filter(Boolean)
+        .map((row) => ({ _id: row._id, name: row.name, role: row.role }))
+    }
   });
 });
