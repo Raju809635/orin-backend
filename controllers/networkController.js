@@ -350,6 +350,22 @@ exports.createPost = asyncHandler(async (req, res) => {
   res.status(201).json(post);
 });
 
+exports.deletePost = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) throw new ApiError(400, "Invalid post id");
+
+  const post = await FeedPost.findById(postId);
+  if (!post) throw new ApiError(404, "Post not found");
+  if (String(post.authorId) !== String(userId)) throw new ApiError(403, "You can delete only your own posts");
+
+  await FeedComment.deleteMany({ postId });
+  await post.deleteOne();
+
+  res.json({ message: "Post deleted successfully" });
+});
+
 exports.addComment = asyncHandler(async (req, res) => {
   const authorId = req.user.id;
   const { postId } = req.params;
