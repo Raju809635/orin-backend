@@ -1,19 +1,38 @@
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
-const { newsApiBaseUrl, newsApiKey } = require("../config/env");
+const { newsApiBaseUrl, newsApiKey, newsTranslateApiUrl, newsTranslateApiKey } = require("../config/env");
 
 const NEWS_CACHE_TTL_MS = 10 * 60 * 1000;
+const MIN_NATIVE_ARTICLES = 4;
 const newsCache = new Map();
 
-const CATEGORY_QUERIES = {
-  tech: { endpoint: "everything", q: "technology India", sortBy: "publishedAt" },
-  edtech: { endpoint: "everything", q: "edtech India students", sortBy: "publishedAt" },
-  exams: { endpoint: "everything", q: "government exams india", sortBy: "publishedAt" },
-  scholarships: { endpoint: "everything", q: "scholarship students india", sortBy: "publishedAt" },
-  opportunities: { endpoint: "everything", q: "internship opportunities students india", sortBy: "publishedAt" }
+const SUPPORTED_LANGUAGES = {
+  en: "English",
+  hi: "Hindi",
+  te: "Telugu",
+  ta: "Tamil",
+  ml: "Malayalam",
+  kn: "Kannada"
 };
 
-function buildNewsUrl(categoryKey, pageSize = 8) {
+const CATEGORY_QUERIES = {
+  tech: { endpoint: "everything", q: "technology", sortBy: "publishedAt", label: "Tech News" },
+  edtech: { endpoint: "everything", q: "education technology", sortBy: "publishedAt", label: "EdTech News" },
+  exams: { endpoint: "everything", q: "government exams india", sortBy: "publishedAt", label: "Government Exam Updates" },
+  scholarships: { endpoint: "everything", q: "student scholarships", sortBy: "publishedAt", label: "Scholarship Alerts" },
+  opportunities: { endpoint: "everything", q: "student internships", sortBy: "publishedAt", label: "Internship Opportunities" }
+};
+
+function getSafeLimit(limit) {
+  return Math.min(Math.max(Number(limit) || 8, 5), 10);
+}
+
+function getLanguageOrDefault(language) {
+  const normalized = String(language || "en").toLowerCase();
+  return SUPPORTED_LANGUAGES[normalized] ? normalized : "en";
+}
+
+function buildNewsUrl(categoryKey, language = "en", pageSize = 8) {
   const query = CATEGORY_QUERIES[categoryKey];
   if (!query) {
     throw new ApiError(400, "Unsupported news category");
@@ -21,8 +40,8 @@ function buildNewsUrl(categoryKey, pageSize = 8) {
 
   const url = new URL(`${newsApiBaseUrl}/${query.endpoint}`);
   url.searchParams.set("q", query.q);
-  url.searchParams.set("language", "en");
-  url.searchParams.set("pageSize", String(Math.min(Math.max(Number(pageSize) || 8, 5), 10)));
+  url.searchParams.set("language", language);
+  url.searchParams.set("pageSize", String(getSafeLimit(pageSize)));
   if (query.sortBy) {
     url.searchParams.set("sortBy", query.sortBy);
   }
@@ -41,8 +60,68 @@ function normalizeArticle(article) {
   };
 }
 
-async function fetchCategoryNews(categoryKey, pageSize) {
-  const cacheKey = `${categoryKey}:${pageSize || 8}`;
+async function fetchRawArticles(categoryKey, language, pageSize) {
+  const response = await fetch(buildNewsUrl(categoryKey, language, pageSize));
+  if (!response.ok) {
+    throw new ApiError(response.status, "Failed to fetch news");
+  }
+  const payload = await response.json();
+  return Array.isArray(payload?.articles) ? payload.articles.map(normalizeArticle) : [];
+}
+
+async function translateText(text, targetLanguage) {
+  if (!text || !newsTranslateApiUrl) return text || "";
+
+  try {
+    const body = {
+      q: text,
+      source: "en",
+      target: targetLanguage,
+      format: "text"
+    };
+    if (newsTranslateApiKey) {
+      body.api_key = newsTranslateApiKey;
+    }
+
+    const response = await fetch(newsTranslateApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) return text;
+    const result = await response.json();
+    return result?.translatedText || text;
+  } catch {
+    return text;
+  }
+}
+
+async function translateArticles(articles, targetLanguage) {
+  if (targetLanguage === "en") return articles;
+
+  const translated = await Promise.all(
+    articles.map(async (item) => {
+      const [title, description] = await Promise.all([
+        translateText(item.title, targetLanguage),
+        translateText(item.description, targetLanguage)
+      ]);
+      return {
+        ...item,
+        title,
+        description
+      };
+    })
+  );
+  return translated;
+}
+
+async function fetchCategoryNews(categoryKey, language, pageSize) {
+  const safeLanguage = getLanguageOrDefault(language);
+  const safeLimit = getSafeLimit(pageSize);
+  const cacheKey = `${categoryKey}:${safeLanguage}:${safeLimit}`;
   const now = Date.now();
   const cached = newsCache.get(cacheKey);
   if (cached && cached.expiresAt > now) {
@@ -53,15 +132,21 @@ async function fetchCategoryNews(categoryKey, pageSize) {
     throw new ApiError(500, "NEWS_API_KEY is not configured");
   }
 
-  const response = await fetch(buildNewsUrl(categoryKey, pageSize));
-  if (!response.ok) {
-    throw new ApiError(response.status, "Failed to fetch news");
+  let articles = await fetchRawArticles(categoryKey, safeLanguage, safeLimit);
+  let translatedFromEnglish = false;
+
+  if (safeLanguage !== "en" && articles.length < MIN_NATIVE_ARTICLES) {
+    const englishArticles = await fetchRawArticles(categoryKey, "en", safeLimit);
+    articles = newsTranslateApiUrl ? await translateArticles(englishArticles, safeLanguage) : englishArticles;
+    translatedFromEnglish = Boolean(newsTranslateApiUrl);
   }
 
-  const payload = await response.json();
-  const articles = Array.isArray(payload?.articles) ? payload.articles.map(normalizeArticle) : [];
   const data = {
     category: categoryKey,
+    categoryLabel: CATEGORY_QUERIES[categoryKey]?.label || categoryKey,
+    language: safeLanguage,
+    languageLabel: SUPPORTED_LANGUAGES[safeLanguage],
+    translatedFromEnglish,
     articles
   };
 
@@ -75,19 +160,40 @@ async function fetchCategoryNews(categoryKey, pageSize) {
 
 exports.getNewsCategories = asyncHandler(async (_req, res) => {
   res.json({
-    categories: [
-      { key: "tech", label: "Technology News" },
-      { key: "edtech", label: "EdTech News" },
-      { key: "exams", label: "Government Exam Updates" },
-      { key: "scholarships", label: "Scholarship Alerts" },
-      { key: "opportunities", label: "Internship Opportunities" }
-    ]
+    categories: Object.entries(CATEGORY_QUERIES).map(([key, value]) => ({
+      key,
+      label: value.label
+    })),
+    languages: Object.entries(SUPPORTED_LANGUAGES).map(([code, label]) => ({
+      code,
+      label
+    }))
   });
 });
 
 exports.getNewsByCategory = asyncHandler(async (req, res) => {
   const category = String(req.params.category || "").toLowerCase();
   const pageSize = Number(req.query.limit || 8);
-  const data = await fetchCategoryNews(category, pageSize);
+  const language = String(req.query.language || "en");
+  const data = await fetchCategoryNews(category, language, pageSize);
   res.json(data);
+});
+
+exports.getNewsBundle = asyncHandler(async (req, res) => {
+  const language = getLanguageOrDefault(req.query.language);
+  const limit = getSafeLimit(req.query.limit || 6);
+  const categoryKeys = Object.keys(CATEGORY_QUERIES);
+
+  const results = await Promise.all(
+    categoryKeys.map(async (categoryKey) => {
+      const data = await fetchCategoryNews(categoryKey, language, limit);
+      return [categoryKey, data];
+    })
+  );
+
+  res.json({
+    language,
+    languageLabel: SUPPORTED_LANGUAGES[language],
+    categories: Object.fromEntries(results)
+  });
 });

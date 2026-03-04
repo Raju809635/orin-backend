@@ -33,6 +33,8 @@ const envSchema = Joi.object({
   GEMINI_MODEL: Joi.string().default("gemini-1.5-flash"),
   NEWS_API_KEY: Joi.string().allow("").optional(),
   NEWS_API_BASE_URL: Joi.string().uri().default("https://newsapi.org/v2"),
+  NEWS_TRANSLATE_API_URL: Joi.string().uri().allow("").optional(),
+  NEWS_TRANSLATE_API_KEY: Joi.string().allow("").optional(),
   CORS_ORIGINS: Joi.string().allow("").optional()
 }).unknown(true);
 
@@ -83,5 +85,7 @@ module.exports = {
   geminiModel: value.GEMINI_MODEL || "gemini-1.5-flash",
   newsApiKey: value.NEWS_API_KEY || "",
   newsApiBaseUrl: value.NEWS_API_BASE_URL || "https://newsapi.org/v2",
+  newsTranslateApiUrl: value.NEWS_TRANSLATE_API_URL || "",
+  newsTranslateApiKey: value.NEWS_TRANSLATE_API_KEY || "",
   corsOrigins
 };
