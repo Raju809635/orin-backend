@@ -41,8 +41,11 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
     nextPayload.headline,
     nextPayload.about,
     nextPayload.education,
+    nextPayload.collegeName,
     nextPayload.skills,
     nextPayload.projects,
+    nextPayload.achievements,
+    nextPayload.experiences,
     nextPayload.certifications,
     nextPayload.careerGoals,
     nextPayload.resumeUrl

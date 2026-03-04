@@ -13,13 +13,40 @@ const studentProfileUpdateSchema = Joi.object({
       })
     )
     .optional(),
+  collegeName: Joi.string().max(160).allow("").optional(),
   skills: Joi.array().items(Joi.string()).optional(),
   projects: Joi.array()
     .items(
       Joi.object({
         name: Joi.string().allow(""),
         summary: Joi.string().allow(""),
-        link: Joi.string().allow("")
+        link: Joi.string().allow(""),
+        techStack: Joi.array().items(Joi.string()).optional(),
+        demoVideoUrl: Joi.string().allow("").optional(),
+        screenshots: Joi.array().items(Joi.string()).optional()
+      })
+    )
+    .optional(),
+  achievements: Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().allow(""),
+        type: Joi.string().allow(""),
+        issuer: Joi.string().allow(""),
+        date: Joi.string().allow(""),
+        description: Joi.string().allow(""),
+        url: Joi.string().allow("")
+      })
+    )
+    .optional(),
+  experiences: Joi.array()
+    .items(
+      Joi.object({
+        organization: Joi.string().allow(""),
+        role: Joi.string().allow(""),
+        startDate: Joi.string().allow(""),
+        endDate: Joi.string().allow(""),
+        description: Joi.string().allow("")
       })
     )
     .optional(),

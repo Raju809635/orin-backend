@@ -22,6 +22,7 @@ const chatRoutes = require("./routes/chatRoutes");
 const complaintRoutes = require("./routes/complaintRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const networkRoutes = require("./routes/networkRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -64,6 +65,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/network", networkRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -21,13 +21,18 @@ async function sendEmail({ to, subject, text, html }) {
     }
   });
 
-  await transporter.sendMail({
-    from: emailFrom,
-    to,
-    subject,
-    text,
-    html
-  });
+  try {
+    await transporter.sendMail({
+      from: emailFrom,
+      to,
+      subject,
+      text,
+      html
+    });
+  } catch (error) {
+    const reason = error?.response || error?.message || "Unknown email delivery error";
+    throw new Error(`EMAIL_DELIVERY_FAILED: ${reason}`);
+  }
 }
 
 module.exports = {

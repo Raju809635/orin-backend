@@ -15,9 +15,44 @@ const studentProfileSchema = new mongoose.Schema(
       type: [{ school: String, degree: String, year: String }],
       default: []
     },
+    collegeName: { type: String, default: "" },
     skills: { type: [String], default: [] },
     projects: {
-      type: [{ name: String, summary: String, link: String }],
+      type: [
+        {
+          name: String,
+          summary: String,
+          link: String,
+          techStack: { type: [String], default: [] },
+          demoVideoUrl: { type: String, default: "" },
+          screenshots: { type: [String], default: [] }
+        }
+      ],
+      default: []
+    },
+    achievements: {
+      type: [
+        {
+          title: String,
+          type: String,
+          issuer: String,
+          date: String,
+          description: String,
+          url: String
+        }
+      ],
+      default: []
+    },
+    experiences: {
+      type: [
+        {
+          organization: String,
+          role: String,
+          startDate: String,
+          endDate: String,
+          description: String
+        }
+      ],
       default: []
     },
     certifications: { type: [String], default: [] },

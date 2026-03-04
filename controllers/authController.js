@@ -16,7 +16,7 @@ const {
   verifyRefreshToken,
   buildPasswordResetToken
 } = require("../utils/authTokenService");
-const { passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
+const { env, passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
 
 async function persistRefreshToken({ user, refreshToken, req }) {
   const refreshTokenHash = hashToken(refreshToken);
@@ -65,15 +65,69 @@ async function sendVerificationOtpEmail(user, otp) {
 
 exports.register = asyncHandler(async (req, res) => {
   const { name, email, password, role, phoneNumber } = req.body;
+  const normalizedRole = role || "student";
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const otp = buildEmailOtpToken();
 
   const existingUser = await User.findOne({ email, isDeleted: { $ne: true } });
   if (existingUser) {
+    if (!existingUser.isEmailVerified) {
+      existingUser.name = name;
+      existingUser.password = hashedPassword;
+      existingUser.role = normalizedRole;
+      existingUser.phoneNumber = phoneNumber || "";
+      existingUser.approvalStatus = normalizedRole === "mentor" ? "pending" : "approved";
+      existingUser.emailVerificationOtpHash = otp.hash;
+      existingUser.emailVerificationOtpExpiresAt = otp.expiresAt;
+      existingUser.emailVerificationOtpSentAt = new Date();
+      existingUser.emailVerificationOtpAttempts = 0;
+      await existingUser.save();
+
+      if (normalizedRole === "student") {
+        await StudentProfile.updateOne(
+          { userId: existingUser._id },
+          { $setOnInsert: { userId: existingUser._id } },
+          { upsert: true }
+        );
+      }
+
+      if (normalizedRole === "mentor") {
+        await MentorProfile.updateOne(
+          { userId: existingUser._id },
+          {
+            $set: { phoneNumber: phoneNumber || "" },
+            $setOnInsert: { userId: existingUser._id }
+          },
+          { upsert: true }
+        );
+      }
+
+      let otpDispatched = true;
+      let otpDispatchError = "";
+      try {
+        await sendVerificationOtpEmail(existingUser, otp.raw);
+      } catch (error) {
+        otpDispatched = false;
+        otpDispatchError = error?.message || "OTP delivery failed";
+        console.error("[AUTH] OTP send failed for unverified existing user:", otpDispatchError);
+      }
+
+      return res.status(200).json({
+        message: otpDispatched
+          ? "Account already existed but was unverified. OTP has been resent."
+          : "Account exists and is unverified, but OTP email could not be sent. Please check SMTP setup and use Resend OTP.",
+        requiresEmailVerification: true,
+        email: existingUser.email,
+        role: existingUser.role,
+        otpDispatched,
+        otpDispatchError: otpDispatched ? "" : otpDispatchError,
+        otpExpiresAt: otp.expiresAt,
+        ...(env !== "production" && !otpDispatched ? { debugOtp: otp.raw } : {})
+      });
+    }
+
     throw new ApiError(409, "User already exists");
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const normalizedRole = role || "student";
-  const otp = buildEmailOtpToken();
 
   const user = new User({
     name,
@@ -103,14 +157,27 @@ exports.register = asyncHandler(async (req, res) => {
     });
   }
 
-  await sendVerificationOtpEmail(user, otp.raw);
+  let otpDispatched = true;
+  let otpDispatchError = "";
+  try {
+    await sendVerificationOtpEmail(user, otp.raw);
+  } catch (error) {
+    otpDispatched = false;
+    otpDispatchError = error?.message || "OTP delivery failed";
+    console.error("[AUTH] OTP send failed during register:", otpDispatchError);
+  }
 
   res.status(201).json({
-    message: "User registered. Verify your email with OTP.",
+    message: otpDispatched
+      ? "User registered. Verify your email with OTP."
+      : "User registered, but OTP email could not be sent. Fix SMTP config and tap Resend OTP.",
     requiresEmailVerification: true,
     email: user.email,
     role: user.role,
-    otpExpiresAt: otp.expiresAt
+    otpDispatched,
+    otpDispatchError: otpDispatched ? "" : otpDispatchError,
+    otpExpiresAt: otp.expiresAt,
+    ...(env !== "production" && !otpDispatched ? { debugOtp: otp.raw } : {})
   });
 
   await createAuditLog({
@@ -248,7 +315,12 @@ exports.resendEmailOtp = asyncHandler(async (req, res) => {
   user.emailVerificationOtpAttempts = 0;
   await user.save();
 
-  await sendVerificationOtpEmail(user, otp.raw);
+  try {
+    await sendVerificationOtpEmail(user, otp.raw);
+  } catch (error) {
+    const reason = error?.message || "OTP delivery failed";
+    throw new ApiError(502, `OTP sending failed. ${reason}`);
+  }
 
   res.status(200).json({
     message: "Verification OTP sent",
