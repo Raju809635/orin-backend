@@ -1,6 +1,13 @@
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
-const { newsApiBaseUrl, newsApiKey, newsTranslateApiUrl, newsTranslateApiKey } = require("../config/env");
+const {
+  newsApiBaseUrl,
+  newsApiKey,
+  newsDataApiBaseUrl,
+  newsDataApiKey,
+  newsTranslateApiUrl,
+  newsTranslateApiKey
+} = require("../config/env");
 
 const NEWS_CACHE_TTL_MS = 10 * 60 * 1000;
 const MIN_NATIVE_ARTICLES = 4;
@@ -52,6 +59,20 @@ function buildNewsUrl(categoryKey, language = "en", pageSize = 8) {
   return url.toString();
 }
 
+function buildNewsDataUrl(categoryKey, language = "en", pageSize = 8) {
+  const query = CATEGORY_QUERIES[categoryKey];
+  if (!query) {
+    throw new ApiError(400, "Unsupported news category");
+  }
+
+  const url = new URL(newsDataApiBaseUrl);
+  url.searchParams.set("apikey", newsDataApiKey);
+  url.searchParams.set("language", language);
+  url.searchParams.set("q", query.q);
+  url.searchParams.set("size", String(getSafeLimit(pageSize)));
+  return url.toString();
+}
+
 function normalizeArticle(article) {
   return {
     title: article?.title || "Untitled",
@@ -60,6 +81,17 @@ function normalizeArticle(article) {
     source: article?.source?.name || "Unknown",
     url: article?.url || "",
     publishedAt: article?.publishedAt || ""
+  };
+}
+
+function normalizeNewsDataArticle(article) {
+  return {
+    title: article?.title || "Untitled",
+    description: article?.description || article?.content || "",
+    imageUrl: article?.image_url || "",
+    source: article?.source_id || "Unknown",
+    url: article?.link || "",
+    publishedAt: article?.pubDate || ""
   };
 }
 
@@ -84,6 +116,14 @@ async function fetchRawArticles(categoryKey, language, pageSize) {
   }
   const payload = await response.json();
   return Array.isArray(payload?.articles) ? payload.articles.map(normalizeArticle) : [];
+}
+
+async function fetchRawArticlesFromNewsData(categoryKey, language, pageSize) {
+  if (!newsDataApiKey) return [];
+  const response = await fetchWithTimeout(buildNewsDataUrl(categoryKey, language, pageSize));
+  if (!response.ok) return [];
+  const payload = await response.json();
+  return Array.isArray(payload?.results) ? payload.results.map(normalizeNewsDataArticle) : [];
 }
 
 async function translateText(text, targetLanguage) {
@@ -179,7 +219,12 @@ async function fetchCategoryNews(categoryKey, language, pageSize) {
   let translatedFromEnglish = false;
 
   if (safeLanguage !== "en") {
-    if (!nativeLanguageSupported || articles.length < MIN_NATIVE_ARTICLES) {
+    // First try native-language articles from NewsData for Indian languages.
+    const nativeNewsDataArticles = await fetchRawArticlesFromNewsData(categoryKey, safeLanguage, safeLimit);
+    if (nativeNewsDataArticles.length >= MIN_NATIVE_ARTICLES) {
+      articles = nativeNewsDataArticles;
+      translatedFromEnglish = false;
+    } else if (!nativeLanguageSupported || articles.length < MIN_NATIVE_ARTICLES) {
       const englishArticles = await fetchRawArticles(categoryKey, "en", safeLimit);
       articles = newsTranslateApiUrl || newsTranslateApiKey
         ? await translateArticles(englishArticles, safeLanguage)
