@@ -31,6 +31,8 @@ const envSchema = Joi.object({
   OPENAI_MODEL: Joi.string().default("gpt-4o-mini"),
   GEMINI_API_KEY: Joi.string().min(20).allow("").optional(),
   GEMINI_MODEL: Joi.string().default("gemini-1.5-flash"),
+  NEWS_API_KEY: Joi.string().allow("").optional(),
+  NEWS_API_BASE_URL: Joi.string().uri().default("https://newsapi.org/v2"),
   CORS_ORIGINS: Joi.string().allow("").optional()
 }).unknown(true);
 
@@ -79,5 +81,7 @@ module.exports = {
   openaiModel: value.OPENAI_MODEL || "gpt-4o-mini",
   geminiApiKey: value.GEMINI_API_KEY,
   geminiModel: value.GEMINI_MODEL || "gemini-1.5-flash",
+  newsApiKey: value.NEWS_API_KEY || "",
+  newsApiBaseUrl: value.NEWS_API_BASE_URL || "https://newsapi.org/v2",
   corsOrigins
 };
