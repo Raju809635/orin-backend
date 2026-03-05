@@ -5,7 +5,6 @@ const FeedPost = require("../models/FeedPost");
 const FeedComment = require("../models/FeedComment");
 const SkillEndorsement = require("../models/SkillEndorsement");
 const ReputationScore = require("../models/ReputationScore");
-const DailyTaskProgress = require("../models/DailyTaskProgress");
 const LeaderboardSnapshot = require("../models/LeaderboardSnapshot");
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
@@ -17,17 +16,28 @@ const CommunityChallenge = require("../models/CommunityChallenge");
 const OrinCertification = require("../models/OrinCertification");
 const MentorGroup = require("../models/MentorGroup");
 const KnowledgeResource = require("../models/KnowledgeResource");
+const UserSkillLevel = require("../models/UserSkillLevel");
+const QuizStreak = require("../models/QuizStreak");
+const QuizAttempt = require("../models/QuizAttempt");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { mentorCategoryTree } = require("../config/mentorCategories");
 
-const DAILY_TASKS = [
-  { key: "coding_problem", title: "Solve 1 coding problem", xp: 20 },
-  { key: "career_tip", title: "Read 1 career tip", xp: 15 },
-  { key: "resume_bullet", title: "Update 1 resume bullet", xp: 20 },
-  { key: "domain_concept", title: "Explore 1 domain concept", xp: 15 }
-];
+const QUIZ_XP_BY_SCORE = {
+  1: 10,
+  2: 20,
+  3: 30,
+  4: 40,
+  5: 50
+};
+const STREAK_BONUS_XP = {
+  3: 20,
+  7: 50,
+  30: 200
+};
+const QUIZ_DAILY_LIMIT_MESSAGE = "You have completed today's quiz. Come back tomorrow.";
 const REACTION_TYPES = ["like", "love", "care", "haha", "wow", "sad", "angry"];
 
 function toDateKey(date = new Date()) {
@@ -157,6 +167,234 @@ function getProjectIdeasForGoal(goal = "") {
     "Peer Learning Community App",
     "Interview Prep Quiz App"
   ];
+}
+
+function normalizedLevelFromScore(skillScore) {
+  if (skillScore < 30) return "Easy";
+  if (skillScore < 70) return "Medium";
+  return "Hard";
+}
+
+function domainFromProfile({ user, profile }) {
+  const preferred =
+    user?.primaryCategory ||
+    (Array.isArray(user?.interestedCategories) ? user.interestedCategories[0] : "") ||
+    profile?.careerGoals ||
+    "Technology & AI";
+  const domainOptions = Object.keys(mentorCategoryTree || {});
+  const direct = domainOptions.find((item) => normalizeText(item) === normalizeText(preferred));
+  if (direct) return direct;
+  const fuzzy = domainOptions.find((item) => normalizeText(preferred).includes(normalizeText(item)));
+  return fuzzy || "Technology & AI";
+}
+
+function domainSkills(domain) {
+  const subMap = mentorCategoryTree[domain] || {};
+  const seen = new Set();
+  const skills = [];
+  Object.entries(subMap).forEach(([sub, specs]) => {
+    seen.add(sub);
+    skills.push(sub);
+    (specs || []).forEach((spec) => {
+      if (!seen.has(spec)) {
+        seen.add(spec);
+        skills.push(spec);
+      }
+    });
+  });
+  return skills.slice(0, 12);
+}
+
+function buildQuestionTemplates(skill, domain) {
+  const safeSkill = skill || "Core Concepts";
+  const safeDomain = domain || "General";
+  return {
+    easy: [
+      {
+        question: `Which option is most closely related to ${safeSkill} basics in ${safeDomain}?`,
+        options: [
+          `${safeSkill} fundamentals`,
+          "Unrelated memorization only",
+          "Ignoring core concepts",
+          "Skipping practice"
+        ],
+        correctOption: `${safeSkill} fundamentals`,
+        explanation: `${safeSkill} fundamentals build confidence before advanced topics.`
+      },
+      {
+        question: `For beginners in ${safeSkill}, what should be done first?`,
+        options: [
+          "Start with foundational concepts",
+          "Only solve advanced tests",
+          "Avoid revision",
+          "Ignore feedback"
+        ],
+        correctOption: "Start with foundational concepts",
+        explanation: "Starting with fundamentals gives a base for adaptive progression."
+      }
+    ],
+    medium: [
+      {
+        question: `In ${safeSkill}, what improves consistency most for students?`,
+        options: [
+          "Structured weekly practice",
+          "Random learning without goals",
+          "Skipping weak areas",
+          "Only watching videos"
+        ],
+        correctOption: "Structured weekly practice",
+        explanation: "Planned practice improves retention and measurable progress."
+      },
+      {
+        question: `What is the best way to improve ${safeSkill} for career growth?`,
+        options: [
+          "Build mini projects and review mistakes",
+          "Only read theory once",
+          "Avoid mentor feedback",
+          "Change domains daily"
+        ],
+        correctOption: "Build mini projects and review mistakes",
+        explanation: "Project-based learning plus feedback closes practical skill gaps."
+      }
+    ],
+    hard: [
+      {
+        question: `Which strategy best demonstrates advanced ${safeSkill} capability?`,
+        options: [
+          "Apply concepts to real scenarios and optimize decisions",
+          "Copy results without understanding",
+          "Ignore constraints",
+          "Skip performance analysis"
+        ],
+        correctOption: "Apply concepts to real scenarios and optimize decisions",
+        explanation: "Advanced learners must apply and optimize under real constraints."
+      },
+      {
+        question: `When performance drops in ${safeSkill}, what is the strongest corrective step?`,
+        options: [
+          "Analyze weak signals and redesign practice plan",
+          "Keep repeating same mistakes",
+          "Remove all fundamentals",
+          "Avoid checkpoints"
+        ],
+        correctOption: "Analyze weak signals and redesign practice plan",
+        explanation: "Diagnosis + targeted redesign is the fastest route to improvement."
+      }
+    ]
+  };
+}
+
+function generateQuestionPool({ domain, skills }) {
+  const chosenSkills = (skills || []).slice(0, 6);
+  const pool = [];
+  chosenSkills.forEach((skill) => {
+    const templates = buildQuestionTemplates(skill, domain);
+    ["easy", "medium", "hard"].forEach((difficulty) => {
+      const list = templates[difficulty] || [];
+      list.forEach((item, idx) => {
+        pool.push({
+          id: `${normalizeText(domain)}-${normalizeText(skill)}-${difficulty}-${idx + 1}`,
+          question: item.question,
+          options: item.options,
+          correct: item.correctOption,
+          difficulty,
+          explanation: item.explanation,
+          skill
+        });
+      });
+    });
+  });
+  return pool;
+}
+
+async function upsertUserSkill(userId, domain, skillName, isCorrect) {
+  const row = await UserSkillLevel.findOneAndUpdate(
+    { userId, domain, skillName },
+    {
+      $setOnInsert: {
+        userId,
+        domain,
+        skillName,
+        skillScore: 50,
+        level: "Medium"
+      }
+    },
+    { upsert: true, new: true }
+  );
+
+  const delta = isCorrect ? 5 : -2;
+  const nextScore = Math.max(0, Math.min(100, Number(row.skillScore || 50) + delta));
+  row.skillScore = nextScore;
+  row.level = normalizedLevelFromScore(nextScore);
+  row.lastUpdated = new Date();
+  await row.save();
+  return row;
+}
+
+async function updateQuizStreak(userId, dateKey) {
+  const streak = (await QuizStreak.findOne({ userId })) || (await QuizStreak.create({ userId, currentStreak: 0, lastQuizDate: "" }));
+  if (streak.lastQuizDate === dateKey) {
+    return streak;
+  }
+
+  let next = 1;
+  if (streak.lastQuizDate) {
+    const last = new Date(`${streak.lastQuizDate}T00:00:00.000Z`);
+    const current = new Date(`${dateKey}T00:00:00.000Z`);
+    const diffDays = Math.round((current.getTime() - last.getTime()) / 86400000);
+    next = diffDays === 1 ? streak.currentStreak + 1 : 1;
+  }
+  streak.currentStreak = next;
+  streak.lastQuizDate = dateKey;
+  await streak.save();
+  return streak;
+}
+
+async function buildSkillRadar(userId, domain) {
+  const rows = await UserSkillLevel.find({ userId, domain }).sort({ updatedAt: -1 }).limit(6).lean();
+  return {
+    domain,
+    skills: rows.map((row) => ({
+      name: row.skillName,
+      score: Math.max(0, Math.min(100, Number(row.skillScore || 0)))
+    }))
+  };
+}
+
+async function buildWeakSkillMentorRecommendations(domain, weakSkills = []) {
+  if (!weakSkills.length) return [];
+  const weakTokens = weakSkills.map((item) => normalizeText(item)).filter(Boolean);
+  const mentors = await User.find({
+    role: "mentor",
+    approvalStatus: "approved",
+    isDeleted: false,
+    $or: [
+      { primaryCategory: domain },
+      { specializations: { $in: weakSkills } }
+    ]
+  })
+    .select("name primaryCategory subCategory specializations")
+    .limit(25)
+    .lean();
+
+  return mentors
+    .map((mentor) => {
+      const mentorTags = uniqueTokens([
+        mentor.primaryCategory,
+        mentor.subCategory,
+        ...(mentor.specializations || [])
+      ]);
+      const overlap = weakTokens.filter((token) => mentorTags.has(token)).length;
+      return {
+        mentorId: mentor._id,
+        name: mentor.name,
+        expertise: mentor.specializations || [],
+        matchScore: overlap * 30 + (mentor.primaryCategory === domain ? 20 : 0)
+      };
+    })
+    .filter((item) => item.matchScore > 0)
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .slice(0, 5);
 }
 
 function toFeedResponse(post, userId, comments = []) {
@@ -660,15 +898,14 @@ exports.endorseSkill = asyncHandler(async (req, res) => {
 exports.getDailyDashboard = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const dateKey = toDateKey();
-
-  const [progressRows, reputation, profile] = await Promise.all([
-    DailyTaskProgress.find({ userId, dateKey }).lean(),
+  const [reputation, profile, userDoc, todayAttempt, streak] = await Promise.all([
     ensureReputation(userId),
-    StudentProfile.findOne({ userId }).select("collegeName").lean()
+    StudentProfile.findOne({ userId }).select("collegeName careerGoals skills").lean(),
+    User.findById(userId).select("primaryCategory interestedCategories").lean(),
+    QuizAttempt.findOne({ userId, dateKey }).lean(),
+    QuizStreak.findOne({ userId }).lean()
   ]);
-
-  const completedKeys = new Set(progressRows.map((item) => item.taskKey));
-  const totalXpToday = progressRows.reduce((sum, item) => sum + (item.xpEarned || 0), 0);
+  const domain = domainFromProfile({ user: userDoc, profile });
 
   await upsertLeaderboardForToday({ collegeName: profile?.collegeName || "" });
 
@@ -684,18 +921,53 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
   const collegeRank =
     collegeSnapshot?.entries.find((item) => String(item.userId) === String(userId))?.rank || null;
 
-  const tasks = DAILY_TASKS.map((task) => ({
-    ...task,
-    completed: completedKeys.has(task.key)
-  }));
+  const skillRadar = await buildSkillRadar(userId, domain);
+  const sortedSkills = [...(skillRadar.skills || [])].sort((a, b) => b.score - a.score);
+  const strength = sortedSkills[0]?.name || "Consistent Learning";
+  const weakSkills = sortedSkills.filter((item) => item.score < 60).map((item) => item.name).slice(0, 3);
+  const mentorRecommendations = await buildWeakSkillMentorRecommendations(domain, weakSkills);
+  const trendingOpportunity = await CareerOpportunity.findOne({ isActive: true }).sort({ updatedAt: -1 }).lean();
 
   res.json({
     dateKey,
-    tasks,
-    streakDays: Math.min(30, Math.floor(reputation.breakdown.dailyChallenges / 2)),
-    xp: totalXpToday,
+    tasks: [],
+    streakDays: streak?.currentStreak || 0,
+    xp: todayAttempt?.xpAwarded || 0,
     levelTag: reputation.levelTag,
     reputationScore: reputation.score,
+    dailyQuiz: {
+      completedToday: Boolean(todayAttempt),
+      domain,
+      attemptsLeft: todayAttempt ? 0 : 1,
+      message: todayAttempt ? QUIZ_DAILY_LIMIT_MESSAGE : "Complete today's adaptive quiz to earn XP.",
+      result: todayAttempt
+        ? {
+            score: todayAttempt.score,
+            totalQuestions: todayAttempt.totalQuestions || 5,
+            xpEarned: todayAttempt.xpAwarded || 0,
+            streak: todayAttempt.streakAfter || streak?.currentStreak || 0
+          }
+        : null
+    },
+    skillRadar,
+    careerIntelligence: todayAttempt
+      ? {
+          strength,
+          needsImprovement: weakSkills,
+          mentorRecommendations,
+          recommendedNextStep:
+            weakSkills.length > 0
+              ? `Book a mentor session on ${weakSkills[0]}.`
+              : "Continue with advanced challenges to maintain momentum.",
+          trendingOpportunity: trendingOpportunity
+            ? {
+                title: trendingOpportunity.title,
+                company: trendingOpportunity.company || "",
+                role: trendingOpportunity.role || ""
+              }
+            : null
+        }
+      : null,
     leaderboard: {
       globalRank,
       collegeRank
@@ -704,25 +976,151 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
 });
 
 exports.completeDailyTask = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  const { taskKey } = req.body;
-
-  const task = DAILY_TASKS.find((item) => item.key === taskKey);
-  if (!task) throw new ApiError(400, "Invalid taskKey");
-
-  const dateKey = toDateKey();
-  const existing = await DailyTaskProgress.findOne({ userId, taskKey, dateKey });
-  if (existing) return res.json({ message: "Task already completed today" });
-
-  await DailyTaskProgress.create({
-    userId,
-    taskKey,
-    dateKey,
-    status: "completed",
-    xpEarned: task.xp
+  res.status(410).json({
+    message: "Daily tasks were replaced by Daily Career Quiz.",
+    action: "Use /api/network/daily-quiz and /api/network/daily-quiz/submit."
   });
+});
+
+exports.getDailyQuiz = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const dateKey = toDateKey();
+  const [profile, userDoc, existingAttempt, streak] = await Promise.all([
+    StudentProfile.findOne({ userId }).select("careerGoals skills").lean(),
+    User.findById(userId).select("primaryCategory interestedCategories").lean(),
+    QuizAttempt.findOne({ userId, dateKey }).lean(),
+    QuizStreak.findOne({ userId }).lean()
+  ]);
+  const domain = domainFromProfile({ user: userDoc, profile });
+
+  if (existingAttempt) {
+    return res.json({
+      completedToday: true,
+      dateKey,
+      domain,
+      message: QUIZ_DAILY_LIMIT_MESSAGE,
+      result: {
+        score: existingAttempt.score,
+        totalQuestions: existingAttempt.totalQuestions || 5,
+        xpEarned: existingAttempt.xpAwarded || 0,
+        streak: existingAttempt.streakAfter || streak?.currentStreak || 0
+      },
+      quiz: null
+    });
+  }
+
+  const seededSkills = domainSkills(domain);
+  const profileSkills = (profile?.skills || []).map((item) => String(item || "").trim()).filter(Boolean);
+  const skillSet = Array.from(new Set([...profileSkills, ...seededSkills]));
+  const questionPool = generateQuestionPool({ domain, skills: skillSet });
+  const userSkillRows = await UserSkillLevel.find({ userId, domain }).select("skillScore").lean();
+  const avgSkill =
+    userSkillRows.length > 0
+      ? userSkillRows.reduce((sum, item) => sum + Number(item.skillScore || 0), 0) / userSkillRows.length
+      : 50;
+  const startDifficulty = avgSkill < 30 ? "easy" : avgSkill < 70 ? "medium" : "hard";
+
+  res.json({
+    completedToday: false,
+    dateKey,
+    domain,
+    message: "Daily Career Quiz ready.",
+    streak: streak?.currentStreak || 0,
+    quiz: {
+      totalQuestions: 5,
+      startDifficulty,
+      questionPool
+    }
+  });
+});
+
+exports.submitDailyQuiz = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const dateKey = toDateKey();
+  const { domain, answers } = req.body || {};
+
+  if (!domain || typeof domain !== "string") throw new ApiError(400, "Domain is required");
+  if (!Array.isArray(answers) || answers.length !== 5) throw new ApiError(400, "Exactly 5 answers are required");
+
+  const existingAttempt = await QuizAttempt.findOne({ userId, dateKey });
+  if (existingAttempt) throw new ApiError(400, QUIZ_DAILY_LIMIT_MESSAGE);
+
+  const normalizedAnswers = answers.map((item) => ({
+    questionId: String(item.questionId || ""),
+    skillName: String(item.skill || item.skillName || "General").trim(),
+    difficulty: ["easy", "medium", "hard"].includes(String(item.difficulty || "").toLowerCase())
+      ? String(item.difficulty).toLowerCase()
+      : "medium",
+    selectedOption: String(item.selectedOption || ""),
+    correctOption: String(item.correctOption || ""),
+    isCorrect: Boolean(item.isCorrect)
+  }));
+
+  const score = normalizedAnswers.filter((item) => item.isCorrect).length;
+  const baseXp = QUIZ_XP_BY_SCORE[score] || 0;
+  const streak = await updateQuizStreak(userId, dateKey);
+  const streakBonus = STREAK_BONUS_XP[streak.currentStreak] || 0;
+  const totalXp = baseXp + streakBonus;
+
+  const updatedSkillRows = [];
+  for (const answer of normalizedAnswers) {
+    const updated = await upsertUserSkill(userId, domain, answer.skillName, answer.isCorrect);
+    updatedSkillRows.push(updated);
+  }
+
+  const attempt = await QuizAttempt.create({
+    userId,
+    dateKey,
+    domain,
+    score,
+    totalQuestions: 5,
+    xpAwarded: totalXp,
+    streakAfter: streak.currentStreak,
+    answers: normalizedAnswers
+  });
+
   await applyReputationDelta(userId, { dailyChallenges: 1 });
-  res.status(201).json({ message: "Task completed", xpEarned: task.xp });
+
+  const sortedSkills = [...updatedSkillRows].sort((a, b) => Number(b.skillScore || 0) - Number(a.skillScore || 0));
+  const strength = sortedSkills[0]?.skillName || "Consistent Learning";
+  const weakSkills = sortedSkills.filter((item) => Number(item.skillScore || 0) < 60).map((item) => item.skillName).slice(0, 3);
+  const mentorRecommendations = await buildWeakSkillMentorRecommendations(domain, weakSkills);
+  const trendingOpportunity = await CareerOpportunity.findOne({ isActive: true }).sort({ updatedAt: -1 }).lean();
+
+  res.status(201).json({
+    message: "Quiz completed",
+    result: {
+      score,
+      totalQuestions: 5,
+      xpEarned: totalXp,
+      streak: streak.currentStreak
+    },
+    streakBonusXp: streakBonus,
+    skillRadar: {
+      domain,
+      skills: sortedSkills.slice(0, 6).map((item) => ({
+        name: item.skillName,
+        score: Number(item.skillScore || 0)
+      }))
+    },
+    careerIntelligence: {
+      strength,
+      needsImprovement: weakSkills,
+      mentorRecommendations,
+      recommendedNextStep:
+        weakSkills.length > 0
+          ? `Book a mentor session on ${weakSkills[0]}.`
+          : "Continue advanced projects and mentor interactions.",
+      trendingOpportunity: trendingOpportunity
+        ? {
+            title: trendingOpportunity.title,
+            company: trendingOpportunity.company || "",
+            role: trendingOpportunity.role || ""
+          }
+        : null
+    },
+    attemptId: attempt._id
+  });
 });
 
 exports.getSmartSuggestions = asyncHandler(async (req, res) => {

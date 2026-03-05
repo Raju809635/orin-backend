@@ -16,6 +16,8 @@ const {
   endorseSkill,
   getDailyDashboard,
   completeDailyTask,
+  getDailyQuiz,
+  submitDailyQuiz,
   getSmartSuggestions,
   getCollegeNetwork,
   getMentorMatches,
@@ -65,6 +67,8 @@ router.post("/endorse/:userId", verifyToken, authorizeRoles("student", "mentor")
 
 router.get("/daily-dashboard", verifyToken, authorizeRoles("student", "mentor"), getDailyDashboard);
 router.post("/daily-task/complete", verifyToken, authorizeRoles("student", "mentor"), completeDailyTask);
+router.get("/daily-quiz", verifyToken, authorizeRoles("student"), getDailyQuiz);
+router.post("/daily-quiz/submit", verifyToken, authorizeRoles("student"), submitDailyQuiz);
 
 router.get("/suggestions", verifyToken, authorizeRoles("student", "mentor"), getSmartSuggestions);
 router.get("/college-network", verifyToken, authorizeRoles("student", "mentor"), getCollegeNetwork);
