@@ -700,6 +700,30 @@ exports.getPublicFeed = asyncHandler(async (req, res) => {
   res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
 });
 
+exports.getSavedPosts = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const posts = await FeedPost.find({ savedBy: userId })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .limit(80)
+    .lean();
+
+  const postIds = posts.map((p) => p._id);
+  const comments = await FeedComment.find({ postId: { $in: postIds } })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const commentsByPostId = comments.reduce((acc, item) => {
+    const key = String(item.postId);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+
+  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+});
+
 exports.createPost = asyncHandler(async (req, res) => {
   const authorId = req.user.id;
   const { content, postType, domainTags = [], mediaUrls = [], visibility = "public" } = req.body;
@@ -769,6 +793,70 @@ exports.addComment = asyncHandler(async (req, res) => {
   }
 
   res.status(201).json(comment);
+});
+
+exports.getPostComments = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(postId)) throw new ApiError(400, "Invalid post id");
+
+  const post = await FeedPost.findById(postId);
+  if (!post) throw new ApiError(404, "Post not found");
+
+  const comments = await FeedComment.find({ postId })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  res.json(comments);
+});
+
+exports.updateComment = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId, commentId } = req.params;
+  const { content } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(commentId)) {
+    throw new ApiError(400, "Invalid id");
+  }
+  if (!content || !content.trim()) throw new ApiError(400, "Comment content is required");
+
+  const comment = await FeedComment.findOne({ _id: commentId, postId });
+  if (!comment) throw new ApiError(404, "Comment not found");
+  if (String(comment.authorId) !== String(userId)) throw new ApiError(403, "You can edit only your own comment");
+
+  comment.content = content.trim();
+  await comment.save();
+
+  const data = await FeedComment.findById(comment._id).populate("authorId", "name role").lean();
+  res.json(data);
+});
+
+exports.deleteComment = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId, commentId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(commentId)) {
+    throw new ApiError(400, "Invalid id");
+  }
+
+  const [comment, post] = await Promise.all([
+    FeedComment.findOne({ _id: commentId, postId }),
+    FeedPost.findById(postId)
+  ]);
+  if (!comment) throw new ApiError(404, "Comment not found");
+  if (!post) throw new ApiError(404, "Post not found");
+
+  const isCommentOwner = String(comment.authorId) === String(userId);
+  const isPostOwner = String(post.authorId) === String(userId);
+  if (!isCommentOwner && !isPostOwner) {
+    throw new ApiError(403, "Not allowed to delete this comment");
+  }
+
+  await comment.deleteOne();
+  post.commentCount = Math.max(0, Number(post.commentCount || 0) - 1);
+  await post.save();
+
+  res.json({ message: "Comment deleted" });
 });
 
 exports.reactToPost = asyncHandler(async (req, res) => {

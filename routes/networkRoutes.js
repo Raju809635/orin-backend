@@ -9,9 +9,13 @@ const {
   toggleFollow,
   getFeed,
   getPublicFeed,
+  getSavedPosts,
   createPost,
   deletePost,
   addComment,
+  getPostComments,
+  updateComment,
+  deleteComment,
   reactToPost,
   endorseSkill,
   getDailyDashboard,
@@ -58,9 +62,13 @@ router.post("/follow/:userId", verifyToken, authorizeRoles("student", "mentor"),
 
 router.get("/feed", verifyToken, authorizeRoles("student", "mentor"), getFeed);
 router.get("/feed/public", verifyToken, authorizeRoles("student", "mentor"), getPublicFeed);
+router.get("/feed/saved", verifyToken, authorizeRoles("student", "mentor"), getSavedPosts);
 router.post("/feed", verifyToken, authorizeRoles("student", "mentor"), createPost);
 router.delete("/feed/:postId", verifyToken, authorizeRoles("student", "mentor"), deletePost);
 router.post("/feed/:postId/comment", verifyToken, authorizeRoles("student", "mentor"), addComment);
+router.get("/feed/:postId/comments", verifyToken, authorizeRoles("student", "mentor"), getPostComments);
+router.patch("/feed/:postId/comment/:commentId", verifyToken, authorizeRoles("student", "mentor"), updateComment);
+router.delete("/feed/:postId/comment/:commentId", verifyToken, authorizeRoles("student", "mentor"), deleteComment);
 router.post("/feed/:postId/react", verifyToken, authorizeRoles("student", "mentor"), reactToPost);
 
 router.post("/endorse/:userId", verifyToken, authorizeRoles("student", "mentor"), endorseSkill);
