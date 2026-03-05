@@ -210,12 +210,18 @@ async function fetchCategoryNews(categoryKey, language, pageSize) {
     return cached.data;
   }
 
-  if (!newsApiKey) {
-    throw new ApiError(500, "NEWS_API_KEY is not configured");
-  }
-
   const nativeLanguageSupported = NEWSAPI_NATIVE_LANGUAGES.has(safeLanguage);
-  let articles = await fetchRawArticles(categoryKey, nativeLanguageSupported ? safeLanguage : "en", safeLimit);
+  let articles = [];
+  let hadPrimaryNewsError = false;
+  if (newsApiKey) {
+    try {
+      articles = await fetchRawArticles(categoryKey, nativeLanguageSupported ? safeLanguage : "en", safeLimit);
+    } catch {
+      hadPrimaryNewsError = true;
+    }
+  } else {
+    hadPrimaryNewsError = true;
+  }
   let translatedFromEnglish = false;
 
   if (safeLanguage !== "en") {
@@ -225,7 +231,17 @@ async function fetchCategoryNews(categoryKey, language, pageSize) {
       articles = nativeNewsDataArticles;
       translatedFromEnglish = false;
     } else if (!nativeLanguageSupported || articles.length < MIN_NATIVE_ARTICLES) {
-      const englishArticles = await fetchRawArticles(categoryKey, "en", safeLimit);
+      let englishArticles = [];
+      if (newsApiKey) {
+        try {
+          englishArticles = await fetchRawArticles(categoryKey, "en", safeLimit);
+        } catch {
+          englishArticles = [];
+        }
+      }
+      if (!englishArticles.length && newsDataApiKey) {
+        englishArticles = await fetchRawArticlesFromNewsData(categoryKey, "en", safeLimit);
+      }
       articles = newsTranslateApiUrl || newsTranslateApiKey
         ? await translateArticles(englishArticles, safeLanguage)
         : englishArticles;
@@ -234,6 +250,19 @@ async function fetchCategoryNews(categoryKey, language, pageSize) {
       articles = await translateArticles(articles, safeLanguage);
       translatedFromEnglish = true;
     }
+  }
+
+  if (!articles.length && newsDataApiKey) {
+    const fallbackLanguage = safeLanguage === "en" ? "en" : safeLanguage;
+    const fallbackArticles = await fetchRawArticlesFromNewsData(categoryKey, fallbackLanguage, safeLimit);
+    if (fallbackArticles.length) {
+      articles = fallbackArticles;
+      translatedFromEnglish = false;
+    }
+  }
+
+  if (!articles.length && hadPrimaryNewsError) {
+    throw new ApiError(502, "Unable to fetch news right now. Please try again shortly.");
   }
 
   const data = {
