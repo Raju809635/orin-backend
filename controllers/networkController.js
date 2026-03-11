@@ -247,6 +247,230 @@ function domainSkills(domain, quizContext = null) {
   return skills.slice(0, 12);
 }
 
+const FACTUAL_QUIZ_BANK = {
+  python: {
+    easy: [
+      {
+        question: "Which Python library is commonly used for graphs and plotting?",
+        options: ["Matplotlib", "Express", "Selenium", "Bootstrap"],
+        correctOption: "Matplotlib",
+        explanation: "Matplotlib is a standard Python library for charts and plotting."
+      },
+      {
+        question: "Which symbol is used to start a comment in Python?",
+        options: ["#", "//", "<!--", "/*"],
+        correctOption: "#",
+        explanation: "Python single-line comments begin with the # symbol."
+      }
+    ],
+    medium: [
+      {
+        question: "Which Python data type stores key-value pairs?",
+        options: ["Dictionary", "Tuple", "Set", "String"],
+        correctOption: "Dictionary",
+        explanation: "A dictionary stores values as key-value pairs."
+      }
+    ],
+    hard: [
+      {
+        question: "Which keyword is used to define a function in Python?",
+        options: ["def", "func", "function", "lambda"],
+        correctOption: "def",
+        explanation: "Functions in Python are defined with the def keyword."
+      }
+    ]
+  },
+  html: {
+    easy: [
+      {
+        question: "Which HTML attribute is used to specify the image source?",
+        options: ["src", "href", "alt", "link"],
+        correctOption: "src",
+        explanation: "The src attribute tells the browser where the image file is located."
+      }
+    ],
+    medium: [
+      {
+        question: "Which tag is used to create a hyperlink in HTML?",
+        options: ["<a>", "<img>", "<p>", "<link>"],
+        correctOption: "<a>",
+        explanation: "The anchor tag <a> is used for hyperlinks."
+      }
+    ],
+    hard: [
+      {
+        question: "Which attribute provides alternative text for an image in HTML?",
+        options: ["alt", "title", "name", "srcset"],
+        correctOption: "alt",
+        explanation: "The alt attribute provides alternative text for accessibility and fallback."
+      }
+    ]
+  },
+  react: {
+    easy: [
+      {
+        question: "Which hook is commonly used to manage state in a React function component?",
+        options: ["useState", "useEffect", "useRef", "useMemo"],
+        correctOption: "useState",
+        explanation: "useState is the standard React hook for local component state."
+      }
+    ],
+    medium: [
+      {
+        question: "Which prop is commonly used to render lists efficiently in React?",
+        options: ["key", "id", "index", "ref"],
+        correctOption: "key",
+        explanation: "The key prop helps React track list items efficiently."
+      }
+    ],
+    hard: [
+      {
+        question: "Which hook is used to run side effects in React?",
+        options: ["useEffect", "useState", "useLayout", "useReducer"],
+        correctOption: "useEffect",
+        explanation: "useEffect is used for side effects such as fetching data or subscriptions."
+      }
+    ]
+  },
+  "node.js": {
+    easy: [
+      {
+        question: "Node.js is primarily used to run JavaScript on which side?",
+        options: ["Server side", "Browser UI only", "Database only", "Operating system kernel"],
+        correctOption: "Server side",
+        explanation: "Node.js allows JavaScript to run on the server side."
+      }
+    ]
+  },
+  algebra: {
+    easy: [
+      {
+        question: "What is the value of x in the equation x + 5 = 9?",
+        options: ["4", "5", "9", "14"],
+        correctOption: "4",
+        explanation: "Subtracting 5 from both sides gives x = 4."
+      }
+    ]
+  },
+  physics: {
+    easy: [
+      {
+        question: "What is the SI unit of force?",
+        options: ["Newton", "Joule", "Watt", "Pascal"],
+        correctOption: "Newton",
+        explanation: "Force is measured in newtons."
+      }
+    ]
+  },
+  chemistry: {
+    easy: [
+      {
+        question: "What is the chemical symbol for water?",
+        options: ["H2O", "O2", "CO2", "NaCl"],
+        correctOption: "H2O",
+        explanation: "Water is made of two hydrogen atoms and one oxygen atom."
+      }
+    ]
+  },
+  biology: {
+    easy: [
+      {
+        question: "Which organ pumps blood through the human body?",
+        options: ["Heart", "Lungs", "Liver", "Kidney"],
+        correctOption: "Heart",
+        explanation: "The heart pumps blood throughout the body."
+      }
+    ]
+  },
+  geography: {
+    easy: [
+      {
+        question: "What is the capital of the United States of America?",
+        options: ["Washington, D.C.", "New York", "Los Angeles", "Chicago"],
+        correctOption: "Washington, D.C.",
+        explanation: "Washington, D.C. is the capital city of the USA."
+      }
+    ]
+  },
+  history: {
+    easy: [
+      {
+        question: "Who is widely credited with inventing the practical electric bulb?",
+        options: ["Thomas Edison", "Isaac Newton", "Alexander Fleming", "Galileo"],
+        correctOption: "Thomas Edison",
+        explanation: "Thomas Edison is widely credited with the practical incandescent bulb."
+      }
+    ]
+  },
+  polity: {
+    easy: [
+      {
+        question: "Who is known as the Father of the Indian Constitution?",
+        options: ["B. R. Ambedkar", "Mahatma Gandhi", "Jawaharlal Nehru", "Sardar Patel"],
+        correctOption: "B. R. Ambedkar",
+        explanation: "Dr. B. R. Ambedkar is widely regarded as the principal architect of the Indian Constitution."
+      }
+    ]
+  },
+  economics: {
+    easy: [
+      {
+        question: "Which term refers to a general rise in prices over time?",
+        options: ["Inflation", "Deflation", "Subsidy", "Tariff"],
+        correctOption: "Inflation",
+        explanation: "Inflation means prices are rising over time."
+      }
+    ]
+  },
+  "machine learning": {
+    easy: [
+      {
+        question: "Which of these is a supervised learning algorithm?",
+        options: ["Linear Regression", "K-Means", "Apriori", "PCA"],
+        correctOption: "Linear Regression",
+        explanation: "Linear Regression is a supervised learning algorithm."
+      }
+    ],
+    medium: [
+      {
+        question: "Which dataset split is used to evaluate model performance after training?",
+        options: ["Test set", "Training set", "Feature set", "Label set"],
+        correctOption: "Test set",
+        explanation: "The test set is used to evaluate final model performance."
+      }
+    ]
+  },
+  "deep learning": {
+    easy: [
+      {
+        question: "Which neural network is commonly used for image tasks?",
+        options: ["CNN", "RNN", "KNN", "SVM"],
+        correctOption: "CNN",
+        explanation: "Convolutional Neural Networks are widely used for image processing."
+      }
+    ]
+  },
+  mlops: {
+    easy: [
+      {
+        question: "Which MLOps task focuses on watching models after deployment?",
+        options: ["Monitoring", "Tokenization", "Normalization", "Augmentation"],
+        correctOption: "Monitoring",
+        explanation: "Monitoring tracks model health and performance after deployment."
+      }
+    ]
+  }
+};
+
+function getFactualBank(skill) {
+  const normalized = normalizeText(skill);
+  return (
+    FACTUAL_QUIZ_BANK[normalized] ||
+    FACTUAL_QUIZ_BANK[normalized.replace(/\s+/g, " ")] ||
+    FACTUAL_QUIZ_BANK[normalized.replace(/ basics| fundamentals| core/g, "")]
+  );
+}
+
 function buildQuestionTemplates({ domain, subCategory, skill, careerGoal, alternatives = [] }) {
   const safeSkill = skill || "Core Concepts";
   const safeDomain = domain || "General";
@@ -256,72 +480,81 @@ function buildQuestionTemplates({ domain, subCategory, skill, careerGoal, altern
     distractors.push(`General ${safeSubCategory} theory ${distractors.length + 1}`);
   }
 
+  const factualBank = getFactualBank(safeSkill);
+  if (factualBank) {
+    return {
+      easy: factualBank.easy || [],
+      medium: factualBank.medium || factualBank.easy || [],
+      hard: factualBank.hard || factualBank.medium || factualBank.easy || []
+    };
+  }
+
   return {
     easy: [
       {
-        question: `Which topic belongs directly to ${safeSubCategory} in ${safeDomain}?`,
+        question: `Which of the following belongs to ${safeSubCategory} under ${safeDomain}?`,
         options: [safeSkill, ...distractors],
         correctOption: safeSkill,
         explanation: `${safeSkill} is part of ${safeSubCategory} inside the ${safeDomain} path.`
       },
       {
-        question: `A student starting ${safeSubCategory} should focus on which area first?`,
+        question: `Which topic is directly associated with ${safeSkill}?`,
         options: [
-          `${safeSkill} fundamentals`,
-          `Skip ${safeSubCategory} basics`,
-          "Memorize without understanding",
-          "Avoid guided practice"
+          safeSkill,
+          distractors[0],
+          distractors[1],
+          distractors[2]
         ],
-        correctOption: `${safeSkill} fundamentals`,
-        explanation: `Strong ${safeSkill} fundamentals make later ${safeSubCategory} learning easier.`
+        correctOption: safeSkill,
+        explanation: `${safeSkill} is one of the tracked concepts in this domain path.`
       }
     ],
     medium: [
       {
-        question: `For steady growth in ${safeSubCategory}, which plan is strongest?`,
+        question: `${safeSkill} is most closely linked to which path?`,
         options: [
-          `Practice ${safeSkill} regularly with review`,
-          "Jump topics every day without revision",
-          "Ignore weak chapters",
-          "Rely only on passive reading"
+          `${safeDomain} -> ${safeSubCategory}`,
+          `${careerGoal || "General Career"} -> Random Topics`,
+          "Unrelated category -> Memorization",
+          "No domain mapping"
         ],
-        correctOption: `Practice ${safeSkill} regularly with review`,
-        explanation: `Regular practice plus review is the most reliable way to improve ${safeSkill}.`
+        correctOption: `${safeDomain} -> ${safeSubCategory}`,
+        explanation: `${safeSkill} belongs inside the ${safeSubCategory} track of ${safeDomain}.`
       },
       {
-        question: `If your goal is ${careerGoal || safeDomain}, how should ${safeSkill} be improved?`,
+        question: `Which option is a valid concept from ${safeSubCategory}?`,
         options: [
-          `Combine concept study, questions, and feedback in ${safeSkill}`,
-          "Only read one summary note",
-          "Avoid problem-solving",
-          "Switch domain immediately"
+          safeSkill,
+          `Capital of ${safeSkill}`,
+          `History of ${distractors[0]}`,
+          "All of the above unrelated"
         ],
-        correctOption: `Combine concept study, questions, and feedback in ${safeSkill}`,
-        explanation: `${safeSkill} improves fastest when theory, problem-solving, and feedback are combined.`
+        correctOption: safeSkill,
+        explanation: `${safeSkill} is a valid topic inside the selected student path.`
       }
     ],
     hard: [
       {
-        question: `Which action best shows advanced command of ${safeSkill} in ${safeSubCategory}?`,
+        question: `In the ORIN domain map, ${safeSkill} should be grouped under which sub-category?`,
         options: [
-          `Apply ${safeSkill} in real scenarios and explain the reasoning`,
-          "Copy answers without analysis",
-          "Skip evaluating mistakes",
-          "Ignore performance trends"
+          safeSubCategory,
+          distractors[0],
+          distractors[1],
+          distractors[2]
         ],
-        correctOption: `Apply ${safeSkill} in real scenarios and explain the reasoning`,
-        explanation: `Advanced learners use ${safeSkill} correctly and can explain decisions clearly.`
+        correctOption: safeSubCategory,
+        explanation: `${safeSkill} is currently grouped under ${safeSubCategory} in the selected path.`
       },
       {
-        question: `When progress drops in ${safeSkill}, what is the best correction strategy?`,
+        question: `Which domain contains ${safeSkill} in the student's current guide path?`,
         options: [
-          `Analyze weak areas in ${safeSkill} and rebuild the practice plan`,
-          "Repeat the same mistakes faster",
-          "Drop all fundamentals",
-          "Stop tracking improvement"
+          safeDomain,
+          distractors[0],
+          distractors[1],
+          distractors[2]
         ],
-        correctOption: `Analyze weak areas in ${safeSkill} and rebuild the practice plan`,
-        explanation: `Targeted correction based on weak spots is the fastest way to recover performance in ${safeSkill}.`
+        correctOption: safeDomain,
+        explanation: `${safeSkill} belongs to ${safeDomain} in this quiz context.`
       }
     ]
   };
