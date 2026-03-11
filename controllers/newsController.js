@@ -9,9 +9,10 @@ const {
   newsTranslateApiKey
 } = require("../config/env");
 
-const NEWS_CACHE_TTL_MS = 10 * 60 * 1000;
+const NEWS_CACHE_TTL_MS = 20 * 60 * 1000;
 const MIN_NATIVE_ARTICLES = 4;
-const HTTP_TIMEOUT_MS = 12000;
+const HTTP_TIMEOUT_MS = 7000;
+const MAX_TRANSLATED_ARTICLES = 4;
 const newsCache = new Map();
 
 const SUPPORTED_LANGUAGES = {
@@ -184,8 +185,9 @@ async function translateText(text, targetLanguage) {
 async function translateArticles(articles, targetLanguage) {
   if (targetLanguage === "en") return articles;
 
+  const limitedArticles = articles.slice(0, MAX_TRANSLATED_ARTICLES);
   const translated = await Promise.all(
-    articles.map(async (item) => {
+    limitedArticles.map(async (item) => {
       const [title, description] = await Promise.all([
         translateText(item.title, targetLanguage),
         translateText(item.description, targetLanguage)
