@@ -188,13 +188,55 @@ function domainFromProfile({ user, profile }) {
   return fuzzy || "Technology & AI";
 }
 
-function domainSkills(domain) {
+function buildQuizContext({ user, profile, domain }) {
+  const domainMap = mentorCategoryTree[domain] || {};
+  const availableSubCategories = Object.keys(domainMap);
+  const selectedSubCategory =
+    availableSubCategories.find((item) => normalizeText(item) === normalizeText(user?.subCategory || "")) ||
+    availableSubCategories.find((item) => normalizeText(profile?.careerGoals || "").includes(normalizeText(item))) ||
+    availableSubCategories[0] ||
+    "";
+
+  const availableSpecializations = selectedSubCategory ? domainMap[selectedSubCategory] || [] : [];
+  const selectedSpecializations = (user?.specializations || []).filter((item) =>
+    availableSpecializations.some((spec) => normalizeText(spec) === normalizeText(item))
+  );
+
+  return {
+    domain,
+    subCategory: selectedSubCategory,
+    specializations: selectedSpecializations.length ? selectedSpecializations : availableSpecializations.slice(0, 4),
+    availableSubCategories,
+    profileSkills: (profile?.skills || []).map((item) => String(item || "").trim()).filter(Boolean),
+    careerGoal: profile?.careerGoals || user?.goals || ""
+  };
+}
+
+function domainSkills(domain, quizContext = null) {
   const subMap = mentorCategoryTree[domain] || {};
   const seen = new Set();
   const skills = [];
+  if (quizContext?.subCategory) {
+    seen.add(quizContext.subCategory);
+    skills.push(quizContext.subCategory);
+  }
+  (quizContext?.specializations || []).forEach((spec) => {
+    if (!seen.has(spec)) {
+      seen.add(spec);
+      skills.push(spec);
+    }
+  });
+  (quizContext?.profileSkills || []).forEach((skill) => {
+    if (!seen.has(skill)) {
+      seen.add(skill);
+      skills.push(skill);
+    }
+  });
   Object.entries(subMap).forEach(([sub, specs]) => {
-    seen.add(sub);
-    skills.push(sub);
+    if (!seen.has(sub)) {
+      seen.add(sub);
+      skills.push(sub);
+    }
     (specs || []).forEach((spec) => {
       if (!seen.has(spec)) {
         seen.add(spec);
@@ -205,90 +247,97 @@ function domainSkills(domain) {
   return skills.slice(0, 12);
 }
 
-function buildQuestionTemplates(skill, domain) {
+function buildQuestionTemplates({ domain, subCategory, skill, careerGoal, alternatives = [] }) {
   const safeSkill = skill || "Core Concepts";
   const safeDomain = domain || "General";
+  const safeSubCategory = subCategory || safeDomain;
+  const distractors = alternatives.filter((item) => normalizeText(item) !== normalizeText(safeSkill)).slice(0, 3);
+  while (distractors.length < 3) {
+    distractors.push(`General ${safeSubCategory} theory ${distractors.length + 1}`);
+  }
+
   return {
     easy: [
       {
-        question: `Which option is most closely related to ${safeSkill} basics in ${safeDomain}?`,
-        options: [
-          `${safeSkill} fundamentals`,
-          "Unrelated memorization only",
-          "Ignoring core concepts",
-          "Skipping practice"
-        ],
-        correctOption: `${safeSkill} fundamentals`,
-        explanation: `${safeSkill} fundamentals build confidence before advanced topics.`
+        question: `Which topic belongs directly to ${safeSubCategory} in ${safeDomain}?`,
+        options: [safeSkill, ...distractors],
+        correctOption: safeSkill,
+        explanation: `${safeSkill} is part of ${safeSubCategory} inside the ${safeDomain} path.`
       },
       {
-        question: `For beginners in ${safeSkill}, what should be done first?`,
+        question: `A student starting ${safeSubCategory} should focus on which area first?`,
         options: [
-          "Start with foundational concepts",
-          "Only solve advanced tests",
-          "Avoid revision",
-          "Ignore feedback"
+          `${safeSkill} fundamentals`,
+          `Skip ${safeSubCategory} basics`,
+          "Memorize without understanding",
+          "Avoid guided practice"
         ],
-        correctOption: "Start with foundational concepts",
-        explanation: "Starting with fundamentals gives a base for adaptive progression."
+        correctOption: `${safeSkill} fundamentals`,
+        explanation: `Strong ${safeSkill} fundamentals make later ${safeSubCategory} learning easier.`
       }
     ],
     medium: [
       {
-        question: `In ${safeSkill}, what improves consistency most for students?`,
+        question: `For steady growth in ${safeSubCategory}, which plan is strongest?`,
         options: [
-          "Structured weekly practice",
-          "Random learning without goals",
-          "Skipping weak areas",
-          "Only watching videos"
+          `Practice ${safeSkill} regularly with review`,
+          "Jump topics every day without revision",
+          "Ignore weak chapters",
+          "Rely only on passive reading"
         ],
-        correctOption: "Structured weekly practice",
-        explanation: "Planned practice improves retention and measurable progress."
+        correctOption: `Practice ${safeSkill} regularly with review`,
+        explanation: `Regular practice plus review is the most reliable way to improve ${safeSkill}.`
       },
       {
-        question: `What is the best way to improve ${safeSkill} for career growth?`,
+        question: `If your goal is ${careerGoal || safeDomain}, how should ${safeSkill} be improved?`,
         options: [
-          "Build mini projects and review mistakes",
-          "Only read theory once",
-          "Avoid mentor feedback",
-          "Change domains daily"
+          `Combine concept study, questions, and feedback in ${safeSkill}`,
+          "Only read one summary note",
+          "Avoid problem-solving",
+          "Switch domain immediately"
         ],
-        correctOption: "Build mini projects and review mistakes",
-        explanation: "Project-based learning plus feedback closes practical skill gaps."
+        correctOption: `Combine concept study, questions, and feedback in ${safeSkill}`,
+        explanation: `${safeSkill} improves fastest when theory, problem-solving, and feedback are combined.`
       }
     ],
     hard: [
       {
-        question: `Which strategy best demonstrates advanced ${safeSkill} capability?`,
+        question: `Which action best shows advanced command of ${safeSkill} in ${safeSubCategory}?`,
         options: [
-          "Apply concepts to real scenarios and optimize decisions",
-          "Copy results without understanding",
-          "Ignore constraints",
-          "Skip performance analysis"
+          `Apply ${safeSkill} in real scenarios and explain the reasoning`,
+          "Copy answers without analysis",
+          "Skip evaluating mistakes",
+          "Ignore performance trends"
         ],
-        correctOption: "Apply concepts to real scenarios and optimize decisions",
-        explanation: "Advanced learners must apply and optimize under real constraints."
+        correctOption: `Apply ${safeSkill} in real scenarios and explain the reasoning`,
+        explanation: `Advanced learners use ${safeSkill} correctly and can explain decisions clearly.`
       },
       {
-        question: `When performance drops in ${safeSkill}, what is the strongest corrective step?`,
+        question: `When progress drops in ${safeSkill}, what is the best correction strategy?`,
         options: [
-          "Analyze weak signals and redesign practice plan",
-          "Keep repeating same mistakes",
-          "Remove all fundamentals",
-          "Avoid checkpoints"
+          `Analyze weak areas in ${safeSkill} and rebuild the practice plan`,
+          "Repeat the same mistakes faster",
+          "Drop all fundamentals",
+          "Stop tracking improvement"
         ],
-        correctOption: "Analyze weak signals and redesign practice plan",
-        explanation: "Diagnosis + targeted redesign is the fastest route to improvement."
+        correctOption: `Analyze weak areas in ${safeSkill} and rebuild the practice plan`,
+        explanation: `Targeted correction based on weak spots is the fastest way to recover performance in ${safeSkill}.`
       }
     ]
   };
 }
 
-function generateQuestionPool({ domain, skills }) {
+function generateQuestionPool({ domain, skills, quizContext }) {
   const chosenSkills = (skills || []).slice(0, 6);
   const pool = [];
   chosenSkills.forEach((skill) => {
-    const templates = buildQuestionTemplates(skill, domain);
+    const templates = buildQuestionTemplates({
+      domain,
+      subCategory: quizContext?.subCategory,
+      skill,
+      careerGoal: quizContext?.careerGoal,
+      alternatives: chosenSkills
+    });
     ["easy", "medium", "hard"].forEach((difficulty) => {
       const list = templates[difficulty] || [];
       list.forEach((item, idx) => {
@@ -1097,10 +1146,11 @@ exports.getDailyQuiz = asyncHandler(async (req, res) => {
     });
   }
 
-  const seededSkills = domainSkills(domain);
+  const quizContext = buildQuizContext({ user: userDoc, profile, domain });
+  const seededSkills = domainSkills(domain, quizContext);
   const profileSkills = (profile?.skills || []).map((item) => String(item || "").trim()).filter(Boolean);
   const skillSet = Array.from(new Set([...profileSkills, ...seededSkills]));
-  const questionPool = generateQuestionPool({ domain, skills: skillSet });
+  const questionPool = generateQuestionPool({ domain, skills: skillSet, quizContext });
   const userSkillRows = await UserSkillLevel.find({ userId, domain }).select("skillScore").lean();
   const avgSkill =
     userSkillRows.length > 0
@@ -1112,6 +1162,7 @@ exports.getDailyQuiz = asyncHandler(async (req, res) => {
     completedToday: false,
     dateKey,
     domain,
+    subCategory: quizContext.subCategory,
     message: "Daily Career Quiz ready.",
     streak: streak?.currentStreak || 0,
     quiz: {
