@@ -1028,6 +1028,28 @@ exports.createPost = asyncHandler(async (req, res) => {
   res.status(201).json(post);
 });
 
+exports.updatePost = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId } = req.params;
+  const { content } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) throw new ApiError(400, "Invalid post id");
+  if (!content || content.trim().length < 3) throw new ApiError(400, "Post content is required");
+
+  const post = await FeedPost.findById(postId);
+  if (!post) throw new ApiError(404, "Post not found");
+  if (String(post.authorId) !== String(userId)) throw new ApiError(403, "You can edit only your own posts");
+
+  post.content = content.trim();
+  await post.save();
+
+  const hydrated = await FeedPost.findById(postId)
+    .populate("authorId", "name role profilePhotoUrl")
+    .lean();
+
+  res.json(toFeedResponse(hydrated, userId, []));
+});
+
 exports.deletePost = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { postId } = req.params;

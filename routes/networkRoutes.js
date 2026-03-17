@@ -11,6 +11,7 @@ const {
   getPublicFeed,
   getSavedPosts,
   createPost,
+  updatePost,
   deletePost,
   addComment,
   getPostComments,
@@ -65,6 +66,7 @@ router.get("/feed", verifyToken, authorizeRoles("student", "mentor"), getFeed);
 router.get("/feed/public", verifyToken, authorizeRoles("student", "mentor"), getPublicFeed);
 router.get("/feed/saved", verifyToken, authorizeRoles("student", "mentor"), getSavedPosts);
 router.post("/feed", verifyToken, authorizeRoles("student", "mentor"), createPost);
+router.patch("/feed/:postId", verifyToken, authorizeRoles("student", "mentor"), updatePost);
 router.delete("/feed/:postId", verifyToken, authorizeRoles("student", "mentor"), deletePost);
 router.post("/feed/:postId/comment", verifyToken, authorizeRoles("student", "mentor"), addComment);
 router.get("/feed/:postId/comments", verifyToken, authorizeRoles("student", "mentor"), getPostComments);
