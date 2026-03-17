@@ -73,6 +73,19 @@ function uniqueTokens(values = []) {
   return set;
 }
 
+function parseCsvList(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value.flatMap((item) => String(item || "").split(","))
+      .map((item) => String(item || "").trim())
+      .filter(Boolean);
+  }
+  return String(value || "")
+    .split(",")
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+}
+
 function getRoadmapForGoal(goal = "") {
   const normalized = normalizeText(goal);
 
@@ -159,6 +172,40 @@ function getProjectIdeasForGoal(goal = "") {
       "Portfolio Builder",
       "Task Management SaaS",
       "Campus Events Web App"
+    ];
+  }
+  if (/(cyber|security|ethical hacking|soc)/i.test(normalized)) {
+    return [
+      "Password Strength Analyzer",
+      "Phishing URL Detector",
+      "Basic Vulnerability Scanner (Lab Only)",
+      "Secure Notes App with Encryption",
+      "SOC Alert Dashboard (Mock Data)"
+    ];
+  }
+  if (/(data science|data analytics|analytics|power bi|tableau)/i.test(normalized)) {
+    return [
+      "Student Performance Dashboard",
+      "Sales Forecasting Mini Project",
+      "Exploratory Data Analysis (EDA) Portfolio",
+      "Job Market Insights Scraper (Public Data)",
+      "Recommendation System (Basics)"
+    ];
+  }
+  if (/(upsc|civil services)/i.test(normalized)) {
+    return [
+      "Daily Current Affairs Tracker",
+      "UPSC Notes Organizer",
+      "Mains Answer Writing Timer",
+      "Mock Test Revision Planner"
+    ];
+  }
+  if (/(academics|school|intermediate|ssc|cbse|icse)/i.test(normalized)) {
+    return [
+      "Study Planner and Timetable Builder",
+      "Subject-wise Revision Tracker",
+      "Flashcards App for Key Concepts",
+      "Exam Countdown and Practice Log"
     ];
   }
   return [
@@ -1641,12 +1688,23 @@ exports.getMentorMatches = asyncHandler(async (req, res) => {
   const studentProfile = await StudentProfile.findOne({ userId }).lean();
   const studentUser = await User.findById(userId).select("primaryCategory subCategory goals").lean();
 
+  const domainOverride = String(req.query.domain || "").trim();
+  const subDomainOverride = String(req.query.subDomain || "").trim();
+  const goalOverride = String(req.query.goal || "").trim();
+  const skillsOverride = parseCsvList(req.query.skills);
+  const levelOverride = normalizeText(req.query.level || "");
+
+  const effectiveDomain = domainOverride || studentUser?.primaryCategory || "";
+  const effectiveSubDomain = subDomainOverride || studentUser?.subCategory || "";
+  const effectiveGoal = goalOverride || studentProfile?.careerGoals || studentUser?.goals || effectiveDomain || "Career Growth";
+  const effectiveSkills = skillsOverride.length ? skillsOverride : studentProfile?.skills || [];
+
   const studentSignals = [
-    ...(studentProfile?.skills || []),
-    ...(studentProfile?.careerGoals ? [studentProfile.careerGoals] : []),
+    ...effectiveSkills,
+    ...(effectiveGoal ? [effectiveGoal] : []),
     ...(studentUser?.goals ? [studentUser.goals] : []),
-    ...(studentUser?.primaryCategory ? [studentUser.primaryCategory] : []),
-    ...(studentUser?.subCategory ? [studentUser.subCategory] : [])
+    ...(effectiveDomain ? [effectiveDomain] : []),
+    ...(effectiveSubDomain ? [effectiveSubDomain] : [])
   ];
   const studentTokens = uniqueTokens(studentSignals);
 
@@ -1659,12 +1717,15 @@ exports.getMentorMatches = asyncHandler(async (req, res) => {
   const scored = mentorProfiles
     .filter((item) => {
       const user = item.userId;
-      return (
-        user &&
-        user.role === "mentor" &&
-        user.approvalStatus === "approved" &&
-        user.isDeleted !== true
-      );
+      if (!user || user.role !== "mentor" || user.approvalStatus !== "approved" || user.isDeleted === true) return false;
+
+      // Optional level filter coming from the app UI (Beginner / Intermediate / Advanced).
+      if (!levelOverride) return true;
+      const years = Number(item.experienceYears || 0);
+      if (levelOverride === "beginner") return years <= 3;
+      if (levelOverride === "intermediate") return years >= 2 && years <= 6;
+      if (levelOverride === "advanced") return years >= 5;
+      return true;
     })
     .map((mentor) => {
       const mentorSignals = [
@@ -1683,12 +1744,12 @@ exports.getMentorMatches = asyncHandler(async (req, res) => {
 
       const categoryExact =
         normalizeText(mentor.primaryCategory) &&
-        normalizeText(mentor.primaryCategory) === normalizeText(studentUser?.primaryCategory || "")
+        normalizeText(mentor.primaryCategory) === normalizeText(effectiveDomain || "")
           ? 1
           : 0;
       const subCategoryExact =
         normalizeText(mentor.subCategory) &&
-        normalizeText(mentor.subCategory) === normalizeText(studentUser?.subCategory || "")
+        normalizeText(mentor.subCategory) === normalizeText(effectiveSubDomain || "")
           ? 1
           : 0;
 
@@ -1733,10 +1794,11 @@ exports.getMentorMatches = asyncHandler(async (req, res) => {
 
   res.json({
     studentSignals: {
-      domain: studentUser?.primaryCategory || "",
-      subDomain: studentUser?.subCategory || "",
-      skills: studentProfile?.skills || [],
-      careerGoal: studentProfile?.careerGoals || studentUser?.goals || ""
+      domain: effectiveDomain,
+      subDomain: effectiveSubDomain,
+      skills: effectiveSkills,
+      careerGoal: effectiveGoal,
+      level: levelOverride || ""
     },
     recommendations: scored
   });
@@ -2197,7 +2259,10 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
 
   const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
   const requiredSkills = getRequiredSkillsForGoal(goal);
-  const currentSkills = (studentProfile?.skills || []).map((item) => String(item).trim()).filter(Boolean);
+  const overrideSkills = parseCsvList(req.query.skills);
+  const currentSkills = (overrideSkills.length ? overrideSkills : studentProfile?.skills || [])
+    .map((item) => String(item).trim())
+    .filter(Boolean);
   const currentTokens = new Set(currentSkills.map((item) => normalizeText(item)));
   const missingSkills = requiredSkills.filter((skill) => !currentTokens.has(normalizeText(skill)));
 
@@ -2420,13 +2485,23 @@ exports.getProjectIdeas = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const profile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
   const user = await User.findById(userId).select("goals primaryCategory").lean();
-  const goal = String(req.query.goal || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+  const domainOverride = String(req.query.domain || "").trim();
+  const levelOverride = String(req.query.level || "").trim();
+  const goal = String(req.query.goal || domainOverride || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+  const difficulty =
+    normalizeText(levelOverride) === "beginner"
+      ? "Easy"
+      : normalizeText(levelOverride) === "advanced"
+        ? "Hard"
+        : "Medium";
 
   res.json({
     goal,
+    domain: domainOverride || user?.primaryCategory || "",
+    level: levelOverride || "",
     ideas: getProjectIdeasForGoal(goal).map((title) => ({
       title,
-      level: "Intermediate",
+      level: difficulty,
       tags: tokenize(goal).slice(0, 3)
     }))
   });
