@@ -2001,10 +2001,15 @@ exports.getLiveSessions = asyncHandler(async (req, res) => {
       title: item.title,
       topic: item.topic,
       description: item.description,
+      posterImageUrl: item.posterImageUrl || "",
       startsAt: item.startsAt,
       endsAt: item.endsAt,
       meetingLink: item.meetingLink,
       domainTags: item.domainTags || [],
+      interestedCount: Array.isArray(item.interestedUserIds) ? item.interestedUserIds.length : 0,
+      isInterested: Array.isArray(item.interestedUserIds)
+        ? item.interestedUserIds.some((userId) => String(userId) === String(req.user.id))
+        : false,
       mentor: {
         id: item.mentorId?._id || null,
         name: item.mentorId?.name || "Mentor",
@@ -2017,7 +2022,16 @@ exports.getLiveSessions = asyncHandler(async (req, res) => {
 exports.createLiveSession = asyncHandler(async (req, res) => {
   if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create live sessions");
 
-  const { title, topic = "", description = "", startsAt, endsAt = null, meetingLink = "", domainTags = [] } = req.body;
+  const {
+    title,
+    topic = "",
+    description = "",
+    posterImageUrl = "",
+    startsAt,
+    endsAt = null,
+    meetingLink = "",
+    domainTags = []
+  } = req.body;
   if (!title || !String(title).trim()) throw new ApiError(400, "title is required");
   const startDate = new Date(startsAt);
   if (Number.isNaN(startDate.getTime())) throw new ApiError(400, "startsAt is invalid");
@@ -2027,15 +2041,54 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     title: String(title).trim(),
     topic: String(topic || "").trim(),
     description: String(description || "").trim(),
+    posterImageUrl: String(posterImageUrl || "").trim(),
     startsAt: startDate,
     endsAt: endsAt ? new Date(endsAt) : null,
     meetingLink: String(meetingLink || "").trim(),
     domainTags: Array.isArray(domainTags) ? domainTags : [],
+    interestedUserIds: [],
     isPublic: true,
     isCancelled: false
   });
 
   res.status(201).json({ message: "Live session created", liveSession: doc });
+});
+
+exports.toggleLiveSessionInterest = asyncHandler(async (req, res) => {
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const liveSession = await MentorLiveSession.findById(liveSessionId);
+  if (!liveSession || liveSession.isCancelled || !liveSession.isPublic) {
+    throw new ApiError(404, "Live session not found");
+  }
+
+  if (String(liveSession.mentorId) === String(req.user.id)) {
+    throw new ApiError(400, "Mentor cannot mark interest on own live session");
+  }
+
+  const alreadyInterested = (liveSession.interestedUserIds || []).some(
+    (userId) => String(userId) === String(req.user.id)
+  );
+
+  if (alreadyInterested) {
+    liveSession.interestedUserIds = (liveSession.interestedUserIds || []).filter(
+      (userId) => String(userId) !== String(req.user.id)
+    );
+  } else {
+    liveSession.interestedUserIds.push(req.user.id);
+  }
+
+  await liveSession.save();
+
+  res.json({
+    message: alreadyInterested ? "Interest removed" : "Marked as interested",
+    liveSession: {
+      id: liveSession._id,
+      interestedCount: liveSession.interestedUserIds.length,
+      isInterested: !alreadyInterested
+    }
+  });
 });
 
 exports.generateResume = asyncHandler(async (req, res) => {

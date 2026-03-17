@@ -11,10 +11,15 @@ const mentorLiveSessionSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     topic: { type: String, default: "", trim: true },
     description: { type: String, default: "" },
+    posterImageUrl: { type: String, default: "" },
     startsAt: { type: Date, required: true, index: true },
     endsAt: { type: Date, default: null },
     meetingLink: { type: String, default: "" },
     domainTags: { type: [String], default: [] },
+    interestedUserIds: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+      default: []
+    },
     isPublic: { type: Boolean, default: true },
     isCancelled: { type: Boolean, default: false }
   },
