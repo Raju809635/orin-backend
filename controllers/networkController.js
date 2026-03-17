@@ -178,6 +178,94 @@ const DOMAIN_AI_TEMPLATES = {
     }
   },
   Academic: {
+    School: {
+      Math: {
+        requiredSkills: ["Arithmetic", "Algebra basics", "Geometry", "Practice routines"],
+        roadmap: ["Basics revision", "Topic-wise practice", "Weak areas drills", "Mock tests", "Final revision"],
+        projects: ["Daily Practice Planner", "Formula Flashcards Pack"]
+      },
+      Science: {
+        requiredSkills: ["Physics basics", "Chemistry basics", "Biology basics", "Diagrams + notes"],
+        roadmap: ["Concept foundation", "NCERT-style reading", "Short notes", "Practice questions", "Revision"],
+        projects: ["Science Notes Organizer", "Diagram Revision Pack"]
+      },
+      English: {
+        requiredSkills: ["Grammar", "Reading comprehension", "Vocabulary", "Writing practice"],
+        roadmap: ["Grammar basics", "Daily reading", "Writing practice", "Mock papers", "Revision"],
+        projects: ["Vocabulary Tracker", "Writing Prompts Log"]
+      },
+      "Social Studies": {
+        requiredSkills: ["History basics", "Geography basics", "Civics basics", "Map practice"],
+        roadmap: ["NCERT-style foundation", "Notes + timelines", "Map practice", "Mock tests", "Revision"],
+        projects: ["Timeline Notes Organizer", "Map Practice Planner"]
+      }
+    },
+    Intermediate: {
+      MPC: {
+        requiredSkills: ["Maths", "Physics", "Chemistry", "Problem solving speed"],
+        roadmap: ["Concept foundation", "Formula notes", "Daily practice sets", "Weekly mocks", "Revision cycles"],
+        projects: ["MPC Revision Planner", "Formula Flashcards"]
+      },
+      BiPC: {
+        requiredSkills: ["Biology", "Physics", "Chemistry", "Diagram practice"],
+        roadmap: ["NCERT + basics", "Short notes", "Daily MCQs", "Weekly mocks", "Revision"],
+        projects: ["BiPC Notes Organizer", "MCQ Practice Tracker"]
+      },
+      MEC: {
+        requiredSkills: ["Maths", "Economics", "Commerce basics", "Problem solving"],
+        roadmap: ["Math practice plan", "Eco concepts", "Commerce notes", "Mocks", "Revision"],
+        projects: ["MEC Study Tracker", "Economics Notes Pack"]
+      },
+      CEC: {
+        requiredSkills: ["Civics", "Economics", "Commerce", "Writing practice"],
+        roadmap: ["Concept foundation", "Short notes", "Answer writing", "Mocks", "Revision"],
+        projects: ["CEC Notes Organizer", "Answer Writing Tracker"]
+      }
+    },
+    Engineering: {
+      CSE: {
+        requiredSkills: ["Programming basics", "Data Structures", "Projects", "Placements preparation"],
+        roadmap: ["Pick a track (Web/AI)", "DSA practice", "Build 2 projects", "Resume + GitHub", "Mock interviews"],
+        projects: ["Portfolio + GitHub setup", "Mini Project Series"]
+      },
+      ECE: {
+        requiredSkills: ["Electronics basics", "Signals", "Projects", "Communication skills"],
+        roadmap: ["Core subjects plan", "Lab/project work", "Internship prep", "Resume", "Mocks"],
+        projects: ["Mini Hardware Project Log", "Electronics Notes Organizer"]
+      },
+      EEE: {
+        requiredSkills: ["Circuits", "Machines", "Power systems basics"],
+        roadmap: ["Core concepts", "Numericals practice", "Projects", "Internship prep", "Revision"],
+        projects: ["EEE Revision Planner", "Numericals Tracker"]
+      },
+      Mechanical: {
+        requiredSkills: ["Mechanics", "Thermodynamics", "Design basics"],
+        roadmap: ["Concept revision", "Numericals", "Mini projects", "Internship prep", "Mocks"],
+        projects: ["Mechanical Notes Organizer", "Project Portfolio"]
+      }
+    },
+    MBA: {
+      Marketing: {
+        requiredSkills: ["Marketing basics", "Communication", "Case studies"],
+        roadmap: ["Concept foundation", "Case practice", "Portfolio", "Interview prep", "Revision"],
+        projects: ["Marketing Case Notes", "Pitch Deck Practice"]
+      },
+      Finance: {
+        requiredSkills: ["Accounting basics", "Finance concepts", "Excel basics"],
+        roadmap: ["Accounting foundation", "Finance concepts", "Excel models", "Case studies", "Revision"],
+        projects: ["Finance Notes Pack", "Excel Model Tracker"]
+      },
+      Operations: {
+        requiredSkills: ["Process thinking", "Basics of ops", "Case studies"],
+        roadmap: ["Ops concepts", "Case practice", "Mini projects", "Interview prep", "Revision"],
+        projects: ["Ops Case Notes", "Process Improvement Log"]
+      },
+      HR: {
+        requiredSkills: ["HR basics", "Communication", "Policies"],
+        roadmap: ["Core HR concepts", "Case studies", "Policy notes", "Interview prep", "Revision"],
+        projects: ["HR Notes Organizer", "Interview Q&A Pack"]
+      }
+    },
     Law: {
       "Constitutional Law": {
         requiredSkills: ["Constitution basics", "Fundamental Rights", "Judicial Review", "Landmark cases"],
@@ -197,6 +285,40 @@ const DOMAIN_AI_TEMPLATES = {
     }
   },
   "Competitive Exams": {
+    JEE: {
+      "JEE Main": {
+        requiredSkills: ["Maths", "Physics", "Chemistry", "Speed practice"],
+        roadmap: ["Concepts foundation", "Daily problem sets", "Weekly mocks", "Analysis", "Revision"],
+        projects: ["JEE Mock Planner", "Formula Notes Pack"]
+      },
+      "JEE Advanced": {
+        requiredSkills: ["Advanced problem solving", "Strong concepts", "Time management"],
+        roadmap: ["Advanced practice", "Mixed sets", "Mocks", "Weak area drills", "Revision"],
+        projects: ["Advanced Problems Log", "Revision Tracker"]
+      },
+      "Revision Strategy": {
+        requiredSkills: ["Short notes", "Mocks", "Analysis"],
+        roadmap: ["Short notes", "Mock series", "Analysis", "Targeted revision", "Final revision"],
+        projects: ["Revision Planner", "Mistakes Notebook"]
+      }
+    },
+    NEET: {
+      Biology: {
+        requiredSkills: ["NCERT Biology", "Diagrams", "Daily MCQs"],
+        roadmap: ["NCERT reading", "Short notes", "MCQs", "Mocks", "Revision"],
+        projects: ["Biology MCQ Tracker", "Diagram Revision Pack"]
+      },
+      Physics: {
+        requiredSkills: ["Formulas", "Numericals", "Concept clarity"],
+        roadmap: ["Concept basics", "Numericals", "Mocks", "Analysis", "Revision"],
+        projects: ["Physics Formula Notes", "Numericals Tracker"]
+      },
+      Chemistry: {
+        requiredSkills: ["Inorganic", "Organic", "Physical chemistry basics"],
+        roadmap: ["Concept foundation", "Practice", "Mocks", "Weak areas", "Revision"],
+        projects: ["Chemistry Notes Pack", "Practice Tracker"]
+      }
+    },
     UPSC: {
       Prelims: {
         requiredSkills: ["Polity", "Economy", "History", "Geography", "Environment", "Current Affairs"],
