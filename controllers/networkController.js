@@ -636,22 +636,65 @@ function domainFromProfile({ user, profile }) {
     user?.primaryCategory ||
     (Array.isArray(user?.interestedCategories) ? user.interestedCategories[0] : "") ||
     profile?.careerGoals ||
-    "Technology & AI";
+    "";
   const domainOptions = Object.keys(mentorCategoryTree || {});
-  const direct = domainOptions.find((item) => normalizeText(item) === normalizeText(preferred));
+  const direct = preferred ? domainOptions.find((item) => normalizeText(item) === normalizeText(preferred)) : null;
   if (direct) return direct;
-  const fuzzy = domainOptions.find((item) => normalizeText(preferred).includes(normalizeText(item)));
-  return fuzzy || "Technology & AI";
+  const fuzzy = preferred ? domainOptions.find((item) => normalizeText(preferred).includes(normalizeText(item))) : null;
+  if (fuzzy) return fuzzy;
+
+  // If the user didn't explicitly save the primary domain yet, infer it from sub-category or specializations.
+  const hintTokens = uniqueTokens([
+    user?.subCategory,
+    ...(Array.isArray(user?.specializations) ? user.specializations : [])
+  ]);
+  if (hintTokens.size) {
+    const inferred = domainOptions.find((primary) => {
+      const subMap = mentorCategoryTree[primary] || {};
+      const all = [];
+      Object.keys(subMap).forEach((sub) => {
+        all.push(sub);
+        (subMap[sub] || []).forEach((spec) => all.push(spec));
+      });
+      const pool = uniqueTokens(all);
+      for (const token of hintTokens) {
+        if (pool.has(token)) return true;
+      }
+      return false;
+    });
+    if (inferred) return inferred;
+  }
+
+  return "Technology & AI";
 }
 
 function buildQuizContext({ user, profile, domain }) {
   const domainMap = mentorCategoryTree[domain] || {};
   const availableSubCategories = Object.keys(domainMap);
-  const selectedSubCategory =
-    availableSubCategories.find((item) => normalizeText(item) === normalizeText(user?.subCategory || "")) ||
-    availableSubCategories.find((item) => normalizeText(profile?.careerGoals || "").includes(normalizeText(item))) ||
-    availableSubCategories[0] ||
+  const userSub = normalizeText(user?.subCategory || "");
+  const goalHint = normalizeText(profile?.careerGoals || "");
+
+  let selectedSubCategory =
+    availableSubCategories.find((item) => normalizeText(item) === userSub) ||
+    availableSubCategories.find((item) => goalHint && goalHint.includes(normalizeText(item))) ||
     "";
+
+  // If the saved "subCategory" is actually a specialization/leaf (e.g., "MPC", "Frontend"),
+  // infer its parent sub-category so the quiz stays aligned with the user's selected track.
+  if (!selectedSubCategory && userSub) {
+    const inferred = availableSubCategories.find((sub) =>
+      (domainMap[sub] || []).some((spec) => normalizeText(spec) === userSub)
+    );
+    if (inferred) selectedSubCategory = inferred;
+  }
+  if (!selectedSubCategory && goalHint) {
+    const inferred = availableSubCategories.find((sub) =>
+      (domainMap[sub] || []).some((spec) => goalHint.includes(normalizeText(spec)))
+    );
+    if (inferred) selectedSubCategory = inferred;
+  }
+
+  if (!selectedSubCategory) selectedSubCategory = availableSubCategories[0] || "";
 
   const availableSpecializations = selectedSubCategory ? domainMap[selectedSubCategory] || [] : [];
   const selectedSpecializations = (user?.specializations || []).filter((item) =>
@@ -668,38 +711,69 @@ function buildQuizContext({ user, profile, domain }) {
   };
 }
 
+function qualifyLeafSkill(domain, subCategory, spec) {
+  const raw = String(spec || "").trim();
+  if (!raw) return "";
+
+  // Some specializations are ambiguous on their own (e.g., "Foundation", "Prelims").
+  const normalized = normalizeText(raw);
+  const stageTokens = new Set(["foundation", "inter", "final", "executive", "professional", "prelims", "mains", "interview"]);
+  if (stageTokens.has(normalized)) {
+    const parent = String(subCategory || "").trim();
+    return parent ? `${parent} ${raw}` : raw;
+  }
+
+  // Keep as-is for most leaf nodes.
+  return raw;
+}
+
 function domainSkills(domain, quizContext = null) {
   const subMap = mentorCategoryTree[domain] || {};
   const seen = new Set();
   const skills = [];
-  if (quizContext?.subCategory) {
-    seen.add(quizContext.subCategory);
-    skills.push(quizContext.subCategory);
-  }
-  (quizContext?.specializations || []).forEach((spec) => {
-    if (!seen.has(spec)) {
-      seen.add(spec);
-      skills.push(spec);
+
+  const selectedSub = String(quizContext?.subCategory || "").trim();
+  const selectedSpecs = Array.isArray(quizContext?.specializations) ? quizContext.specializations : [];
+  const selectedLeaf = selectedSub ? (subMap[selectedSub] || []) : [];
+
+  // Prefer leaf topics over container sub-categories (e.g., prefer "Math" over "School").
+  selectedSpecs.forEach((spec) => {
+    const qualified = qualifyLeafSkill(domain, selectedSub, spec);
+    if (qualified && !seen.has(qualified)) {
+      seen.add(qualified);
+      skills.push(qualified);
     }
   });
+
+  // If mentor didn't pick specializations (or they are too broad), seed with leaf topics of the selected sub-category.
+  selectedLeaf.forEach((spec) => {
+    const qualified = qualifyLeafSkill(domain, selectedSub, spec);
+    if (qualified && !seen.has(qualified)) {
+      seen.add(qualified);
+      skills.push(qualified);
+    }
+  });
+
+  // Blend profile skills (these can be concrete like "Python", "React", etc).
   (quizContext?.profileSkills || []).forEach((skill) => {
-    if (!seen.has(skill)) {
-      seen.add(skill);
-      skills.push(skill);
+    const clean = String(skill || "").trim();
+    if (clean && !seen.has(clean)) {
+      seen.add(clean);
+      skills.push(clean);
     }
   });
+
+  // Add remaining leaf topics in the domain for variety (avoid adding container sub-categories).
   Object.entries(subMap).forEach(([sub, specs]) => {
-    if (!seen.has(sub)) {
-      seen.add(sub);
-      skills.push(sub);
-    }
     (specs || []).forEach((spec) => {
-      if (!seen.has(spec)) {
-        seen.add(spec);
-        skills.push(spec);
+      const qualified = qualifyLeafSkill(domain, sub, spec);
+      if (qualified && !seen.has(qualified)) {
+        seen.add(qualified);
+        skills.push(qualified);
       }
     });
   });
+
   return skills.slice(0, 12);
 }
 
@@ -915,6 +989,841 @@ const FACTUAL_QUIZ_BANK = {
         explanation: "Monitoring tracks model health and performance after deployment."
       }
     ]
+  },
+  math: {
+    easy: [
+      {
+        question: "What is the value of 12 / 3?",
+        options: ["4", "3", "6", "9"],
+        correctOption: "4",
+        explanation: "12 divided by 3 equals 4."
+      },
+      {
+        question: "Which of the following is a prime number?",
+        options: ["11", "12", "15", "21"],
+        correctOption: "11",
+        explanation: "11 has exactly two factors: 1 and 11."
+      }
+    ],
+    medium: [
+      {
+        question: "What is the square root of 144?",
+        options: ["12", "14", "16", "10"],
+        correctOption: "12",
+        explanation: "12 x 12 = 144."
+      }
+    ],
+    hard: [
+      {
+        question: "What is the value of (a + b)^2?",
+        options: ["a^2 + 2ab + b^2", "a^2 - 2ab + b^2", "a^2 + b^2", "2a + 2b"],
+        correctOption: "a^2 + 2ab + b^2",
+        explanation: "(a + b)^2 expands to a^2 + 2ab + b^2."
+      }
+    ]
+  },
+  science: {
+    easy: [
+      {
+        question: "Which gas do plants mainly absorb during photosynthesis?",
+        options: ["Carbon dioxide", "Oxygen", "Nitrogen", "Helium"],
+        correctOption: "Carbon dioxide",
+        explanation: "Plants take in carbon dioxide and release oxygen during photosynthesis."
+      }
+    ],
+    medium: [
+      {
+        question: "Which part of the cell contains genetic material?",
+        options: ["Nucleus", "Ribosome", "Cell wall", "Cytoplasm"],
+        correctOption: "Nucleus",
+        explanation: "The nucleus contains DNA in most cells."
+      }
+    ]
+  },
+  english: {
+    easy: [
+      {
+        question: "Which of the following is a synonym of 'happy'?",
+        options: ["Joyful", "Angry", "Tired", "Confused"],
+        correctOption: "Joyful",
+        explanation: "Joyful means happy."
+      }
+    ],
+    medium: [
+      {
+        question: "Choose the correct sentence:",
+        options: ["She goes to school every day.", "She go to school every day.", "She going to school every day.", "She gone to school every day."],
+        correctOption: "She goes to school every day.",
+        explanation: "Subject-verb agreement requires 'goes' with 'she'."
+      }
+    ]
+  },
+  "social studies": {
+    easy: [
+      {
+        question: "Which is the largest democracy in the world?",
+        options: ["India", "China", "Russia", "Canada"],
+        correctOption: "India",
+        explanation: "India is the world's largest democracy by population."
+      }
+    ]
+  },
+  mpc: {
+    easy: [
+      {
+        question: "MPC typically stands for which subjects?",
+        options: ["Math, Physics, Chemistry", "Math, Politics, Civics", "Micro, Pharma, Chemistry", "Music, Painting, Craft"],
+        correctOption: "Math, Physics, Chemistry",
+        explanation: "MPC is a common intermediate track: Math, Physics, Chemistry."
+      }
+    ],
+    medium: [
+      {
+        question: "Which subject is NOT part of MPC?",
+        options: ["Biology", "Math", "Physics", "Chemistry"],
+        correctOption: "Biology",
+        explanation: "Biology is part of BiPC, not MPC."
+      }
+    ]
+  },
+  bipc: {
+    easy: [
+      {
+        question: "BiPC typically stands for which subjects?",
+        options: ["Biology, Physics, Chemistry", "Biology, Politics, Civics", "Business, Physics, Chemistry", "Biology, Programming, Chemistry"],
+        correctOption: "Biology, Physics, Chemistry",
+        explanation: "BiPC is a common intermediate track: Biology, Physics, Chemistry."
+      }
+    ]
+  },
+  mec: {
+    easy: [
+      {
+        question: "MEC typically includes which subjects?",
+        options: ["Math, Economics, Commerce", "Math, English, Chemistry", "Micro, Electronics, Civics", "Music, Engineering, Coding"],
+        correctOption: "Math, Economics, Commerce",
+        explanation: "MEC commonly means Math, Economics, Commerce."
+      }
+    ]
+  },
+  cec: {
+    easy: [
+      {
+        question: "CEC typically includes which subjects?",
+        options: ["Civics, Economics, Commerce", "Chemistry, English, Civics", "Coding, Electronics, Commerce", "Civics, Engineering, Coding"],
+        correctOption: "Civics, Economics, Commerce",
+        explanation: "CEC commonly means Civics, Economics, Commerce."
+      }
+    ]
+  },
+  cse: {
+    easy: [
+      {
+        question: "What does CSE commonly stand for in engineering?",
+        options: ["Computer Science and Engineering", "Civil Structural Engineering", "Computer Systems Electronics", "Common Software Education"],
+        correctOption: "Computer Science and Engineering",
+        explanation: "CSE is short for Computer Science and Engineering."
+      }
+    ],
+    medium: [
+      {
+        question: "Which data structure follows FIFO (First In, First Out)?",
+        options: ["Queue", "Stack", "Tree", "Graph"],
+        correctOption: "Queue",
+        explanation: "Queue is FIFO; Stack is LIFO."
+      }
+    ]
+  },
+  ece: {
+    easy: [
+      {
+        question: "ECE commonly stands for:",
+        options: ["Electronics and Communication Engineering", "Electrical and Civil Engineering", "Embedded Coding Essentials", "Economics and Commerce Education"],
+        correctOption: "Electronics and Communication Engineering",
+        explanation: "ECE is Electronics and Communication Engineering."
+      }
+    ]
+  },
+  eee: {
+    easy: [
+      {
+        question: "EEE commonly stands for:",
+        options: ["Electrical and Electronics Engineering", "Energy and Environmental Engineering", "English and Education Engineering", "Embedded and Electronic Education"],
+        correctOption: "Electrical and Electronics Engineering",
+        explanation: "EEE is Electrical and Electronics Engineering."
+      }
+    ]
+  },
+  mechanical: {
+    easy: [
+      {
+        question: "Which of these is a common mechanical component used to reduce friction?",
+        options: ["Ball bearing", "Resistor", "Capacitor", "Transistor"],
+        correctOption: "Ball bearing",
+        explanation: "Bearings reduce friction between moving parts."
+      }
+    ]
+  },
+  aptitude: {
+    easy: [
+      {
+        question: "If 5 workers take 10 days to finish a job, how many days will 10 workers take (same work rate)?",
+        options: ["5 days", "10 days", "20 days", "2 days"],
+        correctOption: "5 days",
+        explanation: "Doubling workers halves the time: 10 days / 2 = 5 days."
+      }
+    ]
+  },
+  "resume review": {
+    easy: [
+      {
+        question: "Which section is MOST important to include on a fresher resume?",
+        options: ["Projects", "Passport number", "Daily routine", "Unrelated hobbies only"],
+        correctOption: "Projects",
+        explanation: "Projects demonstrate practical skills for freshers."
+      }
+    ]
+  },
+  "mock interviews": {
+    easy: [
+      {
+        question: "STAR method is commonly used to answer which type of interview questions?",
+        options: ["Behavioral questions", "Math-only questions", "Grammar questions", "Typing speed tests"],
+        correctOption: "Behavioral questions",
+        explanation: "STAR helps structure answers for behavioral questions."
+      }
+    ]
+  },
+  marketing: {
+    easy: [
+      {
+        question: "What does '4Ps' in marketing commonly refer to?",
+        options: ["Product, Price, Place, Promotion", "People, Politics, Power, Profit", "Plan, Process, Program, Profit", "Product, People, Profit, Payment"],
+        correctOption: "Product, Price, Place, Promotion",
+        explanation: "4Ps are Product, Price, Place, Promotion."
+      }
+    ]
+  },
+  operations: {
+    easy: [
+      {
+        question: "In operations, 'SOP' commonly stands for:",
+        options: ["Standard Operating Procedure", "Sales Order Pipeline", "Service Output Plan", "System Online Process"],
+        correctOption: "Standard Operating Procedure",
+        explanation: "SOP means Standard Operating Procedure."
+      }
+    ]
+  },
+  hr: {
+    easy: [
+      {
+        question: "In HR, onboarding is the process of:",
+        options: ["Integrating a new employee into the company", "Firing an employee", "Auditing company accounts", "Launching a marketing campaign"],
+        correctOption: "Integrating a new employee into the company",
+        explanation: "Onboarding helps new employees join and adapt to the company."
+      }
+    ]
+  },
+  "constitutional law": {
+    easy: [
+      {
+        question: "In India, the Constitution is the:",
+        options: ["Supreme law of the country", "Only a guideline document", "Optional rulebook", "Court order"],
+        correctOption: "Supreme law of the country",
+        explanation: "The Constitution is the supreme law."
+      }
+    ]
+  },
+  "corporate law": {
+    easy: [
+      {
+        question: "Corporate law primarily deals with:",
+        options: ["Companies and business regulations", "Medical prescriptions", "Agriculture seasons", "Space missions"],
+        correctOption: "Companies and business regulations",
+        explanation: "Corporate law focuses on companies and business compliance."
+      }
+    ]
+  },
+  litigation: {
+    easy: [
+      {
+        question: "Litigation generally refers to:",
+        options: ["Resolving disputes in court", "Writing computer programs", "Filing tax returns", "Running marketing ads"],
+        correctOption: "Resolving disputes in court",
+        explanation: "Litigation is the process of taking legal action in court."
+      }
+    ]
+  },
+  "jee main": {
+    easy: [
+      {
+        question: "JEE Main is an entrance exam mainly for admissions into:",
+        options: ["Engineering programs", "Medical programs", "Law programs", "MBA programs"],
+        correctOption: "Engineering programs",
+        explanation: "JEE Main is primarily for engineering admissions."
+      }
+    ]
+  },
+  "jee advanced": {
+    easy: [
+      {
+        question: "JEE Advanced is primarily associated with admissions into:",
+        options: ["IITs", "AIIMS", "NLUs", "IIMs"],
+        correctOption: "IITs",
+        explanation: "JEE Advanced is used for IIT admissions."
+      }
+    ]
+  },
+  "neet biology": {
+    easy: [
+      {
+        question: "NEET Biology mainly tests topics from:",
+        options: ["Botany and Zoology", "Economics and Civics", "Computer Networks", "Accounting"],
+        correctOption: "Botany and Zoology",
+        explanation: "NEET Biology covers Botany and Zoology."
+      }
+    ]
+  },
+  "upsc prelims": {
+    easy: [
+      {
+        question: "UPSC Prelims generally includes which two papers?",
+        options: ["GS and CSAT", "Math and Biology", "Accounts and Law", "Physics and Chemistry"],
+        correctOption: "GS and CSAT",
+        explanation: "UPSC Prelims includes General Studies and CSAT."
+      }
+    ]
+  },
+  "upsc mains": {
+    easy: [
+      {
+        question: "UPSC Mains includes descriptive answer writing in:",
+        options: ["Essay and General Studies papers", "Only objective MCQs", "Only coding tests", "Only interviews"],
+        correctOption: "Essay and General Studies papers",
+        explanation: "Mains focuses on descriptive writing across papers."
+      }
+    ]
+  },
+  ibps: {
+    easy: [
+      {
+        question: "IBPS is mainly related to which sector exams?",
+        options: ["Banking", "Medicine", "Law", "Engineering"],
+        correctOption: "Banking",
+        explanation: "IBPS conducts banking-related exams."
+      }
+    ]
+  },
+  "sbi po": {
+    easy: [
+      {
+        question: "SBI PO is a recruitment exam for:",
+        options: ["Probationary Officer in SBI", "Police Officer", "Project Officer", "Patent Officer"],
+        correctOption: "Probationary Officer in SBI",
+        explanation: "SBI PO recruits Probationary Officers."
+      }
+    ]
+  },
+  "ca foundation": {
+    easy: [
+      {
+        question: "CA Foundation is part of which professional qualification?",
+        options: ["Chartered Accountancy", "Company Secretary", "CMA only", "Engineering"],
+        correctOption: "Chartered Accountancy",
+        explanation: "CA Foundation is the entry level for Chartered Accountancy."
+      }
+    ]
+  },
+  "cs executive": {
+    easy: [
+      {
+        question: "CS Executive is a stage in which course?",
+        options: ["Company Secretary", "Civil Services", "Computer Science", "Clinical Studies"],
+        correctOption: "Company Secretary",
+        explanation: "CS stands for Company Secretary."
+      }
+    ]
+  },
+  "cs professional": {
+    easy: [
+      {
+        question: "CS Professional is a stage in which course?",
+        options: ["Company Secretary", "Civil Services", "Computer Science", "Clinical Studies"],
+        correctOption: "Company Secretary",
+        explanation: "CS Professional is an advanced stage of the Company Secretary course."
+      }
+    ]
+  },
+  "cma foundation": {
+    easy: [
+      {
+        question: "CMA Foundation is related to which professional course?",
+        options: ["Cost and Management Accountancy", "Computer Management Applications", "Civil Management Academy", "Creative Media Arts"],
+        correctOption: "Cost and Management Accountancy",
+        explanation: "CMA stands for Cost and Management Accountancy."
+      }
+    ]
+  },
+  "upsc interview": {
+    easy: [
+      {
+        question: "UPSC Interview stage is also known as:",
+        options: ["Personality Test", "Coding Round", "Practical Lab", "Viva for optional only"],
+        correctOption: "Personality Test",
+        explanation: "UPSC interview is commonly referred to as the Personality Test."
+      }
+    ]
+  },
+  reasoning: {
+    easy: [
+      {
+        question: "If all roses are flowers, and some flowers fade quickly, which statement is always true?",
+        options: ["All roses are flowers", "All flowers are roses", "All roses fade quickly", "No flowers fade quickly"],
+        correctOption: "All roses are flowers",
+        explanation: "The first statement is given and always true."
+      }
+    ]
+  },
+  clerical: {
+    easy: [
+      {
+        question: "Banking clerical roles are generally focused on:",
+        options: ["Customer service and day-to-day branch operations", "Aircraft maintenance", "Legal court hearings", "Medical surgery"],
+        correctOption: "Customer service and day-to-day branch operations",
+        explanation: "Clerical roles handle routine banking operations and customer support."
+      }
+    ]
+  },
+  "idea validation": {
+    easy: [
+      {
+        question: "Idea validation usually means:",
+        options: ["Checking real user demand before building", "Writing code without users", "Raising money first", "Hiring a large team immediately"],
+        correctOption: "Checking real user demand before building",
+        explanation: "Validation confirms market demand."
+      }
+    ]
+  },
+  "mvp building": {
+    easy: [
+      {
+        question: "MVP stands for:",
+        options: ["Minimum Viable Product", "Maximum Value Plan", "Most Valuable Process", "Minimum Visual Prototype"],
+        correctOption: "Minimum Viable Product",
+        explanation: "MVP means Minimum Viable Product."
+      }
+    ]
+  },
+  fundraising: {
+    easy: [
+      {
+        question: "A pitch deck is most commonly used for:",
+        options: ["Fundraising", "Cooking", "Exam writing", "Sports training"],
+        correctOption: "Fundraising",
+        explanation: "Pitch decks help raise investment."
+      }
+    ]
+  },
+  stocks: {
+    easy: [
+      {
+        question: "A stock represents:",
+        options: ["Ownership in a company", "A loan you took", "A fixed deposit only", "A government ID"],
+        correctOption: "Ownership in a company",
+        explanation: "Stocks represent ownership shares."
+      }
+    ]
+  },
+  "mutual funds": {
+    easy: [
+      {
+        question: "A mutual fund is best described as:",
+        options: ["Pooled money invested by a fund manager", "A personal bank account", "A type of tax form", "A fixed salary plan"],
+        correctOption: "Pooled money invested by a fund manager",
+        explanation: "Mutual funds pool investor money for investments."
+      }
+    ]
+  },
+  "ui design": {
+    easy: [
+      {
+        question: "UI stands for:",
+        options: ["User Interface", "Unique Internet", "Unified Input", "User Information"],
+        correctOption: "User Interface",
+        explanation: "UI means User Interface."
+      }
+    ]
+  },
+  "ux research": {
+    easy: [
+      {
+        question: "UX research is mainly used to:",
+        options: ["Understand user needs and behavior", "Write backend APIs", "Compile mobile APKs", "Create server logs"],
+        correctOption: "Understand user needs and behavior",
+        explanation: "UX research studies users to improve product experience."
+      }
+    ]
+  },
+  communication: {
+    easy: [
+      {
+        question: "Active listening means:",
+        options: ["Listening with attention and responding appropriately", "Only speaking", "Ignoring the speaker", "Reading silently only"],
+        correctOption: "Listening with attention and responding appropriately",
+        explanation: "Active listening involves attention and meaningful response."
+      }
+    ]
+  },
+  productivity: {
+    easy: [
+      {
+        question: "Which technique uses 25 minutes of focused work followed by a short break?",
+        options: ["Pomodoro Technique", "SWOT Analysis", "Kanban Only", "Waterfall Model"],
+        correctOption: "Pomodoro Technique",
+        explanation: "Pomodoro uses timed focus sessions and breaks."
+      }
+    ]
+  },
+  leadership: {
+    easy: [
+      {
+        question: "Leadership is best described as:",
+        options: ["Influencing and guiding people toward a goal", "Only giving orders", "Avoiding decisions", "Working alone always"],
+        correctOption: "Influencing and guiding people toward a goal",
+        explanation: "Leadership is about guiding others toward shared goals."
+      }
+    ]
+  },
+  mindset: {
+    easy: [
+      {
+        question: "A growth mindset means:",
+        options: ["Believing skills can improve with effort", "Believing talent never changes", "Avoiding challenges", "Never taking feedback"],
+        correctOption: "Believing skills can improve with effort",
+        explanation: "Growth mindset focuses on learning and improvement."
+      }
+    ]
+  },
+  "work-life balance": {
+    easy: [
+      {
+        question: "Work-life balance is mainly about:",
+        options: ["Managing work and personal life sustainably", "Working 24/7", "Avoiding all work", "Only taking vacations"],
+        correctOption: "Managing work and personal life sustainably",
+        explanation: "Balance means sustainable time/energy management."
+      }
+    ]
+  },
+  "confidence building": {
+    easy: [
+      {
+        question: "Which habit can help build confidence over time?",
+        options: ["Practicing skills consistently", "Avoiding all challenges", "Never asking questions", "Comparing constantly"],
+        correctOption: "Practicing skills consistently",
+        explanation: "Confidence grows through practice and small wins."
+      }
+    ]
+  },
+  finance: {
+    easy: [
+      {
+        question: "A budget is best described as:",
+        options: ["A plan for income and expenses", "A type of stock", "A bank loan", "A tax penalty"],
+        correctOption: "A plan for income and expenses",
+        explanation: "Budgeting plans your income and spending."
+      }
+    ]
+  },
+  budgeting: {
+    easy: [
+      {
+        question: "50/30/20 rule is commonly used for:",
+        options: ["Budgeting", "Coding interviews", "Physics formulas", "Health diagnosis"],
+        correctOption: "Budgeting",
+        explanation: "50/30/20 is a budgeting guideline."
+      }
+    ]
+  },
+  "personal finance": {
+    easy: [
+      {
+        question: "Emergency fund is mainly for:",
+        options: ["Unexpected expenses", "Buying luxury items", "Paying only taxes", "Investing all money in one stock"],
+        correctOption: "Unexpected expenses",
+        explanation: "Emergency funds help cover unexpected costs."
+      }
+    ]
+  },
+  "risk management": {
+    easy: [
+      {
+        question: "Diversification helps in investing by:",
+        options: ["Reducing risk across assets", "Guaranteeing profits always", "Increasing taxes", "Stopping market changes"],
+        correctOption: "Reducing risk across assets",
+        explanation: "Diversification reduces risk by spreading investments."
+      }
+    ]
+  },
+  "portfolio strategy": {
+    easy: [
+      {
+        question: "Asset allocation means:",
+        options: ["Splitting investments across asset types", "Buying only one stock", "Avoiding savings", "Only holding cash always"],
+        correctOption: "Splitting investments across asset types",
+        explanation: "Asset allocation distributes funds across assets."
+      }
+    ]
+  },
+  frontend: {
+    easy: [
+      {
+        question: "Frontend development mainly focuses on:",
+        options: ["User interface in the browser/app", "Database backups", "Server routing only", "Operating system kernel"],
+        correctOption: "User interface in the browser/app",
+        explanation: "Frontend is the UI users interact with."
+      }
+    ]
+  },
+  backend: {
+    easy: [
+      {
+        question: "Backend development mainly focuses on:",
+        options: ["Server logic and APIs", "Only UI colors", "Only app icons", "Only camera filters"],
+        correctOption: "Server logic and APIs",
+        explanation: "Backend powers data, APIs, and server logic."
+      }
+    ]
+  },
+  "full stack": {
+    easy: [
+      {
+        question: "A full stack developer typically works on:",
+        options: ["Frontend and backend", "Only design", "Only testing", "Only marketing"],
+        correctOption: "Frontend and backend",
+        explanation: "Full stack covers both frontend and backend."
+      }
+    ]
+  },
+  statistics: {
+    easy: [
+      {
+        question: "Mean of 2, 4, 6 is:",
+        options: ["4", "6", "2", "3"],
+        correctOption: "4",
+        explanation: "Mean = (2+4+6)/3 = 4."
+      }
+    ]
+  },
+  "data visualization": {
+    easy: [
+      {
+        question: "Which chart is best to show trends over time?",
+        options: ["Line chart", "Pie chart", "Scatter only", "Table only"],
+        correctOption: "Line chart",
+        explanation: "Line charts show trends over time."
+      }
+    ]
+  },
+  "roadmap planning": {
+    easy: [
+      {
+        question: "A roadmap is mainly used to:",
+        options: ["Plan step-by-step progress toward a goal", "Replace exams", "Increase phone storage", "Avoid learning"],
+        correctOption: "Plan step-by-step progress toward a goal",
+        explanation: "Roadmaps structure learning/career progress."
+      }
+    ]
+  },
+  "role selection": {
+    easy: [
+      {
+        question: "Role selection in career planning means:",
+        options: ["Choosing a target job role based on interests and skills", "Deleting your resume", "Avoiding internships", "Never exploring domains"],
+        correctOption: "Choosing a target job role based on interests and skills",
+        explanation: "Role selection aligns goals with strengths and interests."
+      }
+    ]
+  },
+  "higher studies": {
+    easy: [
+      {
+        question: "GATE is commonly used for admissions into:",
+        options: ["Postgraduate engineering programs", "Medical MBBS", "Law LLB", "School admissions"],
+        correctOption: "Postgraduate engineering programs",
+        explanation: "GATE is used for PG engineering and PSU recruitment."
+      }
+    ]
+  },
+  "revision strategy": {
+    easy: [
+      {
+        question: "Which is a good revision strategy before exams?",
+        options: ["Regular short revisions + mock tests", "Study only on exam day", "Never revise", "Skip weak topics always"],
+        correctOption: "Regular short revisions + mock tests",
+        explanation: "Revision and mock tests improve recall and speed."
+      }
+    ]
+  },
+  cgl: {
+    easy: [
+      {
+        question: "SSC CGL stands for:",
+        options: ["Staff Selection Commission Combined Graduate Level", "State Service Computer Graduate List", "School Certificate General Level", "Social Career Guidance Level"],
+        correctOption: "Staff Selection Commission Combined Graduate Level",
+        explanation: "CGL is Combined Graduate Level."
+      }
+    ]
+  },
+  chsl: {
+    easy: [
+      {
+        question: "SSC CHSL stands for:",
+        options: ["Combined Higher Secondary Level", "Computer Hardware Skills Level", "Certified High Study License", "Central Health Services List"],
+        correctOption: "Combined Higher Secondary Level",
+        explanation: "CHSL is Combined Higher Secondary Level."
+      }
+    ]
+  },
+  "group 1": {
+    easy: [
+      {
+        question: "Group 1 exams generally refer to:",
+        options: ["State civil services higher-level posts", "School group projects", "Sports grouping", "Medical licensing"],
+        correctOption: "State civil services higher-level posts",
+        explanation: "Group 1 typically means higher-level state service exams."
+      }
+    ]
+  },
+  "group 2": {
+    easy: [
+      {
+        question: "Group 2 exams generally refer to:",
+        options: ["State service posts (mid-level)", "Only engineering admissions", "Only bank clerk posts", "Only medical entrance"],
+        correctOption: "State service posts (mid-level)",
+        explanation: "Group 2 are state service recruitment exams."
+      }
+    ]
+  },
+  "general studies": {
+    easy: [
+      {
+        question: "General Studies usually includes:",
+        options: ["History, Polity, Geography, Economy", "Only coding", "Only biology", "Only design"],
+        correctOption: "History, Polity, Geography, Economy",
+        explanation: "GS covers multiple subjects for competitive exams."
+      }
+    ]
+  },
+  "ca inter": {
+    easy: [
+      {
+        question: "CA Inter is a stage in:",
+        options: ["Chartered Accountancy", "Computer Science", "Civil Services", "Creative Arts"],
+        correctOption: "Chartered Accountancy",
+        explanation: "CA Inter is an intermediate stage of the CA course."
+      }
+    ]
+  },
+  "ca final": {
+    easy: [
+      {
+        question: "CA Final is:",
+        options: ["The final stage of Chartered Accountancy", "An engineering entrance exam", "A school-level test", "A design portfolio"],
+        correctOption: "The final stage of Chartered Accountancy",
+        explanation: "CA Final is the last level in the CA course."
+      }
+    ]
+  },
+  "cma inter": {
+    easy: [
+      {
+        question: "CMA Inter is a stage in:",
+        options: ["Cost and Management Accountancy", "Computer Management Applications", "Civil Management Academy", "Creative Media Arts"],
+        correctOption: "Cost and Management Accountancy",
+        explanation: "CMA Inter is an intermediate stage in CMA."
+      }
+    ]
+  },
+  "cma final": {
+    easy: [
+      {
+        question: "CMA Final is:",
+        options: ["The final stage of CMA course", "A banking exam", "A law entrance test", "A school exam"],
+        correctOption: "The final stage of CMA course",
+        explanation: "CMA Final is the last level in CMA."
+      }
+    ]
+  },
+  sales: {
+    easy: [
+      {
+        question: "Sales is mainly about:",
+        options: ["Helping customers and closing deals", "Writing only code", "Only making posters", "Avoiding communication"],
+        correctOption: "Helping customers and closing deals",
+        explanation: "Sales focuses on customer needs and closing deals."
+      }
+    ]
+  },
+  "team building": {
+    easy: [
+      {
+        question: "Team building is mainly about:",
+        options: ["Creating an effective working team", "Buying gadgets", "Only writing emails", "Avoiding collaboration"],
+        correctOption: "Creating an effective working team",
+        explanation: "Team building improves collaboration and performance."
+      }
+    ]
+  },
+  "go-to-market": {
+    easy: [
+      {
+        question: "Go-to-market strategy is mainly about:",
+        options: ["How a product reaches customers", "How to write exams", "How to bake a cake", "How to change phone wallpaper"],
+        correctOption: "How a product reaches customers",
+        explanation: "GTM defines distribution, positioning, and launch."
+      }
+    ]
+  },
+  "product design": {
+    easy: [
+      {
+        question: "Product design mainly focuses on:",
+        options: ["Designing usable and valuable products for users", "Only server deployment", "Only stock trading", "Only legal drafting"],
+        correctOption: "Designing usable and valuable products for users",
+        explanation: "Product design covers usability, flows, and product experience."
+      }
+    ]
+  },
+  branding: {
+    easy: [
+      {
+        question: "Branding mainly refers to:",
+        options: ["How a product/company is perceived", "Only writing code", "Only studying physics", "Only banking transactions"],
+        correctOption: "How a product/company is perceived",
+        explanation: "Branding shapes perception through identity and messaging."
+      }
+    ]
+  },
+  content: {
+    easy: [
+      {
+        question: "Content strategy is mainly about:",
+        options: ["Planning what to communicate to the audience", "Writing only formulas", "Avoiding marketing", "Only designing circuits"],
+        correctOption: "Planning what to communicate to the audience",
+        explanation: "Content strategy plans topics, formats, and distribution."
+      }
+    ]
+  },
+  "visual storytelling": {
+    easy: [
+      {
+        question: "Visual storytelling uses visuals to:",
+        options: ["Communicate a message or story", "Debug code", "Do bank transfers", "Write legal petitions"],
+        correctOption: "Communicate a message or story",
+        explanation: "Visual storytelling communicates ideas through visuals."
+      }
+    ]
+  }
   }
 };
 
@@ -970,20 +1879,20 @@ function buildQuestionTemplates({ domain, subCategory, skill, careerGoal, altern
         question: `${safeSkill} is most closely linked to which path?`,
         options: [
           `${safeDomain} -> ${safeSubCategory}`,
-          `${careerGoal || "General Career"} -> Random Topics`,
-          "Unrelated category -> Memorization",
-          "No domain mapping"
+          `${careerGoal || "General Career"} -> Foundational Topics`,
+          `${safeDomain} -> Other Track`,
+          "Not part of the selected guide"
         ],
         correctOption: `${safeDomain} -> ${safeSubCategory}`,
         explanation: `${safeSkill} belongs inside the ${safeSubCategory} track of ${safeDomain}.`
       },
       {
-        question: `Which option is a valid concept from ${safeSubCategory}?`,
+        question: `Which option is most likely a real topic inside ${safeSubCategory}?`,
         options: [
           safeSkill,
-          `Capital of ${safeSkill}`,
-          `History of ${distractors[0]}`,
-          "All of the above unrelated"
+          distractors[0],
+          distractors[1],
+          distractors[2]
         ],
         correctOption: safeSkill,
         explanation: `${safeSkill} is a valid topic inside the selected student path.`
