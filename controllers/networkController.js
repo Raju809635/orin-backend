@@ -86,6 +86,146 @@ function parseCsvList(value) {
     .filter(Boolean);
 }
 
+function isValidDomainSelection(primaryCategory, subCategory, focus) {
+  if (!primaryCategory) return false;
+  const subMap = mentorCategoryTree[primaryCategory];
+  if (!subMap) return false;
+  if (!subCategory) return true;
+  const focusList = subMap[subCategory];
+  if (!focusList) return false;
+  if (!focus) return true;
+  return focusList.some((item) => normalizeText(item) === normalizeText(focus));
+}
+
+function resolveAiDomainContext({ user, primaryCategory, subCategory, focus }) {
+  const primary = String(primaryCategory || user?.primaryCategory || "").trim();
+  const sub = String(subCategory || user?.subCategory || "").trim();
+  const nextFocus = String(focus || "").trim();
+
+  const primaryOk = primary && mentorCategoryTree[primary];
+  const effectivePrimary = primaryOk ? primary : (Object.keys(mentorCategoryTree)[0] || "");
+
+  const subMap = mentorCategoryTree[effectivePrimary] || {};
+  const effectiveSub = sub && subMap[sub] ? sub : (Object.keys(subMap)[0] || "");
+
+  const focuses = effectiveSub ? (subMap[effectiveSub] || []) : [];
+  const effectiveFocus =
+    nextFocus && focuses.some((f) => normalizeText(f) === normalizeText(nextFocus))
+      ? nextFocus
+      : (focuses[0] || "");
+
+  const goalLabel = [effectivePrimary, effectiveSub, effectiveFocus].filter(Boolean).join(" > ").trim();
+  return {
+    primaryCategory: effectivePrimary,
+    subCategory: effectiveSub,
+    focus: effectiveFocus,
+    goalLabel: goalLabel || effectivePrimary || "Career Growth"
+  };
+}
+
+const DOMAIN_AI_TEMPLATES = {
+  "Technology & AI": {
+    "Web Development": {
+      Frontend: {
+        requiredSkills: ["HTML", "CSS", "JavaScript", "React", "Git", "Responsive Design"],
+        roadmap: ["HTML + CSS fundamentals", "JavaScript basics + DOM", "React fundamentals", "State management + routing", "API integration + projects"],
+        projects: ["Portfolio Website", "React Notes App", "E-commerce UI", "Weather App with API", "Job Tracker Dashboard"]
+      },
+      Backend: {
+        requiredSkills: ["Node.js", "Express", "REST APIs", "MongoDB", "Authentication (JWT)", "Deployment basics"],
+        roadmap: ["Node.js fundamentals", "Express + REST design", "MongoDB + Mongoose", "Auth + security", "Deploy on Render + monitoring"],
+        projects: ["Auth API Starter", "Mentor Booking API", "Chat API (basic)", "Blog API with roles", "Payments verification mock"]
+      },
+      "Full Stack": {
+        requiredSkills: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB", "Auth", "Deployment"],
+        roadmap: ["Frontend foundations", "Backend foundations", "Auth + roles", "End-to-end full stack project", "Deploy + optimize"],
+        projects: ["Full Stack Mentor Platform", "Realtime Chat App", "Task Manager SaaS", "College Community App", "Mini LinkedIn Feed"]
+      }
+    },
+    "Data Science": {
+      Python: {
+        requiredSkills: ["Python", "Pandas", "NumPy", "Matplotlib", "Data Cleaning"],
+        roadmap: ["Python basics", "Pandas + cleaning", "EDA + charts", "Mini dashboards", "Case studies portfolio"],
+        projects: ["EDA Portfolio", "Student Performance Dashboard", "Sales Insights Report", "Data Cleaning Toolkit"]
+      },
+      Statistics: {
+        requiredSkills: ["Probability", "Statistics", "Hypothesis Testing", "Regression basics"],
+        roadmap: ["Probability basics", "Descriptive stats", "Inferential stats", "Regression", "Practice with datasets"],
+        projects: ["Stats Notes + Examples", "A/B Test Simulator", "Regression Case Study"]
+      },
+      "Data Visualization": {
+        requiredSkills: ["Power BI", "Tableau", "Charts", "Storytelling", "SQL basics"],
+        roadmap: ["Charts basics", "SQL for analysis", "Dashboard building", "Storytelling", "Portfolio publishing"],
+        projects: ["Power BI Dashboard Pack", "Tableau Portfolio", "SQL + Dashboard case study"]
+      }
+    },
+    "AI/ML": {
+      "Machine Learning": {
+        requiredSkills: ["Python", "Data Structures", "Statistics", "Scikit-learn", "Model evaluation"],
+        roadmap: ["Python + math basics", "Supervised ML", "Unsupervised ML", "Evaluation + tuning", "Mini projects"],
+        projects: ["Spam Classifier", "House Price Predictor", "Student Marks Predictor", "Recommendation Basics"]
+      },
+      "Deep Learning": {
+        requiredSkills: ["Neural Networks", "PyTorch/TensorFlow", "CNN/RNN basics", "GPU basics"],
+        roadmap: ["NN foundations", "CNN projects", "Sequence models", "Transfer learning", "Deploy a model"],
+        projects: ["Image Classifier", "Face Mask Detector", "Text Sentiment Model"]
+      },
+      MLOps: {
+        requiredSkills: ["APIs", "Docker basics", "Model deployment", "Monitoring"],
+        roadmap: ["Serving models with APIs", "Dockerize", "CI/CD basics", "Monitoring + logs", "Production checklist"],
+        projects: ["Model API + Docker", "Batch prediction pipeline", "Monitoring dashboard (basic)"]
+      }
+    }
+  },
+  Academic: {
+    Law: {
+      "Constitutional Law": {
+        requiredSkills: ["Constitution basics", "Fundamental Rights", "Judicial Review", "Landmark cases"],
+        roadmap: ["Basics + terminology", "Rights + duties", "Institutions", "Landmark case notes", "Mock answers + revision"],
+        projects: ["Case Notes Organizer", "Constitution Flashcards"]
+      },
+      "Corporate Law": {
+        requiredSkills: ["Companies Act basics", "Contracts basics", "Compliance"],
+        roadmap: ["Company structures", "Contracts", "Compliance + filings", "Case studies", "Mock questions"],
+        projects: ["Compliance Checklist Notes", "Corporate Law Q&A Bank"]
+      },
+      Litigation: {
+        requiredSkills: ["Court process basics", "Drafting", "Evidence basics"],
+        roadmap: ["Court procedures", "Drafting practice", "Evidence basics", "Moot prep", "Revision"],
+        projects: ["Drafting Templates Pack", "Moot Notes Organizer"]
+      }
+    }
+  },
+  "Competitive Exams": {
+    UPSC: {
+      Prelims: {
+        requiredSkills: ["Polity", "Economy", "History", "Geography", "Environment", "Current Affairs"],
+        roadmap: ["NCERT foundation", "Subject-wise coverage", "Daily current affairs", "Mock tests + analysis", "Revision cycles"],
+        projects: ["Daily Current Affairs Tracker", "UPSC Prelims Mock Planner"]
+      },
+      Mains: {
+        requiredSkills: ["Answer writing", "Ethics", "GS papers", "Optional subject strategy"],
+        roadmap: ["GS framework", "Answer writing practice", "Optional planning", "Test series", "Revision + feedback"],
+        projects: ["Answer Writing Tracker", "Mains Notes Organizer"]
+      },
+      Interview: {
+        requiredSkills: ["Communication", "DAF prep", "Current affairs discussion", "Mock interviews"],
+        roadmap: ["DAF deep dive", "Mock interviews", "Current issues speaking", "Personality prep", "Final polishing"],
+        projects: ["Interview Q&A Bank", "Mock Interview Planner"]
+      }
+    }
+  }
+};
+
+function findTemplate(primaryCategory, subCategory, focus) {
+  const p = DOMAIN_AI_TEMPLATES[primaryCategory];
+  if (!p) return null;
+  const s = subCategory ? p[subCategory] : null;
+  if (!s) return null;
+  if (!focus) return s.__default || null;
+  return s[focus] || s.__default || null;
+}
+
 function getRoadmapForGoal(goal = "") {
   const normalized = normalizeText(goal);
 
@@ -1943,11 +2083,20 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   const studentProfile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
   const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
 
-  const goal = req.query.goal || studentProfile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth";
-  const steps = getRoadmapForGoal(String(goal || ""));
+  const ctx = resolveAiDomainContext({
+    user,
+    primaryCategory: req.query.primaryCategory || req.query.domain,
+    subCategory: req.query.subCategory || req.query.subDomain,
+    focus: req.query.focus || req.query.specialization
+  });
+
+  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
+  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const steps = template?.roadmap?.length ? template.roadmap : getRoadmapForGoal(goal);
 
   res.json({
     goal: String(goal),
+    domainContext: ctx,
     steps: steps.map((title, idx) => ({
       stepNumber: idx + 1,
       title,
@@ -2257,8 +2406,15 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
   const studentProfile = await StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean();
   const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
 
-  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
-  const requiredSkills = getRequiredSkillsForGoal(goal);
+  const ctx = resolveAiDomainContext({
+    user,
+    primaryCategory: req.query.primaryCategory || req.query.domain,
+    subCategory: req.query.subCategory || req.query.subDomain,
+    focus: req.query.focus || req.query.specialization
+  });
+  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
+  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const requiredSkills = template?.requiredSkills?.length ? template.requiredSkills : getRequiredSkillsForGoal(goal);
   const overrideSkills = parseCsvList(req.query.skills);
   const currentSkills = (overrideSkills.length ? overrideSkills : studentProfile?.skills || [])
     .map((item) => String(item).trim())
@@ -2295,11 +2451,12 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
     .sort((a, b) => b.score - a.score || b.rating - a.rating)
     .slice(0, 6);
 
-  const projectIdeas = getProjectIdeasForGoal(goal).slice(0, 5);
-  const roadmapSteps = getRoadmapForGoal(goal).slice(0, 5);
+  const projectIdeas = (template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal)).slice(0, 5);
+  const roadmapSteps = (template?.roadmap?.length ? template.roadmap : getRoadmapForGoal(goal)).slice(0, 5);
 
   res.json({
     goal,
+    domainContext: ctx,
     currentSkills,
     missingSkills,
     suggestions: {
@@ -2487,19 +2644,28 @@ exports.getProjectIdeas = asyncHandler(async (req, res) => {
   const user = await User.findById(userId).select("goals primaryCategory").lean();
   const domainOverride = String(req.query.domain || "").trim();
   const levelOverride = String(req.query.level || "").trim();
-  const goal = String(req.query.goal || domainOverride || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+  const ctx = resolveAiDomainContext({
+    user,
+    primaryCategory: req.query.primaryCategory || domainOverride || req.query.domain,
+    subCategory: req.query.subCategory || req.query.subDomain,
+    focus: req.query.focus || req.query.specialization
+  });
+  const goal = String(req.query.goal || ctx.goalLabel || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
   const difficulty =
     normalizeText(levelOverride) === "beginner"
       ? "Easy"
       : normalizeText(levelOverride) === "advanced"
         ? "Hard"
         : "Medium";
+  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const ideas = (template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal));
 
   res.json({
     goal,
-    domain: domainOverride || user?.primaryCategory || "",
+    domainContext: ctx,
+    domain: domainOverride || user?.primaryCategory || ctx.primaryCategory || "",
     level: levelOverride || "",
-    ideas: getProjectIdeasForGoal(goal).map((title) => ({
+    ideas: ideas.map((title) => ({
       title,
       level: difficulty,
       tags: tokenize(goal).slice(0, 3)
