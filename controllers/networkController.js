@@ -348,6 +348,153 @@ function findTemplate(primaryCategory, subCategory, focus) {
   return s[focus] || s.__default || null;
 }
 
+function uniqList(items = []) {
+  const seen = new Set();
+  const out = [];
+  items.forEach((item) => {
+    const v = String(item || "").trim();
+    if (!v) return;
+    const key = normalizeText(v);
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(v);
+  });
+  return out;
+}
+
+function buildGenericTemplate(primaryCategory, subCategory, focus) {
+  const primary = String(primaryCategory || "").trim();
+  const sub = String(subCategory || "").trim();
+  const f = String(focus || "").trim();
+  const primaryKey = normalizeText(primary);
+  const subKey = normalizeText(sub);
+
+  const goalLabel = [primary, sub, f].filter(Boolean).join(" > ").trim() || primary || "Career Growth";
+
+  // Defaults per primary domain (so content feels relevant even without manual templates).
+  let required = [];
+  let roadmap = [];
+  let projects = [];
+
+  if (primaryKey.includes("competitive")) {
+    if (subKey === "ssc") required = ["Quant", "Reasoning", "English", "General Awareness", "Mock tests"];
+    else if (subKey.includes("banking")) required = ["Quant", "Reasoning", "English", "Banking Awareness", "Mock tests"];
+    else if (subKey.includes("tgpsc") || subKey.includes("gpsc")) required = ["General Studies", "Polity", "Economy", "History", "Current Affairs"];
+    else if (subKey === "jee") required = ["Maths", "Physics", "Chemistry", "Problem solving speed"];
+    else if (subKey === "neet") required = ["Biology", "Physics", "Chemistry", "NCERT mastery"];
+    else if (subKey.includes("upsc")) required = ["Polity", "Economy", "History", "Geography", "Ethics", "Current Affairs"];
+    else required = ["Syllabus coverage", "Short notes", "Practice sets", "Mock tests", "Revision"];
+
+    roadmap = [
+      `Understand syllabus for ${f || sub || "this exam"}`,
+      "Build short notes + formula sheets",
+      "Daily practice sets (MCQs / problems)",
+      "Weekly mock tests + analysis",
+      "Revision cycles + weak-area drills"
+    ];
+    projects = [
+      `${f || sub || "Exam"} Mock Planner`,
+      "Revision Tracker",
+      "Mistake Notebook",
+      "Daily Current Affairs Log"
+    ];
+  } else if (primaryKey.includes("professional courses")) {
+    if (subKey === "ca") required = ["Accounting", "Taxation", "Law", "Costing", "Mock papers"];
+    else if (subKey === "cs") required = ["Company Law", "Compliance", "Drafting", "Mock papers"];
+    else if (subKey === "cma") required = ["Costing", "Accounting", "Taxation", "Mock papers"];
+    else required = ["Core syllabus", "Practice questions", "Mock papers", "Revision"];
+
+    roadmap = [
+      "Understand syllabus + study plan",
+      "Concept foundation (modules/units)",
+      "Problem practice + writing practice",
+      "Mock tests + evaluation",
+      "Final revision + exam strategy"
+    ];
+    projects = ["Study Plan Tracker", "Revision Notes Organizer", "Mock Test Analysis Sheet"];
+  } else if (primaryKey.includes("career") && primaryKey.includes("placements")) {
+    required = ["Resume", "Projects/portfolio", "Aptitude", "Communication", "Mock interviews"];
+    roadmap = [
+      "Fix goal + domain track",
+      "Build 2 portfolio projects / achievements",
+      "Resume + LinkedIn cleanup",
+      "Aptitude + DSA practice schedule",
+      "Mock interviews + feedback loop"
+    ];
+    projects = ["Resume Checklist", "Mock Interview Log", "Portfolio Tracker"];
+  } else if (primaryKey.includes("startups") || primaryKey.includes("entrepreneur")) {
+    required = ["Problem selection", "Idea validation", "MVP building", "Go-to-market", "Pitching"];
+    roadmap = [
+      "Pick problem + target users",
+      "Validate with 20 user conversations",
+      "Build MVP and iterate weekly",
+      "Design go-to-market plan",
+      "Pitch deck + fundraising basics"
+    ];
+    projects = ["MVP Tracker", "User Interview Notes", "Pitch Deck Draft"];
+  } else if (primaryKey.includes("finance") || primaryKey.includes("invest")) {
+    required = ["Personal finance basics", "Risk management", "Instruments knowledge", "Portfolio strategy", "Tracking"];
+    roadmap = [
+      "Understand basics (returns, risk, inflation)",
+      "Learn instruments for your track (stocks/mutual funds)",
+      "Create a plan + rules",
+      "Track a sample portfolio",
+      "Review monthly + improve"
+    ];
+    projects = ["Budget Planner", "Portfolio Tracker", "Risk Checklist"];
+  } else if (primaryKey.includes("creative") || primaryKey.includes("design")) {
+    required = ["Design fundamentals", "Tools (Figma/Canva)", "Typography", "Color", "Portfolio"];
+    roadmap = [
+      "Learn design basics (layout, type, color)",
+      "Practice tool workflows",
+      "Build 3 mini designs",
+      "Create 1 full case study",
+      "Publish portfolio + take feedback"
+    ];
+    projects = ["UI Portfolio", "Branding Pack", "Design Case Study"];
+  } else if (primaryKey.includes("personal development")) {
+    required = ["Communication", "Productivity", "Confidence", "Leadership", "Consistency"];
+    roadmap = [
+      "Baseline self-assessment",
+      "Daily micro-habits",
+      "Weekly reflection",
+      "Practice with mentors/peers",
+      "Track progress + improve"
+    ];
+    projects = ["Habit Tracker", "Communication Practice Log", "Weekly Reflection Notes"];
+  } else if (primaryKey.includes("academic")) {
+    required = ["Concept clarity", "Short notes", "Practice questions", "Mock tests", "Revision"];
+    roadmap = [
+      `Cover syllabus for ${f || sub || "your track"}`,
+      "Build short notes",
+      "Daily practice questions",
+      "Weekly mock tests",
+      "Revision cycle"
+    ];
+    projects = ["Study Planner", "Notes Organizer", "Mock Test Tracker"];
+  } else {
+    required = ["Foundation concepts", "Practice", "Consistency", "Mentorship", "Portfolio/proof"];
+    roadmap = ["Foundation", "Core concepts", "Practice", "Feedback loop", "Publish outcomes"];
+    projects = ["Weekly Plan", "Progress Tracker", "Notes Organizer"];
+  }
+
+  // If Domain Guide focus list exists, blend it into required topics as context, not as "skills".
+  const focusList = mentorCategoryTree?.[primary]?.[sub] || [];
+  const focusContext = focusList.slice(0, 5);
+
+  return {
+    requiredSkills: uniqList([...required, ...(sub ? [sub] : []), ...(f ? [f] : []), ...focusContext]),
+    roadmap: uniqList([...roadmap]),
+    projects: uniqList([...projects]),
+    goalLabel,
+    generated: true
+  };
+}
+
+function getAiTemplate(primaryCategory, subCategory, focus) {
+  return findTemplate(primaryCategory, subCategory, focus) || buildGenericTemplate(primaryCategory, subCategory, focus);
+}
+
 function getRoadmapForGoal(goal = "") {
   const normalized = normalizeText(goal);
 
@@ -2213,7 +2360,7 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   });
 
   const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
-  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const steps = template?.roadmap?.length ? template.roadmap : getRoadmapForGoal(goal);
 
   res.json({
@@ -2535,7 +2682,7 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
     focus: req.query.focus || req.query.specialization
   });
   const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
-  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const requiredSkills = template?.requiredSkills?.length ? template.requiredSkills : getRequiredSkillsForGoal(goal);
   const overrideSkills = parseCsvList(req.query.skills);
   const currentSkills = (overrideSkills.length ? overrideSkills : studentProfile?.skills || [])
@@ -2779,7 +2926,7 @@ exports.getProjectIdeas = asyncHandler(async (req, res) => {
       : normalizeText(levelOverride) === "advanced"
         ? "Hard"
         : "Medium";
-  const template = findTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
+  const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const ideas = (template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal));
 
   res.json({
