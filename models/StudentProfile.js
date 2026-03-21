@@ -20,9 +20,12 @@ const studentProfileSchema = new mongoose.Schema(
     projects: {
       type: [
         {
+          title: { type: String, default: "" },
           name: String,
+          description: { type: String, default: "" },
           summary: String,
           link: String,
+          tech: { type: [String], default: [] },
           techStack: { type: [String], default: [] },
           demoVideoUrl: { type: String, default: "" },
           screenshots: { type: [String], default: [] }
@@ -48,7 +51,9 @@ const studentProfileSchema = new mongoose.Schema(
         {
           organization: String,
           role: String,
+          start: { type: String, default: "" },
           startDate: String,
+          end: { type: String, default: "" },
           endDate: String,
           description: String
         }

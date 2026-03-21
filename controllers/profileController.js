@@ -23,6 +23,142 @@ function computeProfileCompleteness(fields) {
   return Math.round((score / fields.length) * 100);
 }
 
+function toStringArray(value) {
+  return Array.isArray(value)
+    ? value
+        .map((item) => String(item || "").trim())
+        .filter(Boolean)
+    : [];
+}
+
+function normalizeProject(project = {}) {
+  const tech = Array.isArray(project.tech)
+    ? project.tech
+    : Array.isArray(project.techStack)
+      ? project.techStack
+      : [];
+
+  const title = String(project.title || project.name || "").trim();
+  const description = String(project.description || project.summary || "").trim();
+  const link = String(project.link || "").trim();
+  const nextTech = tech.map((item) => String(item || "").trim()).filter(Boolean);
+
+  return {
+    title,
+    name: title,
+    description,
+    summary: description,
+    link,
+    tech: nextTech,
+    techStack: nextTech,
+    demoVideoUrl: String(project.demoVideoUrl || "").trim(),
+    screenshots: Array.isArray(project.screenshots) ? project.screenshots.filter(Boolean) : []
+  };
+}
+
+function normalizeAchievement(achievement = {}) {
+  return {
+    title: String(achievement.title || "").trim(),
+    issuer: String(achievement.issuer || "").trim(),
+    date: String(achievement.date || "").trim(),
+    url: String(achievement.url || "").trim(),
+    type: String(achievement.type || "").trim(),
+    description: String(achievement.description || "").trim()
+  };
+}
+
+function normalizeMentorAchievement(achievement = {}) {
+  if (typeof achievement === "string") {
+    return {
+      title: achievement.trim(),
+      issuer: "",
+      date: "",
+      url: ""
+    };
+  }
+
+  return {
+    title: String(achievement.title || "").trim(),
+    issuer: String(achievement.issuer || "").trim(),
+    date: String(achievement.date || "").trim(),
+    url: String(achievement.url || "").trim()
+  };
+}
+
+function normalizeExperience(experience = {}) {
+  const start = String(experience.start || experience.startDate || "").trim();
+  const end = String(experience.end || experience.endDate || "").trim();
+
+  return {
+    organization: String(experience.organization || "").trim(),
+    role: String(experience.role || "").trim(),
+    start,
+    startDate: start,
+    end,
+    endDate: end,
+    description: String(experience.description || "").trim()
+  };
+}
+
+function normalizeStudentProfilePayload(payload = {}) {
+  const nextPayload = { ...payload };
+
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "skills")) {
+    nextPayload.skills = toStringArray(nextPayload.skills);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "projects")) {
+    nextPayload.projects = Array.isArray(nextPayload.projects)
+      ? nextPayload.projects.map(normalizeProject).filter((item) => item.title || item.description || item.link || item.tech.length)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "achievements")) {
+    nextPayload.achievements = Array.isArray(nextPayload.achievements)
+      ? nextPayload.achievements.map(normalizeAchievement).filter((item) => item.title || item.issuer || item.date || item.url)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "experiences")) {
+    nextPayload.experiences = Array.isArray(nextPayload.experiences)
+      ? nextPayload.experiences
+          .map(normalizeExperience)
+          .filter((item) => item.organization || item.role || item.start || item.end || item.description)
+      : [];
+  }
+
+  return nextPayload;
+}
+
+function normalizeMentorProfilePayload(payload = {}) {
+  const nextPayload = { ...payload };
+
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "specializations")) {
+    nextPayload.specializations = toStringArray(nextPayload.specializations);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "expertiseDomains")) {
+    nextPayload.expertiseDomains = toStringArray(nextPayload.expertiseDomains);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "achievements")) {
+    nextPayload.achievements = Array.isArray(nextPayload.achievements)
+      ? nextPayload.achievements
+          .map(normalizeMentorAchievement)
+          .filter((item) => item.title || item.issuer || item.date || item.url)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "projects")) {
+    nextPayload.projects = Array.isArray(nextPayload.projects)
+      ? nextPayload.projects.map(normalizeProject).filter((item) => item.title || item.description || item.link || item.tech.length)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "experiences")) {
+    nextPayload.experiences = Array.isArray(nextPayload.experiences)
+      ? nextPayload.experiences
+          .map(normalizeExperience)
+          .filter((item) => item.organization || item.role || item.start || item.end || item.description)
+      : [];
+  }
+
+  return nextPayload;
+}
+
 exports.getMyStudentProfile = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.user.id, role: "student" }).select("name email role");
   if (!user) throw new ApiError(404, "Student user not found");
@@ -37,7 +173,7 @@ exports.getMyStudentProfile = asyncHandler(async (req, res) => {
 });
 
 exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
-  const nextPayload = { ...req.body };
+  const nextPayload = normalizeStudentProfilePayload(req.body);
   nextPayload.profileCompleteness = computeProfileCompleteness([
     nextPayload.profilePhotoUrl,
     nextPayload.headline,
@@ -97,7 +233,7 @@ exports.getMentorCategoryOptions = asyncHandler(async (_req, res) => {
 });
 
 exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
-  const nextPayload = { ...req.body };
+  const nextPayload = normalizeMentorProfilePayload(req.body);
   const existingProfile = await MentorProfile.findOne({ userId: req.user.id }).lean();
   const mergedProfile = {
     ...(existingProfile || {}),
@@ -131,6 +267,8 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     mergedProfile.specializations,
     mergedProfile.about,
     mergedProfile.achievements,
+    mergedProfile.projects,
+    mergedProfile.experiences,
     mergedProfile.linkedInUrl,
     mergedProfile.resumeUrl,
     mergedProfile.weeklyAvailabilitySlots

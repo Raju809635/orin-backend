@@ -3621,12 +3621,27 @@ async function buildResumePayloadForUser(userId) {
       skills: [...resumeSafeArray(profile?.expertiseDomains), ...resumeSafeArray(profile?.specializations)].filter(Boolean),
       projects: [],
       achievements: resumeSafeArray(profile?.achievements).map((item) => ({
-        title: String(item || "").trim(),
-        issuer: "ORIN Mentor Profile",
-        date: "",
-        url: ""
+        title: item?.title || String(item || "").trim(),
+        issuer: item?.issuer || "ORIN Mentor Profile",
+        date: item?.date || "",
+        url: item?.url || ""
       })),
-      experience,
+      projects: resumeSafeArray(profile?.projects).map((item) => ({
+        title: item?.title || item?.name || "",
+        tech: resumeSafeArray(item?.tech || item?.techStack).filter(Boolean),
+        link: item?.link || "",
+        description: item?.description || item?.summary || ""
+      })),
+      experience: [
+        ...resumeSafeArray(profile?.experiences).map((item) => ({
+          organization: item?.organization || "",
+          role: item?.role || "",
+          start: item?.start || item?.startDate || "",
+          end: item?.end || item?.endDate || "",
+          description: item?.description || ""
+        })),
+        ...experience
+      ].filter((item) => item.organization || item.role || item.start || item.end || item.description),
       education: [],
       careerGoal: "Mentor students with structured career guidance",
       linkedInUrl: profile?.linkedInUrl || "",
@@ -3653,10 +3668,10 @@ async function buildResumePayloadForUser(userId) {
     domains: [profile?.collegeName].filter(Boolean),
     skills: resumeSafeArray(profile?.skills).filter(Boolean),
     projects: resumeSafeArray(profile?.projects).map((item) => ({
-      title: item?.name || "",
-      tech: resumeSafeArray(item?.techStack).filter(Boolean),
+      title: item?.title || item?.name || "",
+      tech: resumeSafeArray(item?.tech || item?.techStack).filter(Boolean),
       link: item?.link || "",
-      description: item?.summary || ""
+      description: item?.description || item?.summary || ""
     })),
     achievements: resumeSafeArray(profile?.achievements).map((item) => ({
       title: item?.title || item?.type || "Achievement",
@@ -3667,8 +3682,8 @@ async function buildResumePayloadForUser(userId) {
     experience: resumeSafeArray(profile?.experiences).map((item) => ({
       organization: item?.organization || "",
       role: item?.role || "",
-      start: item?.startDate || "",
-      end: item?.endDate || "",
+      start: item?.start || item?.startDate || "",
+      end: item?.end || item?.endDate || "",
       description: item?.description || ""
     })),
     education: resumeSafeArray(profile?.education).map((item) => ({

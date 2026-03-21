@@ -18,7 +18,40 @@ const mentorProfileSchema = new mongoose.Schema(
     subCategory: { type: String, default: "" },
     specializations: { type: [String], default: [] },
     about: { type: String, default: "" },
-    achievements: { type: [String], default: [] },
+    achievements: {
+      type: [
+        {
+          title: { type: String, default: "" },
+          issuer: { type: String, default: "" },
+          date: { type: String, default: "" },
+          url: { type: String, default: "" }
+        }
+      ],
+      default: []
+    },
+    projects: {
+      type: [
+        {
+          title: { type: String, default: "" },
+          tech: { type: [String], default: [] },
+          link: { type: String, default: "" },
+          description: { type: String, default: "" }
+        }
+      ],
+      default: []
+    },
+    experiences: {
+      type: [
+        {
+          organization: { type: String, default: "" },
+          role: { type: String, default: "" },
+          start: { type: String, default: "" },
+          end: { type: String, default: "" },
+          description: { type: String, default: "" }
+        }
+      ],
+      default: []
+    },
     linkedInUrl: { type: String, default: "" },
     resumeUrl: { type: String, default: "" },
     sessionPrice: { type: Number, default: 0 },

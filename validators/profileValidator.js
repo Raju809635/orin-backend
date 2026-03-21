@@ -18,9 +18,12 @@ const studentProfileUpdateSchema = Joi.object({
   projects: Joi.array()
     .items(
       Joi.object({
+        title: Joi.string().allow("").optional(),
         name: Joi.string().allow(""),
+        description: Joi.string().allow("").optional(),
         summary: Joi.string().allow(""),
         link: Joi.string().allow(""),
+        tech: Joi.array().items(Joi.string()).optional(),
         techStack: Joi.array().items(Joi.string()).optional(),
         demoVideoUrl: Joi.string().allow("").optional(),
         screenshots: Joi.array().items(Joi.string()).optional()
@@ -44,7 +47,9 @@ const studentProfileUpdateSchema = Joi.object({
       Joi.object({
         organization: Joi.string().allow(""),
         role: Joi.string().allow(""),
+        start: Joi.string().allow("").optional(),
         startDate: Joi.string().allow(""),
+        end: Joi.string().allow("").optional(),
         endDate: Joi.string().allow(""),
         description: Joi.string().allow("")
       })
@@ -67,7 +72,37 @@ const mentorProfileUpdateSchema = Joi.object({
   subCategory: Joi.string().max(100).allow("").optional(),
   specializations: Joi.array().items(Joi.string()).optional(),
   about: Joi.string().max(1200).allow("").optional(),
-  achievements: Joi.array().items(Joi.string()).optional(),
+  achievements: Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().allow(""),
+        issuer: Joi.string().allow(""),
+        date: Joi.string().allow(""),
+        url: Joi.string().allow("")
+      })
+    )
+    .optional(),
+  projects: Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().allow(""),
+        tech: Joi.array().items(Joi.string()).optional(),
+        link: Joi.string().allow(""),
+        description: Joi.string().allow("")
+      })
+    )
+    .optional(),
+  experiences: Joi.array()
+    .items(
+      Joi.object({
+        organization: Joi.string().allow(""),
+        role: Joi.string().allow(""),
+        start: Joi.string().allow(""),
+        end: Joi.string().allow(""),
+        description: Joi.string().allow("")
+      })
+    )
+    .optional(),
   linkedInUrl: Joi.string().allow("").optional(),
   resumeUrl: Joi.string().allow("").optional(),
   sessionPrice: Joi.number().min(0).optional(),
