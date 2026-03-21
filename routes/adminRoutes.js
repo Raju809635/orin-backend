@@ -25,7 +25,20 @@ const {
   getNetworkAdminLiveSessions,
   toggleNetworkAdminLiveSession,
   getNetworkAdminChallenges,
-  toggleNetworkAdminChallenge
+  toggleNetworkAdminChallenge,
+  createNetworkAdminChallenge,
+  updateNetworkAdminChallenge,
+  getNetworkAdminOpportunities,
+  toggleNetworkAdminOpportunity,
+  createNetworkAdminOpportunity,
+  getNetworkAdminKnowledgeResources,
+  reviewNetworkAdminKnowledgeResource,
+  createNetworkAdminKnowledgeResource,
+  getNetworkAdminCertificationTracks,
+  toggleNetworkAdminCertificationTrack,
+  createNetworkAdminCertificationTrack,
+  getNetworkAdminCertificationRequests,
+  reviewNetworkAdminCertificationRequest
 } = require("../controllers/adminController");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
@@ -69,5 +82,22 @@ router.get("/network/live-sessions", verifyToken, authorizeRoles("admin"), getNe
 router.patch("/network/live-sessions/:liveSessionId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminLiveSession);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
+router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);
+router.patch("/network/challenges/:challengeId", verifyToken, authorizeRoles("admin"), updateNetworkAdminChallenge);
+
+router.get("/network/opportunities", verifyToken, authorizeRoles("admin"), getNetworkAdminOpportunities);
+router.post("/network/opportunities", verifyToken, authorizeRoles("admin"), createNetworkAdminOpportunity);
+router.patch("/network/opportunities/:opportunityId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminOpportunity);
+
+router.get("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), getNetworkAdminKnowledgeResources);
+router.post("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), createNetworkAdminKnowledgeResource);
+router.patch("/network/knowledge-resources/:resourceId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminKnowledgeResource);
+
+router.get("/network/certification-tracks", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationTracks);
+router.post("/network/certification-tracks", verifyToken, authorizeRoles("admin"), createNetworkAdminCertificationTrack);
+router.patch("/network/certification-tracks/:trackId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminCertificationTrack);
+
+router.get("/network/certification-requests", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationRequests);
+router.patch("/network/certification-requests/:requestId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminCertificationRequest);
 
 module.exports = router;

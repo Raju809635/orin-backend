@@ -11,6 +11,17 @@ const knowledgeResourceSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
     url: { type: String, default: "" },
+    submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null, index: true },
+    approvalStatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "approved",
+      index: true
+    },
+    reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    reviewedAt: { type: Date, default: null },
+    rejectionReason: { type: String, default: "" },
+    isFeatured: { type: Boolean, default: false, index: true },
     isActive: { type: Boolean, default: true, index: true }
   },
   { timestamps: true }

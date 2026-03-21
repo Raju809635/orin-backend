@@ -7,6 +7,8 @@ const communityChallengeSchema = new mongoose.Schema(
     description: { type: String, default: "" },
     deadline: { type: Date, required: true, index: true },
     isActive: { type: Boolean, default: true, index: true },
+    isFeatured: { type: Boolean, default: false, index: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     participants: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
     topParticipants: {
       type: [

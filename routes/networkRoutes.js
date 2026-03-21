@@ -43,10 +43,15 @@ const {
   getCommunityChallenges,
   joinCommunityChallenge,
   getOrinCertifications,
+  getCertificationTracks,
+  requestCertificationTrack,
+  getMyCertificationRequests,
   getMentorGroups,
   joinMentorGroup,
+  createMentorGroup,
   getProjectIdeas,
   getKnowledgeLibrary,
+  submitKnowledgeResource,
   getReputationSummary
 } = require("../controllers/networkController");
 
@@ -102,10 +107,15 @@ router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor")
 router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
 router.post("/challenges/:challengeId/join", verifyToken, authorizeRoles("student"), joinCommunityChallenge);
 router.get("/certifications", verifyToken, authorizeRoles("student", "mentor"), getOrinCertifications);
+router.get("/certification-tracks", verifyToken, authorizeRoles("student", "mentor"), getCertificationTracks);
+router.post("/certification-tracks/:trackId/request", verifyToken, authorizeRoles("student"), requestCertificationTrack);
+router.get("/certification-requests/me", verifyToken, authorizeRoles("student", "mentor"), getMyCertificationRequests);
 router.get("/mentor-groups", verifyToken, authorizeRoles("student", "mentor"), getMentorGroups);
+router.post("/mentor-groups", verifyToken, authorizeRoles("mentor"), createMentorGroup);
 router.post("/mentor-groups/:groupId/join", verifyToken, authorizeRoles("student"), joinMentorGroup);
 router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
 router.get("/knowledge-library", verifyToken, authorizeRoles("student", "mentor"), getKnowledgeLibrary);
+router.post("/knowledge-library/submit", verifyToken, authorizeRoles("mentor"), submitKnowledgeResource);
 router.get("/reputation-summary", verifyToken, authorizeRoles("student", "mentor"), getReputationSummary);
 
 module.exports = router;

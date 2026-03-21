@@ -12,6 +12,11 @@ const UserFollow = require("../models/UserFollow");
 const MentorGroup = require("../models/MentorGroup");
 const MentorLiveSession = require("../models/MentorLiveSession");
 const CommunityChallenge = require("../models/CommunityChallenge");
+const CareerOpportunity = require("../models/CareerOpportunity");
+const KnowledgeResource = require("../models/KnowledgeResource");
+const CertificationTrack = require("../models/CertificationTrack");
+const CertificationRequest = require("../models/CertificationRequest");
+const OrinCertification = require("../models/OrinCertification");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -506,4 +511,237 @@ exports.toggleNetworkAdminChallenge = asyncHandler(async (req, res) => {
   await challenge.save();
 
   res.status(200).json({ message: challenge.isActive ? "Challenge activated" : "Challenge disabled", challenge });
+});
+
+exports.createNetworkAdminChallenge = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const description = String(req.body?.description || "").trim();
+  const deadline = new Date(req.body?.deadline);
+
+  if (!title) throw new ApiError(400, "title is required");
+  if (Number.isNaN(deadline.getTime())) throw new ApiError(400, "deadline is invalid");
+
+  const doc = await CommunityChallenge.create({
+    title,
+    domain,
+    description,
+    deadline,
+    isActive: true,
+    isFeatured: Boolean(req.body?.isFeatured),
+    createdBy: req.user.id,
+    participants: [],
+    topParticipants: []
+  });
+
+  res.status(201).json({ message: "Challenge created", challenge: doc });
+});
+
+exports.updateNetworkAdminChallenge = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challenge id");
+
+  const patch = {};
+  if (req.body?.title !== undefined) patch.title = String(req.body.title || "").trim();
+  if (req.body?.domain !== undefined) patch.domain = String(req.body.domain || "").trim();
+  if (req.body?.description !== undefined) patch.description = String(req.body.description || "").trim();
+  if (req.body?.deadline !== undefined) {
+    const deadline = new Date(req.body.deadline);
+    if (Number.isNaN(deadline.getTime())) throw new ApiError(400, "deadline is invalid");
+    patch.deadline = deadline;
+  }
+  if (req.body?.isFeatured !== undefined) patch.isFeatured = Boolean(req.body.isFeatured);
+
+  const doc = await CommunityChallenge.findByIdAndUpdate(challengeId, patch, { new: true });
+  if (!doc) throw new ApiError(404, "Challenge not found");
+
+  res.status(200).json({ message: "Challenge updated", challenge: doc });
+});
+
+exports.getNetworkAdminOpportunities = asyncHandler(async (_req, res) => {
+  const rows = await CareerOpportunity.find({})
+    .populate("postedBy", "name email role")
+    .sort({ createdAt: -1 })
+    .limit(300)
+    .lean();
+  res.status(200).json(rows);
+});
+
+exports.toggleNetworkAdminOpportunity = asyncHandler(async (req, res) => {
+  const { opportunityId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(opportunityId)) throw new ApiError(400, "Invalid opportunity id");
+  const row = await CareerOpportunity.findById(opportunityId);
+  if (!row) throw new ApiError(404, "Opportunity not found");
+  row.isActive = !row.isActive;
+  await row.save();
+  res.status(200).json({ message: row.isActive ? "Opportunity activated" : "Opportunity disabled", opportunity: row });
+});
+
+exports.createNetworkAdminOpportunity = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "title is required");
+
+  const doc = await CareerOpportunity.create({
+    title,
+    company: String(req.body?.company || "").trim(),
+    type: String(req.body?.type || "internship").trim(),
+    role: String(req.body?.role || "").trim(),
+    duration: String(req.body?.duration || "").trim(),
+    location: String(req.body?.location || "").trim(),
+    domainTags: Array.isArray(req.body?.domainTags) ? req.body.domainTags : [],
+    applicationUrl: String(req.body?.applicationUrl || "").trim(),
+    description: String(req.body?.description || "").trim(),
+    isActive: true,
+    postedBy: req.user.id
+  });
+
+  res.status(201).json({ message: "Opportunity created", opportunity: doc });
+});
+
+exports.getNetworkAdminKnowledgeResources = asyncHandler(async (req, res) => {
+  const status = String(req.query?.status || "").trim();
+  const query = {};
+  if (status === "pending" || status === "approved" || status === "rejected") {
+    query.approvalStatus = status;
+  }
+
+  const rows = await KnowledgeResource.find(query)
+    .populate("submittedBy", "name email role")
+    .populate("reviewedBy", "name email role")
+    .sort({ updatedAt: -1 })
+    .limit(500)
+    .lean();
+
+  res.status(200).json(rows);
+});
+
+exports.reviewNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
+  const { resourceId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(resourceId)) throw new ApiError(400, "Invalid resource id");
+
+  const action = String(req.body?.action || "").trim();
+  if (!["approve", "reject"].includes(action)) throw new ApiError(400, "action must be approve or reject");
+
+  const doc = await KnowledgeResource.findById(resourceId);
+  if (!doc) throw new ApiError(404, "Resource not found");
+
+  doc.reviewedBy = req.user.id;
+  doc.reviewedAt = new Date();
+
+  if (action === "approve") {
+    doc.approvalStatus = "approved";
+    doc.isActive = true;
+    doc.rejectionReason = "";
+  } else {
+    doc.approvalStatus = "rejected";
+    doc.isActive = false;
+    doc.rejectionReason = String(req.body?.reason || "").trim();
+  }
+
+  if (req.body?.isFeatured !== undefined) doc.isFeatured = Boolean(req.body.isFeatured);
+
+  await doc.save();
+  res.status(200).json({ message: "Resource reviewed", resource: doc });
+});
+
+exports.createNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "title is required");
+
+  const doc = await KnowledgeResource.create({
+    domain: String(req.body?.domain || "").trim(),
+    type: String(req.body?.type || "other").trim(),
+    title,
+    description: String(req.body?.description || "").trim(),
+    url: String(req.body?.url || "").trim(),
+    approvalStatus: "approved",
+    reviewedBy: req.user.id,
+    reviewedAt: new Date(),
+    isFeatured: Boolean(req.body?.isFeatured),
+    isActive: true
+  });
+
+  res.status(201).json({ message: "Resource created", resource: doc });
+});
+
+exports.getNetworkAdminCertificationTracks = asyncHandler(async (_req, res) => {
+  const rows = await CertificationTrack.find({}).sort({ updatedAt: -1 }).limit(300).lean();
+  res.status(200).json(rows);
+});
+
+exports.toggleNetworkAdminCertificationTrack = asyncHandler(async (req, res) => {
+  const { trackId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(trackId)) throw new ApiError(400, "Invalid track id");
+  const doc = await CertificationTrack.findById(trackId);
+  if (!doc) throw new ApiError(404, "Track not found");
+  doc.isActive = !doc.isActive;
+  await doc.save();
+  res.status(200).json({ message: doc.isActive ? "Track activated" : "Track disabled", track: doc });
+});
+
+exports.createNetworkAdminCertificationTrack = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "title is required");
+
+  const doc = await CertificationTrack.create({
+    title,
+    level: String(req.body?.level || "Beginner").trim(),
+    domain: String(req.body?.domain || "").trim(),
+    description: String(req.body?.description || "").trim(),
+    requirements: Array.isArray(req.body?.requirements) ? req.body.requirements : [],
+    isActive: true,
+    createdBy: req.user.id
+  });
+
+  res.status(201).json({ message: "Track created", track: doc });
+});
+
+exports.getNetworkAdminCertificationRequests = asyncHandler(async (req, res) => {
+  const status = String(req.query?.status || "pending").trim();
+  const query = {};
+  if (status === "pending" || status === "approved" || status === "rejected") query.status = status;
+
+  const rows = await CertificationRequest.find(query)
+    .populate("userId", "name email role")
+    .populate("trackId", "title level domain")
+    .sort({ createdAt: -1 })
+    .limit(400)
+    .lean();
+
+  res.status(200).json(rows);
+});
+
+exports.reviewNetworkAdminCertificationRequest = asyncHandler(async (req, res) => {
+  const { requestId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(requestId)) throw new ApiError(400, "Invalid request id");
+
+  const action = String(req.body?.action || "").trim();
+  if (!["approve", "reject"].includes(action)) throw new ApiError(400, "action must be approve or reject");
+
+  const doc = await CertificationRequest.findById(requestId).populate("trackId").populate("userId", "role");
+  if (!doc) throw new ApiError(404, "Request not found");
+
+  doc.reviewedBy = req.user.id;
+  doc.reviewedAt = new Date();
+  doc.note = String(req.body?.note || doc.note || "").trim();
+
+  if (action === "approve") {
+    doc.status = "approved";
+    const track = doc.trackId;
+    if (track && doc.userId?.role === "student") {
+      await OrinCertification.create({
+        userId: doc.userId._id,
+        title: track.title,
+        level: track.level || "Beginner",
+        domain: track.domain || "",
+        issuedAt: new Date(),
+        source: "ORIN"
+      });
+    }
+  } else {
+    doc.status = "rejected";
+  }
+
+  await doc.save();
+  res.status(200).json({ message: "Request reviewed", request: doc });
 });

@@ -14,6 +14,8 @@ const CareerOpportunity = require("../models/CareerOpportunity");
 const MentorLiveSession = require("../models/MentorLiveSession");
 const CommunityChallenge = require("../models/CommunityChallenge");
 const OrinCertification = require("../models/OrinCertification");
+const CertificationTrack = require("../models/CertificationTrack");
+const CertificationRequest = require("../models/CertificationRequest");
 const MentorGroup = require("../models/MentorGroup");
 const KnowledgeResource = require("../models/KnowledgeResource");
 const UserSkillLevel = require("../models/UserSkillLevel");
@@ -3851,6 +3853,71 @@ exports.getOrinCertifications = asyncHandler(async (req, res) => {
   ]);
 });
 
+exports.getCertificationTracks = asyncHandler(async (_req, res) => {
+  const tracks = await CertificationTrack.find({ isActive: true })
+    .sort({ updatedAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.json(
+    tracks.map((item) => ({
+      id: item._id,
+      title: item.title,
+      level: item.level || "Beginner",
+      domain: item.domain || "",
+      description: item.description || "",
+      requirements: item.requirements || []
+    }))
+  );
+});
+
+exports.requestCertificationTrack = asyncHandler(async (req, res) => {
+  const { trackId } = req.params;
+  const userId = req.user.id;
+  if (!mongoose.Types.ObjectId.isValid(trackId)) throw new ApiError(400, "Invalid track id");
+
+  const track = await CertificationTrack.findOne({ _id: trackId, isActive: true }).lean();
+  if (!track) throw new ApiError(404, "Certification track not found");
+
+  const existing = await CertificationRequest.findOne({ trackId, userId }).lean();
+  if (existing) {
+    return res.json({ message: "Request already exists", status: existing.status });
+  }
+
+  await CertificationRequest.create({
+    trackId,
+    userId,
+    status: "pending",
+    note: String(req.body?.note || "").trim()
+  });
+
+  res.status(201).json({ message: "Certification request submitted", status: "pending" });
+});
+
+exports.getMyCertificationRequests = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const rows = await CertificationRequest.find({ userId })
+    .populate("trackId", "title level domain")
+    .sort({ createdAt: -1 })
+    .limit(200)
+    .lean();
+
+  res.json(
+    rows.map((item) => ({
+      id: item._id,
+      status: item.status,
+      note: item.note || "",
+      createdAt: item.createdAt,
+      track: {
+        id: item.trackId?._id || null,
+        title: item.trackId?.title || "Certification",
+        level: item.trackId?.level || "Beginner",
+        domain: item.trackId?.domain || ""
+      }
+    }))
+  );
+});
+
 exports.getMentorGroups = asyncHandler(async (_req, res) => {
   let groups = await MentorGroup.find({ isActive: true })
     .populate("mentorId", "name role approvalStatus isDeleted")
@@ -3954,6 +4021,7 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
   const queryDomain = String(req.query.domain || "").trim();
   let resources = await KnowledgeResource.find({
     isActive: true,
+    $or: [{ approvalStatus: { $exists: false } }, { approvalStatus: "approved" }],
     ...(queryDomain ? { domain: queryDomain } : {})
   })
     .sort({ updatedAt: -1 })
@@ -3996,9 +4064,63 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
       type: item.type,
       title: item.title,
       description: item.description || "",
-      url: item.url || ""
+      url: item.url || "",
+      featured: Boolean(item.isFeatured)
     }))
   );
+});
+
+exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can submit resources");
+
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const description = String(req.body?.description || "").trim();
+  const url = String(req.body?.url || "").trim();
+  const type = String(req.body?.type || "other").trim();
+
+  if (!title) throw new ApiError(400, "title is required");
+
+  const doc = await KnowledgeResource.create({
+    domain,
+    type,
+    title,
+    description,
+    url,
+    submittedBy: req.user.id,
+    approvalStatus: "pending",
+    isActive: false
+  });
+
+  res.status(201).json({ message: "Resource submitted for review", resource: { id: doc._id } });
+});
+
+exports.createMentorGroup = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create groups");
+  const mentor = await User.findById(req.user.id).select("approvalStatus role isDeleted").lean();
+  if (!mentor || mentor.isDeleted) throw new ApiError(404, "Mentor not found");
+  if (mentor.approvalStatus !== "approved") throw new ApiError(403, "Mentor not approved yet");
+
+  const name = String(req.body?.name || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const description = String(req.body?.description || "").trim();
+  const schedule = String(req.body?.schedule || "Weekly sessions").trim();
+  const maxStudents = Number(req.body?.maxStudents || 50);
+
+  if (!name) throw new ApiError(400, "name is required");
+
+  const doc = await MentorGroup.create({
+    mentorId: req.user.id,
+    name,
+    domain,
+    description,
+    schedule,
+    maxStudents: Number.isFinite(maxStudents) ? Math.max(1, Math.min(500, maxStudents)) : 50,
+    memberIds: [],
+    isActive: true
+  });
+
+  res.status(201).json({ message: "Mentor group created", group: { id: doc._id } });
 });
 
 exports.getReputationSummary = asyncHandler(async (req, res) => {
