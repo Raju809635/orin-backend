@@ -3578,6 +3578,106 @@ exports.generateResume = asyncHandler(async (req, res) => {
   });
 });
 
+function resumeMarkdownToPlainText(markdown) {
+  return String(markdown || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+exports.downloadResumePdf = asyncHandler(async (req, res) => {
+  let PDFDocument;
+  try {
+    PDFDocument = require("pdfkit");
+  } catch {
+    throw new ApiError(500, "PDF export is not available on the server.");
+  }
+
+  const userId = req.user.id;
+  const user = await User.findById(userId).select("name email phoneNumber").lean();
+  const profile = await StudentProfile.findOne({ userId }).lean();
+  if (!user) throw new ApiError(404, "User not found");
+
+  const payload = {
+    basics: {
+      name: user.name || "",
+      email: user.email || "",
+      phone: user.phoneNumber || "",
+      headline: profile?.headline || "",
+      about: profile?.about || ""
+    },
+    skills: profile?.skills || [],
+    projects: (profile?.projects || []).map((item) => ({
+      title: item.name || "",
+      description: item.summary || "",
+      techStack: item.techStack || [],
+      githubOrLink: item.link || ""
+    })),
+    achievements: profile?.achievements || [],
+    experience: profile?.experiences || [],
+    careerGoals: profile?.careerGoals || ""
+  };
+
+  const markdown = [
+    `# ${payload.basics.name}`,
+    payload.basics.headline ? `**${payload.basics.headline}**` : "",
+    payload.basics.about ? payload.basics.about : "",
+    "",
+    "## Contact",
+    `- Email: ${payload.basics.email}`,
+    payload.basics.phone ? `- Phone: ${payload.basics.phone}` : "",
+    "",
+    "## Skills",
+    ...(payload.skills.length ? payload.skills.map((item) => `- ${item}`) : ["- Add your skills in profile"]),
+    "",
+    "## Projects",
+    ...(payload.projects.length
+      ? payload.projects.flatMap((project) => [
+          `- **${project.title || "Project"}**`,
+          project.description ? `  - ${project.description}` : "",
+          project.techStack.length ? `  - Tech: ${project.techStack.join(", ")}` : "",
+          project.githubOrLink ? `  - Link: ${project.githubOrLink}` : ""
+        ])
+      : ["- Add projects in profile"]),
+    "",
+    "## Achievements",
+    ...(payload.achievements.length
+      ? payload.achievements.map((item) => `- ${item.title || item.type || "Achievement"}`)
+      : ["- Add achievements in profile"]),
+    "",
+    "## Experience",
+    ...(payload.experience.length
+      ? payload.experience.map((item) => `- ${item.role || "Role"} at ${item.organization || "Organization"}`)
+      : ["- Add experiences in profile"]),
+    "",
+    "## Career Goal",
+    payload.careerGoals || "Career growth and mentorship"
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const plainText = resumeMarkdownToPlainText(markdown);
+  const fileName = `${String(payload.basics.name || "orin_resume").replace(/\s+/g, "_")}.pdf`;
+
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+
+  const doc = new PDFDocument({ margin: 48 });
+  doc.pipe(res);
+
+  doc.fontSize(18).fillColor("#111827").text(payload.basics.name || "ORIN Resume");
+  if (payload.basics.headline) {
+    doc.moveDown(0.4);
+    doc.fontSize(11).fillColor("#374151").text(payload.basics.headline);
+  }
+  doc.moveDown(0.8);
+  doc.fontSize(10).fillColor("#111827").text(plainText);
+  doc.end();
+});
+
 exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const studentProfile = await StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean();
