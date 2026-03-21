@@ -30,8 +30,13 @@ exports.uploadProfilePhoto = asyncHandler(async (req, res) => {
       url = uploaded.url;
       storage = "cloudinary";
       await safeUnlink(req.file.path);
-    } catch {
-      // Cloudinary not configured or upload failed: keep local file URL.
+    } catch (err) {
+      const msg = String(err?.message || "");
+      // If Cloudinary isn't configured, keep local fallback for dev.
+      // If it IS configured but upload failed, surface the error so production doesn't store dead local paths.
+      if (!msg.toLowerCase().includes("cloudinary is not configured")) {
+        throw err;
+      }
     }
   }
 
@@ -59,8 +64,11 @@ exports.uploadPostMedia = asyncHandler(async (req, res) => {
       url = uploaded.url;
       storage = "cloudinary";
       await safeUnlink(req.file.path);
-    } catch {
-      // Cloudinary not configured or upload failed: keep local file URL.
+    } catch (err) {
+      const msg = String(err?.message || "");
+      if (!msg.toLowerCase().includes("cloudinary is not configured")) {
+        throw err;
+      }
     }
   }
 
@@ -80,10 +88,15 @@ exports.uploadImage = asyncHandler(async (req, res) => {
     const uploaded = await uploadImageFromPath(req.file.path, { folder: "orin/images" });
     url = uploaded.url;
     await safeUnlink(req.file.path);
-  } catch {
-    // Fallback to local hosting (useful for dev if Cloudinary isn't configured).
-    const relativePath = `/uploads/tmp-images/${path.basename(req.file.filename)}`;
-    url = `${getBaseUrl(req)}${relativePath}`;
+  } catch (err) {
+    const msg = String(err?.message || "");
+    if (msg.toLowerCase().includes("cloudinary is not configured")) {
+      // Fallback to local hosting (useful for dev if Cloudinary isn't configured).
+      const relativePath = `/uploads/tmp-images/${path.basename(req.file.filename)}`;
+      url = `${getBaseUrl(req)}${relativePath}`;
+    } else {
+      throw err;
+    }
   }
 
   res.status(201).json({ success: true, url });
@@ -97,9 +110,14 @@ exports.uploadFile = asyncHandler(async (req, res) => {
     const uploaded = await uploadFileFromPath(req.file.path, { destination: "orin/files" });
     url = uploaded.url;
     await safeUnlink(req.file.path);
-  } catch {
-    const relativePath = `/uploads/files/${path.basename(req.file.filename)}`;
-    url = `${getBaseUrl(req)}${relativePath}`;
+  } catch (err) {
+    const msg = String(err?.message || "");
+    if (msg.toLowerCase().includes("firebase storage is not configured")) {
+      const relativePath = `/uploads/files/${path.basename(req.file.filename)}`;
+      url = `${getBaseUrl(req)}${relativePath}`;
+    } else {
+      throw err;
+    }
   }
 
   res.status(201).json({ success: true, url });

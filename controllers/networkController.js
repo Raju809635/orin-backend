@@ -3291,6 +3291,7 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
 
 exports.getCareerOpportunities = asyncHandler(async (req, res) => {
   const userId = req.user.id;
+  const role = req.user.role;
   const profile = await StudentProfile.findOne({ userId }).select("skills careerGoals").lean();
   const user = await User.findById(userId).select("primaryCategory subCategory").lean();
 
@@ -3302,7 +3303,18 @@ exports.getCareerOpportunities = asyncHandler(async (req, res) => {
     String(req.query.q || "")
   ]);
 
-  let opportunities = await CareerOpportunity.find({ isActive: true })
+  const opportunitiesQuery =
+    role === "mentor"
+      ? {
+          $or: [
+            { isActive: true },
+            // Mentors can see their own submissions even if not active yet (admin review workflow).
+            { postedBy: userId }
+          ]
+        }
+      : { isActive: true };
+
+  let opportunities = await CareerOpportunity.find(opportunitiesQuery)
     .sort({ createdAt: -1 })
     .limit(80)
     .lean();
@@ -3360,6 +3372,45 @@ exports.getCareerOpportunities = asyncHandler(async (req, res) => {
     .slice(0, 40);
 
   res.json(scored);
+});
+
+exports.submitCareerOpportunity = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "Title is required");
+
+  const type = String(req.body?.type || "internship").trim();
+  const allowedTypes = ["internship", "hackathon", "competition", "research", "job", "other"];
+  if (!allowedTypes.includes(type)) throw new ApiError(400, "Invalid opportunity type");
+
+  const applicationUrl = String(req.body?.applicationUrl || "").trim();
+  const domainTags = Array.isArray(req.body?.domainTags)
+    ? req.body.domainTags.map((t) => String(t || "").trim()).filter(Boolean).slice(0, 10)
+    : [];
+
+  const doc = await CareerOpportunity.create({
+    title,
+    company: String(req.body?.company || "").trim(),
+    type,
+    role: String(req.body?.role || "").trim(),
+    duration: String(req.body?.duration || "").trim(),
+    location: String(req.body?.location || "").trim(),
+    domainTags,
+    applicationUrl,
+    description: String(req.body?.description || "").trim(),
+    isActive: false, // pending admin activation
+    postedBy: userId
+  });
+
+  res.status(201).json({
+    message: "Opportunity submitted for admin review",
+    opportunity: {
+      id: doc._id,
+      title: doc.title,
+      isActive: doc.isActive
+    }
+  });
 });
 
 exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
@@ -3773,7 +3824,22 @@ exports.getVerifiedMentors = asyncHandler(async (_req, res) => {
 });
 
 exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
-  let challenges = await CommunityChallenge.find({ isActive: true })
+  const req = _req;
+  const userId = req.user?.id;
+  const role = req.user?.role;
+
+  const challengesQuery =
+    role === "mentor"
+      ? {
+          $or: [
+            { isActive: true },
+            // Mentors can see their own submissions even if not active yet (admin review workflow).
+            { createdBy: userId }
+          ]
+        }
+      : { isActive: true };
+
+  let challenges = await CommunityChallenge.find(challengesQuery)
     .sort({ deadline: 1, createdAt: -1 })
     .limit(40)
     .lean();
@@ -3799,10 +3865,50 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
       domain: item.domain,
       description: item.description,
       deadline: item.deadline,
+      isActive: item.isActive !== false,
       participantsCount: (item.participants || []).length,
       topParticipants: item.topParticipants || []
     }))
   );
+});
+
+exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const description = String(req.body?.description || "").trim();
+  const deadlineRaw = req.body?.deadline;
+
+  if (!title) throw new ApiError(400, "Title is required");
+  if (!deadlineRaw) throw new ApiError(400, "Deadline is required");
+
+  const deadline = new Date(deadlineRaw);
+  if (Number.isNaN(deadline.getTime())) throw new ApiError(400, "Invalid deadline");
+  if (deadline.getTime() < Date.now() + 5 * 60 * 1000) {
+    throw new ApiError(400, "Deadline must be at least 5 minutes in the future");
+  }
+
+  const doc = await CommunityChallenge.create({
+    title,
+    domain,
+    description,
+    deadline,
+    isActive: false, // pending admin activation
+    isFeatured: false,
+    createdBy: userId,
+    participants: [],
+    topParticipants: []
+  });
+
+  res.status(201).json({
+    message: "Challenge submitted for admin review",
+    challenge: {
+      id: doc._id,
+      title: doc.title,
+      isActive: doc.isActive
+    }
+  });
 });
 
 exports.joinCommunityChallenge = asyncHandler(async (req, res) => {

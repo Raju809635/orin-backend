@@ -32,6 +32,7 @@ const {
   getMentorReviews,
   getCareerRoadmap,
   getCareerOpportunities,
+  submitCareerOpportunity,
   getCollegeLeaderboard,
   getLiveSessions,
   createLiveSession,
@@ -41,6 +42,7 @@ const {
   getSkillGapAnalysis,
   getVerifiedMentors,
   getCommunityChallenges,
+  submitCommunityChallenge,
   joinCommunityChallenge,
   getOrinCertifications,
   getCertificationTracks,
@@ -96,6 +98,7 @@ router.post("/sessions/:sessionId/review", verifyToken, authorizeRoles("student"
 router.get("/mentors/:mentorId/reviews", verifyToken, authorizeRoles("student", "mentor"), getMentorReviews);
 router.get("/career-roadmap", verifyToken, authorizeRoles("student"), getCareerRoadmap);
 router.get("/opportunities", verifyToken, authorizeRoles("student", "mentor"), getCareerOpportunities);
+router.post("/opportunities/submit", verifyToken, authorizeRoles("mentor"), submitCareerOpportunity);
 router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), getCollegeLeaderboard);
 router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
 router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
@@ -105,6 +108,7 @@ router.get("/resume/pdf", verifyToken, authorizeRoles("student"), downloadResume
 router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);
 router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor"), getVerifiedMentors);
 router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
+router.post("/challenges/submit", verifyToken, authorizeRoles("mentor"), submitCommunityChallenge);
 router.post("/challenges/:challengeId/join", verifyToken, authorizeRoles("student"), joinCommunityChallenge);
 router.get("/certifications", verifyToken, authorizeRoles("student", "mentor"), getOrinCertifications);
 router.get("/certification-tracks", verifyToken, authorizeRoles("student", "mentor"), getCertificationTracks);
