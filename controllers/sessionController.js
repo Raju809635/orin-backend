@@ -19,6 +19,7 @@ const {
   manualPaymentWindowMinutes,
   publicBaseUrl
 } = require("../config/env");
+const { uploadImageFromPath, safeUnlink } = require("../services/externalStorageService");
 
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -348,6 +349,15 @@ exports.submitManualPaymentProof = asyncHandler(async (req, res) => {
   let screenshotUrl = (req.body.paymentScreenshot || "").trim();
   if (req.file?.filename) {
     screenshotUrl = `${getBaseUrl(req)}/uploads/payment-screenshots/${req.file.filename}`;
+    if (req.file?.path) {
+      try {
+        const uploaded = await uploadImageFromPath(req.file.path, { folder: "orin/manual-payments" });
+        screenshotUrl = uploaded.url;
+        await safeUnlink(req.file.path);
+      } catch {
+        // Cloudinary not configured or upload failed: keep local URL.
+      }
+    }
   }
   if (!screenshotUrl) {
     throw new ApiError(400, "Payment screenshot is required");
