@@ -3554,43 +3554,150 @@ exports.toggleLiveSessionInterest = asyncHandler(async (req, res) => {
   });
 });
 
-exports.generateResume = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  const user = await User.findById(userId).select("name email phoneNumber").lean();
-  const profile = await StudentProfile.findOne({ userId }).lean();
+function resumeSafeArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function resumeFileName(name, extension) {
+  const safeBase = String(name || "orin_resume")
+    .trim()
+    .replace(/[^\w.\-]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  return `${safeBase || "orin_resume"}.${extension}`;
+}
+
+function buildProfileSummary(payload) {
+  if (payload.summary) return payload.summary;
+
+  const topSkills = resumeSafeArray(payload.skills).slice(0, 4);
+  const roleLine = payload.roleLabel || "Career Builder";
+
+  if (payload.userRole === "mentor") {
+    const expertise = topSkills.length ? `Expertise in ${topSkills.join(", ")}.` : "Focused on mentoring, practical guidance, and domain support.";
+    const mentoringLine = payload.totalStudentsMentored
+      ? `Supported ${payload.totalStudentsMentored}+ learners through ORIN sessions.`
+      : "Helps students with roadmap clarity, sessions, and structured growth.";
+    return `${roleLine}. ${expertise} ${mentoringLine}`.trim();
+  }
+
+  const skillsLine = topSkills.length ? `Skilled in ${topSkills.join(", ")}.` : "Building strong practical and domain-specific skills.";
+  const goalLine = payload.careerGoal ? `Targeting ${payload.careerGoal}.` : "Focused on career growth and mentorship.";
+  return `${roleLine}. ${skillsLine} ${goalLine}`.trim();
+}
+
+async function buildResumePayloadForUser(userId) {
+  const user = await User.findById(userId).select("name email phoneNumber role").lean();
   if (!user) throw new ApiError(404, "User not found");
 
-  const payload = {
-    basics: {
+  if (user.role === "mentor") {
+    const profile = await MentorProfile.findOne({ userId }).lean();
+    const experience = [];
+
+    if (profile?.company || profile?.title) {
+      experience.push({
+        organization: profile?.company || "Independent Mentor",
+        role: profile?.title || "Mentor",
+        start: profile?.experienceYears ? `${profile.experienceYears}+ years` : "",
+        end: "Present",
+        description: profile?.about || ""
+      });
+    }
+
+    const payload = {
       name: user.name || "",
+      role: profile?.title || "Mentor",
+      roleLabel: profile?.title || "Mentor",
+      userRole: "mentor",
       email: user.email || "",
-      phone: user.phoneNumber || "",
-      headline: profile?.headline || "",
-      about: profile?.about || ""
-    },
-    skills: profile?.skills || [],
-    projects: (profile?.projects || []).map((item) => ({
-      title: item.name || "",
-      description: item.summary || "",
-      techStack: item.techStack || [],
-      githubOrLink: item.link || "",
-      demoVideo: item.demoVideoUrl || "",
-      screenshots: item.screenshots || []
+      phone: profile?.phoneNumber || user.phoneNumber || "",
+      profileImage: profile?.profilePhotoUrl || "",
+      summary: profile?.about || "",
+      domains: [
+        profile?.primaryCategory,
+        profile?.subCategory,
+        ...resumeSafeArray(profile?.expertiseDomains),
+        ...resumeSafeArray(profile?.specializations)
+      ].filter(Boolean),
+      skills: [...resumeSafeArray(profile?.expertiseDomains), ...resumeSafeArray(profile?.specializations)].filter(Boolean),
+      projects: [],
+      achievements: resumeSafeArray(profile?.achievements).map((item) => ({
+        title: String(item || "").trim(),
+        issuer: "ORIN Mentor Profile",
+        date: "",
+        url: ""
+      })),
+      experience,
+      education: [],
+      careerGoal: "Mentor students with structured career guidance",
+      linkedInUrl: profile?.linkedInUrl || "",
+      sessionPrice: profile?.sessionPrice || 0,
+      rating: profile?.rating || 0,
+      totalStudentsMentored: profile?.totalSessionsConducted || 0,
+      resumeUrl: profile?.resumeUrl || ""
+    };
+
+    payload.summary = buildProfileSummary(payload);
+    return payload;
+  }
+
+  const profile = await StudentProfile.findOne({ userId }).lean();
+  const payload = {
+    name: user.name || "",
+    role: profile?.headline || "Student",
+    roleLabel: profile?.headline || "Student",
+    userRole: "student",
+    email: user.email || "",
+    phone: user.phoneNumber || "",
+    profileImage: profile?.profilePhotoUrl || "",
+    summary: profile?.about || "",
+    domains: [profile?.collegeName].filter(Boolean),
+    skills: resumeSafeArray(profile?.skills).filter(Boolean),
+    projects: resumeSafeArray(profile?.projects).map((item) => ({
+      title: item?.name || "",
+      tech: resumeSafeArray(item?.techStack).filter(Boolean),
+      link: item?.link || "",
+      description: item?.summary || ""
     })),
-    achievements: profile?.achievements || [],
-    experience: profile?.experiences || [],
-    education: profile?.education || [],
-    careerGoals: profile?.careerGoals || ""
+    achievements: resumeSafeArray(profile?.achievements).map((item) => ({
+      title: item?.title || item?.type || "Achievement",
+      issuer: item?.issuer || "",
+      date: item?.date || "",
+      url: item?.url || ""
+    })),
+    experience: resumeSafeArray(profile?.experiences).map((item) => ({
+      organization: item?.organization || "",
+      role: item?.role || "",
+      start: item?.startDate || "",
+      end: item?.endDate || "",
+      description: item?.description || ""
+    })),
+    education: resumeSafeArray(profile?.education).map((item) => ({
+      school: item?.school || "",
+      degree: item?.degree || "",
+      year: item?.year || ""
+    })),
+    careerGoal: profile?.careerGoals || "",
+    linkedInUrl: "",
+    sessionPrice: 0,
+    rating: 0,
+    totalStudentsMentored: 0,
+    resumeUrl: profile?.resumeUrl || ""
   };
 
-  const markdown = [
-    `# ${payload.basics.name}`,
-    payload.basics.headline ? `**${payload.basics.headline}**` : "",
-    payload.basics.about ? payload.basics.about : "",
+  payload.summary = buildProfileSummary(payload);
+  return payload;
+}
+
+function buildResumeMarkdown(payload) {
+  return [
+    `# ${payload.name}`,
+    payload.roleLabel ? `**${payload.roleLabel}**` : "",
+    payload.summary || "",
     "",
     "## Contact",
-    `- Email: ${payload.basics.email}`,
-    payload.basics.phone ? `- Phone: ${payload.basics.phone}` : "",
+    `- Email: ${payload.email || "Not provided"}`,
+    payload.phone ? `- Phone: ${payload.phone}` : "",
+    payload.linkedInUrl ? `- LinkedIn: ${payload.linkedInUrl}` : "",
     "",
     "## Skills",
     ...(payload.skills.length ? payload.skills.map((item) => `- ${item}`) : ["- Add your skills in profile"]),
@@ -3600,33 +3707,208 @@ exports.generateResume = asyncHandler(async (req, res) => {
       ? payload.projects.flatMap((project) => [
           `- **${project.title || "Project"}**`,
           project.description ? `  - ${project.description}` : "",
-          project.techStack.length ? `  - Tech: ${project.techStack.join(", ")}` : "",
-          project.githubOrLink ? `  - Link: ${project.githubOrLink}` : ""
+          project.tech?.length ? `  - Tech: ${project.tech.join(", ")}` : "",
+          project.link ? `  - Link: ${project.link}` : ""
         ])
       : ["- Add projects in profile"]),
     "",
     "## Achievements",
     ...(payload.achievements.length
-      ? payload.achievements.map((item) => `- ${item.title || item.type || "Achievement"}`)
+      ? payload.achievements.map((item) => `- ${item.title}${item.issuer ? ` - ${item.issuer}` : ""}${item.date ? ` (${item.date})` : ""}`)
       : ["- Add achievements in profile"]),
     "",
     "## Experience",
     ...(payload.experience.length
-      ? payload.experience.map((item) => `- ${item.role || "Role"} at ${item.organization || "Organization"}`)
+      ? payload.experience.map((item) => `- ${item.role || "Role"} at ${item.organization || "Organization"}${item.start || item.end ? ` (${item.start || ""}${item.end ? ` - ${item.end}` : ""})` : ""}`)
       : ["- Add experiences in profile"]),
     "",
+    "## Education",
+    ...(payload.education.length
+      ? payload.education.map((item) => `- ${[item.degree, item.school, item.year].filter(Boolean).join(" | ")}`)
+      : []),
+    "",
     "## Career Goal",
-    payload.careerGoals || "Career growth and mentorship"
+    payload.careerGoal || "Career growth and mentorship"
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function renderResumeSectionsHtml(payload) {
+  const renderList = (items) =>
+    items.length
+      ? `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
+      : `<p class="empty">Add details in your ORIN profile to strengthen this section.</p>`;
+
+  const projectsHtml = payload.projects.length
+    ? payload.projects
+        .map(
+          (project) => `
+            <article class="item-card">
+              <div class="item-title">${project.title || "Project"}</div>
+              ${project.tech?.length ? `<div class="item-meta">${project.tech.join(" | ")}</div>` : ""}
+              ${project.description ? `<p>${project.description}</p>` : ""}
+              ${project.link ? `<a href="${project.link}" target="_blank">${project.link}</a>` : ""}
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Projects will appear here when added to your profile.</p>`;
+
+  const achievementsHtml = payload.achievements.length
+    ? payload.achievements
+        .map(
+          (item) => `
+            <article class="item-card">
+              <div class="item-title">${item.title}</div>
+              <div class="item-meta">${[item.issuer, item.date].filter(Boolean).join(" | ")}</div>
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Achievements will appear here when added to your profile.</p>`;
+
+  const experienceHtml = payload.experience.length
+    ? payload.experience
+        .map(
+          (item) => `
+            <article class="item-card">
+              <div class="item-title">${item.role || "Role"}${item.organization ? ` - ${item.organization}` : ""}</div>
+              <div class="item-meta">${[item.start, item.end].filter(Boolean).join(" - ")}</div>
+              ${item.description ? `<p>${item.description}</p>` : ""}
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Experience details will appear here when added to your profile.</p>`;
+
+  const educationHtml = payload.education.length
+    ? payload.education
+        .map(
+          (item) => `
+            <article class="item-card">
+              <div class="item-title">${item.degree || "Education"}</div>
+              <div class="item-meta">${[item.school, item.year].filter(Boolean).join(" | ")}</div>
+            </article>
+          `
+        )
+        .join("")
+    : "";
+
+  return `
+    <section class="section">
+      <h2>Professional Summary</h2>
+      <p>${payload.summary || "A profile summary will appear here."}</p>
+    </section>
+    <section class="section">
+      <h2>Skills</h2>
+      ${renderList(payload.skills)}
+    </section>
+    <section class="section">
+      <h2>Projects</h2>
+      ${projectsHtml}
+    </section>
+    <section class="section">
+      <h2>Achievements</h2>
+      ${achievementsHtml}
+    </section>
+    <section class="section">
+      <h2>Experience</h2>
+      ${experienceHtml}
+    </section>
+    ${educationHtml ? `<section class="section"><h2>Education</h2>${educationHtml}</section>` : ""}
+    <section class="section">
+      <h2>Career Focus</h2>
+      <p>${payload.careerGoal || "Career growth and mentorship"}</p>
+    </section>
+  `;
+}
+
+function buildResumeHtml(payload, template = "modern") {
+  const safeTemplate = ["modern", "corporate", "creative"].includes(String(template)) ? String(template) : "modern";
+  const photo = payload.profileImage
+    ? `<img src="${payload.profileImage}" class="profile-img" alt="${payload.name}" />`
+    : `<div class="profile-fallback">${String(payload.name || "O").slice(0, 1).toUpperCase()}</div>`;
+
+  const commonStyles = `
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; color: #12221a; background: #f5f7fb; }
+    a { color: #1f7a4c; text-decoration: none; word-break: break-word; }
+    .item-card { padding: 12px 14px; border: 1px solid #d8e3dc; border-radius: 14px; margin-bottom: 10px; background: rgba(255,255,255,0.9); }
+    .item-title { font-weight: 700; margin-bottom: 4px; }
+    .item-meta { color: #5f6c64; font-size: 12px; margin-bottom: 6px; }
+    .empty { color: #667085; }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin-bottom: 6px; }
+    h1, h2, p { margin-top: 0; }
+  `;
+
+  if (safeTemplate === "corporate") {
+    return `<!doctype html><html><head><meta charset="utf-8" /><style>${commonStyles}
+      body { background: #ffffff; color: #101828; padding: 34px; }
+      .header { display: flex; gap: 18px; align-items: center; border-bottom: 2px solid #101828; padding-bottom: 18px; }
+      .profile-img, .profile-fallback { width: 84px; height: 84px; border-radius: 14px; object-fit: cover; background: #dfe7e2; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; }
+      .role { color: #344054; font-weight: 700; margin: 4px 0 8px; }
+      .contact { color: #475467; font-size: 13px; }
+      .section { margin-top: 22px; }
+      h2 { font-size: 16px; border-bottom: 1px solid #d0d5dd; padding-bottom: 6px; margin-bottom: 10px; }
+    </style></head><body>
+      <header class="header">${photo}<div><h1>${payload.name}</h1><div class="role">${payload.roleLabel}</div><div class="contact">${[payload.email, payload.phone, payload.linkedInUrl].filter(Boolean).join(" | ")}</div></div></header>
+      ${renderResumeSectionsHtml(payload)}
+    </body></html>`;
+  }
+
+  if (safeTemplate === "creative") {
+    return `<!doctype html><html><head><meta charset="utf-8" /><style>${commonStyles}
+      body { display: flex; background: #eef3ef; }
+      .left { width: 32%; background: linear-gradient(180deg, #174f37 0%, #2c8a5a 100%); color: #fff; min-height: 100vh; padding: 28px 22px; }
+      .right { width: 68%; padding: 28px 26px; }
+      .profile-img, .profile-fallback { width: 110px; height: 110px; border-radius: 26px; object-fit: cover; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; margin-bottom: 18px; }
+      .chip { display: inline-block; padding: 6px 10px; border-radius: 999px; margin: 0 8px 8px 0; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+      .side-title { text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; margin-top: 24px; margin-bottom: 10px; opacity: 0.85; }
+      .section { background: rgba(255,255,255,0.82); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
+      h2 { color: #174f37; margin-bottom: 10px; }
+    </style></head><body>
+      <aside class="left">${photo}<h1>${payload.name}</h1><p>${payload.roleLabel}</p><p>${payload.email}</p>${payload.phone ? `<p>${payload.phone}</p>` : ""}
+        <div class="side-title">Skills</div>${payload.skills.length ? payload.skills.map((skill) => `<span class="chip">${skill}</span>`).join("") : "<p>Add skills in your profile.</p>"}
+        <div class="side-title">Domains</div>${payload.domains.length ? payload.domains.map((domain) => `<span class="chip">${domain}</span>`).join("") : "<p>Domains will appear here.</p>"}
+      </aside>
+      <main class="right">${renderResumeSectionsHtml(payload)}</main>
+    </body></html>`;
+  }
+
+  return `<!doctype html><html><head><meta charset="utf-8" /><style>${commonStyles}
+    body { padding: 28px; background: linear-gradient(180deg, #eff8f2 0%, #ffffff 34%); }
+    .shell { background: #ffffff; border-radius: 28px; overflow: hidden; box-shadow: 0 24px 60px rgba(31,122,76,0.12); border: 1px solid #d8e3dc; }
+    .header { padding: 24px 28px; background: linear-gradient(135deg, #1f7a4c 0%, #58b77f 100%); color: #fff; display: flex; gap: 18px; align-items: center; }
+    .profile-img, .profile-fallback { width: 92px; height: 92px; border-radius: 24px; object-fit: cover; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; border: 2px solid rgba(255,255,255,0.5); }
+    .meta { color: rgba(255,255,255,0.92); font-size: 13px; }
+    .content { padding: 24px; }
+    .section { margin-bottom: 16px; padding: 18px; border-radius: 18px; background: linear-gradient(180deg, #f9fcfa 0%, #ffffff 100%); border: 1px solid #e4ebe7; }
+    h2 { color: #1f7a4c; margin-bottom: 10px; }
+  </style></head><body>
+    <div class="shell">
+      <header class="header">${photo}<div><h1>${payload.name}</h1><p class="meta">${payload.roleLabel}</p><p class="meta">${[payload.email, payload.phone].filter(Boolean).join(" | ")}</p></div></header>
+      <main class="content">${renderResumeSectionsHtml(payload)}</main>
+    </div>
+  </body></html>`;
+}
+
+exports.generateResume = asyncHandler(async (req, res) => {
+  const template = req.query.template || "modern";
+  const payload = await buildResumePayloadForUser(req.user.id);
+  const markdown = buildResumeMarkdown(payload);
 
   res.json({
     resume: payload,
+    summary: payload.summary,
     markdown,
+    previewHtml: buildResumeHtml(payload, template),
+    templates: ["modern", "corporate", "creative"],
     export: {
-      fileName: `${String(payload.basics.name || "orin_resume").replace(/\s+/g, "_")}.md`,
-      mimeType: "text/markdown"
+      fileName: resumeFileName(payload.name, "txt"),
+      pdfFileName: resumeFileName(payload.name, "pdf"),
+      mimeType: "text/plain"
     }
   });
 });
@@ -3641,6 +3923,29 @@ function resumeMarkdownToPlainText(markdown) {
     .trim();
 }
 
+async function fetchResumeImageBuffer(url) {
+  if (!url) return null;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return null;
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  } catch {
+    return null;
+  }
+}
+
+function renderPdfSection(doc, title, lines) {
+  if (!lines.length) return;
+  doc.moveDown(0.8);
+  doc.font("Helvetica-Bold").fontSize(12).fillColor("#1F7A4C").text(title);
+  doc.moveDown(0.25);
+  doc.font("Helvetica").fontSize(10).fillColor("#1F2937");
+  lines.forEach((line) => {
+    if (line) doc.text(`- ${line}`, { lineGap: 2 });
+  });
+}
+
 exports.downloadResumePdf = asyncHandler(async (req, res) => {
   let PDFDocument;
   try {
@@ -3649,71 +3954,18 @@ exports.downloadResumePdf = asyncHandler(async (req, res) => {
     throw new ApiError(500, "PDF export is not available on the server.");
   }
 
-  const userId = req.user.id;
-  const user = await User.findById(userId).select("name email phoneNumber").lean();
-  const profile = await StudentProfile.findOne({ userId }).lean();
-  if (!user) throw new ApiError(404, "User not found");
-
-  const payload = {
-    basics: {
-      name: user.name || "",
-      email: user.email || "",
-      phone: user.phoneNumber || "",
-      headline: profile?.headline || "",
-      about: profile?.about || ""
-    },
-    skills: profile?.skills || [],
-    projects: (profile?.projects || []).map((item) => ({
-      title: item.name || "",
-      description: item.summary || "",
-      techStack: item.techStack || [],
-      githubOrLink: item.link || ""
-    })),
-    achievements: profile?.achievements || [],
-    experience: profile?.experiences || [],
-    careerGoals: profile?.careerGoals || ""
+  const template = ["modern", "corporate", "creative"].includes(String(req.query.template))
+    ? String(req.query.template)
+    : "modern";
+  const payload = await buildResumePayloadForUser(req.user.id);
+  const fileName = resumeFileName(payload.name, "pdf");
+  const imageBuffer = await fetchResumeImageBuffer(payload.profileImage);
+  const themeByTemplate = {
+    modern: { primary: "#1F7A4C", text: "#12221A" },
+    corporate: { primary: "#111827", text: "#111827" },
+    creative: { primary: "#7C3AED", text: "#1F2937" }
   };
-
-  const markdown = [
-    `# ${payload.basics.name}`,
-    payload.basics.headline ? `**${payload.basics.headline}**` : "",
-    payload.basics.about ? payload.basics.about : "",
-    "",
-    "## Contact",
-    `- Email: ${payload.basics.email}`,
-    payload.basics.phone ? `- Phone: ${payload.basics.phone}` : "",
-    "",
-    "## Skills",
-    ...(payload.skills.length ? payload.skills.map((item) => `- ${item}`) : ["- Add your skills in profile"]),
-    "",
-    "## Projects",
-    ...(payload.projects.length
-      ? payload.projects.flatMap((project) => [
-          `- **${project.title || "Project"}**`,
-          project.description ? `  - ${project.description}` : "",
-          project.techStack.length ? `  - Tech: ${project.techStack.join(", ")}` : "",
-          project.githubOrLink ? `  - Link: ${project.githubOrLink}` : ""
-        ])
-      : ["- Add projects in profile"]),
-    "",
-    "## Achievements",
-    ...(payload.achievements.length
-      ? payload.achievements.map((item) => `- ${item.title || item.type || "Achievement"}`)
-      : ["- Add achievements in profile"]),
-    "",
-    "## Experience",
-    ...(payload.experience.length
-      ? payload.experience.map((item) => `- ${item.role || "Role"} at ${item.organization || "Organization"}`)
-      : ["- Add experiences in profile"]),
-    "",
-    "## Career Goal",
-    payload.careerGoals || "Career growth and mentorship"
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const plainText = resumeMarkdownToPlainText(markdown);
-  const fileName = `${String(payload.basics.name || "orin_resume").replace(/\s+/g, "_")}.pdf`;
+  const theme = themeByTemplate[template];
 
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
@@ -3721,13 +3973,66 @@ exports.downloadResumePdf = asyncHandler(async (req, res) => {
   const doc = new PDFDocument({ margin: 48 });
   doc.pipe(res);
 
-  doc.fontSize(18).fillColor("#111827").text(payload.basics.name || "ORIN Resume");
-  if (payload.basics.headline) {
-    doc.moveDown(0.4);
-    doc.fontSize(11).fillColor("#374151").text(payload.basics.headline);
+  doc.roundedRect(48, 42, doc.page.width - 96, 118, 18).fill(theme.primary);
+  doc.fillColor("#FFFFFF");
+
+  if (imageBuffer) {
+    try {
+      doc.image(imageBuffer, 64, 58, { fit: [74, 74], align: "center", valign: "center" });
+    } catch {
+      // If image rendering fails, continue without blocking PDF export.
+    }
   }
-  doc.moveDown(0.8);
-  doc.fontSize(10).fillColor("#111827").text(plainText);
+
+  const textStartX = imageBuffer ? 152 : 64;
+  doc.font("Helvetica-Bold").fontSize(22).text(payload.name || "ORIN Resume", textStartX, 62);
+  doc.font("Helvetica").fontSize(11).text(payload.roleLabel || payload.role || "Career Builder", textStartX, 90);
+  doc.fontSize(10).fillColor("#F3F6FB").text([payload.email, payload.phone].filter(Boolean).join(" | "), textStartX, 110, {
+    width: doc.page.width - textStartX - 70
+  });
+
+  doc.fillColor(theme.text);
+  doc.y = 180;
+  doc.font("Helvetica-Bold").fontSize(13).text("Professional Summary");
+  doc.moveDown(0.3);
+  doc.font("Helvetica").fontSize(10).fillColor("#344054").text(payload.summary || "Profile summary unavailable.", {
+    lineGap: 3
+  });
+
+  renderPdfSection(doc, "Skills", payload.skills.length ? payload.skills : ["Add your skills in ORIN profile."]);
+  renderPdfSection(
+    doc,
+    "Projects",
+    payload.projects.length
+      ? payload.projects.map((project) =>
+          [project.title, project.tech?.length ? `Tech: ${project.tech.join(", ")}` : "", project.description, project.link]
+            .filter(Boolean)
+            .join(" | ")
+        )
+      : ["Add projects in your ORIN profile."]
+  );
+  renderPdfSection(
+    doc,
+    "Achievements",
+    payload.achievements.length
+      ? payload.achievements.map((item) => [item.title, item.issuer, item.date].filter(Boolean).join(" | "))
+      : ["Add achievements in your ORIN profile."]
+  );
+  renderPdfSection(
+    doc,
+    "Experience",
+    payload.experience.length
+      ? payload.experience.map((item) => [item.role, item.organization, [item.start, item.end].filter(Boolean).join(" - "), item.description].filter(Boolean).join(" | "))
+      : ["Add experience in your ORIN profile."]
+  );
+  if (payload.education?.length) {
+    renderPdfSection(
+      doc,
+      "Education",
+      payload.education.map((item) => [item.degree, item.school, item.year].filter(Boolean).join(" | "))
+    );
+  }
+  renderPdfSection(doc, "Career Focus", [payload.careerGoal || "Career growth and mentorship"]);
   doc.end();
 });
 

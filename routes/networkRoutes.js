@@ -103,8 +103,8 @@ router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), get
 router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
 router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
 router.post("/live-sessions/:liveSessionId/interest", verifyToken, authorizeRoles("student", "mentor"), toggleLiveSessionInterest);
-router.get("/resume/generate", verifyToken, authorizeRoles("student"), generateResume);
-router.get("/resume/pdf", verifyToken, authorizeRoles("student"), downloadResumePdf);
+router.get("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
+router.get("/resume/pdf", verifyToken, authorizeRoles("student", "mentor"), downloadResumePdf);
 router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);
 router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor"), getVerifiedMentors);
 router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
