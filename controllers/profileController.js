@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
 const User = require("../models/User");
@@ -159,6 +160,20 @@ function normalizeMentorProfilePayload(payload = {}) {
   return nextPayload;
 }
 
+async function upsertProfileDocument(Model, userId, nextPayload) {
+  const objectUserId = new mongoose.Types.ObjectId(String(userId));
+  await Model.collection.updateOne(
+    { userId: objectUserId },
+    {
+      $set: nextPayload,
+      $setOnInsert: { userId: objectUserId }
+    },
+    { upsert: true }
+  );
+
+  return Model.findOne({ userId }).lean();
+}
+
 exports.getMyStudentProfile = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.user.id, role: "student" }).select("name email role");
   if (!user) throw new ApiError(404, "Student user not found");
@@ -189,19 +204,15 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
     nextPayload.resumeUrl
   ]);
 
-  const profile = await StudentProfile.findOneAndUpdate(
-    { userId: req.user.id },
-    { $set: nextPayload, $setOnInsert: { userId: req.user.id } },
-    { upsert: true, new: true, runValidators: true }
-  );
+  const profile = await upsertProfileDocument(StudentProfile, req.user.id, nextPayload);
 
   await createAuditLog({
     req,
     actorId: req.user.id,
     action: "profile.student.update",
     entityType: "StudentProfile",
-    entityId: profile._id,
-    metadata: { profileCompleteness: profile.profileCompleteness }
+    entityId: profile?._id,
+    metadata: { profileCompleteness: profile?.profileCompleteness || nextPayload.profileCompleteness }
   });
 
   res.json({ message: "Student profile updated", profile });
@@ -274,11 +285,7 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     mergedProfile.weeklyAvailabilitySlots
   ]);
 
-  const profile = await MentorProfile.findOneAndUpdate(
-    { userId: req.user.id },
-    { $set: nextPayload, $setOnInsert: { userId: req.user.id } },
-    { upsert: true, new: true, runValidators: true }
-  );
+  const profile = await upsertProfileDocument(MentorProfile, req.user.id, nextPayload);
 
   const userUpdates = {};
   if (Object.prototype.hasOwnProperty.call(nextPayload, "primaryCategory")) {
@@ -316,8 +323,8 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     actorId: req.user.id,
     action: "profile.mentor.update",
     entityType: "MentorProfile",
-    entityId: profile._id,
-    metadata: { profileCompleteness: profile.profileCompleteness }
+    entityId: profile?._id,
+    metadata: { profileCompleteness: profile?.profileCompleteness || nextPayload.profileCompleteness }
   });
 
   res.json({ message: "Mentor profile updated", profile });
