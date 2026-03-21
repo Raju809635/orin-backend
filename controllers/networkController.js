@@ -1824,7 +1824,6 @@ const FACTUAL_QUIZ_BANK = {
       }
     ]
   }
-  }
 };
 
 function getFactualBank(skill) {
