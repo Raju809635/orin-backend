@@ -132,6 +132,7 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     mergedProfile.about,
     mergedProfile.achievements,
     mergedProfile.linkedInUrl,
+    mergedProfile.resumeUrl,
     mergedProfile.weeklyAvailabilitySlots
   ]);
 

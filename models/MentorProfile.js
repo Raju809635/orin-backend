@@ -20,6 +20,7 @@ const mentorProfileSchema = new mongoose.Schema(
     about: { type: String, default: "" },
     achievements: { type: [String], default: [] },
     linkedInUrl: { type: String, default: "" },
+    resumeUrl: { type: String, default: "" },
     sessionPrice: { type: Number, default: 0 },
     weeklyAvailabilitySlots: {
       type: [{ day: String, startTime: String, endTime: String }],

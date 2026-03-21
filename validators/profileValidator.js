@@ -69,6 +69,7 @@ const mentorProfileUpdateSchema = Joi.object({
   about: Joi.string().max(1200).allow("").optional(),
   achievements: Joi.array().items(Joi.string()).optional(),
   linkedInUrl: Joi.string().allow("").optional(),
+  resumeUrl: Joi.string().allow("").optional(),
   sessionPrice: Joi.number().min(0).optional(),
   weeklyAvailabilitySlots: Joi.array()
     .items(
