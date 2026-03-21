@@ -354,8 +354,13 @@ exports.submitManualPaymentProof = asyncHandler(async (req, res) => {
         const uploaded = await uploadImageFromPath(req.file.path, { folder: "orin/manual-payments" });
         screenshotUrl = uploaded.url;
         await safeUnlink(req.file.path);
-      } catch {
-        // Cloudinary not configured or upload failed: keep local URL.
+      } catch (err) {
+        const msg = String(err?.message || "");
+        // If Cloudinary isn't configured, keep local fallback for dev.
+        // If it IS configured but upload failed, surface the error so production doesn't store dead local paths.
+        if (!msg.toLowerCase().includes("cloudinary is not configured")) {
+          throw err;
+        }
       }
     }
   }
