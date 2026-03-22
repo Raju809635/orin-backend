@@ -7,7 +7,9 @@ const {
   getConversations,
   getMessagesWithUser,
   sendMessage,
-  markConversationRead
+  markConversationRead,
+  setTypingIndicator,
+  getTypingIndicator
 } = require("../controllers/chatController");
 
 router.use(verifyToken, authorizeRoles("student", "mentor", "admin"));
@@ -16,5 +18,7 @@ router.get("/conversations", getConversations);
 router.get("/messages/:userId", getMessagesWithUser);
 router.post("/messages/:userId", validate(sendChatMessageSchema), sendMessage);
 router.patch("/messages/:userId/read", markConversationRead);
+router.get("/messages/:userId/typing", getTypingIndicator);
+router.post("/messages/:userId/typing", setTypingIndicator);
 
 module.exports = router;

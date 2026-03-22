@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
 const ChatMessage = require("../models/ChatMessage");
 const User = require("../models/User");
+const StudentProfile = require("../models/StudentProfile");
+const MentorProfile = require("../models/MentorProfile");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+
+const typingState = new Map();
+const TYPING_TTL_MS = 6000;
+const ONLINE_WINDOW_MS = 120000;
 
 function canChatRoles(roleA, roleB) {
   return (
@@ -20,6 +26,87 @@ function effectiveRole(user) {
   return user.role;
 }
 
+function touchPresence(userId) {
+  if (!userId) return;
+  User.updateOne({ _id: userId }, { $set: { lastSeenAt: new Date() } }).catch(() => null);
+}
+
+function typingKey(senderId, recipientId) {
+  return `${String(senderId)}:${String(recipientId)}`;
+}
+
+function setTypingState(senderId, recipientId, isTyping) {
+  const key = typingKey(senderId, recipientId);
+  if (!isTyping) {
+    typingState.delete(key);
+    return;
+  }
+  typingState.set(key, Date.now() + TYPING_TTL_MS);
+}
+
+function getTypingState(senderId, recipientId) {
+  const key = typingKey(senderId, recipientId);
+  const expiresAt = typingState.get(key);
+  if (!expiresAt) return false;
+  if (expiresAt < Date.now()) {
+    typingState.delete(key);
+    return false;
+  }
+  return true;
+}
+
+function isOnline(lastSeenAt) {
+  if (!lastSeenAt) return false;
+  const time = new Date(lastSeenAt).getTime();
+  if (Number.isNaN(time)) return false;
+  return Date.now() - time <= ONLINE_WINDOW_MS;
+}
+
+async function buildProfilePhotoMap(users) {
+  const studentIds = [];
+  const mentorIds = [];
+
+  users.forEach((user) => {
+    const id = String(user?._id || "");
+    if (!id) return;
+    if (effectiveRole(user) === "student") studentIds.push(new mongoose.Types.ObjectId(id));
+    if (effectiveRole(user) === "mentor") mentorIds.push(new mongoose.Types.ObjectId(id));
+  });
+
+  const [studentProfiles, mentorProfiles] = await Promise.all([
+    studentIds.length
+      ? StudentProfile.find({ userId: { $in: studentIds } }).select("userId profilePhotoUrl").lean()
+      : Promise.resolve([]),
+    mentorIds.length
+      ? MentorProfile.find({ userId: { $in: mentorIds } }).select("userId profilePhotoUrl").lean()
+      : Promise.resolve([])
+  ]);
+
+  const photoMap = new Map();
+  studentProfiles.forEach((profile) => {
+    photoMap.set(String(profile.userId), profile.profilePhotoUrl || "");
+  });
+  mentorProfiles.forEach((profile) => {
+    photoMap.set(String(profile.userId), profile.profilePhotoUrl || "");
+  });
+
+  return photoMap;
+}
+
+function decorateCounterpart(user, photoMap, requestUserId) {
+  const normalizedRole = effectiveRole(user);
+  const lastSeenAt = user.lastSeenAt || user.updatedAt || null;
+  return {
+    ...user,
+    role: normalizedRole,
+    status: user.approvalStatus || "approved",
+    profilePhotoUrl: photoMap?.get(String(user._id)) || user.profilePhotoUrl || "",
+    lastSeenAt,
+    isOnline: isOnline(lastSeenAt),
+    isTyping: getTypingState(String(user._id), String(requestUserId))
+  };
+}
+
 async function getCounterpartUser(requestUser, counterpartId) {
   let counterpart;
 
@@ -29,7 +116,7 @@ async function getCounterpartUser(requestUser, counterpartId) {
       isDeleted: false
     })
       .sort({ createdAt: 1 })
-      .select("_id name email role isAdmin approvalStatus phoneNumber")
+      .select("_id name email role isAdmin approvalStatus phoneNumber lastSeenAt updatedAt")
       .lean();
 
     if (!counterpart) {
@@ -48,7 +135,7 @@ async function getCounterpartUser(requestUser, counterpartId) {
       _id: counterpartId,
       isDeleted: false
     })
-      .select("_id name email role isAdmin approvalStatus phoneNumber")
+      .select("_id name email role isAdmin approvalStatus phoneNumber lastSeenAt updatedAt")
       .lean();
   }
 
@@ -71,15 +158,13 @@ async function getCounterpartUser(requestUser, counterpartId) {
     throw new ApiError(403, "Mentor is not approved yet");
   }
 
-  return {
-    ...counterpart,
-    role: counterpartRole,
-    status: counterpart.approvalStatus || "approved"
-  };
+  const photoMap = await buildProfilePhotoMap([counterpart]);
+  return decorateCounterpart({ ...counterpart, role: counterpartRole }, photoMap, requestUser.id);
 }
 
 exports.getConversations = asyncHandler(async (req, res) => {
   const userId = req.user.id;
+  touchPresence(userId);
 
   const recentMessages = await ChatMessage.find({
     $or: [{ sender: userId }, { recipient: userId }]
@@ -101,6 +186,8 @@ exports.getConversations = asyncHandler(async (req, res) => {
         counterpartId,
         lastMessage: message.text,
         lastMessageAt: message.createdAt,
+        lastMessageSenderId: senderId,
+        lastMessageReadAt: message.readAt || null,
         unreadCount:
           recipientId === userId && !message.readAt ? 1 : 0
       });
@@ -120,14 +207,13 @@ exports.getConversations = asyncHandler(async (req, res) => {
     _id: { $in: counterpartIds },
     isDeleted: false
   })
-    .select("_id name email role isAdmin approvalStatus phoneNumber")
+    .select("_id name email role isAdmin approvalStatus phoneNumber lastSeenAt updatedAt")
     .lean();
 
-  const normalizedCounterparts = counterparts.map((user) => ({
-    ...user,
-    role: effectiveRole(user),
-    status: user.approvalStatus || "approved"
-  }));
+  const photoMap = await buildProfilePhotoMap(counterparts);
+  const normalizedCounterparts = counterparts.map((user) =>
+    decorateCounterpart(user, photoMap, userId)
+  );
 
   const counterpartById = new Map(
     normalizedCounterparts.map((user) => [user._id.toString(), user])
@@ -151,6 +237,7 @@ exports.getConversations = asyncHandler(async (req, res) => {
 });
 
 exports.getMessagesWithUser = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
   const counterpart = await getCounterpartUser(req.user, req.params.userId);
 
   const messages = await ChatMessage.find({
@@ -170,6 +257,7 @@ exports.getMessagesWithUser = asyncHandler(async (req, res) => {
 });
 
 exports.sendMessage = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
   const counterpart = await getCounterpartUser(req.user, req.params.userId);
 
   const message = await ChatMessage.create({
@@ -177,6 +265,7 @@ exports.sendMessage = asyncHandler(async (req, res) => {
     recipient: counterpart._id,
     text: req.body.text
   });
+  setTypingState(req.user.id, counterpart._id, false);
 
   res.status(201).json({
     message: "Sent",
@@ -185,6 +274,7 @@ exports.sendMessage = asyncHandler(async (req, res) => {
 });
 
 exports.markConversationRead = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
   const counterpart = await getCounterpartUser(req.user, req.params.userId);
 
   const result = await ChatMessage.updateMany(
@@ -199,5 +289,28 @@ exports.markConversationRead = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: "Conversation marked as read",
     updatedCount: result.modifiedCount
+  });
+});
+
+exports.setTypingIndicator = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
+  const counterpart = await getCounterpartUser(req.user, req.params.userId);
+  const isTyping = Boolean(req.body?.isTyping);
+  setTypingState(req.user.id, counterpart._id, isTyping);
+
+  res.status(200).json({
+    message: isTyping ? "Typing started" : "Typing stopped",
+    isTyping
+  });
+});
+
+exports.getTypingIndicator = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
+  const counterpart = await getCounterpartUser(req.user, req.params.userId);
+
+  res.status(200).json({
+    isTyping: getTypingState(counterpart._id, req.user.id),
+    isOnline: isOnline(counterpart.lastSeenAt),
+    lastSeenAt: counterpart.lastSeenAt || null
   });
 });

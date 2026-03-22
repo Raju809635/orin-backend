@@ -126,6 +126,10 @@ const userSchema = new mongoose.Schema({
     showEmail: { type: Boolean, default: false },
     showSessionHistory: { type: Boolean, default: true }
   },
+  lastSeenAt: {
+    type: Date,
+    default: null
+  },
   isDeleted: {
     type: Boolean,
     default: false,
