@@ -3431,19 +3431,51 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
       .lean()
     : null;
 
+  const profileIds = [
+    ...new Set(
+      [
+        ...(globalSnapshot?.entries || []).map((item) => item.userId?._id || item.userId),
+        ...(collegeSnapshot?.entries || []).map((item) => item.userId?._id || item.userId)
+      ]
+        .map((item) => String(item || "").trim())
+        .filter(Boolean)
+    )
+  ].map((id) => new mongoose.Types.ObjectId(id));
+
+  const profileRows = profileIds.length
+    ? await StudentProfile.find({ userId: { $in: profileIds } })
+      .select("userId profilePhotoUrl")
+      .lean()
+    : [];
+
+  const photoMap = new Map(
+    profileRows.map((item) => [String(item.userId), item.profilePhotoUrl || ""])
+  );
+
   const mapEntries = (entries = []) =>
     entries.slice(0, 20).map((item) => ({
       rank: item.rank,
       userId: item.userId?._id || item.userId || null,
       name: item.userId?.name || "User",
-      score: item.score || 0
+      score: item.score || 0,
+      profilePhotoUrl: photoMap.get(String(item.userId?._id || item.userId || "")) || ""
     }));
+
+  const globalEntries = mapEntries(globalSnapshot?.entries || []);
+  const collegeEntries = mapEntries(collegeSnapshot?.entries || []);
+  const meCollege = collegeEntries.find((item) => String(item.userId) === String(userId)) || null;
+  const meGlobal = globalEntries.find((item) => String(item.userId) === String(userId)) || null;
 
   res.json({
     dateKey,
     collegeName,
-    collegeTop: mapEntries(collegeSnapshot?.entries || []),
-    globalTop: mapEntries(globalSnapshot?.entries || [])
+    collegeTop: collegeEntries,
+    globalTop: globalEntries,
+    me: {
+      score: meCollege?.score || meGlobal?.score || 0,
+      collegeRank: meCollege?.rank || null,
+      globalRank: meGlobal?.rank || null
+    }
   });
 });
 
