@@ -124,6 +124,20 @@ function normalizeStudentProfilePayload(payload = {}) {
           .filter((item) => item.organization || item.role || item.start || item.end || item.description)
       : [];
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "education")) {
+    nextPayload.education = Array.isArray(nextPayload.education)
+      ? nextPayload.education
+          .map((item = {}) => ({
+            school: String(item.school || "").trim(),
+            degree: String(item.degree || "").trim(),
+            year: String(item.year || "").trim()
+          }))
+          .filter((item) => item.school || item.degree || item.year)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
+    nextPayload.state = String(nextPayload.state || "").trim();
+  }
 
   return nextPayload;
 }
@@ -155,6 +169,20 @@ function normalizeMentorProfilePayload(payload = {}) {
           .map(normalizeExperience)
           .filter((item) => item.organization || item.role || item.start || item.end || item.description)
       : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "education")) {
+    nextPayload.education = Array.isArray(nextPayload.education)
+      ? nextPayload.education
+          .map((item = {}) => ({
+            school: String(item.school || "").trim(),
+            degree: String(item.degree || "").trim(),
+            year: String(item.year || "").trim()
+          }))
+          .filter((item) => item.school || item.degree || item.year)
+      : [];
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
+    nextPayload.state = String(nextPayload.state || "").trim();
   }
 
   return nextPayload;
@@ -193,6 +221,7 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
     nextPayload.profilePhotoUrl,
     nextPayload.headline,
     nextPayload.about,
+    nextPayload.state,
     nextPayload.education,
     nextPayload.collegeName,
     nextPayload.skills,
@@ -277,6 +306,8 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     mergedProfile.subCategory,
     mergedProfile.specializations,
     mergedProfile.about,
+    mergedProfile.state,
+    mergedProfile.education,
     mergedProfile.achievements,
     mergedProfile.projects,
     mergedProfile.experiences,

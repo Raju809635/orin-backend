@@ -11,6 +11,7 @@ const studentProfileSchema = new mongoose.Schema(
     profilePhotoUrl: { type: String, default: "" },
     headline: { type: String, default: "" },
     about: { type: String, default: "" },
+    state: { type: String, default: "" },
     education: {
       type: [{ school: String, degree: String, year: String }],
       default: []

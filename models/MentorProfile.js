@@ -18,6 +18,17 @@ const mentorProfileSchema = new mongoose.Schema(
     subCategory: { type: String, default: "" },
     specializations: { type: [String], default: [] },
     about: { type: String, default: "" },
+    state: { type: String, default: "" },
+    education: {
+      type: [
+        {
+          school: { type: String, default: "" },
+          degree: { type: String, default: "" },
+          year: { type: String, default: "" }
+        }
+      ],
+      default: []
+    },
     achievements: {
       type: [
         {
