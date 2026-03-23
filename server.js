@@ -25,6 +25,7 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const networkRoutes = require("./routes/networkRoutes");
 const newsRoutes = require("./routes/newsRoutes");
 const metaRoutes = require("./routes/metaRoutes");
+const journeyStateRoutes = require("./routes/journeyStateRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -70,6 +71,7 @@ app.use("/api/uploads", uploadRoutes);
 app.use("/api/network", networkRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/meta", metaRoutes);
+app.use("/api/journey-state", journeyStateRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

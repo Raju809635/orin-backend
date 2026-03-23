@@ -45,6 +45,9 @@ const {
   submitCommunityChallenge,
   joinCommunityChallenge,
   getOrinCertifications,
+  getCertificateDetail,
+  verifyCertificatePublic,
+  generateCertificate,
   getCertificationTracks,
   requestCertificationTrack,
   getMyCertificationRequests,
@@ -110,7 +113,10 @@ router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor")
 router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
 router.post("/challenges/submit", verifyToken, authorizeRoles("mentor"), submitCommunityChallenge);
 router.post("/challenges/:challengeId/join", verifyToken, authorizeRoles("student"), joinCommunityChallenge);
+router.get("/certifications/verify/:certificateId", verifyCertificatePublic);
 router.get("/certifications", verifyToken, authorizeRoles("student", "mentor"), getOrinCertifications);
+router.post("/certifications/generate", verifyToken, authorizeRoles("student", "mentor"), generateCertificate);
+router.get("/certifications/:certificateId", verifyToken, authorizeRoles("student", "mentor"), getCertificateDetail);
 router.get("/certification-tracks", verifyToken, authorizeRoles("student", "mentor"), getCertificationTracks);
 router.post("/certification-tracks/:trackId/request", verifyToken, authorizeRoles("student"), requestCertificationTrack);
 router.get("/certification-requests/me", verifyToken, authorizeRoles("student", "mentor"), getMyCertificationRequests);

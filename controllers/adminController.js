@@ -19,6 +19,7 @@ const CertificationRequest = require("../models/CertificationRequest");
 const OrinCertification = require("../models/OrinCertification");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { issueCertificate } = require("../utils/certificateService");
 
 exports.getPendingMentors = asyncHandler(async (req, res) => {
   const mentors = await User.find({
@@ -729,13 +730,23 @@ exports.reviewNetworkAdminCertificationRequest = asyncHandler(async (req, res) =
     doc.status = "approved";
     const track = doc.trackId;
     if (track && doc.userId?.role === "student") {
-      await OrinCertification.create({
+      await issueCertificate({
         userId: doc.userId._id,
         title: track.title,
+        type: "course",
+        issuedBy: "ORIN",
+        source: "Certification Track",
         level: track.level || "Beginner",
         domain: track.domain || "",
-        issuedAt: new Date(),
-        source: "ORIN"
+        referenceType: "track",
+        referenceId: String(track._id),
+        requestId: doc._id,
+        metadata: {
+          domain: track.domain || "",
+          level: track.level || "Beginner"
+        },
+        userName: "",
+        status: "approved"
       });
     }
   } else {

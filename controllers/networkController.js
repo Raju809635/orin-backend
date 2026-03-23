@@ -25,7 +25,9 @@ const User = require("../models/User");
 const Notification = require("../models/Notification");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { issueCertificate } = require("../utils/certificateService");
 const { mentorCategoryTree } = require("../config/mentorCategories");
+const { getJourneyState, updateSkillProfile } = require("../services/journeyStateService");
 
 const QUIZ_XP_BY_SCORE = {
   1: 10,
@@ -625,6 +627,147 @@ function getProjectIdeasForGoal(goal = "") {
     "Peer Learning Community App",
     "Interview Prep Quiz App"
   ];
+}
+
+function getJourneyCurrentRoadmapStep(journeyState) {
+  const steps = Array.isArray(journeyState?.roadmap?.steps) ? journeyState.roadmap.steps : [];
+  if (!steps.length) return null;
+  return (
+    steps.find((item) => String(item?.id || "") === String(journeyState?.roadmap?.currentStepId || "")) ||
+    steps.find((item) => item?.status === "active") ||
+    steps.find((item) => item?.status !== "completed") ||
+    steps[0]
+  );
+}
+
+function scoreTokenOverlap(value = "", tokens = []) {
+  const sourceTokens = new Set(tokenize(value));
+  return (tokens || []).reduce((score, token) => (sourceTokens.has(token) ? score + 1 : score), 0);
+}
+
+function getJourneyProjectIdeas({ goal = "", ctx = {}, journeyState, fallbackIdeas = [] }) {
+  const currentStep = getJourneyCurrentRoadmapStep(journeyState);
+  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
+  const knownSkills = journeyState?.skillProfile?.knownSkills || [];
+  const focusTokens = [
+    goal,
+    ctx?.primaryCategory,
+    ctx?.subCategory,
+    ctx?.focus,
+    currentStep?.title,
+    ...missingSkills.slice(0, 4),
+    ...(journeyState?.recommendations?.feedTags || [])
+  ]
+    .flatMap((item) => tokenize(item))
+    .filter(Boolean);
+
+  const boostedIdeas = [...(fallbackIdeas || [])]
+    .map((title) => ({
+      title,
+      score: scoreTokenOverlap(title, focusTokens)
+    }))
+    .sort((a, b) => b.score - a.score)
+    .map((item) => item.title);
+
+  const stageSpecific = [];
+  const stepLabel = String(currentStep?.title || "").trim();
+  const primarySkill = missingSkills[0] || knownSkills[0] || ctx?.focus || ctx?.subCategory || ctx?.primaryCategory || goal;
+  if (stepLabel) {
+    stageSpecific.push(`${primarySkill} Practice Lab`);
+    stageSpecific.push(`${stepLabel} Mini Project`);
+  }
+  if (ctx?.focus) {
+    stageSpecific.push(`${ctx.focus} Portfolio Builder`);
+  }
+  if (ctx?.subCategory && !normalizeText(ctx?.subCategory).includes("project")) {
+    stageSpecific.push(`${ctx.subCategory} Showcase App`);
+  }
+
+  return normalizeList([...stageSpecific, ...boostedIdeas]).slice(0, 8);
+}
+
+function buildJourneySeedResources({ queryDomain = "", goal = "", ctx = {}, journeyState }) {
+  const currentStep = getJourneyCurrentRoadmapStep(journeyState);
+  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
+  const primarySkill = missingSkills[0] || ctx?.focus || ctx?.subCategory || ctx?.primaryCategory || goal || "Career";
+  const domain = queryDomain || ctx?.primaryCategory || journeyState?.goal?.domain || "Career Growth";
+
+  return [
+    {
+      _id: "seed-lib-step",
+      domain,
+      type: "roadmap",
+      title: currentStep?.title ? `${currentStep.title} Learning Pack` : `${primarySkill} Starter Pack`,
+      description: currentStep?.title
+        ? `Guided notes, examples, and exercises for your active roadmap step: ${currentStep.title}.`
+        : `A focused starter pack to help you begin ${primarySkill} with the right order and resources.`,
+      url: "",
+      isFeatured: true
+    },
+    {
+      _id: "seed-lib-skill",
+      domain,
+      type: "coding_resource",
+      title: `${primarySkill} Practice Resource`,
+      description: `Hands-on material tailored to the skill gap currently blocking your ${goal || domain} journey.`,
+      url: ""
+    },
+    {
+      _id: "seed-lib-career",
+      domain,
+      type: "career_guide",
+      title: `${goal || domain} Career Guide`,
+      description: `Use this guide to connect your roadmap, projects, and opportunities into one learning path.`,
+      url: ""
+    }
+  ];
+}
+
+function buildInternshipReadinessState({ journeyState, profile, goal = "" }) {
+  const readinessScore = Number(journeyState?.skillProfile?.readinessScore || 0);
+  const roadmapProgress = Number(journeyState?.roadmap?.progressPercent || 0);
+  const completedProjectCount = Number(journeyState?.projects?.completedProjectIds?.length || 0) + Number(profile?.projects?.length || 0);
+  const activeProjectCount = Number(journeyState?.projects?.activeProjectIds?.length || 0);
+  const unlocked = readinessScore >= 55 && (completedProjectCount >= 1 || roadmapProgress >= 60);
+  const reasons = [];
+
+  if (readinessScore < 55) reasons.push(`Increase readiness to at least 55% for ${goal || "your path"}`);
+  if (completedProjectCount < 1 && roadmapProgress < 60) reasons.push("Complete one project or reach 60% roadmap progress");
+  if (!reasons.length) reasons.push("You are ready to start applying");
+
+  return {
+    readinessScore,
+    roadmapProgress,
+    completedProjectCount,
+    activeProjectCount,
+    unlocked,
+    reasons
+  };
+}
+
+function buildChallengeJourneyState({ journeyState, profile, goal = "" }) {
+  const currentStep = getJourneyCurrentRoadmapStep(journeyState);
+  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
+  const completedProjectCount = Number(journeyState?.projects?.completedProjectIds?.length || 0) + Number(profile?.projects?.length || 0);
+  const readinessScore = Number(journeyState?.skillProfile?.readinessScore || 0);
+
+  return {
+    currentStep,
+    missingSkills,
+    completedProjectCount,
+    readinessScore,
+    recommendationTokens: [
+      goal,
+      journeyState?.goal?.domain,
+      journeyState?.goal?.subDomain,
+      journeyState?.goal?.focus,
+      currentStep?.title,
+      ...missingSkills,
+      ...(journeyState?.recommendations?.feedTags || [])
+    ]
+      .flatMap((item) => tokenize(item))
+      .filter(Boolean)
+  };
 }
 
 function normalizedLevelFromScore(skillScore) {
@@ -3261,17 +3404,30 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const studentProfile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
   const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
+  const journeyState = await getJourneyState(userId, req.user.role);
 
   const ctx = resolveAiDomainContext({
     user,
-    primaryCategory: req.query.primaryCategory || req.query.domain,
-    subCategory: req.query.subCategory || req.query.subDomain,
-    focus: req.query.focus || req.query.specialization
+    primaryCategory: req.query.primaryCategory || req.query.domain || journeyState?.goal?.domain,
+    subCategory: req.query.subCategory || req.query.subDomain || journeyState?.goal?.subDomain,
+    focus: req.query.focus || req.query.specialization || journeyState?.goal?.focus
   });
 
-  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
+  const goal = String(
+    req.query.goal ||
+      journeyState?.goal?.title ||
+      studentProfile?.careerGoals ||
+      user?.goals ||
+      ctx.goalLabel ||
+      "Career Growth"
+  );
   const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
-  const steps = template?.roadmap?.length ? template.roadmap : getRoadmapForGoal(goal);
+  const stateSteps = (journeyState?.roadmap?.steps || []).map((item) => item.title).filter(Boolean);
+  const steps = stateSteps.length
+    ? stateSteps
+    : template?.roadmap?.length
+      ? template.roadmap
+      : getRoadmapForGoal(goal);
 
   res.json({
     goal: String(goal),
@@ -3282,9 +3438,10 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
       completed: false
     })),
     basedOn: {
-      skills: studentProfile?.skills || [],
+      skills: journeyState?.skillProfile?.knownSkills?.length ? journeyState.skillProfile.knownSkills : studentProfile?.skills || [],
       domain: user?.primaryCategory || "",
-      subDomain: user?.subCategory || ""
+      subDomain: user?.subCategory || "",
+      missingSkills: journeyState?.skillProfile?.missingSkills || []
     }
   });
 });
@@ -3292,14 +3449,22 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
 exports.getCareerOpportunities = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const role = req.user.role;
-  const profile = await StudentProfile.findOne({ userId }).select("skills careerGoals").lean();
-  const user = await User.findById(userId).select("primaryCategory subCategory").lean();
+  const [profile, user, journeyState] = await Promise.all([
+    StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean(),
+    User.findById(userId).select("primaryCategory subCategory").lean(),
+    getJourneyState(userId, role || "student")
+  ]);
+  const goal = String(journeyState?.goal?.title || profile?.careerGoals || user?.primaryCategory || "Career Growth").trim();
+  const internshipState = buildInternshipReadinessState({ journeyState, profile, goal });
 
   const queryTokens = uniqueTokens([
     ...(profile?.skills || []),
     profile?.careerGoals || "",
     user?.primaryCategory || "",
     user?.subCategory || "",
+    journeyState?.goal?.focus || "",
+    journeyState?.goal?.subDomain || "",
+    ...(journeyState?.skillProfile?.missingSkills || []),
     String(req.query.q || "")
   ]);
 
@@ -3363,9 +3528,22 @@ exports.getCareerOpportunities = asyncHandler(async (req, res) => {
       queryTokens.forEach((token) => {
         if (tokens.has(token)) score += 1;
       });
+      const recommended = score > 0 || internshipState.unlocked;
+      const recommendationReason = internshipState.unlocked
+        ? score > 0
+          ? `Recommended because it fits your ${goal} journey`
+          : "You are internship-ready and can start applying"
+        : internshipState.reasons[0] || "Build readiness before applying";
       return {
         ...item,
-        relevanceScore: score
+        relevanceScore: score,
+        recommended,
+        readinessUnlocked: internshipState.unlocked,
+        readinessScore: internshipState.readinessScore,
+        roadmapProgress: internshipState.roadmapProgress,
+        completedProjectCount: internshipState.completedProjectCount,
+        recommendationReason,
+        readinessHint: internshipState.reasons[0] || ""
       };
     })
     .sort((a, b) => b.relevanceScore - a.relevanceScore || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -4087,22 +4265,34 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const studentProfile = await StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean();
   const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
+  const journeyState = await getJourneyState(userId, req.user.role);
 
   const ctx = resolveAiDomainContext({
     user,
-    primaryCategory: req.query.primaryCategory || req.query.domain,
-    subCategory: req.query.subCategory || req.query.subDomain,
-    focus: req.query.focus || req.query.specialization
+    primaryCategory: req.query.primaryCategory || req.query.domain || journeyState?.goal?.domain,
+    subCategory: req.query.subCategory || req.query.subDomain || journeyState?.goal?.subDomain,
+    focus: req.query.focus || req.query.specialization || journeyState?.goal?.focus
   });
-  const goal = String(req.query.goal || studentProfile?.careerGoals || user?.goals || ctx.goalLabel || "Career Growth");
+  const goal = String(
+    req.query.goal ||
+      journeyState?.goal?.title ||
+      studentProfile?.careerGoals ||
+      user?.goals ||
+      ctx.goalLabel ||
+      "Career Growth"
+  );
   const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const requiredSkills = template?.requiredSkills?.length ? template.requiredSkills : getRequiredSkillsForGoal(goal);
   const overrideSkills = parseCsvList(req.query.skills);
-  const currentSkills = (overrideSkills.length ? overrideSkills : studentProfile?.skills || [])
+  const stateKnownSkills = journeyState?.skillProfile?.knownSkills?.length ? journeyState.skillProfile.knownSkills : [];
+  const currentSkills = (overrideSkills.length ? overrideSkills : stateKnownSkills.length ? stateKnownSkills : studentProfile?.skills || [])
     .map((item) => String(item).trim())
     .filter(Boolean);
   const currentTokens = new Set(currentSkills.map((item) => normalizeText(item)));
   const missingSkills = requiredSkills.filter((skill) => !currentTokens.has(normalizeText(skill)));
+  const readinessScore = requiredSkills.length
+    ? Math.max(0, Math.min(100, Math.round((currentSkills.length / requiredSkills.length) * 100)))
+    : 0;
 
   const mentorProfiles = await MentorProfile.find({})
     .populate("userId", "name approvalStatus role isDeleted")
@@ -4136,11 +4326,32 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
   const projectIdeas = (template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal)).slice(0, 5);
   const roadmapSteps = (template?.roadmap?.length ? template.roadmap : getRoadmapForGoal(goal)).slice(0, 5);
 
+  await updateSkillProfile(
+    userId,
+    {
+      knownSkills: currentSkills,
+      missingSkills,
+      readinessScore,
+      roadmapSteps,
+      roadmapId: goal,
+      recommendations: {
+        mentorIds: recommendedMentors.map((item) => String(item.mentorId || "")).filter(Boolean),
+        projectIdeaIds: projectIdeas.map((item) => String(item || "")),
+        libraryResourceIds: missingSkills.map((skill) => `${skill} Fundamentals`),
+        feedTags: uniqueTokens([goal, ctx.primaryCategory, ctx.subCategory, ctx.focus, ...missingSkills]).size
+          ? Array.from(uniqueTokens([goal, ctx.primaryCategory, ctx.subCategory, ctx.focus, ...missingSkills])).slice(0, 8)
+          : []
+      }
+    },
+    req.user.role
+  );
+
   res.json({
     goal,
     domainContext: ctx,
     currentSkills,
     missingSkills,
+    readinessScore,
     suggestions: {
       mentors: recommendedMentors,
       courses: missingSkills.map((skill) => `${skill} Fundamentals`),
@@ -4179,6 +4390,12 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
   const req = _req;
   const userId = req.user?.id;
   const role = req.user?.role;
+  const [journeyState, profile] = await Promise.all([
+    getJourneyState(userId, role || "student"),
+    StudentProfile.findOne({ userId }).select("projects").lean()
+  ]);
+  const goal = String(journeyState?.goal?.title || journeyState?.goal?.domain || "Career Growth").trim();
+  const challengeState = buildChallengeJourneyState({ journeyState, profile, goal });
 
   const challengesQuery =
     role === "mentor"
@@ -4211,16 +4428,37 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
   }
 
   res.json(
-    challenges.map((item) => ({
-      id: item._id,
-      title: item.title,
-      domain: item.domain,
-      description: item.description,
-      deadline: item.deadline,
-      isActive: item.isActive !== false,
-      participantsCount: (item.participants || []).length,
-      topParticipants: item.topParticipants || []
-    }))
+    challenges.map((item) => {
+      const participantsCount = (item.participants || []).length;
+      const relevance = scoreTokenOverlap(`${item.title} ${item.domain || ""} ${item.description || ""}`, challengeState.recommendationTokens);
+      const isProjectAligned =
+        challengeState.completedProjectCount > 0 ||
+        scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(challengeState.currentStep?.title || "")) > 0;
+      const recommendationReason = relevance > 0
+        ? `Fits your current journey in ${journeyState?.goal?.focus || journeyState?.goal?.subDomain || journeyState?.goal?.domain || goal}`
+        : isProjectAligned
+          ? "Good next challenge after your current project progress"
+          : `Useful challenge for building toward ${goal}`;
+
+      return {
+        id: item._id,
+        title: item.title,
+        domain: item.domain,
+        description: item.description,
+        deadline: item.deadline,
+        isActive: item.isActive !== false,
+        participantsCount,
+        topParticipants: item.topParticipants || [],
+        recommended: relevance > 0 || isProjectAligned,
+        recommendationReason,
+        challengeState: challengeState.currentStep?.title || "Foundation",
+        xpHint: 50 + Math.min(40, participantsCount > 0 ? Math.round(participantsCount / 20) : 0)
+      };
+    }).sort((a, b) => {
+      const scoreA = (a.recommended ? 2 : 0) + (a.participantsCount || 0) / 100;
+      const scoreB = (b.recommended ? 2 : 0) + (b.participantsCount || 0) / 100;
+      return scoreB - scoreA || new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+    })
   );
 });
 
@@ -4301,14 +4539,183 @@ exports.getOrinCertifications = asyncHandler(async (req, res) => {
   res.json([
     ...certs.map((item) => ({
       id: item._id,
+      certificateId: item.certificateId || "",
+      userName: item.userName || req.user.name || "",
       title: item.title,
+      type: item.type || "manual",
       level: item.level,
       domain: item.domain,
       issuedAt: item.issuedAt,
-      source: item.source
+      issuedBy: item.issuedBy || "ORIN",
+      source: item.source,
+      status: item.status || "approved",
+      qrCodeUrl: item.qrCodeUrl || "",
+      verificationUrl: item.verificationUrl || "",
+      certificateUrl: item.certificateUrl || "",
+      metadata: item.metadata || {}
     })),
     ...profileCerts
   ]);
+});
+
+exports.getCertificateDetail = asyncHandler(async (req, res) => {
+  const { certificateId } = req.params;
+  const userId = req.user.id;
+
+  let doc = null;
+  if (mongoose.Types.ObjectId.isValid(certificateId)) {
+    doc = await OrinCertification.findOne({ _id: certificateId, userId }).lean();
+  }
+  if (!doc) {
+    doc = await OrinCertification.findOne({ certificateId, userId }).lean();
+  }
+  if (!doc) throw new ApiError(404, "Certificate not found");
+
+  res.json({
+    id: doc._id,
+    certificateId: doc.certificateId || "",
+    userId: doc.userId,
+    userName: doc.userName || req.user.name || "",
+    title: doc.title,
+    type: doc.type || "manual",
+    issuedBy: doc.issuedBy || "ORIN",
+    issuedAt: doc.issuedAt,
+    dateIssued: doc.issuedAt,
+    level: doc.level || "Beginner",
+    domain: doc.domain || "",
+    status: doc.status || "approved",
+    qrCodeUrl: doc.qrCodeUrl || "",
+    verificationUrl: doc.verificationUrl || "",
+    certificateUrl: doc.certificateUrl || "",
+    metadata: doc.metadata || {}
+  });
+});
+
+exports.verifyCertificatePublic = asyncHandler(async (req, res) => {
+  const { certificateId } = req.params;
+  const doc = await OrinCertification.findOne({ certificateId }).lean();
+  if (!doc || doc.status !== "approved") {
+    return res.status(404).json({ valid: false, message: "Certificate not found" });
+  }
+
+  res.json({
+    valid: true,
+    certificateId: doc.certificateId,
+    name: doc.userName || "ORIN User",
+    title: doc.title,
+    type: doc.type || "manual",
+    course: doc.title,
+    domain: doc.domain || doc.metadata?.domain || "",
+    level: doc.level || doc.metadata?.level || "Beginner",
+    date: doc.issuedAt,
+    issuedBy: doc.issuedBy || "ORIN",
+    qrCodeUrl: doc.qrCodeUrl || "",
+    verificationUrl: doc.verificationUrl || "",
+    metadata: doc.metadata || {}
+  });
+});
+
+exports.generateCertificate = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const type = String(req.body?.type || "").trim();
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const level = String(req.body?.level || "Beginner").trim();
+  const referenceId = String(req.body?.referenceId || "").trim();
+
+  if (!type) throw new ApiError(400, "type is required");
+  if (!title) throw new ApiError(400, "title is required");
+
+  let issuePayload = null;
+
+  if (type === "roadmap") {
+    const totalSteps = Number(req.body?.metadata?.totalSteps || req.body?.totalSteps || 0);
+    const completedSteps = Number(req.body?.metadata?.completedSteps || req.body?.completedSteps || 0);
+    if (!totalSteps || completedSteps < totalSteps) {
+      throw new ApiError(400, "Roadmap certificate requires 100% completion");
+    }
+
+    issuePayload = {
+      userId,
+      userName: req.user.name,
+      title,
+      type: "roadmap",
+      level,
+      domain,
+      issuedBy: "ORIN",
+      source: "AI Roadmap",
+      referenceType: "roadmap",
+      referenceId: referenceId || normalizeText(title).replace(/\s+/g, "-"),
+      metadata: {
+        domain,
+        level,
+        goal: String(req.body?.metadata?.goal || req.body?.goal || title).trim(),
+        totalSteps,
+        completedSteps,
+        score: Number(req.body?.metadata?.score || 100)
+      }
+    };
+  } else if (type === "challenge") {
+    if (!referenceId || !mongoose.Types.ObjectId.isValid(referenceId)) {
+      throw new ApiError(400, "Challenge certificate requires a valid challenge referenceId");
+    }
+
+    const challenge = await CommunityChallenge.findOne({ _id: referenceId, isActive: true }).lean();
+    if (!challenge) throw new ApiError(404, "Challenge not found");
+
+    const joined = (challenge.participants || []).some((id) => String(id) === String(userId));
+    if (!joined) throw new ApiError(400, "Join the challenge before claiming a certificate");
+
+    const completedTasks = Number(req.body?.metadata?.completedTasks || req.body?.completedTasks || 0);
+    const totalTasks = Number(req.body?.metadata?.totalTasks || req.body?.totalTasks || 0);
+    if (!totalTasks || completedTasks < totalTasks) {
+      throw new ApiError(400, "Complete all challenge tasks before claiming a certificate");
+    }
+
+    issuePayload = {
+      userId,
+      userName: req.user.name,
+      title,
+      type: "challenge",
+      level,
+      domain: domain || challenge.domain || "",
+      issuedBy: "ORIN",
+      source: "Challenge Completion",
+      referenceType: "challenge",
+      referenceId,
+      metadata: {
+        domain: domain || challenge.domain || "",
+        level,
+        score: Number(req.body?.metadata?.score || 100),
+        challengeTitle: challenge.title,
+        totalSteps: totalTasks,
+        completedSteps: completedTasks
+      }
+    };
+  } else {
+    throw new ApiError(400, "Unsupported certificate type");
+  }
+
+  const { certificate, created } = await issueCertificate(issuePayload);
+
+  res.status(created ? 201 : 200).json({
+    success: true,
+    created,
+    certificate: {
+      id: certificate._id,
+      certificateId: certificate.certificateId || "",
+      title: certificate.title,
+      type: certificate.type || type,
+      issuedAt: certificate.issuedAt,
+      issuedBy: certificate.issuedBy || "ORIN",
+      level: certificate.level || level,
+      domain: certificate.domain || domain,
+      qrCodeUrl: certificate.qrCodeUrl || "",
+      verificationUrl: certificate.verificationUrl || "",
+      certificateUrl: certificate.certificateUrl || "",
+      metadata: certificate.metadata || {}
+    }
+  });
 });
 
 exports.getCertificationTracks = asyncHandler(async (_req, res) => {
@@ -4442,88 +4849,150 @@ exports.joinMentorGroup = asyncHandler(async (req, res) => {
 
 exports.getProjectIdeas = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const profile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
+  const [profile, journeyState] = await Promise.all([
+    StudentProfile.findOne({ userId }).select("careerGoals skills").lean(),
+    getJourneyState(userId, req.user.role || "student")
+  ]);
   const user = await User.findById(userId).select("goals primaryCategory").lean();
   const domainOverride = String(req.query.domain || "").trim();
   const levelOverride = String(req.query.level || "").trim();
   const ctx = resolveAiDomainContext({
     user,
-    primaryCategory: req.query.primaryCategory || domainOverride || req.query.domain,
-    subCategory: req.query.subCategory || req.query.subDomain,
-    focus: req.query.focus || req.query.specialization
+    primaryCategory: req.query.primaryCategory || domainOverride || req.query.domain || journeyState?.goal?.domain,
+    subCategory: req.query.subCategory || req.query.subDomain || journeyState?.goal?.subDomain,
+    focus: req.query.focus || req.query.specialization || journeyState?.goal?.focus
   });
-  const goal = String(req.query.goal || ctx.goalLabel || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth");
+  const goal = String(
+    req.query.goal || journeyState?.goal?.title || ctx.goalLabel || profile?.careerGoals || user?.goals || user?.primaryCategory || "Career Growth"
+  );
   const difficulty =
-    normalizeText(levelOverride) === "beginner"
+    normalizeText(levelOverride || journeyState?.skillProfile?.level) === "beginner"
       ? "Easy"
-      : normalizeText(levelOverride) === "advanced"
+      : normalizeText(levelOverride || journeyState?.skillProfile?.level) === "advanced"
         ? "Hard"
         : "Medium";
   const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
-  const ideas = (template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal));
+  const currentStep = getJourneyCurrentRoadmapStep(journeyState);
+  const ideas = getJourneyProjectIdeas({
+    goal,
+    ctx,
+    journeyState,
+    fallbackIdeas: template?.projects?.length ? template.projects : getProjectIdeasForGoal(goal)
+  });
+  const focusTokens = uniqueTokens([
+    goal,
+    currentStep?.title,
+    ...(journeyState?.skillProfile?.missingSkills || []),
+    ...(journeyState?.recommendations?.feedTags || [])
+  ]);
 
   res.json({
     goal,
     domainContext: ctx,
-    domain: domainOverride || user?.primaryCategory || ctx.primaryCategory || "",
-    level: levelOverride || "",
-    ideas: ideas.map((title) => ({
+    domain: domainOverride || journeyState?.goal?.domain || user?.primaryCategory || ctx.primaryCategory || "",
+    level: levelOverride || journeyState?.skillProfile?.level || "",
+    journey: {
+      currentStep: currentStep?.title || "",
+      readinessScore: Number(journeyState?.skillProfile?.readinessScore || 0),
+      focusLabel: ctx.focus || ctx.subCategory || ctx.primaryCategory || goal,
+      personalizationReason: currentStep?.title
+        ? `Built for your current roadmap step: ${currentStep.title}`
+        : `Built around your goal: ${goal}`
+    },
+    ideas: ideas.map((title, index) => ({
       title,
       level: difficulty,
-      tags: tokenize(goal).slice(0, 3)
+      tags: normalizeList([ctx.focus, ctx.subCategory, ctx.primaryCategory, ...tokenize(goal).slice(0, 2)]).slice(0, 3),
+      recommended: index < 2,
+      why:
+        scoreTokenOverlap(title, [...focusTokens]) > 0
+          ? `Fits your current learning journey in ${ctx.focus || ctx.subCategory || ctx.primaryCategory || goal}`
+          : `Good next build for your ${goal} path`,
+      stage: currentStep?.title || "Foundation"
     }))
   });
 });
 
 exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
   const queryDomain = String(req.query.domain || "").trim();
+  const journeyState = await getJourneyState(req.user.id, req.user.role || "student");
+  const currentStep = getJourneyCurrentRoadmapStep(journeyState);
+  const derivedDomain = queryDomain || journeyState?.goal?.domain || "";
+  const goal = String(journeyState?.goal?.title || journeyState?.goal?.domain || "Career Growth").trim();
+  const recommendationTokens = [
+    goal,
+    derivedDomain,
+    journeyState?.goal?.subDomain,
+    journeyState?.goal?.focus,
+    currentStep?.title,
+    ...(journeyState?.skillProfile?.missingSkills || []),
+    ...(journeyState?.recommendations?.feedTags || [])
+  ]
+    .flatMap((item) => tokenize(item))
+    .filter(Boolean);
   let resources = await KnowledgeResource.find({
     isActive: true,
     $or: [{ approvalStatus: { $exists: false } }, { approvalStatus: "approved" }],
-    ...(queryDomain ? { domain: queryDomain } : {})
+    ...(derivedDomain ? { domain: derivedDomain } : {})
   })
     .sort({ updatedAt: -1 })
     .limit(100)
     .lean();
 
   if (!resources.length) {
-    resources = [
-      {
-        _id: "seed-lib-1",
-        domain: queryDomain || "AI & Machine Learning",
-        type: "interview_questions",
-        title: "Top 50 AI Interview Questions",
-        description: "Core ML, DL, and model deployment interview Q&A.",
-        url: ""
+    resources = buildJourneySeedResources({
+      queryDomain: derivedDomain,
+      goal,
+      ctx: {
+        primaryCategory: journeyState?.goal?.domain,
+        subCategory: journeyState?.goal?.subDomain,
+        focus: journeyState?.goal?.focus
       },
-      {
-        _id: "seed-lib-2",
-        domain: queryDomain || "Web Development",
-        type: "coding_resource",
-        title: "Full Stack Coding Resource Pack",
-        description: "Practice links, project references, and interview prep.",
-        url: ""
-      },
-      {
-        _id: "seed-lib-3",
-        domain: queryDomain || "Career",
-        type: "career_guide",
-        title: "Career Growth Guide",
-        description: "How to choose skills, projects, and mentorship path.",
-        url: ""
-      }
-    ];
+      journeyState
+    });
   }
 
   res.json(
-    resources.map((item) => ({
+    resources
+      .map((item) => {
+        const overlap = scoreTokenOverlap(`${item.title} ${item.description || ""} ${item.domain || ""} ${item.type || ""}`, recommendationTokens);
+        const isCurrentStepMatch =
+          currentStep?.title && scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(currentStep.title)) > 0;
+        const isMissingSkillMatch =
+          (journeyState?.skillProfile?.missingSkills || []).some(
+            (skill) => scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(skill)) > 0
+          );
+        const priorityScore =
+          overlap +
+          (item.isFeatured ? 3 : 0) +
+          (isCurrentStepMatch ? 4 : 0) +
+          (isMissingSkillMatch ? 2 : 0) +
+          (item.type === "roadmap" ? 1 : 0);
+
+        return {
+          raw: item,
+          priorityScore,
+          recommendationReason: isCurrentStepMatch
+            ? `Matches your current step: ${currentStep.title}`
+            : isMissingSkillMatch
+              ? `Supports a current gap: ${(journeyState?.skillProfile?.missingSkills || []).find(
+                  (skill) => scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(skill)) > 0
+                )}`
+              : `Recommended for your ${goal} path`
+        };
+      })
+      .sort((a, b) => b.priorityScore - a.priorityScore || String(b.raw.updatedAt || 0).localeCompare(String(a.raw.updatedAt || 0)))
+      .map(({ raw: item, recommendationReason }, index) => ({
       id: item._id,
       domain: item.domain || "",
       type: item.type,
       title: item.title,
       description: item.description || "",
       url: item.url || "",
-      featured: Boolean(item.isFeatured)
+      featured: Boolean(item.isFeatured),
+      recommended: index < 4,
+      recommendationReason,
+      tags: normalizeList([item.domain, item.type, journeyState?.goal?.focus, currentStep?.title]).slice(0, 3)
     }))
   );
 });
