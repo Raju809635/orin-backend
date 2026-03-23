@@ -69,6 +69,20 @@ function tokenize(value = "") {
     .filter(Boolean);
 }
 
+function normalizeList(values = []) {
+  const seen = new Set();
+  return (Array.isArray(values) ? values : [values])
+    .flatMap((value) => (Array.isArray(value) ? value : [value]))
+    .map((value) => String(value || "").trim())
+    .filter(Boolean)
+    .filter((value) => {
+      const key = normalizeText(value);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
 function uniqueTokens(values = []) {
   const set = new Set();
   values.forEach((value) => {
