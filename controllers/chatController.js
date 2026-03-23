@@ -3,6 +3,7 @@ const ChatMessage = require("../models/ChatMessage");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
+const Connection = require("../models/Connection");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -14,6 +15,7 @@ function canChatRoles(roleA, roleB) {
   return (
     (roleA === "student" && roleB === "mentor") ||
     (roleA === "mentor" && roleB === "student") ||
+    (roleA === "mentor" && roleB === "mentor") ||
     (roleA === "mentor" && roleB === "admin") ||
     (roleA === "admin" && roleB === "mentor")
   );
@@ -60,6 +62,20 @@ function isOnline(lastSeenAt) {
   const time = new Date(lastSeenAt).getTime();
   if (Number.isNaN(time)) return false;
   return Date.now() - time <= ONLINE_WINDOW_MS;
+}
+
+async function hasAcceptedConnection(userAId, userBId) {
+  const connection = await Connection.findOne({
+    status: "accepted",
+    $or: [
+      { requesterId: userAId, recipientId: userBId },
+      { requesterId: userBId, recipientId: userAId }
+    ]
+  })
+    .select("_id")
+    .lean();
+
+  return Boolean(connection);
 }
 
 async function buildProfilePhotoMap(users) {
@@ -146,8 +162,15 @@ async function getCounterpartUser(requestUser, counterpartId) {
   const requestRole = effectiveRole(requestUser);
   const counterpartRole = effectiveRole(counterpart);
 
-  if (!canChatRoles(requestRole, counterpartRole)) {
-    throw new ApiError(403, "Chat allowed only between student-mentor or mentor-admin");
+  const directlyAllowed = canChatRoles(requestRole, counterpartRole);
+  const connectedAsFriends =
+    counterpartRole !== "admin" &&
+    requestRole !== "admin" &&
+    counterpartId !== "admin" &&
+    (await hasAcceptedConnection(requestUser.id, counterpart._id));
+
+  if (!directlyAllowed && !connectedAsFriends) {
+    throw new ApiError(403, "Chat is available for mentors and accepted circle connections");
   }
 
   if (
@@ -225,9 +248,6 @@ exports.getConversations = asyncHandler(async (req, res) => {
       counterpart: counterpartById.get(conversation.counterpartId) || null
     }))
     .filter((conversation) => conversation.counterpart)
-    .filter((conversation) =>
-      canChatRoles(effectiveRole(req.user), effectiveRole(conversation.counterpart))
-    )
     .sort(
       (a, b) =>
         new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()

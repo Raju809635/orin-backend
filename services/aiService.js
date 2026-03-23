@@ -9,11 +9,25 @@ const {
 const { buildOrinAssistantContext } = require("../config/orinAssistantContext");
 const ApiError = require("../utils/ApiError");
 
-function buildSystemPrompt(role) {
+function buildSystemPrompt(role, mode = "personalized") {
   const roleGuide =
     role === "student"
       ? "Tailor guidance to a student with practical study and session preparation steps."
       : "Tailor guidance to a mentor with practical mentoring and session planning steps.";
+
+  if (mode === "general") {
+    return [
+      "You are ORIN Assistant, a general-purpose learning and career helper inside ORIN.",
+      `Current user role: ${role}.`,
+      roleGuide,
+      "Answer the user's question directly and clearly.",
+      "If it is a simple factual or educational question, answer in plain language first.",
+      "If useful, add 2-4 short bullet points after the direct answer.",
+      "Do not force roadmap or action-plan formatting for general questions.",
+      "If unsure, say you are not fully sure and suggest how to verify.",
+      "Return plain text only."
+    ].join(" ");
+  }
 
   return [
     "You are ORIN Assistant, an education and mentorship copilot.",
@@ -57,7 +71,7 @@ async function requestAiResponse({ role, message, context }) {
         model: groqModel,
         temperature: 0.2,
         messages: [
-          { role: "system", content: buildSystemPrompt(role) },
+          { role: "system", content: buildSystemPrompt(role, context?.assistantMode) },
           {
             role: "user",
             content: `Context: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
@@ -107,7 +121,7 @@ async function requestAiResponse({ role, message, context }) {
                 role: "user",
                 parts: [
                   {
-                    text: `${buildSystemPrompt(role)}\n\nContext: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
+                    text: `${buildSystemPrompt(role, context?.assistantMode)}\n\nContext: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
                   }
                 ]
               }
@@ -153,7 +167,7 @@ async function requestAiResponse({ role, message, context }) {
         model: openaiModel,
         temperature: 0.2,
         messages: [
-          { role: "system", content: buildSystemPrompt(role) },
+          { role: "system", content: buildSystemPrompt(role, context?.assistantMode) },
           {
             role: "user",
             content: `Context: ${JSON.stringify(context || {})}\n\nQuestion: ${message}`
