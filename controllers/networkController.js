@@ -2224,6 +2224,53 @@ function toFeedResponse(post, userId, comments = []) {
   };
 }
 
+async function attachFeedAuthorPhotos(posts = [], comments = []) {
+  const authorIds = [
+    ...new Set(
+      [
+        ...posts.map((item) => item?.authorId?._id || item?.authorId),
+        ...comments.map((item) => item?.authorId?._id || item?.authorId)
+      ]
+        .map((item) => String(item || "").trim())
+        .filter(Boolean)
+    )
+  ];
+
+  if (!authorIds.length) return { posts, comments };
+
+  const objectIds = authorIds.map((id) => new mongoose.Types.ObjectId(id));
+  const [studentProfiles, mentorProfiles] = await Promise.all([
+    StudentProfile.find({ userId: { $in: objectIds } })
+      .select("userId profilePhotoUrl")
+      .lean(),
+    MentorProfile.find({ userId: { $in: objectIds } })
+      .select("userId profilePhotoUrl")
+      .lean()
+  ]);
+
+  const photoMap = new Map();
+  [...studentProfiles, ...mentorProfiles].forEach((item) => {
+    if (item?.userId && item?.profilePhotoUrl) {
+      photoMap.set(String(item.userId), item.profilePhotoUrl);
+    }
+  });
+
+  const applyPhoto = (entry) => {
+    if (!entry?.authorId) return entry;
+    const authorKey = String(entry.authorId?._id || entry.authorId || "");
+    const profilePhotoUrl = photoMap.get(authorKey) || entry.authorId.profilePhotoUrl || "";
+    if (entry.authorId && typeof entry.authorId === "object") {
+      entry.authorId.profilePhotoUrl = profilePhotoUrl;
+    }
+    return entry;
+  };
+
+  posts.forEach(applyPhoto);
+  comments.forEach(applyPhoto);
+
+  return { posts, comments };
+}
+
 async function ensureReputation(userId) {
   let rep = await ReputationScore.findOne({ userId });
   if (!rep) {
@@ -2472,6 +2519,8 @@ exports.getFeed = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .lean();
 
+  await attachFeedAuthorPhotos(posts, comments);
+
   const commentsByPostId = comments.reduce((acc, item) => {
     const key = String(item.postId);
     if (!acc[key]) acc[key] = [];
@@ -2496,6 +2545,7 @@ exports.getPublicFeed = asyncHandler(async (req, res) => {
     .populate("authorId", "name role")
     .sort({ createdAt: -1 })
     .lean();
+  await attachFeedAuthorPhotos(posts, comments);
   const commentsByPostId = comments.reduce((acc, item) => {
     const key = String(item.postId);
     if (!acc[key]) acc[key] = [];
@@ -2518,6 +2568,8 @@ exports.getSavedPosts = asyncHandler(async (req, res) => {
     .populate("authorId", "name role")
     .sort({ createdAt: -1 })
     .lean();
+
+  await attachFeedAuthorPhotos(posts, comments);
 
   const commentsByPostId = comments.reduce((acc, item) => {
     const key = String(item.postId);
@@ -2569,6 +2621,8 @@ exports.updatePost = asyncHandler(async (req, res) => {
   const hydrated = await FeedPost.findById(postId)
     .populate("authorId", "name role profilePhotoUrl")
     .lean();
+
+  await attachFeedAuthorPhotos([hydrated], []);
 
   res.json(toFeedResponse(hydrated, userId, []));
 });
