@@ -52,6 +52,17 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.get("/ready", (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const dbConnected = dbState === 1;
+
+  res.status(dbConnected ? 200 : 503).json({
+    ready: dbConnected,
+    dbState,
+    uptimeSeconds: Math.floor(process.uptime())
+  });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/mentors", mentorRoutes);
