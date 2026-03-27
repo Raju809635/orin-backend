@@ -20,7 +20,7 @@ const envSchema = Joi.object({
   EMAIL_FROM: Joi.string().email().allow("").optional(),
   RAZORPAY_KEY_ID: Joi.string().allow("").optional(),
   RAZORPAY_KEY_SECRET: Joi.string().allow("").optional(),
-  PAYMENT_MODE: Joi.string().valid("manual", "razorpay").default("manual"),
+  PAYMENT_MODE: Joi.string().valid("manual", "razorpay").default("razorpay"),
   ORIN_UPI_ID: Joi.string().allow("").default(""),
   ORIN_QR_IMAGE_URL: Joi.string().allow("").default(""),
   MANUAL_PAYMENT_WINDOW_MINUTES: Joi.number().integer().min(5).max(240).default(30),
@@ -60,6 +60,18 @@ const corsOrigins = (value.CORS_ORIGINS || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const hasRazorpayConfigured = Boolean(
+  String(value.RAZORPAY_KEY_ID || "").trim() &&
+  String(value.RAZORPAY_KEY_SECRET || "").trim()
+);
+
+const resolvedPaymentMode =
+  value.PAYMENT_MODE === "manual"
+    ? "manual"
+    : hasRazorpayConfigured
+      ? "razorpay"
+      : "manual";
+
 module.exports = {
   env: value.NODE_ENV,
   port: Number(value.PORT),
@@ -81,7 +93,8 @@ module.exports = {
   emailFrom: value.EMAIL_FROM,
   razorpayKeyId: value.RAZORPAY_KEY_ID,
   razorpayKeySecret: value.RAZORPAY_KEY_SECRET,
-  paymentMode: value.PAYMENT_MODE,
+  paymentMode: resolvedPaymentMode,
+  hasRazorpayConfigured,
   orinUpiId: value.ORIN_UPI_ID,
   orinQrImageUrl: value.ORIN_QR_IMAGE_URL,
   manualPaymentWindowMinutes: value.MANUAL_PAYMENT_WINDOW_MINUTES,
