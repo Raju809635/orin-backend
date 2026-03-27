@@ -97,7 +97,7 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
 
   const now = new Date();
   const end = new Date(now);
-  end.setDate(end.getDate() + 7);
+  end.setDate(end.getDate() + 14);
 
   const confirmedSessions = await Session.find({
     mentorId,
@@ -114,7 +114,7 @@ exports.getMentorAvailability = asyncHandler(async (req, res) => {
   const upcomingSlots = [];
   const seenSlotKeys = new Set();
 
-  for (let offset = 0; offset < 7; offset += 1) {
+  for (let offset = 0; offset < 14; offset += 1) {
     const dateObj = new Date(now);
     dateObj.setUTCHours(0, 0, 0, 0);
     dateObj.setUTCDate(dateObj.getUTCDate() + offset);
