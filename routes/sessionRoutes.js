@@ -14,6 +14,7 @@ const {
 const {
   bookSession,
   createSessionOrder,
+  retrySessionPaymentOrder,
   verifySessionPayment,
   submitManualPaymentProof,
   getPendingManualPayments,
@@ -29,6 +30,7 @@ const {
 const { uploadPaymentScreenshot } = require("../middleware/uploadMiddleware");
 
 router.post("/create-order", verifyToken, authorizeRoles("student"), validate(createSessionOrderSchema), createSessionOrder);
+router.post("/:id/retry-order", verifyToken, authorizeRoles("student"), retrySessionPaymentOrder);
 router.post("/verify-payment", verifyToken, authorizeRoles("student"), validate(verifySessionPaymentSchema), verifySessionPayment);
 router.post(
   "/:id/manual-payment",

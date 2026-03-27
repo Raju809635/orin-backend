@@ -37,6 +37,10 @@ function getBaseUrl(req) {
   return `${protocol}://${req.get("host")}`;
 }
 
+function createPaymentDueAt() {
+  return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+}
+
 async function getSessionAmountForMentor(mentorId) {
   const mentorProfile = await MentorProfile.findOne({ userId: mentorId }).select("sessionPrice").lean();
   const profilePrice = Number(mentorProfile?.sessionPrice || 0);
@@ -83,22 +87,22 @@ async function validateSlot({ mentorId, date, time, durationMinutes }) {
   }
 }
 
-function ensurePaymentWindowOpen(session) {
+async function ensurePaymentWindowOpen(session) {
   if (!session.paymentDueAt) return;
   if (new Date(session.paymentDueAt).getTime() < Date.now()) {
-    if (session.status !== "cancelled") {
+    if (session.status !== "cancelled" || session.paymentStatus !== "rejected") {
       session.status = "cancelled";
       session.paymentStatus = "rejected";
       session.paymentRejectReason = "Payment window expired";
+      await session.save();
     }
     throw new ApiError(400, "Payment window expired. Please book again.");
   }
 }
 
-async function expireOverdueManualSessions() {
+async function expireOverduePendingSessions() {
   await Session.updateMany(
     {
-      paymentMode: "manual",
       paymentStatus: "pending",
       status: "payment_pending",
       paymentDueAt: { $lt: new Date() }
@@ -165,7 +169,7 @@ exports.bookSession = asyncHandler(async (req, res) => {
 });
 
 exports.createSessionOrder = asyncHandler(async (req, res) => {
-  await expireOverdueManualSessions();
+  await expireOverduePendingSessions();
 
   const { mentorId, date, time, durationMinutes, notes } = req.body;
 
@@ -189,7 +193,7 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
   const amount = await getSessionAmountForMentor(mentorId);
 
   if (paymentMode === "manual") {
-    const paymentDueAt = new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+    const paymentDueAt = createPaymentDueAt();
     const session = await Session.create({
       studentId: req.user.id,
       mentorId,
@@ -242,6 +246,8 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
     }
   });
 
+  const paymentDueAt = createPaymentDueAt();
+
   const session = await Session.create({
     studentId: req.user.id,
     mentorId,
@@ -256,7 +262,8 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
     paymentStatus: "pending",
     sessionStatus: "booked",
     notes: notes || "",
-    status: "pending"
+    status: "payment_pending",
+    paymentDueAt
   });
 
   await createAuditLog({
@@ -277,7 +284,80 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
       amount: order.amount,
       currency: order.currency
     },
-    razorpayKeyId
+    razorpayKeyId,
+    paymentInstructions: {
+      amount,
+      currency: "INR",
+      dueAt: paymentDueAt
+    }
+  });
+});
+
+exports.retrySessionPaymentOrder = asyncHandler(async (req, res) => {
+  await expireOverduePendingSessions();
+
+  const session = await Session.findOne({ _id: req.params.id, studentId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (session.paymentMode !== "razorpay") {
+    throw new ApiError(400, "Only Razorpay sessions can be retried here");
+  }
+
+  if (["paid", "verified"].includes(session.paymentStatus) || session.sessionStatus === "confirmed") {
+    throw new ApiError(400, "This session is already paid and confirmed");
+  }
+
+  if (session.status === "cancelled") {
+    throw new ApiError(400, "Payment window expired. Please book again.");
+  }
+
+  await ensurePaymentWindowOpen(session);
+
+  const order = await createRazorpayOrder({
+    amount: session.amount,
+    currency: session.currency || "INR",
+    receipt: `orin_sess_retry_${Date.now()}`,
+    notes: {
+      sessionId: String(session._id),
+      studentId: req.user.id,
+      mentorId: String(session.mentorId),
+      date: session.date,
+      time: session.time
+    }
+  });
+
+  const paymentDueAt = createPaymentDueAt();
+  session.orderId = order.id;
+  session.paymentStatus = "pending";
+  session.status = "payment_pending";
+  session.paymentRejectReason = "";
+  session.paymentDueAt = paymentDueAt;
+  await session.save();
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.order.retry",
+    entityType: "Session",
+    entityId: session._id,
+    metadata: { orderId: order.id, amount: session.amount }
+  });
+
+  res.status(200).json({
+    message: "Razorpay order refreshed",
+    mode: "razorpay",
+    session,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId,
+    paymentInstructions: {
+      amount: session.amount,
+      currency: session.currency || "INR",
+      dueAt: paymentDueAt
+    }
   });
 });
 
@@ -292,6 +372,8 @@ exports.verifySessionPayment = asyncHandler(async (req, res) => {
   if (session.paymentMode === "manual") {
     throw new ApiError(400, "Manual payment sessions are verified by admin");
   }
+
+  await ensurePaymentWindowOpen(session);
 
   if (session.paymentStatus === "paid") {
     return res.status(200).json({ message: "Payment already verified", session });
@@ -315,7 +397,9 @@ exports.verifySessionPayment = asyncHandler(async (req, res) => {
   session.paymentId = razorpay_payment_id;
   session.paymentSignature = razorpay_signature;
   session.sessionStatus = "confirmed";
-  session.status = "approved";
+  session.status = "confirmed";
+  session.paymentRejectReason = "";
+  session.paymentDueAt = null;
   await session.save();
 
   await createAuditLog({
@@ -334,13 +418,13 @@ exports.verifySessionPayment = asyncHandler(async (req, res) => {
 });
 
 exports.submitManualPaymentProof = asyncHandler(async (req, res) => {
-  await expireOverdueManualSessions();
+  await expireOverduePendingSessions();
 
   const session = await Session.findOne({ _id: req.params.id, studentId: req.user.id });
   if (!session) throw new ApiError(404, "Session not found");
   if (session.paymentMode !== "manual") throw new ApiError(400, "This session is not in manual payment mode");
 
-  ensurePaymentWindowOpen(session);
+  await ensurePaymentWindowOpen(session);
 
   if (!["payment_pending", "pending"].includes(session.status)) {
     throw new ApiError(400, "Payment proof can be submitted only for pending payment sessions");
@@ -390,7 +474,7 @@ exports.submitManualPaymentProof = asyncHandler(async (req, res) => {
 });
 
 exports.getPendingManualPayments = asyncHandler(async (_req, res) => {
-  await expireOverdueManualSessions();
+  await expireOverduePendingSessions();
 
   const sessions = await Session.find({
     paymentMode: "manual",
@@ -572,11 +656,11 @@ exports.cancelSession = asyncHandler(async (req, res) => {
   const isMentor = session.mentorId.toString() === req.user.id;
   if (!isStudent && !isMentor) throw new ApiError(403, "Not authorized for this session");
 
-  const isManualUnpaid =
-    session.paymentMode === "manual" &&
-    ["pending", "rejected"].includes(session.paymentStatus || "");
+  const isUnpaidPendingPayment =
+    ["pending", "rejected"].includes(session.paymentStatus || "") &&
+    ["payment_pending", "pending"].includes(session.status || "");
 
-  if (session.status === "cancelled" && isManualUnpaid) {
+  if (session.status === "cancelled" && isUnpaidPendingPayment) {
     return res.status(200).json({ message: "Session already cancelled", session });
   }
 
@@ -585,7 +669,7 @@ exports.cancelSession = asyncHandler(async (req, res) => {
   }
 
   if (isStudent) {
-    if (!isManualUnpaid) {
+    if (!isUnpaidPendingPayment) {
       const diffMs = session.scheduledStart.getTime() - Date.now();
       if (diffMs < 2 * 60 * 60 * 1000) {
         throw new ApiError(400, "Students can cancel only at least 2 hours before session");
@@ -595,7 +679,7 @@ exports.cancelSession = asyncHandler(async (req, res) => {
 
   const previousStatus = session.status;
   session.status = "cancelled";
-  if (isManualUnpaid && session.paymentStatus === "pending") {
+  if (isUnpaidPendingPayment && session.paymentStatus === "pending") {
     session.paymentStatus = "rejected";
     session.paymentRejectReason = session.paymentRejectReason || "Cancelled by student";
   }
@@ -657,7 +741,7 @@ exports.rescheduleSession = asyncHandler(async (req, res) => {
 });
 
 exports.getStudentSessions = asyncHandler(async (req, res) => {
-  await expireOverdueManualSessions();
+  await expireOverduePendingSessions();
 
   const sessions = await Session.find({ studentId: req.user.id })
     .populate("mentorId", "name email primaryCategory subCategory")
@@ -667,7 +751,6 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
   const visibleSessions = sessions.filter((session) => {
     const hiddenCancelledManualPayment =
       session.status === "cancelled" &&
-      session.paymentMode === "manual" &&
       ["pending", "rejected"].includes(session.paymentStatus || "");
 
     return !hiddenCancelledManualPayment;
@@ -676,7 +759,7 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
   const enrichedSessions = visibleSessions.map((session) => {
     const isManual = session.paymentMode === "manual";
     const needsPayment =
-      isManual &&
+      Boolean(isManual) &&
       ["pending", "waiting_verification", "rejected"].includes(session.paymentStatus || "");
 
     return {
@@ -697,7 +780,7 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
 });
 
 exports.getMentorSessions = asyncHandler(async (req, res) => {
-  await expireOverdueManualSessions();
+  await expireOverduePendingSessions();
 
   const sessions = await Session.find({ mentorId: req.user.id })
     .populate("studentId", "name email")
