@@ -9,6 +9,8 @@ const certificationTrackSchema = new mongoose.Schema(
     domain: { type: String, default: "", trim: true, index: true },
     description: { type: String, default: "" },
     requirements: { type: [String], default: [] },
+    coverImageUrl: { type: String, default: "" },
+    badgeLabel: { type: String, default: "" },
     isActive: { type: Boolean, default: true, index: true },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }
   },
@@ -18,4 +20,3 @@ const certificationTrackSchema = new mongoose.Schema(
 certificationTrackSchema.index({ isActive: 1, updatedAt: -1 });
 
 module.exports = mongoose.model("CertificationTrack", certificationTrackSchema);
-

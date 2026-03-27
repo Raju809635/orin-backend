@@ -11,12 +11,14 @@ const Connection = require("../models/Connection");
 const UserFollow = require("../models/UserFollow");
 const MentorGroup = require("../models/MentorGroup");
 const MentorLiveSession = require("../models/MentorLiveSession");
+const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
 const CommunityChallenge = require("../models/CommunityChallenge");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const KnowledgeResource = require("../models/KnowledgeResource");
 const CertificationTrack = require("../models/CertificationTrack");
 const CertificationRequest = require("../models/CertificationRequest");
 const OrinCertification = require("../models/OrinCertification");
+const Bootcamp = require("../models/Bootcamp");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { issueCertificate } = require("../utils/certificateService");
@@ -368,7 +370,7 @@ exports.reviewCollaborateApplication = asyncHandler(async (req, res) => {
 
 exports.getNetworkAdminOverview = asyncHandler(async (_req, res) => {
   const now = new Date();
-  const [posts, publicPosts, privatePosts, pendingConnections, acceptedConnections, totalFollows, activeGroups, activeChallenges, upcomingLives] =
+  const [posts, publicPosts, privatePosts, pendingConnections, acceptedConnections, totalFollows, activeGroups, activeChallenges, upcomingLives, activeBootcamps] =
     await Promise.all([
       FeedPost.countDocuments(),
       FeedPost.countDocuments({ visibility: "public" }),
@@ -378,7 +380,8 @@ exports.getNetworkAdminOverview = asyncHandler(async (_req, res) => {
       UserFollow.countDocuments(),
       MentorGroup.countDocuments({ isActive: true }),
       CommunityChallenge.countDocuments({ isActive: true }),
-      MentorLiveSession.countDocuments({ isCancelled: false, startsAt: { $gte: now } })
+      MentorLiveSession.countDocuments({ isCancelled: false, startsAt: { $gte: now } }),
+      Bootcamp.countDocuments({ isActive: true, startsAt: { $gte: now } })
     ]);
 
   res.status(200).json({
@@ -395,7 +398,8 @@ exports.getNetworkAdminOverview = asyncHandler(async (_req, res) => {
     communities: {
       activeGroups,
       activeChallenges,
-      upcomingLiveSessions: upcomingLives
+      upcomingLiveSessions: upcomingLives,
+      activeBootcamps
     }
   });
 });
@@ -474,11 +478,55 @@ exports.toggleNetworkAdminMentorGroup = asyncHandler(async (req, res) => {
 exports.getNetworkAdminLiveSessions = asyncHandler(async (_req, res) => {
   const sessions = await MentorLiveSession.find({})
     .populate("mentorId", "name email role")
+    .populate("reviewedBy", "name email role")
     .sort({ startsAt: -1 })
     .limit(200)
     .lean();
 
-  res.status(200).json(sessions);
+  const sessionIds = sessions.map((item) => item._id);
+  const bookingStats = sessionIds.length
+    ? await MentorLiveSessionBooking.aggregate([
+      { $match: { liveSessionId: { $in: sessionIds } } },
+      {
+        $group: {
+          _id: "$liveSessionId",
+          totalBookings: { $sum: 1 },
+          paidBookings: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "paid"] }, 1, 0]
+            }
+          },
+          pendingBookings: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "pending"] }, 1, 0]
+            }
+          }
+        }
+      }
+    ])
+    : [];
+
+  const bookingMap = new Map(
+    bookingStats.map((item) => [
+      String(item._id),
+      {
+        totalBookings: Number(item.totalBookings || 0),
+        paidBookings: Number(item.paidBookings || 0),
+        pendingBookings: Number(item.pendingBookings || 0)
+      }
+    ])
+  );
+
+  res.status(200).json(
+    sessions.map((session) => ({
+      ...session,
+      bookingStats: bookingMap.get(String(session._id)) || {
+        totalBookings: 0,
+        paidBookings: 0,
+        pendingBookings: 0
+      }
+    }))
+  );
 });
 
 exports.toggleNetworkAdminLiveSession = asyncHandler(async (req, res) => {
@@ -491,6 +539,29 @@ exports.toggleNetworkAdminLiveSession = asyncHandler(async (req, res) => {
   await session.save();
 
   res.status(200).json({ message: session.isCancelled ? "Live session cancelled" : "Live session reopened", session });
+});
+
+exports.reviewNetworkAdminLiveSession = asyncHandler(async (req, res) => {
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const action = String(req.body?.action || "").trim();
+  if (!["approve", "reject"].includes(action)) throw new ApiError(400, "action must be approve or reject");
+
+  const session = await MentorLiveSession.findById(liveSessionId);
+  if (!session) throw new ApiError(404, "Live session not found");
+
+  session.approvalStatus = action === "approve" ? "approved" : "rejected";
+  session.adminReviewNote = String(req.body?.note || "").trim();
+  session.reviewedBy = req.user.id;
+  session.reviewedAt = new Date();
+  if (req.body?.isPublic !== undefined) session.isPublic = Boolean(req.body.isPublic);
+  await session.save();
+
+  res.status(200).json({
+    message: action === "approve" ? "Live session approved" : "Live session rejected",
+    session
+  });
 });
 
 exports.getNetworkAdminChallenges = asyncHandler(async (_req, res) => {
@@ -527,6 +598,11 @@ exports.createNetworkAdminChallenge = asyncHandler(async (req, res) => {
     title,
     domain,
     description,
+    bannerImageUrl: String(req.body?.bannerImageUrl || "").trim(),
+    prize: String(req.body?.prize || "").trim(),
+    skills: Array.isArray(req.body?.skills) ? req.body.skills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12) : [],
+    tasks: Array.isArray(req.body?.tasks) ? req.body.tasks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12) : [],
+    submissionType: String(req.body?.submissionType || "").trim(),
     deadline,
     isActive: true,
     isFeatured: Boolean(req.body?.isFeatured),
@@ -546,6 +622,19 @@ exports.updateNetworkAdminChallenge = asyncHandler(async (req, res) => {
   if (req.body?.title !== undefined) patch.title = String(req.body.title || "").trim();
   if (req.body?.domain !== undefined) patch.domain = String(req.body.domain || "").trim();
   if (req.body?.description !== undefined) patch.description = String(req.body.description || "").trim();
+  if (req.body?.bannerImageUrl !== undefined) patch.bannerImageUrl = String(req.body.bannerImageUrl || "").trim();
+  if (req.body?.prize !== undefined) patch.prize = String(req.body.prize || "").trim();
+  if (req.body?.submissionType !== undefined) patch.submissionType = String(req.body.submissionType || "").trim();
+  if (req.body?.skills !== undefined) {
+    patch.skills = Array.isArray(req.body.skills)
+      ? req.body.skills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+      : [];
+  }
+  if (req.body?.tasks !== undefined) {
+    patch.tasks = Array.isArray(req.body.tasks)
+      ? req.body.tasks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+      : [];
+  }
   if (req.body?.deadline !== undefined) {
     const deadline = new Date(req.body.deadline);
     if (Number.isNaN(deadline.getTime())) throw new ApiError(400, "deadline is invalid");
@@ -589,6 +678,11 @@ exports.createNetworkAdminOpportunity = asyncHandler(async (req, res) => {
     role: String(req.body?.role || "").trim(),
     duration: String(req.body?.duration || "").trim(),
     location: String(req.body?.location || "").trim(),
+    mode: String(req.body?.mode || "").trim(),
+    stipend: String(req.body?.stipend || "").trim(),
+    applicationDeadline: req.body?.applicationDeadline ? new Date(req.body.applicationDeadline) : null,
+    eligibility: String(req.body?.eligibility || "").trim(),
+    logoUrl: String(req.body?.logoUrl || "").trim(),
     domainTags: Array.isArray(req.body?.domainTags) ? req.body.domainTags : [],
     applicationUrl: String(req.body?.applicationUrl || "").trim(),
     description: String(req.body?.description || "").trim(),
@@ -655,6 +749,12 @@ exports.createNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
     title,
     description: String(req.body?.description || "").trim(),
     url: String(req.body?.url || "").trim(),
+    format: String(req.body?.format || "").trim(),
+    difficulty: String(req.body?.difficulty || "").trim(),
+    estimatedMinutes: Number(req.body?.estimatedMinutes || 0),
+    tags: Array.isArray(req.body?.tags) ? req.body.tags.map((tag) => String(tag || "").trim()).filter(Boolean).slice(0, 10) : [],
+    thumbnailUrl: String(req.body?.thumbnailUrl || "").trim(),
+    learningOutcome: String(req.body?.learningOutcome || "").trim(),
     approvalStatus: "approved",
     reviewedBy: req.user.id,
     reviewedAt: new Date(),
@@ -690,6 +790,8 @@ exports.createNetworkAdminCertificationTrack = asyncHandler(async (req, res) => 
     domain: String(req.body?.domain || "").trim(),
     description: String(req.body?.description || "").trim(),
     requirements: Array.isArray(req.body?.requirements) ? req.body.requirements : [],
+    coverImageUrl: String(req.body?.coverImageUrl || "").trim(),
+    badgeLabel: String(req.body?.badgeLabel || "").trim(),
     isActive: true,
     createdBy: req.user.id
   });
@@ -755,4 +857,44 @@ exports.reviewNetworkAdminCertificationRequest = asyncHandler(async (req, res) =
 
   await doc.save();
   res.status(200).json({ message: "Request reviewed", request: doc });
+});
+
+exports.getNetworkAdminBootcamps = asyncHandler(async (_req, res) => {
+  const rows = await Bootcamp.find({}).sort({ startsAt: 1, updatedAt: -1 }).limit(300).lean();
+  res.status(200).json(rows);
+});
+
+exports.createNetworkAdminBootcamp = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "title is required");
+
+  const startsAt = new Date(req.body?.startsAt);
+  if (Number.isNaN(startsAt.getTime())) throw new ApiError(400, "startsAt is invalid");
+
+  const doc = await Bootcamp.create({
+    title,
+    domain: String(req.body?.domain || "").trim(),
+    description: String(req.body?.description || "").trim(),
+    mode: String(req.body?.mode || "").trim(),
+    coverImageUrl: String(req.body?.coverImageUrl || "").trim(),
+    registrationUrl: String(req.body?.registrationUrl || "").trim(),
+    startsAt,
+    endsAt: req.body?.endsAt ? new Date(req.body.endsAt) : null,
+    seats: Number(req.body?.seats || 0),
+    isActive: true,
+    isFeatured: Boolean(req.body?.isFeatured),
+    createdBy: req.user.id
+  });
+
+  res.status(201).json({ message: "Bootcamp created", bootcamp: doc });
+});
+
+exports.toggleNetworkAdminBootcamp = asyncHandler(async (req, res) => {
+  const { bootcampId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(bootcampId)) throw new ApiError(400, "Invalid bootcamp id");
+  const doc = await Bootcamp.findById(bootcampId);
+  if (!doc) throw new ApiError(404, "Bootcamp not found");
+  doc.isActive = !doc.isActive;
+  await doc.save();
+  res.status(200).json({ message: doc.isActive ? "Bootcamp activated" : "Bootcamp disabled", bootcamp: doc });
 });

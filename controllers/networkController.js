@@ -12,6 +12,7 @@ const Session = require("../models/Session");
 const MentorReview = require("../models/MentorReview");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const MentorLiveSession = require("../models/MentorLiveSession");
+const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
 const CommunityChallenge = require("../models/CommunityChallenge");
 const OrinCertification = require("../models/OrinCertification");
 const CertificationTrack = require("../models/CertificationTrack");
@@ -26,8 +27,11 @@ const Notification = require("../models/Notification");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { issueCertificate } = require("../utils/certificateService");
+const { createAuditLog } = require("../services/auditService");
 const { mentorCategoryTree } = require("../config/mentorCategories");
 const { getJourneyState, updateSkillProfile } = require("../services/journeyStateService");
+const { createRazorpayOrder, verifyRazorpaySignature, razorpayKeyId } = require("../services/paymentService");
+const { paymentMode, manualPaymentWindowMinutes } = require("../config/env");
 
 const QUIZ_XP_BY_SCORE = {
   1: 10,
@@ -102,6 +106,69 @@ function parseCsvList(value) {
     .split(",")
     .map((item) => String(item || "").trim())
     .filter(Boolean);
+}
+
+function createLivePaymentDueAt() {
+  return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+}
+
+function normalizeLiveSessionPayload(item, reqUserId, bookingBySessionId = new Map()) {
+  const booking = bookingBySessionId.get(String(item._id || item.id || ""));
+  return {
+    id: item._id || item.id,
+    title: item.title,
+    topic: item.topic,
+    description: item.description,
+    posterImageUrl: item.posterImageUrl || "",
+    startsAt: item.startsAt,
+    endsAt: item.endsAt,
+    durationMinutes: Number(item.durationMinutes || 60),
+    meetingLink: item.meetingLink || "",
+    domainTags: item.domainTags || [],
+    sessionMode: item.sessionMode || "free",
+    price: Number(item.price || 0),
+    currency: item.currency || "INR",
+    maxParticipants: Number(item.maxParticipants || 50),
+    approvalStatus: item.approvalStatus || "pending",
+    adminReviewNote: item.adminReviewNote || "",
+    interestedCount: Array.isArray(item.interestedUserIds) ? item.interestedUserIds.length : 0,
+    isInterested: Array.isArray(item.interestedUserIds)
+      ? item.interestedUserIds.some((userId) => String(userId) === String(reqUserId))
+      : false,
+    participantCount: Number(item.bookingCount || 0),
+    seatsLeft: Math.max(Number(item.maxParticipants || 50) - Number(item.bookingCount || 0), 0),
+    mentor: {
+      id: item.mentorId?._id || item.mentor?.id || null,
+      name: item.mentorId?.name || item.mentor?.name || "Mentor",
+      email: item.mentorId?.email || item.mentor?.email || ""
+    },
+    myBooking: booking
+      ? {
+          id: booking._id,
+          paymentMode: booking.paymentMode,
+          paymentStatus: booking.paymentStatus,
+          bookingStatus: booking.bookingStatus,
+          paymentDueAt: booking.paymentDueAt || null
+        }
+      : null
+  };
+}
+
+async function expireOverdueLiveSessionBookings() {
+  await MentorLiveSessionBooking.updateMany(
+    {
+      paymentStatus: "pending",
+      bookingStatus: "pending_payment",
+      paymentDueAt: { $lt: new Date() }
+    },
+    {
+      $set: {
+        bookingStatus: "cancelled",
+        paymentStatus: "cancelled",
+        cancelledAt: new Date()
+      }
+    }
+  );
 }
 
 function isValidDomainSelection(primaryCategory, subCategory, focus) {
@@ -3726,37 +3793,73 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
 });
 
 exports.getLiveSessions = asyncHandler(async (req, res) => {
-  const rows = await MentorLiveSession.find({
-    isPublic: true,
-    isCancelled: false,
-    startsAt: { $gte: new Date(Date.now() - 2 * 60 * 60 * 1000) }
-  })
+  await expireOverdueLiveSessionBookings();
+
+  const baseQuery =
+    req.user.role === "mentor"
+      ? {
+          isCancelled: false,
+          $or: [
+            { approvalStatus: "approved", isPublic: true },
+            { mentorId: req.user.id }
+          ],
+          startsAt: { $gte: new Date(Date.now() - 2 * 60 * 60 * 1000) }
+        }
+      : {
+          isPublic: true,
+          isCancelled: false,
+          approvalStatus: "approved",
+          startsAt: { $gte: new Date(Date.now() - 2 * 60 * 60 * 1000) }
+        };
+
+  const rows = await MentorLiveSession.find(baseQuery)
     .populate("mentorId", "name email")
     .sort({ startsAt: 1 })
     .limit(60)
     .lean();
 
+  const sessionIds = rows.map((item) => item._id);
+  const [bookingStats, myBookings] = await Promise.all([
+    MentorLiveSessionBooking.aggregate([
+      {
+        $match: {
+          liveSessionId: { $in: sessionIds },
+          bookingStatus: { $in: ["pending_payment", "booked"] },
+          paymentStatus: { $in: ["pending", "paid"] }
+        }
+      },
+      { $group: { _id: "$liveSessionId", count: { $sum: 1 } } }
+    ]),
+    MentorLiveSessionBooking.find({
+      liveSessionId: { $in: sessionIds },
+      studentId: req.user.id
+    })
+      .sort({ createdAt: -1 })
+      .lean()
+  ]);
+
+  const bookingCountBySessionId = new Map(
+    bookingStats.map((item) => [String(item._id), Number(item.count || 0)])
+  );
+  const myBookingBySessionId = new Map();
+  myBookings.forEach((booking) => {
+    const key = String(booking.liveSessionId);
+    if (!myBookingBySessionId.has(key)) {
+      myBookingBySessionId.set(key, booking);
+    }
+  });
+
   res.json(
-    rows.map((item) => ({
-      id: item._id,
-      title: item.title,
-      topic: item.topic,
-      description: item.description,
-      posterImageUrl: item.posterImageUrl || "",
-      startsAt: item.startsAt,
-      endsAt: item.endsAt,
-      meetingLink: item.meetingLink,
-      domainTags: item.domainTags || [],
-      interestedCount: Array.isArray(item.interestedUserIds) ? item.interestedUserIds.length : 0,
-      isInterested: Array.isArray(item.interestedUserIds)
-        ? item.interestedUserIds.some((userId) => String(userId) === String(req.user.id))
-        : false,
-      mentor: {
-        id: item.mentorId?._id || null,
-        name: item.mentorId?.name || "Mentor",
-        email: item.mentorId?.email || ""
-      }
-    }))
+    rows.map((item) =>
+      normalizeLiveSessionPayload(
+        {
+          ...item,
+          bookingCount: bookingCountBySessionId.get(String(item._id)) || 0
+        },
+        req.user.id,
+        myBookingBySessionId
+      )
+    )
   );
 });
 
@@ -3770,12 +3873,22 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     posterImageUrl = "",
     startsAt,
     endsAt = null,
+    durationMinutes = 60,
     meetingLink = "",
-    domainTags = []
+    domainTags = [],
+    sessionMode = "free",
+    price = 0,
+    currency = "INR",
+    maxParticipants = 50
   } = req.body;
   if (!title || !String(title).trim()) throw new ApiError(400, "title is required");
   const startDate = new Date(startsAt);
   if (Number.isNaN(startDate.getTime())) throw new ApiError(400, "startsAt is invalid");
+  const normalizedMode = String(sessionMode || "free").trim().toLowerCase();
+  const normalizedPrice = Number(price || 0);
+  if (!["free", "paid"].includes(normalizedMode)) throw new ApiError(400, "sessionMode must be free or paid");
+  if (normalizedMode === "paid" && normalizedPrice <= 0) throw new ApiError(400, "Paid live sessions require a valid price");
+  const normalizedMaxParticipants = Math.min(Math.max(Number(maxParticipants || 0), 1), 1000);
 
   const doc = await MentorLiveSession.create({
     mentorId: req.user.id,
@@ -3785,14 +3898,35 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     posterImageUrl: String(posterImageUrl || "").trim(),
     startsAt: startDate,
     endsAt: endsAt ? new Date(endsAt) : null,
+    durationMinutes: Math.min(Math.max(Number(durationMinutes || 60), 15), 480),
     meetingLink: String(meetingLink || "").trim(),
     domainTags: Array.isArray(domainTags) ? domainTags : [],
+    sessionMode: normalizedMode,
+    price: normalizedMode === "paid" ? normalizedPrice : 0,
+    currency: String(currency || "INR").trim() || "INR",
+    maxParticipants: normalizedMaxParticipants,
     interestedUserIds: [],
     isPublic: true,
-    isCancelled: false
+    isCancelled: false,
+    approvalStatus: "pending",
+    adminReviewNote: "",
+    reviewedBy: null,
+    reviewedAt: null
   });
 
-  res.status(201).json({ message: "Live session created", liveSession: doc });
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.live_session.create",
+    entityType: "MentorLiveSession",
+    entityId: doc._id,
+    metadata: { sessionMode: normalizedMode, price: doc.price, maxParticipants: doc.maxParticipants }
+  });
+
+  res.status(201).json({
+    message: "Live session submitted for admin approval",
+    liveSession: normalizeLiveSessionPayload(doc.toObject(), req.user.id)
+  });
 });
 
 exports.toggleLiveSessionInterest = asyncHandler(async (req, res) => {
@@ -3830,6 +3964,253 @@ exports.toggleLiveSessionInterest = asyncHandler(async (req, res) => {
       isInterested: !alreadyInterested
     }
   });
+});
+
+exports.bookLiveSession = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can book live sessions");
+
+  await expireOverdueLiveSessionBookings();
+
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const liveSession = await MentorLiveSession.findById(liveSessionId).lean();
+  if (!liveSession || liveSession.isCancelled || !liveSession.isPublic || liveSession.approvalStatus !== "approved") {
+    throw new ApiError(404, "Live session not available");
+  }
+
+  if (new Date(liveSession.startsAt).getTime() <= Date.now()) {
+    throw new ApiError(400, "Live session has already started");
+  }
+
+  const activeCount = await MentorLiveSessionBooking.countDocuments({
+    liveSessionId,
+    bookingStatus: { $in: ["pending_payment", "booked"] },
+    paymentStatus: { $in: ["pending", "paid"] }
+  });
+  if (activeCount >= Number(liveSession.maxParticipants || 50)) {
+    throw new ApiError(409, "This live session is full");
+  }
+
+  const existing = await MentorLiveSessionBooking.findOne({
+    liveSessionId,
+    studentId: req.user.id,
+    bookingStatus: { $in: ["pending_payment", "booked"] }
+  }).sort({ createdAt: -1 });
+
+  if (existing) {
+    if (existing.bookingStatus === "booked" && existing.paymentStatus === "paid") {
+      return res.status(200).json({
+        message: "Live session already booked",
+        mode: existing.paymentMode === "free" ? "free" : "razorpay",
+        booking: existing
+      });
+    }
+
+    if (existing.paymentMode === "razorpay" && existing.paymentStatus === "pending") {
+      return res.status(200).json({
+        message: "Live session payment already pending",
+        mode: "razorpay",
+        booking: existing,
+        order: existing.orderId
+          ? { id: existing.orderId, amount: existing.amount * 100, currency: existing.currency || "INR" }
+          : null,
+        razorpayKeyId,
+        paymentInstructions: {
+          amount: existing.amount,
+          currency: existing.currency || "INR",
+          dueAt: existing.paymentDueAt || null
+        }
+      });
+    }
+  }
+
+  if (liveSession.sessionMode !== "paid" || Number(liveSession.price || 0) <= 0) {
+    const freeBooking = await MentorLiveSessionBooking.create({
+      liveSessionId,
+      mentorId: liveSession.mentorId,
+      studentId: req.user.id,
+      amount: 0,
+      currency: liveSession.currency || "INR",
+      paymentMode: "free",
+      paymentStatus: "paid",
+      bookingStatus: "booked"
+    });
+
+    return res.status(201).json({
+      message: "Live session booked",
+      mode: "free",
+      booking: freeBooking
+    });
+  }
+
+  if (paymentMode !== "razorpay") {
+    throw new ApiError(400, "Paid live-session booking currently requires Razorpay mode");
+  }
+
+  const order = await createRazorpayOrder({
+    amount: Number(liveSession.price || 0),
+    currency: liveSession.currency || "INR",
+    receipt: `orin_live_${Date.now()}`,
+    notes: {
+      liveSessionId: String(liveSessionId),
+      studentId: req.user.id,
+      mentorId: String(liveSession.mentorId)
+    }
+  });
+
+  const paymentDueAt = createLivePaymentDueAt();
+  const booking = await MentorLiveSessionBooking.create({
+    liveSessionId,
+    mentorId: liveSession.mentorId,
+    studentId: req.user.id,
+    amount: Number(liveSession.price || 0),
+    currency: liveSession.currency || "INR",
+    paymentMode: "razorpay",
+    paymentStatus: "pending",
+    bookingStatus: "pending_payment",
+    orderId: order.id,
+    paymentDueAt
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.live_session.order.create",
+    entityType: "MentorLiveSessionBooking",
+    entityId: booking._id,
+    metadata: { liveSessionId, orderId: order.id, amount: booking.amount }
+  });
+
+  res.status(201).json({
+    message: "Live session payment created",
+    mode: "razorpay",
+    booking,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId,
+    paymentInstructions: {
+      amount: booking.amount,
+      currency: booking.currency,
+      dueAt: paymentDueAt
+    }
+  });
+});
+
+exports.retryLiveSessionPaymentOrder = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can retry live-session payment");
+
+  const { bookingId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(bookingId)) throw new ApiError(400, "Invalid booking id");
+
+  await expireOverdueLiveSessionBookings();
+
+  const booking = await MentorLiveSessionBooking.findOne({ _id: bookingId, studentId: req.user.id });
+  if (!booking) throw new ApiError(404, "Booking not found");
+  if (booking.paymentMode !== "razorpay") throw new ApiError(400, "Only Razorpay bookings can be retried");
+  if (booking.bookingStatus === "booked" && booking.paymentStatus === "paid") {
+    throw new ApiError(400, "Booking is already confirmed");
+  }
+  if (booking.bookingStatus === "cancelled") {
+    throw new ApiError(400, "This payment window expired. Please book again.");
+  }
+
+  const order = await createRazorpayOrder({
+    amount: Number(booking.amount || 0),
+    currency: booking.currency || "INR",
+    receipt: `orin_live_retry_${Date.now()}`,
+    notes: {
+      bookingId: String(booking._id),
+      liveSessionId: String(booking.liveSessionId),
+      studentId: req.user.id
+    }
+  });
+
+  const paymentDueAt = createLivePaymentDueAt();
+  booking.orderId = order.id;
+  booking.paymentStatus = "pending";
+  booking.bookingStatus = "pending_payment";
+  booking.paymentDueAt = paymentDueAt;
+  await booking.save();
+
+  res.status(200).json({
+    message: "Live session payment refreshed",
+    mode: "razorpay",
+    booking,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId,
+    paymentInstructions: {
+      amount: booking.amount,
+      currency: booking.currency,
+      dueAt: paymentDueAt
+    }
+  });
+});
+
+exports.verifyLiveSessionPayment = asyncHandler(async (req, res) => {
+  const { bookingId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(bookingId)) throw new ApiError(400, "Invalid booking id");
+
+  const booking = await MentorLiveSessionBooking.findOne({ _id: bookingId, studentId: req.user.id });
+  if (!booking) throw new ApiError(404, "Booking not found");
+  if (booking.paymentMode !== "razorpay") throw new ApiError(400, "This booking is not in Razorpay mode");
+  if (booking.bookingStatus === "booked" && booking.paymentStatus === "paid") {
+    return res.status(200).json({ message: "Payment already verified", booking });
+  }
+  if (booking.orderId !== razorpay_order_id) throw new ApiError(400, "Order id mismatch");
+
+  const valid = verifyRazorpaySignature({
+    orderId: razorpay_order_id,
+    paymentId: razorpay_payment_id,
+    signature: razorpay_signature
+  });
+  if (!valid) throw new ApiError(400, "Invalid payment signature");
+
+  booking.paymentStatus = "paid";
+  booking.paymentId = razorpay_payment_id;
+  booking.paymentSignature = razorpay_signature;
+  booking.bookingStatus = "booked";
+  booking.paymentDueAt = null;
+  await booking.save();
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.live_session.payment.verify",
+    entityType: "MentorLiveSessionBooking",
+    entityId: booking._id,
+    metadata: { orderId: razorpay_order_id, paymentId: razorpay_payment_id }
+  });
+
+  res.status(200).json({
+    message: "Live session payment verified",
+    booking
+  });
+});
+
+exports.cancelLiveSessionBooking = asyncHandler(async (req, res) => {
+  const { bookingId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(bookingId)) throw new ApiError(400, "Invalid booking id");
+
+  const booking = await MentorLiveSessionBooking.findOne({ _id: bookingId, studentId: req.user.id });
+  if (!booking) throw new ApiError(404, "Booking not found");
+  if (booking.bookingStatus === "booked" && booking.paymentStatus === "paid") {
+    throw new ApiError(400, "Paid live-session bookings cannot be cancelled here");
+  }
+
+  booking.bookingStatus = "cancelled";
+  booking.paymentStatus = booking.paymentStatus === "paid" ? "paid" : "cancelled";
+  booking.cancelledAt = new Date();
+  await booking.save();
+
+  res.status(200).json({ message: "Live session booking cancelled", booking });
 });
 
 function resumeSafeArray(value) {
@@ -4513,6 +4894,11 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
         title: item.title,
         domain: item.domain,
         description: item.description,
+        bannerImageUrl: item.bannerImageUrl || "",
+        prize: item.prize || "",
+        skills: normalizeList(item.skills || []),
+        tasks: normalizeList(item.tasks || []),
+        submissionType: item.submissionType || "",
         deadline: item.deadline,
         isActive: item.isActive !== false,
         participantsCount,
@@ -4537,6 +4923,15 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
   const domain = String(req.body?.domain || "").trim();
   const description = String(req.body?.description || "").trim();
   const deadlineRaw = req.body?.deadline;
+  const bannerImageUrl = String(req.body?.bannerImageUrl || "").trim();
+  const prize = String(req.body?.prize || "").trim();
+  const submissionType = String(req.body?.submissionType || "").trim();
+  const skills = Array.isArray(req.body?.skills)
+    ? req.body.skills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+    : [];
+  const tasks = Array.isArray(req.body?.tasks)
+    ? req.body.tasks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+    : [];
 
   if (!title) throw new ApiError(400, "Title is required");
   if (!deadlineRaw) throw new ApiError(400, "Deadline is required");
@@ -4551,6 +4946,11 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
     title,
     domain,
     description,
+    bannerImageUrl,
+    prize,
+    skills,
+    tasks,
+    submissionType,
     deadline,
     isActive: false, // pending admin activation
     isFeatured: false,
@@ -5057,10 +5457,15 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
       title: item.title,
       description: item.description || "",
       url: item.url || "",
+      format: item.format || "",
+      difficulty: item.difficulty || "",
+      estimatedMinutes: Number(item.estimatedMinutes || 0),
+      thumbnailUrl: item.thumbnailUrl || "",
+      learningOutcome: item.learningOutcome || "",
       featured: Boolean(item.isFeatured),
       recommended: index < 4,
       recommendationReason,
-      tags: normalizeList([item.domain, item.type, journeyState?.goal?.focus, currentStep?.title]).slice(0, 3)
+      tags: normalizeList([...(item.tags || []), item.domain, item.type, journeyState?.goal?.focus, currentStep?.title]).slice(0, 5)
     }))
   );
 });
@@ -5073,6 +5478,14 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
   const description = String(req.body?.description || "").trim();
   const url = String(req.body?.url || "").trim();
   const type = String(req.body?.type || "other").trim();
+  const format = String(req.body?.format || "").trim();
+  const difficulty = String(req.body?.difficulty || "").trim();
+  const estimatedMinutes = Number(req.body?.estimatedMinutes || 0);
+  const thumbnailUrl = String(req.body?.thumbnailUrl || "").trim();
+  const learningOutcome = String(req.body?.learningOutcome || "").trim();
+  const tags = Array.isArray(req.body?.tags)
+    ? req.body.tags.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 10)
+    : [];
 
   if (!title) throw new ApiError(400, "title is required");
 
@@ -5082,6 +5495,12 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
     title,
     description,
     url,
+    format,
+    difficulty,
+    estimatedMinutes: Number.isFinite(estimatedMinutes) ? estimatedMinutes : 0,
+    thumbnailUrl,
+    learningOutcome,
+    tags,
     submittedBy: req.user.id,
     approvalStatus: "pending",
     isActive: false

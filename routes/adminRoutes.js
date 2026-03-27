@@ -24,6 +24,7 @@ const {
   toggleNetworkAdminMentorGroup,
   getNetworkAdminLiveSessions,
   toggleNetworkAdminLiveSession,
+  reviewNetworkAdminLiveSession,
   getNetworkAdminChallenges,
   toggleNetworkAdminChallenge,
   createNetworkAdminChallenge,
@@ -38,7 +39,10 @@ const {
   toggleNetworkAdminCertificationTrack,
   createNetworkAdminCertificationTrack,
   getNetworkAdminCertificationRequests,
-  reviewNetworkAdminCertificationRequest
+  reviewNetworkAdminCertificationRequest,
+  getNetworkAdminBootcamps,
+  createNetworkAdminBootcamp,
+  toggleNetworkAdminBootcamp
 } = require("../controllers/adminController");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
@@ -80,6 +84,7 @@ router.get("/network/mentor-groups", verifyToken, authorizeRoles("admin"), getNe
 router.patch("/network/mentor-groups/:groupId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminMentorGroup);
 router.get("/network/live-sessions", verifyToken, authorizeRoles("admin"), getNetworkAdminLiveSessions);
 router.patch("/network/live-sessions/:liveSessionId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminLiveSession);
+router.patch("/network/live-sessions/:liveSessionId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminLiveSession);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);
@@ -88,6 +93,10 @@ router.patch("/network/challenges/:challengeId", verifyToken, authorizeRoles("ad
 router.get("/network/opportunities", verifyToken, authorizeRoles("admin"), getNetworkAdminOpportunities);
 router.post("/network/opportunities", verifyToken, authorizeRoles("admin"), createNetworkAdminOpportunity);
 router.patch("/network/opportunities/:opportunityId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminOpportunity);
+
+router.get("/network/bootcamps", verifyToken, authorizeRoles("admin"), getNetworkAdminBootcamps);
+router.post("/network/bootcamps", verifyToken, authorizeRoles("admin"), createNetworkAdminBootcamp);
+router.patch("/network/bootcamps/:bootcampId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminBootcamp);
 
 router.get("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), getNetworkAdminKnowledgeResources);
 router.post("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), createNetworkAdminKnowledgeResource);

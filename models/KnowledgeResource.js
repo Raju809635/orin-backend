@@ -11,6 +11,12 @@ const knowledgeResourceSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
     url: { type: String, default: "" },
+    format: { type: String, default: "", trim: true },
+    difficulty: { type: String, default: "", trim: true },
+    estimatedMinutes: { type: Number, default: 0 },
+    tags: { type: [String], default: [] },
+    thumbnailUrl: { type: String, default: "" },
+    learningOutcome: { type: String, default: "" },
     submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null, index: true },
     approvalStatus: {
       type: String,

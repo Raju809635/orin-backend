@@ -37,6 +37,10 @@ const {
   getLiveSessions,
   createLiveSession,
   toggleLiveSessionInterest,
+  bookLiveSession,
+  retryLiveSessionPaymentOrder,
+  verifyLiveSessionPayment,
+  cancelLiveSessionBooking,
   generateResume,
   downloadResumePdf,
   getSkillGapAnalysis,
@@ -106,6 +110,10 @@ router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), get
 router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
 router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
 router.post("/live-sessions/:liveSessionId/interest", verifyToken, authorizeRoles("student", "mentor"), toggleLiveSessionInterest);
+router.post("/live-sessions/:liveSessionId/book", verifyToken, authorizeRoles("student"), bookLiveSession);
+router.post("/live-sessions/bookings/:bookingId/retry-order", verifyToken, authorizeRoles("student"), retryLiveSessionPaymentOrder);
+router.post("/live-sessions/verify-payment", verifyToken, authorizeRoles("student"), verifyLiveSessionPayment);
+router.patch("/live-sessions/bookings/:bookingId/cancel", verifyToken, authorizeRoles("student"), cancelLiveSessionBooking);
 router.get("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
 router.get("/resume/pdf", verifyToken, authorizeRoles("student", "mentor"), downloadResumePdf);
 router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);
