@@ -22,6 +22,8 @@ const {
 const { uploadImageFromPath, safeUnlink } = require("../services/externalStorageService");
 
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const PLATFORM_FEE_PERCENT = 30;
+const MENTOR_SHARE_PERCENT = 70;
 
 function toScheduledDate(date, time) {
   return new Date(`${date}T${time}:00.000Z`);
@@ -39,6 +41,113 @@ function getBaseUrl(req) {
 
 function createPaymentDueAt() {
   return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+}
+
+function roundMoney(value) {
+  return Math.round(Number(value || 0) * 100) / 100;
+}
+
+function buildRevenueSnapshot(amount) {
+  const totalAmount = Math.max(roundMoney(amount), 0);
+  const platformFeeAmount = roundMoney((totalAmount * PLATFORM_FEE_PERCENT) / 100);
+  const mentorPayoutAmount = roundMoney(totalAmount - platformFeeAmount);
+
+  return {
+    totalAmount,
+    platformFeePercent: PLATFORM_FEE_PERCENT,
+    mentorSharePercent: MENTOR_SHARE_PERCENT,
+    platformFeeAmount,
+    mentorPayoutAmount
+  };
+}
+
+function getResolvedPayoutStatus(session) {
+  if (session?.payoutStatus) return session.payoutStatus;
+  const isPaid = ["paid", "verified"].includes(String(session?.paymentStatus || ""));
+  const isCompleted = String(session?.sessionStatus || "") === "completed" || String(session?.status || "") === "completed";
+  return isPaid && isCompleted ? "pending" : "not_ready";
+}
+
+function getResolvedMentorConfirmationStatus(session) {
+  if (session?.mentorPayoutConfirmationStatus) return session.mentorPayoutConfirmationStatus;
+  if (getResolvedPayoutStatus(session) === "paid") return "pending";
+  if (getResolvedPayoutStatus(session) === "issue_reported") return "issue_reported";
+  return "not_ready";
+}
+
+function buildSessionFinancials(session = {}) {
+  const snapshot = buildRevenueSnapshot(session.amount);
+  return {
+    amount: snapshot.totalAmount,
+    platformFeePercent: Number(session.platformFeePercent || snapshot.platformFeePercent),
+    mentorSharePercent: Number(session.mentorSharePercent || snapshot.mentorSharePercent),
+    platformFeeAmount: roundMoney(session.platformFeeAmount || snapshot.platformFeeAmount),
+    mentorPayoutAmount: roundMoney(session.mentorPayoutAmount || snapshot.mentorPayoutAmount),
+    payoutStatus: getResolvedPayoutStatus(session),
+    mentorPayoutConfirmationStatus: getResolvedMentorConfirmationStatus(session)
+  };
+}
+
+function sessionFinancialPayload(amount) {
+  const snapshot = buildRevenueSnapshot(amount);
+  return {
+    amount: snapshot.totalAmount,
+    platformFeePercent: snapshot.platformFeePercent,
+    mentorSharePercent: snapshot.mentorSharePercent,
+    platformFeeAmount: snapshot.platformFeeAmount,
+    mentorPayoutAmount: snapshot.mentorPayoutAmount
+  };
+}
+
+async function getMentorPayoutProfiles(mentorIds = []) {
+  if (!mentorIds.length) return new Map();
+  const rows = await MentorProfile.find({ userId: { $in: mentorIds } })
+    .select("userId payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber title company")
+    .lean();
+
+  return new Map(
+    rows.map((item) => [
+      String(item.userId),
+      {
+        upiId: item.payoutUpiId || "",
+        qrCodeUrl: item.payoutQrCodeUrl || "",
+        phoneNumber: item.payoutPhoneNumber || item.phoneNumber || "",
+        title: item.title || "",
+        company: item.company || ""
+      }
+    ])
+  );
+}
+
+function enrichSessionForPayout(session, mentorPaymentDetails = null) {
+  const financials = buildSessionFinancials(session);
+  const isPaid = ["paid", "verified"].includes(String(session?.paymentStatus || ""));
+  const isCompleted = String(session?.sessionStatus || "") === "completed" || String(session?.status || "") === "completed";
+  const hasMentorPaymentDetails = Boolean(
+    mentorPaymentDetails?.upiId || mentorPaymentDetails?.qrCodeUrl || mentorPaymentDetails?.phoneNumber
+  );
+
+  return {
+    ...session,
+    ...financials,
+    mentorPaymentDetails: mentorPaymentDetails || {
+      upiId: "",
+      qrCodeUrl: "",
+      phoneNumber: "",
+      title: "",
+      company: ""
+    },
+    payoutEligible: isPaid && isCompleted,
+    hasMentorPaymentDetails,
+    canAdminMarkPayoutPaid:
+      isPaid &&
+      isCompleted &&
+      hasMentorPaymentDetails &&
+      ["pending", "issue_reported"].includes(financials.payoutStatus),
+    canMentorConfirmPayout:
+      financials.payoutStatus === "paid" &&
+      ["pending", "issue_reported"].includes(financials.mentorPayoutConfirmationStatus)
+  };
 }
 
 async function getSessionAmountForMentor(mentorId) {
@@ -146,7 +255,7 @@ exports.bookSession = asyncHandler(async (req, res) => {
     time,
     durationMinutes,
     scheduledStart,
-    amount,
+    ...sessionFinancialPayload(amount),
     paymentStatus: "pending",
     sessionStatus: "booked",
     notes: notes || "",
@@ -201,7 +310,7 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
       time,
       durationMinutes,
       scheduledStart,
-      amount,
+      ...sessionFinancialPayload(amount),
       currency: "INR",
       paymentMode: "manual",
       paymentStatus: "pending",
@@ -255,7 +364,7 @@ exports.createSessionOrder = asyncHandler(async (req, res) => {
     time,
     durationMinutes,
     scheduledStart,
-    amount,
+    ...sessionFinancialPayload(amount),
     currency: "INR",
     orderId: order.id,
     paymentMode: "razorpay",
@@ -398,6 +507,8 @@ exports.verifySessionPayment = asyncHandler(async (req, res) => {
   session.paymentSignature = razorpay_signature;
   session.sessionStatus = "confirmed";
   session.status = "confirmed";
+  session.payoutStatus = "not_ready";
+  session.mentorPayoutConfirmationStatus = "not_ready";
   session.paymentRejectReason = "";
   session.paymentDueAt = null;
   await session.save();
@@ -486,7 +597,7 @@ exports.getPendingManualPayments = asyncHandler(async (_req, res) => {
     .sort({ updatedAt: -1 })
     .lean();
 
-  res.status(200).json(sessions);
+  res.status(200).json(sessions.map((session) => ({ ...session, ...buildSessionFinancials(session) })));
 });
 
 exports.reviewManualPayment = asyncHandler(async (req, res) => {
@@ -504,6 +615,8 @@ exports.reviewManualPayment = asyncHandler(async (req, res) => {
     session.verifiedAt = new Date();
     session.sessionStatus = "confirmed";
     session.status = "confirmed";
+    session.payoutStatus = "not_ready";
+    session.mentorPayoutConfirmationStatus = "not_ready";
     session.paymentRejectReason = "";
   } else {
     session.paymentStatus = "rejected";
@@ -740,6 +853,295 @@ exports.rescheduleSession = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Session rescheduled and moved to pending", session });
 });
 
+exports.completeSession = asyncHandler(async (req, res) => {
+  const session = await Session.findOne({ _id: req.params.id, mentorId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (!["paid", "verified"].includes(String(session.paymentStatus || ""))) {
+    throw new ApiError(400, "Only paid sessions can be marked complete");
+  }
+
+  if (session.sessionStatus === "completed" || session.status === "completed") {
+    return res.status(200).json({ message: "Session already completed", session });
+  }
+
+  if (session.sessionStatus !== "confirmed" || session.status !== "confirmed") {
+    throw new ApiError(400, "Only confirmed sessions can be completed");
+  }
+
+  if (new Date(session.scheduledStart).getTime() > Date.now()) {
+    throw new ApiError(400, "Session can be completed only after the scheduled start time");
+  }
+
+  session.sessionStatus = "completed";
+  session.status = "completed";
+  session.payoutStatus = "pending";
+  session.mentorPayoutConfirmationStatus = "not_ready";
+  await session.save();
+
+  await Notification.insertMany([
+    {
+      title: "Session Completed",
+      message: `Your session on ${session.date} ${session.time} was marked completed by the mentor.`,
+      type: "booking",
+      sentBy: req.user.id,
+      targetRole: "student",
+      recipient: session.studentId
+    },
+    {
+      title: "Payout Ready",
+      message: "This paid session is now ready for ORIN payout processing.",
+      type: "booking",
+      sentBy: req.user.id,
+      targetRole: "mentor",
+      recipient: session.mentorId
+    }
+  ]);
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.complete",
+    entityType: "Session",
+    entityId: session._id
+  });
+
+  res.status(200).json({
+    message: "Session marked as completed",
+    session: enrichSessionForPayout(session.toObject())
+  });
+});
+
+exports.getAdminSessionPayouts = asyncHandler(async (_req, res) => {
+  await expireOverduePendingSessions();
+
+  const sessions = await Session.find({
+    paymentStatus: { $in: ["paid", "verified"] }
+  })
+    .populate("studentId", "name email")
+    .populate("mentorId", "name email")
+    .populate("payoutPaidBy", "name email role")
+    .sort({ updatedAt: -1, scheduledStart: -1 })
+    .lean();
+
+  const mentorProfileMap = await getMentorPayoutProfiles(
+    [...new Set(sessions.map((item) => String(item.mentorId?._id || item.mentorId || "")).filter(Boolean))]
+  );
+
+  const enriched = sessions.map((session) => {
+    const mentorId = String(session.mentorId?._id || session.mentorId || "");
+    return enrichSessionForPayout(session, mentorProfileMap.get(mentorId) || null);
+  });
+
+  res.status(200).json(enriched);
+});
+
+exports.markSessionPayoutPaid = asyncHandler(async (req, res) => {
+  const session = await Session.findById(req.params.id);
+  if (!session) throw new ApiError(404, "Session not found");
+
+  const mentorProfile = await MentorProfile.findOne({ userId: session.mentorId })
+    .select("payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber")
+    .lean();
+
+  const payoutDetails = {
+    upiId: mentorProfile?.payoutUpiId || "",
+    qrCodeUrl: mentorProfile?.payoutQrCodeUrl || "",
+    phoneNumber: mentorProfile?.payoutPhoneNumber || mentorProfile?.phoneNumber || ""
+  };
+
+  if (!["paid", "verified"].includes(String(session.paymentStatus || ""))) {
+    throw new ApiError(400, "Session payment is not verified");
+  }
+
+  if (!(session.sessionStatus === "completed" || session.status === "completed")) {
+    throw new ApiError(400, "Session must be completed before payout");
+  }
+
+  if (!(payoutDetails.upiId || payoutDetails.qrCodeUrl || payoutDetails.phoneNumber)) {
+    throw new ApiError(400, "Mentor payout setup is missing");
+  }
+
+  const resolvedPayoutStatus = getResolvedPayoutStatus(session);
+  if (!["pending", "issue_reported"].includes(resolvedPayoutStatus)) {
+    throw new ApiError(400, "Payout is not pending");
+  }
+
+  session.payoutStatus = "paid";
+  session.mentorPayoutConfirmationStatus = "pending";
+  session.payoutPaidAt = new Date();
+  session.payoutPaidBy = req.user.id;
+  session.payoutNote = String(req.body?.note || "").trim();
+  session.payoutReference = String(req.body?.reference || "").trim();
+  session.mentorPayoutIssueNote = "";
+  await session.save();
+
+  await Notification.create({
+    title: "Mentor Payout Sent",
+    message: "ORIN marked your session payout as sent. Please confirm after you receive it.",
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "mentor",
+    recipient: session.mentorId
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.payout.mark_paid",
+    entityType: "Session",
+    entityId: session._id,
+    metadata: {
+      reference: session.payoutReference || "",
+      note: session.payoutNote || ""
+    }
+  });
+
+  res.status(200).json({
+    message: "Mentor payout marked as paid",
+    session: enrichSessionForPayout(session.toObject(), payoutDetails)
+  });
+});
+
+exports.getMentorPayouts = asyncHandler(async (req, res) => {
+  await expireOverduePendingSessions();
+
+  const sessions = await Session.find({
+    mentorId: req.user.id,
+    paymentStatus: { $in: ["paid", "verified"] }
+  })
+    .populate("studentId", "name email")
+    .populate("payoutPaidBy", "name email role")
+    .sort({ scheduledStart: -1, updatedAt: -1 })
+    .lean();
+
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id })
+    .select("payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber")
+    .lean();
+
+  const mentorPaymentDetails = {
+    upiId: mentorProfile?.payoutUpiId || "",
+    qrCodeUrl: mentorProfile?.payoutQrCodeUrl || "",
+    phoneNumber: mentorProfile?.payoutPhoneNumber || mentorProfile?.phoneNumber || ""
+  };
+
+  const enriched = sessions.map((session) => enrichSessionForPayout(session, mentorPaymentDetails));
+
+  const summary = enriched.reduce(
+    (acc, session) => {
+      acc.totalSessions += 1;
+      acc.lifetimeGross += Number(session.amount || 0);
+      acc.platformFees += Number(session.platformFeeAmount || 0);
+      acc.mentorEarnings += Number(session.mentorPayoutAmount || 0);
+
+      if (session.payoutStatus === "pending") acc.pendingPayoutAmount += Number(session.mentorPayoutAmount || 0);
+      if (session.payoutStatus === "paid") acc.paidOutAmount += Number(session.mentorPayoutAmount || 0);
+      if (session.mentorPayoutConfirmationStatus === "confirmed") acc.confirmedReceivedAmount += Number(session.mentorPayoutAmount || 0);
+      if (session.payoutStatus === "issue_reported" || session.mentorPayoutConfirmationStatus === "issue_reported") {
+        acc.issueAmount += Number(session.mentorPayoutAmount || 0);
+      }
+      return acc;
+    },
+    {
+      totalSessions: 0,
+      lifetimeGross: 0,
+      platformFees: 0,
+      mentorEarnings: 0,
+      pendingPayoutAmount: 0,
+      paidOutAmount: 0,
+      confirmedReceivedAmount: 0,
+      issueAmount: 0,
+      payoutSetupComplete: Boolean(mentorPaymentDetails.upiId || mentorPaymentDetails.qrCodeUrl || mentorPaymentDetails.phoneNumber)
+    }
+  );
+
+  Object.keys(summary).forEach((key) => {
+    if (key !== "totalSessions" && key !== "payoutSetupComplete") {
+      summary[key] = roundMoney(summary[key]);
+    }
+  });
+
+  res.status(200).json({
+    summary,
+    payoutSetup: mentorPaymentDetails,
+    sessions: enriched
+  });
+});
+
+exports.confirmMentorPayoutReceived = asyncHandler(async (req, res) => {
+  const session = await Session.findOne({ _id: req.params.id, mentorId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (getResolvedPayoutStatus(session) !== "paid") {
+    throw new ApiError(400, "Payout is not marked as paid yet");
+  }
+
+  session.mentorPayoutConfirmationStatus = "confirmed";
+  session.mentorPayoutConfirmedAt = new Date();
+  session.mentorPayoutIssueNote = "";
+  await session.save();
+
+  await Notification.create({
+    title: "Mentor Confirmed Payout",
+    message: "A mentor confirmed payout receipt for a completed session.",
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "admin"
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.payout.confirm_received",
+    entityType: "Session",
+    entityId: session._id
+  });
+
+  res.status(200).json({
+    message: "Payout marked as received",
+    session: enrichSessionForPayout(session.toObject())
+  });
+});
+
+exports.reportMentorPayoutIssue = asyncHandler(async (req, res) => {
+  const session = await Session.findOne({ _id: req.params.id, mentorId: req.user.id });
+  if (!session) throw new ApiError(404, "Session not found");
+
+  if (getResolvedPayoutStatus(session) !== "paid") {
+    throw new ApiError(400, "Only paid-out sessions can be reported here");
+  }
+
+  const note = String(req.body?.issueNote || "").trim();
+  if (!note) throw new ApiError(400, "Issue note is required");
+
+  session.payoutStatus = "issue_reported";
+  session.mentorPayoutConfirmationStatus = "issue_reported";
+  session.mentorPayoutIssueNote = note;
+  await session.save();
+
+  await Notification.create({
+    title: "Mentor Payout Issue",
+    message: `A mentor reported a payout issue for session on ${session.date} ${session.time}.`,
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "admin"
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "session.payout.report_issue",
+    entityType: "Session",
+    entityId: session._id,
+    metadata: { issueNote: note }
+  });
+
+  res.status(200).json({
+    message: "Payout issue reported",
+    session: enrichSessionForPayout(session.toObject())
+  });
+});
+
 exports.getStudentSessions = asyncHandler(async (req, res) => {
   await expireOverduePendingSessions();
 
@@ -764,6 +1166,7 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
 
     return {
       ...session,
+      ...buildSessionFinancials(session),
       paymentInstructions: needsPayment
         ? {
             upiId: orinUpiId || "",
@@ -782,9 +1185,23 @@ exports.getStudentSessions = asyncHandler(async (req, res) => {
 exports.getMentorSessions = asyncHandler(async (req, res) => {
   await expireOverduePendingSessions();
 
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id })
+    .select("payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber title company")
+    .lean();
+
   const sessions = await Session.find({ mentorId: req.user.id })
     .populate("studentId", "name email")
+    .populate("payoutPaidBy", "name email role")
     .sort({ scheduledStart: 1 })
     .lean();
-  res.status(200).json(sessions);
+
+  const mentorPaymentDetails = {
+    upiId: mentorProfile?.payoutUpiId || "",
+    qrCodeUrl: mentorProfile?.payoutQrCodeUrl || "",
+    phoneNumber: mentorProfile?.payoutPhoneNumber || mentorProfile?.phoneNumber || "",
+    title: mentorProfile?.title || "",
+    company: mentorProfile?.company || ""
+  };
+
+  res.status(200).json(sessions.map((session) => enrichSessionForPayout(session, mentorPaymentDetails)));
 });

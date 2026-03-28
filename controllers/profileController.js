@@ -138,6 +138,15 @@ function normalizeStudentProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
     nextPayload.state = String(nextPayload.state || "").trim();
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "payoutUpiId")) {
+    nextPayload.payoutUpiId = String(nextPayload.payoutUpiId || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "payoutQrCodeUrl")) {
+    nextPayload.payoutQrCodeUrl = String(nextPayload.payoutQrCodeUrl || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "payoutPhoneNumber")) {
+    nextPayload.payoutPhoneNumber = String(nextPayload.payoutPhoneNumber || "").trim();
+  }
 
   return nextPayload;
 }
@@ -200,6 +209,17 @@ async function upsertProfileDocument(Model, userId, nextPayload) {
   );
 
   return Model.findOne({ userId }).lean();
+}
+
+function stripSensitiveMentorPayoutFields(profile) {
+  if (!profile) return profile;
+  const {
+    payoutUpiId,
+    payoutQrCodeUrl,
+    payoutPhoneNumber,
+    ...safeProfile
+  } = profile;
+  return safeProfile;
 }
 
 exports.getMyStudentProfile = asyncHandler(async (req, res) => {
@@ -313,6 +333,9 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     mergedProfile.experiences,
     mergedProfile.linkedInUrl,
     mergedProfile.resumeUrl,
+    mergedProfile.payoutUpiId,
+    mergedProfile.payoutQrCodeUrl,
+    mergedProfile.payoutPhoneNumber,
     mergedProfile.weeklyAvailabilitySlots
   ]);
 
@@ -377,7 +400,7 @@ exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {
       ...user.toObject(),
       status: user.approvalStatus
     },
-    profile
+    profile: stripSensitiveMentorPayoutFields(profile)
   });
 });
 
@@ -392,6 +415,7 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
   let profile = null;
   if (user.role === "mentor") {
     profile = await MentorProfile.findOne({ userId: user._id }).lean();
+    profile = stripSensitiveMentorPayoutFields(profile);
   } else {
     profile = await StudentProfile.findOne({ userId: user._id }).lean();
   }

@@ -42,6 +42,24 @@ const sessionSchema = new mongoose.Schema(
       min: 1,
       default: 499
     },
+    platformFeePercent: {
+      type: Number,
+      default: 30
+    },
+    mentorSharePercent: {
+      type: Number,
+      default: 70
+    },
+    platformFeeAmount: {
+      type: Number,
+      min: 0,
+      default: 0
+    },
+    mentorPayoutAmount: {
+      type: Number,
+      min: 0,
+      default: 0
+    },
     currency: {
       type: String,
       default: "INR"
@@ -95,6 +113,43 @@ const sessionSchema = new mongoose.Schema(
       type: Date,
       default: null,
       index: true
+    },
+    payoutStatus: {
+      type: String,
+      enum: ["not_ready", "pending", "paid", "issue_reported"],
+      default: "not_ready",
+      index: true
+    },
+    mentorPayoutConfirmationStatus: {
+      type: String,
+      enum: ["not_ready", "pending", "confirmed", "issue_reported"],
+      default: "not_ready",
+      index: true
+    },
+    payoutPaidAt: {
+      type: Date,
+      default: null
+    },
+    payoutPaidBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
+    },
+    payoutReference: {
+      type: String,
+      default: ""
+    },
+    payoutNote: {
+      type: String,
+      default: ""
+    },
+    mentorPayoutConfirmedAt: {
+      type: Date,
+      default: null
+    },
+    mentorPayoutIssueNote: {
+      type: String,
+      default: ""
     },
     sessionStatus: {
       type: String,

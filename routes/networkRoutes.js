@@ -41,6 +41,12 @@ const {
   retryLiveSessionPaymentOrder,
   verifyLiveSessionPayment,
   cancelLiveSessionBooking,
+  getSprints,
+  createSprint,
+  bookSprint,
+  retrySprintPaymentOrder,
+  verifySprintPayment,
+  cancelSprintEnrollment,
   generateResume,
   downloadResumePdf,
   getSkillGapAnalysis,
@@ -114,6 +120,12 @@ router.post("/live-sessions/:liveSessionId/book", verifyToken, authorizeRoles("s
 router.post("/live-sessions/bookings/:bookingId/retry-order", verifyToken, authorizeRoles("student"), retryLiveSessionPaymentOrder);
 router.post("/live-sessions/verify-payment", verifyToken, authorizeRoles("student"), verifyLiveSessionPayment);
 router.patch("/live-sessions/bookings/:bookingId/cancel", verifyToken, authorizeRoles("student"), cancelLiveSessionBooking);
+router.get("/sprints", verifyToken, authorizeRoles("student", "mentor"), getSprints);
+router.post("/sprints", verifyToken, authorizeRoles("mentor"), createSprint);
+router.post("/sprints/:sprintId/book", verifyToken, authorizeRoles("student"), bookSprint);
+router.post("/sprints/enrollments/:enrollmentId/retry-order", verifyToken, authorizeRoles("student"), retrySprintPaymentOrder);
+router.post("/sprints/verify-payment", verifyToken, authorizeRoles("student"), verifySprintPayment);
+router.patch("/sprints/enrollments/:enrollmentId/cancel", verifyToken, authorizeRoles("student"), cancelSprintEnrollment);
 router.get("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
 router.get("/resume/pdf", verifyToken, authorizeRoles("student", "mentor"), downloadResumePdf);
 router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);

@@ -66,6 +66,9 @@ const mentorProfileSchema = new mongoose.Schema(
     linkedInUrl: { type: String, default: "" },
     resumeUrl: { type: String, default: "" },
     sessionPrice: { type: Number, default: 0 },
+    payoutUpiId: { type: String, default: "" },
+    payoutQrCodeUrl: { type: String, default: "" },
+    payoutPhoneNumber: { type: String, default: "" },
     weeklyAvailabilitySlots: {
       type: [{ day: String, startTime: String, endTime: String }],
       default: []

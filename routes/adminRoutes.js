@@ -25,6 +25,9 @@ const {
   getNetworkAdminLiveSessions,
   toggleNetworkAdminLiveSession,
   reviewNetworkAdminLiveSession,
+  getNetworkAdminSprints,
+  toggleNetworkAdminSprint,
+  reviewNetworkAdminSprint,
   getNetworkAdminChallenges,
   toggleNetworkAdminChallenge,
   createNetworkAdminChallenge,
@@ -85,6 +88,9 @@ router.patch("/network/mentor-groups/:groupId/toggle", verifyToken, authorizeRol
 router.get("/network/live-sessions", verifyToken, authorizeRoles("admin"), getNetworkAdminLiveSessions);
 router.patch("/network/live-sessions/:liveSessionId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminLiveSession);
 router.patch("/network/live-sessions/:liveSessionId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminLiveSession);
+router.get("/network/sprints", verifyToken, authorizeRoles("admin"), getNetworkAdminSprints);
+router.patch("/network/sprints/:sprintId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminSprint);
+router.patch("/network/sprints/:sprintId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminSprint);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);

@@ -134,12 +134,23 @@ exports.getMentorDashboard = asyncHandler(async (req, res) => {
     Session.distinct("studentId", { mentorId })
   ]);
 
-  const completedThisMonth = await Session.countDocuments({
+  const completedThisMonthRows = await Session.find({
     mentorId,
     scheduledStart: { $gte: startOfMonth, $lte: endOfMonth },
-    status: "completed"
-  });
-  const earnings = completedThisMonth * (mentorProfile?.sessionPrice || 0);
+    status: "completed",
+    paymentStatus: { $in: ["paid", "verified"] }
+  })
+    .select("amount platformFeeAmount mentorPayoutAmount")
+    .lean();
+
+  const earnings = completedThisMonthRows.reduce((sum, session) => {
+    if (typeof session.mentorPayoutAmount === "number" && session.mentorPayoutAmount > 0) {
+      return sum + Number(session.mentorPayoutAmount || 0);
+    }
+    const amount = Number(session.amount || 0);
+    const platformFee = typeof session.platformFeeAmount === "number" ? Number(session.platformFeeAmount || 0) : amount * 0.3;
+    return sum + Math.max(amount - platformFee, 0);
+  }, 0);
 
   res.status(200).json({
     mentor: {
@@ -156,9 +167,9 @@ exports.getMentorDashboard = asyncHandler(async (req, res) => {
       testimonialsCount: (mentorProfile?.testimonials || []).length
     },
     earnings: {
-      amount: earnings,
+      amount: Math.round(earnings * 100) / 100,
       currency: "INR",
-      note: "Computed from completed sessions and session price"
+      note: "Computed from completed paid sessions after ORIN commission"
     }
   });
 });

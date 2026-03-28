@@ -106,6 +106,9 @@ const mentorProfileUpdateSchema = Joi.object({
   linkedInUrl: Joi.string().allow("").optional(),
   resumeUrl: Joi.string().allow("").optional(),
   sessionPrice: Joi.number().min(0).optional(),
+  payoutUpiId: Joi.string().max(120).allow("").optional(),
+  payoutQrCodeUrl: Joi.string().allow("").optional(),
+  payoutPhoneNumber: Joi.string().max(30).allow("").optional(),
   weeklyAvailabilitySlots: Joi.array()
     .items(
       Joi.object({

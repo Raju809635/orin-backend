@@ -13,6 +13,8 @@ const MentorReview = require("../models/MentorReview");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const MentorLiveSession = require("../models/MentorLiveSession");
 const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
+const MentorSprint = require("../models/MentorSprint");
+const MentorSprintEnrollment = require("../models/MentorSprintEnrollment");
 const CommunityChallenge = require("../models/CommunityChallenge");
 const OrinCertification = require("../models/OrinCertification");
 const CertificationTrack = require("../models/CertificationTrack");
@@ -47,6 +49,8 @@ const STREAK_BONUS_XP = {
 };
 const QUIZ_DAILY_LIMIT_MESSAGE = "You have completed today's quiz. Come back tomorrow.";
 const REACTION_TYPES = ["like", "love", "care", "haha", "wow", "sad", "angry"];
+const SPRINT_PLATFORM_FEE_PERCENT = 40;
+const SPRINT_MENTOR_SHARE_PERCENT = 60;
 
 function toDateKey(date = new Date()) {
   return date.toISOString().slice(0, 10);
@@ -108,7 +112,27 @@ function parseCsvList(value) {
     .filter(Boolean);
 }
 
+function roundCurrency(value) {
+  return Math.round(Number(value || 0) * 100) / 100;
+}
+
+function buildSprintRevenueSnapshot(amount) {
+  const normalizedAmount = Math.max(Number(amount || 0), 0);
+  const platformFeeAmount = roundCurrency((normalizedAmount * SPRINT_PLATFORM_FEE_PERCENT) / 100);
+  const mentorPayoutAmount = roundCurrency(normalizedAmount - platformFeeAmount);
+  return {
+    platformFeePercent: SPRINT_PLATFORM_FEE_PERCENT,
+    mentorSharePercent: SPRINT_MENTOR_SHARE_PERCENT,
+    platformFeeAmount,
+    mentorPayoutAmount
+  };
+}
+
 function createLivePaymentDueAt() {
+  return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+}
+
+function createSprintPaymentDueAt() {
   return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
 }
 
@@ -154,6 +178,57 @@ function normalizeLiveSessionPayload(item, reqUserId, bookingBySessionId = new M
   };
 }
 
+function normalizeSprintPayload(item, reqUserId, enrollmentBySprintId = new Map()) {
+  const enrollment = enrollmentBySprintId.get(String(item._id || item.id || ""));
+  const startDate = item.startDate ? new Date(item.startDate) : null;
+  const endDate = item.endDate ? new Date(item.endDate) : null;
+  return {
+    id: item._id || item.id,
+    title: item.title,
+    domain: item.domain || "",
+    description: item.description || "",
+    posterImageUrl: item.posterImageUrl || "",
+    curriculumDocumentUrl: item.curriculumDocumentUrl || "",
+    curriculumFileType: item.curriculumFileType || "",
+    startDate: item.startDate,
+    endDate: item.endDate,
+    durationWeeks: Number(item.durationWeeks || 1),
+    totalLiveSessions: Number(item.totalLiveSessions || 1),
+    sessionSchedule: Array.isArray(item.sessionSchedule) ? item.sessionSchedule : [],
+    weeklyPlan: Array.isArray(item.weeklyPlan) ? item.weeklyPlan : [],
+    outcomes: Array.isArray(item.outcomes) ? item.outcomes : [],
+    tools: Array.isArray(item.tools) ? item.tools : [],
+    sessionMode: item.sessionMode || "free",
+    price: Number(item.price || 0),
+    currency: item.currency || "INR",
+    minParticipants: Number(item.minParticipants || 1),
+    maxParticipants: Number(item.maxParticipants || 20),
+    approvalStatus: item.approvalStatus || "pending",
+    adminReviewNote: item.adminReviewNote || "",
+    participantCount: Number(item.enrollmentCount || 0),
+    seatsLeft: Math.max(Number(item.maxParticipants || 20) - Number(item.enrollmentCount || 0), 0),
+    isSoldOut: Number(item.enrollmentCount || 0) >= Number(item.maxParticipants || 20),
+    mentor: {
+      id: item.mentorId?._id || item.mentor?.id || null,
+      name: item.mentorId?.name || item.mentor?.name || "Mentor",
+      email: item.mentorId?.email || item.mentor?.email || ""
+    },
+    statusLabel:
+      startDate && endDate
+        ? `${startDate.toLocaleDateString("en-IN")} - ${endDate.toLocaleDateString("en-IN")}`
+        : "Sprint",
+    myEnrollment: enrollment
+      ? {
+          id: enrollment._id,
+          paymentMode: enrollment.paymentMode,
+          paymentStatus: enrollment.paymentStatus,
+          enrollmentStatus: enrollment.enrollmentStatus,
+          paymentDueAt: enrollment.paymentDueAt || null
+        }
+      : null
+  };
+}
+
 async function expireOverdueLiveSessionBookings() {
   await MentorLiveSessionBooking.updateMany(
     {
@@ -164,6 +239,23 @@ async function expireOverdueLiveSessionBookings() {
     {
       $set: {
         bookingStatus: "cancelled",
+        paymentStatus: "cancelled",
+        cancelledAt: new Date()
+      }
+    }
+  );
+}
+
+async function expireOverdueSprintEnrollments() {
+  await MentorSprintEnrollment.updateMany(
+    {
+      paymentStatus: "pending",
+      enrollmentStatus: "pending_payment",
+      paymentDueAt: { $lt: new Date() }
+    },
+    {
+      $set: {
+        enrollmentStatus: "cancelled",
         paymentStatus: "cancelled",
         cancelledAt: new Date()
       }
@@ -4211,6 +4303,435 @@ exports.cancelLiveSessionBooking = asyncHandler(async (req, res) => {
   await booking.save();
 
   res.status(200).json({ message: "Live session booking cancelled", booking });
+});
+
+exports.getSprints = asyncHandler(async (req, res) => {
+  await expireOverdueSprintEnrollments();
+
+  const baseQuery =
+    req.user.role === "mentor"
+      ? {
+          isCancelled: false,
+          $or: [
+            { approvalStatus: "approved", isPublic: true },
+            { mentorId: req.user.id }
+          ],
+          endDate: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+        }
+      : {
+          isPublic: true,
+          isCancelled: false,
+          approvalStatus: "approved",
+          endDate: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+        };
+
+  const rows = await MentorSprint.find(baseQuery)
+    .populate("mentorId", "name email")
+    .sort({ startDate: 1, createdAt: -1 })
+    .limit(60)
+    .lean();
+
+  const sprintIds = rows.map((item) => item._id);
+  const [enrollmentStats, myEnrollments] = await Promise.all([
+    MentorSprintEnrollment.aggregate([
+      {
+        $match: {
+          sprintId: { $in: sprintIds },
+          enrollmentStatus: { $in: ["pending_payment", "enrolled"] },
+          paymentStatus: { $in: ["pending", "paid"] }
+        }
+      },
+      { $group: { _id: "$sprintId", count: { $sum: 1 } } }
+    ]),
+    req.user.role === "student"
+      ? MentorSprintEnrollment.find({
+          sprintId: { $in: sprintIds },
+          studentId: req.user.id
+        })
+          .sort({ createdAt: -1 })
+          .lean()
+      : Promise.resolve([])
+  ]);
+
+  const enrollmentCountBySprintId = new Map(
+    enrollmentStats.map((item) => [String(item._id), Number(item.count || 0)])
+  );
+  const myEnrollmentBySprintId = new Map();
+  myEnrollments.forEach((enrollment) => {
+    const key = String(enrollment.sprintId);
+    if (!myEnrollmentBySprintId.has(key)) {
+      myEnrollmentBySprintId.set(key, enrollment);
+    }
+  });
+
+  res.json(
+    rows.map((item) =>
+      normalizeSprintPayload(
+        {
+          ...item,
+          enrollmentCount: enrollmentCountBySprintId.get(String(item._id)) || 0
+        },
+        req.user.id,
+        myEnrollmentBySprintId
+      )
+    )
+  );
+});
+
+exports.createSprint = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create sprints");
+
+  const {
+    title,
+    domain = "",
+    description = "",
+    posterImageUrl = "",
+    curriculumDocumentUrl = "",
+    curriculumFileType = "pdf",
+    startDate,
+    endDate,
+    durationWeeks = 1,
+    totalLiveSessions = 1,
+    sessionSchedule = [],
+    weeklyPlan = [],
+    outcomes = [],
+    tools = [],
+    sessionMode = "free",
+    price = 0,
+    currency = "INR",
+    minParticipants = 1,
+    maxParticipants = 20
+  } = req.body;
+
+  if (!String(title || "").trim()) throw new ApiError(400, "title is required");
+  if (!String(posterImageUrl || "").trim()) throw new ApiError(400, "Sprint poster is required");
+
+  const normalizedStartDate = new Date(startDate);
+  const normalizedEndDate = new Date(endDate);
+  if (Number.isNaN(normalizedStartDate.getTime())) throw new ApiError(400, "startDate is invalid");
+  if (Number.isNaN(normalizedEndDate.getTime())) throw new ApiError(400, "endDate is invalid");
+  if (normalizedEndDate.getTime() < normalizedStartDate.getTime()) {
+    throw new ApiError(400, "endDate must be after startDate");
+  }
+
+  const normalizedMode = String(sessionMode || "free").trim().toLowerCase();
+  const normalizedPrice = Number(price || 0);
+  if (!["free", "paid"].includes(normalizedMode)) throw new ApiError(400, "sessionMode must be free or paid");
+  if (normalizedMode === "paid" && normalizedPrice <= 0) throw new ApiError(400, "Paid sprints require a valid price");
+
+  const normalizedMinParticipants = Math.min(Math.max(Number(minParticipants || 1), 1), 1000);
+  const normalizedMaxParticipants = Math.min(Math.max(Number(maxParticipants || 1), 1), 1000);
+  if (normalizedMinParticipants > normalizedMaxParticipants) {
+    throw new ApiError(400, "minParticipants cannot exceed maxParticipants");
+  }
+
+  const normalizedSchedule = (Array.isArray(sessionSchedule) ? sessionSchedule : [])
+    .map((item, index) => {
+      const startsAt = item?.startsAt ? new Date(item.startsAt) : null;
+      return {
+        label: String(item?.label || `Session ${index + 1}`).trim(),
+        startsAt: startsAt && !Number.isNaN(startsAt.getTime()) ? startsAt : null,
+        durationMinutes: Math.min(Math.max(Number(item?.durationMinutes || 60), 15), 480)
+      };
+    })
+    .slice(0, 50);
+
+  const doc = await MentorSprint.create({
+    mentorId: req.user.id,
+    title: String(title).trim(),
+    domain: String(domain || "").trim(),
+    description: String(description || "").trim(),
+    posterImageUrl: String(posterImageUrl || "").trim(),
+    curriculumDocumentUrl: String(curriculumDocumentUrl || "").trim(),
+    curriculumFileType: String(curriculumFileType || "").trim().toLowerCase(),
+    startDate: normalizedStartDate,
+    endDate: normalizedEndDate,
+    durationWeeks: Math.min(Math.max(Number(durationWeeks || 1), 1), 52),
+    totalLiveSessions: Math.min(Math.max(Number(totalLiveSessions || 1), 1), 100),
+    sessionSchedule: normalizedSchedule,
+    weeklyPlan: normalizeList(weeklyPlan),
+    outcomes: normalizeList(outcomes),
+    tools: normalizeList(tools),
+    sessionMode: normalizedMode,
+    price: normalizedMode === "paid" ? normalizedPrice : 0,
+    currency: String(currency || "INR").trim() || "INR",
+    minParticipants: normalizedMinParticipants,
+    maxParticipants: normalizedMaxParticipants,
+    isPublic: true,
+    isCancelled: false,
+    approvalStatus: "pending",
+    adminReviewNote: "",
+    reviewedBy: null,
+    reviewedAt: null
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.sprint.create",
+    entityType: "MentorSprint",
+    entityId: doc._id,
+    metadata: {
+      sessionMode: normalizedMode,
+      price: doc.price,
+      minParticipants: doc.minParticipants,
+      maxParticipants: doc.maxParticipants
+    }
+  });
+
+  res.status(201).json({
+    message: "Sprint submitted for admin approval",
+    sprint: normalizeSprintPayload(doc.toObject(), req.user.id)
+  });
+});
+
+exports.bookSprint = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can join sprints");
+
+  await expireOverdueSprintEnrollments();
+
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const sprint = await MentorSprint.findById(sprintId).lean();
+  if (!sprint || sprint.isCancelled || !sprint.isPublic || sprint.approvalStatus !== "approved") {
+    throw new ApiError(404, "Sprint not available");
+  }
+
+  if (new Date(sprint.startDate).getTime() <= Date.now()) {
+    throw new ApiError(400, "Sprint has already started");
+  }
+
+  const activeCount = await MentorSprintEnrollment.countDocuments({
+    sprintId,
+    enrollmentStatus: { $in: ["pending_payment", "enrolled"] },
+    paymentStatus: { $in: ["pending", "paid"] }
+  });
+  if (activeCount >= Number(sprint.maxParticipants || 20)) {
+    throw new ApiError(409, "This sprint is sold out");
+  }
+
+  const existing = await MentorSprintEnrollment.findOne({
+    sprintId,
+    studentId: req.user.id,
+    enrollmentStatus: { $in: ["pending_payment", "enrolled"] }
+  }).sort({ createdAt: -1 });
+
+  if (existing) {
+    if (existing.enrollmentStatus === "enrolled" && existing.paymentStatus === "paid") {
+      return res.status(200).json({
+        message: "Sprint already joined",
+        mode: existing.paymentMode === "free" ? "free" : "razorpay",
+        enrollment: existing
+      });
+    }
+
+    if (existing.paymentMode === "razorpay" && existing.paymentStatus === "pending") {
+      return res.status(200).json({
+        message: "Sprint payment already pending",
+        mode: "razorpay",
+        enrollment: existing,
+        order: existing.orderId
+          ? { id: existing.orderId, amount: existing.amount * 100, currency: existing.currency || "INR" }
+          : null,
+        razorpayKeyId,
+        paymentInstructions: {
+          amount: existing.amount,
+          currency: existing.currency || "INR",
+          dueAt: existing.paymentDueAt || null
+        }
+      });
+    }
+  }
+
+  if (sprint.sessionMode !== "paid" || Number(sprint.price || 0) <= 0) {
+    const freeEnrollment = await MentorSprintEnrollment.create({
+      sprintId,
+      mentorId: sprint.mentorId,
+      studentId: req.user.id,
+      amount: 0,
+      currency: sprint.currency || "INR",
+      ...buildSprintRevenueSnapshot(0),
+      paymentMode: "free",
+      paymentStatus: "paid",
+      enrollmentStatus: "enrolled"
+    });
+
+    return res.status(201).json({
+      message: "Sprint joined",
+      mode: "free",
+      enrollment: freeEnrollment
+    });
+  }
+
+  if (paymentMode !== "razorpay") {
+    throw new ApiError(400, "Paid sprint enrollment currently requires Razorpay mode");
+  }
+
+  const order = await createRazorpayOrder({
+    amount: Number(sprint.price || 0),
+    currency: sprint.currency || "INR",
+    receipt: `orin_sprint_${Date.now()}`,
+    notes: {
+      sprintId: String(sprintId),
+      studentId: req.user.id,
+      mentorId: String(sprint.mentorId)
+    }
+  });
+
+  const paymentDueAt = createSprintPaymentDueAt();
+  const enrollment = await MentorSprintEnrollment.create({
+    sprintId,
+    mentorId: sprint.mentorId,
+    studentId: req.user.id,
+    amount: Number(sprint.price || 0),
+    currency: sprint.currency || "INR",
+    ...buildSprintRevenueSnapshot(Number(sprint.price || 0)),
+    paymentMode: "razorpay",
+    paymentStatus: "pending",
+    enrollmentStatus: "pending_payment",
+    orderId: order.id,
+    paymentDueAt
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.sprint.order.create",
+    entityType: "MentorSprintEnrollment",
+    entityId: enrollment._id,
+    metadata: { sprintId, orderId: order.id, amount: enrollment.amount }
+  });
+
+  res.status(201).json({
+    message: "Sprint payment created",
+    mode: "razorpay",
+    enrollment,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId,
+    paymentInstructions: {
+      amount: enrollment.amount,
+      currency: enrollment.currency,
+      dueAt: paymentDueAt
+    }
+  });
+});
+
+exports.retrySprintPaymentOrder = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can retry sprint payment");
+
+  const { enrollmentId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  await expireOverdueSprintEnrollments();
+
+  const enrollment = await MentorSprintEnrollment.findOne({ _id: enrollmentId, studentId: req.user.id });
+  if (!enrollment) throw new ApiError(404, "Enrollment not found");
+  if (enrollment.paymentMode !== "razorpay") throw new ApiError(400, "Only Razorpay enrollments can be retried");
+  if (enrollment.enrollmentStatus === "enrolled" && enrollment.paymentStatus === "paid") {
+    throw new ApiError(400, "Enrollment is already confirmed");
+  }
+  if (enrollment.enrollmentStatus === "cancelled") {
+    throw new ApiError(400, "This payment window expired. Please join again.");
+  }
+
+  const order = await createRazorpayOrder({
+    amount: Number(enrollment.amount || 0),
+    currency: enrollment.currency || "INR",
+    receipt: `orin_sprint_retry_${Date.now()}`,
+    notes: {
+      enrollmentId: String(enrollment._id),
+      sprintId: String(enrollment.sprintId),
+      studentId: req.user.id
+    }
+  });
+
+  const paymentDueAt = createSprintPaymentDueAt();
+  enrollment.orderId = order.id;
+  enrollment.paymentStatus = "pending";
+  enrollment.enrollmentStatus = "pending_payment";
+  enrollment.paymentDueAt = paymentDueAt;
+  await enrollment.save();
+
+  res.status(200).json({
+    message: "Sprint payment refreshed",
+    mode: "razorpay",
+    enrollment,
+    order: {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency
+    },
+    razorpayKeyId,
+    paymentInstructions: {
+      amount: enrollment.amount,
+      currency: enrollment.currency,
+      dueAt: paymentDueAt
+    }
+  });
+});
+
+exports.verifySprintPayment = asyncHandler(async (req, res) => {
+  const { enrollmentId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  const enrollment = await MentorSprintEnrollment.findOne({ _id: enrollmentId, studentId: req.user.id });
+  if (!enrollment) throw new ApiError(404, "Enrollment not found");
+  if (enrollment.paymentMode !== "razorpay") throw new ApiError(400, "This enrollment is not in Razorpay mode");
+  if (enrollment.enrollmentStatus === "enrolled" && enrollment.paymentStatus === "paid") {
+    return res.status(200).json({ message: "Payment already verified", enrollment });
+  }
+  if (enrollment.orderId !== razorpay_order_id) throw new ApiError(400, "Order id mismatch");
+
+  const valid = verifyRazorpaySignature({
+    orderId: razorpay_order_id,
+    paymentId: razorpay_payment_id,
+    signature: razorpay_signature
+  });
+  if (!valid) throw new ApiError(400, "Invalid payment signature");
+
+  enrollment.paymentStatus = "paid";
+  enrollment.paymentId = razorpay_payment_id;
+  enrollment.paymentSignature = razorpay_signature;
+  enrollment.enrollmentStatus = "enrolled";
+  enrollment.paymentDueAt = null;
+  await enrollment.save();
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.sprint.payment.verify",
+    entityType: "MentorSprintEnrollment",
+    entityId: enrollment._id,
+    metadata: { orderId: razorpay_order_id, paymentId: razorpay_payment_id }
+  });
+
+  res.status(200).json({
+    message: "Sprint payment verified",
+    enrollment
+  });
+});
+
+exports.cancelSprintEnrollment = asyncHandler(async (req, res) => {
+  const { enrollmentId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  const enrollment = await MentorSprintEnrollment.findOne({ _id: enrollmentId, studentId: req.user.id });
+  if (!enrollment) throw new ApiError(404, "Enrollment not found");
+  if (enrollment.enrollmentStatus === "enrolled" && enrollment.paymentStatus === "paid") {
+    throw new ApiError(400, "Paid sprint enrollments cannot be cancelled here");
+  }
+
+  enrollment.enrollmentStatus = "cancelled";
+  enrollment.paymentStatus = enrollment.paymentStatus === "paid" ? "paid" : "cancelled";
+  enrollment.cancelledAt = new Date();
+  await enrollment.save();
+
+  res.status(200).json({ message: "Sprint enrollment cancelled", enrollment });
 });
 
 function resumeSafeArray(value) {

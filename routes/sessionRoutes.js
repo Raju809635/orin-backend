@@ -19,13 +19,19 @@ const {
   submitManualPaymentProof,
   getPendingManualPayments,
   reviewManualPayment,
+  getAdminSessionPayouts,
+  markSessionPayoutPaid,
   approveSession,
   rejectSession,
   cancelSession,
   rescheduleSession,
   updateSessionMeetingLink,
+  completeSession,
   getStudentSessions,
-  getMentorSessions
+  getMentorSessions,
+  getMentorPayouts,
+  confirmMentorPayoutReceived,
+  reportMentorPayoutIssue
 } = require("../controllers/sessionController");
 const { uploadPaymentScreenshot } = require("../middleware/uploadMiddleware");
 
@@ -53,13 +59,19 @@ router.patch(
   validate(reviewManualPaymentSchema),
   reviewManualPayment
 );
+router.get("/admin/payouts", verifyToken, authorizeRoles("admin"), getAdminSessionPayouts);
+router.patch("/admin/payouts/:id/pay", verifyToken, authorizeRoles("admin"), markSessionPayoutPaid);
 router.post("/book", verifyToken, authorizeRoles("student"), validate(bookSessionSchema), bookSession);
 router.patch("/:id/approve", verifyToken, authorizeRoles("mentor"), approveSession);
 router.patch("/:id/reject", verifyToken, authorizeRoles("mentor"), rejectSession);
 router.patch("/:id/cancel", verifyToken, authorizeRoles("student", "mentor"), cancelSession);
 router.patch("/:id/reschedule", verifyToken, authorizeRoles("student", "mentor"), validate(rescheduleSessionSchema), rescheduleSession);
 router.patch("/:id/meeting-link", verifyToken, authorizeRoles("mentor"), validate(updateMeetingLinkSchema), updateSessionMeetingLink);
+router.patch("/:id/complete", verifyToken, authorizeRoles("mentor"), completeSession);
 router.get("/student/me", verifyToken, authorizeRoles("student"), getStudentSessions);
 router.get("/mentor/me", verifyToken, authorizeRoles("mentor"), getMentorSessions);
+router.get("/mentor/payouts", verifyToken, authorizeRoles("mentor"), getMentorPayouts);
+router.patch("/:id/payout/confirm", verifyToken, authorizeRoles("mentor"), confirmMentorPayoutReceived);
+router.patch("/:id/payout/report-issue", verifyToken, authorizeRoles("mentor"), reportMentorPayoutIssue);
 
 module.exports = router;

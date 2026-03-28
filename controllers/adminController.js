@@ -12,6 +12,8 @@ const UserFollow = require("../models/UserFollow");
 const MentorGroup = require("../models/MentorGroup");
 const MentorLiveSession = require("../models/MentorLiveSession");
 const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
+const MentorSprint = require("../models/MentorSprint");
+const MentorSprintEnrollment = require("../models/MentorSprintEnrollment");
 const CommunityChallenge = require("../models/CommunityChallenge");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const KnowledgeResource = require("../models/KnowledgeResource");
@@ -223,6 +225,9 @@ exports.getMentorProfiles = asyncHandler(async (_req, res) => {
         sessionPrice: "$sessionPrice",
         about: "$about",
         linkedInUrl: "$linkedInUrl",
+        payoutUpiId: "$payoutUpiId",
+        payoutQrCodeUrl: "$payoutQrCodeUrl",
+        payoutPhoneNumber: "$payoutPhoneNumber",
         weeklyAvailabilitySlots: "$weeklyAvailabilitySlots",
         rating: "$rating",
         totalSessionsConducted: "$totalSessionsConducted"
@@ -561,6 +566,95 @@ exports.reviewNetworkAdminLiveSession = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: action === "approve" ? "Live session approved" : "Live session rejected",
     session
+  });
+});
+
+exports.getNetworkAdminSprints = asyncHandler(async (_req, res) => {
+  const sprints = await MentorSprint.find({})
+    .populate("mentorId", "name email role")
+    .populate("reviewedBy", "name email role")
+    .sort({ startDate: -1 })
+    .limit(200)
+    .lean();
+
+  const sprintIds = sprints.map((item) => item._id);
+  const enrollmentStats = sprintIds.length
+    ? await MentorSprintEnrollment.aggregate([
+      { $match: { sprintId: { $in: sprintIds } } },
+      {
+        $group: {
+          _id: "$sprintId",
+          totalEnrollments: { $sum: 1 },
+          paidEnrollments: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "paid"] }, 1, 0]
+            }
+          },
+          pendingEnrollments: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "pending"] }, 1, 0]
+            }
+          }
+        }
+      }
+    ])
+    : [];
+
+  const enrollmentMap = new Map(
+    enrollmentStats.map((item) => [
+      String(item._id),
+      {
+        totalEnrollments: Number(item.totalEnrollments || 0),
+        paidEnrollments: Number(item.paidEnrollments || 0),
+        pendingEnrollments: Number(item.pendingEnrollments || 0)
+      }
+    ])
+  );
+
+  res.status(200).json(
+    sprints.map((sprint) => ({
+      ...sprint,
+      enrollmentStats: enrollmentMap.get(String(sprint._id)) || {
+        totalEnrollments: 0,
+        paidEnrollments: 0,
+        pendingEnrollments: 0
+      }
+    }))
+  );
+});
+
+exports.toggleNetworkAdminSprint = asyncHandler(async (req, res) => {
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const sprint = await MentorSprint.findById(sprintId);
+  if (!sprint) throw new ApiError(404, "Sprint not found");
+  sprint.isCancelled = !sprint.isCancelled;
+  await sprint.save();
+
+  res.status(200).json({ message: sprint.isCancelled ? "Sprint cancelled" : "Sprint reopened", sprint });
+});
+
+exports.reviewNetworkAdminSprint = asyncHandler(async (req, res) => {
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const action = String(req.body?.action || "").trim();
+  if (!["approve", "reject"].includes(action)) throw new ApiError(400, "action must be approve or reject");
+
+  const sprint = await MentorSprint.findById(sprintId);
+  if (!sprint) throw new ApiError(404, "Sprint not found");
+
+  sprint.approvalStatus = action === "approve" ? "approved" : "rejected";
+  sprint.adminReviewNote = String(req.body?.note || "").trim();
+  sprint.reviewedBy = req.user.id;
+  sprint.reviewedAt = new Date();
+  if (req.body?.isPublic !== undefined) sprint.isPublic = Boolean(req.body.isPublic);
+  await sprint.save();
+
+  res.status(200).json({
+    message: action === "approve" ? "Sprint approved" : "Sprint rejected",
+    sprint
   });
 });
 
