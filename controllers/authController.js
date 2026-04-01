@@ -18,6 +18,27 @@ const {
 } = require("../utils/authTokenService");
 const { passwordResetTokenTtlMinutes, passwordResetUrl, emailOtpTtlMinutes } = require("../config/env");
 
+function buildDeletedEmailValue({ userId, email }) {
+  const timestamp = Date.now();
+  const localPart = String(email || "deleted").split("@")[0].replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 24) || "deleted";
+  return `deleted+${localPart}.${userId}.${timestamp}@orin.local`;
+}
+
+async function releaseDeletedEmailIfNeeded(email) {
+  const deletedUser = await User.findOne({ email, isDeleted: true }).select("_id email deletedEmail");
+  if (!deletedUser) return;
+
+  await User.updateOne(
+    { _id: deletedUser._id, email, isDeleted: true },
+    {
+      $set: {
+        deletedEmail: deletedUser.deletedEmail || deletedUser.email,
+        email: buildDeletedEmailValue({ userId: deletedUser._id, email })
+      }
+    }
+  );
+}
+
 async function persistRefreshToken({ user, refreshToken, req }) {
   const refreshTokenHash = hashToken(refreshToken);
   const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -71,6 +92,9 @@ exports.register = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(409, "User already exists");
   }
+
+  await releaseDeletedEmailIfNeeded(email);
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = new User({
@@ -88,7 +112,14 @@ exports.register = asyncHandler(async (req, res) => {
     emailVerificationOtpAttempts: 0
   });
 
-  await user.save();
+  try {
+    await user.save();
+  } catch (error) {
+    if (error?.code === 11000 && error?.keyPattern?.email) {
+      throw new ApiError(409, "An account with this email already exists");
+    }
+    throw error;
+  }
 
   if (normalizedRole === "student") {
     await StudentProfile.create({ userId: user._id });
@@ -362,6 +393,10 @@ exports.changePassword = asyncHandler(async (req, res) => {
   const valid = await bcrypt.compare(currentPassword, user.password);
   if (!valid) {
     throw new ApiError(400, "Current password is incorrect");
+  }
+
+  if (currentPassword === newPassword) {
+    throw new ApiError(400, "New password must be different from your current password");
   }
 
   user.password = await bcrypt.hash(newPassword, 10);

@@ -41,7 +41,8 @@ const resetPasswordSchema = Joi.object({
 
 const changePasswordSchema = Joi.object({
   currentPassword: Joi.string().min(8).max(128).required(),
-  newPassword: Joi.string().min(8).max(128).required()
+  newPassword: Joi.string().min(8).max(128).invalid(Joi.ref("currentPassword")).required()
+    .messages({ "any.invalid": "New password must be different from your current password" })
 });
 
 module.exports = {
