@@ -4,12 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const { port, mongoUri } = require("./config/env");
-const { canSendRealEmail, verifyEmailTransport } = require("./services/emailService");
 const corsOptions = require("./config/cors");
 
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-const emailAdminRoutes = require("./routes/emailAdminRoutes");
 const mentorRoutes = require("./routes/mentorRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const availabilityRoutes = require("./routes/availabilityRoutes");
@@ -67,7 +65,6 @@ app.get("/ready", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/admin/email", emailAdminRoutes);
 app.use("/api/mentors", mentorRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/availability", availabilityRoutes);
@@ -113,15 +110,6 @@ async function connectToDatabase() {
 async function startServer() {
   try {
     await connectToDatabase();
-
-    const emailStatus = await verifyEmailTransport();
-    if (canSendRealEmail() && emailStatus.ok) {
-      console.log("[EMAIL] SMTP ready");
-    } else if (canSendRealEmail()) {
-      console.warn(`[EMAIL] SMTP configured but not verified: ${emailStatus.message}`);
-    } else {
-      console.warn("[EMAIL] SMTP not fully configured; ORIN will not send real emails");
-    }
 
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
