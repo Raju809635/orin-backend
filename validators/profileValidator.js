@@ -4,6 +4,7 @@ const studentProfileUpdateSchema = Joi.object({
   profilePhotoUrl: Joi.string().allow("").optional(),
   headline: Joi.string().max(120).allow("").optional(),
   about: Joi.string().max(1000).allow("").optional(),
+  state: Joi.string().max(120).allow("").optional(),
   education: Joi.array()
     .items(
       Joi.object({
@@ -64,6 +65,7 @@ const studentProfileUpdateSchema = Joi.object({
 const mentorProfileUpdateSchema = Joi.object({
   profilePhotoUrl: Joi.string().allow("").optional(),
   title: Joi.string().max(120).allow("").optional(),
+  state: Joi.string().max(120).allow("").optional(),
   phoneNumber: Joi.string().max(30).allow("").optional(),
   company: Joi.string().max(120).allow("").optional(),
   experienceYears: Joi.number().min(0).max(80).optional(),
