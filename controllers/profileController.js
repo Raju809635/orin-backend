@@ -30,7 +30,38 @@ function toStringArray(value) {
     ? value
         .map((item) => String(item || "").trim())
         .filter(Boolean)
-    : [];
+      : [];
+}
+
+function normalizeStateName(value = "") {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+
+  const normalized = raw
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map((part) => part ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase() : "")
+    .join(" ")
+    .trim();
+
+  const aliases = new Map([
+    ["ap", "Andhra Pradesh"],
+    ["andhra", "Andhra Pradesh"],
+    ["andhra pradesh", "Andhra Pradesh"],
+    ["ts", "Telangana"],
+    ["telangana", "Telangana"],
+    ["tg", "Telangana"],
+    ["tn", "Tamil Nadu"],
+    ["tamil nadu", "Tamil Nadu"],
+    ["ka", "Karnataka"],
+    ["karnataka", "Karnataka"],
+    ["mh", "Maharashtra"],
+    ["maharashtra", "Maharashtra"],
+    ["dl", "Delhi"],
+    ["delhi", "Delhi"]
+  ]);
+
+  return aliases.get(normalized.toLowerCase()) || normalized;
 }
 
 function normalizeProject(project = {}) {
@@ -137,7 +168,7 @@ function normalizeStudentProfilePayload(payload = {}) {
       : [];
   }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
-    nextPayload.state = String(nextPayload.state || "").trim();
+    nextPayload.state = normalizeStateName(nextPayload.state);
   }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "payoutUpiId")) {
     nextPayload.payoutUpiId = String(nextPayload.payoutUpiId || "").trim();
@@ -192,7 +223,7 @@ function normalizeMentorProfilePayload(payload = {}) {
       : [];
   }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
-    nextPayload.state = String(nextPayload.state || "").trim();
+    nextPayload.state = normalizeStateName(nextPayload.state);
   }
 
   return nextPayload;

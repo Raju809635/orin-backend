@@ -27,6 +27,7 @@ const newsRoutes = require("./routes/newsRoutes");
 const metaRoutes = require("./routes/metaRoutes");
 const journeyStateRoutes = require("./routes/journeyStateRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const LeaderboardSnapshot = require("./models/LeaderboardSnapshot");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -107,9 +108,24 @@ async function connectToDatabase() {
   });
 }
 
+async function ensureLeaderboardSnapshotIndexes() {
+  const collection = LeaderboardSnapshot.collection;
+  const indexes = await collection.indexes();
+  const oldIndex = indexes.find((index) => index?.name === "dateKey_1_scope_1_collegeName_1");
+
+  if (oldIndex) {
+    await collection.dropIndex(oldIndex.name);
+    console.log("[DB] Dropped old leaderboard snapshot index:", oldIndex.name);
+  }
+
+  await LeaderboardSnapshot.syncIndexes();
+  console.log("[DB] Leaderboard snapshot indexes synced");
+}
+
 async function startServer() {
   try {
     await connectToDatabase();
+    await ensureLeaderboardSnapshotIndexes();
 
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
