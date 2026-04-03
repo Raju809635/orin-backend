@@ -4,6 +4,7 @@ const MentorProfile = require("../models/MentorProfile");
 const User = require("../models/User");
 const Connection = require("../models/Connection");
 const UserFollow = require("../models/UserFollow");
+const SkillEndorsement = require("../models/SkillEndorsement");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
@@ -423,7 +424,12 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
   const viewerId = String(req.user?.id || "");
   const targetUserId = String(user._id);
 
-  const [followers, following, acceptedConnections, isFollowing, followsYou, relation, followerRows, followingRows] =
+  const profileSkills =
+    user.role === "mentor"
+      ? Array.isArray(user.specializations) ? user.specializations.filter(Boolean) : []
+      : Array.isArray(profile?.skills) ? profile.skills.filter(Boolean) : [];
+
+  const [followers, following, acceptedConnections, isFollowing, followsYou, relation, followerRows, followingRows, endorsementRows, viewerEndorsements] =
     await Promise.all([
       UserFollow.countDocuments({ followingId: user._id }),
       UserFollow.countDocuments({ followerId: user._id }),
@@ -456,7 +462,32 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
         .populate("followingId", "name role")
         .sort({ createdAt: -1 })
         .limit(20)
-        .lean()
+        .lean(),
+      profileSkills.length
+        ? SkillEndorsement.aggregate([
+            {
+              $match: {
+                endorsedUserId: user._id,
+                skill: { $in: profileSkills }
+              }
+            },
+            {
+              $group: {
+                _id: "$skill",
+                count: { $sum: 1 }
+              }
+            }
+          ])
+        : [],
+      viewerId && viewerId !== targetUserId && profileSkills.length
+        ? SkillEndorsement.find({
+            endorsedUserId: user._id,
+            endorsedByUserId: viewerId,
+            skill: { $in: profileSkills }
+          })
+            .select("skill")
+            .lean()
+        : []
     ]);
 
   let connectionStatus = "none";
@@ -469,6 +500,17 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
       connectionStatus = relation.status;
     }
   }
+
+  const endorsementCounts = (endorsementRows || []).reduce((acc, item) => {
+    const key = String(item?._id || "").trim();
+    if (!key) return acc;
+    acc[key] = Number(item.count || 0);
+    return acc;
+  }, {});
+
+  const viewerEndorsedSkills = (viewerEndorsements || [])
+    .map((item) => String(item.skill || "").trim())
+    .filter(Boolean);
 
   res.json({
     user: {
@@ -494,6 +536,10 @@ exports.getPublicUserProfile = asyncHandler(async (req, res) => {
         .map((item) => item.followingId)
         .filter(Boolean)
         .map((row) => ({ _id: row._id, name: row.name, role: row.role }))
+    },
+    endorsements: {
+      counts: endorsementCounts,
+      viewerEndorsedSkills
     }
   });
 });
