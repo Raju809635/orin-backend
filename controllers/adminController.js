@@ -4,6 +4,7 @@ const Booking = require("../models/Booking");
 const Session = require("../models/Session");
 const Notification = require("../models/Notification");
 const AuditLog = require("../models/AuditLog");
+const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
 const CollaborateApplication = require("../models/CollaborateApplication");
 const FeedPost = require("../models/FeedPost");
@@ -24,6 +25,56 @@ const Bootcamp = require("../models/Bootcamp");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { issueCertificate } = require("../utils/certificateService");
+
+function roundCurrency(value) {
+  return Math.round(Number(value || 0) * 100) / 100;
+}
+
+function getResolvedSprintPayoutStatus(enrollment = {}, sprint = null) {
+  if (enrollment?.payoutStatus && enrollment.payoutStatus !== "not_ready") return enrollment.payoutStatus;
+  const isPaid = String(enrollment?.paymentStatus || "") === "paid";
+  const hasEnded = sprint?.endDate ? new Date(sprint.endDate).getTime() <= Date.now() : false;
+  return isPaid && hasEnded ? "pending" : "not_ready";
+}
+
+function getResolvedSprintMentorConfirmationStatus(enrollment = {}, sprint = null) {
+  if (enrollment?.mentorPayoutConfirmationStatus && enrollment.mentorPayoutConfirmationStatus !== "not_ready") {
+    return enrollment.mentorPayoutConfirmationStatus;
+  }
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, sprint);
+  if (payoutStatus === "paid") return "pending";
+  if (payoutStatus === "issue_reported") return "issue_reported";
+  return "not_ready";
+}
+
+function enrichSprintPayoutRecord(enrollment = {}, sprint = null, mentorPaymentDetails = null) {
+  const hasEnded = sprint?.endDate ? new Date(sprint.endDate).getTime() <= Date.now() : false;
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, sprint);
+  const mentorPayoutConfirmationStatus = getResolvedSprintMentorConfirmationStatus(enrollment, sprint);
+  const hasMentorPaymentDetails = Boolean(
+    mentorPaymentDetails?.upiId || mentorPaymentDetails?.qrCodeUrl || mentorPaymentDetails?.phoneNumber
+  );
+
+  return {
+    ...enrollment,
+    payoutStatus,
+    mentorPayoutConfirmationStatus,
+    payoutEligible: String(enrollment.paymentStatus || "") === "paid" && hasEnded,
+    hasMentorPaymentDetails,
+    canAdminMarkPayoutPaid:
+      String(enrollment.paymentStatus || "") === "paid" &&
+      hasEnded &&
+      hasMentorPaymentDetails &&
+      ["pending", "issue_reported"].includes(payoutStatus),
+    mentorPaymentDetails: mentorPaymentDetails || {
+      upiId: "",
+      qrCodeUrl: "",
+      phoneNumber: "",
+      title: "",
+      company: ""
+    }
+  };
+}
 
 exports.getPendingMentors = asyncHandler(async (req, res) => {
   const mentors = await User.find({
@@ -69,14 +120,32 @@ exports.getStudents = asyncHandler(async (req, res) => {
 });
 
 exports.getDemographics = asyncHandler(async (req, res) => {
-  const [roleCounts, mentorCategoryCounts, bookingStatusCounts] = await Promise.all([
+  const [roleCounts, mentorCategoryCounts, bookingStatusCounts, topStudentStates, topStudentColleges, topMentorStates] = await Promise.all([
     User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
     User.aggregate([
       { $match: { role: "mentor", approvalStatus: "approved" } },
       { $group: { _id: "$primaryCategory", count: { $sum: 1 } } },
       { $sort: { count: -1 } }
     ]),
-    Booking.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
+    Booking.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
+    StudentProfile.aggregate([
+      { $match: { state: { $exists: true, $nin: ["", null] } } },
+      { $group: { _id: "$state", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 8 }
+    ]),
+    StudentProfile.aggregate([
+      { $match: { collegeName: { $exists: true, $nin: ["", null] } } },
+      { $group: { _id: "$collegeName", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 8 }
+    ]),
+    MentorProfile.aggregate([
+      { $match: { state: { $exists: true, $nin: ["", null] } } },
+      { $group: { _id: "$state", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 8 }
+    ])
   ]);
 
   const [pendingMentors, approvedMentors, totalUsers, totalBookings, totalSessions, paidSessions, revenueRows] = await Promise.all([
@@ -131,7 +200,12 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     mentorCategories: mentorCategoryCounts.map((row) => ({
       category: row._id || "Unspecified",
       count: row.count
-    }))
+    })),
+    regionalReach: {
+      studentStates: topStudentStates.map((row) => ({ name: row._id || "Unspecified", count: row.count })),
+      studentColleges: topStudentColleges.map((row) => ({ name: row._id || "Unspecified", count: row.count })),
+      mentorStates: topMentorStates.map((row) => ({ name: row._id || "Unspecified", count: row.count }))
+    }
   });
 });
 
@@ -594,6 +668,36 @@ exports.getNetworkAdminSprints = asyncHandler(async (_req, res) => {
             $sum: {
               $cond: [{ $eq: ["$paymentStatus", "pending"] }, 1, 0]
             }
+          },
+          grossRevenue: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "paid"] }, "$amount", 0]
+            }
+          },
+          orinRevenue: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "paid"] }, "$platformFeeAmount", 0]
+            }
+          },
+          mentorRevenue: {
+            $sum: {
+              $cond: [{ $eq: ["$paymentStatus", "paid"] }, "$mentorPayoutAmount", 0]
+            }
+          },
+          payoutPendingCount: {
+            $sum: {
+              $cond: [{ $eq: ["$payoutStatus", "pending"] }, 1, 0]
+            }
+          },
+          payoutPaidCount: {
+            $sum: {
+              $cond: [{ $eq: ["$payoutStatus", "paid"] }, 1, 0]
+            }
+          },
+          payoutIssueCount: {
+            $sum: {
+              $cond: [{ $eq: ["$payoutStatus", "issue_reported"] }, 1, 0]
+            }
           }
         }
       }
@@ -606,7 +710,13 @@ exports.getNetworkAdminSprints = asyncHandler(async (_req, res) => {
       {
         totalEnrollments: Number(item.totalEnrollments || 0),
         paidEnrollments: Number(item.paidEnrollments || 0),
-        pendingEnrollments: Number(item.pendingEnrollments || 0)
+        pendingEnrollments: Number(item.pendingEnrollments || 0),
+        grossRevenue: roundCurrency(item.grossRevenue || 0),
+        orinRevenue: roundCurrency(item.orinRevenue || 0),
+        mentorRevenue: roundCurrency(item.mentorRevenue || 0),
+        payoutPendingCount: Number(item.payoutPendingCount || 0),
+        payoutPaidCount: Number(item.payoutPaidCount || 0),
+        payoutIssueCount: Number(item.payoutIssueCount || 0)
       }
     ])
   );
@@ -617,7 +727,13 @@ exports.getNetworkAdminSprints = asyncHandler(async (_req, res) => {
       enrollmentStats: enrollmentMap.get(String(sprint._id)) || {
         totalEnrollments: 0,
         paidEnrollments: 0,
-        pendingEnrollments: 0
+        pendingEnrollments: 0,
+        grossRevenue: 0,
+        orinRevenue: 0,
+        mentorRevenue: 0,
+        payoutPendingCount: 0,
+        payoutPaidCount: 0,
+        payoutIssueCount: 0
       }
     }))
   );
@@ -655,6 +771,106 @@ exports.reviewNetworkAdminSprint = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: action === "approve" ? "Sprint approved" : "Sprint rejected",
     sprint
+  });
+});
+
+exports.getNetworkAdminSprintPayouts = asyncHandler(async (_req, res) => {
+  const enrollments = await MentorSprintEnrollment.find({
+    paymentStatus: "paid"
+  })
+    .populate("studentId", "name email")
+    .populate("mentorId", "name email role")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl")
+    .populate("payoutPaidBy", "name email role")
+    .sort({ updatedAt: -1, createdAt: -1 })
+    .limit(300)
+    .lean();
+
+  const mentorIds = [...new Set(enrollments.map((item) => String(item.mentorId?._id || item.mentorId || "")).filter(Boolean))];
+  const mentorProfiles = await MentorProfile.find({ userId: { $in: mentorIds } })
+    .select("userId payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber title company")
+    .lean();
+  const mentorProfileMap = new Map(
+    mentorProfiles.map((item) => [
+      String(item.userId),
+      {
+        upiId: item.payoutUpiId || "",
+        qrCodeUrl: item.payoutQrCodeUrl || "",
+        phoneNumber: item.payoutPhoneNumber || item.phoneNumber || "",
+        title: item.title || "",
+        company: item.company || ""
+      }
+    ])
+  );
+
+  const enriched = enrollments.map((item) => {
+    const mentorId = String(item.mentorId?._id || item.mentorId || "");
+    return enrichSprintPayoutRecord(item, item.sprintId, mentorProfileMap.get(mentorId) || null);
+  });
+
+  res.status(200).json(enriched);
+});
+
+exports.markNetworkAdminSprintPayoutPaid = asyncHandler(async (req, res) => {
+  const { enrollmentId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  const enrollment = await MentorSprintEnrollment.findById(enrollmentId)
+    .populate("mentorId", "name email role")
+    .populate("studentId", "name email")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl");
+  if (!enrollment) throw new ApiError(404, "Sprint enrollment not found");
+
+  const mentorProfile = await MentorProfile.findOne({ userId: enrollment.mentorId?._id || enrollment.mentorId })
+    .select("payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber title company")
+    .lean();
+
+  const payoutDetails = {
+    upiId: mentorProfile?.payoutUpiId || "",
+    qrCodeUrl: mentorProfile?.payoutQrCodeUrl || "",
+    phoneNumber: mentorProfile?.payoutPhoneNumber || mentorProfile?.phoneNumber || "",
+    title: mentorProfile?.title || "",
+    company: mentorProfile?.company || ""
+  };
+
+  if (String(enrollment.paymentStatus || "") !== "paid") {
+    throw new ApiError(400, "Sprint enrollment payment is not verified");
+  }
+
+  if (!(enrollment.sprintId?.endDate && new Date(enrollment.sprintId.endDate).getTime() <= Date.now())) {
+    throw new ApiError(400, "Sprint must end before payout");
+  }
+
+  if (!(payoutDetails.upiId || payoutDetails.qrCodeUrl || payoutDetails.phoneNumber)) {
+    throw new ApiError(400, "Mentor payout setup is missing");
+  }
+
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, enrollment.sprintId);
+  if (!["pending", "issue_reported"].includes(payoutStatus)) {
+    throw new ApiError(400, "Payout is not pending");
+  }
+
+  enrollment.payoutStatus = "paid";
+  enrollment.mentorPayoutConfirmationStatus = "pending";
+  enrollment.payoutPaidAt = new Date();
+  enrollment.payoutPaidBy = req.user.id;
+  enrollment.payoutReference = String(req.body?.reference || "").trim();
+  enrollment.payoutNote = String(req.body?.note || "").trim();
+  enrollment.mentorPayoutIssueNote = "";
+  await enrollment.save();
+
+  await Notification.create({
+    title: "Sprint Payout Sent",
+    message: "ORIN marked your sprint payout as sent. Please confirm after you receive it.",
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "mentor",
+    recipient: enrollment.mentorId?._id || enrollment.mentorId
+  });
+
+  res.status(200).json({
+    message: "Sprint payout marked as paid",
+    enrollment: enrichSprintPayoutRecord(enrollment.toObject(), enrollment.sprintId, payoutDetails)
   });
 });
 
@@ -951,6 +1167,45 @@ exports.reviewNetworkAdminCertificationRequest = asyncHandler(async (req, res) =
 
   await doc.save();
   res.status(200).json({ message: "Request reviewed", request: doc });
+});
+
+exports.issueNetworkAdminCertificate = asyncHandler(async (req, res) => {
+  const userId = String(req.body?.userId || "").trim();
+  const userEmail = String(req.body?.userEmail || "").trim().toLowerCase();
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const level = String(req.body?.level || "Beginner").trim();
+  const source = String(req.body?.source || "Admin Verified").trim();
+
+  if (!title) throw new ApiError(400, "title is required");
+  if (!userId && !userEmail) throw new ApiError(400, "userId or userEmail is required");
+
+  const query = userId && mongoose.Types.ObjectId.isValid(userId) ? { _id: userId } : { email: userEmail };
+  const user = await User.findOne(query).select("_id name email role").lean();
+  if (!user) throw new ApiError(404, "User not found");
+
+  const { certificate, created } = await issueCertificate({
+    userId: user._id,
+    userName: user.name || "",
+    title,
+    type: "manual",
+    issuedBy: "ORIN Admin",
+    source,
+    level,
+    domain,
+    referenceType: "manual",
+    referenceId: `${String(user._id)}:${title.toLowerCase()}`,
+    metadata: {
+      domain,
+      level
+    },
+    status: "approved"
+  });
+
+  res.status(created ? 201 : 200).json({
+    message: created ? "Certificate issued" : "Certificate already exists",
+    certificate
+  });
 });
 
 exports.getNetworkAdminBootcamps = asyncHandler(async (_req, res) => {

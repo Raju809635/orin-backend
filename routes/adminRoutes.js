@@ -28,6 +28,8 @@ const {
   getNetworkAdminSprints,
   toggleNetworkAdminSprint,
   reviewNetworkAdminSprint,
+  getNetworkAdminSprintPayouts,
+  markNetworkAdminSprintPayoutPaid,
   getNetworkAdminChallenges,
   toggleNetworkAdminChallenge,
   createNetworkAdminChallenge,
@@ -43,6 +45,7 @@ const {
   createNetworkAdminCertificationTrack,
   getNetworkAdminCertificationRequests,
   reviewNetworkAdminCertificationRequest,
+  issueNetworkAdminCertificate,
   getNetworkAdminBootcamps,
   createNetworkAdminBootcamp,
   toggleNetworkAdminBootcamp
@@ -91,6 +94,8 @@ router.patch("/network/live-sessions/:liveSessionId/review", verifyToken, author
 router.get("/network/sprints", verifyToken, authorizeRoles("admin"), getNetworkAdminSprints);
 router.patch("/network/sprints/:sprintId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminSprint);
 router.patch("/network/sprints/:sprintId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminSprint);
+router.get("/network/sprint-payouts", verifyToken, authorizeRoles("admin"), getNetworkAdminSprintPayouts);
+router.patch("/network/sprint-payouts/:enrollmentId/pay", verifyToken, authorizeRoles("admin"), markNetworkAdminSprintPayoutPaid);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);
@@ -114,5 +119,6 @@ router.patch("/network/certification-tracks/:trackId/toggle", verifyToken, autho
 
 router.get("/network/certification-requests", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationRequests);
 router.patch("/network/certification-requests/:requestId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminCertificationRequest);
+router.post("/network/certificates/issue", verifyToken, authorizeRoles("admin"), issueNetworkAdminCertificate);
 
 module.exports = router;
