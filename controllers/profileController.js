@@ -255,17 +255,24 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
   ]);
 
   const profile = await upsertProfileDocument(StudentProfile, req.user.id, nextPayload);
+  const resolvedProfile = {
+    ...profile,
+    state:
+      Object.prototype.hasOwnProperty.call(nextPayload, "state")
+        ? nextPayload.state
+        : String(profile?.state || "").trim()
+  };
 
   await createAuditLog({
     req,
     actorId: req.user.id,
     action: "profile.student.update",
     entityType: "StudentProfile",
-    entityId: profile?._id,
-    metadata: { profileCompleteness: profile?.profileCompleteness || nextPayload.profileCompleteness }
+    entityId: resolvedProfile?._id,
+    metadata: { profileCompleteness: resolvedProfile?.profileCompleteness || nextPayload.profileCompleteness }
   });
 
-  res.json({ message: "Student profile updated", profile });
+  res.json({ message: "Student profile updated", profile: resolvedProfile });
 });
 
 exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
@@ -341,6 +348,13 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   ]);
 
   const profile = await upsertProfileDocument(MentorProfile, req.user.id, nextPayload);
+  const resolvedProfile = {
+    ...profile,
+    state:
+      Object.prototype.hasOwnProperty.call(nextPayload, "state")
+        ? nextPayload.state
+        : String(profile?.state || "").trim()
+  };
 
   const userUpdates = {};
   if (Object.prototype.hasOwnProperty.call(nextPayload, "primaryCategory")) {
@@ -378,11 +392,11 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     actorId: req.user.id,
     action: "profile.mentor.update",
     entityType: "MentorProfile",
-    entityId: profile?._id,
-    metadata: { profileCompleteness: profile?.profileCompleteness || nextPayload.profileCompleteness }
+    entityId: resolvedProfile?._id,
+    metadata: { profileCompleteness: resolvedProfile?.profileCompleteness || nextPayload.profileCompleteness }
   });
 
-  res.json({ message: "Mentor profile updated", profile });
+  res.json({ message: "Mentor profile updated", profile: resolvedProfile });
 });
 
 exports.getPublicMentorProfileV2 = asyncHandler(async (req, res) => {

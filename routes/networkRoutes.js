@@ -31,6 +31,8 @@ const {
   submitMentorReview,
   getMentorReviews,
   getCareerRoadmap,
+  startCareerRoadmapMission,
+  submitCareerRoadmapProof,
   getCareerOpportunities,
   submitCareerOpportunity,
   getCollegeLeaderboard,
@@ -42,11 +44,15 @@ const {
   verifyLiveSessionPayment,
   cancelLiveSessionBooking,
   getSprints,
+  getSprintDetail,
   createSprint,
   bookSprint,
   retrySprintPaymentOrder,
   verifySprintPayment,
   cancelSprintEnrollment,
+  getMentorSprintPayouts,
+  confirmSprintPayoutReceived,
+  reportSprintPayoutIssue,
   generateResume,
   downloadResumePdf,
   getSkillGapAnalysis,
@@ -110,6 +116,8 @@ router.patch("/session-history/:sessionId/note", verifyToken, authorizeRoles("st
 router.post("/sessions/:sessionId/review", verifyToken, authorizeRoles("student"), submitMentorReview);
 router.get("/mentors/:mentorId/reviews", verifyToken, authorizeRoles("student", "mentor"), getMentorReviews);
 router.get("/career-roadmap", verifyToken, authorizeRoles("student"), getCareerRoadmap);
+router.post("/career-roadmap/:stepId/start", verifyToken, authorizeRoles("student"), startCareerRoadmapMission);
+router.post("/career-roadmap/:stepId/submit-proof", verifyToken, authorizeRoles("student"), submitCareerRoadmapProof);
 router.get("/opportunities", verifyToken, authorizeRoles("student", "mentor"), getCareerOpportunities);
 router.post("/opportunities/submit", verifyToken, authorizeRoles("mentor"), submitCareerOpportunity);
 router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), getCollegeLeaderboard);
@@ -121,12 +129,17 @@ router.post("/live-sessions/bookings/:bookingId/retry-order", verifyToken, autho
 router.post("/live-sessions/verify-payment", verifyToken, authorizeRoles("student"), verifyLiveSessionPayment);
 router.patch("/live-sessions/bookings/:bookingId/cancel", verifyToken, authorizeRoles("student"), cancelLiveSessionBooking);
 router.get("/sprints", verifyToken, authorizeRoles("student", "mentor"), getSprints);
+router.get("/sprints/mentor/payouts", verifyToken, authorizeRoles("mentor"), getMentorSprintPayouts);
+router.get("/sprints/:sprintId", verifyToken, authorizeRoles("student", "mentor"), getSprintDetail);
 router.post("/sprints", verifyToken, authorizeRoles("mentor"), createSprint);
 router.post("/sprints/:sprintId/book", verifyToken, authorizeRoles("student"), bookSprint);
 router.post("/sprints/enrollments/:enrollmentId/retry-order", verifyToken, authorizeRoles("student"), retrySprintPaymentOrder);
 router.post("/sprints/verify-payment", verifyToken, authorizeRoles("student"), verifySprintPayment);
 router.patch("/sprints/enrollments/:enrollmentId/cancel", verifyToken, authorizeRoles("student"), cancelSprintEnrollment);
+router.patch("/sprints/enrollments/:enrollmentId/payout/confirm", verifyToken, authorizeRoles("mentor"), confirmSprintPayoutReceived);
+router.patch("/sprints/enrollments/:enrollmentId/payout/report-issue", verifyToken, authorizeRoles("mentor"), reportSprintPayoutIssue);
 router.get("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
+router.post("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
 router.get("/resume/pdf", verifyToken, authorizeRoles("student", "mentor"), downloadResumePdf);
 router.get("/skill-gap", verifyToken, authorizeRoles("student"), getSkillGapAnalysis);
 router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor"), getVerifiedMentors);

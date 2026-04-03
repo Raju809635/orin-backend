@@ -6,6 +6,43 @@ function normalizeList(items = []) {
   return [...new Set((items || []).map((item) => String(item || "").trim()).filter(Boolean))];
 }
 
+function normalizeKey(value = "") {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+function buildRoadmapSteps(nextTitles = [], existingSteps = []) {
+  const existingByKey = new Map();
+  (existingSteps || []).forEach((step, index) => {
+    const key = normalizeKey(step?.title) || `step-${index + 1}`;
+    if (!existingByKey.has(key)) existingByKey.set(key, step);
+  });
+
+  return (nextTitles || []).map((title, index) => {
+    const normalizedTitle = String(title || "").trim();
+    const key = normalizeKey(normalizedTitle) || `step-${index + 1}`;
+    const existing = existingByKey.get(key);
+    const isFirst = index === 0;
+
+    return {
+      id: existing?.id || `step-${index + 1}`,
+      title: normalizedTitle,
+      status: existing?.status || (isFirst ? "active" : "locked"),
+      priority: index + 1,
+      xpReward: Number(existing?.xpReward || 20),
+      startedAt: existing?.startedAt || null,
+      completedAt: existing?.completedAt || null,
+      unlockedAt: existing?.unlockedAt || (isFirst ? new Date() : null),
+      proofStatus: existing?.proofStatus || "not_submitted",
+      proofText: existing?.proofText || "",
+      proofLink: existing?.proofLink || "",
+      proofImageUrl: existing?.proofImageUrl || "",
+      proofSubmittedAt: existing?.proofSubmittedAt || null
+    };
+  });
+}
+
 function inferSkillLevel({ knownSkills = [], missingSkills = [], readinessScore = 0 }) {
   if (readinessScore >= 70 || knownSkills.length >= 8) return "advanced";
   if (readinessScore >= 35 || knownSkills.length >= 4 || missingSkills.length <= 4) return "intermediate";
@@ -80,13 +117,7 @@ async function updateSkillProfile(userId, payload = {}, fallbackRole = "student"
   };
 
   if (payload.roadmapSteps) {
-    const steps = (payload.roadmapSteps || []).map((title, index) => ({
-      id: `step-${index + 1}`,
-      title: String(title || "").trim(),
-      status: index === 0 ? "active" : "locked",
-      priority: index + 1,
-      xpReward: 20
-    }));
+    const steps = buildRoadmapSteps(payload.roadmapSteps || [], state.roadmap?.steps || []);
     state.roadmap = {
       ...state.roadmap.toObject?.() || state.roadmap,
       roadmapId: String(payload.roadmapId || state.roadmap?.roadmapId || state.goal?.title || "journey").trim(),

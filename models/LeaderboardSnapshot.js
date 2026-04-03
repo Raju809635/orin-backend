@@ -9,11 +9,15 @@ const leaderboardSnapshotSchema = new mongoose.Schema(
     },
     scope: {
       type: String,
-      enum: ["global", "college"],
+      enum: ["global", "college", "state"],
       default: "global",
       index: true
     },
     collegeName: {
+      type: String,
+      default: ""
+    },
+    stateName: {
       type: String,
       default: ""
     },
@@ -31,6 +35,6 @@ const leaderboardSnapshotSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-leaderboardSnapshotSchema.index({ dateKey: 1, scope: 1, collegeName: 1 }, { unique: true });
+leaderboardSnapshotSchema.index({ dateKey: 1, scope: 1, collegeName: 1, stateName: 1 }, { unique: true });
 
 module.exports = mongoose.model("LeaderboardSnapshot", leaderboardSnapshotSchema);

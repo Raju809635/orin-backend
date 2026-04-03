@@ -10,7 +10,19 @@ const roadmapStepSchema = new mongoose.Schema(
       default: "locked"
     },
     priority: { type: Number, default: 0 },
-    xpReward: { type: Number, default: 0 }
+    xpReward: { type: Number, default: 0 },
+    startedAt: { type: Date, default: null },
+    completedAt: { type: Date, default: null },
+    unlockedAt: { type: Date, default: null },
+    proofStatus: {
+      type: String,
+      enum: ["not_submitted", "submitted", "approved"],
+      default: "not_submitted"
+    },
+    proofText: { type: String, default: "" },
+    proofLink: { type: String, default: "" },
+    proofImageUrl: { type: String, default: "" },
+    proofSubmittedAt: { type: Date, default: null }
   },
   { _id: false }
 );

@@ -30,8 +30,9 @@ const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { issueCertificate } = require("../utils/certificateService");
 const { createAuditLog } = require("../services/auditService");
+const { requestAiResponse } = require("../services/aiService");
 const { mentorCategoryTree } = require("../config/mentorCategories");
-const { getJourneyState, updateSkillProfile } = require("../services/journeyStateService");
+const { getJourneyState, updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
 const { createRazorpayOrder, verifyRazorpaySignature, razorpayKeyId } = require("../services/paymentService");
 const { paymentMode, manualPaymentWindowMinutes } = require("../config/env");
 
@@ -47,7 +48,10 @@ const STREAK_BONUS_XP = {
   7: 50,
   30: 200
 };
+const ROADMAP_STEP_LOCK_HOURS = 24;
 const QUIZ_DAILY_LIMIT_MESSAGE = "You have completed today's quiz. Come back tomorrow.";
+const QUIZ_AI_RECENT_ATTEMPTS_LIMIT = 8;
+const QUIZ_AI_POOL_SIZE = 9;
 const REACTION_TYPES = ["like", "love", "care", "haha", "wow", "sad", "angry"];
 const SPRINT_PLATFORM_FEE_PERCENT = 40;
 const SPRINT_MENTOR_SHARE_PERCENT = 60;
@@ -116,6 +120,103 @@ function roundCurrency(value) {
   return Math.round(Number(value || 0) * 100) / 100;
 }
 
+function normalizeRoadmapStep(step = {}, index = 0) {
+  return {
+    id: String(step?.id || `step-${index + 1}`),
+    title: String(step?.title || "").trim(),
+    status: String(step?.status || "locked"),
+    priority: Number(step?.priority || index + 1),
+    xpReward: Number(step?.xpReward || 20),
+    startedAt: step?.startedAt ? new Date(step.startedAt) : null,
+    completedAt: step?.completedAt ? new Date(step.completedAt) : null,
+    unlockedAt: step?.unlockedAt ? new Date(step.unlockedAt) : null,
+    proofStatus: String(step?.proofStatus || "not_submitted"),
+    proofText: String(step?.proofText || ""),
+    proofLink: String(step?.proofLink || ""),
+    proofImageUrl: String(step?.proofImageUrl || ""),
+    proofSubmittedAt: step?.proofSubmittedAt ? new Date(step.proofSubmittedAt) : null
+  };
+}
+
+function syncRoadmapState(roadmap = {}) {
+  const now = new Date();
+  const lockMs = ROADMAP_STEP_LOCK_HOURS * 60 * 60 * 1000;
+  const rawSteps = Array.isArray(roadmap?.steps) ? roadmap.steps : [];
+  const steps = rawSteps.map((step, index) => normalizeRoadmapStep(step, index));
+  let changed = false;
+  let progressPercent = 0;
+  let currentStepId = "";
+
+  steps.forEach((step, index) => {
+    const previous = index > 0 ? steps[index - 1] : null;
+
+    if (step.completedAt) {
+      step.status = "completed";
+      if (step.proofStatus === "not_submitted") step.proofStatus = "approved";
+      return;
+    }
+
+    const availableFrom =
+      index === 0
+        ? step.unlockedAt || now
+        : previous?.completedAt
+          ? new Date(previous.completedAt.getTime() + lockMs)
+          : null;
+
+    if (!step.unlockedAt || Number(step.unlockedAt) !== Number(availableFrom || null)) {
+      step.unlockedAt = availableFrom;
+      changed = true;
+    }
+
+    const isUnlocked = Boolean(availableFrom) && availableFrom.getTime() <= now.getTime();
+    const shouldBeActive = !currentStepId && isUnlocked;
+    const nextStatus = shouldBeActive ? "active" : "locked";
+
+    if (step.status !== nextStatus) {
+      step.status = nextStatus;
+      changed = true;
+    }
+
+    if (shouldBeActive) currentStepId = step.id;
+  });
+
+  const completedCount = steps.filter((step) => step.status === "completed").length;
+  progressPercent = steps.length ? Math.round((completedCount / steps.length) * 100) : 0;
+
+  if (!currentStepId) {
+    currentStepId = steps.find((step) => step.status === "active")?.id || "";
+  }
+
+  return {
+    steps,
+    changed,
+    progressPercent,
+    currentStepId
+  };
+}
+
+async function persistSyncedRoadmapState(state) {
+  const synced = syncRoadmapState(state?.roadmap || {});
+  if (!state?.roadmap) {
+    state.roadmap = {
+      roadmapId: "",
+      steps: [],
+      progressPercent: 0,
+      currentStepId: "",
+      updatedAt: null
+    };
+  }
+
+  state.roadmap.steps = synced.steps;
+  state.roadmap.progressPercent = synced.progressPercent;
+  state.roadmap.currentStepId = synced.currentStepId;
+  if (synced.changed) {
+    state.roadmap.updatedAt = new Date();
+    await state.save();
+  }
+  return synced;
+}
+
 function buildSprintRevenueSnapshot(amount) {
   const normalizedAmount = Math.max(Number(amount || 0), 0);
   const platformFeeAmount = roundCurrency((normalizedAmount * SPRINT_PLATFORM_FEE_PERCENT) / 100);
@@ -134,6 +235,99 @@ function createLivePaymentDueAt() {
 
 function createSprintPaymentDueAt() {
   return new Date(Date.now() + manualPaymentWindowMinutes * 60 * 1000);
+}
+
+function getResolvedSprintPayoutStatus(enrollment = {}, sprint = null) {
+  if (enrollment?.payoutStatus && enrollment.payoutStatus !== "not_ready") return enrollment.payoutStatus;
+  const isPaid = String(enrollment?.paymentStatus || "") === "paid";
+  const hasEnded = sprint?.endDate ? new Date(sprint.endDate).getTime() <= Date.now() : false;
+  return isPaid && hasEnded ? "pending" : "not_ready";
+}
+
+function getResolvedSprintMentorConfirmationStatus(enrollment = {}, sprint = null) {
+  if (enrollment?.mentorPayoutConfirmationStatus && enrollment.mentorPayoutConfirmationStatus !== "not_ready") {
+    return enrollment.mentorPayoutConfirmationStatus;
+  }
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, sprint);
+  if (payoutStatus === "paid") return "pending";
+  if (payoutStatus === "issue_reported") return "issue_reported";
+  return "not_ready";
+}
+
+function buildSprintEnrollmentFinancials(enrollment = {}, sprint = null) {
+  const snapshot = buildSprintRevenueSnapshot(enrollment.amount || 0);
+  return {
+    amount: roundCurrency(enrollment.amount || 0),
+    platformFeePercent: Number(enrollment.platformFeePercent || snapshot.platformFeePercent),
+    mentorSharePercent: Number(enrollment.mentorSharePercent || snapshot.mentorSharePercent),
+    platformFeeAmount: roundCurrency(enrollment.platformFeeAmount || snapshot.platformFeeAmount),
+    mentorPayoutAmount: roundCurrency(enrollment.mentorPayoutAmount || snapshot.mentorPayoutAmount),
+    payoutStatus: getResolvedSprintPayoutStatus(enrollment, sprint),
+    mentorPayoutConfirmationStatus: getResolvedSprintMentorConfirmationStatus(enrollment, sprint)
+  };
+}
+
+async function getSprintMentorPayoutProfiles(mentorIds = []) {
+  if (!mentorIds.length) return new Map();
+  const rows = await MentorProfile.find({ userId: { $in: mentorIds } })
+    .select("userId payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber title company")
+    .lean();
+
+  return new Map(
+    rows.map((item) => [
+      String(item.userId),
+      {
+        upiId: item.payoutUpiId || "",
+        qrCodeUrl: item.payoutQrCodeUrl || "",
+        phoneNumber: item.payoutPhoneNumber || item.phoneNumber || "",
+        title: item.title || "",
+        company: item.company || ""
+      }
+    ])
+  );
+}
+
+function enrichSprintEnrollmentForPayout(enrollment = {}, sprint = null, mentorPaymentDetails = null) {
+  const financials = buildSprintEnrollmentFinancials(enrollment, sprint);
+  const isPaid = String(enrollment?.paymentStatus || "") === "paid";
+  const hasEnded = sprint?.endDate ? new Date(sprint.endDate).getTime() <= Date.now() : false;
+  const hasMentorPaymentDetails = Boolean(
+    mentorPaymentDetails?.upiId || mentorPaymentDetails?.qrCodeUrl || mentorPaymentDetails?.phoneNumber
+  );
+
+  return {
+    ...enrollment,
+    ...financials,
+    sprintId: sprint
+      ? {
+          _id: sprint._id,
+          title: sprint.title,
+          startDate: sprint.startDate,
+          endDate: sprint.endDate,
+          sessionMode: sprint.sessionMode,
+          price: sprint.price,
+          currency: sprint.currency,
+          posterImageUrl: sprint.posterImageUrl || ""
+        }
+      : enrollment.sprintId,
+    mentorPaymentDetails: mentorPaymentDetails || {
+      upiId: "",
+      qrCodeUrl: "",
+      phoneNumber: "",
+      title: "",
+      company: ""
+    },
+    payoutEligible: isPaid && hasEnded,
+    hasMentorPaymentDetails,
+    canAdminMarkPayoutPaid:
+      isPaid &&
+      hasEnded &&
+      hasMentorPaymentDetails &&
+      ["pending", "issue_reported"].includes(financials.payoutStatus),
+    canMentorConfirmPayout:
+      financials.payoutStatus === "paid" &&
+      ["pending", "issue_reported"].includes(financials.mentorPayoutConfirmationStatus)
+  };
 }
 
 function normalizeLiveSessionPayload(item, reqUserId, bookingBySessionId = new Map()) {
@@ -182,6 +376,7 @@ function normalizeSprintPayload(item, reqUserId, enrollmentBySprintId = new Map(
   const enrollment = enrollmentBySprintId.get(String(item._id || item.id || ""));
   const startDate = item.startDate ? new Date(item.startDate) : null;
   const endDate = item.endDate ? new Date(item.endDate) : null;
+  const enrollmentFinancials = enrollment ? buildSprintEnrollmentFinancials(enrollment, item) : null;
   return {
     id: item._id || item.id,
     title: item.title,
@@ -223,7 +418,12 @@ function normalizeSprintPayload(item, reqUserId, enrollmentBySprintId = new Map(
           paymentMode: enrollment.paymentMode,
           paymentStatus: enrollment.paymentStatus,
           enrollmentStatus: enrollment.enrollmentStatus,
-          paymentDueAt: enrollment.paymentDueAt || null
+          paymentDueAt: enrollment.paymentDueAt || null,
+          amount: enrollmentFinancials?.amount || Number(enrollment.amount || 0),
+          mentorPayoutAmount: enrollmentFinancials?.mentorPayoutAmount || Number(enrollment.mentorPayoutAmount || 0),
+          platformFeeAmount: enrollmentFinancials?.platformFeeAmount || Number(enrollment.platformFeeAmount || 0),
+          payoutStatus: enrollmentFinancials?.payoutStatus || "not_ready",
+          mentorPayoutConfirmationStatus: enrollmentFinancials?.mentorPayoutConfirmationStatus || "not_ready"
         }
       : null
   };
@@ -2271,6 +2471,194 @@ function generateQuestionPool({ domain, skills, quizContext }) {
   return pool;
 }
 
+function extractJsonFromAiText(answer = "") {
+  const text = String(answer || "").trim();
+  if (!text) throw new Error("AI returned an empty quiz response.");
+
+  try {
+    return JSON.parse(text);
+  } catch (_error) {
+    const fencedMatch = text.match(/```json\s*([\s\S]*?)```/i) || text.match(/```\s*([\s\S]*?)```/i);
+    if (fencedMatch?.[1]) {
+      return JSON.parse(fencedMatch[1].trim());
+    }
+
+    const objectStart = text.indexOf("{");
+    const arrayStart = text.indexOf("[");
+    const start = objectStart === -1 ? arrayStart : arrayStart === -1 ? objectStart : Math.min(objectStart, arrayStart);
+    const end = Math.max(text.lastIndexOf("}"), text.lastIndexOf("]"));
+    if (start >= 0 && end > start) {
+      return JSON.parse(text.slice(start, end + 1));
+    }
+    throw _error;
+  }
+}
+
+function normalizeQuizDifficulty(value, fallback = "medium") {
+  const next = String(value || "").trim().toLowerCase();
+  return ["easy", "medium", "hard"].includes(next) ? next : fallback;
+}
+
+function normalizeQuizQuestionOption(value = "") {
+  return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function normalizeGeneratedQuizQuestion(item = {}, index = 0, domain = "General", fallbackDifficulty = "medium") {
+  const options = Array.isArray(item.options)
+    ? item.options.map((option) => normalizeQuizQuestionOption(option)).filter(Boolean)
+    : [];
+  const correctOption = normalizeQuizQuestionOption(item.correctOption || item.correct);
+  const question = String(item.question || "").replace(/\s+/g, " ").trim();
+  const skill = String(item.skill || "General").replace(/\s+/g, " ").trim() || "General";
+  const explanation = String(item.explanation || "").replace(/\s+/g, " ").trim();
+  const uniqueOptions = [...new Set(options)];
+
+  return {
+    id: `${normalizeText(domain)}-ai-${normalizeText(skill || "general")}-${normalizeQuizDifficulty(item.difficulty, fallbackDifficulty)}-${index + 1}`,
+    question,
+    options: uniqueOptions,
+    correct: correctOption,
+    difficulty: normalizeQuizDifficulty(item.difficulty, fallbackDifficulty),
+    explanation,
+    skill
+  };
+}
+
+function isValidGeneratedQuizQuestion(question = {}) {
+  if (!question.question || question.question.length < 12) return false;
+  if (!Array.isArray(question.options) || question.options.length !== 4) return false;
+  if (!question.correct || !question.options.includes(question.correct)) return false;
+  return new Set(question.options).size === 4;
+}
+
+function buildQuizDifficultyPlan(startDifficulty = "medium", total = QUIZ_AI_POOL_SIZE) {
+  const normalized = normalizeQuizDifficulty(startDifficulty, "medium");
+  const plans = {
+    easy: ["easy", "easy", "medium", "easy", "medium", "hard", "medium", "easy", "hard"],
+    medium: ["easy", "medium", "medium", "hard", "medium", "easy", "hard", "medium", "hard"],
+    hard: ["medium", "hard", "hard", "medium", "hard", "easy", "hard", "medium", "medium"]
+  };
+  return (plans[normalized] || plans.medium).slice(0, total);
+}
+
+async function buildQuizHistoryContext(userId, domain) {
+  const recentAttempts = await QuizAttempt.find({ userId })
+    .select("domain score answers createdAt")
+    .sort({ createdAt: -1 })
+    .limit(QUIZ_AI_RECENT_ATTEMPTS_LIMIT)
+    .lean();
+
+  const recentDomains = [];
+  const weakSkills = [];
+  const strongSkills = [];
+  const seenWeak = new Set();
+  const seenStrong = new Set();
+
+  recentAttempts.forEach((attempt) => {
+    if (attempt?.domain) recentDomains.push(String(attempt.domain));
+    (attempt?.answers || []).forEach((answer) => {
+      const skillName = String(answer?.skillName || "").trim();
+      if (!skillName) return;
+      if (answer?.isCorrect) {
+        if (!seenStrong.has(normalizeText(skillName))) {
+          seenStrong.add(normalizeText(skillName));
+          strongSkills.push(skillName);
+        }
+      } else if (!seenWeak.has(normalizeText(skillName))) {
+        seenWeak.add(normalizeText(skillName));
+        weakSkills.push(skillName);
+      }
+    });
+  });
+
+  const sameDomainAttempts = recentAttempts.filter((attempt) => normalizeText(attempt?.domain) === normalizeText(domain));
+
+  return {
+    recentDomains: recentDomains.slice(0, 5),
+    weakSkills: weakSkills.slice(0, 6),
+    strongSkills: strongSkills.slice(0, 6),
+    recentAttemptSummaries: sameDomainAttempts.slice(0, 4).map((attempt) => ({
+      score: Number(attempt?.score || 0),
+      askedSkills: (attempt?.answers || []).map((answer) => String(answer?.skillName || "").trim()).filter(Boolean)
+    }))
+  };
+}
+
+async function generateAiQuestionPool({ userId, domain, quizContext, startDifficulty, desiredCount = QUIZ_AI_POOL_SIZE, fallbackSkills = [] }) {
+  const history = await buildQuizHistoryContext(userId, domain);
+  const difficultyPlan = buildQuizDifficultyPlan(startDifficulty, desiredCount);
+  const focusSkills = normalizeList([
+    ...(history.weakSkills || []),
+    ...(quizContext?.profileSkills || []),
+    ...(quizContext?.specializations || []),
+    ...fallbackSkills
+  ]).slice(0, 6);
+
+  const message = [
+    "Generate a daily quiz for an ORIN student.",
+    "Return valid JSON only. No markdown, no explanation outside JSON.",
+    "Use this exact shape:",
+    '{"questions":[{"question":"...","options":["...","...","...","..."],"correctOption":"...","difficulty":"easy|medium|hard","skill":"...","explanation":"..."}]}',
+    `Create exactly ${desiredCount} unique MCQ questions for the domain "${domain}".`,
+    `Difficulty plan in order: ${difficultyPlan.join(", ")}.`,
+    `Preferred sub-category: ${quizContext?.subCategory || "General"}.`,
+    `Preferred specializations: ${(quizContext?.specializations || []).join(", ") || "None"}.`,
+    `Career goal hint: ${quizContext?.careerGoal || "Not specified"}.`,
+    `Focus skills: ${focusSkills.join(", ") || "General aptitude within the domain"}.`,
+    `Avoid repeating recently used domains: ${(history.recentDomains || []).join(", ") || "None"}.`,
+    `Avoid repeating recently weak/questioned skills too literally: ${(history.recentAttemptSummaries || []).map((attempt) => attempt.askedSkills.join(", ")).join(" | ") || "None"}.`,
+    "Each question must have exactly 4 options and exactly 1 correct option.",
+    "Questions must be student-friendly, interview/placement style where relevant, and factually safe.",
+    "Do not use placeholders like Option A/B/C/D without real content."
+  ].join("\n");
+
+  const { answer, provider, model } = await requestAiResponse({
+    role: "student",
+    message,
+    context: {
+      assistantMode: "general",
+      feature: "daily_quiz_generation",
+      domain,
+      subCategory: quizContext?.subCategory || "",
+      specializations: quizContext?.specializations || [],
+      careerGoal: quizContext?.careerGoal || "",
+      startDifficulty,
+      focusSkills,
+      recentDomains: history.recentDomains || [],
+      weakSkills: history.weakSkills || [],
+      strongSkills: history.strongSkills || []
+    }
+  });
+
+  const parsed = extractJsonFromAiText(answer);
+  const questionRows = Array.isArray(parsed?.questions)
+    ? parsed.questions
+    : Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  const usedQuestions = new Set();
+  const normalizedQuestions = [];
+  questionRows.forEach((item, index) => {
+    const normalized = normalizeGeneratedQuizQuestion(item, index, domain, difficultyPlan[index] || startDifficulty);
+    const key = normalizeText(normalized.question);
+    if (!key || usedQuestions.has(key)) return;
+    if (!isValidGeneratedQuizQuestion(normalized)) return;
+    usedQuestions.add(key);
+    normalizedQuestions.push(normalized);
+  });
+
+  if (normalizedQuestions.length < 5) {
+    throw new Error("AI quiz generation returned too few valid questions.");
+  }
+
+  return {
+    questionPool: normalizedQuestions,
+    provider,
+    model
+  };
+}
+
 async function upsertUserSkill(userId, domain, skillName, isCorrect) {
   const row = await UserSkillLevel.findOneAndUpdate(
     { userId, domain, skillName },
@@ -2458,13 +2846,31 @@ async function applyReputationDelta(userId, updates = {}) {
   return rep;
 }
 
-async function upsertLeaderboardForToday({ collegeName = "" } = {}) {
+async function upsertLeaderboardForToday({ collegeName = "", stateName = "" } = {}) {
   const dateKey = toDateKey();
   const allReps = await ReputationScore.find({})
     .populate("userId", "name role")
     .sort({ score: -1, updatedAt: -1 })
     .limit(200)
     .lean();
+
+  const userIds = allReps
+    .map((item) => item.userId?._id)
+    .filter(Boolean);
+  const studentProfiles = userIds.length
+    ? await StudentProfile.find({ userId: { $in: userIds } })
+      .select("userId collegeName state")
+      .lean()
+    : [];
+  const studentProfileMap = new Map(
+    studentProfiles.map((item) => [
+      String(item.userId),
+      {
+        collegeName: String(item.collegeName || "").trim(),
+        state: String(item.state || "").trim()
+      }
+    ])
+  );
 
   const globalEntries = allReps.map((item, idx) => ({
     userId: item.userId?._id,
@@ -2473,18 +2879,15 @@ async function upsertLeaderboardForToday({ collegeName = "" } = {}) {
   }));
 
   await LeaderboardSnapshot.findOneAndUpdate(
-    { dateKey, scope: "global", collegeName: "" },
-    { $set: { entries: globalEntries } },
+    { dateKey, scope: "global", collegeName: "", stateName: "" },
+    { $set: { entries: globalEntries, collegeName: "", stateName: "" } },
     { upsert: true, new: true }
   );
 
   if (collegeName) {
-    const collegeProfiles = await StudentProfile.find({ collegeName })
-      .select("userId")
-      .lean();
-    const collegeUserIds = new Set(collegeProfiles.map((item) => String(item.userId)));
+    const normalizedCollege = normalizeText(collegeName);
     const collegeEntries = allReps
-      .filter((item) => collegeUserIds.has(String(item.userId?._id)))
+      .filter((item) => normalizeText(studentProfileMap.get(String(item.userId?._id))?.collegeName || "") === normalizedCollege)
       .map((item, idx) => ({
         userId: item.userId?._id,
         score: item.score || 0,
@@ -2492,8 +2895,25 @@ async function upsertLeaderboardForToday({ collegeName = "" } = {}) {
       }));
 
     await LeaderboardSnapshot.findOneAndUpdate(
-      { dateKey, scope: "college", collegeName },
-      { $set: { entries: collegeEntries } },
+      { dateKey, scope: "college", collegeName, stateName: "" },
+      { $set: { entries: collegeEntries, collegeName, stateName: "" } },
+      { upsert: true, new: true }
+    );
+  }
+
+  if (stateName) {
+    const normalizedState = normalizeText(stateName);
+    const stateEntries = allReps
+      .filter((item) => normalizeText(studentProfileMap.get(String(item.userId?._id))?.state || "") === normalizedState)
+      .map((item, idx) => ({
+        userId: item.userId?._id,
+        score: item.score || 0,
+        rank: idx + 1
+      }));
+
+    await LeaderboardSnapshot.findOneAndUpdate(
+      { dateKey, scope: "state", collegeName: "", stateName },
+      { $set: { entries: stateEntries, collegeName: "", stateName } },
       { upsert: true, new: true }
     );
   }
@@ -2543,6 +2963,20 @@ exports.getConnections = asyncHandler(async (req, res) => {
     .populate("recipientId", "name role email")
     .sort({ updatedAt: -1 })
     .lean();
+
+  const userIds = list.flatMap((item) => [item?.requesterId?._id, item?.recipientId?._id]).filter(Boolean);
+  const [studentProfiles, mentorProfiles] = await Promise.all([
+    StudentProfile.find({ userId: { $in: userIds } }).select("userId profilePhotoUrl").lean(),
+    MentorProfile.find({ userId: { $in: userIds } }).select("userId profilePhotoUrl").lean()
+  ]);
+  const photoMap = new Map();
+  [...studentProfiles, ...mentorProfiles].forEach((item) => {
+    photoMap.set(String(item.userId), item.profilePhotoUrl || "");
+  });
+  list.forEach((item) => {
+    if (item?.requesterId?._id) item.requesterId.profilePhotoUrl = photoMap.get(String(item.requesterId._id)) || "";
+    if (item?.recipientId?._id) item.recipientId.profilePhotoUrl = photoMap.get(String(item.recipientId._id)) || "";
+  });
 
   res.json(list);
 });
@@ -2832,7 +3266,9 @@ exports.addComment = asyncHandler(async (req, res) => {
     });
   }
 
-  res.status(201).json(comment);
+  const data = await FeedComment.findById(comment._id).populate("authorId", "name role").lean();
+  await attachFeedAuthorPhotos([], [data]);
+  res.status(201).json(data);
 });
 
 exports.getPostComments = asyncHandler(async (req, res) => {
@@ -2847,6 +3283,7 @@ exports.getPostComments = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .lean();
 
+  await attachFeedAuthorPhotos([], comments);
   res.json(comments);
 });
 
@@ -2868,6 +3305,7 @@ exports.updateComment = asyncHandler(async (req, res) => {
   await comment.save();
 
   const data = await FeedComment.findById(comment._id).populate("authorId", "name role").lean();
+  await attachFeedAuthorPhotos([], [data]);
   res.json(data);
 });
 
@@ -3028,19 +3466,22 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
   const dateKey = toDateKey();
   const [reputation, profile, userDoc, todayAttempt, streak] = await Promise.all([
     ensureReputation(userId),
-    StudentProfile.findOne({ userId }).select("collegeName careerGoals skills").lean(),
+    StudentProfile.findOne({ userId }).select("collegeName state careerGoals skills").lean(),
     User.findById(userId).select("primaryCategory interestedCategories").lean(),
     QuizAttempt.findOne({ userId, dateKey }).lean(),
     QuizStreak.findOne({ userId }).lean()
   ]);
   const domain = domainFromProfile({ user: userDoc, profile });
 
-  await upsertLeaderboardForToday({ collegeName: profile?.collegeName || "" });
+  await upsertLeaderboardForToday({ collegeName: profile?.collegeName || "", stateName: profile?.state || "" });
 
-  const [globalSnapshot, collegeSnapshot] = await Promise.all([
-    LeaderboardSnapshot.findOne({ dateKey, scope: "global", collegeName: "" }).lean(),
+  const [globalSnapshot, collegeSnapshot, stateSnapshot] = await Promise.all([
+    LeaderboardSnapshot.findOne({ dateKey, scope: "global", collegeName: "", stateName: "" }).lean(),
     profile?.collegeName
-      ? LeaderboardSnapshot.findOne({ dateKey, scope: "college", collegeName: profile.collegeName }).lean()
+      ? LeaderboardSnapshot.findOne({ dateKey, scope: "college", collegeName: profile.collegeName, stateName: "" }).lean()
+      : null,
+    profile?.state
+      ? LeaderboardSnapshot.findOne({ dateKey, scope: "state", collegeName: "", stateName: profile.state }).lean()
       : null
   ]);
 
@@ -3048,6 +3489,8 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
     globalSnapshot?.entries.find((item) => String(item.userId) === String(userId))?.rank || null;
   const collegeRank =
     collegeSnapshot?.entries.find((item) => String(item.userId) === String(userId))?.rank || null;
+  const stateRank =
+    stateSnapshot?.entries.find((item) => String(item.userId) === String(userId))?.rank || null;
 
   const skillRadar = await buildSkillRadar(userId, domain);
   const sortedSkills = [...(skillRadar.skills || [])].sort((a, b) => b.score - a.score);
@@ -3098,7 +3541,8 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
       : null,
     leaderboard: {
       globalRank,
-      collegeRank
+      collegeRank,
+      stateRank
     }
   });
 });
@@ -3141,13 +3585,42 @@ exports.getDailyQuiz = asyncHandler(async (req, res) => {
   const seededSkills = domainSkills(domain, quizContext);
   const profileSkills = (profile?.skills || []).map((item) => String(item || "").trim()).filter(Boolean);
   const skillSet = Array.from(new Set([...profileSkills, ...seededSkills]));
-  const questionPool = generateQuestionPool({ domain, skills: skillSet, quizContext });
   const userSkillRows = await UserSkillLevel.find({ userId, domain }).select("skillScore").lean();
   const avgSkill =
     userSkillRows.length > 0
       ? userSkillRows.reduce((sum, item) => sum + Number(item.skillScore || 0), 0) / userSkillRows.length
       : 50;
   const startDifficulty = avgSkill < 30 ? "easy" : avgSkill < 70 ? "medium" : "hard";
+  const templateQuestionPool = generateQuestionPool({ domain, skills: skillSet, quizContext });
+
+  let questionPool = templateQuestionPool;
+  let generationSource = "template";
+  let generationMeta = {
+    provider: null,
+    model: null
+  };
+
+  try {
+    const aiQuiz = await generateAiQuestionPool({
+      userId,
+      domain,
+      quizContext,
+      startDifficulty,
+      desiredCount: QUIZ_AI_POOL_SIZE,
+      fallbackSkills: skillSet
+    });
+
+    if (Array.isArray(aiQuiz?.questionPool) && aiQuiz.questionPool.length >= 5) {
+      questionPool = aiQuiz.questionPool;
+      generationSource = "ai";
+      generationMeta = {
+        provider: aiQuiz.provider || null,
+        model: aiQuiz.model || null
+      };
+    }
+  } catch (_error) {
+    generationSource = "template";
+  }
 
   res.json({
     completedToday: false,
@@ -3159,6 +3632,8 @@ exports.getDailyQuiz = asyncHandler(async (req, res) => {
     quiz: {
       totalQuestions: 5,
       startDifficulty,
+      generationSource,
+      generationMeta,
       questionPool
     }
   });
@@ -3631,7 +4106,7 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const studentProfile = await StudentProfile.findOne({ userId }).select("careerGoals skills").lean();
   const user = await User.findById(userId).select("goals primaryCategory subCategory").lean();
-  const journeyState = await getJourneyState(userId, req.user.role);
+  let journeyState = await getJourneyState(userId, req.user.role);
 
   const ctx = resolveAiDomainContext({
     user,
@@ -3656,19 +4131,160 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
       ? template.roadmap
       : getRoadmapForGoal(goal);
 
+  const currentRoadmapId = String(journeyState?.roadmap?.roadmapId || "").trim();
+  const requestedRoadmapId = String(goal).trim();
+  const shouldRefreshRoadmap =
+    currentRoadmapId !== requestedRoadmapId ||
+    stateSteps.length !== steps.length ||
+    stateSteps.some((title, index) => String(title || "").trim() !== String(steps[index] || "").trim());
+
+  if (shouldRefreshRoadmap) {
+    await updateJourneyGoal(
+      userId,
+      {
+        title: goal,
+        domain: ctx.primaryCategory,
+        subDomain: ctx.subCategory,
+        focus: ctx.focus,
+        source: req.query.goal ? "assistant" : "profile"
+      },
+      req.user.role
+    );
+    await updateSkillProfile(
+      userId,
+      {
+        roadmapSteps: steps,
+        roadmapId: requestedRoadmapId
+      },
+      req.user.role
+    );
+    journeyState = await getJourneyState(userId, req.user.role);
+  }
+
+  const syncedRoadmap = await persistSyncedRoadmapState(journeyState);
+
   res.json({
     goal: String(goal),
     domainContext: ctx,
-    steps: steps.map((title, idx) => ({
+    steps: syncedRoadmap.steps.map((step, idx) => ({
+      id: step.id,
       stepNumber: idx + 1,
-      title,
-      completed: false
+      title: step.title,
+      completed: step.status === "completed",
+      status: step.status,
+      startedAt: step.startedAt,
+      completedAt: step.completedAt,
+      unlockedAt: step.unlockedAt,
+      proofStatus: step.proofStatus,
+      proofSubmittedAt: step.proofSubmittedAt,
+      proofSubmitted: Boolean(step.proofSubmittedAt || step.proofText || step.proofLink || step.proofImageUrl),
+      proofImageUrl: step.proofImageUrl || "",
+      canStart: step.status === "active" && !step.startedAt,
+      canSubmitProof: step.status === "active" && Boolean(step.startedAt),
+      proofRequired: true
     })),
+    progress: {
+      completedSteps: syncedRoadmap.steps.filter((step) => step.status === "completed").length,
+      totalSteps: syncedRoadmap.steps.length,
+      progressPercent: syncedRoadmap.progressPercent,
+      currentStepId: syncedRoadmap.currentStepId,
+      lockHours: ROADMAP_STEP_LOCK_HOURS
+    },
     basedOn: {
       skills: journeyState?.skillProfile?.knownSkills?.length ? journeyState.skillProfile.knownSkills : studentProfile?.skills || [],
       domain: user?.primaryCategory || "",
       subDomain: user?.subCategory || "",
       missingSkills: journeyState?.skillProfile?.missingSkills || []
+    }
+  });
+});
+
+exports.startCareerRoadmapMission = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const stepId = String(req.params?.stepId || "").trim();
+  const state = await getJourneyState(userId, req.user.role);
+  const synced = await persistSyncedRoadmapState(state);
+  const step = synced.steps.find((item) => String(item.id) === stepId);
+
+  if (!step) throw new ApiError(404, "Roadmap step not found");
+  if (step.status !== "active") throw new ApiError(400, "This mission is still locked");
+  if (step.completedAt) throw new ApiError(400, "This mission is already completed");
+
+  step.startedAt = step.startedAt || new Date();
+  state.roadmap.steps = synced.steps;
+  state.roadmap.updatedAt = new Date();
+  await state.save();
+
+  res.json({
+    success: true,
+    message: "Mission started. Submit proof after completing the work.",
+    step: {
+      id: step.id,
+      status: step.status,
+      startedAt: step.startedAt
+    }
+  });
+});
+
+exports.submitCareerRoadmapProof = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const stepId = String(req.params?.stepId || "").trim();
+  const proofText = String(req.body?.proofText || "").trim();
+  const proofLink = String(req.body?.proofLink || "").trim();
+  const proofImageUrl = String(req.body?.proofImageUrl || "").trim();
+
+  if (!proofText && !proofLink && !proofImageUrl) {
+    throw new ApiError(400, "Submit at least one proof item before completing the mission");
+  }
+
+  const state = await getJourneyState(userId, req.user.role);
+  const synced = await persistSyncedRoadmapState(state);
+  const stepIndex = synced.steps.findIndex((item) => String(item.id) === stepId);
+  if (stepIndex < 0) throw new ApiError(404, "Roadmap step not found");
+
+  const step = synced.steps[stepIndex];
+  if (step.status !== "active") throw new ApiError(400, "This mission is not ready for proof submission");
+  if (!step.startedAt) throw new ApiError(400, "Start the mission before submitting proof");
+  if (step.completedAt) throw new ApiError(400, "This mission is already completed");
+
+  const now = new Date();
+  step.proofText = proofText;
+  step.proofLink = proofLink;
+  step.proofImageUrl = proofImageUrl;
+  step.proofStatus = "approved";
+  step.proofSubmittedAt = now;
+  step.completedAt = now;
+  step.status = "completed";
+
+  const nextStep = synced.steps[stepIndex + 1];
+  if (nextStep && !nextStep.completedAt) {
+    nextStep.unlockedAt = new Date(now.getTime() + ROADMAP_STEP_LOCK_HOURS * 60 * 60 * 1000);
+    nextStep.status = "locked";
+  }
+
+  const finalState = syncRoadmapState({
+    steps: synced.steps
+  });
+  state.roadmap.steps = finalState.steps;
+  state.roadmap.progressPercent = finalState.progressPercent;
+  state.roadmap.currentStepId = finalState.currentStepId;
+  state.roadmap.updatedAt = now;
+  await state.save();
+
+  res.json({
+    success: true,
+    message: "Proof submitted. Mission completed and the next mission will unlock on schedule.",
+    step: {
+      id: step.id,
+      status: step.status,
+      completedAt: step.completedAt,
+      proofStatus: step.proofStatus
+    },
+    progress: {
+      completedSteps: finalState.steps.filter((item) => item.status === "completed").length,
+      totalSteps: finalState.steps.length,
+      progressPercent: finalState.progressPercent,
+      currentStepId: finalState.currentStepId
     }
   });
 });
@@ -3820,28 +4436,36 @@ exports.submitCareerOpportunity = asyncHandler(async (req, res) => {
 
 exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const profile = await StudentProfile.findOne({ userId }).select("collegeName").lean();
+  const profile = await StudentProfile.findOne({ userId }).select("collegeName state").lean();
   const collegeName = profile?.collegeName || "";
+  const stateName = String(profile?.state || "").trim();
   const dateKey = toDateKey();
 
-  await upsertLeaderboardForToday({ collegeName });
+  await upsertLeaderboardForToday({ collegeName, stateName });
 
-  const globalSnapshot = await LeaderboardSnapshot.findOne({ dateKey, scope: "global", collegeName: "" })
+  const globalSnapshot = await LeaderboardSnapshot.findOne({ dateKey, scope: "global", collegeName: "", stateName: "" })
     .populate("entries.userId", "name")
     .lean();
 
   const collegeSnapshot = collegeName
-    ? await LeaderboardSnapshot.findOne({ dateKey, scope: "college", collegeName })
+    ? await LeaderboardSnapshot.findOne({ dateKey, scope: "college", collegeName, stateName: "" })
+      .populate("entries.userId", "name")
+      .lean()
+    : null;
+
+  const stateSnapshot = stateName
+    ? await LeaderboardSnapshot.findOne({ dateKey, scope: "state", collegeName: "", stateName })
       .populate("entries.userId", "name")
       .lean()
     : null;
 
   const profileIds = [
     ...new Set(
-      [
-        ...(globalSnapshot?.entries || []).map((item) => item.userId?._id || item.userId),
-        ...(collegeSnapshot?.entries || []).map((item) => item.userId?._id || item.userId)
-      ]
+        [
+          ...(globalSnapshot?.entries || []).map((item) => item.userId?._id || item.userId),
+          ...(stateSnapshot?.entries || []).map((item) => item.userId?._id || item.userId),
+          ...(collegeSnapshot?.entries || []).map((item) => item.userId?._id || item.userId)
+        ]
         .map((item) => String(item || "").trim())
         .filter(Boolean)
     )
@@ -3867,18 +4491,23 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
     }));
 
   const globalEntries = mapEntries(globalSnapshot?.entries || []);
+  const stateEntries = mapEntries(stateSnapshot?.entries || []);
   const collegeEntries = mapEntries(collegeSnapshot?.entries || []);
   const meCollege = collegeEntries.find((item) => String(item.userId) === String(userId)) || null;
+  const meState = stateEntries.find((item) => String(item.userId) === String(userId)) || null;
   const meGlobal = globalEntries.find((item) => String(item.userId) === String(userId)) || null;
 
   res.json({
     dateKey,
     collegeName,
+    stateName,
     collegeTop: collegeEntries,
+    stateTop: stateEntries,
     globalTop: globalEntries,
     me: {
-      score: meCollege?.score || meGlobal?.score || 0,
+      score: meCollege?.score || meState?.score || meGlobal?.score || 0,
       collegeRank: meCollege?.rank || null,
+      stateRank: meState?.rank || null,
       globalRank: meGlobal?.rank || null
     }
   });
@@ -4378,6 +5007,79 @@ exports.getSprints = asyncHandler(async (req, res) => {
   );
 });
 
+exports.getSprintDetail = asyncHandler(async (req, res) => {
+  await expireOverdueSprintEnrollments();
+
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const sprint = await MentorSprint.findById(sprintId)
+    .populate("mentorId", "name email")
+    .lean();
+
+  if (!sprint) throw new ApiError(404, "Sprint not found");
+
+  const canView =
+    req.user.role === "mentor"
+      ? String(sprint.mentorId?._id || sprint.mentorId || "") === String(req.user.id) ||
+        (sprint.approvalStatus === "approved" && sprint.isPublic && !sprint.isCancelled)
+      : sprint.approvalStatus === "approved" && sprint.isPublic && !sprint.isCancelled;
+
+  if (!canView) {
+    throw new ApiError(404, "Sprint not available");
+  }
+
+  const [activeEnrollmentCount, paidEnrollmentCount, myEnrollment, mentorProfile] = await Promise.all([
+    MentorSprintEnrollment.countDocuments({
+      sprintId,
+      enrollmentStatus: { $in: ["pending_payment", "enrolled"] },
+      paymentStatus: { $in: ["pending", "paid"] }
+    }),
+    MentorSprintEnrollment.countDocuments({
+      sprintId,
+      enrollmentStatus: "enrolled",
+      paymentStatus: "paid"
+    }),
+    req.user.role === "student"
+      ? MentorSprintEnrollment.findOne({ sprintId, studentId: req.user.id })
+          .sort({ createdAt: -1 })
+          .lean()
+      : Promise.resolve(null),
+    MentorProfile.findOne({ userId: sprint.mentorId?._id || sprint.mentorId })
+      .select("profilePhotoUrl title company about rating verifiedBadge experienceYears")
+      .lean()
+  ]);
+
+  const payload = normalizeSprintPayload(
+    {
+      ...sprint,
+      enrollmentCount: activeEnrollmentCount
+    },
+    req.user.id,
+    myEnrollment ? new Map([[String(sprint._id), myEnrollment]]) : new Map()
+  );
+
+  res.status(200).json({
+    sprint: {
+      ...payload,
+      paidEnrollmentCount,
+      minParticipantsMet: activeEnrollmentCount >= Number(sprint.minParticipants || 1),
+      hasStarted: sprint.startDate ? new Date(sprint.startDate).getTime() <= Date.now() : false,
+      hasEnded: sprint.endDate ? new Date(sprint.endDate).getTime() <= Date.now() : false,
+      mentor: {
+        ...payload.mentor,
+        profilePhotoUrl: mentorProfile?.profilePhotoUrl || "",
+        title: mentorProfile?.title || "",
+        company: mentorProfile?.company || "",
+        about: mentorProfile?.about || "",
+        rating: Number(mentorProfile?.rating || 0),
+        verifiedBadge: Boolean(mentorProfile?.verifiedBadge),
+        experienceYears: Number(mentorProfile?.experienceYears || 0)
+      }
+    }
+  });
+});
+
 exports.createSprint = asyncHandler(async (req, res) => {
   if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create sprints");
 
@@ -4734,6 +5436,180 @@ exports.cancelSprintEnrollment = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Sprint enrollment cancelled", enrollment });
 });
 
+exports.getMentorSprintPayouts = asyncHandler(async (req, res) => {
+  await expireOverdueSprintEnrollments();
+
+  const enrollments = await MentorSprintEnrollment.find({
+    mentorId: req.user.id,
+    paymentStatus: "paid"
+  })
+    .populate("studentId", "name email")
+    .populate("payoutPaidBy", "name email role")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl")
+    .sort({ updatedAt: -1, createdAt: -1 })
+    .lean();
+
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id })
+    .select("payoutUpiId payoutQrCodeUrl payoutPhoneNumber phoneNumber")
+    .lean();
+
+  const mentorPaymentDetails = {
+    upiId: mentorProfile?.payoutUpiId || "",
+    qrCodeUrl: mentorProfile?.payoutQrCodeUrl || "",
+    phoneNumber: mentorProfile?.payoutPhoneNumber || mentorProfile?.phoneNumber || ""
+  };
+
+  const enriched = enrollments.map((enrollment) =>
+    enrichSprintEnrollmentForPayout(enrollment, enrollment.sprintId, mentorPaymentDetails)
+  );
+
+  const summary = enriched.reduce(
+    (acc, enrollment) => {
+      acc.totalEnrollments += 1;
+      acc.lifetimeGross += Number(enrollment.amount || 0);
+      acc.platformFees += Number(enrollment.platformFeeAmount || 0);
+      acc.mentorEarnings += Number(enrollment.mentorPayoutAmount || 0);
+
+      if (enrollment.payoutStatus === "pending") acc.pendingPayoutAmount += Number(enrollment.mentorPayoutAmount || 0);
+      if (enrollment.payoutStatus === "paid") acc.paidOutAmount += Number(enrollment.mentorPayoutAmount || 0);
+      if (enrollment.mentorPayoutConfirmationStatus === "confirmed") {
+        acc.confirmedReceivedAmount += Number(enrollment.mentorPayoutAmount || 0);
+      }
+      if (enrollment.payoutStatus === "issue_reported" || enrollment.mentorPayoutConfirmationStatus === "issue_reported") {
+        acc.issueAmount += Number(enrollment.mentorPayoutAmount || 0);
+      }
+      return acc;
+    },
+    {
+      totalEnrollments: 0,
+      lifetimeGross: 0,
+      platformFees: 0,
+      mentorEarnings: 0,
+      pendingPayoutAmount: 0,
+      paidOutAmount: 0,
+      confirmedReceivedAmount: 0,
+      issueAmount: 0,
+      payoutSetupComplete: Boolean(mentorPaymentDetails.upiId || mentorPaymentDetails.qrCodeUrl || mentorPaymentDetails.phoneNumber)
+    }
+  );
+
+  Object.keys(summary).forEach((key) => {
+    if (key !== "totalEnrollments" && key !== "payoutSetupComplete") {
+      summary[key] = roundCurrency(summary[key]);
+    }
+  });
+
+  res.status(200).json({
+    summary,
+    payoutSetup: mentorPaymentDetails,
+    enrollments: enriched
+  });
+});
+
+exports.confirmSprintPayoutReceived = asyncHandler(async (req, res) => {
+  const { enrollmentId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  const enrollment = await MentorSprintEnrollment.findOne({ _id: enrollmentId, mentorId: req.user.id })
+    .populate("sprintId", "title startDate endDate")
+    .lean();
+  if (!enrollment) throw new ApiError(404, "Sprint enrollment not found");
+
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, enrollment.sprintId);
+  if (payoutStatus !== "paid") throw new ApiError(400, "Payout is not marked as paid yet");
+
+  const updated = await MentorSprintEnrollment.findByIdAndUpdate(
+    enrollmentId,
+    {
+      $set: {
+        mentorPayoutConfirmationStatus: "confirmed",
+        mentorPayoutConfirmedAt: new Date(),
+        mentorPayoutIssueNote: ""
+      }
+    },
+    { new: true }
+  )
+    .populate("studentId", "name email")
+    .populate("payoutPaidBy", "name email role")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl")
+    .lean();
+
+  await Notification.create({
+    title: "Sprint Payout Confirmed",
+    message: "A mentor confirmed payout receipt for a paid sprint enrollment.",
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "admin"
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.sprint.payout.confirm_received",
+    entityType: "MentorSprintEnrollment",
+    entityId: enrollmentId
+  });
+
+  res.status(200).json({
+    message: "Sprint payout marked as received",
+    enrollment: enrichSprintEnrollmentForPayout(updated, updated.sprintId)
+  });
+});
+
+exports.reportSprintPayoutIssue = asyncHandler(async (req, res) => {
+  const { enrollmentId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(enrollmentId)) throw new ApiError(400, "Invalid enrollment id");
+
+  const enrollment = await MentorSprintEnrollment.findOne({ _id: enrollmentId, mentorId: req.user.id })
+    .populate("sprintId", "title startDate endDate")
+    .lean();
+  if (!enrollment) throw new ApiError(404, "Sprint enrollment not found");
+
+  const payoutStatus = getResolvedSprintPayoutStatus(enrollment, enrollment.sprintId);
+  if (payoutStatus !== "paid") throw new ApiError(400, "Only paid-out sprint enrollments can be reported here");
+
+  const note = String(req.body?.issueNote || "").trim();
+  if (!note) throw new ApiError(400, "Issue note is required");
+
+  const updated = await MentorSprintEnrollment.findByIdAndUpdate(
+    enrollmentId,
+    {
+      $set: {
+        payoutStatus: "issue_reported",
+        mentorPayoutConfirmationStatus: "issue_reported",
+        mentorPayoutIssueNote: note
+      }
+    },
+    { new: true }
+  )
+    .populate("studentId", "name email")
+    .populate("payoutPaidBy", "name email role")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl")
+    .lean();
+
+  await Notification.create({
+    title: "Sprint Payout Issue",
+    message: `A mentor reported a payout issue for sprint ${(updated?.sprintId?.title || "program")}.`,
+    type: "booking",
+    sentBy: req.user.id,
+    targetRole: "admin"
+  });
+
+  await createAuditLog({
+    req,
+    actorId: req.user.id,
+    action: "network.sprint.payout.report_issue",
+    entityType: "MentorSprintEnrollment",
+    entityId: enrollmentId,
+    metadata: { issueNote: note }
+  });
+
+  res.status(200).json({
+    message: "Sprint payout issue reported",
+    enrollment: enrichSprintEnrollmentForPayout(updated, updated.sprintId)
+  });
+});
+
 function resumeSafeArray(value) {
   return Array.isArray(value) ? value : [];
 }
@@ -4765,9 +5641,96 @@ function buildProfileSummary(payload) {
   return `${roleLine}. ${skillsLine} ${goalLine}`.trim();
 }
 
-async function buildResumePayloadForUser(userId) {
+function truncateResumeText(value = "", maxLength = 220) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).trim()}…`;
+}
+
+function compactResumeItems(items = [], maxItems = 3) {
+  return resumeSafeArray(items)
+    .filter(Boolean)
+    .sort((a, b) => {
+      const aScore = Number(Boolean(a?.description || a?.summary)) + Number(Boolean(a?.tech?.length || a?.techStack?.length));
+      const bScore = Number(Boolean(b?.description || b?.summary)) + Number(Boolean(b?.tech?.length || b?.techStack?.length));
+      return bScore - aScore;
+    })
+    .slice(0, maxItems);
+}
+
+function normalizeResumeOverrides(input = {}) {
+  return {
+    targetRole: String(input?.targetRole || "").trim(),
+    summary: String(input?.summary || "").trim(),
+    phone: String(input?.phone || "").trim(),
+    linkedInUrl: String(input?.linkedInUrl || "").trim(),
+    location: String(input?.location || "").trim(),
+    careerGoal: String(input?.careerGoal || "").trim(),
+    strengths: String(input?.strengths || "").trim(),
+    projectDescription: String(input?.projectDescription || "").trim(),
+    experienceDescription: String(input?.experienceDescription || "").trim(),
+    educationDetail: String(input?.educationDetail || "").trim()
+  };
+}
+
+function collectResumeMissingFields(payload = {}) {
+  const missing = [];
+  const pushMissing = (id, label, prompt, recommendedValue = "") => {
+    missing.push({ id, label, prompt, recommendedValue });
+  };
+
+  if (!payload.roleLabel) {
+    pushMissing("targetRole", "Target Role", "Add the role you are applying for so the resume reads like a real job document.");
+  }
+  if (!payload.phone) {
+    pushMissing("phone", "Phone Number", "Recruiters expect a direct phone number in the resume header.");
+  }
+  if (!payload.location) {
+    pushMissing("location", "Location", "Add your city and state so the resume feels placement-ready.");
+  }
+  if (!payload.summary || payload.summary.length < 80) {
+    pushMissing("summary", "Professional Summary", "Write a 2-3 line summary with strengths, goals, and real impact.");
+  }
+  if (!resumeSafeArray(payload.skills).length) {
+    pushMissing("skills", "Skills", "Add at least 5 strong skills in Edit Profile for an interview-ready resume.");
+  }
+  if (!resumeSafeArray(payload.projects).length) {
+    pushMissing("projects", "Projects", "Add at least one strong project with tools used and what you built.");
+  } else if (resumeSafeArray(payload.projects).some((item) => !item?.description)) {
+    pushMissing("projectDescription", "Project Details", "Explain what your strongest project solves and what your contribution was.");
+  }
+  if (!resumeSafeArray(payload.education).length) {
+    pushMissing("education", "Education", "Add your degree, college, and passing year.");
+  }
+  if (resumeSafeArray(payload.experience).length && resumeSafeArray(payload.experience).some((item) => !item?.description)) {
+    pushMissing("experienceDescription", "Experience Highlights", "Add impact-focused experience details instead of just role names.");
+  }
+  if (!payload.careerGoal) {
+    pushMissing("careerGoal", "Career Focus", "Tell ORIN what role or domain you want this resume to target.");
+  }
+
+  return missing;
+}
+
+function buildResumeReadiness(payload = {}) {
+  let score = 0;
+  if (payload.roleLabel) score += 12;
+  if (payload.phone) score += 10;
+  if (payload.location) score += 8;
+  if (payload.summary && payload.summary.length >= 80) score += 18;
+  if (resumeSafeArray(payload.skills).length >= 5) score += 15;
+  if (resumeSafeArray(payload.projects).length >= 1) score += 15;
+  if (resumeSafeArray(payload.education).length >= 1) score += 10;
+  if (payload.careerGoal) score += 7;
+  if (resumeSafeArray(payload.experience).length >= 1) score += 5;
+  return Math.max(0, Math.min(100, score));
+}
+
+async function buildResumePayloadForUser(userId, overrides = {}) {
   const user = await User.findById(userId).select("name email phoneNumber role").lean();
   if (!user) throw new ApiError(404, "User not found");
+  const normalizedOverrides = normalizeResumeOverrides(overrides);
 
   if (user.role === "mentor") {
     const profile = await MentorProfile.findOne({ userId }).lean();
@@ -4785,20 +5748,20 @@ async function buildResumePayloadForUser(userId) {
 
     const payload = {
       name: user.name || "",
-      role: profile?.title || "Mentor",
-      roleLabel: profile?.title || "Mentor",
+      role: normalizedOverrides.targetRole || profile?.title || "Mentor",
+      roleLabel: normalizedOverrides.targetRole || profile?.title || "Mentor",
       userRole: "mentor",
       email: user.email || "",
-      phone: profile?.phoneNumber || user.phoneNumber || "",
+      phone: normalizedOverrides.phone || profile?.phoneNumber || user.phoneNumber || "",
       profileImage: profile?.profilePhotoUrl || "",
-      summary: profile?.about || "",
+      summary: normalizedOverrides.summary || profile?.about || "",
       domains: [
         profile?.primaryCategory,
         profile?.subCategory,
         ...resumeSafeArray(profile?.expertiseDomains),
         ...resumeSafeArray(profile?.specializations)
       ].filter(Boolean),
-      skills: [...resumeSafeArray(profile?.expertiseDomains), ...resumeSafeArray(profile?.specializations)].filter(Boolean),
+      skills: normalizeList([...resumeSafeArray(profile?.expertiseDomains), ...resumeSafeArray(profile?.specializations)]).filter(Boolean).slice(0, 8),
       projects: [],
       achievements: resumeSafeArray(profile?.achievements).map((item) => ({
         title: item?.title || String(item || "").trim(),
@@ -4810,7 +5773,7 @@ async function buildResumePayloadForUser(userId) {
         title: item?.title || item?.name || "",
         tech: resumeSafeArray(item?.tech || item?.techStack).filter(Boolean),
         link: item?.link || "",
-        description: item?.description || item?.summary || ""
+        description: item?.description || item?.summary || normalizedOverrides.projectDescription || ""
       })),
       experience: [
         ...resumeSafeArray(profile?.experiences).map((item) => ({
@@ -4818,13 +5781,19 @@ async function buildResumePayloadForUser(userId) {
           role: item?.role || "",
           start: item?.start || item?.startDate || "",
           end: item?.end || item?.endDate || "",
-          description: item?.description || ""
+          description: item?.description || normalizedOverrides.experienceDescription || ""
         })),
         ...experience
       ].filter((item) => item.organization || item.role || item.start || item.end || item.description),
-      education: [],
-      careerGoal: "Mentor students with structured career guidance",
-      linkedInUrl: profile?.linkedInUrl || "",
+      education: resumeSafeArray(profile?.education).map((item) => ({
+        school: item?.school || "",
+        degree: item?.degree || "",
+        year: item?.year || ""
+      })),
+      careerGoal: normalizedOverrides.careerGoal || "Mentor students with structured career guidance",
+      linkedInUrl: normalizedOverrides.linkedInUrl || profile?.linkedInUrl || "",
+      location: normalizedOverrides.location || profile?.state || "",
+      strengths: normalizedOverrides.strengths || "",
       sessionPrice: profile?.sessionPrice || 0,
       rating: profile?.rating || 0,
       totalStudentsMentored: profile?.totalSessionsConducted || 0,
@@ -4832,26 +5801,37 @@ async function buildResumePayloadForUser(userId) {
     };
 
     payload.summary = buildProfileSummary(payload);
+    payload.summary = truncateResumeText(payload.summary, 260);
+    payload.projects = compactResumeItems(payload.projects, 2).map((item) => ({
+      ...item,
+      description: truncateResumeText(item.description || "", 150)
+    }));
+    payload.experience = compactResumeItems(payload.experience, 2).map((item) => ({
+      ...item,
+      description: truncateResumeText(item.description || "", 150)
+    }));
+    payload.achievements = compactResumeItems(payload.achievements, 3);
+    payload.education = compactResumeItems(payload.education, 1);
     return payload;
   }
 
   const profile = await StudentProfile.findOne({ userId }).lean();
   const payload = {
     name: user.name || "",
-    role: profile?.headline || "Student",
-    roleLabel: profile?.headline || "Student",
+    role: normalizedOverrides.targetRole || profile?.headline || "Student",
+    roleLabel: normalizedOverrides.targetRole || profile?.headline || "Student",
     userRole: "student",
     email: user.email || "",
-    phone: user.phoneNumber || "",
+    phone: normalizedOverrides.phone || user.phoneNumber || "",
     profileImage: profile?.profilePhotoUrl || "",
-    summary: profile?.about || "",
+    summary: normalizedOverrides.summary || profile?.about || "",
     domains: [profile?.collegeName].filter(Boolean),
-    skills: resumeSafeArray(profile?.skills).filter(Boolean),
+    skills: normalizeList(resumeSafeArray(profile?.skills)).filter(Boolean).slice(0, 8),
     projects: resumeSafeArray(profile?.projects).map((item) => ({
       title: item?.title || item?.name || "",
       tech: resumeSafeArray(item?.tech || item?.techStack).filter(Boolean),
       link: item?.link || "",
-      description: item?.description || item?.summary || ""
+      description: item?.description || item?.summary || normalizedOverrides.projectDescription || ""
     })),
     achievements: resumeSafeArray(profile?.achievements).map((item) => ({
       title: item?.title || item?.type || "Achievement",
@@ -4864,15 +5844,17 @@ async function buildResumePayloadForUser(userId) {
       role: item?.role || "",
       start: item?.start || item?.startDate || "",
       end: item?.end || item?.endDate || "",
-      description: item?.description || ""
+      description: item?.description || normalizedOverrides.experienceDescription || ""
     })),
     education: resumeSafeArray(profile?.education).map((item) => ({
       school: item?.school || "",
-      degree: item?.degree || "",
+      degree: item?.degree || normalizedOverrides.educationDetail || "",
       year: item?.year || ""
     })),
-    careerGoal: profile?.careerGoals || "",
-    linkedInUrl: "",
+    careerGoal: normalizedOverrides.careerGoal || profile?.careerGoals || "",
+    linkedInUrl: normalizedOverrides.linkedInUrl || "",
+    location: normalizedOverrides.location || profile?.state || "",
+    strengths: normalizedOverrides.strengths || "",
     sessionPrice: 0,
     rating: 0,
     totalStudentsMentored: 0,
@@ -4880,6 +5862,17 @@ async function buildResumePayloadForUser(userId) {
   };
 
   payload.summary = buildProfileSummary(payload);
+  payload.summary = truncateResumeText(payload.summary, 260);
+  payload.projects = compactResumeItems(payload.projects, 3).map((item) => ({
+    ...item,
+    description: truncateResumeText(item.description || "", 150)
+  }));
+  payload.experience = compactResumeItems(payload.experience, 2).map((item) => ({
+    ...item,
+    description: truncateResumeText(item.description || "", 150)
+  }));
+  payload.achievements = compactResumeItems(payload.achievements, 3);
+  payload.education = compactResumeItems(payload.education, 1);
   return payload;
 }
 
@@ -4892,6 +5885,7 @@ function buildResumeMarkdown(payload) {
     "## Contact",
     `- Email: ${payload.email || "Not provided"}`,
     payload.phone ? `- Phone: ${payload.phone}` : "",
+    payload.location ? `- Location: ${payload.location}` : "",
     payload.linkedInUrl ? `- LinkedIn: ${payload.linkedInUrl}` : "",
     "",
     "## Skills",
@@ -4923,18 +5917,20 @@ function buildResumeMarkdown(payload) {
       : []),
     "",
     "## Career Goal",
-    payload.careerGoal || "Career growth and mentorship"
+    payload.careerGoal || "Career growth and mentorship",
+    ...(payload.strengths ? ["", "## Strengths", payload.strengths] : [])
   ]
     .filter(Boolean)
     .join("\n");
 }
 
-function renderResumeSectionsHtml(payload) {
-  const renderList = (items) =>
-    items.length
-      ? `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
-      : `<p class="empty">Add details in your ORIN profile to strengthen this section.</p>`;
+function renderResumeList(items = []) {
+  return items.length
+    ? `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
+    : `<p class="empty">Add details in your ORIN profile to strengthen this section.</p>`;
+}
 
+function renderResumeSectionsHtml(payload) {
   const projectsHtml = payload.projects.length
     ? payload.projects
         .map(
@@ -4995,9 +5991,10 @@ function renderResumeSectionsHtml(payload) {
       <h2>Professional Summary</h2>
       <p>${payload.summary || "A profile summary will appear here."}</p>
     </section>
+    ${payload.strengths ? `<section class="section"><h2>Strengths</h2><p>${payload.strengths}</p></section>` : ""}
     <section class="section">
       <h2>Skills</h2>
-      ${renderList(payload.skills)}
+      ${renderResumeList(payload.skills)}
     </section>
     <section class="section">
       <h2>Projects</h2>
@@ -5017,6 +6014,54 @@ function renderResumeSectionsHtml(payload) {
       <p>${payload.careerGoal || "Career growth and mentorship"}</p>
     </section>
   `;
+}
+
+function projectsHtmlFromPayload(payload) {
+  return payload.projects.length
+    ? payload.projects
+        .map(
+          (project) => `
+            <article class="item-card">
+              <div class="item-title">${project.title || "Project"}</div>
+              ${project.tech?.length ? `<div class="item-meta">${project.tech.join(" | ")}</div>` : ""}
+              ${project.description ? `<p>${project.description}</p>` : ""}
+              ${project.link ? `<a href="${project.link}" target="_blank">${project.link}</a>` : ""}
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Projects will appear here when added to your profile.</p>`;
+}
+
+function achievementsHtmlFromPayload(payload) {
+  return payload.achievements.length
+    ? payload.achievements
+        .map(
+          (item) => `
+            <article class="item-card">
+              <div class="item-title">${item.title}</div>
+              <div class="item-meta">${[item.issuer, item.date].filter(Boolean).join(" | ")}</div>
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Achievements will appear here when added to your profile.</p>`;
+}
+
+function experienceHtmlFromPayload(payload) {
+  return payload.experience.length
+    ? payload.experience
+        .map(
+          (item) => `
+            <article class="item-card">
+              <div class="item-title">${item.role || "Role"}${item.organization ? ` - ${item.organization}` : ""}</div>
+              <div class="item-meta">${[item.start, item.end].filter(Boolean).join(" - ")}</div>
+              ${item.description ? `<p>${item.description}</p>` : ""}
+            </article>
+          `
+        )
+        .join("")
+    : `<p class="empty">Experience details will appear here when added to your profile.</p>`;
 }
 
 function buildResumeHtml(payload, template = "modern") {
@@ -5040,16 +6085,29 @@ function buildResumeHtml(payload, template = "modern") {
 
   if (safeTemplate === "corporate") {
     return `<!doctype html><html><head><meta charset="utf-8" /><style>${commonStyles}
-      body { background: #ffffff; color: #101828; padding: 34px; }
+      body { background: #ffffff; color: #101828; padding: 28px; }
       .header { display: flex; gap: 18px; align-items: center; border-bottom: 2px solid #101828; padding-bottom: 18px; }
       .profile-img, .profile-fallback { width: 84px; height: 84px; border-radius: 14px; object-fit: cover; background: #dfe7e2; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; }
       .role { color: #344054; font-weight: 700; margin: 4px 0 8px; }
       .contact { color: #475467; font-size: 13px; }
-      .section { margin-top: 22px; }
+      .grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-top: 18px; }
+      .section { margin-top: 0; }
       h2 { font-size: 16px; border-bottom: 1px solid #d0d5dd; padding-bottom: 6px; margin-bottom: 10px; }
     </style></head><body>
-      <header class="header">${photo}<div><h1>${payload.name}</h1><div class="role">${payload.roleLabel}</div><div class="contact">${[payload.email, payload.phone, payload.linkedInUrl].filter(Boolean).join(" | ")}</div></div></header>
-      ${renderResumeSectionsHtml(payload)}
+      <header class="header">${photo}<div><h1>${payload.name}</h1><div class="role">${payload.roleLabel}</div><div class="contact">${[payload.email, payload.phone, payload.location, payload.linkedInUrl].filter(Boolean).join(" | ")}</div></div></header>
+      <div class="grid">
+        <div>
+          <section class="section"><h2>Professional Summary</h2><p>${payload.summary || "A profile summary will appear here."}</p></section>
+          <section class="section"><h2>Experience</h2>${payload.experience.length ? payload.experience.map((item) => `<article class="item-card"><div class="item-title">${item.role || "Role"}${item.organization ? ` - ${item.organization}` : ""}</div><div class="item-meta">${[item.start, item.end].filter(Boolean).join(" - ")}</div>${item.description ? `<p>${item.description}</p>` : ""}</article>`).join("") : `<p class="empty">Experience details will appear here when added to your profile.</p>`}</section>
+          <section class="section"><h2>Projects</h2>${payload.projects.length ? payload.projects.map((project) => `<article class="item-card"><div class="item-title">${project.title || "Project"}</div>${project.tech?.length ? `<div class="item-meta">${project.tech.join(" | ")}</div>` : ""}${project.description ? `<p>${project.description}</p>` : ""}${project.link ? `<a href="${project.link}" target="_blank">${project.link}</a>` : ""}</article>`).join("") : `<p class="empty">Projects will appear here when added to your profile.</p>`}</section>
+        </div>
+        <div>
+          <section class="section"><h2>Skills</h2>${renderResumeList(payload.skills)}</section>
+          ${payload.education?.length ? `<section class="section"><h2>Education</h2>${payload.education.map((item) => `<article class="item-card"><div class="item-title">${item.degree || "Education"}</div><div class="item-meta">${[item.school, item.year].filter(Boolean).join(" | ")}</div></article>`).join("")}</section>` : ""}
+          <section class="section"><h2>Achievements</h2>${payload.achievements.length ? payload.achievements.map((item) => `<article class="item-card"><div class="item-title">${item.title}</div><div class="item-meta">${[item.issuer, item.date].filter(Boolean).join(" | ")}</div></article>`).join("") : `<p class="empty">Achievements will appear here when added to your profile.</p>`}</section>
+          <section class="section"><h2>Career Focus</h2><p>${payload.careerGoal || "Career growth and mentorship"}</p></section>
+        </div>
+      </div>
     </body></html>`;
   }
 
@@ -5078,21 +6136,36 @@ function buildResumeHtml(payload, template = "modern") {
     .header { padding: 24px 28px; background: linear-gradient(135deg, #1f7a4c 0%, #58b77f 100%); color: #fff; display: flex; gap: 18px; align-items: center; }
     .profile-img, .profile-fallback { width: 92px; height: 92px; border-radius: 24px; object-fit: cover; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; border: 2px solid rgba(255,255,255,0.5); }
     .meta { color: rgba(255,255,255,0.92); font-size: 13px; }
-    .content { padding: 24px; }
+    .content { padding: 24px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
     .section { margin-bottom: 16px; padding: 18px; border-radius: 18px; background: linear-gradient(180deg, #f9fcfa 0%, #ffffff 100%); border: 1px solid #e4ebe7; }
     h2 { color: #1f7a4c; margin-bottom: 10px; }
   </style></head><body>
     <div class="shell">
-      <header class="header">${photo}<div><h1>${payload.name}</h1><p class="meta">${payload.roleLabel}</p><p class="meta">${[payload.email, payload.phone].filter(Boolean).join(" | ")}</p></div></header>
-      <main class="content">${renderResumeSectionsHtml(payload)}</main>
+      <header class="header">${photo}<div><h1>${payload.name}</h1><p class="meta">${payload.roleLabel}</p><p class="meta">${[payload.email, payload.phone, payload.location].filter(Boolean).join(" | ")}</p></div></header>
+      <main class="content">
+        <div>
+          <section class="section"><h2>Professional Summary</h2><p>${payload.summary || "A profile summary will appear here."}</p></section>
+          <section class="section"><h2>Projects</h2>${projectsHtmlFromPayload(payload)}</section>
+          <section class="section"><h2>Experience</h2>${experienceHtmlFromPayload(payload)}</section>
+        </div>
+        <div>
+          <section class="section"><h2>Skills</h2>${renderResumeList(payload.skills)}</section>
+          ${payload.education?.length ? `<section class="section"><h2>Education</h2>${payload.education.map((item) => `<article class="item-card"><div class="item-title">${item.degree || "Education"}</div><div class="item-meta">${[item.school, item.year].filter(Boolean).join(" | ")}</div></article>`).join("")}</section>` : ""}
+          <section class="section"><h2>Achievements</h2>${achievementsHtmlFromPayload(payload)}</section>
+          <section class="section"><h2>Career Focus</h2><p>${payload.careerGoal || "Career growth and mentorship"}</p></section>
+        </div>
+      </main>
     </div>
   </body></html>`;
 }
 
 exports.generateResume = asyncHandler(async (req, res) => {
   const template = req.query.template || "modern";
-  const payload = await buildResumePayloadForUser(req.user.id);
+  const overrides = req.method === "POST" ? req.body || {} : req.query || {};
+  const payload = await buildResumePayloadForUser(req.user.id, overrides);
   const markdown = buildResumeMarkdown(payload);
+  const missingFields = collectResumeMissingFields(payload);
+  const readinessScore = buildResumeReadiness(payload);
 
   res.json({
     resume: payload,
@@ -5100,6 +6173,12 @@ exports.generateResume = asyncHandler(async (req, res) => {
     markdown,
     previewHtml: buildResumeHtml(payload, template),
     templates: ["modern", "corporate", "creative"],
+    missingFields,
+    readiness: {
+      score: readinessScore,
+      level: readinessScore >= 85 ? "Company-ready" : readinessScore >= 65 ? "Needs polish" : "Needs more detail",
+      onePageOptimized: true
+    },
     export: {
       fileName: resumeFileName(payload.name, "txt"),
       pdfFileName: resumeFileName(payload.name, "pdf"),
@@ -5618,8 +6697,13 @@ exports.generateCertificate = asyncHandler(async (req, res) => {
   let issuePayload = null;
 
   if (type === "roadmap") {
-    const totalSteps = Number(req.body?.metadata?.totalSteps || req.body?.totalSteps || 0);
-    const completedSteps = Number(req.body?.metadata?.completedSteps || req.body?.completedSteps || 0);
+    const journeyState = await getJourneyState(userId, req.user.role);
+    const syncedRoadmap = await persistSyncedRoadmapState(journeyState);
+    const totalSteps = syncedRoadmap.steps.length;
+    const completedSteps = syncedRoadmap.steps.filter(
+      (step) => step.status === "completed" && Boolean(step.proofSubmittedAt || step.proofText || step.proofLink || step.proofImageUrl)
+    ).length;
+
     if (!totalSteps || completedSteps < totalSteps) {
       throw new ApiError(400, "Roadmap certificate requires 100% completion");
     }
@@ -5638,7 +6722,7 @@ exports.generateCertificate = asyncHandler(async (req, res) => {
       metadata: {
         domain,
         level,
-        goal: String(req.body?.metadata?.goal || req.body?.goal || title).trim(),
+        goal: String(req.body?.metadata?.goal || req.body?.goal || journeyState?.goal?.title || title).trim(),
         totalSteps,
         completedSteps,
         score: Number(req.body?.metadata?.score || 100)
