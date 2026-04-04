@@ -3563,13 +3563,16 @@ exports.getDailyQuiz = asyncHandler(async (req, res) => {
     QuizAttempt.findOne({ userId, dateKey }).lean(),
     QuizStreak.findOne({ userId }).lean()
   ]);
-  const domain = domainFromProfile({ user: userDoc, profile });
+  const requestedDomain = String(req.query?.domain || "").trim();
+  const domain = mentorCategoryTree[requestedDomain]
+    ? requestedDomain
+    : domainFromProfile({ user: userDoc, profile });
 
   if (existingAttempt) {
     return res.json({
       completedToday: true,
       dateKey,
-      domain,
+      domain: existingAttempt.domain || domain,
       message: QUIZ_DAILY_LIMIT_MESSAGE,
       result: {
         score: existingAttempt.score,
