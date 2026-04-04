@@ -1,10 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const ROOT_DIR = path.resolve(__dirname, "..", "..");
-const LOCAL_CATALOG_PATH = path.join(ROOT_DIR, "data", "institutionCatalog.json");
-const TS_MASTER_PATH = path.join(ROOT_DIR, "education", "Telangana_Education_Data", "master", "ts_educational_master.json");
-const INDIA_ENGINEERING_PATH = path.join(ROOT_DIR, "education", "India_Engineering_Data", "master", "india_engineering_master.json");
+const BACKEND_DIR = path.resolve(__dirname, "..");
+const WORKSPACE_DIR = path.resolve(BACKEND_DIR, "..");
+const LOCAL_CATALOG_PATH = path.join(BACKEND_DIR, "data", "institutionCatalog.json");
+const TS_MASTER_PATH = path.join(WORKSPACE_DIR, "education", "Telangana_Education_Data", "master", "ts_educational_master.json");
+const INDIA_ENGINEERING_PATH = path.join(WORKSPACE_DIR, "education", "India_Engineering_Data", "master", "india_engineering_master.json");
 
 let catalogCache = null;
 
