@@ -13,7 +13,8 @@ const {
   updateMyMentorProfileV2,
   getPublicMentorProfileV2,
   getMentorCategoryOptions,
-  getPublicUserProfile
+  getPublicUserProfile,
+  searchEducationInstitutions
 } = require("../controllers/profileController");
 
 router.get("/student/me", verifyToken, authorizeRoles("student"), getMyStudentProfile);
@@ -35,6 +36,7 @@ router.patch(
 );
 
 router.get("/mentor/categories", verifyToken, authorizeRoles("mentor"), getMentorCategoryOptions);
+router.get("/institutions/search", verifyToken, authorizeRoles("student", "mentor"), searchEducationInstitutions);
 router.get("/mentor/:mentorUserId", getPublicMentorProfileV2);
 router.get("/public/:userId", verifyToken, authorizeRoles("student", "mentor"), getPublicUserProfile);
 

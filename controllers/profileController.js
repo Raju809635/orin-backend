@@ -8,6 +8,7 @@ const SkillEndorsement = require("../models/SkillEndorsement");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
+const { searchInstitutions, canonicalInstitutionType, normalizeStateName: normalizeEducationStateName } = require("../services/educationCatalogService");
 const {
   getMentorCategoryOptions,
   isValidMentorCategorySelection
@@ -34,34 +35,18 @@ function toStringArray(value) {
 }
 
 function normalizeStateName(value = "") {
-  const raw = String(value || "").trim();
-  if (!raw) return "";
-
-  const normalized = raw
-    .replace(/\s+/g, " ")
-    .split(" ")
-    .map((part) => part ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase() : "")
-    .join(" ")
-    .trim();
-
+  const normalized = normalizeEducationStateName(value);
   const aliases = new Map([
-    ["ap", "Andhra Pradesh"],
-    ["andhra", "Andhra Pradesh"],
-    ["andhra pradesh", "Andhra Pradesh"],
-    ["ts", "Telangana"],
-    ["telangana", "Telangana"],
-    ["tg", "Telangana"],
-    ["tn", "Tamil Nadu"],
-    ["tamil nadu", "Tamil Nadu"],
-    ["ka", "Karnataka"],
-    ["karnataka", "Karnataka"],
-    ["mh", "Maharashtra"],
-    ["maharashtra", "Maharashtra"],
-    ["dl", "Delhi"],
-    ["delhi", "Delhi"]
+    ["Ap", "Andhra Pradesh"],
+    ["Andhra", "Andhra Pradesh"],
+    ["Ts", "Telangana"],
+    ["Tg", "Telangana"],
+    ["Tn", "Tamil Nadu"],
+    ["Ka", "Karnataka"],
+    ["Mh", "Maharashtra"],
+    ["Dl", "Delhi"]
   ]);
-
-  return aliases.get(normalized.toLowerCase()) || normalized;
+  return aliases.get(normalized) || normalized;
 }
 
 function normalizeProject(project = {}) {
@@ -170,6 +155,21 @@ function normalizeStudentProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
     nextPayload.state = normalizeStateName(nextPayload.state);
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionName")) {
+    nextPayload.institutionName = String(nextPayload.institutionName || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionType")) {
+    nextPayload.institutionType = canonicalInstitutionType(nextPayload.institutionType || "");
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionDistrict")) {
+    nextPayload.institutionDistrict = String(nextPayload.institutionDistrict || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionSource")) {
+    nextPayload.institutionSource = String(nextPayload.institutionSource || "").trim();
+  }
+  if (nextPayload.institutionName) {
+    nextPayload.collegeName = nextPayload.institutionName;
+  }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "payoutUpiId")) {
     nextPayload.payoutUpiId = String(nextPayload.payoutUpiId || "").trim();
   }
@@ -224,6 +224,21 @@ function normalizeMentorProfilePayload(payload = {}) {
   }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
     nextPayload.state = normalizeStateName(nextPayload.state);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionName")) {
+    nextPayload.institutionName = String(nextPayload.institutionName || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionType")) {
+    nextPayload.institutionType = canonicalInstitutionType(nextPayload.institutionType || "");
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionDistrict")) {
+    nextPayload.institutionDistrict = String(nextPayload.institutionDistrict || "").trim();
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionSource")) {
+    nextPayload.institutionSource = String(nextPayload.institutionSource || "").trim();
+  }
+  if (nextPayload.institutionName) {
+    nextPayload.collegeName = nextPayload.institutionName;
   }
 
   return nextPayload;
@@ -329,6 +344,16 @@ exports.getMyMentorProfileV2 = asyncHandler(async (req, res) => {
 
 exports.getMentorCategoryOptions = asyncHandler(async (_req, res) => {
   res.json({ categories: getMentorCategoryOptions() });
+});
+
+exports.searchEducationInstitutions = asyncHandler(async (req, res) => {
+  const q = String(req.query?.q || "").trim();
+  const institutionType = String(req.query?.institutionType || "").trim();
+  const state = String(req.query?.state || "").trim();
+  const limit = Number(req.query?.limit || 12);
+
+  const results = searchInstitutions({ q, institutionType, state, limit });
+  res.json({ results });
 });
 
 exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {

@@ -12,6 +12,10 @@ const studentProfileSchema = new mongoose.Schema(
     headline: { type: String, default: "" },
     about: { type: String, default: "" },
     state: { type: String, default: "" },
+    institutionName: { type: String, default: "" },
+    institutionType: { type: String, default: "" },
+    institutionDistrict: { type: String, default: "" },
+    institutionSource: { type: String, default: "" },
     education: {
       type: [{ school: String, degree: String, year: String }],
       default: []

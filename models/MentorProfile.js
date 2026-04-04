@@ -19,6 +19,10 @@ const mentorProfileSchema = new mongoose.Schema(
     specializations: { type: [String], default: [] },
     about: { type: String, default: "" },
     state: { type: String, default: "" },
+    institutionName: { type: String, default: "" },
+    institutionType: { type: String, default: "" },
+    institutionDistrict: { type: String, default: "" },
+    institutionSource: { type: String, default: "" },
     education: {
       type: [
         {
