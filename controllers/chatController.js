@@ -123,6 +123,20 @@ function decorateCounterpart(user, photoMap, requestUserId) {
   };
 }
 
+async function findOwnedMessage(messageId, userId) {
+  if (!mongoose.Types.ObjectId.isValid(messageId)) {
+    throw new ApiError(400, "Invalid message id");
+  }
+  const message = await ChatMessage.findById(messageId);
+  if (!message || message.deletedAt) {
+    throw new ApiError(404, "Message not found");
+  }
+  if (String(message.sender) !== String(userId)) {
+    throw new ApiError(403, "Only the sender can change this message");
+  }
+  return message;
+}
+
 async function getCounterpartUser(requestUser, counterpartId) {
   let counterpart;
 
@@ -289,6 +303,32 @@ exports.sendMessage = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     message: "Sent",
+    chatMessage: message
+  });
+});
+
+exports.updateMessage = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
+  const message = await findOwnedMessage(req.params.messageId, req.user.id);
+  message.text = String(req.body?.text || "").trim();
+  message.editedAt = new Date();
+  await message.save();
+
+  res.status(200).json({
+    message: "Message updated",
+    chatMessage: message
+  });
+});
+
+exports.deleteMessage = asyncHandler(async (req, res) => {
+  touchPresence(req.user.id);
+  const message = await findOwnedMessage(req.params.messageId, req.user.id);
+  message.text = "";
+  message.deletedAt = new Date();
+  await message.save();
+
+  res.status(200).json({
+    message: "Message deleted",
     chatMessage: message
   });
 });

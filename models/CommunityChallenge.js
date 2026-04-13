@@ -7,9 +7,17 @@ const communityChallengeSchema = new mongoose.Schema(
     description: { type: String, default: "" },
     bannerImageUrl: { type: String, default: "" },
     prize: { type: String, default: "" },
+    participantLimit: { type: Number, default: 0 },
     skills: { type: [String], default: [] },
     tasks: { type: [String], default: [] },
     submissionType: { type: String, default: "", trim: true },
+    proofInstructions: { type: String, default: "" },
+    approvalStatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "approved",
+      index: true
+    },
     deadline: { type: Date, required: true, index: true },
     isActive: { type: Boolean, default: true, index: true },
     isFeatured: { type: Boolean, default: false, index: true },

@@ -3,6 +3,7 @@ const Joi = require("joi");
 const studentProfileUpdateSchema = Joi.object({
   profilePhotoUrl: Joi.string().allow("").optional(),
   headline: Joi.string().max(120).allow("").optional(),
+  profileType: Joi.string().valid("student", "graduate", "job_seeker").optional(),
   about: Joi.string().max(1000).allow("").optional(),
   state: Joi.string().max(120).allow("").optional(),
   institutionName: Joi.string().max(220).allow("").optional(),
@@ -69,6 +70,7 @@ const studentProfileUpdateSchema = Joi.object({
 const mentorProfileUpdateSchema = Joi.object({
   profilePhotoUrl: Joi.string().allow("").optional(),
   title: Joi.string().max(120).allow("").optional(),
+  profileType: Joi.string().valid("student", "graduate", "job_seeker").optional(),
   state: Joi.string().max(120).allow("").optional(),
   institutionName: Joi.string().max(220).allow("").optional(),
   institutionType: Joi.string().max(120).allow("").optional(),

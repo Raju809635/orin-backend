@@ -19,6 +19,8 @@ exports.applyCollaborate = asyncHandler(async (req, res) => {
     organization: req.body.organization || "",
     type: req.body.type,
     message: req.body.message || "",
+    offerings: req.body.offerings || "",
+    expectations: req.body.expectations || "",
     status: "pending"
   });
 
@@ -32,7 +34,7 @@ exports.getCollaborateStatusByEmail = asyncHandler(async (req, res) => {
   const email = req.query.email.toLowerCase().trim();
 
   const applications = await CollaborateApplication.find({ email })
-    .select("name email type organization message status adminNotes reviewedAt createdAt")
+    .select("name email type organization message offerings expectations status adminNotes reviewedAt createdAt")
     .sort({ createdAt: -1 })
     .lean();
 

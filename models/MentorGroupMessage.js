@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const chatMessageSchema = new mongoose.Schema(
+const mentorGroupMessageSchema = new mongoose.Schema(
   {
-    sender: {
+    groupId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "MentorGroup",
       required: true,
       index: true
     },
-    recipient: {
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -17,7 +17,6 @@ const chatMessageSchema = new mongoose.Schema(
     text: {
       type: String,
       required: true,
-      trim: true,
       maxlength: 2000
     },
     editedAt: {
@@ -27,16 +26,11 @@ const chatMessageSchema = new mongoose.Schema(
     deletedAt: {
       type: Date,
       default: null
-    },
-    readAt: {
-      type: Date,
-      default: null
     }
   },
   { timestamps: true }
 );
 
-chatMessageSchema.index({ sender: 1, recipient: 1, createdAt: -1 });
-chatMessageSchema.index({ recipient: 1, readAt: 1, createdAt: -1 });
+mentorGroupMessageSchema.index({ groupId: 1, createdAt: -1 });
 
-module.exports = mongoose.model("ChatMessage", chatMessageSchema);
+module.exports = mongoose.model("MentorGroupMessage", mentorGroupMessageSchema);

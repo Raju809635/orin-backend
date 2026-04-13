@@ -13,6 +13,8 @@ const mentorGroupSchema = new mongoose.Schema(
     description: { type: String, default: "" },
     maxStudents: { type: Number, default: 50 },
     memberIds: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
+    pendingRequestIds: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
+    topicTags: { type: [String], default: [] },
     schedule: { type: String, default: "Weekly sessions" },
     isActive: { type: Boolean, default: true, index: true }
   },

@@ -16,11 +16,13 @@ const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
 const MentorSprint = require("../models/MentorSprint");
 const MentorSprintEnrollment = require("../models/MentorSprintEnrollment");
 const CommunityChallenge = require("../models/CommunityChallenge");
+const CommunityChallengeSubmission = require("../models/CommunityChallengeSubmission");
 const CareerOpportunity = require("../models/CareerOpportunity");
 const KnowledgeResource = require("../models/KnowledgeResource");
 const CertificationTrack = require("../models/CertificationTrack");
 const CertificationRequest = require("../models/CertificationRequest");
 const OrinCertification = require("../models/OrinCertification");
+const CertificateTemplate = require("../models/CertificateTemplate");
 const Bootcamp = require("../models/Bootcamp");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
@@ -883,6 +885,31 @@ exports.getNetworkAdminChallenges = asyncHandler(async (_req, res) => {
   res.status(200).json(challenges);
 });
 
+exports.getNetworkAdminChallengeSubmissions = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challenge id");
+
+  const submissions = await CommunityChallengeSubmission.find({ challengeId })
+    .populate("userId", "name email role")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  res.status(200).json(
+    submissions.map((item) => ({
+      _id: item._id,
+      challengeId: item.challengeId,
+      userId: item.userId,
+      proofNote: item.proofNote || "",
+      proofLinks: item.proofLinks || [],
+      proofFiles: item.proofFiles || [],
+      status: item.status,
+      mentorReview: item.mentorReview || {},
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt
+    }))
+  );
+});
+
 exports.toggleNetworkAdminChallenge = asyncHandler(async (req, res) => {
   const { challengeId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challenge id");
@@ -1080,6 +1107,39 @@ exports.getNetworkAdminCertificationTracks = asyncHandler(async (_req, res) => {
   res.status(200).json(rows);
 });
 
+exports.getNetworkAdminCertificateTemplates = asyncHandler(async (_req, res) => {
+  const rows = await CertificateTemplate.find({}).sort({ updatedAt: -1 }).limit(300).lean();
+  res.status(200).json(rows);
+});
+
+exports.createNetworkAdminCertificateTemplate = asyncHandler(async (req, res) => {
+  const title = String(req.body?.title || "").trim();
+  const templateKey = String(req.body?.templateKey || title.toLowerCase().replace(/[^a-z0-9]+/g, "-")).trim();
+  if (!title) throw new ApiError(400, "title is required");
+  if (!templateKey) throw new ApiError(400, "templateKey is required");
+
+  const doc = await CertificateTemplate.findOneAndUpdate(
+    { templateKey },
+    {
+      $set: {
+        title,
+        templateKey,
+        issuerType: String(req.body?.issuerType || "admin").trim(),
+        description: String(req.body?.description || "").trim(),
+        bodyText: String(req.body?.bodyText || "").trim(),
+        xpReward: Number(req.body?.xpReward || 0),
+        certificateType: String(req.body?.certificateType || "manual").trim(),
+        bannerImageUrl: String(req.body?.bannerImageUrl || "").trim(),
+        isActive: req.body?.isActive !== false,
+        createdBy: req.user.id
+      }
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  res.status(201).json({ message: "Certificate template saved", template: doc });
+});
+
 exports.toggleNetworkAdminCertificationTrack = asyncHandler(async (req, res) => {
   const { trackId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(trackId)) throw new ApiError(400, "Invalid track id");
@@ -1176,9 +1236,16 @@ exports.issueNetworkAdminCertificate = asyncHandler(async (req, res) => {
   const domain = String(req.body?.domain || "").trim();
   const level = String(req.body?.level || "Beginner").trim();
   const source = String(req.body?.source || "Admin Verified").trim();
+  const templateKey = String(req.body?.templateKey || "").trim();
 
-  if (!title) throw new ApiError(400, "title is required");
   if (!userId && !userEmail) throw new ApiError(400, "userId or userEmail is required");
+  let template = null;
+  if (templateKey) {
+    template = await CertificateTemplate.findOne({ templateKey, isActive: true }).lean();
+    if (!template) throw new ApiError(404, "Certificate template not found");
+  }
+  const resolvedTitle = title || template?.title || "";
+  if (!resolvedTitle) throw new ApiError(400, "title is required");
 
   const query = userId && mongoose.Types.ObjectId.isValid(userId) ? { _id: userId } : { email: userEmail };
   const user = await User.findOne(query).select("_id name email role").lean();
@@ -1187,17 +1254,18 @@ exports.issueNetworkAdminCertificate = asyncHandler(async (req, res) => {
   const { certificate, created } = await issueCertificate({
     userId: user._id,
     userName: user.name || "",
-    title,
-    type: "manual",
+    title: resolvedTitle,
+    type: template?.certificateType || "manual",
     issuedBy: "ORIN Admin",
     source,
     level,
     domain,
     referenceType: "manual",
-    referenceId: `${String(user._id)}:${title.toLowerCase()}`,
+    referenceId: `${String(user._id)}:${resolvedTitle.toLowerCase()}`,
     metadata: {
       domain,
-      level
+      level,
+      score: Number(req.body?.xpReward || template?.xpReward || 0)
     },
     status: "approved"
   });
@@ -1205,6 +1273,59 @@ exports.issueNetworkAdminCertificate = asyncHandler(async (req, res) => {
   res.status(created ? 201 : 200).json({
     message: created ? "Certificate issued" : "Certificate already exists",
     certificate
+  });
+});
+
+exports.issueNetworkAdminCertificatesBulk = asyncHandler(async (req, res) => {
+  const emails = Array.isArray(req.body?.emails)
+    ? req.body.emails.map((item) => String(item || "").trim().toLowerCase()).filter(Boolean)
+    : String(req.body?.emailsCsv || "")
+        .split(/[\n,;]+/)
+        .map((item) => String(item || "").trim().toLowerCase())
+        .filter(Boolean);
+  const title = String(req.body?.title || "").trim();
+  const domain = String(req.body?.domain || "").trim();
+  const level = String(req.body?.level || "Beginner").trim();
+  if (!emails.length) throw new ApiError(400, "emails are required");
+  if (!title) throw new ApiError(400, "title is required");
+
+  const users = await User.find({ email: { $in: emails } }).select("_id name email").lean();
+  const byEmail = new Map(users.map((user) => [String(user.email || "").toLowerCase(), user]));
+  const issued = [];
+  const missing = [];
+
+  for (const email of emails) {
+    const user = byEmail.get(email);
+    if (!user) {
+      missing.push(email);
+      continue;
+    }
+    const { certificate } = await issueCertificate({
+      userId: user._id,
+      userName: user.name || "",
+      title,
+      type: "manual",
+      issuedBy: "ORIN Admin",
+      source: String(req.body?.source || "Bulk Admin Verified").trim(),
+      level,
+      domain,
+      referenceType: "manual",
+      referenceId: `${String(user._id)}:${title.toLowerCase()}`,
+      metadata: {
+        domain,
+        level,
+        score: Number(req.body?.xpReward || 0)
+      },
+      status: "approved"
+    });
+    issued.push(certificate);
+  }
+
+  res.status(201).json({
+    message: "Bulk certificate issue completed",
+    issuedCount: issued.length,
+    missing,
+    certificates: issued
   });
 });
 

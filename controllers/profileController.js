@@ -9,6 +9,7 @@ const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { createAuditLog } = require("../services/auditService");
 const { searchInstitutions, canonicalInstitutionType, normalizeStateName: normalizeEducationStateName } = require("../services/educationCatalogService");
+const { updateSkillProfile } = require("../services/journeyStateService");
 const {
   getMentorCategoryOptions,
   isValidMentorCategorySelection
@@ -47,6 +48,11 @@ function normalizeStateName(value = "") {
     ["Dl", "Delhi"]
   ]);
   return aliases.get(normalized) || normalized;
+}
+
+function normalizeProfileType(value = "", fallback = "student") {
+  const normalized = String(value || "").trim().toLowerCase().replace(/\s+/g, "_");
+  return ["student", "graduate", "job_seeker"].includes(normalized) ? normalized : fallback;
 }
 
 function normalizeProject(project = {}) {
@@ -155,6 +161,9 @@ function normalizeStudentProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
     nextPayload.state = normalizeStateName(nextPayload.state);
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "profileType")) {
+    nextPayload.profileType = normalizeProfileType(nextPayload.profileType, "student");
+  }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionName")) {
     nextPayload.institutionName = String(nextPayload.institutionName || "").trim();
   }
@@ -225,6 +234,9 @@ function normalizeMentorProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "state")) {
     nextPayload.state = normalizeStateName(nextPayload.state);
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "profileType")) {
+    nextPayload.profileType = normalizeProfileType(nextPayload.profileType, "graduate");
+  }
   if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionName")) {
     nextPayload.institutionName = String(nextPayload.institutionName || "").trim();
   }
@@ -287,6 +299,7 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
   nextPayload.profileCompleteness = computeProfileCompleteness([
     nextPayload.profilePhotoUrl,
     nextPayload.headline,
+    nextPayload.profileType,
     nextPayload.about,
     nextPayload.state,
     nextPayload.education,
@@ -303,11 +316,25 @@ exports.updateMyStudentProfile = asyncHandler(async (req, res) => {
   const profile = await upsertProfileDocument(StudentProfile, req.user.id, nextPayload);
   const resolvedProfile = {
     ...profile,
+    profileType:
+      Object.prototype.hasOwnProperty.call(nextPayload, "profileType")
+        ? nextPayload.profileType
+        : String(profile?.profileType || "student").trim(),
     state:
       Object.prototype.hasOwnProperty.call(nextPayload, "state")
         ? nextPayload.state
         : String(profile?.state || "").trim()
   };
+
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "skills")) {
+    await updateSkillProfile(
+      req.user.id,
+      {
+        knownSkills: nextPayload.skills || []
+      },
+      req.user.role
+    );
+  }
 
   await createAuditLog({
     req,
@@ -384,6 +411,7 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   nextPayload.profileCompleteness = computeProfileCompleteness([
     mergedProfile.profilePhotoUrl,
     mergedProfile.title,
+    mergedProfile.profileType,
     mergedProfile.company,
     mergedProfile.experienceYears,
     mergedProfile.primaryCategory,
@@ -406,6 +434,10 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
   const profile = await upsertProfileDocument(MentorProfile, req.user.id, nextPayload);
   const resolvedProfile = {
     ...profile,
+    profileType:
+      Object.prototype.hasOwnProperty.call(nextPayload, "profileType")
+        ? nextPayload.profileType
+        : String(profile?.profileType || "graduate").trim(),
     state:
       Object.prototype.hasOwnProperty.call(nextPayload, "state")
         ? nextPayload.state

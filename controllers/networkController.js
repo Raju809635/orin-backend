@@ -16,10 +16,13 @@ const MentorLiveSessionBooking = require("../models/MentorLiveSessionBooking");
 const MentorSprint = require("../models/MentorSprint");
 const MentorSprintEnrollment = require("../models/MentorSprintEnrollment");
 const CommunityChallenge = require("../models/CommunityChallenge");
+const CommunityChallengeSubmission = require("../models/CommunityChallengeSubmission");
 const OrinCertification = require("../models/OrinCertification");
 const CertificationTrack = require("../models/CertificationTrack");
 const CertificationRequest = require("../models/CertificationRequest");
+const CertificateTemplate = require("../models/CertificateTemplate");
 const MentorGroup = require("../models/MentorGroup");
+const MentorGroupMessage = require("../models/MentorGroupMessage");
 const KnowledgeResource = require("../models/KnowledgeResource");
 const UserSkillLevel = require("../models/UserSkillLevel");
 const QuizStreak = require("../models/QuizStreak");
@@ -3353,6 +3356,18 @@ exports.reactToPost = asyncHandler(async (req, res) => {
   if (!Array.isArray(post.reactions)) {
     post.reactions = [];
   }
+  if (!Array.isArray(post.savedBy)) {
+    post.savedBy = [];
+  }
+  if (!Array.isArray(post.sharedBy)) {
+    post.sharedBy = [];
+  }
+  if (!Number.isFinite(Number(post.saveCount))) {
+    post.saveCount = 0;
+  }
+  if (!Number.isFinite(Number(post.shareCount))) {
+    post.shareCount = 0;
+  }
 
   if (action === "like" || action === "react") {
     const nextReaction = action === "like" ? "like" : String(reactionType || "").toLowerCase();
@@ -4128,11 +4143,23 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   );
   const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const stateSteps = (journeyState?.roadmap?.steps || []).map((item) => item.title).filter(Boolean);
-  const steps = stateSteps.length
+  const rawSteps = stateSteps.length
     ? stateSteps
     : template?.roadmap?.length
       ? template.roadmap
       : getRoadmapForGoal(goal);
+  const knownSkillsForRoadmap = normalizeList(
+    journeyState?.skillProfile?.knownSkills?.length ? journeyState.skillProfile.knownSkills : studentProfile?.skills || []
+  );
+  const filteredSteps = rawSteps.filter((title) => {
+    const titleKey = normalizeText(title);
+    if (!titleKey) return false;
+    return !knownSkillsForRoadmap.some((skill) => {
+      const key = normalizeText(skill);
+      return key.length >= 3 && (titleKey.includes(key) || key.includes(titleKey));
+    });
+  });
+  const steps = filteredSteps.length ? filteredSteps : rawSteps;
 
   const currentRoadmapId = String(journeyState?.roadmap?.roadmapId || "").trim();
   const requestedRoadmapId = String(goal).trim();
@@ -4382,6 +4409,11 @@ exports.getCareerOpportunities = asyncHandler(async (req, res) => {
         : internshipState.reasons[0] || "Build readiness before applying";
       return {
         ...item,
+        category: item.category || item.type || "internship",
+        bannerImageUrl: item.bannerImageUrl || "",
+        supportingDocuments: item.supportingDocuments || [],
+        isPaid: Boolean(item.isPaid),
+        eventDate: item.eventDate || item.applicationDeadline || null,
         relevanceScore: score,
         recommended,
         readinessUnlocked: internshipState.unlocked,
@@ -4405,23 +4437,39 @@ exports.submitCareerOpportunity = asyncHandler(async (req, res) => {
   if (!title) throw new ApiError(400, "Title is required");
 
   const type = String(req.body?.type || "internship").trim();
-  const allowedTypes = ["internship", "hackathon", "competition", "research", "job", "other"];
+  const allowedTypes = ["workshop", "internship", "hackathon", "competition", "research", "job", "other"];
   if (!allowedTypes.includes(type)) throw new ApiError(400, "Invalid opportunity type");
+  const category = String(req.body?.category || type || "internship").trim();
 
   const applicationUrl = String(req.body?.applicationUrl || "").trim();
+  const bannerImageUrl = String(req.body?.bannerImageUrl || "").trim();
+  const supportingDocuments = Array.isArray(req.body?.supportingDocuments)
+    ? req.body.supportingDocuments.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+    : [];
+  const isPaid = Boolean(req.body?.isPaid);
+  const applicationDeadline = req.body?.applicationDeadline ? new Date(req.body.applicationDeadline) : null;
+  const eventDate = req.body?.eventDate ? new Date(req.body.eventDate) : null;
   const domainTags = Array.isArray(req.body?.domainTags)
     ? req.body.domainTags.map((t) => String(t || "").trim()).filter(Boolean).slice(0, 10)
     : [];
+  if (applicationDeadline && Number.isNaN(applicationDeadline.getTime())) throw new ApiError(400, "Invalid application deadline");
+  if (eventDate && Number.isNaN(eventDate.getTime())) throw new ApiError(400, "Invalid event date");
 
   const doc = await CareerOpportunity.create({
     title,
     company: String(req.body?.company || "").trim(),
     type,
+    category,
     role: String(req.body?.role || "").trim(),
     duration: String(req.body?.duration || "").trim(),
     location: String(req.body?.location || "").trim(),
     domainTags,
     applicationUrl,
+    applicationDeadline,
+    eventDate,
+    bannerImageUrl,
+    supportingDocuments,
+    isPaid,
     description: String(req.body?.description || "").trim(),
     isActive: false, // pending admin activation
     postedBy: userId
@@ -6438,8 +6486,7 @@ exports.getVerifiedMentors = asyncHandler(async (_req, res) => {
   res.json(rows);
 });
 
-exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
-  const req = _req;
+exports.getCommunityChallenges = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
   const role = req.user?.role;
   const [journeyState, profile] = await Promise.all([
@@ -6453,17 +6500,21 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
     role === "mentor"
       ? {
           $or: [
-            { isActive: true },
+            { isActive: true, approvalStatus: "approved" },
             // Mentors can see their own submissions even if not active yet (admin review workflow).
             { createdBy: userId }
           ]
         }
-      : { isActive: true };
+      : { isActive: true, approvalStatus: "approved" };
 
   let challenges = await CommunityChallenge.find(challengesQuery)
     .sort({ deadline: 1, createdAt: -1 })
     .limit(40)
     .lean();
+  const submissionRows = userId
+    ? await CommunityChallengeSubmission.find({ userId }).select("challengeId status mentorReview").lean()
+    : [];
+  const submissionMap = new Map(submissionRows.map((item) => [String(item.challengeId), item]));
 
   if (!challenges.length) {
     challenges = [
@@ -6502,10 +6553,16 @@ exports.getCommunityChallenges = asyncHandler(async (_req, res) => {
         skills: normalizeList(item.skills || []),
         tasks: normalizeList(item.tasks || []),
         submissionType: item.submissionType || "",
+        proofInstructions: item.proofInstructions || "",
+        participantLimit: Number(item.participantLimit || 0),
         deadline: item.deadline,
         isActive: item.isActive !== false,
+        approvalStatus: item.approvalStatus || "approved",
         participantsCount,
         topParticipants: item.topParticipants || [],
+        submissionStatus: submissionMap.get(String(item._id))?.status || "not_submitted",
+        awardedRank: Number(submissionMap.get(String(item._id))?.mentorReview?.rank || 0),
+        awardedXp: Number(submissionMap.get(String(item._id))?.mentorReview?.xpAwarded || 0),
         recommended: relevance > 0 || isProjectAligned,
         recommendationReason,
         challengeState: challengeState.currentStep?.title || "Foundation",
@@ -6529,6 +6586,8 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
   const bannerImageUrl = String(req.body?.bannerImageUrl || "").trim();
   const prize = String(req.body?.prize || "").trim();
   const submissionType = String(req.body?.submissionType || "").trim();
+  const proofInstructions = String(req.body?.proofInstructions || "").trim();
+  const participantLimit = Number(req.body?.participantLimit || 0);
   const skills = Array.isArray(req.body?.skills)
     ? req.body.skills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
     : [];
@@ -6554,8 +6613,11 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
     skills,
     tasks,
     submissionType,
+    proofInstructions,
+    participantLimit: Number.isFinite(participantLimit) ? Math.max(0, Math.min(5000, participantLimit)) : 0,
     deadline,
     isActive: false, // pending admin activation
+    approvalStatus: "pending",
     isFeatured: false,
     createdBy: userId,
     participants: [],
@@ -6577,8 +6639,11 @@ exports.joinCommunityChallenge = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challengeId");
 
-  const challenge = await CommunityChallenge.findOne({ _id: challengeId, isActive: true });
+  const challenge = await CommunityChallenge.findOne({ _id: challengeId, isActive: true, approvalStatus: "approved" });
   if (!challenge) throw new ApiError(404, "Challenge not found");
+  if (challenge.participantLimit > 0 && challenge.participants.length >= challenge.participantLimit) {
+    throw new ApiError(400, "Participant limit reached");
+  }
 
   const already = challenge.participants.some((id) => String(id) === String(userId));
   if (!already) {
@@ -6589,6 +6654,115 @@ exports.joinCommunityChallenge = asyncHandler(async (req, res) => {
   await applyReputationDelta(userId, { dailyChallenges: 1 });
 
   res.json({ message: "Challenge joined", participantsCount: challenge.participants.length });
+});
+
+exports.submitCommunityChallengeProof = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  const userId = req.user.id;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challengeId");
+
+  const challenge = await CommunityChallenge.findOne({ _id: challengeId, isActive: true, approvalStatus: "approved" }).lean();
+  if (!challenge) throw new ApiError(404, "Challenge not found");
+  const joined = (challenge.participants || []).some((id) => String(id) === String(userId));
+  if (!joined) throw new ApiError(400, "Join the challenge before submitting proof");
+
+  const proofNote = String(req.body?.proofNote || "").trim();
+  const proofLinks = Array.isArray(req.body?.proofLinks)
+    ? req.body.proofLinks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+    : String(req.body?.proofLink || "").trim()
+      ? [String(req.body?.proofLink || "").trim()]
+      : [];
+  const proofFiles = Array.isArray(req.body?.proofFiles)
+    ? req.body.proofFiles.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+    : [];
+
+  if (!proofNote && !proofLinks.length && !proofFiles.length) {
+    throw new ApiError(400, "Add at least one proof note, link, or file");
+  }
+
+  const submission = await CommunityChallengeSubmission.findOneAndUpdate(
+    { challengeId, userId },
+    {
+      $set: {
+        proofNote,
+        proofLinks,
+        proofFiles,
+        status: "submitted"
+      }
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  res.status(201).json({
+    message: "Proof submitted for mentor review",
+    submission
+  });
+});
+
+exports.reviewCommunityChallengeSubmission = asyncHandler(async (req, res) => {
+  const { challengeId, submissionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(challengeId) || !mongoose.Types.ObjectId.isValid(submissionId)) {
+    throw new ApiError(400, "Invalid challenge or submission id");
+  }
+
+  const challenge = await CommunityChallenge.findById(challengeId).lean();
+  if (!challenge) throw new ApiError(404, "Challenge not found");
+  if (String(challenge.createdBy || "") !== String(req.user.id) && req.user.role !== "admin") {
+    throw new ApiError(403, "Only the challenge mentor or admin can review submissions");
+  }
+
+  const submission = await CommunityChallengeSubmission.findById(submissionId);
+  if (!submission || String(submission.challengeId) !== String(challengeId)) {
+    throw new ApiError(404, "Submission not found");
+  }
+
+  const rank = Number(req.body?.rank || 0);
+  const xpAwarded = Number(req.body?.xpAwarded || 0);
+  const notes = String(req.body?.notes || "").trim();
+  const action = String(req.body?.action || "accept").trim();
+  if (!["accept", "reject", "review"].includes(action)) {
+    throw new ApiError(400, "action must be accept, reject, or review");
+  }
+
+  submission.status = action === "accept" ? "accepted" : action === "reject" ? "rejected" : "reviewed";
+  submission.mentorReview = {
+    rank: Number.isFinite(rank) ? Math.max(0, Math.min(3, rank)) : 0,
+    xpAwarded: Number.isFinite(xpAwarded) ? Math.max(0, xpAwarded) : 0,
+    notes,
+    reviewedBy: req.user.id,
+    reviewedAt: new Date(),
+    certificateId: submission.mentorReview?.certificateId || null
+  };
+
+  if (submission.status === "accepted" && submission.mentorReview.xpAwarded > 0) {
+    await applyReputationDelta(submission.userId, { dailyChallenges: Math.max(1, Math.round(submission.mentorReview.xpAwarded / 20)) });
+  }
+
+  if (submission.status === "accepted" && req.body?.issueCertificate) {
+    const { certificate } = await issueCertificate({
+      userId: submission.userId,
+      userName: "",
+      title: String(req.body?.certificateTitle || `${challenge.title} Performance Certificate`).trim(),
+      type: "challenge",
+      issuedBy: req.user.role === "admin" ? "ORIN Admin" : "ORIN Mentor",
+      source: "Challenge Review",
+      level: submission.mentorReview.rank ? `Rank ${submission.mentorReview.rank}` : "Participant",
+      domain: challenge.domain || "",
+      referenceType: "challenge",
+      referenceId: String(challenge._id),
+      metadata: {
+        domain: challenge.domain || "",
+        level: submission.mentorReview.rank ? `Rank ${submission.mentorReview.rank}` : "Participant",
+        challengeTitle: challenge.title,
+        score: submission.mentorReview.xpAwarded || 0
+      },
+      status: "approved"
+    });
+    submission.mentorReview.certificateId = certificate._id;
+  }
+
+  await submission.save();
+  res.status(200).json({ message: "Submission reviewed", submission });
 });
 
 exports.getOrinCertifications = asyncHandler(async (req, res) => {
@@ -6859,7 +7033,7 @@ exports.getMyCertificationRequests = asyncHandler(async (req, res) => {
   );
 });
 
-exports.getMentorGroups = asyncHandler(async (_req, res) => {
+exports.getMentorGroups = asyncHandler(async (req, res) => {
   let groups = await MentorGroup.find({ isActive: true })
     .populate("mentorId", "name role approvalStatus isDeleted")
     .sort({ updatedAt: -1 })
@@ -6896,9 +7070,136 @@ exports.getMentorGroups = asyncHandler(async (_req, res) => {
         },
         maxStudents: item.maxStudents || 0,
         membersCount: (item.memberIds || []).length,
+        pendingRequestsCount: (item.pendingRequestIds || []).length,
+        joined: (item.memberIds || []).some((id) => String(id) === String(req.user.id)),
+        requestPending: (item.pendingRequestIds || []).some((id) => String(id) === String(req.user.id)),
+        topicTags: item.topicTags || [],
         schedule: item.schedule || "Weekly sessions"
       }))
   );
+});
+
+async function ensureMentorGroupAccess(groupId, user) {
+  if (!mongoose.Types.ObjectId.isValid(groupId)) throw new ApiError(400, "Invalid groupId");
+  const group = await MentorGroup.findById(groupId);
+  if (!group || !group.isActive) throw new ApiError(404, "Group not found");
+  const userId = String(user.id || user._id || "");
+  const isMentorOwner = String(group.mentorId) === userId;
+  const isMember = (group.memberIds || []).some((id) => String(id) === userId);
+  if (!isMentorOwner && !isMember) {
+    throw new ApiError(403, "You are not a member of this group");
+  }
+  return { group, userId, isMentorOwner };
+}
+
+exports.getMentorGroupMessages = asyncHandler(async (req, res) => {
+  const { groupId } = req.params;
+  const { group } = await ensureMentorGroupAccess(groupId, req.user);
+
+  const messages = await MentorGroupMessage.find({ groupId: group._id, deletedAt: null })
+    .populate("senderId", "name role")
+    .sort({ createdAt: 1 })
+    .limit(500)
+    .lean();
+
+  res.json({
+    group: {
+      id: group._id,
+      name: group.name,
+      domain: group.domain,
+      description: group.description,
+      membersCount: group.memberIds.length
+    },
+    messages: messages.map((msg) => ({
+      id: msg._id,
+      text: msg.text,
+      createdAt: msg.createdAt,
+      editedAt: msg.editedAt,
+      sender: {
+        id: msg.senderId?._id,
+        name: msg.senderId?.name || "Member",
+        role: msg.senderId?.role || "member"
+      }
+    }))
+  });
+});
+
+exports.sendMentorGroupMessage = asyncHandler(async (req, res) => {
+  const { groupId } = req.params;
+  const { group, userId } = await ensureMentorGroupAccess(groupId, req.user);
+  const text = String(req.body?.text || "").trim();
+  if (!text) throw new ApiError(400, "Message text is required");
+
+  const message = await MentorGroupMessage.create({
+    groupId: group._id,
+    senderId: userId,
+    text
+  });
+
+  const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
+  res.status(201).json({
+    message: "Message sent",
+    chatMessage: {
+      id: populated._id,
+      text: populated.text,
+      createdAt: populated.createdAt,
+      editedAt: populated.editedAt,
+      sender: {
+        id: populated.senderId?._id,
+        name: populated.senderId?.name || "Member",
+        role: populated.senderId?.role || "member"
+      }
+    }
+  });
+});
+
+exports.updateMentorGroupMessage = asyncHandler(async (req, res) => {
+  const { groupId, messageId } = req.params;
+  const { userId, isMentorOwner } = await ensureMentorGroupAccess(groupId, req.user);
+  if (!mongoose.Types.ObjectId.isValid(messageId)) throw new ApiError(400, "Invalid message id");
+  const text = String(req.body?.text || "").trim();
+  if (!text) throw new ApiError(400, "Message text is required");
+
+  const message = await MentorGroupMessage.findById(messageId);
+  if (!message || String(message.groupId) !== String(groupId)) throw new ApiError(404, "Message not found");
+  const isOwner = String(message.senderId) === String(userId);
+  if (!isOwner && !isMentorOwner) throw new ApiError(403, "Not allowed to edit this message");
+
+  message.text = text;
+  message.editedAt = new Date();
+  await message.save();
+
+  const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
+  res.json({
+    message: "Message updated",
+    chatMessage: {
+      id: populated._id,
+      text: populated.text,
+      createdAt: populated.createdAt,
+      editedAt: populated.editedAt,
+      sender: {
+        id: populated.senderId?._id,
+        name: populated.senderId?.name || "Member",
+        role: populated.senderId?.role || "member"
+      }
+    }
+  });
+});
+
+exports.deleteMentorGroupMessage = asyncHandler(async (req, res) => {
+  const { groupId, messageId } = req.params;
+  const { userId, isMentorOwner } = await ensureMentorGroupAccess(groupId, req.user);
+  if (!mongoose.Types.ObjectId.isValid(messageId)) throw new ApiError(400, "Invalid message id");
+
+  const message = await MentorGroupMessage.findById(messageId);
+  if (!message || String(message.groupId) !== String(groupId)) throw new ApiError(404, "Message not found");
+  const isOwner = String(message.senderId) === String(userId);
+  if (!isOwner && !isMentorOwner) throw new ApiError(403, "Not allowed to delete this message");
+
+  message.deletedAt = new Date();
+  await message.save();
+
+  res.json({ message: "Message deleted" });
 });
 
 exports.joinMentorGroup = asyncHandler(async (req, res) => {
@@ -6911,16 +7212,40 @@ exports.joinMentorGroup = asyncHandler(async (req, res) => {
   if (req.user.role !== "student") throw new ApiError(403, "Only students can join groups");
 
   const already = group.memberIds.some((id) => String(id) === String(userId));
-  if (!already) {
+  const pending = group.pendingRequestIds.some((id) => String(id) === String(userId));
+  if (!already && !pending) {
     if (group.maxStudents > 0 && group.memberIds.length >= group.maxStudents) {
       throw new ApiError(400, "Group is full");
     }
-    group.memberIds.push(userId);
+    group.pendingRequestIds.push(userId);
     await group.save();
   }
 
-  await applyReputationDelta(userId, { activityPosts: 1 });
-  res.json({ message: "Joined mentor group", membersCount: group.memberIds.length });
+  res.json({ message: pending || already ? "Group request already exists" : "Join request sent", membersCount: group.memberIds.length });
+});
+
+exports.respondMentorGroupJoinRequest = asyncHandler(async (req, res) => {
+  const { groupId, studentId } = req.params;
+  const action = String(req.body?.action || "").trim();
+  if (!["approve", "reject"].includes(action)) throw new ApiError(400, "action must be approve or reject");
+  if (!mongoose.Types.ObjectId.isValid(groupId) || !mongoose.Types.ObjectId.isValid(studentId)) {
+    throw new ApiError(400, "Invalid group or student id");
+  }
+
+  const group = await MentorGroup.findById(groupId);
+  if (!group || !group.isActive) throw new ApiError(404, "Group not found");
+  if (String(group.mentorId) !== String(req.user.id)) throw new ApiError(403, "Only the mentor who created the group can manage requests");
+
+  group.pendingRequestIds = (group.pendingRequestIds || []).filter((id) => String(id) !== String(studentId));
+  if (action === "approve" && !(group.memberIds || []).some((id) => String(id) === String(studentId))) {
+    if (group.maxStudents > 0 && group.memberIds.length >= group.maxStudents) {
+      throw new ApiError(400, "Group is full");
+    }
+    group.memberIds.push(studentId);
+    await applyReputationDelta(studentId, { activityPosts: 1 });
+  }
+  await group.save();
+  res.status(200).json({ message: action === "approve" ? "Student approved" : "Join request rejected", group });
 });
 
 exports.getProjectIdeas = asyncHandler(async (req, res) => {
@@ -7065,6 +7390,8 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
       title: item.title,
       description: item.description || "",
       url: item.url || "",
+      bannerImageUrl: item.bannerImageUrl || item.thumbnailUrl || "",
+      documentUrl: item.documentUrl || "",
       format: item.format || "",
       difficulty: item.difficulty || "",
       estimatedMinutes: Number(item.estimatedMinutes || 0),
@@ -7079,12 +7406,14 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
 });
 
 exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
-  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can submit resources");
+  if (!["mentor", "student"].includes(req.user.role)) throw new ApiError(403, "Only students and mentors can submit resources");
 
   const title = String(req.body?.title || "").trim();
   const domain = String(req.body?.domain || "").trim();
   const description = String(req.body?.description || "").trim();
   const url = String(req.body?.url || "").trim();
+  const documentUrl = String(req.body?.documentUrl || "").trim();
+  const bannerImageUrl = String(req.body?.bannerImageUrl || "").trim();
   const type = String(req.body?.type || "other").trim();
   const format = String(req.body?.format || "").trim();
   const difficulty = String(req.body?.difficulty || "").trim();
@@ -7103,12 +7432,15 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
     title,
     description,
     url,
+    documentUrl,
+    bannerImageUrl,
     format,
     difficulty,
     estimatedMinutes: Number.isFinite(estimatedMinutes) ? estimatedMinutes : 0,
     thumbnailUrl,
     learningOutcome,
     tags,
+    contributorRole: req.user.role,
     submittedBy: req.user.id,
     approvalStatus: "pending",
     isActive: false
@@ -7128,6 +7460,9 @@ exports.createMentorGroup = asyncHandler(async (req, res) => {
   const description = String(req.body?.description || "").trim();
   const schedule = String(req.body?.schedule || "Weekly sessions").trim();
   const maxStudents = Number(req.body?.maxStudents || 50);
+  const topicTags = Array.isArray(req.body?.topicTags)
+    ? req.body.topicTags.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+    : [];
 
   if (!name) throw new ApiError(400, "name is required");
 
@@ -7139,6 +7474,8 @@ exports.createMentorGroup = asyncHandler(async (req, res) => {
     schedule,
     maxStudents: Number.isFinite(maxStudents) ? Math.max(1, Math.min(500, maxStudents)) : 50,
     memberIds: [],
+    pendingRequestIds: [],
+    topicTags,
     isActive: true
   });
 

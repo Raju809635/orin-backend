@@ -10,6 +10,11 @@ const studentProfileSchema = new mongoose.Schema(
     },
     profilePhotoUrl: { type: String, default: "" },
     headline: { type: String, default: "" },
+    profileType: {
+      type: String,
+      enum: ["student", "graduate", "job_seeker"],
+      default: "student"
+    },
     about: { type: String, default: "" },
     state: { type: String, default: "" },
     institutionName: { type: String, default: "" },

@@ -31,6 +31,7 @@ const {
   getNetworkAdminSprintPayouts,
   markNetworkAdminSprintPayoutPaid,
   getNetworkAdminChallenges,
+  getNetworkAdminChallengeSubmissions,
   toggleNetworkAdminChallenge,
   createNetworkAdminChallenge,
   updateNetworkAdminChallenge,
@@ -41,11 +42,14 @@ const {
   reviewNetworkAdminKnowledgeResource,
   createNetworkAdminKnowledgeResource,
   getNetworkAdminCertificationTracks,
+  getNetworkAdminCertificateTemplates,
   toggleNetworkAdminCertificationTrack,
   createNetworkAdminCertificationTrack,
+  createNetworkAdminCertificateTemplate,
   getNetworkAdminCertificationRequests,
   reviewNetworkAdminCertificationRequest,
   issueNetworkAdminCertificate,
+  issueNetworkAdminCertificatesBulk,
   getNetworkAdminBootcamps,
   createNetworkAdminBootcamp,
   toggleNetworkAdminBootcamp
@@ -97,6 +101,12 @@ router.patch("/network/sprints/:sprintId/review", verifyToken, authorizeRoles("a
 router.get("/network/sprint-payouts", verifyToken, authorizeRoles("admin"), getNetworkAdminSprintPayouts);
 router.patch("/network/sprint-payouts/:enrollmentId/pay", verifyToken, authorizeRoles("admin"), markNetworkAdminSprintPayoutPaid);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
+router.get(
+  "/network/challenges/:challengeId/submissions",
+  verifyToken,
+  authorizeRoles("admin"),
+  getNetworkAdminChallengeSubmissions
+);
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);
 router.patch("/network/challenges/:challengeId", verifyToken, authorizeRoles("admin"), updateNetworkAdminChallenge);
@@ -114,11 +124,14 @@ router.post("/network/knowledge-resources", verifyToken, authorizeRoles("admin")
 router.patch("/network/knowledge-resources/:resourceId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminKnowledgeResource);
 
 router.get("/network/certification-tracks", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationTracks);
+router.get("/network/certificate-templates", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificateTemplates);
+router.post("/network/certificate-templates", verifyToken, authorizeRoles("admin"), createNetworkAdminCertificateTemplate);
 router.post("/network/certification-tracks", verifyToken, authorizeRoles("admin"), createNetworkAdminCertificationTrack);
 router.patch("/network/certification-tracks/:trackId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminCertificationTrack);
 
 router.get("/network/certification-requests", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationRequests);
 router.patch("/network/certification-requests/:requestId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminCertificationRequest);
 router.post("/network/certificates/issue", verifyToken, authorizeRoles("admin"), issueNetworkAdminCertificate);
+router.post("/network/certificates/issue-bulk", verifyToken, authorizeRoles("admin"), issueNetworkAdminCertificatesBulk);
 
 module.exports = router;

@@ -47,7 +47,44 @@ const mentorSprintEnrollmentSchema = new mongoose.Schema(
     paymentId: { type: String, default: "" },
     paymentSignature: { type: String, default: "" },
     paymentDueAt: { type: Date, default: null, index: true },
-    cancelledAt: { type: Date, default: null }
+    cancelledAt: { type: Date, default: null },
+    payoutStatus: {
+      type: String,
+      enum: ["not_ready", "pending", "paid", "issue_reported"],
+      default: "not_ready",
+      index: true
+    },
+    mentorPayoutConfirmationStatus: {
+      type: String,
+      enum: ["not_ready", "pending", "confirmed", "issue_reported"],
+      default: "not_ready",
+      index: true
+    },
+    payoutPaidAt: {
+      type: Date,
+      default: null
+    },
+    payoutPaidBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
+    },
+    payoutReference: {
+      type: String,
+      default: ""
+    },
+    payoutNote: {
+      type: String,
+      default: ""
+    },
+    mentorPayoutConfirmedAt: {
+      type: Date,
+      default: null
+    },
+    mentorPayoutIssueNote: {
+      type: String,
+      default: ""
+    }
   },
   { timestamps: true }
 );

@@ -60,6 +60,8 @@ const {
   getCommunityChallenges,
   submitCommunityChallenge,
   joinCommunityChallenge,
+  submitCommunityChallengeProof,
+  reviewCommunityChallengeSubmission,
   getOrinCertifications,
   getCertificateDetail,
   verifyCertificatePublic,
@@ -69,7 +71,12 @@ const {
   getMyCertificationRequests,
   getMentorGroups,
   joinMentorGroup,
+  respondMentorGroupJoinRequest,
   createMentorGroup,
+  getMentorGroupMessages,
+  sendMentorGroupMessage,
+  updateMentorGroupMessage,
+  deleteMentorGroupMessage,
   getProjectIdeas,
   getKnowledgeLibrary,
   submitKnowledgeResource,
@@ -146,6 +153,8 @@ router.get("/verified-mentors", verifyToken, authorizeRoles("student", "mentor")
 router.get("/challenges", verifyToken, authorizeRoles("student", "mentor"), getCommunityChallenges);
 router.post("/challenges/submit", verifyToken, authorizeRoles("mentor"), submitCommunityChallenge);
 router.post("/challenges/:challengeId/join", verifyToken, authorizeRoles("student"), joinCommunityChallenge);
+router.post("/challenges/:challengeId/submissions", verifyToken, authorizeRoles("student"), submitCommunityChallengeProof);
+router.patch("/challenges/:challengeId/submissions/:submissionId/review", verifyToken, authorizeRoles("mentor", "admin"), reviewCommunityChallengeSubmission);
 router.get("/certifications/verify/:certificateId", verifyCertificatePublic);
 router.get("/certifications", verifyToken, authorizeRoles("student", "mentor"), getOrinCertifications);
 router.post("/certifications/generate", verifyToken, authorizeRoles("student", "mentor"), generateCertificate);
@@ -156,9 +165,14 @@ router.get("/certification-requests/me", verifyToken, authorizeRoles("student", 
 router.get("/mentor-groups", verifyToken, authorizeRoles("student", "mentor"), getMentorGroups);
 router.post("/mentor-groups", verifyToken, authorizeRoles("mentor"), createMentorGroup);
 router.post("/mentor-groups/:groupId/join", verifyToken, authorizeRoles("student"), joinMentorGroup);
+router.patch("/mentor-groups/:groupId/requests/:studentId", verifyToken, authorizeRoles("mentor"), respondMentorGroupJoinRequest);
+router.get("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("student", "mentor"), getMentorGroupMessages);
+router.post("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("student", "mentor"), sendMentorGroupMessage);
+router.patch("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), updateMentorGroupMessage);
+router.delete("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), deleteMentorGroupMessage);
 router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
 router.get("/knowledge-library", verifyToken, authorizeRoles("student", "mentor"), getKnowledgeLibrary);
-router.post("/knowledge-library/submit", verifyToken, authorizeRoles("mentor"), submitKnowledgeResource);
+router.post("/knowledge-library/submit", verifyToken, authorizeRoles("student", "mentor"), submitKnowledgeResource);
 router.get("/reputation-summary", verifyToken, authorizeRoles("student", "mentor"), getReputationSummary);
 
 module.exports = router;

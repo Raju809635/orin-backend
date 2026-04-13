@@ -11,6 +11,8 @@ const collaborateApplicationSchema = new mongoose.Schema(
       required: true
     },
     message: { type: String, default: "", trim: true },
+    offerings: { type: String, default: "", trim: true },
+    expectations: { type: String, default: "", trim: true },
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],

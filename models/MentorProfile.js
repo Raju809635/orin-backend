@@ -10,6 +10,11 @@ const mentorProfileSchema = new mongoose.Schema(
     },
     profilePhotoUrl: { type: String, default: "" },
     title: { type: String, default: "" },
+    profileType: {
+      type: String,
+      enum: ["student", "graduate", "job_seeker"],
+      default: "graduate"
+    },
     phoneNumber: { type: String, default: "" },
     company: { type: String, default: "" },
     experienceYears: { type: Number, default: 0 },
