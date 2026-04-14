@@ -152,6 +152,13 @@ function syncRoadmapState(roadmap = {}) {
 
   steps.forEach((step, index) => {
     const previous = index > 0 ? steps[index - 1] : null;
+    const hasProof = Boolean(step.proofSubmittedAt || step.proofText || step.proofLink || step.proofImageUrl);
+
+    if (step.completedAt && !hasProof) {
+      step.completedAt = null;
+      step.proofStatus = "not_submitted";
+      changed = true;
+    }
 
     if (step.completedAt) {
       step.status = "completed";
@@ -4985,6 +4992,22 @@ exports.cancelLiveSessionBooking = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Live session booking cancelled", booking });
 });
 
+exports.getMentorLiveSessionPaidBookings = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can view paid live session bookings");
+
+  const rows = await MentorLiveSessionBooking.find({
+    mentorId: req.user.id,
+    paymentStatus: "paid"
+  })
+    .populate("studentId", "name email")
+    .populate("liveSessionId", "title startsAt sessionMode price currency posterImageUrl")
+    .sort({ createdAt: -1 })
+    .limit(300)
+    .lean();
+
+  res.status(200).json(rows);
+});
+
 exports.getSprints = asyncHandler(async (req, res) => {
   await expireOverdueSprintEnrollments();
 
@@ -5129,6 +5152,22 @@ exports.getSprintDetail = asyncHandler(async (req, res) => {
       }
     }
   });
+});
+
+exports.getMentorSprintPaidEnrollments = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can view paid sprint enrollments");
+
+  const rows = await MentorSprintEnrollment.find({
+    mentorId: req.user.id,
+    paymentStatus: "paid"
+  })
+    .populate("studentId", "name email")
+    .populate("sprintId", "title startDate endDate sessionMode price currency posterImageUrl")
+    .sort({ createdAt: -1 })
+    .limit(300)
+    .lean();
+
+  res.status(200).json(rows);
 });
 
 exports.createSprint = asyncHandler(async (req, res) => {

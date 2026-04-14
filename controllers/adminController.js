@@ -645,6 +645,30 @@ exports.reviewNetworkAdminLiveSession = asyncHandler(async (req, res) => {
   });
 });
 
+exports.getNetworkAdminLiveSessionBookings = asyncHandler(async (_req, res) => {
+  const rows = await MentorLiveSessionBooking.find({ paymentStatus: "paid" })
+    .populate("studentId", "name email")
+    .populate("mentorId", "name email role")
+    .populate("liveSessionId", "title startsAt sessionMode price currency posterImageUrl")
+    .sort({ createdAt: -1 })
+    .limit(500)
+    .lean();
+
+  res.status(200).json(rows);
+});
+
+exports.deleteNetworkAdminLiveSession = asyncHandler(async (req, res) => {
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const session = await MentorLiveSession.findByIdAndDelete(liveSessionId);
+  if (!session) throw new ApiError(404, "Live session not found");
+
+  await MentorLiveSessionBooking.deleteMany({ liveSessionId });
+
+  res.status(200).json({ message: "Live session deleted", sessionId: liveSessionId });
+});
+
 exports.getNetworkAdminSprints = asyncHandler(async (_req, res) => {
   const sprints = await MentorSprint.find({})
     .populate("mentorId", "name email role")
@@ -774,6 +798,18 @@ exports.reviewNetworkAdminSprint = asyncHandler(async (req, res) => {
     message: action === "approve" ? "Sprint approved" : "Sprint rejected",
     sprint
   });
+});
+
+exports.deleteNetworkAdminSprint = asyncHandler(async (req, res) => {
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const sprint = await MentorSprint.findByIdAndDelete(sprintId);
+  if (!sprint) throw new ApiError(404, "Sprint not found");
+
+  await MentorSprintEnrollment.deleteMany({ sprintId });
+
+  res.status(200).json({ message: "Sprint deleted", sprintId });
 });
 
 exports.getNetworkAdminSprintPayouts = asyncHandler(async (_req, res) => {
@@ -916,7 +952,11 @@ exports.toggleNetworkAdminChallenge = asyncHandler(async (req, res) => {
 
   const challenge = await CommunityChallenge.findById(challengeId);
   if (!challenge) throw new ApiError(404, "Challenge not found");
-  challenge.isActive = !challenge.isActive;
+  const nextActive = !challenge.isActive;
+  challenge.isActive = nextActive;
+  if (nextActive && challenge.approvalStatus !== "approved") {
+    challenge.approvalStatus = "approved";
+  }
   await challenge.save();
 
   res.status(200).json({ message: challenge.isActive ? "Challenge activated" : "Challenge disabled", challenge });
@@ -985,6 +1025,18 @@ exports.updateNetworkAdminChallenge = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Challenge updated", challenge: doc });
 });
 
+exports.deleteNetworkAdminChallenge = asyncHandler(async (req, res) => {
+  const { challengeId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(challengeId)) throw new ApiError(400, "Invalid challenge id");
+
+  const challenge = await CommunityChallenge.findByIdAndDelete(challengeId);
+  if (!challenge) throw new ApiError(404, "Challenge not found");
+
+  await CommunityChallengeSubmission.deleteMany({ challengeId });
+
+  res.status(200).json({ message: "Challenge deleted", challengeId });
+});
+
 exports.getNetworkAdminOpportunities = asyncHandler(async (_req, res) => {
   const rows = await CareerOpportunity.find({})
     .populate("postedBy", "name email role")
@@ -1002,6 +1054,14 @@ exports.toggleNetworkAdminOpportunity = asyncHandler(async (req, res) => {
   row.isActive = !row.isActive;
   await row.save();
   res.status(200).json({ message: row.isActive ? "Opportunity activated" : "Opportunity disabled", opportunity: row });
+});
+
+exports.deleteNetworkAdminOpportunity = asyncHandler(async (req, res) => {
+  const { opportunityId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(opportunityId)) throw new ApiError(400, "Invalid opportunity id");
+  const row = await CareerOpportunity.findByIdAndDelete(opportunityId);
+  if (!row) throw new ApiError(404, "Opportunity not found");
+  res.status(200).json({ message: "Opportunity deleted", opportunityId });
 });
 
 exports.createNetworkAdminOpportunity = asyncHandler(async (req, res) => {
@@ -1074,6 +1134,16 @@ exports.reviewNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
 
   await doc.save();
   res.status(200).json({ message: "Resource reviewed", resource: doc });
+});
+
+exports.deleteNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
+  const { resourceId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(resourceId)) throw new ApiError(400, "Invalid resource id");
+
+  const doc = await KnowledgeResource.findByIdAndDelete(resourceId);
+  if (!doc) throw new ApiError(404, "Resource not found");
+
+  res.status(200).json({ message: "Resource deleted", resourceId });
 });
 
 exports.createNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {

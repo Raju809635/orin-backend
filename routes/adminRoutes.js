@@ -23,11 +23,14 @@ const {
   getNetworkAdminMentorGroups,
   toggleNetworkAdminMentorGroup,
   getNetworkAdminLiveSessions,
+  getNetworkAdminLiveSessionBookings,
   toggleNetworkAdminLiveSession,
   reviewNetworkAdminLiveSession,
+  deleteNetworkAdminLiveSession,
   getNetworkAdminSprints,
   toggleNetworkAdminSprint,
   reviewNetworkAdminSprint,
+  deleteNetworkAdminSprint,
   getNetworkAdminSprintPayouts,
   markNetworkAdminSprintPayoutPaid,
   getNetworkAdminChallenges,
@@ -35,12 +38,15 @@ const {
   toggleNetworkAdminChallenge,
   createNetworkAdminChallenge,
   updateNetworkAdminChallenge,
+  deleteNetworkAdminChallenge,
   getNetworkAdminOpportunities,
   toggleNetworkAdminOpportunity,
   createNetworkAdminOpportunity,
+  deleteNetworkAdminOpportunity,
   getNetworkAdminKnowledgeResources,
   reviewNetworkAdminKnowledgeResource,
   createNetworkAdminKnowledgeResource,
+  deleteNetworkAdminKnowledgeResource,
   getNetworkAdminCertificationTracks,
   getNetworkAdminCertificateTemplates,
   toggleNetworkAdminCertificationTrack,
@@ -93,11 +99,14 @@ router.get("/network/follows", verifyToken, authorizeRoles("admin"), getNetworkA
 router.get("/network/mentor-groups", verifyToken, authorizeRoles("admin"), getNetworkAdminMentorGroups);
 router.patch("/network/mentor-groups/:groupId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminMentorGroup);
 router.get("/network/live-sessions", verifyToken, authorizeRoles("admin"), getNetworkAdminLiveSessions);
+router.get("/network/live-sessions/bookings", verifyToken, authorizeRoles("admin"), getNetworkAdminLiveSessionBookings);
 router.patch("/network/live-sessions/:liveSessionId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminLiveSession);
 router.patch("/network/live-sessions/:liveSessionId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminLiveSession);
+router.delete("/network/live-sessions/:liveSessionId", verifyToken, authorizeRoles("admin"), deleteNetworkAdminLiveSession);
 router.get("/network/sprints", verifyToken, authorizeRoles("admin"), getNetworkAdminSprints);
 router.patch("/network/sprints/:sprintId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminSprint);
 router.patch("/network/sprints/:sprintId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminSprint);
+router.delete("/network/sprints/:sprintId", verifyToken, authorizeRoles("admin"), deleteNetworkAdminSprint);
 router.get("/network/sprint-payouts", verifyToken, authorizeRoles("admin"), getNetworkAdminSprintPayouts);
 router.patch("/network/sprint-payouts/:enrollmentId/pay", verifyToken, authorizeRoles("admin"), markNetworkAdminSprintPayoutPaid);
 router.get("/network/challenges", verifyToken, authorizeRoles("admin"), getNetworkAdminChallenges);
@@ -110,10 +119,12 @@ router.get(
 router.patch("/network/challenges/:challengeId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminChallenge);
 router.post("/network/challenges", verifyToken, authorizeRoles("admin"), createNetworkAdminChallenge);
 router.patch("/network/challenges/:challengeId", verifyToken, authorizeRoles("admin"), updateNetworkAdminChallenge);
+router.delete("/network/challenges/:challengeId", verifyToken, authorizeRoles("admin"), deleteNetworkAdminChallenge);
 
 router.get("/network/opportunities", verifyToken, authorizeRoles("admin"), getNetworkAdminOpportunities);
 router.post("/network/opportunities", verifyToken, authorizeRoles("admin"), createNetworkAdminOpportunity);
 router.patch("/network/opportunities/:opportunityId/toggle", verifyToken, authorizeRoles("admin"), toggleNetworkAdminOpportunity);
+router.delete("/network/opportunities/:opportunityId", verifyToken, authorizeRoles("admin"), deleteNetworkAdminOpportunity);
 
 router.get("/network/bootcamps", verifyToken, authorizeRoles("admin"), getNetworkAdminBootcamps);
 router.post("/network/bootcamps", verifyToken, authorizeRoles("admin"), createNetworkAdminBootcamp);
@@ -122,6 +133,7 @@ router.patch("/network/bootcamps/:bootcampId/toggle", verifyToken, authorizeRole
 router.get("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), getNetworkAdminKnowledgeResources);
 router.post("/network/knowledge-resources", verifyToken, authorizeRoles("admin"), createNetworkAdminKnowledgeResource);
 router.patch("/network/knowledge-resources/:resourceId/review", verifyToken, authorizeRoles("admin"), reviewNetworkAdminKnowledgeResource);
+router.delete("/network/knowledge-resources/:resourceId", verifyToken, authorizeRoles("admin"), deleteNetworkAdminKnowledgeResource);
 
 router.get("/network/certification-tracks", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificationTracks);
 router.get("/network/certificate-templates", verifyToken, authorizeRoles("admin"), getNetworkAdminCertificateTemplates);

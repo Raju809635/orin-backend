@@ -33,6 +33,8 @@ const {
   getCareerRoadmap,
   startCareerRoadmapMission,
   submitCareerRoadmapProof,
+  getMentorLiveSessionPaidBookings,
+  getMentorSprintPaidEnrollments,
   getCareerOpportunities,
   submitCareerOpportunity,
   getCollegeLeaderboard,
@@ -135,6 +137,7 @@ router.post("/live-sessions/:liveSessionId/book", verifyToken, authorizeRoles("s
 router.post("/live-sessions/bookings/:bookingId/retry-order", verifyToken, authorizeRoles("student"), retryLiveSessionPaymentOrder);
 router.post("/live-sessions/verify-payment", verifyToken, authorizeRoles("student"), verifyLiveSessionPayment);
 router.patch("/live-sessions/bookings/:bookingId/cancel", verifyToken, authorizeRoles("student"), cancelLiveSessionBooking);
+router.get("/live-sessions/bookings/mentor", verifyToken, authorizeRoles("mentor"), getMentorLiveSessionPaidBookings);
 router.get("/sprints", verifyToken, authorizeRoles("student", "mentor"), getSprints);
 router.get("/sprints/mentor/payouts", verifyToken, authorizeRoles("mentor"), getMentorSprintPayouts);
 router.get("/sprints/:sprintId", verifyToken, authorizeRoles("student", "mentor"), getSprintDetail);
@@ -145,6 +148,7 @@ router.post("/sprints/verify-payment", verifyToken, authorizeRoles("student"), v
 router.patch("/sprints/enrollments/:enrollmentId/cancel", verifyToken, authorizeRoles("student"), cancelSprintEnrollment);
 router.patch("/sprints/enrollments/:enrollmentId/payout/confirm", verifyToken, authorizeRoles("mentor"), confirmSprintPayoutReceived);
 router.patch("/sprints/enrollments/:enrollmentId/payout/report-issue", verifyToken, authorizeRoles("mentor"), reportSprintPayoutIssue);
+router.get("/sprints/enrollments/mentor", verifyToken, authorizeRoles("mentor"), getMentorSprintPaidEnrollments);
 router.get("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
 router.post("/resume/generate", verifyToken, authorizeRoles("student", "mentor"), generateResume);
 router.get("/resume/pdf", verifyToken, authorizeRoles("student", "mentor"), downloadResumePdf);
