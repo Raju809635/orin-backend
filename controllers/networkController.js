@@ -403,6 +403,7 @@ function normalizeSprintPayload(item, reqUserId, enrollmentBySprintId = new Map(
     weeklyPlan: Array.isArray(item.weeklyPlan) ? item.weeklyPlan : [],
     outcomes: Array.isArray(item.outcomes) ? item.outcomes : [],
     tools: Array.isArray(item.tools) ? item.tools : [],
+    meetingLink: item.meetingLink || "",
     sessionMode: item.sessionMode || "free",
     price: Number(item.price || 0),
     currency: item.currency || "INR",
@@ -4708,6 +4709,22 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
   });
 });
 
+exports.updateLiveSessionMeetingLink = asyncHandler(async (req, res) => {
+  const { liveSessionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
+
+  const session = await MentorLiveSession.findOne({ _id: liveSessionId, mentorId: req.user.id });
+  if (!session) throw new ApiError(404, "Live session not found");
+
+  session.meetingLink = String(req.body?.meetingLink || "").trim();
+  await session.save();
+
+  res.status(200).json({
+    message: session.meetingLink ? "Live session link updated" : "Live session link cleared",
+    liveSession: normalizeLiveSessionPayload(session.toObject(), req.user.id)
+  });
+});
+
 exports.toggleLiveSessionInterest = asyncHandler(async (req, res) => {
   const { liveSessionId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(liveSessionId)) throw new ApiError(400, "Invalid live session id");
@@ -5188,6 +5205,7 @@ exports.createSprint = asyncHandler(async (req, res) => {
     weeklyPlan = [],
     outcomes = [],
     tools = [],
+    meetingLink = "",
     sessionMode = "free",
     price = 0,
     currency = "INR",
@@ -5244,6 +5262,7 @@ exports.createSprint = asyncHandler(async (req, res) => {
     weeklyPlan: normalizeList(weeklyPlan),
     outcomes: normalizeList(outcomes),
     tools: normalizeList(tools),
+    meetingLink: String(meetingLink || "").trim(),
     sessionMode: normalizedMode,
     price: normalizedMode === "paid" ? normalizedPrice : 0,
     currency: String(currency || "INR").trim() || "INR",
@@ -5274,6 +5293,22 @@ exports.createSprint = asyncHandler(async (req, res) => {
   res.status(201).json({
     message: "Sprint submitted for admin approval",
     sprint: normalizeSprintPayload(doc.toObject(), req.user.id)
+  });
+});
+
+exports.updateSprintMeetingLink = asyncHandler(async (req, res) => {
+  const { sprintId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(sprintId)) throw new ApiError(400, "Invalid sprint id");
+
+  const sprint = await MentorSprint.findOne({ _id: sprintId, mentorId: req.user.id });
+  if (!sprint) throw new ApiError(404, "Sprint not found");
+
+  sprint.meetingLink = String(req.body?.meetingLink || "").trim();
+  await sprint.save();
+
+  res.status(200).json({
+    message: sprint.meetingLink ? "Sprint link updated" : "Sprint link cleared",
+    sprint: normalizeSprintPayload(sprint.toObject(), req.user.id)
   });
 });
 

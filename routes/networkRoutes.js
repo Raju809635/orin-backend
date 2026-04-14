@@ -40,6 +40,7 @@ const {
   getCollegeLeaderboard,
   getLiveSessions,
   createLiveSession,
+  updateLiveSessionMeetingLink,
   toggleLiveSessionInterest,
   bookLiveSession,
   retryLiveSessionPaymentOrder,
@@ -48,6 +49,7 @@ const {
   getSprints,
   getSprintDetail,
   createSprint,
+  updateSprintMeetingLink,
   bookSprint,
   retrySprintPaymentOrder,
   verifySprintPayment,
@@ -132,6 +134,7 @@ router.post("/opportunities/submit", verifyToken, authorizeRoles("mentor"), subm
 router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), getCollegeLeaderboard);
 router.get("/live-sessions", verifyToken, authorizeRoles("student", "mentor"), getLiveSessions);
 router.post("/live-sessions", verifyToken, authorizeRoles("mentor"), createLiveSession);
+router.patch("/live-sessions/:liveSessionId/meeting-link", verifyToken, authorizeRoles("mentor"), updateLiveSessionMeetingLink);
 router.post("/live-sessions/:liveSessionId/interest", verifyToken, authorizeRoles("student", "mentor"), toggleLiveSessionInterest);
 router.post("/live-sessions/:liveSessionId/book", verifyToken, authorizeRoles("student"), bookLiveSession);
 router.post("/live-sessions/bookings/:bookingId/retry-order", verifyToken, authorizeRoles("student"), retryLiveSessionPaymentOrder);
@@ -142,6 +145,7 @@ router.get("/sprints", verifyToken, authorizeRoles("student", "mentor"), getSpri
 router.get("/sprints/mentor/payouts", verifyToken, authorizeRoles("mentor"), getMentorSprintPayouts);
 router.get("/sprints/:sprintId", verifyToken, authorizeRoles("student", "mentor"), getSprintDetail);
 router.post("/sprints", verifyToken, authorizeRoles("mentor"), createSprint);
+router.patch("/sprints/:sprintId/meeting-link", verifyToken, authorizeRoles("mentor"), updateSprintMeetingLink);
 router.post("/sprints/:sprintId/book", verifyToken, authorizeRoles("student"), bookSprint);
 router.post("/sprints/enrollments/:enrollmentId/retry-order", verifyToken, authorizeRoles("student"), retrySprintPaymentOrder);
 router.post("/sprints/verify-payment", verifyToken, authorizeRoles("student"), verifySprintPayment);
