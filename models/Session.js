@@ -157,9 +157,29 @@ const sessionSchema = new mongoose.Schema(
       default: "booked",
       index: true
     },
+    meetingProvider: {
+      type: String,
+      enum: ["manual", "jitsi"],
+      default: "manual"
+    },
     meetingLink: {
       type: String,
       default: ""
+    },
+    meetingMeta: {
+      roomName: {
+        type: String,
+        default: ""
+      },
+      createdAt: {
+        type: Date,
+        default: null
+      },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+      }
     },
     notes: {
       type: String,

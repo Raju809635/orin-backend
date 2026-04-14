@@ -37,6 +37,7 @@ const { requestAiResponse } = require("../services/aiService");
 const { mentorCategoryTree } = require("../config/mentorCategories");
 const { getJourneyState, updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
 const { createRazorpayOrder, verifyRazorpaySignature, razorpayKeyId } = require("../services/paymentService");
+const { buildJitsiMeetingPayload, buildManualMeetingPayload } = require("../services/jitsiMeetingService");
 const { paymentMode, manualPaymentWindowMinutes } = require("../config/env");
 
 const QUIZ_XP_BY_SCORE = {
@@ -351,6 +352,7 @@ function normalizeLiveSessionPayload(item, reqUserId, bookingBySessionId = new M
     startsAt: item.startsAt,
     endsAt: item.endsAt,
     durationMinutes: Number(item.durationMinutes || 60),
+    meetingProvider: item.meetingProvider || "manual",
     meetingLink: item.meetingLink || "",
     domainTags: item.domainTags || [],
     sessionMode: item.sessionMode || "free",
@@ -403,6 +405,7 @@ function normalizeSprintPayload(item, reqUserId, enrollmentBySprintId = new Map(
     weeklyPlan: Array.isArray(item.weeklyPlan) ? item.weeklyPlan : [],
     outcomes: Array.isArray(item.outcomes) ? item.outcomes : [],
     tools: Array.isArray(item.tools) ? item.tools : [],
+    meetingProvider: item.meetingProvider || "manual",
     meetingLink: item.meetingLink || "",
     sessionMode: item.sessionMode || "free",
     price: Number(item.price || 0),
@@ -4655,6 +4658,7 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     endsAt = null,
     durationMinutes = 60,
     meetingLink = "",
+    meetingProvider = "manual",
     domainTags = [],
     sessionMode = "free",
     price = 0,
@@ -4679,7 +4683,7 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     startsAt: startDate,
     endsAt: endsAt ? new Date(endsAt) : null,
     durationMinutes: Math.min(Math.max(Number(durationMinutes || 60), 15), 480),
-    meetingLink: String(meetingLink || "").trim(),
+    ...buildManualMeetingPayload(String(meetingLink || "").trim()),
     domainTags: Array.isArray(domainTags) ? domainTags : [],
     sessionMode: normalizedMode,
     price: normalizedMode === "paid" ? normalizedPrice : 0,
@@ -4693,6 +4697,18 @@ exports.createLiveSession = asyncHandler(async (req, res) => {
     reviewedBy: null,
     reviewedAt: null
   });
+
+  if (String(meetingProvider || "").trim().toLowerCase() === "jitsi") {
+    const jitsiMeeting = buildJitsiMeetingPayload({
+      scope: "live-session",
+      entityId: doc._id,
+      createdBy: req.user.id
+    });
+    doc.meetingProvider = jitsiMeeting.meetingProvider;
+    doc.meetingLink = jitsiMeeting.meetingLink;
+    doc.meetingMeta = jitsiMeeting.meetingMeta;
+    await doc.save();
+  }
 
   await createAuditLog({
     req,
@@ -4716,7 +4732,15 @@ exports.updateLiveSessionMeetingLink = asyncHandler(async (req, res) => {
   const session = await MentorLiveSession.findOne({ _id: liveSessionId, mentorId: req.user.id });
   if (!session) throw new ApiError(404, "Live session not found");
 
-  session.meetingLink = String(req.body?.meetingLink || "").trim();
+  const provider = String(req.body?.meetingProvider || "manual").trim().toLowerCase();
+  const nextMeeting =
+    provider === "jitsi"
+      ? buildJitsiMeetingPayload({ scope: "live-session", entityId: session._id, createdBy: req.user.id })
+      : buildManualMeetingPayload(req.body?.meetingLink);
+
+  session.meetingProvider = nextMeeting.meetingProvider;
+  session.meetingLink = nextMeeting.meetingLink;
+  session.meetingMeta = nextMeeting.meetingMeta;
   await session.save();
 
   res.status(200).json({
@@ -5206,6 +5230,7 @@ exports.createSprint = asyncHandler(async (req, res) => {
     outcomes = [],
     tools = [],
     meetingLink = "",
+    meetingProvider = "manual",
     sessionMode = "free",
     price = 0,
     currency = "INR",
@@ -5262,7 +5287,7 @@ exports.createSprint = asyncHandler(async (req, res) => {
     weeklyPlan: normalizeList(weeklyPlan),
     outcomes: normalizeList(outcomes),
     tools: normalizeList(tools),
-    meetingLink: String(meetingLink || "").trim(),
+    ...buildManualMeetingPayload(String(meetingLink || "").trim()),
     sessionMode: normalizedMode,
     price: normalizedMode === "paid" ? normalizedPrice : 0,
     currency: String(currency || "INR").trim() || "INR",
@@ -5275,6 +5300,18 @@ exports.createSprint = asyncHandler(async (req, res) => {
     reviewedBy: null,
     reviewedAt: null
   });
+
+  if (String(meetingProvider || "").trim().toLowerCase() === "jitsi") {
+    const jitsiMeeting = buildJitsiMeetingPayload({
+      scope: "sprint",
+      entityId: doc._id,
+      createdBy: req.user.id
+    });
+    doc.meetingProvider = jitsiMeeting.meetingProvider;
+    doc.meetingLink = jitsiMeeting.meetingLink;
+    doc.meetingMeta = jitsiMeeting.meetingMeta;
+    await doc.save();
+  }
 
   await createAuditLog({
     req,
@@ -5303,7 +5340,15 @@ exports.updateSprintMeetingLink = asyncHandler(async (req, res) => {
   const sprint = await MentorSprint.findOne({ _id: sprintId, mentorId: req.user.id });
   if (!sprint) throw new ApiError(404, "Sprint not found");
 
-  sprint.meetingLink = String(req.body?.meetingLink || "").trim();
+  const provider = String(req.body?.meetingProvider || "manual").trim().toLowerCase();
+  const nextMeeting =
+    provider === "jitsi"
+      ? buildJitsiMeetingPayload({ scope: "sprint", entityId: sprint._id, createdBy: req.user.id })
+      : buildManualMeetingPayload(req.body?.meetingLink);
+
+  sprint.meetingProvider = nextMeeting.meetingProvider;
+  sprint.meetingLink = nextMeeting.meetingLink;
+  sprint.meetingMeta = nextMeeting.meetingMeta;
   await sprint.save();
 
   res.status(200).json({

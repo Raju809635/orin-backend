@@ -15,7 +15,21 @@ const mentorLiveSessionSchema = new mongoose.Schema(
     startsAt: { type: Date, required: true, index: true },
     endsAt: { type: Date, default: null },
     durationMinutes: { type: Number, default: 60, min: 15, max: 480 },
+    meetingProvider: {
+      type: String,
+      enum: ["manual", "jitsi"],
+      default: "manual"
+    },
     meetingLink: { type: String, default: "" },
+    meetingMeta: {
+      roomName: { type: String, default: "" },
+      createdAt: { type: Date, default: null },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+      }
+    },
     domainTags: { type: [String], default: [] },
     sessionMode: {
       type: String,

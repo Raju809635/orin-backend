@@ -31,7 +31,21 @@ const mentorSprintSchema = new mongoose.Schema(
     weeklyPlan: { type: [String], default: [] },
     outcomes: { type: [String], default: [] },
     tools: { type: [String], default: [] },
+    meetingProvider: {
+      type: String,
+      enum: ["manual", "jitsi"],
+      default: "manual"
+    },
     meetingLink: { type: String, default: "" },
+    meetingMeta: {
+      roomName: { type: String, default: "" },
+      createdAt: { type: Date, default: null },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+      }
+    },
     sessionMode: {
       type: String,
       enum: ["free", "paid"],

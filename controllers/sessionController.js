@@ -20,6 +20,7 @@ const {
   publicBaseUrl
 } = require("../config/env");
 const { uploadImageFromPath, safeUnlink } = require("../services/externalStorageService");
+const { buildJitsiMeetingPayload, buildManualMeetingPayload } = require("../services/jitsiMeetingService");
 
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const PLATFORM_FEE_PERCENT = 30;
@@ -691,7 +692,15 @@ exports.updateSessionMeetingLink = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Meeting link can be set only in the last 5 minutes before session start");
   }
 
-  session.meetingLink = req.body.meetingLink;
+  const provider = String(req.body?.meetingProvider || "manual").trim().toLowerCase();
+  const nextMeeting =
+    provider === "jitsi"
+      ? buildJitsiMeetingPayload({ scope: "session", entityId: session._id, createdBy: req.user.id })
+      : buildManualMeetingPayload(req.body?.meetingLink);
+
+  session.meetingProvider = nextMeeting.meetingProvider;
+  session.meetingLink = nextMeeting.meetingLink;
+  session.meetingMeta = nextMeeting.meetingMeta;
   await session.save();
 
   await Notification.create({

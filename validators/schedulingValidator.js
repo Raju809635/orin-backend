@@ -61,8 +61,19 @@ const reviewManualPaymentSchema = Joi.object({
 });
 
 const updateMeetingLinkSchema = Joi.object({
-  meetingLink: Joi.string().uri().required()
-});
+  meetingLink: Joi.string().uri().allow("", null).optional(),
+  meetingProvider: Joi.string().valid("manual", "jitsi").optional()
+})
+  .custom((value, helpers) => {
+    const provider = String(value?.meetingProvider || "manual").trim().toLowerCase();
+    const meetingLink = String(value?.meetingLink || "").trim();
+
+    if (provider === "manual" && !meetingLink) {
+      return helpers.error("any.custom", { message: "meetingLink is required for manual meetings" });
+    }
+    return value;
+  }, "meeting provider validation")
+  .min(1);
 
 const rescheduleSessionSchema = Joi.object({
   date: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required(),
