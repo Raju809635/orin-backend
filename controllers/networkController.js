@@ -753,6 +753,26 @@ function uniqList(items = []) {
   return out;
 }
 
+function escapeRegExp(value = "") {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildDomainMatchRegexes(domain = "") {
+  const raw = String(domain || "").trim();
+  if (!raw) return [];
+
+  const variants = uniqList([
+    raw,
+    raw.replace(/&/g, "and"),
+    raw.replace(/\band\b/gi, "&"),
+    raw.replace(/\s+/g, " ")
+  ])
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+
+  return variants.map((item) => new RegExp(`^\\s*${escapeRegExp(item)}\\s*$`, "i"));
+}
+
 function buildGenericTemplate(primaryCategory, subCategory, focus) {
   const primary = String(primaryCategory || "").trim();
   const sub = String(subCategory || "").trim();
@@ -7784,11 +7804,29 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
   ]
     .flatMap((item) => tokenize(item))
     .filter(Boolean);
-  let resources = await KnowledgeResource.find({
+
+  const domainRegexes = buildDomainMatchRegexes(derivedDomain);
+  const baseQuery = {
     isActive: true,
-    $or: [{ approvalStatus: { $exists: false } }, { approvalStatus: "approved" }],
-    ...(derivedDomain ? { domain: derivedDomain } : {})
-  })
+    $or: [{ approvalStatus: { $exists: false } }, { approvalStatus: "approved" }]
+  };
+
+  // If a domain is known, include both domain-specific items and "global" items that have no domain.
+  const finalQuery = derivedDomain
+    ? {
+        ...baseQuery,
+        $and: [
+          {
+            $or: [
+              { domain: { $in: ["", null] } },
+              ...(domainRegexes.length ? [{ domain: { $in: domainRegexes } }] : [{ domain: derivedDomain }])
+            ]
+          }
+        ]
+      }
+    : baseQuery;
+
+  let resources = await KnowledgeResource.find(finalQuery)
     .sort({ updatedAt: -1 })
     .limit(100)
     .lean();
