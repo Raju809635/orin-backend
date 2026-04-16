@@ -27,6 +27,40 @@ const roadmapStepSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const projectIdeaTaskSchema = new mongoose.Schema(
+  {
+    id: { type: String, default: "" },
+    title: { type: String, default: "" },
+    done: { type: Boolean, default: false }
+  },
+  { _id: false }
+);
+
+const projectIdeaStateSchema = new mongoose.Schema(
+  {
+    key: { type: String, default: "" },
+    title: { type: String, default: "" },
+    status: {
+      type: String,
+      enum: ["not_started", "active", "completed"],
+      default: "not_started"
+    },
+    tasks: { type: [projectIdeaTaskSchema], default: [] },
+    proofStatus: {
+      type: String,
+      enum: ["not_submitted", "submitted", "approved"],
+      default: "not_submitted"
+    },
+    proofNote: { type: String, default: "" },
+    proofLink: { type: String, default: "" },
+    proofImageUrl: { type: String, default: "" },
+    proofSubmittedAt: { type: Date, default: null },
+    completedAt: { type: Date, default: null },
+    updatedAt: { type: Date, default: null }
+  },
+  { _id: false }
+);
+
 const journeyStateSchema = new mongoose.Schema(
   {
     userId: {
@@ -75,6 +109,7 @@ const journeyStateSchema = new mongoose.Schema(
       activeProjectIds: { type: [String], default: [] },
       completedProjectIds: { type: [String], default: [] },
       currentProjectStage: { type: String, default: "" },
+      items: { type: [projectIdeaStateSchema], default: [] },
       updatedAt: { type: Date, default: null }
     },
     challenges: {

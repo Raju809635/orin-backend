@@ -82,6 +82,9 @@ const {
   updateMentorGroupMessage,
   deleteMentorGroupMessage,
   getProjectIdeas,
+  startProjectIdea,
+  toggleProjectIdeaTask,
+  submitProjectIdeaProof,
   getKnowledgeLibrary,
   submitKnowledgeResource,
   getReputationSummary
@@ -179,6 +182,9 @@ router.post("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("stu
 router.patch("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), updateMentorGroupMessage);
 router.delete("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), deleteMentorGroupMessage);
 router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
+router.post("/project-ideas/:projectKey/start", verifyToken, authorizeRoles("student"), startProjectIdea);
+router.post("/project-ideas/:projectKey/task", verifyToken, authorizeRoles("student"), toggleProjectIdeaTask);
+router.post("/project-ideas/:projectKey/submit-proof", verifyToken, authorizeRoles("student"), submitProjectIdeaProof);
 router.get("/knowledge-library", verifyToken, authorizeRoles("student", "mentor"), getKnowledgeLibrary);
 router.post("/knowledge-library/submit", verifyToken, authorizeRoles("student", "mentor"), submitKnowledgeResource);
 router.get("/reputation-summary", verifyToken, authorizeRoles("student", "mentor"), getReputationSummary);
