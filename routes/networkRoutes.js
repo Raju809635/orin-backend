@@ -8,6 +8,7 @@ const {
   respondConnectionRequest,
   toggleFollow,
   getFeed,
+  getInstitutionFeed,
   getPublicFeed,
   getSavedPosts,
   createPost,
@@ -33,6 +34,11 @@ const {
   getCareerRoadmap,
   startCareerRoadmapMission,
   submitCareerRoadmapProof,
+  getInstitutionRoadmaps,
+  createInstitutionRoadmap,
+  submitInstitutionRoadmapWeekProof,
+  getInstitutionRoadmapSubmissionsForMentor,
+  reviewInstitutionRoadmapSubmission,
   getMentorLiveSessionPaidBookings,
   getMentorSprintPaidEnrollments,
   getCareerOpportunities,
@@ -104,6 +110,7 @@ router.post(
 router.post("/follow/:userId", verifyToken, authorizeRoles("student", "mentor"), toggleFollow);
 
 router.get("/feed", verifyToken, authorizeRoles("student", "mentor"), getFeed);
+router.get("/feed/institution", verifyToken, authorizeRoles("student", "mentor"), getInstitutionFeed);
 router.get("/feed/public", verifyToken, authorizeRoles("student", "mentor"), getPublicFeed);
 router.get("/feed/saved", verifyToken, authorizeRoles("student", "mentor"), getSavedPosts);
 router.post("/feed", verifyToken, authorizeRoles("student", "mentor"), createPost);
@@ -132,6 +139,11 @@ router.get("/mentors/:mentorId/reviews", verifyToken, authorizeRoles("student", 
 router.get("/career-roadmap", verifyToken, authorizeRoles("student"), getCareerRoadmap);
 router.post("/career-roadmap/:stepId/start", verifyToken, authorizeRoles("student"), startCareerRoadmapMission);
 router.post("/career-roadmap/:stepId/submit-proof", verifyToken, authorizeRoles("student"), submitCareerRoadmapProof);
+router.get("/institution-roadmaps", verifyToken, authorizeRoles("student", "mentor"), getInstitutionRoadmaps);
+router.post("/institution-roadmaps", verifyToken, authorizeRoles("mentor"), createInstitutionRoadmap);
+router.post("/institution-roadmaps/:roadmapId/weeks/:weekId/submissions", verifyToken, authorizeRoles("student"), submitInstitutionRoadmapWeekProof);
+router.get("/institution-roadmaps/submissions/mentor", verifyToken, authorizeRoles("mentor"), getInstitutionRoadmapSubmissionsForMentor);
+router.patch("/institution-roadmaps/submissions/:submissionId/review", verifyToken, authorizeRoles("mentor"), reviewInstitutionRoadmapSubmission);
 router.get("/opportunities", verifyToken, authorizeRoles("student", "mentor"), getCareerOpportunities);
 router.post("/opportunities/submit", verifyToken, authorizeRoles("mentor"), submitCareerOpportunity);
 router.get("/leaderboard", verifyToken, authorizeRoles("student", "mentor"), getCollegeLeaderboard);

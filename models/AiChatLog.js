@@ -13,6 +13,24 @@ const aiChatLogSchema = new mongoose.Schema(
       enum: ["student", "mentor"],
       required: true
     },
+    conversationId: {
+      type: String,
+      required: true,
+      index: true
+    },
+    conversationTitle: {
+      type: String,
+      default: ""
+    },
+    assistantMode: {
+      type: String,
+      enum: ["general", "personalized"],
+      default: "general"
+    },
+    pinned: {
+      type: Boolean,
+      default: false
+    },
     provider: {
       type: String,
       enum: ["groq", "gemini", "openai"],
@@ -41,5 +59,6 @@ const aiChatLogSchema = new mongoose.Schema(
 );
 
 aiChatLogSchema.index({ userId: 1, createdAt: -1 });
+aiChatLogSchema.index({ userId: 1, conversationId: 1, createdAt: -1 });
 
 module.exports = mongoose.model("AiChatLog", aiChatLogSchema);

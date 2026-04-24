@@ -21,6 +21,7 @@ const studentProfileSchema = new mongoose.Schema(
     institutionType: { type: String, default: "" },
     institutionDistrict: { type: String, default: "" },
     institutionSource: { type: String, default: "" },
+    className: { type: String, default: "" },
     education: {
       type: [{ school: String, degree: String, year: String }],
       default: []

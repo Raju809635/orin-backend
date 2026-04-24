@@ -6,6 +6,7 @@ const { requestAiResponse } = require("../services/aiService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const { updateJourneyGoal } = require("../services/journeyStateService");
+const mongoose = require("mongoose");
 
 function extractGoalFromMessage(message = "") {
   const text = String(message || "").trim();
@@ -34,6 +35,58 @@ function extractGoalFromMessage(message = "") {
   return "";
 }
 
+function toConversationTitle(prompt = "") {
+  const clean = String(prompt || "").trim().replace(/\s+/g, " ");
+  if (!clean) return "New chat";
+  return clean.length > 60 ? `${clean.slice(0, 60)}...` : clean;
+}
+
+async function ensureConversationAccess(userId, conversationId) {
+  const exists = await AiChatLog.exists({ userId, conversationId });
+  if (!exists) throw new ApiError(404, "Conversation not found");
+}
+
+async function buildConversationSummaries(userId) {
+  const rows = await AiChatLog.find({ userId })
+    .select("conversationId conversationTitle assistantMode pinned prompt response createdAt")
+    .sort({ createdAt: -1 })
+    .limit(250)
+    .lean();
+
+  const map = new Map();
+  for (const row of rows) {
+    const key = String(row.conversationId || "");
+    if (!key) continue;
+    const existing = map.get(key);
+    if (!existing) {
+      map.set(key, {
+        conversationId: key,
+        title: String(row.conversationTitle || "").trim() || toConversationTitle(row.prompt),
+        assistantMode: row.assistantMode || "general",
+        pinned: Boolean(row.pinned),
+        lastPrompt: row.prompt || "",
+        lastResponsePreview: String(row.response || "").trim().slice(0, 180),
+        lastMessageAt: row.createdAt,
+        createdAt: row.createdAt,
+        messageCount: 1
+      });
+      continue;
+    }
+
+    existing.messageCount += 1;
+    if (new Date(row.createdAt).getTime() < new Date(existing.createdAt).getTime()) {
+      existing.createdAt = row.createdAt;
+    }
+    if (!existing.pinned && row.pinned) existing.pinned = true;
+    if (!existing.title && row.conversationTitle) existing.title = row.conversationTitle;
+  }
+
+  return Array.from(map.values()).sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
+  });
+}
+
 exports.chatWithAi = asyncHandler(async (req, res) => {
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
@@ -47,6 +100,16 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
     throw new ApiError(429, `Daily AI limit reached (${aiChatDailyLimit}). Try again tomorrow.`);
   }
 
+  const assistantMode = req.body?.context?.assistantMode === "personalized" ? "personalized" : "general";
+  const conversationId = String(req.body?.conversationId || new mongoose.Types.ObjectId().toString()).trim();
+  if (!conversationId) throw new ApiError(400, "conversationId is required");
+
+  let existingConversation = null;
+  if (req.body?.conversationId) {
+    existingConversation = await AiChatLog.findOne({ userId: req.user.id, conversationId }).select("conversationTitle pinned").lean();
+    if (!existingConversation) throw new ApiError(404, "Conversation not found");
+  }
+
   const { answer, provider, model } = await requestAiResponse({
     role: req.user.role,
     message: req.body.message,
@@ -56,6 +119,10 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
   await AiChatLog.create({
     userId: req.user.id,
     role: req.user.role,
+    conversationId,
+    conversationTitle: String(existingConversation?.conversationTitle || "").trim() || toConversationTitle(req.body.message),
+    assistantMode,
+    pinned: Boolean(existingConversation?.pinned),
     provider,
     model,
     prompt: req.body.message,
@@ -92,6 +159,7 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     answer,
+    conversationId,
     meta: {
       provider,
       model,
@@ -101,11 +169,55 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
 });
 
 exports.getMyAiHistory = asyncHandler(async (req, res) => {
-  const logs = await AiChatLog.find({ userId: req.user.id })
-    .select("prompt response provider model createdAt")
-    .sort({ createdAt: -1 })
-    .limit(50)
+  const summaries = await buildConversationSummaries(req.user.id);
+  res.status(200).json(summaries);
+});
+
+exports.getAiConversationMessages = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccess(req.user.id, conversationId);
+
+  const logs = await AiChatLog.find({ userId: req.user.id, conversationId })
+    .select("conversationId conversationTitle assistantMode pinned prompt response provider model createdAt")
+    .sort({ createdAt: 1 })
     .lean();
 
-  res.status(200).json(logs);
+  res.status(200).json({
+    conversationId,
+    messages: logs.map((item) => ({
+      id: item._id,
+      prompt: item.prompt,
+      response: item.response,
+      createdAt: item.createdAt
+    }))
+  });
+});
+
+exports.updateAiConversation = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccess(req.user.id, conversationId);
+
+  const update = {};
+  if (Object.prototype.hasOwnProperty.call(req.body, "title")) {
+    update.conversationTitle = String(req.body.title || "").trim().slice(0, 120);
+  }
+  if (Object.prototype.hasOwnProperty.call(req.body, "pinned")) {
+    update.pinned = Boolean(req.body.pinned);
+  }
+
+  await AiChatLog.updateMany({ userId: req.user.id, conversationId }, { $set: update });
+  const summaries = await buildConversationSummaries(req.user.id);
+  const summary = summaries.find((item) => item.conversationId === conversationId) || null;
+
+  res.status(200).json({
+    message: "Conversation updated",
+    conversation: summary
+  });
+});
+
+exports.deleteAiConversation = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccess(req.user.id, conversationId);
+  await AiChatLog.deleteMany({ userId: req.user.id, conversationId });
+  res.status(200).json({ message: "Conversation deleted" });
 });

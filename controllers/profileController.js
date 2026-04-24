@@ -176,6 +176,9 @@ function normalizeStudentProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionSource")) {
     nextPayload.institutionSource = String(nextPayload.institutionSource || "").trim();
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "className")) {
+    nextPayload.className = String(nextPayload.className || "").trim();
+  }
   if (nextPayload.institutionName) {
     nextPayload.collegeName = nextPayload.institutionName;
   }

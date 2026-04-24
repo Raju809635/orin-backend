@@ -23,6 +23,8 @@ const CertificationRequest = require("../models/CertificationRequest");
 const CertificateTemplate = require("../models/CertificateTemplate");
 const MentorGroup = require("../models/MentorGroup");
 const MentorGroupMessage = require("../models/MentorGroupMessage");
+const InstitutionRoadmap = require("../models/InstitutionRoadmap");
+const InstitutionRoadmapSubmission = require("../models/InstitutionRoadmapSubmission");
 const KnowledgeResource = require("../models/KnowledgeResource");
 const UserSkillLevel = require("../models/UserSkillLevel");
 const QuizStreak = require("../models/QuizStreak");
@@ -118,6 +120,19 @@ function parseCsvList(value) {
     .split(",")
     .map((item) => String(item || "").trim())
     .filter(Boolean);
+}
+
+function normalizeInstitutionRoadmapWeek(item = {}, index = 0) {
+  return {
+    id: String(item?.id || `week-${index + 1}`).trim(),
+    title: String(item?.title || `Week ${index + 1}`).trim(),
+    description: String(item?.description || "").trim(),
+    tasks: normalizeList(item?.tasks || []),
+    resources: normalizeList(item?.resources || []),
+    quizTitle: String(item?.quizTitle || "").trim(),
+    challengeTitle: String(item?.challengeTitle || "").trim(),
+    xpReward: Math.max(0, Number(item?.xpReward || 20))
+  };
 }
 
 function roundCurrency(value) {
@@ -3335,6 +3350,55 @@ exports.getFeed = asyncHandler(async (req, res) => {
   res.json(data);
 });
 
+exports.getInstitutionFeed = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const profile = await StudentProfile.findOne({ userId }).select("collegeName").lean();
+  const collegeName = String(profile?.collegeName || "").trim();
+
+  if (!collegeName) {
+    return res.json([]);
+  }
+
+  const institutionProfiles = await StudentProfile.find({ collegeName })
+    .select("userId")
+    .lean();
+  const institutionUserIds = institutionProfiles
+    .map((item) => item.userId)
+    .filter(Boolean);
+
+  if (!institutionUserIds.length) {
+    return res.json([]);
+  }
+
+  const posts = await FeedPost.find({
+    authorId: { $in: institutionUserIds },
+    collegeTag: collegeName,
+    visibility: { $in: ["public", "connections"] }
+  })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .limit(50)
+    .lean();
+
+  const studentOnlyPosts = posts.filter((post) => String(post?.authorId?.role || "").toLowerCase() === "student");
+  const postIds = studentOnlyPosts.map((p) => p._id);
+  const comments = await FeedComment.find({ postId: { $in: postIds } })
+    .populate("authorId", "name role")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  await attachFeedAuthorPhotos(studentOnlyPosts, comments);
+
+  const commentsByPostId = comments.reduce((acc, item) => {
+    const key = String(item.postId);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+
+  res.json(studentOnlyPosts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+});
+
 exports.getPublicFeed = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const posts = await FeedPost.find({ visibility: "public" })
@@ -4520,6 +4584,287 @@ exports.submitCareerRoadmapProof = asyncHandler(async (req, res) => {
       totalSteps: finalState.steps.length,
       progressPercent: finalState.progressPercent,
       currentStepId: finalState.currentStepId
+    }
+  });
+});
+
+exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const role = req.user.role;
+
+  const profile = role === "mentor"
+    ? await MentorProfile.findOne({ userId }).select("institutionName").lean()
+    : await StudentProfile.findOne({ userId }).select("institutionName collegeName").lean();
+
+  const institutionName = String(profile?.institutionName || profile?.collegeName || "").trim();
+  if (!institutionName) {
+    return res.json({ institutionName: "", roadmaps: [] });
+  }
+
+  const query = role === "mentor"
+    ? { mentorId: userId, institutionName }
+    : { institutionName, status: "published" };
+
+  const rows = await InstitutionRoadmap.find(query)
+    .populate("mentorId", "name")
+    .sort({ createdAt: -1 })
+    .limit(30)
+    .lean();
+
+  const roadmapIds = rows.map((item) => item._id);
+  const submissions =
+    role === "student" && roadmapIds.length
+      ? await InstitutionRoadmapSubmission.find({ roadmapId: { $in: roadmapIds }, studentId: userId }).lean()
+      : [];
+  const submissionMap = new Map(
+    submissions.map((item) => [`${String(item.roadmapId)}::${String(item.weekId || "")}`, item])
+  );
+
+  res.json({
+    institutionName,
+    roadmaps: rows.map((item) => ({
+      id: item._id,
+      title: item.title,
+      description: item.description || "",
+      domain: item.domain || "",
+      status: item.status,
+      weeks: (item.weeks || []).map((week, index) => ({
+        id: week.id || `week-${index + 1}`,
+        title: week.title || `Week ${index + 1}`,
+        description: week.description || "",
+        tasks: week.tasks || [],
+        resources: week.resources || [],
+        quizTitle: week.quizTitle || "",
+        challengeTitle: week.challengeTitle || "",
+        xpReward: Number(week.xpReward || 0),
+        submission:
+          role === "student"
+            ? (() => {
+                const submission = submissionMap.get(`${String(item._id)}::${String(week.id || `week-${index + 1}`)}`);
+                if (!submission) return null;
+                return {
+                  id: submission._id,
+                  status: submission.status,
+                  proofText: submission.proofText || "",
+                  proofLink: submission.proofLink || "",
+                  proofImageUrl: submission.proofImageUrl || "",
+                  submittedAt: submission.submittedAt,
+                  mentorReview: {
+                    reviewedAt: submission.mentorReview?.reviewedAt || null,
+                    notes: submission.mentorReview?.notes || "",
+                    xpAwarded: Number(submission.mentorReview?.xpAwarded || 0),
+                    certificateId: submission.mentorReview?.certificateId || null
+                  }
+                };
+              })()
+            : null
+      })),
+      mentor: {
+        id: item.mentorId?._id || null,
+        name: item.mentorId?.name || "Mentor"
+      },
+      createdAt: item.createdAt
+    }))
+  });
+});
+
+exports.createInstitutionRoadmap = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName").lean();
+  const institutionName = String(mentorProfile?.institutionName || "").trim();
+
+  if (!institutionName) {
+    throw new ApiError(400, "Add your institution name to mentor profile before creating institution roadmaps");
+  }
+
+  const title = String(req.body?.title || "").trim();
+  if (!title) throw new ApiError(400, "title is required");
+
+  const weeks = (Array.isArray(req.body?.weeks) ? req.body.weeks : [])
+    .slice(0, 12)
+    .map((item, index) => normalizeInstitutionRoadmapWeek(item, index))
+    .filter((item) => item.title);
+
+  if (!weeks.length) throw new ApiError(400, "Add at least one roadmap week");
+
+  const roadmap = await InstitutionRoadmap.create({
+    mentorId: userId,
+    institutionName,
+    title,
+    description: String(req.body?.description || "").trim(),
+    domain: String(req.body?.domain || "").trim(),
+    status: String(req.body?.status || "published").trim() === "draft" ? "draft" : "published",
+    weeks
+  });
+
+  res.status(201).json({
+    message: "Institution roadmap created",
+    roadmapId: roadmap._id
+  });
+});
+
+exports.submitInstitutionRoadmapWeekProof = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { roadmapId, weekId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(roadmapId)) throw new ApiError(400, "Invalid roadmapId");
+  const proofText = String(req.body?.proofText || "").trim();
+  const proofLink = String(req.body?.proofLink || "").trim();
+  const proofImageUrl = String(req.body?.proofImageUrl || "").trim();
+  if (!proofText && !proofLink && !proofImageUrl) throw new ApiError(400, "Submit at least one proof item");
+
+  const [studentProfile, roadmap] = await Promise.all([
+    StudentProfile.findOne({ userId }).select("institutionName collegeName").lean(),
+    InstitutionRoadmap.findById(roadmapId).lean()
+  ]);
+  if (!roadmap || roadmap.status !== "published") throw new ApiError(404, "Institution roadmap not found");
+  const institutionName = String(studentProfile?.institutionName || studentProfile?.collegeName || "").trim();
+  if (!institutionName || institutionName !== String(roadmap.institutionName || "").trim()) {
+    throw new ApiError(403, "You cannot submit proof for this institution roadmap");
+  }
+
+  const week = (roadmap.weeks || []).find((item) => String(item.id || "") === String(weekId || ""));
+  if (!week) throw new ApiError(404, "Institution roadmap week not found");
+
+  const existing = await InstitutionRoadmapSubmission.findOne({ roadmapId, studentId: userId, weekId });
+  if (existing?.status === "accepted") {
+    throw new ApiError(400, "This week is already approved");
+  }
+
+  const submission = await InstitutionRoadmapSubmission.findOneAndUpdate(
+    { roadmapId, studentId: userId, weekId },
+    {
+      $set: {
+        proofText,
+        proofLink,
+        proofImageUrl,
+        status: "submitted",
+        submittedAt: new Date(),
+        "mentorReview.reviewedAt": null,
+        "mentorReview.notes": "",
+        "mentorReview.xpAwarded": 0,
+        "mentorReview.certificateId": null
+      }
+    },
+    { upsert: true, new: true }
+  );
+
+  res.status(201).json({
+    message: "Institution roadmap proof submitted",
+    submission: {
+      id: submission._id,
+      status: submission.status,
+      submittedAt: submission.submittedAt
+    }
+  });
+});
+
+exports.getInstitutionRoadmapSubmissionsForMentor = asyncHandler(async (req, res) => {
+  const mentorId = req.user.id;
+  const roadmapIds = await InstitutionRoadmap.find({ mentorId }).distinct("_id");
+  if (!roadmapIds.length) return res.json([]);
+
+  const rows = await InstitutionRoadmapSubmission.find({ roadmapId: { $in: roadmapIds } })
+    .populate("studentId", "name email")
+    .populate("roadmapId")
+    .sort({ createdAt: -1 })
+    .limit(100)
+    .lean();
+
+  res.json(
+    rows.map((item) => {
+      const roadmap = item.roadmapId || {};
+      const week = (roadmap.weeks || []).find((entry) => String(entry.id || "") === String(item.weekId || ""));
+      return {
+        id: item._id,
+        roadmapId: roadmap._id,
+        roadmapTitle: roadmap.title || "Institution Roadmap",
+        weekId: item.weekId,
+        weekTitle: week?.title || item.weekId,
+        status: item.status,
+        proofText: item.proofText || "",
+        proofLink: item.proofLink || "",
+        proofImageUrl: item.proofImageUrl || "",
+        submittedAt: item.submittedAt,
+        student: {
+          id: item.studentId?._id || null,
+          name: item.studentId?.name || "Student",
+          email: item.studentId?.email || ""
+        },
+        mentorReview: {
+          reviewedAt: item.mentorReview?.reviewedAt || null,
+          notes: item.mentorReview?.notes || "",
+          xpAwarded: Number(item.mentorReview?.xpAwarded || 0),
+          certificateId: item.mentorReview?.certificateId || null
+        }
+      };
+    })
+  );
+});
+
+exports.reviewInstitutionRoadmapSubmission = asyncHandler(async (req, res) => {
+  const mentorId = req.user.id;
+  const { submissionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(submissionId)) throw new ApiError(400, "Invalid submissionId");
+
+  const submission = await InstitutionRoadmapSubmission.findById(submissionId);
+  if (!submission) throw new ApiError(404, "Submission not found");
+
+  const roadmap = await InstitutionRoadmap.findById(submission.roadmapId).lean();
+  if (!roadmap || String(roadmap.mentorId) !== String(mentorId)) throw new ApiError(403, "Not allowed to review this submission");
+
+  const status = String(req.body?.status || "").trim();
+  if (!["accepted", "rejected"].includes(status)) throw new ApiError(400, "status must be accepted or rejected");
+  const xpAwarded = Math.max(0, Number(req.body?.xpAwarded || 0));
+  const notes = String(req.body?.notes || "").trim();
+
+  submission.status = status;
+  submission.mentorReview.reviewedAt = new Date();
+  submission.mentorReview.notes = notes;
+  submission.mentorReview.xpAwarded = status === "accepted" ? xpAwarded : 0;
+
+  if (status === "accepted" && xpAwarded > 0) {
+    await applyReputationDelta(submission.studentId, { dailyChallenges: Math.max(1, Math.round(xpAwarded / 20)) });
+  }
+
+  if (status === "accepted" && req.body?.issueCertificate) {
+    const week = (roadmap.weeks || []).find((item) => String(item.id || "") === String(submission.weekId || ""));
+    const studentUser = await User.findById(submission.studentId).select("name").lean();
+    const { certificate } = await issueCertificate({
+      userId: submission.studentId,
+      userName: studentUser?.name || "Student",
+      title: `${roadmap.title} - ${week?.title || submission.weekId} Completion`,
+      type: "roadmap",
+      issuedBy: req.user.name || "Institution Mentor",
+      source: "Institution Roadmap",
+      level: "Institution",
+      domain: String(roadmap.domain || "").trim(),
+      referenceType: "roadmap",
+      referenceId: `institution-roadmap:${String(roadmap._id)}:${String(submission.weekId)}`,
+      metadata: {
+        domain: String(roadmap.domain || "").trim(),
+        level: "Institution",
+        score: xpAwarded || Number(week?.xpReward || 0),
+        goal: roadmap.title,
+        totalSteps: Number((roadmap.weeks || []).length || 0),
+        completedSteps: 1
+      }
+    });
+    submission.mentorReview.certificateId = certificate?._id || null;
+  }
+
+  await submission.save();
+
+  res.json({
+    message: "Institution roadmap submission reviewed",
+    submission: {
+      id: submission._id,
+      status: submission.status,
+      mentorReview: {
+        reviewedAt: submission.mentorReview.reviewedAt,
+        notes: submission.mentorReview.notes,
+        xpAwarded: submission.mentorReview.xpAwarded,
+        certificateId: submission.mentorReview.certificateId
+      }
     }
   });
 });
