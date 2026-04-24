@@ -3584,7 +3584,6 @@ exports.getInstitutionFeed = asyncHandler(async (req, res) => {
 
   const posts = await FeedPost.find({
     authorId: { $in: institutionUserIds },
-    collegeTag: institutionName,
     visibility: { $in: ["public", "connections"] }
   })
     .populate("authorId", "name role")
