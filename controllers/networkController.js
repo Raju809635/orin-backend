@@ -4632,9 +4632,11 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
   );
   const template = getAiTemplate(ctx.primaryCategory, ctx.subCategory, ctx.focus);
   const currentRoadmapId = String(journeyState?.roadmap?.roadmapId || "").trim();
+  const overrideSkills = parseCsvList(req.query.skills);
   const skillProfile = deriveSkillGapProfile({
     goal,
     template,
+    overrideSkills,
     journeyState,
     profileSkills: studentProfile?.skills || []
   });
