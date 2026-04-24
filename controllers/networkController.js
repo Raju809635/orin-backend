@@ -1093,10 +1093,16 @@ function getRequiredSkillsForGoal(goal = "") {
 
 function deriveSkillGapProfile({ goal = "", template = null, overrideSkills = [], journeyState = null, profileSkills = [] }) {
   const requiredSkills = template?.requiredSkills?.length ? template.requiredSkills : getRequiredSkillsForGoal(goal);
-  const stateKnownSkills = journeyState?.skillProfile?.knownSkills?.length ? journeyState.skillProfile.knownSkills : [];
-  const currentSkills = (overrideSkills.length ? overrideSkills : stateKnownSkills.length ? stateKnownSkills : profileSkills || [])
-    .map((item) => String(item || "").trim())
-    .filter(Boolean);
+  const normalizedOverrideSkills = normalizeList(Array.isArray(overrideSkills) ? overrideSkills : [overrideSkills]);
+  const normalizedStateKnownSkills = normalizeList(
+    Array.isArray(journeyState?.skillProfile?.knownSkills) ? journeyState.skillProfile.knownSkills : [journeyState?.skillProfile?.knownSkills]
+  );
+  const normalizedProfileSkills = normalizeList(Array.isArray(profileSkills) ? profileSkills : [profileSkills]);
+  const currentSkills = normalizedOverrideSkills.length
+    ? normalizedOverrideSkills
+    : normalizedStateKnownSkills.length
+      ? normalizedStateKnownSkills
+      : normalizedProfileSkills;
   const currentTokens = new Set(currentSkills.map((item) => normalizeText(item)));
   const missingSkills = requiredSkills.filter((skill) => !currentTokens.has(normalizeText(skill)));
   const readinessScore = requiredSkills.length
