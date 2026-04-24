@@ -1262,8 +1262,8 @@ function scoreTokenOverlap(value = "", tokens = []) {
 
 function getJourneyProjectIdeas({ goal = "", ctx = {}, journeyState, fallbackIdeas = [] }) {
   const currentStep = getJourneyCurrentRoadmapStep(journeyState);
-  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
-  const knownSkills = journeyState?.skillProfile?.knownSkills || [];
+  const missingSkills = normalizeList(journeyState?.skillProfile?.missingSkills || []);
+  const knownSkills = normalizeList(journeyState?.skillProfile?.knownSkills || []);
   const focusTokens = [
     goal,
     ctx?.primaryCategory,
@@ -1392,7 +1392,7 @@ function buildProjectKey(title = "") {
 
 function buildJourneySeedResources({ queryDomain = "", goal = "", ctx = {}, journeyState }) {
   const currentStep = getJourneyCurrentRoadmapStep(journeyState);
-  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
+  const missingSkills = normalizeList(journeyState?.skillProfile?.missingSkills || []);
   const primarySkill = missingSkills[0] || ctx?.focus || ctx?.subCategory || ctx?.primaryCategory || goal || "Career";
   const domain = queryDomain || ctx?.primaryCategory || journeyState?.goal?.domain || "Career Growth";
 
@@ -1461,13 +1461,14 @@ function buildDomainSeedResources({ queryDomain = "", goal = "", ctx = {} }) {
 }
 
 function mapKnowledgeResources(resources = [], { journeyState, currentStep, recommendationTokens = [], mode = "roadmap", reasonFallback = "" }) {
+  const missingSkills = normalizeList(journeyState?.skillProfile?.missingSkills || []);
   return resources
     .map((item) => {
       const overlap = scoreTokenOverlap(`${item.title} ${item.description || ""} ${item.domain || ""} ${item.type || ""}`, recommendationTokens);
       const isCurrentStepMatch =
         currentStep?.title && scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(currentStep.title)) > 0;
       const isMissingSkillMatch =
-        (journeyState?.skillProfile?.missingSkills || []).some(
+        missingSkills.some(
           (skill) => scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(skill)) > 0
         );
       const priorityScore =
@@ -1479,7 +1480,7 @@ function mapKnowledgeResources(resources = [], { journeyState, currentStep, reco
         mode === "roadmap" && isCurrentStepMatch
           ? `Matches your current step: ${currentStep.title}`
           : isMissingSkillMatch
-            ? `Supports a current gap: ${(journeyState?.skillProfile?.missingSkills || []).find(
+            ? `Supports a current gap: ${missingSkills.find(
                 (skill) => scoreTokenOverlap(`${item.title} ${item.description || ""}`, tokenize(skill)) > 0
               )}`
             : reasonFallback;
@@ -1538,7 +1539,7 @@ function buildInternshipReadinessState({ journeyState, profile, goal = "" }) {
 
 function buildChallengeJourneyState({ journeyState, profile, goal = "" }) {
   const currentStep = getJourneyCurrentRoadmapStep(journeyState);
-  const missingSkills = journeyState?.skillProfile?.missingSkills || [];
+  const missingSkills = normalizeList(journeyState?.skillProfile?.missingSkills || []);
   const completedProjectCount = Number(journeyState?.projects?.completedProjectIds?.length || 0) + Number(profile?.projects?.length || 0);
   const readinessScore = Number(journeyState?.skillProfile?.readinessScore || 0);
 

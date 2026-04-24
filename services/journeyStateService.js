@@ -3,7 +3,8 @@ const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 
 function normalizeList(items = []) {
-  return [...new Set((items || []).map((item) => String(item || "").trim()).filter(Boolean))];
+  const source = Array.isArray(items) ? items : [items];
+  return [...new Set(source.map((item) => String(item || "").trim()).filter(Boolean))];
 }
 
 function normalizeKey(value = "") {
