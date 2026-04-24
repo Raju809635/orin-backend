@@ -3562,14 +3562,16 @@ exports.getFeed = asyncHandler(async (req, res) => {
 
 exports.getInstitutionFeed = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const profile = await StudentProfile.findOne({ userId }).select("collegeName").lean();
-  const collegeName = String(profile?.collegeName || "").trim();
+  const profile = await StudentProfile.findOne({ userId }).select("institutionName collegeName").lean();
+  const institutionName = String(profile?.institutionName || profile?.collegeName || "").trim();
 
-  if (!collegeName) {
+  if (!institutionName) {
     return res.json([]);
   }
 
-  const institutionProfiles = await StudentProfile.find({ collegeName })
+  const institutionProfiles = await StudentProfile.find({
+    $or: [{ institutionName }, { collegeName: institutionName }]
+  })
     .select("userId")
     .lean();
   const institutionUserIds = institutionProfiles
@@ -3582,7 +3584,7 @@ exports.getInstitutionFeed = asyncHandler(async (req, res) => {
 
   const posts = await FeedPost.find({
     authorId: { $in: institutionUserIds },
-    collegeTag: collegeName,
+    collegeTag: institutionName,
     visibility: { $in: ["public", "connections"] }
   })
     .populate("authorId", "name role")
@@ -3663,7 +3665,8 @@ exports.createPost = asyncHandler(async (req, res) => {
 
   if (!content || content.trim().length < 3) throw new ApiError(400, "Post content is required");
 
-  const profile = await StudentProfile.findOne({ userId: authorId }).select("collegeName").lean();
+  const profile = await StudentProfile.findOne({ userId: authorId }).select("institutionName collegeName").lean();
+  const institutionTag = String(profile?.institutionName || profile?.collegeName || "").trim();
 
   const post = await FeedPost.create({
     authorId,
@@ -3672,7 +3675,7 @@ exports.createPost = asyncHandler(async (req, res) => {
     domainTags: Array.isArray(domainTags) ? domainTags : [],
     mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
     visibility,
-    collegeTag: profile?.collegeName || ""
+    collegeTag: institutionTag
   });
 
   await applyReputationDelta(authorId, { activityPosts: 1 });
