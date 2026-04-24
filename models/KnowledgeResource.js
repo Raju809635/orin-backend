@@ -3,7 +3,14 @@ const mongoose = require("mongoose");
 const knowledgeResourceSchema = new mongoose.Schema(
   {
     domain: { type: String, default: "", trim: true, index: true },
+    scope: {
+      type: String,
+      enum: ["global", "institution", "class"],
+      default: "global",
+      index: true
+    },
     institutionName: { type: String, default: "", trim: true, index: true },
+    className: { type: String, default: "", trim: true, index: true },
     type: {
       type: String,
       enum: ["interview_questions", "roadmap", "coding_resource", "career_guide", "other"],

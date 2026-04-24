@@ -26,6 +26,7 @@ const MentorGroupMessage = require("../models/MentorGroupMessage");
 const InstitutionRoadmap = require("../models/InstitutionRoadmap");
 const InstitutionRoadmapSubmission = require("../models/InstitutionRoadmapSubmission");
 const KnowledgeResource = require("../models/KnowledgeResource");
+const KnowledgeResourceSubmission = require("../models/KnowledgeResourceSubmission");
 const UserSkillLevel = require("../models/UserSkillLevel");
 const QuizStreak = require("../models/QuizStreak");
 const QuizAttempt = require("../models/QuizAttempt");
@@ -99,6 +100,35 @@ function normalizeList(values = []) {
       seen.add(key);
       return true;
     });
+}
+
+function normalizeContentScope({ requestedScope = "", role = "student", institutionName = "", className = "" } = {}) {
+  const normalizedInstitution = String(institutionName || "").trim();
+  const normalizedClass = String(className || "").trim();
+  const scopeKey = normalizeText(requestedScope);
+
+  if (role === "mentor") {
+    if (scopeKey === "class" && normalizedInstitution && normalizedClass) {
+      return { scope: "class", institutionName: normalizedInstitution, className: normalizedClass };
+    }
+    if (scopeKey === "institution" && normalizedInstitution) {
+      return { scope: "institution", institutionName: normalizedInstitution, className: "" };
+    }
+    if (scopeKey === "global") {
+      return { scope: "global", institutionName: "", className: "" };
+    }
+    return normalizedInstitution
+      ? { scope: "institution", institutionName: normalizedInstitution, className: "" }
+      : { scope: "global", institutionName: "", className: "" };
+  }
+
+  if (normalizedInstitution && scopeKey === "class" && normalizedClass) {
+    return { scope: "class", institutionName: normalizedInstitution, className: normalizedClass };
+  }
+  if (normalizedInstitution) {
+    return { scope: "institution", institutionName: normalizedInstitution, className: "" };
+  }
+  return { scope: "global", institutionName: "", className: "" };
 }
 
 function uniqueTokens(values = []) {
@@ -1460,7 +1490,7 @@ function buildDomainSeedResources({ queryDomain = "", goal = "", ctx = {} }) {
   ];
 }
 
-function mapKnowledgeResources(resources = [], { journeyState, currentStep, recommendationTokens = [], mode = "roadmap", reasonFallback = "" }) {
+function mapKnowledgeResources(resources = [], { journeyState, currentStep, recommendationTokens = [], mode = "roadmap", reasonFallback = "", submissionMap = new Map() }) {
   const missingSkills = normalizeList(journeyState?.skillProfile?.missingSkills || []);
   return resources
     .map((item) => {
@@ -1507,6 +1537,13 @@ function mapKnowledgeResources(resources = [], { journeyState, currentStep, reco
       thumbnailUrl: item.thumbnailUrl || "",
       learningOutcome: item.learningOutcome || "",
       contributorRole: item.contributorRole || "admin",
+      mentor: item.submittedBy
+        ? {
+            id: item.submittedBy?._id || null,
+            name: item.submittedBy?.name || "Mentor"
+          }
+        : null,
+      submission: submissionMap.get(String(item._id || "")) || null,
       saves: Number(item.saves || 0),
       featured: Boolean(item.isFeatured),
       recommended: index < 4,
@@ -7399,19 +7436,49 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
   ]);
   const goal = String(journeyState?.goal?.title || journeyState?.goal?.domain || "Career Growth").trim();
   const challengeState = buildChallengeJourneyState({ journeyState, profile, goal });
+  const audienceProfile = role === "mentor"
+    ? await MentorProfile.findOne({ userId }).select("institutionName").lean()
+    : await StudentProfile.findOne({ userId }).select("institutionName collegeName className").lean();
+  const audienceInstitutionName = String(audienceProfile?.institutionName || audienceProfile?.collegeName || "").trim();
+  const audienceClassName = String(audienceProfile?.className || "").trim();
+  const challengeAudienceFilters = [
+    { scope: { $exists: false } },
+    { scope: "global" },
+    { scope: "", institutionName: "" },
+    { scope: null, institutionName: "" }
+  ];
+  if (audienceInstitutionName) {
+    challengeAudienceFilters.push({ scope: "institution", institutionName: audienceInstitutionName });
+    challengeAudienceFilters.push({ scope: { $exists: false }, institutionName: audienceInstitutionName });
+    if (audienceClassName) {
+      challengeAudienceFilters.push({ scope: "class", institutionName: audienceInstitutionName, className: audienceClassName });
+    }
+  }
 
   const challengesQuery =
     role === "mentor"
       ? {
-          $or: [
-            { isActive: true, approvalStatus: "approved" },
-            // Mentors can see their own submissions even if not active yet (admin review workflow).
-            { createdBy: userId }
+          $and: [
+            {
+              $or: challengeAudienceFilters
+            },
+            {
+              $or: [
+                { isActive: true, approvalStatus: "approved" },
+                // Mentors can see their own submissions even if not active yet (admin review workflow).
+                { createdBy: userId }
+              ]
+            }
           ]
         }
-      : { isActive: true, approvalStatus: "approved" };
+      : {
+          isActive: true,
+          approvalStatus: "approved",
+          $or: challengeAudienceFilters
+        };
 
   let challenges = await CommunityChallenge.find(challengesQuery)
+    .populate("createdBy", "name")
     .sort({ deadline: 1, createdAt: -1 })
     .limit(40)
     .lean();
@@ -7451,6 +7518,15 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
         id: item._id,
         title: item.title,
         domain: item.domain,
+        scope: item.scope || "global",
+        institutionName: item.institutionName || "",
+        className: item.className || "",
+        mentor: item.createdBy
+          ? {
+              id: item.createdBy?._id || null,
+              name: item.createdBy?.name || "Mentor"
+            }
+          : null,
         description: item.description,
         bannerImageUrl: item.bannerImageUrl || "",
         prize: item.prize || "",
@@ -7498,6 +7574,15 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
   const tasks = Array.isArray(req.body?.tasks)
     ? req.body.tasks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
     : [];
+  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName").lean();
+  const mentorInstitutionName = String(mentorProfile?.institutionName || "").trim();
+  const targetClassName = String(req.body?.className || "").trim();
+  const scopeDetails = normalizeContentScope({
+    requestedScope: req.body?.scope,
+    role: req.user.role,
+    institutionName: mentorInstitutionName,
+    className: targetClassName
+  });
 
   if (!title) throw new ApiError(400, "Title is required");
   if (!deadlineRaw) throw new ApiError(400, "Deadline is required");
@@ -7511,6 +7596,9 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
   const doc = await CommunityChallenge.create({
     title,
     domain,
+    scope: scopeDetails.scope,
+    institutionName: scopeDetails.institutionName,
+    className: scopeDetails.className,
     description,
     bannerImageUrl,
     prize,
@@ -7533,6 +7621,7 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
     challenge: {
       id: doc._id,
       title: doc.title,
+      scope: doc.scope,
       isActive: doc.isActive
     }
   });
@@ -8432,8 +8521,28 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
     $or: [{ approvalStatus: { $exists: false } }, { approvalStatus: "approved" }]
   };
 
-  // If a domain is known, include both domain-specific items and "global" items that have no domain.
-  const finalQuery = derivedDomain
+  const profileForInstitution = req.user.role === "mentor"
+    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean()
+    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className").lean();
+  const institutionName = String(profileForInstitution?.institutionName || profileForInstitution?.collegeName || "").trim();
+  const className = String(profileForInstitution?.className || "").trim();
+  const audienceQuery = {
+    $or: [
+      { scope: { $exists: false } },
+      { scope: "global" },
+      { scope: "", institutionName: "" },
+      { scope: null, institutionName: "" }
+    ]
+  };
+  if (institutionName) {
+    audienceQuery.$or.push({ scope: "institution", institutionName });
+    audienceQuery.$or.push({ scope: { $exists: false }, institutionName });
+    if (className) {
+      audienceQuery.$or.push({ scope: "class", institutionName, className });
+    }
+  }
+  let institutionResources = [];
+  const scopedQuery = derivedDomain
     ? {
         ...baseQuery,
         $and: [
@@ -8442,15 +8551,21 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
               { domain: { $in: ["", null] } },
               ...(domainRegexes.length ? [{ domain: { $in: domainRegexes } }] : [{ domain: derivedDomain }])
             ]
-          }
+          },
+          audienceQuery
         ]
       }
-    : baseQuery;
+    : {
+        ...baseQuery,
+        $and: [audienceQuery]
+      };
 
-  let resources = await KnowledgeResource.find(finalQuery)
+  let resources = await KnowledgeResource.find(scopedQuery)
+    .populate("submittedBy", "name")
     .sort({ updatedAt: -1 })
     .limit(100)
     .lean();
+  let institutionDocs = [];
 
   if (!resources.length) {
     resources = [
@@ -8476,40 +8591,77 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
     ];
   }
 
+  if (institutionName) {
+    institutionDocs = await KnowledgeResource.find({
+      isActive: true,
+      approvalStatus: "approved",
+      $or: [
+        { scope: { $exists: false }, institutionName },
+        { scope: "institution", institutionName },
+        ...(className ? [{ scope: "class", institutionName, className }] : [])
+      ]
+    })
+      .populate("submittedBy", "name")
+      .sort({ updatedAt: -1 })
+      .limit(20)
+      .lean();
+  }
+
+  const resourceIds = [...resources, ...institutionDocs]
+    .map((item) => String(item?._id || ""))
+    .filter((id) => mongoose.Types.ObjectId.isValid(id));
+  const submissionRows =
+    req.user.role === "student" && resourceIds.length
+      ? await KnowledgeResourceSubmission.find({
+          resourceId: { $in: resourceIds.map((id) => new mongoose.Types.ObjectId(id)) },
+          studentId: req.user.id
+        }).lean()
+      : [];
+  const submissionMap = new Map(
+    submissionRows.map((item) => [
+      String(item.resourceId),
+      {
+        id: item._id,
+        status: item.status,
+        proofText: item.proofText || "",
+        proofLink: item.proofLink || "",
+        proofFiles: item.proofFiles || [],
+        submittedAt: item.submittedAt,
+        mentorReview: {
+          reviewedAt: item.mentorReview?.reviewedAt || null,
+          notes: item.mentorReview?.notes || "",
+          xpAwarded: Number(item.mentorReview?.xpAwarded || 0),
+          certificateId: item.mentorReview?.certificateId || null
+        }
+      }
+    ])
+  );
+
   const roadmapResources = mapKnowledgeResources(resources, {
     journeyState,
     currentStep,
     recommendationTokens: roadmapRecommendationTokens,
     mode: "roadmap",
-    reasonFallback: `Recommended for your current roadmap path in ${goal}`
+    reasonFallback: `Recommended for your current roadmap path in ${goal}`,
+    submissionMap
   }).slice(0, 12);
   const domainResources = mapKnowledgeResources(resources, {
     journeyState,
     currentStep,
     recommendationTokens: domainRecommendationTokens,
     mode: "domain",
-    reasonFallback: `Recommended for your selected domain: ${journeyState?.goal?.focus || journeyState?.goal?.subDomain || derivedDomain || goal}`
+    reasonFallback: `Recommended for your selected domain: ${journeyState?.goal?.focus || journeyState?.goal?.subDomain || derivedDomain || goal}`,
+    submissionMap
   }).slice(0, 12);
-  const profileForInstitution = req.user.role === "mentor"
-    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean()
-    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName").lean();
-  const institutionName = String(profileForInstitution?.institutionName || profileForInstitution?.collegeName || "").trim();
-  let institutionResources = [];
+
   if (institutionName) {
-    const institutionDocs = await KnowledgeResource.find({
-      isActive: true,
-      approvalStatus: "approved",
-      institutionName
-    })
-      .sort({ updatedAt: -1 })
-      .limit(20)
-      .lean();
     institutionResources = mapKnowledgeResources(institutionDocs, {
       journeyState,
       currentStep,
       recommendationTokens: roadmapRecommendationTokens,
       mode: "roadmap",
-      reasonFallback: `Recommended by mentors and contributors from ${institutionName}`
+      reasonFallback: `Recommended by mentors and contributors from ${institutionName}`,
+      submissionMap
     }).slice(0, 12);
   }
 
@@ -8552,12 +8704,21 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
 
   const contributorProfile = req.user.role === "mentor"
     ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean()
-    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName").lean();
+    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className").lean();
   const institutionName = String(contributorProfile?.institutionName || contributorProfile?.collegeName || "").trim();
+  const className = String(req.body?.className || contributorProfile?.className || "").trim();
+  const scopeDetails = normalizeContentScope({
+    requestedScope: req.body?.scope,
+    role: req.user.role,
+    institutionName,
+    className
+  });
 
   const doc = await KnowledgeResource.create({
     domain,
-    institutionName,
+    scope: scopeDetails.scope,
+    institutionName: scopeDetails.institutionName,
+    className: scopeDetails.className,
     type,
     title,
     description,
@@ -8577,6 +8738,271 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({ message: "Resource submitted for review", resource: { id: doc._id } });
+});
+
+exports.getMentorKnowledgeResources = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can view their managed resources");
+  const rows = await KnowledgeResource.find({ submittedBy: req.user.id })
+    .sort({ updatedAt: -1 })
+    .limit(200)
+    .lean();
+  res.json(rows.map((item) => ({
+    id: item._id,
+    title: item.title,
+    domain: item.domain || "",
+    scope: item.scope || "global",
+    institutionName: item.institutionName || "",
+    className: item.className || "",
+    approvalStatus: item.approvalStatus || "pending",
+    isActive: item.isActive !== false,
+    updatedAt: item.updatedAt
+  })));
+});
+
+exports.submitKnowledgeResourceProof = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can submit resource proof");
+  const { resourceId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(resourceId)) throw new ApiError(400, "Invalid resourceId");
+
+  const resource = await KnowledgeResource.findOne({
+    _id: resourceId,
+    isActive: true,
+    approvalStatus: "approved"
+  })
+    .populate("submittedBy", "name role")
+    .lean();
+  if (!resource) throw new ApiError(404, "Resource not found");
+  if (!resource.submittedBy || resource.submittedBy.role !== "mentor") {
+    throw new ApiError(400, "This resource does not accept mentor review yet");
+  }
+
+  const studentProfile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("institutionName collegeName className")
+    .lean();
+  const studentInstitutionName = String(studentProfile?.institutionName || studentProfile?.collegeName || "").trim();
+  const studentClassName = String(studentProfile?.className || "").trim();
+  const resourceScope = String(resource.scope || "global").trim() || "global";
+  const resourceInstitutionName = String(resource.institutionName || "").trim();
+  const resourceClassName = String(resource.className || "").trim();
+
+  if (resourceScope === "institution") {
+    if (!studentInstitutionName || normalizeText(studentInstitutionName) !== normalizeText(resourceInstitutionName)) {
+      throw new ApiError(403, "You do not have access to this institution resource");
+    }
+  } else if (resourceScope === "class") {
+    if (
+      !studentInstitutionName ||
+      !studentClassName ||
+      normalizeText(studentInstitutionName) !== normalizeText(resourceInstitutionName) ||
+      normalizeText(studentClassName) !== normalizeText(resourceClassName)
+    ) {
+      throw new ApiError(403, "You do not have access to this class resource");
+    }
+  } else if (resourceInstitutionName && studentInstitutionName) {
+    if (normalizeText(studentInstitutionName) !== normalizeText(resourceInstitutionName)) {
+      throw new ApiError(403, "You do not have access to this resource");
+    }
+  }
+
+  const proofText = String(req.body?.proofText || "").trim();
+  const proofLink = String(req.body?.proofLink || "").trim();
+  const proofFiles = Array.isArray(req.body?.proofFiles)
+    ? req.body.proofFiles.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+    : [];
+
+  if (!proofText && !proofLink && !proofFiles.length) {
+    throw new ApiError(400, "Add a note, link, or proof file");
+  }
+
+  const submission = await KnowledgeResourceSubmission.findOneAndUpdate(
+    { resourceId, studentId: req.user.id },
+    {
+      $set: {
+        proofText,
+        proofLink,
+        proofFiles,
+        status: "submitted",
+        submittedAt: new Date()
+      }
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  res.status(201).json({
+    message: "Resource proof submitted for mentor review",
+    submission: {
+      id: submission._id,
+      status: submission.status
+    }
+  });
+});
+
+exports.getKnowledgeResourceSubmissionsForMentor = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can view resource reviews");
+  const resourceIds = await KnowledgeResource.find({ submittedBy: req.user.id }).distinct("_id");
+  if (!resourceIds.length) return res.json([]);
+
+  const rows = await KnowledgeResourceSubmission.find({ resourceId: { $in: resourceIds } })
+    .populate("studentId", "name email")
+    .populate("resourceId", "title domain scope institutionName className")
+    .sort({ createdAt: -1 })
+    .limit(100)
+    .lean();
+
+  res.json(
+    rows.map((item) => ({
+      id: item._id,
+      resourceId: item.resourceId?._id || null,
+      resourceTitle: item.resourceId?.title || "Resource",
+      resourceDomain: item.resourceId?.domain || "",
+      scope: item.resourceId?.scope || "global",
+      institutionName: item.resourceId?.institutionName || "",
+      className: item.resourceId?.className || "",
+      status: item.status,
+      proofText: item.proofText || "",
+      proofLink: item.proofLink || "",
+      proofFiles: item.proofFiles || [],
+      submittedAt: item.submittedAt,
+      student: {
+        id: item.studentId?._id || null,
+        name: item.studentId?.name || "Student",
+        email: item.studentId?.email || ""
+      },
+      mentorReview: {
+        reviewedAt: item.mentorReview?.reviewedAt || null,
+        notes: item.mentorReview?.notes || "",
+        xpAwarded: Number(item.mentorReview?.xpAwarded || 0),
+        certificateId: item.mentorReview?.certificateId || null
+      }
+    }))
+  );
+});
+
+exports.reviewKnowledgeResourceSubmission = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can review resource submissions");
+  const { submissionId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(submissionId)) throw new ApiError(400, "Invalid submissionId");
+
+  const submission = await KnowledgeResourceSubmission.findById(submissionId);
+  if (!submission) throw new ApiError(404, "Submission not found");
+
+  const resource = await KnowledgeResource.findById(submission.resourceId).lean();
+  if (!resource || String(resource.submittedBy || "") !== String(req.user.id)) {
+    throw new ApiError(403, "Not allowed to review this resource submission");
+  }
+
+  const status = String(req.body?.status || "").trim();
+  if (!["accepted", "rejected", "reviewed"].includes(status)) throw new ApiError(400, "status must be accepted, rejected, or reviewed");
+  const xpAwarded = Math.max(0, Number(req.body?.xpAwarded || 0));
+  const notes = String(req.body?.notes || "").trim();
+
+  submission.status = status;
+  submission.mentorReview.reviewedAt = new Date();
+  submission.mentorReview.reviewedBy = req.user.id;
+  submission.mentorReview.notes = notes;
+  submission.mentorReview.xpAwarded = status === "accepted" ? xpAwarded : 0;
+
+  if (status === "accepted" && xpAwarded > 0) {
+    await applyReputationDelta(submission.studentId, { dailyChallenges: Math.max(1, Math.round(xpAwarded / 20)) });
+  }
+
+  if (status === "accepted" && req.body?.issueCertificate) {
+    const studentUser = await User.findById(submission.studentId).select("name").lean();
+    const { certificate } = await issueCertificate({
+      userId: submission.studentId,
+      userName: studentUser?.name || "Student",
+      title: `${resource.title} Resource Completion`,
+      type: "manual",
+      issuedBy: req.user.name || "Institution Mentor",
+      source: "Knowledge Resource",
+      level: resource.scope === "class" ? "Class" : resource.scope === "institution" ? "Institution" : "Global",
+      domain: String(resource.domain || "").trim(),
+      referenceType: "resource",
+      referenceId: `knowledge-resource:${String(resource._id)}`,
+      metadata: {
+        domain: String(resource.domain || "").trim(),
+        level: resource.scope === "class" ? "Class" : resource.scope === "institution" ? "Institution" : "Global",
+        score: xpAwarded || 0,
+        goal: resource.title
+      }
+    });
+    submission.mentorReview.certificateId = certificate?._id || null;
+  }
+
+  await submission.save();
+
+  res.json({
+    message: "Resource submission reviewed",
+    submission: {
+      id: submission._id,
+      status: submission.status,
+      mentorReview: submission.mentorReview
+    }
+  });
+});
+
+exports.getMentorCertificateTemplates = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can view their templates");
+  const rows = await CertificateTemplate.find({
+    $or: [{ createdBy: req.user.id }, { issuerType: "mentor", createdBy: req.user.id }]
+  })
+    .sort({ updatedAt: -1 })
+    .limit(200)
+    .lean();
+  res.json(rows.map((item) => ({
+    id: item._id,
+    title: item.title,
+    templateKey: String(item.templateKey || "").replace(new RegExp(`^mentor:${String(req.user.id)}:`), ""),
+    description: item.description || "",
+    certificateType: item.certificateType || "manual",
+    xpReward: Number(item.xpReward || 0),
+    scope: item.scope || "global",
+    institutionName: item.institutionName || "",
+    className: item.className || "",
+    isActive: item.isActive !== false
+  })));
+});
+
+exports.createMentorCertificateTemplate = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create templates");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean();
+  const mentorInstitutionName = String(mentorProfile?.institutionName || "").trim();
+  const title = String(req.body?.title || "").trim();
+  const templateKey = String(req.body?.templateKey || title.toLowerCase().replace(/[^a-z0-9]+/g, "-")).trim();
+  const storedTemplateKey = `mentor:${String(req.user.id)}:${templateKey}`;
+  const className = String(req.body?.className || "").trim();
+  const scopeDetails = normalizeContentScope({
+    requestedScope: req.body?.scope,
+    role: req.user.role,
+    institutionName: mentorInstitutionName,
+    className
+  });
+  if (!title) throw new ApiError(400, "title is required");
+  if (!templateKey) throw new ApiError(400, "templateKey is required");
+
+  const doc = await CertificateTemplate.findOneAndUpdate(
+    { templateKey: storedTemplateKey, createdBy: req.user.id },
+    {
+      $set: {
+        title,
+        templateKey: storedTemplateKey,
+        issuerType: "mentor",
+        description: String(req.body?.description || "").trim(),
+        bodyText: String(req.body?.bodyText || "").trim(),
+        xpReward: Number(req.body?.xpReward || 0),
+        certificateType: String(req.body?.certificateType || "manual").trim(),
+        bannerImageUrl: String(req.body?.bannerImageUrl || "").trim(),
+        scope: scopeDetails.scope,
+        institutionName: scopeDetails.institutionName,
+        className: scopeDetails.className,
+        isActive: req.body?.isActive !== false,
+        createdBy: req.user.id
+      }
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  res.status(201).json({ message: "Certificate template saved", template: doc });
 });
 
 exports.createMentorGroup = asyncHandler(async (req, res) => {

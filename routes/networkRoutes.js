@@ -93,6 +93,12 @@ const {
   submitProjectIdeaProof,
   getKnowledgeLibrary,
   submitKnowledgeResource,
+  getMentorKnowledgeResources,
+  submitKnowledgeResourceProof,
+  getKnowledgeResourceSubmissionsForMentor,
+  reviewKnowledgeResourceSubmission,
+  getMentorCertificateTemplates,
+  createMentorCertificateTemplate,
   getReputationSummary
 } = require("../controllers/networkController");
 
@@ -199,6 +205,12 @@ router.post("/project-ideas/:projectKey/task", verifyToken, authorizeRoles("stud
 router.post("/project-ideas/:projectKey/submit-proof", verifyToken, authorizeRoles("student"), submitProjectIdeaProof);
 router.get("/knowledge-library", verifyToken, authorizeRoles("student", "mentor"), getKnowledgeLibrary);
 router.post("/knowledge-library/submit", verifyToken, authorizeRoles("student", "mentor"), submitKnowledgeResource);
+router.get("/knowledge-library/mine", verifyToken, authorizeRoles("mentor"), getMentorKnowledgeResources);
+router.post("/knowledge-library/:resourceId/submissions", verifyToken, authorizeRoles("student"), submitKnowledgeResourceProof);
+router.get("/knowledge-library/submissions/mentor", verifyToken, authorizeRoles("mentor"), getKnowledgeResourceSubmissionsForMentor);
+router.patch("/knowledge-library/submissions/:submissionId/review", verifyToken, authorizeRoles("mentor"), reviewKnowledgeResourceSubmission);
+router.get("/certificate-templates/mentor", verifyToken, authorizeRoles("mentor"), getMentorCertificateTemplates);
+router.post("/certificate-templates/mentor", verifyToken, authorizeRoles("mentor"), createMentorCertificateTemplate);
 router.get("/reputation-summary", verifyToken, authorizeRoles("student", "mentor"), getReputationSummary);
 
 module.exports = router;
