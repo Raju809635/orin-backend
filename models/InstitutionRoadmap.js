@@ -30,6 +30,7 @@ const institutionRoadmapSchema = new mongoose.Schema(
     title: { type: String, required: true, maxlength: 200 },
     description: { type: String, default: "", maxlength: 3000 },
     domain: { type: String, default: "" },
+    className: { type: String, default: "", maxlength: 120 },
     status: {
       type: String,
       enum: ["draft", "published"],
@@ -43,6 +44,6 @@ const institutionRoadmapSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-institutionRoadmapSchema.index({ institutionName: 1, status: 1, createdAt: -1 });
+institutionRoadmapSchema.index({ institutionName: 1, className: 1, status: 1, createdAt: -1 });
 
 module.exports = mongoose.model("InstitutionRoadmap", institutionRoadmapSchema);

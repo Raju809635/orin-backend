@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const knowledgeResourceSchema = new mongoose.Schema(
   {
     domain: { type: String, default: "", trim: true, index: true },
+    institutionName: { type: String, default: "", trim: true, index: true },
     type: {
       type: String,
       enum: ["interview_questions", "roadmap", "coding_resource", "career_guide", "other"],
@@ -40,6 +41,6 @@ const knowledgeResourceSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-knowledgeResourceSchema.index({ isActive: 1, domain: 1, updatedAt: -1 });
+knowledgeResourceSchema.index({ isActive: 1, institutionName: 1, domain: 1, updatedAt: -1 });
 
 module.exports = mongoose.model("KnowledgeResource", knowledgeResourceSchema);
