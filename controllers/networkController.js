@@ -4641,7 +4641,9 @@ exports.getCareerRoadmap = asyncHandler(async (req, res) => {
     profileSkills: studentProfile?.skills || []
   });
   const requestedRoadmapId = buildSkillAwareRoadmapId(goal, ctx, skillProfile.currentSkills);
-  const stateSteps = (journeyState?.roadmap?.steps || []).map((item) => item.title).filter(Boolean);
+  const stateSteps = (Array.isArray(journeyState?.roadmap?.steps) ? journeyState.roadmap.steps : [])
+    .map((item) => item?.title)
+    .filter(Boolean);
   const rawSteps = currentRoadmapId === requestedRoadmapId && stateSteps.length
     ? stateSteps
     : buildSkillProgressiveRoadmap({
@@ -7299,8 +7301,8 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
       const signals = uniqueTokens([
         item.primaryCategory,
         item.subCategory,
-        ...(item.specializations || []),
-        ...(item.expertiseDomains || [])
+        ...normalizeList(item.specializations || []),
+        ...normalizeList(item.expertiseDomains || [])
       ]);
       let score = 0;
       missingSkills.forEach((skill) => {
