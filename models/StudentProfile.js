@@ -22,6 +22,11 @@ const studentProfileSchema = new mongoose.Schema(
     institutionDistrict: { type: String, default: "" },
     institutionSource: { type: String, default: "" },
     className: { type: String, default: "" },
+    learnerStage: {
+      type: String,
+      enum: ["kid", "highschool", "after12"],
+      default: "after12"
+    },
     education: {
       type: [{ school: String, degree: String, year: String }],
       default: []

@@ -179,6 +179,11 @@ function normalizeStudentProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "className")) {
     nextPayload.className = String(nextPayload.className || "").trim();
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "learnerStage")) {
+    const rawStage = String(nextPayload.learnerStage || "").trim().toLowerCase();
+    nextPayload.learnerStage =
+      rawStage === "kid" || rawStage === "highschool" || rawStage === "after12" ? rawStage : "after12";
+  }
   if (nextPayload.institutionName) {
     nextPayload.collegeName = nextPayload.institutionName;
   }

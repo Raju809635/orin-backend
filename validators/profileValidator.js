@@ -11,6 +11,7 @@ const studentProfileUpdateSchema = Joi.object({
   institutionDistrict: Joi.string().max(120).allow("").optional(),
   institutionSource: Joi.string().max(120).allow("").optional(),
   className: Joi.string().max(80).allow("").optional(),
+  learnerStage: Joi.string().valid("kid", "highschool", "after12").optional(),
   education: Joi.array()
     .items(
       Joi.object({
