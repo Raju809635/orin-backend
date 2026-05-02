@@ -86,7 +86,17 @@ exports.getPendingMentors = asyncHandler(async (req, res) => {
     .select("name email role approvalStatus primaryCategory subCategory specializations createdAt")
     .lean();
 
-  res.status(200).json(mentors);
+  const profiles = await MentorProfile.find({ userId: { $in: mentors.map((mentor) => mentor._id) } })
+    .select("userId mentorOrgRole institutionName institutionType institutionDistrict assignedClasses institutionPermissions phoneNumber")
+    .lean();
+  const profileByUserId = new Map(profiles.map((profile) => [String(profile.userId), profile]));
+
+  res.status(200).json(
+    mentors.map((mentor) => ({
+      ...mentor,
+      mentorProfile: profileByUserId.get(String(mentor._id)) || null
+    }))
+  );
 });
 
 exports.approveMentor = asyncHandler(async (req, res) => {

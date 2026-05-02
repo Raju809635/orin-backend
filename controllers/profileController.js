@@ -257,6 +257,18 @@ function normalizeMentorProfilePayload(payload = {}) {
   if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionSource")) {
     nextPayload.institutionSource = String(nextPayload.institutionSource || "").trim();
   }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "mentorOrgRole")) {
+    const role = String(nextPayload.mentorOrgRole || "").trim();
+    nextPayload.mentorOrgRole = ["global_mentor", "institution_teacher", "organisation_head"].includes(role)
+      ? role
+      : "global_mentor";
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "assignedClasses")) {
+    nextPayload.assignedClasses = toStringArray(nextPayload.assignedClasses).slice(0, 30);
+  }
+  if (Object.prototype.hasOwnProperty.call(nextPayload, "institutionPermissions")) {
+    nextPayload.institutionPermissions = toStringArray(nextPayload.institutionPermissions).slice(0, 30);
+  }
   if (nextPayload.institutionName) {
     nextPayload.collegeName = nextPayload.institutionName;
   }

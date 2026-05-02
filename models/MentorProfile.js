@@ -28,6 +28,13 @@ const mentorProfileSchema = new mongoose.Schema(
     institutionType: { type: String, default: "" },
     institutionDistrict: { type: String, default: "" },
     institutionSource: { type: String, default: "" },
+    mentorOrgRole: {
+      type: String,
+      enum: ["global_mentor", "institution_teacher", "organisation_head"],
+      default: "global_mentor"
+    },
+    assignedClasses: { type: [String], default: [] },
+    institutionPermissions: { type: [String], default: [] },
     education: {
       type: [
         {

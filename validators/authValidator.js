@@ -5,6 +5,20 @@ const registerSchema = Joi.object({
   email: Joi.string().email().lowercase().required(),
   password: Joi.string().min(8).max(128).required(),
   role: Joi.string().valid("student", "mentor").default("student"),
+  mentorOrgRole: Joi.when("role", {
+    is: "mentor",
+    then: Joi.string().valid("global_mentor", "institution_teacher", "organisation_head").default("global_mentor"),
+    otherwise: Joi.string().valid("global_mentor", "institution_teacher", "organisation_head").optional()
+  }),
+  institutionName: Joi.when("role", {
+    is: "mentor",
+    then: Joi.string().trim().max(180).allow("").optional(),
+    otherwise: Joi.string().trim().max(180).allow("").optional()
+  }),
+  institutionType: Joi.string().trim().max(120).allow("").optional(),
+  institutionDistrict: Joi.string().trim().max(120).allow("").optional(),
+  institutionSource: Joi.string().trim().max(120).allow("").optional(),
+  assignedClasses: Joi.array().items(Joi.string().trim().max(80).allow("")).optional(),
   phoneNumber: Joi.when("role", {
     is: "mentor",
     then: Joi.string().trim().min(8).max(20).required(),

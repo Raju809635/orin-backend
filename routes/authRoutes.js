@@ -22,7 +22,9 @@ const {
   resetPasswordSchema,
   changePasswordSchema
 } = require("../validators/authValidator");
+const { searchEducationInstitutions } = require("../controllers/profileController");
 
+router.get("/institutions/search", searchEducationInstitutions);
 router.post("/register", validate(registerSchema), register);
 router.post("/login", validate(loginSchema), login);
 router.post("/verify-email-otp", validate(verifyEmailOtpSchema), verifyEmailOtp);

@@ -85,8 +85,26 @@ async function sendVerificationOtpEmail(user, otp) {
 }
 
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password, role, phoneNumber } = req.body;
+  const {
+    name,
+    email,
+    password,
+    role,
+    phoneNumber,
+    mentorOrgRole,
+    institutionName,
+    institutionType,
+    institutionDistrict,
+    institutionSource,
+    assignedClasses
+  } = req.body;
   const normalizedRole = role || "student";
+  const normalizedMentorOrgRole = ["institution_teacher", "organisation_head"].includes(mentorOrgRole)
+    ? mentorOrgRole
+    : "global_mentor";
+  const normalizedAssignedClasses = Array.isArray(assignedClasses)
+    ? assignedClasses.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 30)
+    : [];
 
   const existingUser = await User.findOne({ email, isDeleted: { $ne: true } });
   if (existingUser) {
@@ -126,9 +144,24 @@ exports.register = asyncHandler(async (req, res) => {
   }
 
   if (normalizedRole === "mentor") {
+    const permissions =
+      normalizedMentorOrgRole === "organisation_head"
+        ? ["manage_teachers", "manage_students", "assign_work", "view_analytics", "issue_certificates"]
+        : normalizedMentorOrgRole === "institution_teacher"
+          ? ["manage_assigned_classes", "review_submissions", "award_xp", "recommend_certificates"]
+          : [];
+
     await MentorProfile.create({
       userId: user._id,
-      phoneNumber: phoneNumber || ""
+      phoneNumber: phoneNumber || "",
+      mentorOrgRole: normalizedMentorOrgRole,
+      institutionName: String(institutionName || "").trim(),
+      collegeName: String(institutionName || "").trim(),
+      institutionType: String(institutionType || "").trim(),
+      institutionDistrict: String(institutionDistrict || "").trim(),
+      institutionSource: String(institutionSource || "").trim(),
+      assignedClasses: normalizedAssignedClasses,
+      institutionPermissions: permissions
     });
   }
 
@@ -145,7 +178,10 @@ exports.register = asyncHandler(async (req, res) => {
     action: "auth.register",
     entityType: "User",
     entityId: user._id,
-    metadata: { role: user.role }
+    metadata: {
+      role: user.role,
+      mentorOrgRole: normalizedRole === "mentor" ? normalizedMentorOrgRole : undefined
+    }
   });
 });
 
