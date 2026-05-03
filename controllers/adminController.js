@@ -316,7 +316,14 @@ exports.getMentorProfiles = asyncHandler(async (_req, res) => {
         payoutPhoneNumber: "$payoutPhoneNumber",
         weeklyAvailabilitySlots: "$weeklyAvailabilitySlots",
         rating: "$rating",
-        totalSessionsConducted: "$totalSessionsConducted"
+        totalSessionsConducted: "$totalSessionsConducted",
+        mentorOrgRole: "$mentorOrgRole",
+        institutionName: "$institutionName",
+        institutionType: "$institutionType",
+        institutionDistrict: "$institutionDistrict",
+        institutionSource: "$institutionSource",
+        assignedClasses: "$assignedClasses",
+        institutionPermissions: "$institutionPermissions"
       }
     },
     { $sort: { approvalStatus: 1, createdAt: -1 } }
