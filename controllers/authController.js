@@ -68,6 +68,22 @@ function userPayload(user) {
   };
 }
 
+async function authUserPayload(user) {
+  const payload = userPayload(user);
+  if (user.role !== "mentor") {
+    return payload;
+  }
+
+  const profile = await MentorProfile.findOne({ userId: user._id })
+    .select("mentorOrgRole")
+    .lean();
+
+  return {
+    ...payload,
+    mentorOrgRole: profile?.mentorOrgRole || "global_mentor"
+  };
+}
+
 function buildEmailOtpToken() {
   const raw = `${Math.floor(100000 + Math.random() * 900000)}`;
   const hash = crypto.createHash("sha256").update(raw).digest("hex");
@@ -229,7 +245,7 @@ exports.login = asyncHandler(async (req, res) => {
   res.status(200).json({
     token: accessToken,
     refreshToken,
-    user: userPayload(user)
+    user: await authUserPayload(user)
   });
 });
 
