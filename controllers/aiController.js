@@ -502,6 +502,81 @@ function buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLev
   };
 }
 
+function buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel }) {
+  const selectedInterest = String(interest || "Science").trim() || "Science";
+  const strengthList = String(strengths || "biology, problem solving, helping people")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 6);
+  const categoryMap = {
+    Science: [
+      { title: "Doctor", field: "Healthcare & Medical", subjects: ["Biology", "Chemistry", "Physics"], skills: ["Focus", "Empathy", "Decision Making"], nextStep: "Build Biology and Chemistry basics, then explore NEET path.", futureScope: "Hospitals, research, public health, and specialist medicine.", fitScore: 92, salaryRange: "High growth" },
+      { title: "Scientist", field: "Research & Development", subjects: ["Science", "Maths"], skills: ["Curiosity", "Analysis", "Patience"], nextStep: "Start with science projects and research reading.", futureScope: "Labs, universities, space, climate, biotech, and innovation teams.", fitScore: 84, salaryRange: "Steady growth" },
+      { title: "Biotechnologist", field: "Biotech & Research", subjects: ["Biology", "Chemistry"], skills: ["Lab thinking", "Observation", "Data"], nextStep: "Explore genetics, cells, and simple lab concepts.", futureScope: "Biotech companies, agriculture, healthcare, and research.", fitScore: 80, salaryRange: "Growing field" }
+    ],
+    Commerce: [
+      { title: "Chartered Accountant", field: "Finance & Audit", subjects: ["Accountancy", "Economics", "Maths"], skills: ["Accuracy", "Discipline", "Analysis"], nextStep: "Learn CA Foundation subjects and daily accounting basics.", futureScope: "Audit, taxation, finance, consulting, and business advisory.", fitScore: 88, salaryRange: "High growth" },
+      { title: "Business Manager", field: "Management", subjects: ["Business Studies", "Economics"], skills: ["Leadership", "Communication", "Planning"], nextStep: "Build leadership projects and business case practice.", futureScope: "Startups, companies, operations, and entrepreneurship.", fitScore: 82, salaryRange: "High growth" }
+    ],
+    Arts: [
+      { title: "Lawyer", field: "Law & Judiciary", subjects: ["Political Science", "English", "History"], skills: ["Reasoning", "Writing", "Speaking"], nextStep: "Explore CLAT basics and read current affairs.", futureScope: "Courts, policy, corporate law, and civil services.", fitScore: 86, salaryRange: "High growth" },
+      { title: "Designer", field: "Design & Creative", subjects: ["Fine Arts", "English"], skills: ["Creativity", "Observation", "Portfolio"], nextStep: "Build a small design portfolio and sketch daily.", futureScope: "Product, fashion, media, UI/UX, and branding.", fitScore: 80, salaryRange: "Creative growth" }
+    ],
+    Tech: [
+      { title: "Software Engineer", field: "Technology", subjects: ["Computer Science", "Maths"], skills: ["Coding", "Logic", "Problem Solving"], nextStep: "Start Python or web basics and build small apps.", futureScope: "Apps, AI products, cloud systems, and startups.", fitScore: 90, salaryRange: "High growth" },
+      { title: "AI Specialist", field: "AI & Data Science", subjects: ["Maths", "Computer Science"], skills: ["Math thinking", "Coding", "Data"], nextStep: "Learn Python, statistics basics, and AI tools.", futureScope: "Automation, data products, research, and AI engineering.", fitScore: 87, salaryRange: "Very high growth" }
+    ]
+  };
+  const careers = categoryMap[selectedInterest] || categoryMap.Science;
+  const featured = careers[0];
+  return {
+    greeting: "Hi, Student!",
+    interest: selectedInterest,
+    classLevel,
+    summary: `AI matched ${selectedInterest} careers using your strengths: ${strengthList.join(", ") || "school interests"}.`,
+    categories: ["Science", "Commerce", "Arts", "Tech", "Law", "Design", "Defense", "Other"],
+    careers,
+    featuredCareer: {
+      ...featured,
+      overview: `${featured.title} fits students who enjoy ${featured.subjects.slice(0, 2).join(" and ")} and want a ${featured.field.toLowerCase()} path.`,
+      workEnvironment: "Dynamic",
+      jobSatisfaction: "Very high",
+      futureScope: featured.futureScope,
+      roadmap: [
+        "10th Standard: focus on science subjects and fundamentals.",
+        "11th-12th: choose relevant stream and build subject depth.",
+        "Entrance Exam: prepare for required exams or portfolio path.",
+        "Degree: complete the relevant college program.",
+        "Internship: gain practical exposure.",
+        "Specialization: choose your focused career area.",
+        "Build Career: apply, learn, and grow."
+      ],
+      skillRatings: featured.skills.map((skill, index) => ({ skill, level: index === 0 ? "High" : index === 1 ? "High" : "Medium", percent: index === 0 ? 88 : index === 1 ? 82 : 68 }))
+    },
+    compare: careers.slice(0, 2).map((career) => ({
+      title: career.title,
+      factor: career.field,
+      salary: career.salaryRange,
+      growth: career.fitScore >= 85 ? "High" : "Medium",
+      satisfaction: career.fitScore >= 85 ? "Very high" : "High",
+      workLifeBalance: career.title === "Doctor" ? "Medium" : "Good"
+    })),
+    savedCareers: careers.slice(0, 3).map((career) => ({ title: career.title, field: career.field })),
+    progress: {
+      profileCompletion: 72,
+      completed: ["Interest Areas", "Skills Assessment", "Career Shortlist"],
+      pending: ["Study Preferences", "Career Roadmap"]
+    },
+    assistantPrompts: [
+      "What should I do after 10th in this career?",
+      "Which subjects are most important?",
+      "Compare top two careers for me."
+    ],
+    subjectsCovered: ["Physics", "Chemistry", "Biology", "Maths", "Accountancy", "Economics", "Computer Science", "English", "History", "Political Science", "Psychology"]
+  };
+}
+
 const EXAM_SUBJECT_POOL = [
   "Mathematics",
   "Science",
@@ -1197,6 +1272,114 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ source, plan, meta: { provider, model } });
+});
+
+exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className careerGoals")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "Career Explorer is available for high school learners.");
+  }
+
+  const interest = String(req.body?.interest || "Science").trim().slice(0, 60);
+  const strengths = String(req.body?.strengths || "biology, problem solving, helping people").trim().slice(0, 240);
+  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+
+  let explorer = buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel });
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const prompt = [
+      "Create a high-school AI Career Explorer report.",
+      "Return JSON only with this exact shape:",
+      '{"greeting":"Hi, Student!","summary":"short personalized summary","categories":["Science"],"careers":[{"title":"Doctor","field":"Healthcare & Medical","subjects":["Biology"],"skills":["Focus"],"nextStep":"next step","futureScope":"scope","fitScore":92,"salaryRange":"High growth"}],"featuredCareer":{"title":"Doctor","field":"Healthcare & Medical","subjects":["Biology"],"skills":["Focus"],"nextStep":"next step","futureScope":"scope","fitScore":92,"salaryRange":"High growth","overview":"career overview","workEnvironment":"Dynamic","jobSatisfaction":"Very high","roadmap":["step"],"skillRatings":[{"skill":"Communication","level":"High","percent":85}]},"compare":[{"title":"Doctor","factor":"Healthcare","salary":"High","growth":"High","satisfaction":"Very high","workLifeBalance":"Medium"}],"savedCareers":[{"title":"Doctor","field":"Healthcare"}],"progress":{"profileCompletion":72,"completed":["Interest Areas"],"pending":["Career Roadmap"]},"assistantPrompts":["prompt"],"subjectsCovered":["Physics"]}',
+      `Class level: ${classLevel}.`,
+      `Interest/category: ${interest}.`,
+      `Student strengths/interests: ${strengths}.`,
+      `Existing career goal: ${profile?.careerGoals || "Not specified"}.`,
+      "Rules: all suggestions must be school-safe, age-appropriate, India-aware where useful, and based on selected interest/strengths. Do not return random unrelated careers."
+    ].join("\n");
+
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        assistantMode: "general",
+        feature: "highschool_career_explorer",
+        expectedFormat: "json",
+        learnerStage: "highschool"
+      }
+    });
+    const parsed = safeJsonParse(ai.answer);
+    if (parsed?.summary && Array.isArray(parsed?.careers) && parsed.careers.length) {
+      const normalizeCareer = (career, index) => ({
+        title: String(career?.title || `Career ${index + 1}`).trim().slice(0, 80),
+        field: String(career?.field || "Career Field").trim().slice(0, 80),
+        subjects: Array.isArray(career?.subjects) ? career.subjects.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5) : [],
+        skills: Array.isArray(career?.skills) ? career.skills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5) : [],
+        nextStep: String(career?.nextStep || "Explore subjects and build basics.").trim().slice(0, 180),
+        futureScope: String(career?.futureScope || "Good long-term career scope.").trim().slice(0, 220),
+        fitScore: clampNumber(career?.fitScore, 0, 100, 75),
+        salaryRange: String(career?.salaryRange || "Growth depends on skills and experience.").trim().slice(0, 80)
+      });
+      const careers = parsed.careers.map(normalizeCareer).filter((career) => career.title).slice(0, 8);
+      const baseFeatured = parsed.featuredCareer || careers[0] || explorer.featuredCareer;
+      explorer = {
+        ...explorer,
+        greeting: String(parsed.greeting || explorer.greeting).trim().slice(0, 60),
+        summary: String(parsed.summary || explorer.summary).trim().slice(0, 260),
+        categories: Array.isArray(parsed.categories) ? parsed.categories.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 10) : explorer.categories,
+        careers,
+        featuredCareer: {
+          ...normalizeCareer(baseFeatured, 0),
+          overview: String(baseFeatured?.overview || explorer.featuredCareer.overview).trim().slice(0, 260),
+          workEnvironment: String(baseFeatured?.workEnvironment || explorer.featuredCareer.workEnvironment).trim().slice(0, 80),
+          jobSatisfaction: String(baseFeatured?.jobSatisfaction || explorer.featuredCareer.jobSatisfaction).trim().slice(0, 80),
+          roadmap: Array.isArray(baseFeatured?.roadmap) ? baseFeatured.roadmap.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8) : explorer.featuredCareer.roadmap,
+          skillRatings: Array.isArray(baseFeatured?.skillRatings)
+            ? baseFeatured.skillRatings.map((item) => ({
+                skill: String(item?.skill || "Skill").trim().slice(0, 60),
+                level: String(item?.level || "Medium").trim().slice(0, 30),
+                percent: clampNumber(item?.percent, 0, 100, 70)
+              })).filter((item) => item.skill).slice(0, 6)
+            : explorer.featuredCareer.skillRatings
+        },
+        compare: Array.isArray(parsed.compare)
+          ? parsed.compare.map((item) => ({
+              title: String(item?.title || "Career").trim().slice(0, 80),
+              factor: String(item?.factor || "Field").trim().slice(0, 80),
+              salary: String(item?.salary || "Medium").trim().slice(0, 80),
+              growth: String(item?.growth || "High").trim().slice(0, 60),
+              satisfaction: String(item?.satisfaction || "High").trim().slice(0, 60),
+              workLifeBalance: String(item?.workLifeBalance || "Good").trim().slice(0, 60)
+            })).slice(0, 3)
+          : explorer.compare,
+        savedCareers: Array.isArray(parsed.savedCareers)
+          ? parsed.savedCareers.map((item) => ({
+              title: String(item?.title || "").trim().slice(0, 80),
+              field: String(item?.field || "").trim().slice(0, 80)
+            })).filter((item) => item.title).slice(0, 5)
+          : explorer.savedCareers,
+        progress: {
+          profileCompletion: clampNumber(parsed.progress?.profileCompletion, 0, 100, explorer.progress.profileCompletion),
+          completed: Array.isArray(parsed.progress?.completed) ? parsed.progress.completed.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6) : explorer.progress.completed,
+          pending: Array.isArray(parsed.progress?.pending) ? parsed.progress.pending.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6) : explorer.progress.pending
+        },
+        assistantPrompts: Array.isArray(parsed.assistantPrompts) ? parsed.assistantPrompts.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5) : explorer.assistantPrompts,
+        subjectsCovered: Array.isArray(parsed.subjectsCovered) ? parsed.subjectsCovered.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 14) : explorer.subjectsCovered
+      };
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    }
+  } catch (error) {
+    source = "fallback";
+  }
+
+  res.status(200).json({ source, explorer, meta: { provider, model } });
 });
 
 exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
