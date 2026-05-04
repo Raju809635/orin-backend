@@ -7,6 +7,7 @@ const {
   chatWithAi,
   generateHighSchoolSubjectGapQuiz,
   analyzeHighSchoolSubjectGap,
+  generateHighSchoolExamStrategy,
   getMyAiHistory,
   getAiConversationMessages,
   updateAiConversation,
@@ -34,6 +35,12 @@ router.post(
   verifyToken,
   authorizeRoles("student"),
   analyzeHighSchoolSubjectGap
+);
+router.post(
+  "/highschool/exam-strategy",
+  verifyToken,
+  authorizeRoles("student"),
+  generateHighSchoolExamStrategy
 );
 router.post(
   "/chat",

@@ -217,6 +217,78 @@ function buildFallbackFocusPlan(score) {
   };
 }
 
+const EXAM_SUBJECT_POOL = [
+  "Mathematics",
+  "Science",
+  "English",
+  "Social Studies",
+  "Telugu",
+  "Hindi",
+  "Sanskrit",
+  "Computer",
+  "Physics",
+  "Chemistry",
+  "Biology"
+];
+
+function normalizeExamSubject(value) {
+  const text = String(value || "").trim();
+  return EXAM_SUBJECT_POOL.find((item) => item.toLowerCase() === text.toLowerCase()) || text.slice(0, 40);
+}
+
+function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects }) {
+  const selectedSubjects = subjects.length ? subjects : ["Mathematics", "Science", "English", "Social Studies"];
+  const topicTemplates = {
+    Mathematics: ["Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry"],
+    Science: ["Life Processes", "Electricity", "Acids Bases Salts", "Light Reflection"],
+    English: ["Writing Skills", "Grammar", "Reading Comprehension", "Literature Extracts"],
+    "Social Studies": ["National Movement", "Resources", "Democracy", "Economics Basics"],
+    Telugu: ["Grammar", "Letter Writing", "Poetry", "Reading"],
+    Hindi: ["Vyakaran", "Patra Lekhan", "Gadya", "Padya"],
+    Sanskrit: ["Shabda Roop", "Dhatu Roop", "Translation", "Grammar"],
+    Computer: ["Networking", "HTML Basics", "Python Basics", "Cyber Safety"],
+    Physics: ["Light", "Electricity", "Motion", "Magnetism"],
+    Chemistry: ["Chemical Reactions", "Acids Bases Salts", "Metals", "Carbon Compounds"],
+    Biology: ["Life Processes", "Control Coordination", "Reproduction", "Heredity"]
+  };
+  const highPriorityTopics = selectedSubjects.flatMap((subject) => {
+    const topics = topicTemplates[subject] || ["Core Concepts", "Important Questions", "Revision Notes"];
+    return topics.slice(0, 2).map((topic, index) => ({
+      subject,
+      topic,
+      priority: index === 0 ? "high" : "medium",
+      weightageMarks: index === 0 ? 8 : 5,
+      reason: "High-value topic for scoring and revision efficiency.",
+      tasks: [`Revise ${topic}`, `Solve 10 questions from ${topic}`]
+    }));
+  });
+
+  return {
+    examName,
+    examDate,
+    classLevel,
+    syllabus,
+    expectedScore: 85,
+    summary: "Focus on high-weightage topics first, revise medium topics next, and reserve short daily slots for writing practice.",
+    priorityCounts: {
+      high: highPriorityTopics.filter((item) => item.priority === "high").length,
+      medium: highPriorityTopics.filter((item) => item.priority === "medium").length,
+      low: Math.max(selectedSubjects.length, 3)
+    },
+    timeAllocation: selectedSubjects.map((subject, index) => ({
+      subject,
+      percent: Math.max(10, 28 - index * 3)
+    })),
+    highPriorityTopics,
+    weeklyPlan: [
+      { week: "Week 1", title: "High-weightage revision", tasks: highPriorityTopics.slice(0, 4).map((item) => item.topic) },
+      { week: "Week 2", title: "Practice and weak-area repair", tasks: highPriorityTopics.slice(4, 8).map((item) => item.topic) },
+      { week: "Week 3", title: "Mock tests and final revision", tasks: ["Full mock test", "Mistake notebook", "Formula/summary sheet"] }
+    ],
+    reminders: ["Study high-priority topics first.", "Take one short test every 3 days.", "Review wrong answers the same day."]
+  };
+}
+
 function extractGoalFromMessage(message = "") {
   const text = String(message || "").trim();
   if (!text) return "";
@@ -522,6 +594,111 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
               : "Good attempt. Let us strengthen the basics.",
       focusPlan
     },
+    meta: { provider, model }
+  });
+});
+
+exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "Exam Strategy Builder is available for high school learners.");
+  }
+
+  const examName = String(req.body?.examName || "Half Yearly Exam").trim().slice(0, 80);
+  const examDate = String(req.body?.examDate || "").trim().slice(0, 40);
+  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "Class 10").trim().slice(0, 40);
+  const syllabus = String(req.body?.syllabus || "School syllabus").trim().slice(0, 120);
+  const rawSubjects = Array.isArray(req.body?.subjects) ? req.body.subjects : [];
+  const subjects = Array.from(new Set(rawSubjects.map(normalizeExamSubject).filter(Boolean))).slice(0, 8);
+
+  let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects });
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const prompt = [
+      "Create an AI-powered high-school Exam Strategy Builder report.",
+      "Return JSON only with this exact shape:",
+      '{"expectedScore":85,"summary":"short strategy","priorityCounts":{"high":0,"medium":0,"low":0},"timeAllocation":[{"subject":"Mathematics","percent":28}],"highPriorityTopics":[{"subject":"Mathematics","topic":"Quadratic Equations","priority":"high|medium|low","weightageMarks":8,"reason":"why important","tasks":["task"]}],"weeklyPlan":[{"week":"Week 1","title":"title","tasks":["task"]}],"reminders":["reminder"]}',
+      `Exam: ${examName}.`,
+      `Exam date: ${examDate || "Not specified"}.`,
+      `Class: ${classLevel}.`,
+      `Syllabus: ${syllabus}.`,
+      `Subjects: ${(subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5)).join(", ")}.`,
+      "Rules: prioritize high-weightage topics, smart time allocation, no random data, school-safe language, concise mobile-friendly text."
+    ].join("\n");
+
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        assistantMode: "general",
+        feature: "highschool_exam_strategy",
+        expectedFormat: "json",
+        learnerStage: "highschool"
+      }
+    });
+    const parsed = safeJsonParse(ai.answer);
+    if (parsed?.summary && Array.isArray(parsed?.highPriorityTopics) && Array.isArray(parsed?.weeklyPlan)) {
+      strategy = {
+        ...strategy,
+        expectedScore: clampNumber(parsed.expectedScore, 40, 98, strategy.expectedScore),
+        summary: String(parsed.summary || strategy.summary).slice(0, 260),
+        priorityCounts: {
+          high: clampNumber(parsed.priorityCounts?.high, 0, 100, strategy.priorityCounts.high),
+          medium: clampNumber(parsed.priorityCounts?.medium, 0, 100, strategy.priorityCounts.medium),
+          low: clampNumber(parsed.priorityCounts?.low, 0, 100, strategy.priorityCounts.low)
+        },
+        timeAllocation: parsed.timeAllocation
+          .map((item) => ({
+            subject: normalizeExamSubject(item?.subject),
+            percent: clampNumber(item?.percent, 5, 60, 15)
+          }))
+          .filter((item) => item.subject)
+          .slice(0, 8),
+        highPriorityTopics: parsed.highPriorityTopics
+          .map((item) => ({
+            subject: normalizeExamSubject(item?.subject),
+            topic: String(item?.topic || "Important Topic").trim().slice(0, 80),
+            priority: ["high", "medium", "low"].includes(String(item?.priority || "").toLowerCase())
+              ? String(item.priority).toLowerCase()
+              : "high",
+            weightageMarks: clampNumber(item?.weightageMarks, 1, 20, 5),
+            reason: String(item?.reason || "Important for exam scoring.").trim().slice(0, 160),
+            tasks: Array.isArray(item?.tasks)
+              ? item.tasks.map((task) => String(task || "").trim()).filter(Boolean).slice(0, 3)
+              : []
+          }))
+          .filter((item) => item.subject && item.topic)
+          .slice(0, 16),
+        weeklyPlan: parsed.weeklyPlan
+          .map((item, index) => ({
+            week: String(item?.week || `Week ${index + 1}`).trim().slice(0, 40),
+            title: String(item?.title || "Study Focus").trim().slice(0, 80),
+            tasks: Array.isArray(item?.tasks)
+              ? item.tasks.map((task) => String(task || "").trim()).filter(Boolean).slice(0, 5)
+              : []
+          }))
+          .filter((item) => item.tasks.length)
+          .slice(0, 5),
+        reminders: Array.isArray(parsed.reminders)
+          ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
+          : strategy.reminders
+      };
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    }
+  } catch (error) {
+    source = "fallback";
+  }
+
+  res.status(200).json({
+    source,
+    strategy,
     meta: { provider, model }
   });
 });
