@@ -5,6 +5,8 @@ const validate = require("../middleware/validate");
 const { aiChatSchema, aiConversationUpdateSchema } = require("../validators/aiValidator");
 const {
   chatWithAi,
+  generateHighSchoolSubjectGapQuiz,
+  analyzeHighSchoolSubjectGap,
   getMyAiHistory,
   getAiConversationMessages,
   updateAiConversation,
@@ -21,6 +23,18 @@ router.patch(
   updateAiConversation
 );
 router.delete("/conversations/:conversationId", verifyToken, authorizeRoles("student", "mentor"), deleteAiConversation);
+router.post(
+  "/highschool/subject-gap/quiz",
+  verifyToken,
+  authorizeRoles("student"),
+  generateHighSchoolSubjectGapQuiz
+);
+router.post(
+  "/highschool/subject-gap/analyze",
+  verifyToken,
+  authorizeRoles("student"),
+  analyzeHighSchoolSubjectGap
+);
 router.post(
   "/chat",
   verifyToken,
