@@ -126,6 +126,8 @@ function normalizeGapQuestion(item, index) {
     ? item.options.map((option) => String(option || "").trim()).filter(Boolean).slice(0, 4)
     : [];
   const correct = String(item?.correct || "").trim();
+  const placeholderOptions = new Set(["A", "B", "C", "D"]);
+  if (options.every((option) => placeholderOptions.has(option.toUpperCase()))) return null;
   if (options.length !== 4 || !correct || !options.includes(correct)) return null;
 
   return {
@@ -475,12 +477,13 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     const prompt = [
       "Create a high-school Subject Gap Analyzer quiz.",
       "Return JSON only with this shape:",
-      '{"questions":[{"id":"short-id","subject":"Mathematics|Science|English","topic":"topic name","question":"question text","options":["A","B","C","D"],"correct":"exact option text","explanation":"short explanation"}]}',
+      '{"questions":[{"id":"short-id","subject":"Mathematics|Science|English","topic":"topic name","question":"question text","options":["real answer 1","real answer 2","real answer 3","real answer 4"],"correct":"exact option text","explanation":"short explanation"}]}',
       `Class level: ${classLevel}.`,
       `Subjects: ${subjects.join(", ")}.`,
       focusTopic ? `Focus topic: ${focusTopic}.` : "Mix foundational topics across the selected subjects.",
       `Create exactly ${questionCount} questions.`,
-      "Rules: school-safe content, no adult career/marketplace content, each correct value must exactly match one option, concise explanations."
+      "Rules: school-safe content, no adult career/marketplace content, each correct value must exactly match one option, concise explanations.",
+      "Do not use placeholder options like A, B, C, D. Options must be the actual answer text."
     ].join("\n");
 
     const ai = await requestAiResponse({
