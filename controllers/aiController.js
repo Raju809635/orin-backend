@@ -141,6 +141,106 @@ function normalizeGapQuestion(item, index) {
   };
 }
 
+function buildDeterministicTopicQuestions(subject, topic, questionCount) {
+  const key = `${normalizeSubject(subject)}:${String(topic || "").trim()}`;
+  const bank = {
+    "Mathematics:Fractions": [
+      ["What is 1/2 + 1/4?", ["2/6", "3/4", "1/8", "1/6"], "3/4", "Convert 1/2 to 2/4, then add 2/4 + 1/4 = 3/4."],
+      ["Which fraction is equal to 0.75?", ["1/4", "2/3", "3/4", "4/3"], "3/4", "0.75 means seventy-five hundredths, which simplifies to 3/4."],
+      ["What is 2/5 of 20?", ["4", "8", "10", "12"], "8", "Divide 20 into 5 equal parts and take 2 parts: 4 x 2 = 8."],
+      ["Which is the smallest fraction?", ["1/2", "1/3", "2/3", "3/4"], "1/3", "One third is smaller than one half, two thirds, and three fourths."],
+      ["What is 3/4 - 1/4?", ["1/4", "1/2", "2/4", "Both 1/2 and 2/4"], "Both 1/2 and 2/4", "3/4 - 1/4 = 2/4, and 2/4 simplifies to 1/2."]
+    ],
+    "Mathematics:Algebra": [
+      ["If x + 7 = 12, what is x?", ["3", "4", "5", "6"], "5", "Subtract 7 from both sides: x = 12 - 7 = 5."],
+      ["Simplify: 3a + 2a", ["5a", "6a", "a", "5"], "5a", "Like terms can be added: 3a + 2a = 5a."],
+      ["If 2x = 18, what is x?", ["6", "8", "9", "16"], "9", "Divide both sides by 2, so x = 9."],
+      ["Which expression means five more than n?", ["5n", "n - 5", "n + 5", "5 - n"], "n + 5", "Five more than n means add 5 to n."],
+      ["Simplify: 4y - y", ["3y", "4", "5y", "y"], "3y", "Subtract one y from four y terms to get 3y."]
+    ],
+    "Mathematics:Geometry": [
+      ["How many degrees are in a right angle?", ["45", "60", "90", "180"], "90", "A right angle measures exactly 90 degrees."],
+      ["How many sides does a hexagon have?", ["5", "6", "7", "8"], "6", "A hexagon is a polygon with 6 sides."],
+      ["What is the perimeter of a square with side 4 cm?", ["8 cm", "12 cm", "16 cm", "20 cm"], "16 cm", "Perimeter of a square is 4 times the side: 4 x 4 = 16 cm."],
+      ["Which shape has three sides?", ["Circle", "Triangle", "Rectangle", "Pentagon"], "Triangle", "A triangle has exactly three sides."],
+      ["The sum of angles in a triangle is...", ["90 degrees", "120 degrees", "180 degrees", "360 degrees"], "180 degrees", "All interior angles of a triangle add up to 180 degrees."]
+    ],
+    "Mathematics:Numbers": [
+      ["Which number is prime?", ["9", "11", "15", "21"], "11", "11 has only two factors: 1 and 11."],
+      ["What is the place value of 7 in 4,725?", ["7", "70", "700", "7000"], "700", "In 4,725, the digit 7 is in the hundreds place."],
+      ["What is 15 x 6?", ["60", "75", "90", "120"], "90", "15 x 6 = 90."],
+      ["Which is an even number?", ["13", "21", "34", "45"], "34", "Even numbers are divisible by 2, and 34 is divisible by 2."],
+      ["What is 144 divided by 12?", ["10", "11", "12", "14"], "12", "12 x 12 = 144, so 144 divided by 12 is 12."]
+    ],
+    "Science:Electricity": [
+      ["Which material is a good conductor of electricity?", ["Rubber", "Plastic", "Copper", "Wood"], "Copper", "Copper lets electric current pass through it easily."],
+      ["What does a switch do in a circuit?", ["Stores charge", "Opens or closes the circuit", "Makes water", "Changes color"], "Opens or closes the circuit", "A switch controls whether current can flow through the circuit."],
+      ["The unit of electric current is...", ["Volt", "Ampere", "Ohm", "Watt"], "Ampere", "Electric current is measured in amperes."],
+      ["A closed circuit allows current to...", ["Stop completely", "Flow", "Disappear", "Turn into sound only"], "Flow", "Current flows when the circuit path is complete."],
+      ["Which device converts electrical energy into light?", ["Bulb", "Compass", "Ruler", "Spring"], "Bulb", "A bulb uses electrical energy to produce light."]
+    ],
+    "Science:Plants": [
+      ["Which part of a plant absorbs water from soil?", ["Leaf", "Root", "Flower", "Fruit"], "Root", "Roots absorb water and minerals from the soil."],
+      ["Plants make food by a process called...", ["Evaporation", "Photosynthesis", "Condensation", "Digestion"], "Photosynthesis", "Photosynthesis is how green plants make food using sunlight."],
+      ["Which gas do plants mostly take in for photosynthesis?", ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], "Carbon dioxide", "Plants use carbon dioxide, water, and sunlight to make food."],
+      ["The green pigment in leaves is called...", ["Chlorophyll", "Hemoglobin", "Melanin", "Keratin"], "Chlorophyll", "Chlorophyll helps leaves capture sunlight."],
+      ["Which part of a plant usually makes seeds?", ["Flower", "Root", "Stem", "Bark"], "Flower", "Flowers are involved in reproduction and seed formation."]
+    ],
+    "Science:Forces": [
+      ["A push or pull on an object is called a...", ["Force", "Light", "Sound", "Heat"], "Force", "Force is a push or pull that can change motion."],
+      ["Which force pulls objects toward Earth?", ["Friction", "Gravity", "Magnetism", "Pressure"], "Gravity", "Gravity pulls objects toward the Earth."],
+      ["Friction usually acts...", ["In the direction of motion", "Opposite to motion", "Only upward", "Only in water"], "Opposite to motion", "Friction resists motion between surfaces."],
+      ["A force can change an object's...", ["Color only", "Motion or shape", "Name", "Age"], "Motion or shape", "Force can start, stop, speed up, slow down, or deform an object."],
+      ["Which force helps a bicycle brake stop the wheel?", ["Friction", "Gravity", "Buoyancy", "Static charge"], "Friction", "Brakes use friction to slow down wheel rotation."]
+    ],
+    "Science:Life Processes": [
+      ["The process of taking in food and using it is called...", ["Nutrition", "Reflection", "Evaporation", "Magnetism"], "Nutrition", "Nutrition is the life process related to taking and using food."],
+      ["Which organ pumps blood in humans?", ["Lungs", "Heart", "Stomach", "Kidney"], "Heart", "The heart pumps blood through the body."],
+      ["Breathing helps the body take in...", ["Oxygen", "Sand", "Smoke", "Salt"], "Oxygen", "Oxygen is needed for respiration and energy release."],
+      ["Plants lose water vapor mainly through...", ["Stomata", "Roots only", "Seeds", "Petals only"], "Stomata", "Stomata are tiny openings on leaves that help gas exchange and transpiration."],
+      ["The removal of waste from the body is called...", ["Excretion", "Photosynthesis", "Friction", "Melting"], "Excretion", "Excretion removes metabolic wastes from the body."]
+    ],
+    "English:Grammar": [
+      ["Choose the correct sentence.", ["She go to school.", "She goes to school.", "She going school.", "She gone school."], "She goes to school.", "For she in simple present tense, we usually add s or es to the verb."],
+      ["Which word is an adjective?", ["Run", "Beautiful", "Quickly", "Table"], "Beautiful", "An adjective describes a noun."],
+      ["Choose the correct past tense of 'go'.", ["Goed", "Went", "Going", "Goes"], "Went", "Went is the past tense form of go."],
+      ["Which sentence uses a proper noun?", ["the city is big", "Hyderabad is big", "a city is big", "that city is big"], "Hyderabad is big", "Hyderabad is a proper noun and begins with a capital letter."],
+      ["Select the correct article: I saw ___ elephant.", ["a", "an", "the only", "no article"], "an", "Use an before a vowel sound."]
+    ],
+    "English:Reading": [
+      ["What is the main idea of a paragraph?", ["A small spelling mistake", "The central point", "Only the last word", "A punctuation mark"], "The central point", "The main idea is the central point the paragraph is about."],
+      ["A title usually tells the reader...", ["The topic", "The page number only", "The author's age", "The font size"], "The topic", "A title gives a clue about the topic or focus."],
+      ["What should you do first when answering a passage question?", ["Guess quickly", "Read the question and passage carefully", "Skip all details", "Copy any sentence"], "Read the question and passage carefully", "Careful reading helps you find evidence for the answer."],
+      ["A supporting detail helps explain...", ["The main idea", "Only punctuation", "The book cover", "The page margin"], "The main idea", "Supporting details give evidence or examples for the main idea."],
+      ["An inference is...", ["A guess based on clues", "A spelling rule only", "A type of full stop", "A chapter number"], "A guess based on clues", "Inference means using clues and prior knowledge to understand unstated meaning."]
+    ],
+    "English:Vocabulary": [
+      ["Which word means the opposite of 'brave'?", ["Fearful", "Strong", "Happy", "Fast"], "Fearful", "Fearful is close to the opposite of brave."],
+      ["What does 'improve' mean?", ["Make worse", "Make better", "Forget", "Stop"], "Make better", "To improve means to make something better."],
+      ["Choose the synonym of 'quick'.", ["Slow", "Fast", "Late", "Heavy"], "Fast", "Fast and quick have similar meanings."],
+      ["What does 'ancient' mean?", ["Very old", "Very small", "Very loud", "Very wet"], "Very old", "Ancient means from a very old time."],
+      ["Choose the antonym of 'difficult'.", ["Hard", "Easy", "Complex", "Tough"], "Easy", "Easy is the opposite of difficult."]
+    ],
+    "English:Writing Skills": [
+      ["A paragraph should usually focus on...", ["One main idea", "Many unrelated ideas", "Only punctuation", "Only the date"], "One main idea", "A clear paragraph develops one main idea."],
+      ["Which is best for a formal letter?", ["Hey bro", "Respected Sir/Madam", "Yo!", "What up"], "Respected Sir/Madam", "Formal letters use respectful and clear openings."],
+      ["A conclusion should...", ["Introduce a new unrelated topic", "Summarize or close the idea", "Remove the main point", "Only repeat one word"], "Summarize or close the idea", "A conclusion closes the writing by summarizing or giving a final thought."],
+      ["Which sentence is clearer?", ["Because exam.", "I studied because the exam is tomorrow.", "Tomorrow because studied I.", "Exam studied because tomorrow I."], "I studied because the exam is tomorrow.", "The sentence has a clear subject, verb, and reason."],
+      ["Before submitting writing, you should check...", ["Only color", "Spelling, grammar, and clarity", "Only page size", "Only emojis"], "Spelling, grammar, and clarity", "Proofreading improves correctness and readability."]
+    ]
+  };
+  const rows = bank[key] || bank[`${normalizeSubject(subject)}:${String(topic || "").trim()}`] || [];
+  return rows.slice(0, questionCount).map((row, index) => ({
+    id: `${key.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${index + 1}`,
+    subject: normalizeSubject(subject),
+    topic: String(topic || "Core Concept").trim() || "Core Concept",
+    question: row[0],
+    options: row[1],
+    correct: row[2],
+    explanation: row[3]
+  }));
+}
+
 function buildSubjectGapFallbackQuiz({ subjects = HIGH_SCHOOL_SUBJECTS, questionCount = 9, focusTopic = "" }) {
   const allowed = new Set(subjects.map(normalizeSubject));
   const topic = String(focusTopic || "").trim().toLowerCase();
@@ -149,6 +249,10 @@ function buildSubjectGapFallbackQuiz({ subjects = HIGH_SCHOOL_SUBJECTS, question
     const topicMatch = !topic || item.topic.toLowerCase() === topic;
     return subjectMatch && topicMatch;
   });
+  if (focusTopic && subjects.length === 1 && filtered.length < questionCount) {
+    const generated = buildDeterministicTopicQuestions(subjects[0], focusTopic, questionCount);
+    if (generated.length) return generated;
+  }
   const source = filtered.length ? filtered : FALLBACK_SUBJECT_GAP_QUESTIONS;
   return source.slice(0, questionCount).map((item, index) => ({ ...item, id: `${item.id}-${index}` }));
 }
