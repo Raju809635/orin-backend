@@ -376,6 +376,81 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
   };
 }
 
+function buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel }) {
+  const cleanQuestion = String(question || "Explain photosynthesis").trim().slice(0, 180);
+  const subjectName = normalizeExamSubject(subject) || "Science";
+  const style = ["simple", "steps", "exam"].includes(String(answerStyle || "").toLowerCase())
+    ? String(answerStyle).toLowerCase()
+    : "simple";
+  const isPhotosynthesis = /photosynthesis/i.test(cleanQuestion);
+  const title = isPhotosynthesis ? "Photosynthesis" : cleanQuestion.replace(/[?.!]+$/, "");
+  const summary = isPhotosynthesis
+    ? "Photosynthesis is the process by which green plants make food using sunlight, carbon dioxide, and water."
+    : `Here is a clear ${subjectName} explanation for: ${title}.`;
+  const steps = isPhotosynthesis
+    ? [
+        "Leaves take in sunlight.",
+        "Roots absorb water.",
+        "Leaves take in carbon dioxide from the air.",
+        "Sunlight energy is trapped by chlorophyll.",
+        "Water and carbon dioxide are converted into glucose.",
+        "Oxygen is released into the air."
+      ]
+    : [
+        "Understand the main concept first.",
+        "Break the topic into smaller points.",
+        "Connect each point with one example.",
+        "Revise the important terms.",
+        "Practice one related question."
+      ];
+  const examAnswer = isPhotosynthesis
+    ? "Photosynthesis is the process in which green plants prepare their own food using carbon dioxide and water in the presence of sunlight and chlorophyll. Glucose is formed and oxygen is released as a by-product."
+    : `${title} can be explained by writing the definition, key points, one example, and a short conclusion.`;
+
+  return {
+    title,
+    subject: subjectName,
+    classLevel,
+    answerStyle: style,
+    summary,
+    simpleAnswer: summary,
+    stepByStep: steps,
+    examAnswer,
+    keyPoints: isPhotosynthesis
+      ? ["Plants need sunlight, water, and carbon dioxide.", "Chlorophyll helps capture sunlight.", "Glucose is food for the plant.", "Oxygen is released."]
+      : ["Learn the definition.", "Remember important terms.", "Practice with examples.", "Review mistakes."],
+    notes: [
+      { title: "Short Notes", body: isPhotosynthesis ? "Formula: carbon dioxide + water + sunlight -> glucose + oxygen." : "Write 3-4 short points and one example." },
+      { title: "Mind Map", body: "Definition -> process -> key terms -> example -> practice." },
+      { title: "Important Diagram", body: isPhotosynthesis ? "Draw leaf, sunlight, carbon dioxide, water, glucose, and oxygen arrows." : "Use a small labelled concept diagram if possible." }
+    ],
+    practiceQuestions: [
+      {
+        id: "practice-1",
+        question: isPhotosynthesis ? "Which gas is released during photosynthesis?" : `What is the main idea of ${title}?`,
+        options: isPhotosynthesis ? ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"] : ["Definition", "Unrelated fact", "Random date", "No answer"],
+        correct: isPhotosynthesis ? "Oxygen" : "Definition",
+        explanation: isPhotosynthesis ? "Oxygen is released as a by-product of photosynthesis." : "Start with the definition or main idea."
+      },
+      {
+        id: "practice-2",
+        question: isPhotosynthesis ? "Which pigment helps plants capture sunlight?" : "What should you do after learning a concept?",
+        options: isPhotosynthesis ? ["Chlorophyll", "Hemoglobin", "Melanin", "Keratin"] : ["Practice questions", "Forget it", "Skip notes", "Avoid revision"],
+        correct: isPhotosynthesis ? "Chlorophyll" : "Practice questions",
+        explanation: isPhotosynthesis ? "Chlorophyll is the green pigment in leaves." : "Practice helps check understanding."
+      }
+    ],
+    dashboardTools: ["Short Notes", "Mind Maps", "Practice Questions", "Important Diagrams", "Previous Year Questions"],
+    progress: {
+      questions: 120,
+      accuracy: 85,
+      streakDays: 7,
+      strongTopics: [title, "Cell Structure", "Human Digestive System"],
+      weakTopics: ["Plant Hormones", "Respiration in Plants"]
+    }
+  };
+}
+
 const EXAM_SUBJECT_POOL = [
   "Mathematics",
   "Science",
@@ -859,6 +934,114 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ source, roadmap, meta: { provider, model } });
+});
+
+exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "Study Assistant is available for high school learners.");
+  }
+
+  const question = String(req.body?.question || "").trim().slice(0, 500);
+  if (!question) throw new ApiError(400, "question is required");
+  const subject = String(req.body?.subject || "Science").trim().slice(0, 40);
+  const answerStyle = String(req.body?.answerStyle || "simple").trim().slice(0, 20);
+  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+
+  let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel });
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const prompt = [
+      "Create a high-school ORIN Study Assistant answer.",
+      "Return JSON only with this exact shape:",
+      '{"title":"Photosynthesis","subject":"Biology","answerStyle":"simple|steps|exam","summary":"short answer","simpleAnswer":"easy answer","stepByStep":["step"],"examAnswer":"exam format answer","keyPoints":["point"],"notes":[{"title":"Short Notes","body":"note"}],"practiceQuestions":[{"id":"q1","question":"question","options":["A","B","C","D"],"correct":"exact option","explanation":"why"}],"dashboardTools":["Short Notes"],"progress":{"questions":120,"accuracy":85,"streakDays":7,"strongTopics":["topic"],"weakTopics":["topic"]}}',
+      `Class level: ${classLevel}.`,
+      `Subject: ${subject}.`,
+      `Answer style: ${answerStyle}.`,
+      `Student doubt: ${question}.`,
+      "Rules: clear high-school language, no random unrelated topics, answer the actual doubt, include practice questions with real options, keep mobile text concise."
+    ].join("\n");
+
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        assistantMode: "general",
+        feature: "highschool_study_assistant",
+        expectedFormat: "json",
+        learnerStage: "highschool"
+      }
+    });
+    const parsed = safeJsonParse(ai.answer);
+    if (parsed?.summary && (parsed?.simpleAnswer || parsed?.examAnswer || Array.isArray(parsed?.stepByStep))) {
+      const normalizeQuestion = (item, index) => {
+        const options = Array.isArray(item?.options)
+          ? item.options.map((option) => String(option || "").trim()).filter(Boolean).slice(0, 4)
+          : [];
+        const correct = String(item?.correct || "").trim();
+        if (options.length !== 4 || !options.includes(correct)) return null;
+        return {
+          id: String(item?.id || `practice-${index + 1}`).trim().slice(0, 80),
+          question: String(item?.question || "Practice question").trim().slice(0, 180),
+          options,
+          correct,
+          explanation: String(item?.explanation || "Review the concept and try again.").trim().slice(0, 220)
+        };
+      };
+      result = {
+        ...result,
+        title: String(parsed.title || result.title).trim().slice(0, 80),
+        subject: normalizeExamSubject(parsed.subject || subject) || result.subject,
+        answerStyle: ["simple", "steps", "exam"].includes(String(parsed.answerStyle || answerStyle).toLowerCase())
+          ? String(parsed.answerStyle || answerStyle).toLowerCase()
+          : result.answerStyle,
+        summary: String(parsed.summary || result.summary).trim().slice(0, 500),
+        simpleAnswer: String(parsed.simpleAnswer || parsed.summary || result.simpleAnswer).trim().slice(0, 700),
+        stepByStep: Array.isArray(parsed.stepByStep)
+          ? parsed.stepByStep.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+          : result.stepByStep,
+        examAnswer: String(parsed.examAnswer || result.examAnswer).trim().slice(0, 900),
+        keyPoints: Array.isArray(parsed.keyPoints)
+          ? parsed.keyPoints.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6)
+          : result.keyPoints,
+        notes: Array.isArray(parsed.notes)
+          ? parsed.notes.map((item) => ({
+              title: String(item?.title || "Note").trim().slice(0, 60),
+              body: String(item?.body || "").trim().slice(0, 220)
+            })).filter((item) => item.body).slice(0, 5)
+          : result.notes,
+        practiceQuestions: Array.isArray(parsed.practiceQuestions)
+          ? parsed.practiceQuestions.map(normalizeQuestion).filter(Boolean).slice(0, 5)
+          : result.practiceQuestions,
+        dashboardTools: Array.isArray(parsed.dashboardTools)
+          ? parsed.dashboardTools.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6)
+          : result.dashboardTools,
+        progress: {
+          questions: clampNumber(parsed.progress?.questions, 0, 10000, result.progress.questions),
+          accuracy: clampNumber(parsed.progress?.accuracy, 0, 100, result.progress.accuracy),
+          streakDays: clampNumber(parsed.progress?.streakDays, 0, 365, result.progress.streakDays),
+          strongTopics: Array.isArray(parsed.progress?.strongTopics)
+            ? parsed.progress.strongTopics.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
+            : result.progress.strongTopics,
+          weakTopics: Array.isArray(parsed.progress?.weakTopics)
+            ? parsed.progress.weakTopics.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
+            : result.progress.weakTopics
+        }
+      };
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    }
+  } catch (error) {
+    source = "fallback";
+  }
+
+  res.status(200).json({ source, result, meta: { provider, model } });
 });
 
 exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
