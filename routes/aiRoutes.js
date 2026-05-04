@@ -9,6 +9,7 @@ const {
   analyzeHighSchoolSubjectGap,
   generateHighSchoolStudyRoadmap,
   generateHighSchoolStudyAssistantAnswer,
+  generateHighSchoolStudyPlanner,
   generateHighSchoolExamStrategy,
   getMyAiHistory,
   getAiConversationMessages,
@@ -49,6 +50,12 @@ router.post(
   verifyToken,
   authorizeRoles("student"),
   generateHighSchoolStudyAssistantAnswer
+);
+router.post(
+  "/highschool/study-planner",
+  verifyToken,
+  authorizeRoles("student"),
+  generateHighSchoolStudyPlanner
 );
 router.post(
   "/highschool/exam-strategy",

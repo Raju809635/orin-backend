@@ -451,6 +451,57 @@ function buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle,
   };
 }
 
+function buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel }) {
+  const subjectName = normalizeExamSubject(subject) || "Science";
+  const skillList = String(skills || "basics, revision, practice tests")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 6);
+  const topics = skillList.length ? skillList : ["basics", "revision", "practice tests"];
+  const planTopics = [topics[0], topics[1] || "core concepts", topics[2] || "practice tests", "weak area revision", "mock test"];
+  const weeks = planTopics.map((topic, index) => ({
+    id: `week-${index + 1}`,
+    week: `Week ${index + 1}`,
+    title: topic.replace(/\b\w/g, (char) => char.toUpperCase()),
+    status: index === 0 ? "active" : "locked",
+    progress: index === 0 ? 25 : 0,
+    focus: index === 0 ? "Start with simple revision and a short quiz." : "Unlock after completing the previous week.",
+    tasks: [
+      { id: `w${index + 1}-read`, type: "Read", title: `Read: ${topic}`, duration: "15 min", completed: index === 0 },
+      { id: `w${index + 1}-practice`, type: "Practice", title: "Practice: 10 Questions", duration: "15 min", completed: false },
+      { id: `w${index + 1}-quiz`, type: "Quiz", title: "Quick Quiz", duration: "10 min", completed: false }
+    ]
+  }));
+
+  return {
+    title: `${subjectName} Study Plan`,
+    subject: subjectName,
+    goal,
+    classLevel,
+    currentLevel,
+    timePerDay,
+    summary: `A weekly plan for ${subjectName}: ${goal}. ORIN starts from your current chapters and updates the next focus using progress.`,
+    overallProgress: 25,
+    weeks,
+    dailyTasks: weeks[0].tasks,
+    analytics: [
+      { label: "Revision", percent: 35 },
+      { label: "Practice", percent: 25 },
+      { label: "Tests", percent: 15 }
+    ],
+    adaptivePlan: {
+      newFocus: weeks[1]?.title || weeks[0].title,
+      reason: "Added to improve the next weak area after the first week.",
+      updatedWeeks: weeks.map((week, index) => ({
+        ...week,
+        status: index === 0 ? "completed" : index === 1 ? "active" : week.status
+      }))
+    },
+    reminders: ["Complete daily tasks first.", "Take one quiz after revision.", "Review wrong answers before moving ahead."]
+  };
+}
+
 const EXAM_SUBJECT_POOL = [
   "Mathematics",
   "Science",
@@ -1042,6 +1093,110 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
   }
 
   res.status(200).json({ source, result, meta: { provider, model } });
+});
+
+exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "Study Planner is available for high school learners.");
+  }
+
+  const subject = String(req.body?.subject || "Science").trim().slice(0, 50);
+  const goal = String(req.body?.goal || "Improve marks and complete weekly revision").trim().slice(0, 160);
+  const skills = String(req.body?.skills || "basics, revision, practice tests").trim().slice(0, 240);
+  const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
+  const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
+  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+
+  let plan = buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel });
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const prompt = [
+      "Create a high-school AI Study Planner report.",
+      "Return JSON only with this exact shape:",
+      '{"title":"Science Study Plan","summary":"short summary","overallProgress":25,"weeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"active|locked|completed","progress":25,"focus":"short focus","tasks":[{"id":"task-1","type":"Read|Practice|Quiz|Test","title":"Read: States of Matter","duration":"15 min","completed":true}]}],"dailyTasks":[{"id":"task-1","type":"Read","title":"Read: States of Matter","duration":"15 min","completed":true}],"analytics":[{"label":"Revision","percent":35}],"adaptivePlan":{"newFocus":"Atoms & Molecules","reason":"why this focus","updatedWeeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"completed","progress":100,"focus":"done","tasks":[]}]},"reminders":["reminder"]}',
+      `Class level: ${classLevel}.`,
+      `Subject: ${subject}.`,
+      `Study goal: ${goal}.`,
+      `Current skills or chapters: ${skills}.`,
+      `Current level: ${currentLevel}.`,
+      `Available time per day: ${timePerDay}.`,
+      "Rules: create subject-based weekly plan, daily tasks, quiz/practice, progress tracking, adaptive next focus. Keep text concise, school-safe, and grounded in the given subject/skills."
+    ].join("\n");
+
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        assistantMode: "general",
+        feature: "highschool_study_planner",
+        expectedFormat: "json",
+        learnerStage: "highschool"
+      }
+    });
+    const parsed = safeJsonParse(ai.answer);
+    if (parsed?.summary && Array.isArray(parsed?.weeks) && parsed.weeks.length) {
+      const normalizeTask = (task, fallbackId) => ({
+        id: String(task?.id || fallbackId).trim().slice(0, 80),
+        type: String(task?.type || "Practice").trim().slice(0, 20),
+        title: String(task?.title || "Practice: 10 Questions").trim().slice(0, 100),
+        duration: String(task?.duration || "15 min").trim().slice(0, 30),
+        completed: Boolean(task?.completed)
+      });
+      const normalizeWeek = (week, index) => ({
+        id: String(week?.id || `week-${index + 1}`).trim().slice(0, 80),
+        week: String(week?.week || `Week ${index + 1}`).trim().slice(0, 30),
+        title: String(week?.title || "Core Topic").trim().slice(0, 80),
+        status: ["active", "locked", "completed"].includes(String(week?.status || "").toLowerCase())
+          ? String(week.status).toLowerCase()
+          : index === 0 ? "active" : "locked",
+        progress: clampNumber(week?.progress, 0, 100, index === 0 ? 25 : 0),
+        focus: String(week?.focus || "Complete tasks, practice, and quiz.").trim().slice(0, 160),
+        tasks: Array.isArray(week?.tasks)
+          ? week.tasks.map((task, taskIndex) => normalizeTask(task, `week-${index + 1}-task-${taskIndex + 1}`)).slice(0, 5)
+          : []
+      });
+      const weeks = parsed.weeks.map(normalizeWeek).filter((week) => week.title).slice(0, 6);
+      plan = {
+        ...plan,
+        title: String(parsed.title || plan.title).trim().slice(0, 80),
+        summary: String(parsed.summary || plan.summary).trim().slice(0, 260),
+        overallProgress: clampNumber(parsed.overallProgress, 0, 100, plan.overallProgress),
+        weeks,
+        dailyTasks: Array.isArray(parsed.dailyTasks)
+          ? parsed.dailyTasks.map((task, index) => normalizeTask(task, `daily-task-${index + 1}`)).slice(0, 5)
+          : weeks[0]?.tasks || plan.dailyTasks,
+        analytics: Array.isArray(parsed.analytics)
+          ? parsed.analytics.map((item) => ({
+              label: String(item?.label || "Progress").trim().slice(0, 40),
+              percent: clampNumber(item?.percent, 0, 100, 25)
+            })).filter((item) => item.label).slice(0, 5)
+          : plan.analytics,
+        adaptivePlan: {
+          newFocus: String(parsed.adaptivePlan?.newFocus || plan.adaptivePlan.newFocus).trim().slice(0, 80),
+          reason: String(parsed.adaptivePlan?.reason || plan.adaptivePlan.reason).trim().slice(0, 180),
+          updatedWeeks: Array.isArray(parsed.adaptivePlan?.updatedWeeks)
+            ? parsed.adaptivePlan.updatedWeeks.map(normalizeWeek).slice(0, 6)
+            : plan.adaptivePlan.updatedWeeks
+        },
+        reminders: Array.isArray(parsed.reminders)
+          ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
+          : plan.reminders
+      };
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    }
+  } catch (error) {
+    source = "fallback";
+  }
+
+  res.status(200).json({ source, plan, meta: { provider, model } });
 });
 
 exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
