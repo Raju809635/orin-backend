@@ -115,6 +115,74 @@ function safeJsonParse(text) {
   }
 }
 
+const HIGH_SCHOOL_JSON_MODE = "highschool_json";
+const STUDY_ASSISTANT_STOP_WORDS = new Set([
+  "what",
+  "when",
+  "where",
+  "which",
+  "explain",
+  "write",
+  "answer",
+  "exam",
+  "simple",
+  "step",
+  "steps",
+  "class",
+  "subject",
+  "about",
+  "with",
+  "from",
+  "this",
+  "that",
+  "your",
+  "please",
+  "tell",
+  "give",
+  "mean",
+  "means"
+]);
+
+function extractStudyKeywords(text) {
+  return Array.from(
+    new Set(
+      String(text || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((word) => word.trim())
+        .filter((word) => word.length >= 3 && !STUDY_ASSISTANT_STOP_WORDS.has(word))
+    )
+  ).slice(0, 12);
+}
+
+function hasUsefulStudyKeywordOverlap(question, result) {
+  const keywords = extractStudyKeywords(question);
+  if (!keywords.length) return false;
+  const answerText = [
+    result?.title,
+    result?.summary,
+    result?.simpleAnswer,
+    result?.examAnswer,
+    ...(Array.isArray(result?.stepByStep) ? result.stepByStep : []),
+    ...(Array.isArray(result?.keyPoints) ? result.keyPoints : [])
+  ]
+    .join(" ")
+    .toLowerCase();
+  return keywords.some((keyword) => answerText.includes(keyword));
+}
+
+function hasRealPracticeOptions(question) {
+  const options = Array.isArray(question?.options)
+    ? question.options.map((option) => String(option || "").trim()).filter(Boolean)
+    : [];
+  const correct = String(question?.correct || "").trim();
+  const placeholderOptions = new Set(["A", "B", "C", "D", "OPTION A", "OPTION B", "OPTION C", "OPTION D"]);
+  if (options.length !== 4 || !correct || !options.includes(correct)) return false;
+  if (options.every((option) => placeholderOptions.has(option.toUpperCase()))) return false;
+  return options.every((option) => option.length >= 2);
+}
+
 function normalizeSubject(value) {
   const text = String(value || "").trim();
   return HIGH_SCHOOL_SUBJECTS.find((item) => item.toLowerCase() === text.toLowerCase()) || "Mathematics";
@@ -848,7 +916,7 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_subject_gap_quiz",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -913,7 +981,7 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_subject_gap_report",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -995,7 +1063,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_study_roadmap",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -1097,7 +1165,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_study_assistant",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -1110,7 +1178,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
           ? item.options.map((option) => String(option || "").trim()).filter(Boolean).slice(0, 4)
           : [];
         const correct = String(item?.correct || "").trim();
-        if (options.length !== 4 || !options.includes(correct)) return null;
+        if (!hasRealPracticeOptions({ options, correct })) return null;
         return {
           id: String(item?.id || `practice-${index + 1}`).trim().slice(0, 80),
           question: String(item?.question || "Practice question").trim().slice(0, 180),
@@ -1119,7 +1187,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
           explanation: String(item?.explanation || "Review the concept and try again.").trim().slice(0, 220)
         };
       };
-      result = {
+      const candidate = {
         ...result,
         title: String(parsed.title || result.title).trim().slice(0, 80),
         subject: normalizeExamSubject(parsed.subject || subject) || result.subject,
@@ -1159,9 +1227,20 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
             : result.progress.weakTopics
         }
       };
-      source = "ai";
-      provider = ai.provider;
-      model = ai.model;
+      const hasUsableAnswer =
+        hasUsefulStudyKeywordOverlap(question, candidate) &&
+        String(candidate.simpleAnswer || candidate.summary || candidate.examAnswer || "").trim().length >= 40 &&
+        Array.isArray(candidate.keyPoints) &&
+        candidate.keyPoints.length >= 2 &&
+        Array.isArray(candidate.practiceQuestions) &&
+        candidate.practiceQuestions.length >= 1;
+
+      if (hasUsableAnswer) {
+        result = candidate;
+        source = "ai";
+        provider = ai.provider;
+        model = ai.model;
+      }
     }
   } catch (error) {
     source = "fallback";
@@ -1208,7 +1287,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_study_planner",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -1307,7 +1386,7 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_career_explorer",
         expectedFormat: "json",
         learnerStage: "highschool"
@@ -1419,7 +1498,7 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       role: "student",
       message: prompt,
       context: {
-        assistantMode: "general",
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_exam_strategy",
         expectedFormat: "json",
         learnerStage: "highschool"
