@@ -27,6 +27,7 @@ const newsRoutes = require("./routes/newsRoutes");
 const metaRoutes = require("./routes/metaRoutes");
 const journeyStateRoutes = require("./routes/journeyStateRoutes");
 const institutionManagementRoutes = require("./routes/institutionManagementRoutes");
+const academicRoutes = require("./routes/academicRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const LeaderboardSnapshot = require("./models/LeaderboardSnapshot");
 
@@ -86,6 +87,7 @@ app.use("/api/news", newsRoutes);
 app.use("/api/meta", metaRoutes);
 app.use("/api/journey-state", journeyStateRoutes);
 app.use("/api/institution-management", institutionManagementRoutes);
+app.use("/api/academics", academicRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

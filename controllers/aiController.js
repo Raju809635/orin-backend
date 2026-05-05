@@ -3,6 +3,7 @@ const ApiError = require("../utils/ApiError");
 const AiChatLog = require("../models/AiChatLog");
 const { aiChatDailyLimit } = require("../config/env");
 const { requestAiResponse } = require("../services/aiService");
+const { summarizeAcademicContext } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const { updateJourneyGoal } = require("../services/journeyStateService");
@@ -819,10 +820,26 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
     if (!existingConversation) throw new ApiError(404, "Conversation not found");
   }
 
+  let academicContext = null;
+  if (req.body.context?.academic) {
+    try {
+      academicContext = summarizeAcademicContext(req.body.context.academic);
+    } catch (error) {
+      academicContext = {
+        unavailable: true,
+        reason: error.message || "Academic context could not be loaded"
+      };
+    }
+  }
+  const context = {
+    ...(req.body.context || {}),
+    academicContext
+  };
+
   const { answer, provider, model } = await requestAiResponse({
     role: req.user.role,
     message: req.body.message,
-    context: req.body.context || {}
+    context
   });
 
   await AiChatLog.create({
@@ -836,7 +853,7 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
     model,
     prompt: req.body.message,
     response: answer,
-    context: req.body.context || {}
+    context
   });
 
   const extractedGoal = extractGoalFromMessage(req.body.message);
