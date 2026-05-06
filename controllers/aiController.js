@@ -3,7 +3,7 @@ const ApiError = require("../utils/ApiError");
 const AiChatLog = require("../models/AiChatLog");
 const { aiChatDailyLimit } = require("../config/env");
 const { requestAiResponse } = require("../services/aiService");
-const { summarizeAcademicContext } = require("../services/academicService");
+const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const { updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
@@ -746,7 +746,7 @@ function normalizeExamSubject(value) {
   return EXAM_SUBJECT_POOL.find((item) => item.toLowerCase() === text.toLowerCase()) || text.slice(0, 40);
 }
 
-function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects }) {
+function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics = [] }) {
   const selectedSubjects = subjects.length ? subjects : ["Mathematics", "Science", "English", "Social Studies"];
   const topicTemplates = {
     Mathematics: ["Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry"],
@@ -762,7 +762,11 @@ function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, s
     Biology: ["Life Processes", "Control Coordination", "Reproduction", "Heredity"]
   };
   const highPriorityTopics = selectedSubjects.flatMap((subject) => {
-    const topics = topicTemplates[subject] || ["Core Concepts", "Important Questions", "Revision Notes"];
+    const sourceTopics = academicTopics
+      .filter((item) => String(item.subject || "").toLowerCase() === String(subject || "").toLowerCase())
+      .map((item) => item.topic)
+      .filter(Boolean);
+    const topics = sourceTopics.length ? sourceTopics : topicTemplates[subject] || ["Core Concepts", "Important Questions", "Revision Notes"];
     return topics.slice(0, 2).map((topic, index) => ({
       subject,
       topic,
@@ -797,6 +801,41 @@ function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, s
     ],
     reminders: ["Study high-priority topics first.", "Take one short test every 3 days.", "Review wrong answers the same day."]
   };
+}
+
+function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], requestedTopics = [] }) {
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+  if (classNumber !== 10) return [];
+  const requested = Array.isArray(requestedTopics)
+    ? requestedTopics.map((item) => String(item || "").trim()).filter(Boolean)
+    : [];
+  const rows = [];
+
+  for (const subject of subjects) {
+    try {
+      const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
+      const chapters = Array.isArray(record?.chapters || record?.subject?.chapters) ? record.chapters || record.subject.chapters : [];
+      for (const chapter of chapters) {
+        const chapterName = String(chapter?.chapter_name || chapter?.title || chapter?.name || "").trim();
+        const topicList = Array.isArray(chapter?.topics) ? chapter.topics : [];
+        if (!topicList.length && chapterName) {
+          rows.push({ subject, chapter: chapterName, topic: chapterName });
+        }
+        for (const topic of topicList) {
+          const topicName = String(topic?.topic_name || topic?.title || topic?.name || topic || "").trim();
+          if (!topicName) continue;
+          rows.push({ subject, chapter: chapterName, topic: topicName });
+        }
+      }
+    } catch {
+      // Keep strategy generation resilient when a future class/subject is not yet enriched.
+    }
+  }
+
+  const filtered = requested.length
+    ? rows.filter((row) => requested.some((topic) => topic.toLowerCase() === row.topic.toLowerCase() || topic.toLowerCase() === row.chapter.toLowerCase()))
+    : rows;
+  return filtered.slice(0, 80);
 }
 
 function extractGoalFromMessage(message = "") {
@@ -885,6 +924,21 @@ async function buildConversationSummaries(userId, scopeFilter = {}) {
 
 function buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter }) {
   const cleanPrompt = String(message || "").trim();
+  const isGreeting = /^(hi|hii|hello|hey|namaste|good\s*(morning|afternoon|evening)|yo)[\s!.]*$/i.test(cleanPrompt);
+  if (isGreeting) {
+    return [
+      "Hi! Welcome to ORIN.",
+      "",
+      assistantMode === "general"
+        ? "I can help with anything you ask: school doubts, explanations, planning, writing, ideas, or general questions."
+        : `I can help with your academic doubts for Class ${classLevel}${subject ? `, ${subject}` : ""}.`,
+      "",
+      "Ask me a question like:",
+      "- What is photosynthesis?",
+      "- Explain this in simple words",
+      "- Give me exam points"
+    ].join("\n");
+  }
   if (assistantMode === "general") {
     return [
       `You asked: "${cleanPrompt}"`,
@@ -1173,6 +1227,11 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
   const chapter = String(req.body?.chapter || req.body?.topic || "").trim().slice(0, 80);
+  const academicTopics = collectExamAcademicTopics({
+    classLevel,
+    subjects: [subject],
+    requestedTopics: chapter ? [chapter] : []
+  });
 
   let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel });
   let source = "fallback";
@@ -1187,10 +1246,11 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       `Class level: ${classLevel}.`,
       `Subject: ${subject}.`,
       `Chapter/topic focus: ${chapter || "use the most important syllabus topics"}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
       `Study goal: ${studyGoal}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
-      "Rules: create 5-6 sequential missions, each with proof-oriented tasks. Do not create weekly timetable rows. Use academic/syllabus style topics only. Keep text concise and school-safe. Do not invent random unrelated data."
+      "Rules: create 5-6 sequential missions, each with proof-oriented tasks. Do not create weekly timetable rows. Prioritize Academic dataset topics when available. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1436,6 +1496,11 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const academicTopics = collectExamAcademicTopics({
+    classLevel,
+    subjects: [subject],
+    requestedTopics: skills.split(",").map((item) => item.trim()).filter(Boolean)
+  });
 
   let plan = buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel });
   let source = "fallback";
@@ -1451,9 +1516,10 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       `Subject: ${subject}.`,
       `Study goal: ${goal}.`,
       `Current skills or chapters: ${skills}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
-      "Rules: create subject-based weekly plan, daily tasks, quiz/practice, progress tracking, adaptive next focus. Keep text concise, school-safe, and grounded in the given subject/skills."
+      "Rules: create subject-based weekly plan, daily tasks, quiz/practice, progress tracking, adaptive next focus. Prioritize Academic dataset topics when available. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1652,8 +1718,10 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
   const syllabus = String(req.body?.syllabus || "School syllabus").trim().slice(0, 120);
   const rawSubjects = Array.isArray(req.body?.subjects) ? req.body.subjects : [];
   const subjects = Array.from(new Set(rawSubjects.map(normalizeExamSubject).filter(Boolean))).slice(0, 8);
+  const selectedTopics = Array.isArray(req.body?.topics) ? req.body.topics.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 40) : [];
+  const academicTopics = collectExamAcademicTopics({ classLevel, subjects, requestedTopics: selectedTopics });
 
-  let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects });
+  let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics });
   let source = "fallback";
   let provider = "local";
   let model = "deterministic";
@@ -1668,7 +1736,9 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       `Class: ${classLevel}.`,
       `Syllabus: ${syllabus}.`,
       `Subjects: ${(subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5)).join(", ")}.`,
-      "Rules: prioritize high-weightage topics, smart time allocation, no random data, school-safe language, concise mobile-friendly text."
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No enriched topics found for this class/subject yet. Use subject-safe topic names only."}.`,
+      selectedTopics.length ? `Student selected focus topics: ${selectedTopics.join(", ")}.` : "",
+      "Rules: prioritize topics from Academic dataset topics first, use smart time allocation, no random data, school-safe language, concise mobile-friendly text."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1678,7 +1748,10 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
         assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_exam_strategy",
         expectedFormat: "json",
-        learnerStage: "highschool"
+        learnerStage: "highschool",
+        classLevel,
+        subjects,
+        academicTopics
       }
     });
     const parsed = safeJsonParse(ai.answer);
@@ -1756,6 +1829,11 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
   const goal = String(req.body?.goal || "Create a school-ready project with proof").trim().slice(0, 160);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "10").trim().slice(0, 40);
   const difficulty = String(req.body?.difficulty || "Medium").trim().slice(0, 30);
+  const academicTopics = collectExamAcademicTopics({
+    classLevel,
+    subjects: [subject],
+    requestedTopics: chapter ? [chapter] : []
+  });
 
   let result = buildFallbackHighSchoolSchoolProjects({ subject, chapter, goal, classLevel, difficulty });
   let source = "fallback";
@@ -1770,9 +1848,10 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
       `Class: ${classLevel}.`,
       `Subject: ${subject}.`,
       `Chapter/topic: ${chapter}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
       `Goal: ${goal}.`,
       `Difficulty: ${difficulty}.`,
-      "Rules: keep projects school-safe, low-cost, syllabus-linked, and proof-friendly. Do not invent adult startup/project content."
+      "Rules: keep projects school-safe, low-cost, syllabus-linked, and proof-friendly. Prioritize Academic dataset topics when available. Do not invent fake syllabus topics or adult startup/project content."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1903,9 +1982,22 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   const classLevel = String(req.body?.academicContext?.classLevel || profile?.classLevel || profile?.className || "10")
     .trim()
     .slice(0, 30);
-  const board = String(req.body?.academicContext?.board || "CBSE").trim().slice(0, 30);
   const subject = String(req.body?.academicContext?.subject || "").trim().slice(0, 80);
   const chapter = String(req.body?.academicContext?.chapter || "").trim().slice(0, 120);
+  const isGreeting = /^(hi|hii|hello|hey|namaste|good\s*(morning|afternoon|evening)|yo)[\s!.]*$/i.test(message);
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+  let academicSummary = null;
+  if (assistantMode === "academic" && subject && classNumber === 10) {
+    try {
+      academicSummary = summarizeAcademicContext({
+        classNumber,
+        subject,
+        chapterName: chapter || undefined
+      });
+    } catch {
+      academicSummary = null;
+    }
+  }
 
   let existingConversation = null;
   if (req.body?.conversationId) {
@@ -1924,10 +2016,12 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
       ? "You are ORIN High School General Assistant. Answer naturally, clearly, and directly to user prompt."
       : "You are ORIN High School Academic Assistant. Give concise, exam-useful answer grounded in class/subject/chapter context.",
     `Mode: ${assistantMode}`,
-    `Board: ${board}`,
     `Class: ${classLevel}`,
     `Subject: ${subject || "Not specified"}`,
     `Chapter: ${chapter || "Not specified"}`,
+    assistantMode === "academic"
+      ? `Academic dataset topics: ${academicSummary?.syllabusPreview?.length ? academicSummary.syllabusPreview.map((item) => `${item.chapter_name}${item.topics?.length ? ` (${item.topics.join(", ")})` : ""}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}`
+      : "",
     `Student prompt: ${message}`,
     assistantMode === "academic"
       ? "Rules: stay on-topic, use clear headings/bullets, include key points and one short exam tip."
@@ -1939,6 +2033,9 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   let provider = "local";
   let model = "deterministic";
 
+  if (isGreeting) {
+    answer = buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter });
+  } else {
   try {
     const ai = await requestAiResponse({
       role: "student",
@@ -1950,7 +2047,7 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
       }
     });
     const candidate = String(ai.answer || "").trim();
-    const hasEnoughText = candidate.length >= 60;
+    const hasEnoughText = assistantMode === "general" ? candidate.length >= 8 : candidate.length >= 60;
     const isRelevant = assistantMode === "general" || hasUsefulStudyKeywordOverlap(message, { summary: candidate, simpleAnswer: candidate, keyPoints: [candidate], practiceQuestions: [{ options: ["A", "B", "C", "D"], correct: "A" }] });
 
     if (hasEnoughText && isRelevant) {
@@ -1964,11 +2061,12 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   } catch {
     answer = buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter });
   }
+  }
 
   const context = {
     feature: "highschool_chat_assistant",
     assistantMode,
-    academicContext: { board, classLevel, subject, chapter },
+    academicContext: { classLevel, subject, chapter },
     source
   };
 
