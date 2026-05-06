@@ -23,6 +23,7 @@ const CertificationRequest = require("../models/CertificationRequest");
 const CertificateTemplate = require("../models/CertificateTemplate");
 const MentorGroup = require("../models/MentorGroup");
 const MentorGroupMessage = require("../models/MentorGroupMessage");
+const HighSchoolQuizBattleRoom = require("../models/HighSchoolQuizBattleRoom");
 const InstitutionRoadmap = require("../models/InstitutionRoadmap");
 const InstitutionRoadmapSubmission = require("../models/InstitutionRoadmapSubmission");
 const KnowledgeResource = require("../models/KnowledgeResource");
@@ -62,6 +63,75 @@ const QUIZ_AI_POOL_SIZE = 9;
 const REACTION_TYPES = ["like", "love", "care", "haha", "wow", "sad", "angry"];
 const SPRINT_PLATFORM_FEE_PERCENT = 40;
 const SPRINT_MENTOR_SHARE_PERCENT = 60;
+const QUIZ_BATTLE_QUESTION_COUNT = 8;
+const QUIZ_BATTLE_DEFAULT_DURATION_SEC = 25;
+
+const QUIZ_BATTLE_QUESTION_BANK = [
+  {
+    subject: "Mathematics",
+    topic: "Algebra",
+    text: "What is the value of x in 2x + 5 = 19?",
+    options: ["5", "7", "9", "12"],
+    correctOption: "7",
+    explanation: "2x = 14, so x = 7."
+  },
+  {
+    subject: "Mathematics",
+    topic: "Geometry",
+    text: "What is the area of a triangle with base 10 and height 6?",
+    options: ["30", "60", "16", "40"],
+    correctOption: "30",
+    explanation: "Area = 1/2 * base * height = 30."
+  },
+  {
+    subject: "Science",
+    topic: "Physics",
+    text: "What is the SI unit of force?",
+    options: ["Joule", "Newton", "Watt", "Pascal"],
+    correctOption: "Newton",
+    explanation: "Force is measured in Newtons."
+  },
+  {
+    subject: "Science",
+    topic: "Biology",
+    text: "Which organ pumps blood through the body?",
+    options: ["Lungs", "Kidney", "Heart", "Liver"],
+    correctOption: "Heart",
+    explanation: "The heart pumps blood."
+  },
+  {
+    subject: "English",
+    topic: "Grammar",
+    text: "Choose the correct sentence.",
+    options: ["She don't like apples.", "She doesn't likes apples.", "She doesn't like apples.", "She not likes apples."],
+    correctOption: "She doesn't like apples.",
+    explanation: "Third-person singular uses does not + base verb."
+  },
+  {
+    subject: "Social",
+    topic: "Civics",
+    text: "Who is known as the Father of the Indian Constitution?",
+    options: ["Mahatma Gandhi", "Jawaharlal Nehru", "B. R. Ambedkar", "Sardar Patel"],
+    correctOption: "B. R. Ambedkar",
+    explanation: "Dr. B. R. Ambedkar is credited with drafting the Constitution."
+  },
+  {
+    subject: "General Studies",
+    topic: "Current Affairs",
+    text: "Which gas do plants mainly absorb during photosynthesis?",
+    options: ["Oxygen", "Hydrogen", "Nitrogen", "Carbon dioxide"],
+    correctOption: "Carbon dioxide",
+    explanation: "Plants absorb carbon dioxide during photosynthesis."
+  },
+  {
+    subject: "General Studies",
+    topic: "Reasoning",
+    text: "What comes next in the pattern: 2, 4, 8, 16, ?",
+    options: ["18", "24", "32", "20"],
+    correctOption: "32",
+    explanation: "Each number doubles."
+  }
+];
 
 function toDateKey(date = new Date()) {
   return date.toISOString().slice(0, 10);
@@ -8239,6 +8309,243 @@ exports.respondMentorGroupJoinRequest = asyncHandler(async (req, res) => {
   }
   await group.save();
   res.status(200).json({ message: action === "approve" ? "Student approved" : "Join request rejected", group });
+});
+
+function buildQuizBattleQuestionSet({ subject = "", topic = "" } = {}) {
+  const subjectKey = normalizeText(subject);
+  const topicKey = normalizeText(topic);
+  const subjectMatched = QUIZ_BATTLE_QUESTION_BANK.filter(
+    (item) => normalizeText(item.subject) === subjectKey || normalizeText(item.topic) === topicKey
+  );
+  const pool = subjectMatched.length >= 4 ? subjectMatched : QUIZ_BATTLE_QUESTION_BANK;
+  const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, QUIZ_BATTLE_QUESTION_COUNT);
+  return shuffled.map((item, index) => ({
+    id: `q-${index + 1}`,
+    text: item.text,
+    options: item.options,
+    correctOption: item.correctOption,
+    explanation: item.explanation,
+    durationSec: QUIZ_BATTLE_DEFAULT_DURATION_SEC
+  }));
+}
+
+function buildQuizBattleRoomCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 6; i += 1) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+function getRoomParticipant(room, userId) {
+  return (room.participants || []).find((item) => String(item.userId) === String(userId)) || null;
+}
+
+function leaderboardRows(participants = []) {
+  return [...participants]
+    .sort((a, b) => (b.score || 0) - (a.score || 0) || new Date(a.joinedAt || 0) - new Date(b.joinedAt || 0))
+    .map((item, index) => ({
+      rank: index + 1,
+      userId: String(item.userId),
+      name: item.name || "Student",
+      score: item.score || 0
+    }));
+}
+
+function maybeAdvanceQuizBattleRoom(room) {
+  if (!room || room.status !== "live") return false;
+  const question = room.questions?.[room.currentQuestionIndex];
+  if (!question) {
+    room.status = "completed";
+    return true;
+  }
+
+  const startedAt = room.questionStartedAt ? new Date(room.questionStartedAt).getTime() : 0;
+  const elapsedSec = startedAt ? (Date.now() - startedAt) / 1000 : 0;
+  const allAnswered = (room.currentQuestionAnsweredUserIds || []).length >= (room.participants || []).length;
+  const timeOver = elapsedSec >= Number(question.durationSec || QUIZ_BATTLE_DEFAULT_DURATION_SEC);
+  if (!allAnswered && !timeOver) return false;
+
+  room.currentQuestionIndex += 1;
+  room.currentQuestionAnsweredUserIds = [];
+  room.currentQuestionFirstCorrectUserId = null;
+
+  if (room.currentQuestionIndex >= (room.questions || []).length) {
+    room.status = "completed";
+    room.questionStartedAt = null;
+  } else {
+    room.questionStartedAt = new Date();
+  }
+  return true;
+}
+
+function quizBattleRoomPayload(room, viewerId = "") {
+  const question = room.questions?.[room.currentQuestionIndex] || null;
+  const leaderboard = leaderboardRows(room.participants || []);
+  const me = leaderboard.find((item) => String(item.userId) === String(viewerId)) || null;
+  return {
+    roomId: String(room._id),
+    roomCode: room.roomCode,
+    subject: room.subject,
+    topic: room.topic,
+    status: room.status,
+    questionIndex: room.currentQuestionIndex,
+    totalQuestions: (room.questions || []).length,
+    question: question
+      ? {
+          id: question.id,
+          text: question.text,
+          options: question.options,
+          durationSec: question.durationSec,
+          startedAt: room.questionStartedAt
+        }
+      : null,
+    participantsCount: (room.participants || []).length,
+    leaderboard,
+    me
+  };
+}
+
+exports.createHighSchoolQuizBattleRoom = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can create quiz battle rooms");
+  const subject = String(req.body?.subject || "General Studies").trim() || "General Studies";
+  const topic = String(req.body?.topic || "").trim();
+
+  const creator = await User.findById(req.user.id).select("name").lean();
+  const questions = buildQuizBattleQuestionSet({ subject, topic });
+  if (!questions.length) throw new ApiError(400, "Unable to generate quiz battle questions");
+
+  let roomCode = "";
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    roomCode = buildQuizBattleRoomCode();
+    const exists = await HighSchoolQuizBattleRoom.findOne({ roomCode }).select("_id").lean();
+    if (!exists) break;
+  }
+  if (!roomCode) throw new ApiError(500, "Unable to create room code. Try again.");
+
+  const room = await HighSchoolQuizBattleRoom.create({
+    roomCode,
+    subject,
+    topic,
+    status: "waiting",
+    hostId: req.user.id,
+    participants: [
+      {
+        userId: req.user.id,
+        name: creator?.name || "Student",
+        score: 0
+      }
+    ],
+    questions,
+    currentQuestionIndex: 0
+  });
+
+  res.status(201).json({
+    message: "Quiz battle room created",
+    room: quizBattleRoomPayload(room, req.user.id)
+  });
+});
+
+exports.joinHighSchoolQuizBattleRoom = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can join quiz battle");
+  const rawRoomRef = String(req.params?.roomId || "").trim();
+  if (!rawRoomRef) throw new ApiError(400, "Room id/code is required");
+  const room = mongoose.Types.ObjectId.isValid(rawRoomRef)
+    ? await HighSchoolQuizBattleRoom.findById(rawRoomRef)
+    : await HighSchoolQuizBattleRoom.findOne({ roomCode: rawRoomRef.toUpperCase() });
+  if (!room) throw new ApiError(404, "Quiz battle room not found");
+  if (room.status === "completed") throw new ApiError(400, "This quiz battle is already completed");
+
+  const existing = getRoomParticipant(room, req.user.id);
+  if (!existing) {
+    const user = await User.findById(req.user.id).select("name").lean();
+    room.participants.push({
+      userId: req.user.id,
+      name: user?.name || "Student",
+      score: 0
+    });
+  }
+  if (room.status === "waiting" && (room.participants || []).length >= 2) {
+    room.status = "live";
+    room.questionStartedAt = new Date();
+  }
+  await room.save();
+
+  res.json({
+    message: existing ? "Already joined" : "Joined quiz battle",
+    room: quizBattleRoomPayload(room, req.user.id)
+  });
+});
+
+exports.getHighSchoolQuizBattleState = asyncHandler(async (req, res) => {
+  const rawRoomRef = String(req.params?.roomId || "").trim();
+  if (!rawRoomRef) throw new ApiError(400, "Room id/code is required");
+  const room = mongoose.Types.ObjectId.isValid(rawRoomRef)
+    ? await HighSchoolQuizBattleRoom.findById(rawRoomRef)
+    : await HighSchoolQuizBattleRoom.findOne({ roomCode: rawRoomRef.toUpperCase() });
+  if (!room) throw new ApiError(404, "Quiz battle room not found");
+  const participant = getRoomParticipant(room, req.user.id);
+  if (!participant) throw new ApiError(403, "Join the room first");
+
+  const changed = maybeAdvanceQuizBattleRoom(room);
+  if (changed) await room.save();
+
+  res.json(quizBattleRoomPayload(room, req.user.id));
+});
+
+exports.submitHighSchoolQuizBattleAnswer = asyncHandler(async (req, res) => {
+  const roomId = String(req.params?.roomId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(roomId)) throw new ApiError(400, "Invalid room id");
+  const selectedOption = String(req.body?.selectedOption || "").trim();
+  if (!selectedOption) throw new ApiError(400, "selectedOption is required");
+
+  const room = await HighSchoolQuizBattleRoom.findById(roomId);
+  if (!room) throw new ApiError(404, "Quiz battle room not found");
+  if (room.status !== "live") throw new ApiError(400, "Quiz battle is not active");
+
+  const participant = getRoomParticipant(room, req.user.id);
+  if (!participant) throw new ApiError(403, "Join the room first");
+  const alreadyAnswered = (room.currentQuestionAnsweredUserIds || []).some((item) => String(item) === String(req.user.id));
+  if (alreadyAnswered) throw new ApiError(400, "You already answered this question");
+
+  const question = room.questions?.[room.currentQuestionIndex];
+  if (!question) throw new ApiError(400, "No active question");
+  const startedAt = room.questionStartedAt ? new Date(room.questionStartedAt).getTime() : Date.now();
+  const elapsedSec = (Date.now() - startedAt) / 1000;
+  const durationSec = Number(question.durationSec || QUIZ_BATTLE_DEFAULT_DURATION_SEC);
+  if (elapsedSec > durationSec) {
+    maybeAdvanceQuizBattleRoom(room);
+    await room.save();
+    throw new ApiError(400, "Time up for this question");
+  }
+
+  room.currentQuestionAnsweredUserIds.push(req.user.id);
+  participant.lastAnsweredAt = new Date();
+
+  const isCorrect = normalizeText(selectedOption) === normalizeText(question.correctOption);
+  let awardedScore = 0;
+  if (isCorrect) {
+    if (!room.currentQuestionFirstCorrectUserId) {
+      room.currentQuestionFirstCorrectUserId = req.user.id;
+      awardedScore = 10;
+    } else {
+      awardedScore = 6;
+    }
+    participant.score = Number(participant.score || 0) + awardedScore;
+  }
+
+  const changed = maybeAdvanceQuizBattleRoom(room);
+  await room.save();
+
+  res.json({
+    message: isCorrect ? "Correct answer submitted" : "Answer submitted",
+    isCorrect,
+    awardedScore,
+    explanation: question.explanation || "",
+    room: quizBattleRoomPayload(room, req.user.id),
+    advanced: changed
+  });
 });
 
 exports.getProjectIdeas = asyncHandler(async (req, res) => {

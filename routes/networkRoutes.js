@@ -87,6 +87,10 @@ const {
   sendMentorGroupMessage,
   updateMentorGroupMessage,
   deleteMentorGroupMessage,
+  createHighSchoolQuizBattleRoom,
+  joinHighSchoolQuizBattleRoom,
+  getHighSchoolQuizBattleState,
+  submitHighSchoolQuizBattleAnswer,
   getProjectIdeas,
   startProjectIdea,
   toggleProjectIdeaTask,
@@ -199,6 +203,10 @@ router.get("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("stud
 router.post("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("student", "mentor"), sendMentorGroupMessage);
 router.patch("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), updateMentorGroupMessage);
 router.delete("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), deleteMentorGroupMessage);
+router.post("/highschool-quiz-battle/rooms", verifyToken, authorizeRoles("student"), createHighSchoolQuizBattleRoom);
+router.post("/highschool-quiz-battle/rooms/:roomId/join", verifyToken, authorizeRoles("student"), joinHighSchoolQuizBattleRoom);
+router.get("/highschool-quiz-battle/rooms/:roomId/state", verifyToken, authorizeRoles("student"), getHighSchoolQuizBattleState);
+router.post("/highschool-quiz-battle/rooms/:roomId/answer", verifyToken, authorizeRoles("student"), submitHighSchoolQuizBattleAnswer);
 router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
 router.post("/project-ideas/:projectKey/start", verifyToken, authorizeRoles("student"), startProjectIdea);
 router.post("/project-ideas/:projectKey/task", verifyToken, authorizeRoles("student"), toggleProjectIdeaTask);
