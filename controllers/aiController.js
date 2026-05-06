@@ -392,14 +392,37 @@ function buildFallbackFocusPlan(score) {
   };
 }
 
-function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel }) {
+function roadmapTopicsForSubject(subjectName, chapter, academicTopics = []) {
+  const datasetTopics = academicTopics
+    .map((item) => String(item?.topic || item?.chapter || "").trim())
+    .filter(Boolean)
+    .slice(0, 5);
+  if (datasetTopics.length) return datasetTopics;
+
+  const subjectKey = String(subjectName || "").toLowerCase();
+  if (chapter) {
+    if (subjectKey.includes("math")) return [`${chapter}: Formula Map`, "Solved Examples", "Practice Set", "Weak Area Drill", "Final Check"];
+    if (subjectKey.includes("social")) return [`${chapter}: Key Events`, "Maps / Terms / Dates", "Short Answers", "Case-Based Practice", "Final Check"];
+    if (subjectKey.includes("telugu")) return [`${chapter}: Reading`, "Meanings & Vocabulary", "Question Answers", "Grammar / Writing", "Final Check"];
+    if (subjectKey.includes("science") || subjectKey.includes("physics") || subjectKey.includes("chem") || subjectKey.includes("bio")) {
+      return [`${chapter}: Concepts`, "Diagrams & Definitions", "Textbook Questions", "Application Practice", "Final Check"];
+    }
+    return [`${chapter}: Core Ideas`, "Examples & Notes", "Practice Set", "Weak Area Drill", "Final Check"];
+  }
+
+  if (subjectKey.includes("math")) return ["Formula Basics", "Solved Examples", "Exercise Practice", "Weak Area Drill", "Revision Test"];
+  if (subjectKey.includes("social")) return ["Chapter Reading", "Key Terms & Dates", "Map/Timeline Practice", "Short Answers", "Revision Test"];
+  if (subjectKey.includes("telugu")) return ["Lesson Reading", "Meanings & Vocabulary", "Question Answers", "Grammar/Writing", "Revision Test"];
+  if (subjectKey.includes("science") || subjectKey.includes("physics") || subjectKey.includes("chem") || subjectKey.includes("bio")) {
+    return ["Concept Clarity", "Diagrams & Definitions", "Textbook Questions", "Experiment/Application", "Revision Test"];
+  }
+  if (subjectKey.includes("english") || subjectKey.includes("hindi")) return ["Reading", "Vocabulary", "Grammar", "Writing Practice", "Revision Test"];
+  return ["Core Concepts", "Examples & Notes", "Practice Set", "Weak Area Drill", "Final Check"];
+}
+
+function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter = "", academicTopics = [] }) {
   const subjectName = normalizeExamSubject(subject) || "Mathematics";
-  const topicTemplates = {
-    Mathematics: ["Numbers & Basics", "Algebra", "Geometry", "Fractions", "Revision Test"],
-    Science: ["Matter in Our Surroundings", "Atoms & Molecules", "Life Processes", "Electricity", "Revision Test"],
-    English: ["Reading Skills", "Grammar", "Vocabulary", "Writing Skills", "Revision Test"]
-  };
-  const topics = topicTemplates[subjectName] || topicTemplates.Mathematics;
+  const topics = roadmapTopicsForSubject(subjectName, chapter, academicTopics);
   const minutes = String(timePerDay || "").includes("2") ? 35 : String(timePerDay || "").includes("3") ? 45 : 25;
   const steps = topics.map((topic, index) => ({
     id: `hs-${subjectName.toLowerCase()}-${index + 1}`,
@@ -419,8 +442,14 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
     outcome: index === topics.length - 1 ? "Prove readiness with a revision test." : `Build confidence in ${topic}.`,
     xpReward: 20,
     tasks: [
-      { id: `w${index + 1}-read`, type: "Read", title: `Read: ${topic}`, duration: `${Math.max(10, minutes - 10)} min`, completed: index === 0 },
-      { id: `w${index + 1}-practice`, type: "Practice", title: "Practice: 10 Questions", duration: "15 min", completed: false },
+      { id: `w${index + 1}-read`, type: "Read", title: `Study: ${topic}`, duration: `${Math.max(10, minutes - 10)} min`, completed: index === 0 },
+      {
+        id: `w${index + 1}-practice`,
+        type: "Practice",
+        title: subjectName === "Telugu" ? "Write answers and meanings" : "Practice: 10 Questions",
+        duration: "15 min",
+        completed: false
+      },
       { id: `w${index + 1}-quiz`, type: "Quiz", title: "Quick Quiz", duration: "10 min", completed: false }
     ]
   }));
@@ -433,7 +462,7 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
     studyGoal,
     currentLevel,
     timePerDay,
-    summary: `A mission-style ${subjectName} roadmap built around ${studyGoal}. Start each mission, complete the work, submit proof, and unlock the next milestone.`,
+    summary: `A mission-style ${subjectName} roadmap built around ${chapter || studyGoal}. Start each mission, complete the work, submit proof, and unlock the next milestone.`,
     steps,
     progress: {
       completedSteps: 0,
@@ -1233,7 +1262,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     requestedTopics: chapter ? [chapter] : []
   });
 
-  let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel });
+  let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, academicTopics });
   let source = "fallback";
   let provider = "local";
   let model = "deterministic";
