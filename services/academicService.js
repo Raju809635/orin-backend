@@ -2,7 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const ApiError = require("../utils/ApiError");
 
-const DEFAULT_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset");
+const BACKEND_DATASET_DIR = path.resolve(process.cwd(), "data/academics/final_dataset");
+const PIPELINE_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset");
+const DEFAULT_DATASET_DIR = fs.existsSync(BACKEND_DATASET_DIR) ? BACKEND_DATASET_DIR : PIPELINE_DATASET_DIR;
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
