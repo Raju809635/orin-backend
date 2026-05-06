@@ -12,6 +12,7 @@ const {
   generateHighSchoolStudyPlanner,
   generateHighSchoolCareerExplorer,
   generateHighSchoolExamStrategy,
+  generateHighSchoolSchoolProjects,
   getMyAiHistory,
   getAiConversationMessages,
   updateAiConversation,
@@ -69,6 +70,12 @@ router.post(
   verifyToken,
   authorizeRoles("student"),
   generateHighSchoolExamStrategy
+);
+router.post(
+  "/highschool/school-projects",
+  verifyToken,
+  authorizeRoles("student"),
+  generateHighSchoolSchoolProjects
 );
 router.post(
   "/chat",

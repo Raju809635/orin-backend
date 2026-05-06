@@ -6,10 +6,10 @@ const { requestAiResponse } = require("../services/aiService");
 const { summarizeAcademicContext } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
-const { updateJourneyGoal } = require("../services/journeyStateService");
+const { updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
 const mongoose = require("mongoose");
 
-const HIGH_SCHOOL_SUBJECTS = ["Mathematics", "Science", "English"];
+const HIGH_SCHOOL_SUBJECTS = ["Mathematics", "Science", "Social Science", "English", "Telugu", "Hindi", "Sanskrit", "Computer", "Physics", "Chemistry", "Biology"];
 const FALLBACK_SUBJECT_GAP_QUESTIONS = [
   {
     id: "math-fractions-1",
@@ -393,7 +393,7 @@ function buildFallbackFocusPlan(score) {
 }
 
 function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel }) {
-  const subjectName = normalizeSubject(subject);
+  const subjectName = normalizeExamSubject(subject) || "Mathematics";
   const topicTemplates = {
     Mathematics: ["Numbers & Basics", "Algebra", "Geometry", "Fractions", "Revision Test"],
     Science: ["Matter in Our Surroundings", "Atoms & Molecules", "Life Processes", "Electricity", "Revision Test"],
@@ -401,56 +401,87 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
   };
   const topics = topicTemplates[subjectName] || topicTemplates.Mathematics;
   const minutes = String(timePerDay || "").includes("2") ? 35 : String(timePerDay || "").includes("3") ? 45 : 25;
-  const weeks = topics.map((topic, index) => ({
-    id: `week-${index + 1}`,
-    week: `Week ${index + 1}`,
+  const steps = topics.map((topic, index) => ({
+    id: `hs-${subjectName.toLowerCase()}-${index + 1}`,
+    stepNumber: index + 1,
     title: topic,
     status: index === 0 ? "active" : "locked",
-    progress: index === 0 ? 25 : 0,
-    focus: index === 0 ? "Start with concept clarity and short practice." : "Unlock after completing the previous week.",
+    completed: false,
+    canStart: index === 0,
+    canSubmitProof: false,
+    proofRequired: true,
+    proofStatus: "not_submitted",
+    startedAt: null,
+    completedAt: null,
+    unlockedAt: index === 0 ? new Date() : null,
+    missionType: index === topics.length - 1 ? "revision_test" : "learning_mission",
+    focus: index === 0 ? "Start with concept clarity and short practice." : "Unlock after completing the previous mission.",
+    outcome: index === topics.length - 1 ? "Prove readiness with a revision test." : `Build confidence in ${topic}.`,
+    xpReward: 20,
     tasks: [
       { id: `w${index + 1}-read`, type: "Read", title: `Read: ${topic}`, duration: `${Math.max(10, minutes - 10)} min`, completed: index === 0 },
-      { id: `w${index + 1}-watch`, type: "Watch", title: "Watch: Explanation Video", duration: "20 min", completed: index === 0 },
       { id: `w${index + 1}-practice`, type: "Practice", title: "Practice: 10 Questions", duration: "15 min", completed: false },
       { id: `w${index + 1}-quiz`, type: "Quiz", title: "Quick Quiz", duration: "10 min", completed: false }
     ]
   }));
 
   return {
-    title: `${subjectName} Weekly Study Roadmap`,
+    title: `${subjectName} Academic Mission Roadmap`,
+    goal: `${subjectName}: ${studyGoal}`,
     subject: subjectName,
     classLevel,
     studyGoal,
     currentLevel,
     timePerDay,
-    summary: `A weekly ${subjectName} plan built around ${studyGoal}. Complete daily tasks, take quick quizzes, and update focus from performance.`,
-    overallProgress: 25,
-    activeWeek: weeks[0],
-    weeks,
-    dailyTasks: weeks[0].tasks,
-    progressAnalytics: [
-      { label: subjectName, percent: 40 },
-      { label: "Practice", percent: 25 },
-      { label: "Tests", percent: 15 }
-    ],
-    adaptivePlan: {
-      newFocus: topics[1] || topics[0],
-      reason: "Added to improve the next weak area after your current week.",
-      updatedWeeks: weeks.map((week, index) => ({
-        ...week,
-        status: index === 0 ? "completed" : index === 1 ? "active" : week.status
-      }))
+    summary: `A mission-style ${subjectName} roadmap built around ${studyGoal}. Start each mission, complete the work, submit proof, and unlock the next milestone.`,
+    steps,
+    progress: {
+      completedSteps: 0,
+      totalSteps: steps.length,
+      progressPercent: 0,
+      currentStepId: steps[0]?.id || "",
+      lockHours: 0
     },
-    reminders: ["Finish daily tasks before quiz.", "Review wrong answers the same day.", "Retake weak topics every weekend."]
+    certificatePrompt: `Complete all ${subjectName} missions to unlock a school achievement prompt.`,
+    reminders: ["Start one mission at a time.", "Submit a short proof note or screenshot.", "Review wrong answers before unlocking the next mission."]
   };
 }
 
-function buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel }) {
+function buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel, assistantMode = "academic" }) {
   const cleanQuestion = String(question || "Explain photosynthesis").trim().slice(0, 180);
   const subjectName = normalizeExamSubject(subject) || "Science";
   const style = ["simple", "steps", "exam"].includes(String(answerStyle || "").toLowerCase())
     ? String(answerStyle).toLowerCase()
     : "simple";
+  if (assistantMode === "general") {
+    const title = cleanQuestion.replace(/[?.!]+$/, "") || "General Help";
+    return {
+      title,
+      subject: "General",
+      classLevel,
+      answerStyle: "simple",
+      summary: `Here is a clear answer for: ${title}.`,
+      simpleAnswer: `I can help with that. ${title.length < 8 ? "Tell me a little more so I can give a better answer." : `For "${title}", start by understanding the main idea, then ask for examples or steps if you want a deeper answer.`}`,
+      stepByStep: ["Identify what you want to know.", "Break it into one clear question.", "Ask for an example if the answer feels unclear."],
+      examAnswer: `For a short answer, write the main idea first, add one supporting point, and end with a clear conclusion.`,
+      keyPoints: ["Ask anything in normal language.", "Use Academic mode for subject-wise exam answers.", "Use follow-up questions to go deeper."],
+      notes: [
+        { title: "General Mode", body: "Use this for normal questions, explanations, planning, ideas, and everyday help." },
+        { title: "Academic Mode", body: "Switch to Academic when you need school-style answers, steps, notes, and practice." }
+      ],
+      practiceQuestions: [
+        {
+          id: "general-1",
+          question: "Which mode is best for exam-style school answers?",
+          options: ["Academic", "General", "Settings", "Posts"],
+          correct: "Academic",
+          explanation: "Academic mode gives subject, steps, exam answer, notes, and practice."
+        }
+      ],
+      dashboardTools: ["General Q&A", "Academic Mode", "Follow-up Questions"],
+      progress: { questions: 0, accuracy: 0, streakDays: 0, strongTopics: ["Asking Questions"], weakTopics: ["Add more detail for better answers"] }
+    };
+  }
   const isPhotosynthesis = /photosynthesis/i.test(cleanQuestion);
   const title = isPhotosynthesis ? "Photosynthesis" : cleanQuestion.replace(/[?.!]+$/, "");
   const summary = isPhotosynthesis
@@ -643,6 +674,56 @@ function buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel
       "Compare top two careers for me."
     ],
     subjectsCovered: ["Physics", "Chemistry", "Biology", "Maths", "Accountancy", "Economics", "Computer Science", "English", "History", "Political Science", "Psychology"]
+  };
+}
+
+function buildFallbackHighSchoolSchoolProjects({ subject, chapter, goal, classLevel, difficulty }) {
+  const subjectName = normalizeExamSubject(subject) || "Science";
+  const focus = String(chapter || goal || "Core Concepts").trim();
+  const level = String(difficulty || "Medium").trim();
+  const base = [
+    {
+      title: `${focus} Working Model`,
+      type: "Model",
+      why: `Helps you understand ${focus} with a visible school-friendly demonstration.`,
+      materials: ["Notebook", "Chart paper", "Basic household materials", "Phone camera for proof"],
+      steps: ["Read the textbook concept", "Sketch the model idea", "Build a simple version", "Explain it in 5 lines", "Submit photo/proof"],
+      outcome: `You can explain ${focus} clearly with a simple model.`
+    },
+    {
+      title: `${focus} Observation Journal`,
+      type: "Research",
+      why: `Builds exam-ready understanding by connecting ${subjectName} with real examples.`,
+      materials: ["Notebook", "Textbook", "Internet/reference book if allowed"],
+      steps: ["Pick 3 examples", "Write observations", "Add diagram/table", "Write conclusion", "Submit notes/proof"],
+      outcome: `You can identify examples and explain ${focus} in your own words.`
+    },
+    {
+      title: `${focus} Practice Presentation`,
+      type: "Presentation",
+      why: "Improves concept clarity, confidence, and answer-writing structure.",
+      materials: ["Slides/chart", "Textbook notes", "Practice questions"],
+      steps: ["Create 5 key points", "Add one diagram", "Add two questions", "Practice speaking", "Submit summary/proof"],
+      outcome: "You can present the chapter topic with examples and keywords."
+    }
+  ];
+
+  return {
+    title: `${subjectName} School Projects`,
+    classLevel,
+    subject: subjectName,
+    chapter: focus,
+    goal,
+    difficulty: level,
+    summary: `Project ideas for Class ${classLevel} ${subjectName}, focused on ${focus}.`,
+    projects: base.map((item, index) => ({
+      id: `school-project-${index + 1}`,
+      ...item,
+      difficulty: level,
+      duration: index === 0 ? "2-3 days" : "1-2 days",
+      proofRequired: true,
+      teacherFeedbackPrompt: "Submit this to your teacher/mentor for feedback or marks."
+    }))
   };
 }
 
@@ -1052,11 +1133,12 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     throw new ApiError(403, "Study Roadmap is available for high school learners.");
   }
 
-  const subject = normalizeSubject(req.body?.subject);
-  const studyGoal = String(req.body?.studyGoal || "Improve marks and complete weekly revision").trim().slice(0, 120);
+  const subject = normalizeExamSubject(req.body?.subject) || "Mathematics";
+  const studyGoal = String(req.body?.studyGoal || req.body?.goal || "Improve marks and complete weekly revision").trim().slice(0, 120);
   const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const chapter = String(req.body?.chapter || req.body?.topic || "").trim().slice(0, 80);
 
   let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel });
   let source = "fallback";
@@ -1065,15 +1147,16 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
 
   try {
     const prompt = [
-      "Create a high-school AI Study Roadmap like a smart adaptive study planner.",
+      "Create a high-school AI Study Roadmap like a mission-based academic journey, not a timetable.",
       "Return JSON only with this exact shape:",
-      '{"title":"Science Weekly Study Roadmap","summary":"short summary","overallProgress":25,"weeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"active|locked|completed","progress":25,"focus":"short focus","tasks":[{"id":"task-1","type":"Read|Watch|Practice|Quiz|Test","title":"Read: States of Matter","duration":"15 min","completed":true}]}],"dailyTasks":[{"id":"task-1","type":"Read","title":"Read: States of Matter","duration":"15 min","completed":true}],"progressAnalytics":[{"label":"Physics","percent":40}],"adaptivePlan":{"newFocus":"Atoms & Molecules","reason":"why this focus","updatedWeeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"completed","progress":100,"focus":"done","tasks":[]}]},"reminders":["reminder"]}',
+      '{"title":"Science Academic Mission Roadmap","goal":"Improve Science marks","summary":"short summary","steps":[{"id":"step-1","stepNumber":1,"title":"Life Processes Foundation","status":"active|locked|completed","completed":false,"canStart":true,"canSubmitProof":false,"proofRequired":true,"proofStatus":"not_submitted","startedAt":null,"completedAt":null,"missionType":"learning_mission","focus":"short focus","outcome":"what student proves","xpReward":20,"tasks":[{"id":"task-1","type":"Read|Practice|Quiz|Proof","title":"Read NCERT notes","duration":"15 min","completed":false}]}],"progress":{"completedSteps":0,"totalSteps":5,"progressPercent":0,"currentStepId":"step-1","lockHours":0},"certificatePrompt":"short prompt","reminders":["reminder"]}',
       `Class level: ${classLevel}.`,
       `Subject: ${subject}.`,
+      `Chapter/topic focus: ${chapter || "use the most important syllabus topics"}.`,
       `Study goal: ${studyGoal}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
-      "Rules: subject based roadmap, skill level adaptation, goal based plan, daily tasks, quiz/practice, progress tracking, adaptive learning. Keep text concise and school-safe. Do not invent random unrelated data."
+      "Rules: create 5-6 sequential missions, each with proof-oriented tasks. Do not create weekly timetable rows. Use academic/syllabus style topics only. Keep text concise and school-safe. Do not invent random unrelated data."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1087,7 +1170,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       }
     });
     const parsed = safeJsonParse(ai.answer);
-    if (parsed?.summary && Array.isArray(parsed?.weeks) && parsed.weeks.length) {
+    if (parsed?.summary && Array.isArray(parsed?.steps) && parsed.steps.length) {
       const normalizeTask = (task, fallbackId) => ({
         id: String(task?.id || fallbackId).trim().slice(0, 80),
         type: String(task?.type || "Practice").trim().slice(0, 20),
@@ -1095,43 +1178,46 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         duration: String(task?.duration || "15 min").trim().slice(0, 30),
         completed: Boolean(task?.completed)
       });
-      const normalizeWeek = (week, index) => ({
-        id: String(week?.id || `week-${index + 1}`).trim().slice(0, 80),
-        week: String(week?.week || `Week ${index + 1}`).trim().slice(0, 30),
-        title: String(week?.title || "Core Topic").trim().slice(0, 80),
-        status: ["active", "locked", "completed"].includes(String(week?.status || "").toLowerCase())
-          ? String(week.status).toLowerCase()
+      const normalizeStep = (step, index) => ({
+        id: String(step?.id || `step-${index + 1}`).trim().slice(0, 80),
+        stepNumber: Number(step?.stepNumber || index + 1),
+        title: String(step?.title || "Core Topic Mission").trim().slice(0, 90),
+        status: ["active", "locked", "completed"].includes(String(step?.status || "").toLowerCase())
+          ? String(step.status).toLowerCase()
           : index === 0 ? "active" : "locked",
-        progress: clampNumber(week?.progress, 0, 100, index === 0 ? 25 : 0),
-        focus: String(week?.focus || "Complete tasks, practice, and quiz.").trim().slice(0, 160),
-        tasks: Array.isArray(week?.tasks)
-          ? week.tasks.map((task, taskIndex) => normalizeTask(task, `week-${index + 1}-task-${taskIndex + 1}`)).slice(0, 5)
+        completed: Boolean(step?.completed),
+        canStart: index === 0,
+        canSubmitProof: false,
+        proofRequired: true,
+        proofStatus: ["not_submitted", "submitted", "approved"].includes(String(step?.proofStatus || ""))
+          ? String(step.proofStatus)
+          : "not_submitted",
+        startedAt: step?.startedAt || null,
+        completedAt: step?.completedAt || null,
+        unlockedAt: index === 0 ? new Date() : null,
+        missionType: String(step?.missionType || "learning_mission").trim().slice(0, 40),
+        focus: String(step?.focus || "Complete tasks, practice, and submit proof.").trim().slice(0, 180),
+        outcome: String(step?.outcome || "Show your understanding with practice proof.").trim().slice(0, 180),
+        xpReward: clampNumber(step?.xpReward, 10, 100, 20),
+        tasks: Array.isArray(step?.tasks)
+          ? step.tasks.map((task, taskIndex) => normalizeTask(task, `step-${index + 1}-task-${taskIndex + 1}`)).slice(0, 5)
           : []
       });
-      const weeks = parsed.weeks.map(normalizeWeek).filter((week) => week.title).slice(0, 6);
+      const steps = parsed.steps.map(normalizeStep).filter((step) => step.title).slice(0, 6);
       roadmap = {
         ...roadmap,
         title: String(parsed.title || roadmap.title).trim().slice(0, 80),
+        goal: String(parsed.goal || roadmap.goal || studyGoal).trim().slice(0, 120),
         summary: String(parsed.summary || roadmap.summary).trim().slice(0, 260),
-        overallProgress: clampNumber(parsed.overallProgress, 0, 100, roadmap.overallProgress),
-        activeWeek: weeks[0] || roadmap.activeWeek,
-        weeks,
-        dailyTasks: Array.isArray(parsed.dailyTasks)
-          ? parsed.dailyTasks.map((task, index) => normalizeTask(task, `daily-task-${index + 1}`)).slice(0, 5)
-          : weeks[0]?.tasks || roadmap.dailyTasks,
-        progressAnalytics: Array.isArray(parsed.progressAnalytics)
-          ? parsed.progressAnalytics.map((item) => ({
-              label: String(item?.label || subject).trim().slice(0, 40),
-              percent: clampNumber(item?.percent, 0, 100, 25)
-            })).filter((item) => item.label).slice(0, 5)
-          : roadmap.progressAnalytics,
-        adaptivePlan: {
-          newFocus: String(parsed.adaptivePlan?.newFocus || roadmap.adaptivePlan.newFocus).trim().slice(0, 80),
-          reason: String(parsed.adaptivePlan?.reason || roadmap.adaptivePlan.reason).trim().slice(0, 180),
-          updatedWeeks: Array.isArray(parsed.adaptivePlan?.updatedWeeks)
-            ? parsed.adaptivePlan.updatedWeeks.map(normalizeWeek).slice(0, 6)
-            : roadmap.adaptivePlan.updatedWeeks
+        steps,
+        progress: {
+          completedSteps: steps.filter((step) => step.status === "completed").length,
+          totalSteps: steps.length,
+          progressPercent: clampNumber(parsed.progress?.progressPercent, 0, 100, 0),
+          currentStepId: steps.find((step) => step.status === "active")?.id || steps[0]?.id || "",
+          lockHours: 0
         },
+        certificatePrompt: String(parsed.certificatePrompt || roadmap.certificatePrompt || "").trim().slice(0, 180),
         reminders: Array.isArray(parsed.reminders)
           ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
           : roadmap.reminders
@@ -1142,6 +1228,35 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     source = "fallback";
+  }
+
+  const missionTitles = Array.isArray(roadmap.steps)
+    ? roadmap.steps.map((step) => String(step?.title || "").trim()).filter(Boolean)
+    : [];
+  if (missionTitles.length) {
+    await updateJourneyGoal(
+      req.user.id,
+      {
+        title: roadmap.goal || studyGoal,
+        domain: `Class ${classLevel}`,
+        subDomain: subject,
+        focus: chapter || studyGoal,
+        source: "highschool_ai_roadmap"
+      },
+      req.user.role
+    );
+    await updateSkillProfile(
+      req.user.id,
+      {
+        knownSkills: [currentLevel, subject].filter(Boolean),
+        missingSkills: [chapter || studyGoal].filter(Boolean),
+        readinessScore: Number(roadmap.progress?.progressPercent || 0),
+        level: currentLevel,
+        roadmapSteps: missionTitles,
+        roadmapId: `highschool:${classLevel}:${subject}:${chapter || studyGoal}`
+      },
+      req.user.role
+    );
   }
 
   res.status(200).json({ source, roadmap, meta: { provider, model } });
@@ -1158,24 +1273,31 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
   const question = String(req.body?.question || "").trim().slice(0, 500);
   if (!question) throw new ApiError(400, "question is required");
   const subject = String(req.body?.subject || "Science").trim().slice(0, 40);
+  const chapter = String(req.body?.chapter || req.body?.topic || "").trim().slice(0, 100);
   const answerStyle = String(req.body?.answerStyle || "simple").trim().slice(0, 20);
+  const assistantMode = req.body?.assistantMode === "general" ? "general" : "academic";
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
 
-  let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel });
+  let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel, assistantMode });
   let source = "fallback";
   let provider = "local";
   let model = "deterministic";
 
   try {
     const prompt = [
-      "Create a high-school ORIN Study Assistant answer.",
+      assistantMode === "general"
+        ? "Create a high-school friendly ORIN General Assistant answer. Answer any safe everyday question directly and naturally."
+        : "Create a high-school ORIN Academic Study Assistant answer.",
       "Return JSON only with this exact shape:",
       '{"title":"Photosynthesis","subject":"Biology","answerStyle":"simple|steps|exam","summary":"short answer","simpleAnswer":"easy answer","stepByStep":["step"],"examAnswer":"exam format answer","keyPoints":["point"],"notes":[{"title":"Short Notes","body":"note"}],"practiceQuestions":[{"id":"q1","question":"question","options":["A","B","C","D"],"correct":"exact option","explanation":"why"}],"dashboardTools":["Short Notes"],"progress":{"questions":120,"accuracy":85,"streakDays":7,"strongTopics":["topic"],"weakTopics":["topic"]}}',
       `Class level: ${classLevel}.`,
-      `Subject: ${subject}.`,
-      `Answer style: ${answerStyle}.`,
+      assistantMode === "general" ? "Mode: General assistant. Do not force school notes if the question is casual or broad." : `Subject: ${subject}.`,
+      assistantMode === "general" ? "" : `Chapter/topic context: ${chapter || "Not specified"}.`,
+      assistantMode === "general" ? "Answer style: natural, useful, concise." : `Answer style: ${answerStyle}.`,
       `Student doubt: ${question}.`,
-      "Rules: clear high-school language, no random unrelated topics, answer the actual doubt, include practice questions with real options, keep mobile text concise."
+      assistantMode === "general"
+        ? "Rules: answer the actual question, use clear high-school friendly language, no silly/random content, keep mobile text concise, include practiceQuestions only if useful."
+        : "Rules: clear high-school language, no random unrelated topics, answer the actual doubt, include practice questions with real options, keep mobile text concise."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1184,6 +1306,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
       context: {
         assistantMode: HIGH_SCHOOL_JSON_MODE,
         feature: "highschool_study_assistant",
+        studyAssistantMode: assistantMode,
         expectedFormat: "json",
         learnerStage: "highschool"
       }
@@ -1207,7 +1330,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
       const candidate = {
         ...result,
         title: String(parsed.title || result.title).trim().slice(0, 80),
-        subject: normalizeExamSubject(parsed.subject || subject) || result.subject,
+        subject: assistantMode === "general" ? String(parsed.subject || "General").trim().slice(0, 40) : normalizeExamSubject(parsed.subject || subject) || result.subject,
         answerStyle: ["simple", "steps", "exam"].includes(String(parsed.answerStyle || answerStyle).toLowerCase())
           ? String(parsed.answerStyle || answerStyle).toLowerCase()
           : result.answerStyle,
@@ -1245,12 +1368,11 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
         }
       };
       const hasUsableAnswer =
-        hasUsefulStudyKeywordOverlap(question, candidate) &&
+        (assistantMode === "general" || hasUsefulStudyKeywordOverlap(question, candidate)) &&
         String(candidate.simpleAnswer || candidate.summary || candidate.examAnswer || "").trim().length >= 40 &&
         Array.isArray(candidate.keyPoints) &&
         candidate.keyPoints.length >= 2 &&
-        Array.isArray(candidate.practiceQuestions) &&
-        candidate.practiceQuestions.length >= 1;
+        (assistantMode === "general" || (Array.isArray(candidate.practiceQuestions) && candidate.practiceQuestions.length >= 1));
 
       if (hasUsableAnswer) {
         result = candidate;
@@ -1380,6 +1502,9 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
 
   const interest = String(req.body?.interest || "Science").trim().slice(0, 60);
   const strengths = String(req.body?.strengths || "biology, problem solving, helping people").trim().slice(0, 240);
+  const academicSubjects = Array.isArray(req.body?.academicSubjects)
+    ? req.body.academicSubjects.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6)
+    : [];
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
 
   let explorer = buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel });
@@ -1395,6 +1520,7 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
       `Class level: ${classLevel}.`,
       `Interest/category: ${interest}.`,
       `Student strengths/interests: ${strengths}.`,
+      `Current school subjects/favorites: ${academicSubjects.join(", ") || "Not specified"}.`,
       `Existing career goal: ${profile?.careerGoals || "Not specified"}.`,
       "Rules: all suggestions must be school-safe, age-appropriate, India-aware where useful, and based on selected interest/strengths. Do not return random unrelated careers."
     ].join("\n");
@@ -1581,6 +1707,79 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
     strategy,
     meta: { provider, model }
   });
+});
+
+exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "School Projects is available for high school learners.");
+  }
+
+  const subject = String(req.body?.subject || "Science").trim().slice(0, 60);
+  const chapter = String(req.body?.chapter || req.body?.topic || "Core Concepts").trim().slice(0, 100);
+  const goal = String(req.body?.goal || "Create a school-ready project with proof").trim().slice(0, 160);
+  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "10").trim().slice(0, 40);
+  const difficulty = String(req.body?.difficulty || "Medium").trim().slice(0, 30);
+
+  let result = buildFallbackHighSchoolSchoolProjects({ subject, chapter, goal, classLevel, difficulty });
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const prompt = [
+      "Create high-school School Projects like After 12 Project Ideas, but academic and class/subject/chapter based.",
+      "Return JSON only with this exact shape:",
+      '{"title":"Science School Projects","summary":"short summary","projects":[{"id":"project-1","title":"Working model","type":"Model|Research|Presentation|Experiment","difficulty":"Medium","duration":"2 days","why":"why useful","materials":["item"],"steps":["step"],"outcome":"learning outcome","proofRequired":true,"teacherFeedbackPrompt":"short prompt"}]}',
+      `Class: ${classLevel}.`,
+      `Subject: ${subject}.`,
+      `Chapter/topic: ${chapter}.`,
+      `Goal: ${goal}.`,
+      `Difficulty: ${difficulty}.`,
+      "Rules: keep projects school-safe, low-cost, syllabus-linked, and proof-friendly. Do not invent adult startup/project content."
+    ].join("\n");
+
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        assistantMode: HIGH_SCHOOL_JSON_MODE,
+        feature: "highschool_school_projects",
+        expectedFormat: "json",
+        learnerStage: "highschool"
+      }
+    });
+    const parsed = safeJsonParse(ai.answer);
+    if (parsed?.summary && Array.isArray(parsed?.projects) && parsed.projects.length) {
+      result = {
+        ...result,
+        title: String(parsed.title || result.title).trim().slice(0, 100),
+        summary: String(parsed.summary || result.summary).trim().slice(0, 260),
+        projects: parsed.projects.map((item, index) => ({
+          id: String(item?.id || `school-project-${index + 1}`).trim().slice(0, 80),
+          title: String(item?.title || "School Project").trim().slice(0, 100),
+          type: String(item?.type || "Project").trim().slice(0, 40),
+          difficulty: String(item?.difficulty || difficulty).trim().slice(0, 30),
+          duration: String(item?.duration || "1-2 days").trim().slice(0, 40),
+          why: String(item?.why || "This helps improve concept clarity.").trim().slice(0, 180),
+          materials: Array.isArray(item?.materials) ? item.materials.map((x) => String(x || "").trim()).filter(Boolean).slice(0, 6) : [],
+          steps: Array.isArray(item?.steps) ? item.steps.map((x) => String(x || "").trim()).filter(Boolean).slice(0, 7) : [],
+          outcome: String(item?.outcome || "You can explain the topic clearly.").trim().slice(0, 180),
+          proofRequired: true,
+          teacherFeedbackPrompt: String(item?.teacherFeedbackPrompt || "Submit this to your teacher/mentor for feedback.").trim().slice(0, 160)
+        })).filter((item) => item.title).slice(0, 5)
+      };
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    }
+  } catch {
+    source = "fallback";
+  }
+
+  res.status(200).json({ source, result, meta: { provider, model } });
 });
 
 exports.getMyAiHistory = asyncHandler(async (req, res) => {
