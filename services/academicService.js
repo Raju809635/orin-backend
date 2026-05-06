@@ -84,8 +84,25 @@ function isExtractionPending(record) {
   return ["pending_ocr", "needs_ocr", "extraction_pending"].includes(status);
 }
 
+function isSubjectUnavailable(record) {
+  const metadata = recordMetadata(record);
+  const sourceType = String(metadata.source_type || "").trim().toLowerCase();
+  const extractionStatus = String(metadata.extraction_status || "").trim().toLowerCase();
+  const verificationStatus = String(metadata.verification_status || "").trim().toLowerCase();
+
+  if (isExtractionPending(record)) return true;
+  if (["needs_review", "review_required"].includes(extractionStatus)) return true;
+  if (["needs_review", "review_required", "pending"].includes(verificationStatus)) return true;
+  if (["generated_fallback", "curated_fallback"].includes(sourceType)) return true;
+  return false;
+}
+
 function pendingMessage(record) {
   const metadata = recordMetadata(record);
+  const sourceType = String(metadata.source_type || "").trim().toLowerCase();
+  if (["generated_fallback", "curated_fallback"].includes(sourceType)) {
+    return "Academic topics for this subject are awaiting verified PDF extraction. Topics will appear after review.";
+  }
   return (
     metadata.extraction_message ||
     metadata.source_note ||
@@ -142,9 +159,9 @@ function getSubjects(board, classNumber) {
           key: slug,
           name,
           subject: name,
-          available: !isExtractionPending(record),
+          available: !isSubjectUnavailable(record),
           extractionStatus: recordMetadata(record).extraction_status || "",
-          message: isExtractionPending(record) ? pendingMessage(record) : "",
+          message: isSubjectUnavailable(record) ? pendingMessage(record) : "",
           verificationStatus: record?.metadata?.verification_status || "unknown",
           chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
         };
@@ -164,9 +181,9 @@ function getSubjects(board, classNumber) {
         key: slug,
         name,
         subject: name,
-        available: !isExtractionPending(record),
+        available: !isSubjectUnavailable(record),
         extractionStatus: recordMetadata(record).extraction_status || "",
-        message: isExtractionPending(record) ? pendingMessage(record) : "",
+        message: isSubjectUnavailable(record) ? pendingMessage(record) : "",
         verificationStatus: record?.metadata?.verification_status || "unknown",
         chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
       };
@@ -278,7 +295,7 @@ function topicTitle(topic) {
 
 function getTopicsForClassSubject(classNumber, subject) {
   const record = getSubjectRecordForClass(classNumber, subject);
-  if (isExtractionPending(record)) {
+  if (isSubjectUnavailable(record)) {
     return {
       ...record,
       available: false,
@@ -320,7 +337,7 @@ function summarizeAcademicContext(context = {}) {
   if (!classNumber || !subject) return null;
 
   const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
-  if (isExtractionPending(record)) return null;
+  if (isSubjectUnavailable(record)) return null;
   const subjectRecord = record.subject || record;
   const chapters = getChaptersFromRecord(subjectRecord);
   const selectedChapter =
