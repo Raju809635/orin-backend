@@ -9,6 +9,11 @@ const {
   analyzeHighSchoolSubjectGap,
   generateHighSchoolStudyRoadmap,
   generateHighSchoolStudyAssistantAnswer,
+  chatWithHighSchoolAssistant,
+  getHighSchoolAssistantHistory,
+  getHighSchoolAssistantConversationMessages,
+  updateHighSchoolAssistantConversation,
+  deleteHighSchoolAssistantConversation,
   generateHighSchoolStudyPlanner,
   generateHighSchoolCareerExplorer,
   generateHighSchoolExamStrategy,
@@ -29,6 +34,27 @@ router.patch(
   updateAiConversation
 );
 router.delete("/conversations/:conversationId", verifyToken, authorizeRoles("student", "mentor"), deleteAiConversation);
+router.get("/highschool/assistant/history", verifyToken, authorizeRoles("student"), getHighSchoolAssistantHistory);
+router.get(
+  "/highschool/assistant/conversations/:conversationId",
+  verifyToken,
+  authorizeRoles("student"),
+  getHighSchoolAssistantConversationMessages
+);
+router.patch(
+  "/highschool/assistant/conversations/:conversationId",
+  verifyToken,
+  authorizeRoles("student"),
+  validate(aiConversationUpdateSchema),
+  updateHighSchoolAssistantConversation
+);
+router.delete(
+  "/highschool/assistant/conversations/:conversationId",
+  verifyToken,
+  authorizeRoles("student"),
+  deleteHighSchoolAssistantConversation
+);
+router.post("/highschool/assistant/chat", verifyToken, authorizeRoles("student"), chatWithHighSchoolAssistant);
 router.post(
   "/highschool/subject-gap/quiz",
   verifyToken,

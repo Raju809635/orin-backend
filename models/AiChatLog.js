@@ -24,7 +24,7 @@ const aiChatLogSchema = new mongoose.Schema(
     },
     assistantMode: {
       type: String,
-      enum: ["general", "personalized"],
+      enum: ["general", "personalized", "academic"],
       default: "general"
     },
     pinned: {

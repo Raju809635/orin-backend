@@ -837,8 +837,13 @@ async function ensureConversationAccess(userId, conversationId) {
   if (!exists) throw new ApiError(404, "Conversation not found");
 }
 
-async function buildConversationSummaries(userId) {
-  const rows = await AiChatLog.find({ userId })
+async function ensureConversationAccessScoped(userId, conversationId, scopeFilter = {}) {
+  const exists = await AiChatLog.exists({ userId, conversationId, ...scopeFilter });
+  if (!exists) throw new ApiError(404, "Conversation not found");
+}
+
+async function buildConversationSummaries(userId, scopeFilter = {}) {
+  const rows = await AiChatLog.find({ userId, ...scopeFilter })
     .select("conversationId conversationTitle assistantMode pinned prompt response createdAt")
     .sort({ createdAt: -1 })
     .limit(250)
@@ -876,6 +881,35 @@ async function buildConversationSummaries(userId) {
     if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
     return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
   });
+}
+
+function buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter }) {
+  const cleanPrompt = String(message || "").trim();
+  if (assistantMode === "general") {
+    return [
+      `You asked: "${cleanPrompt}"`,
+      "",
+      "Here is a clear answer in simple language:",
+      "1. I understood your question and focused only on your prompt.",
+      "2. If you want, I can also give a shorter version, examples, or a step-by-step explanation.",
+      "",
+      "Reply with: short / detailed / examples."
+    ].join("\n");
+  }
+
+  const scopeLine = `Class ${classLevel}${subject ? ` • ${subject}` : ""}${chapter ? ` • ${chapter}` : ""}`;
+  return [
+    `Academic help (${scopeLine})`,
+    "",
+    `Prompt: ${cleanPrompt}`,
+    "",
+    "Structured answer:",
+    "1. Core concept: focus on the main definition and idea first.",
+    "2. Step-by-step: break the problem into smaller logical steps.",
+    "3. Exam tip: write key points with one example for full marks.",
+    "",
+    "If you share the exact chapter/topic, I can give a precise exam-ready answer."
+  ].join("\n");
 }
 
 exports.chatWithAi = asyncHandler(async (req, res) => {
@@ -1780,6 +1814,188 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ source, result, meta: { provider, model } });
+});
+
+exports.getHighSchoolAssistantHistory = asyncHandler(async (req, res) => {
+  const summaries = await buildConversationSummaries(req.user.id, { "context.feature": "highschool_chat_assistant" });
+  res.status(200).json(summaries);
+});
+
+exports.getHighSchoolAssistantConversationMessages = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccessScoped(req.user.id, conversationId, { "context.feature": "highschool_chat_assistant" });
+
+  const logs = await AiChatLog.find({
+    userId: req.user.id,
+    conversationId,
+    "context.feature": "highschool_chat_assistant"
+  })
+    .select("conversationId conversationTitle assistantMode pinned prompt response provider model createdAt context")
+    .sort({ createdAt: 1 })
+    .lean();
+
+  res.status(200).json({
+    conversationId,
+    messages: logs.map((item) => ({
+      id: item._id,
+      prompt: item.prompt,
+      response: item.response,
+      createdAt: item.createdAt
+    })),
+    context: logs[0]?.context?.academicContext || null
+  });
+});
+
+exports.updateHighSchoolAssistantConversation = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccessScoped(req.user.id, conversationId, { "context.feature": "highschool_chat_assistant" });
+
+  const update = {};
+  if (Object.prototype.hasOwnProperty.call(req.body, "title")) {
+    update.conversationTitle = String(req.body.title || "").trim().slice(0, 120);
+  }
+  if (Object.prototype.hasOwnProperty.call(req.body, "pinned")) {
+    update.pinned = Boolean(req.body.pinned);
+  }
+
+  await AiChatLog.updateMany(
+    { userId: req.user.id, conversationId, "context.feature": "highschool_chat_assistant" },
+    { $set: update }
+  );
+
+  const summaries = await buildConversationSummaries(req.user.id, { "context.feature": "highschool_chat_assistant" });
+  const summary = summaries.find((item) => item.conversationId === conversationId) || null;
+  res.status(200).json({ message: "Conversation updated", conversation: summary });
+});
+
+exports.deleteHighSchoolAssistantConversation = asyncHandler(async (req, res) => {
+  const { conversationId } = req.params;
+  await ensureConversationAccessScoped(req.user.id, conversationId, { "context.feature": "highschool_chat_assistant" });
+  await AiChatLog.deleteMany({ userId: req.user.id, conversationId, "context.feature": "highschool_chat_assistant" });
+  res.status(200).json({ message: "Conversation deleted" });
+});
+
+exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "High school assistant is available for high school learners.");
+  }
+
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const usedToday = await AiChatLog.countDocuments({
+    userId: req.user.id,
+    createdAt: { $gte: startOfDay },
+    "context.feature": "highschool_chat_assistant"
+  });
+  if (usedToday >= aiChatDailyLimit) {
+    throw new ApiError(429, `Daily AI limit reached (${aiChatDailyLimit}). Try again tomorrow.`);
+  }
+
+  const message = String(req.body?.message || "").trim().slice(0, 4000);
+  if (!message) throw new ApiError(400, "message is required");
+  const assistantMode = req.body?.assistantMode === "academic" ? "academic" : "general";
+  const conversationId = String(req.body?.conversationId || new mongoose.Types.ObjectId().toString()).trim();
+  if (!conversationId) throw new ApiError(400, "conversationId is required");
+
+  const classLevel = String(req.body?.academicContext?.classLevel || profile?.classLevel || profile?.className || "10")
+    .trim()
+    .slice(0, 30);
+  const board = String(req.body?.academicContext?.board || "CBSE").trim().slice(0, 30);
+  const subject = String(req.body?.academicContext?.subject || "").trim().slice(0, 80);
+  const chapter = String(req.body?.academicContext?.chapter || "").trim().slice(0, 120);
+
+  let existingConversation = null;
+  if (req.body?.conversationId) {
+    existingConversation = await AiChatLog.findOne({
+      userId: req.user.id,
+      conversationId,
+      "context.feature": "highschool_chat_assistant"
+    })
+      .select("conversationTitle pinned")
+      .lean();
+    if (!existingConversation) throw new ApiError(404, "Conversation not found");
+  }
+
+  const prompt = [
+    assistantMode === "general"
+      ? "You are ORIN High School General Assistant. Answer naturally, clearly, and directly to user prompt."
+      : "You are ORIN High School Academic Assistant. Give concise, exam-useful answer grounded in class/subject/chapter context.",
+    `Mode: ${assistantMode}`,
+    `Board: ${board}`,
+    `Class: ${classLevel}`,
+    `Subject: ${subject || "Not specified"}`,
+    `Chapter: ${chapter || "Not specified"}`,
+    `Student prompt: ${message}`,
+    assistantMode === "academic"
+      ? "Rules: stay on-topic, use clear headings/bullets, include key points and one short exam tip."
+      : "Rules: answer the actual prompt without random filler."
+  ].join("\n");
+
+  let answer = "";
+  let source = "fallback";
+  let provider = "local";
+  let model = "deterministic";
+
+  try {
+    const ai = await requestAiResponse({
+      role: "student",
+      message: prompt,
+      context: {
+        feature: "highschool_chat_assistant",
+        assistantMode,
+        learnerStage: "highschool"
+      }
+    });
+    const candidate = String(ai.answer || "").trim();
+    const hasEnoughText = candidate.length >= 60;
+    const isRelevant = assistantMode === "general" || hasUsefulStudyKeywordOverlap(message, { summary: candidate, simpleAnswer: candidate, keyPoints: [candidate], practiceQuestions: [{ options: ["A", "B", "C", "D"], correct: "A" }] });
+
+    if (hasEnoughText && isRelevant) {
+      answer = candidate;
+      source = "ai";
+      provider = ai.provider;
+      model = ai.model;
+    } else {
+      answer = buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter });
+    }
+  } catch {
+    answer = buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classLevel, subject, chapter });
+  }
+
+  const context = {
+    feature: "highschool_chat_assistant",
+    assistantMode,
+    academicContext: { board, classLevel, subject, chapter },
+    source
+  };
+
+  await AiChatLog.create({
+    userId: req.user.id,
+    role: req.user.role,
+    conversationId,
+    conversationTitle: String(existingConversation?.conversationTitle || "").trim() || toConversationTitle(message),
+    assistantMode,
+    pinned: Boolean(existingConversation?.pinned),
+    provider,
+    model,
+    prompt: message,
+    response: answer,
+    context
+  });
+
+  res.status(200).json({
+    answer,
+    conversationId,
+    source,
+    provider,
+    model,
+    meta: {
+      remainingToday: Math.max(aiChatDailyLimit - usedToday - 1, 0)
+    }
+  });
 });
 
 exports.getMyAiHistory = asyncHandler(async (req, res) => {
