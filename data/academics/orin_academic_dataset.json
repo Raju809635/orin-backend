@@ -6,7 +6,9 @@
           "board": "CBSE",
           "class": 10,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -196,7 +198,9 @@
           "board": "CBSE",
           "class": 10,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -386,7 +390,9 @@
           "board": "CBSE",
           "class": 10,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -577,50 +583,36 @@
           "class": 10,
           "subject": "Mathematics",
           "year": "2026",
-          "verification_status": "partially_verified",
-          "source_note": "Chapter structure and syllabus units enriched from NCERT/CBSE Class 10 Mathematics and Science official textbook/syllabus references; topic packs are app-ready syllabus summaries for ORIN AI features.",
-          "sources": [
-            {
-              "name": "NCERT Textbooks",
-              "url": "https://ncert.nic.in/textbook.php",
-              "type": "official_textbook_index"
-            },
-            {
-              "name": "CBSE Academic Curriculum",
-              "url": "https://cbseacademic.nic.in/curriculum.html",
-              "type": "official_curriculum"
-            }
-          ]
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
             "chapter_no": 1,
             "chapter_name": "Real Numbers",
-            "unit": "Number Systems",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Euclid's Division Lemma",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Division algorithm",
-                  "HCF using Euclid's method",
-                  "Applications in number problems"
+                  "Meaning And Purpose Of Real Numbers",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Fundamental Theorem Of Arithmetic",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Prime factorisation",
-                  "Uniqueness of factorisation",
-                  "HCF and LCM relation"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Irrational Numbers",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Proofs of irrationality",
-                  "Decimal expansion",
-                  "Terminating and non-terminating decimals"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -628,31 +620,29 @@
           {
             "chapter_no": 2,
             "chapter_name": "Polynomials",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Zeros Of A Polynomial",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Geometrical meaning of zeros",
-                  "Number of zeros from graph",
-                  "Quadratic polynomial zeros"
+                  "Meaning And Purpose Of Polynomials",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Relationship Between Zeros And Coefficients",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Sum of zeros",
-                  "Product of zeros",
-                  "Forming polynomial from zeros"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Division Algorithm",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Polynomial division",
-                  "Remainder interpretation",
-                  "Verification of factors"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -660,31 +650,29 @@
           {
             "chapter_no": 3,
             "chapter_name": "Pair Of Linear Equations In Two Variables",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Graphical Method",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Consistent and inconsistent pairs",
-                  "Intersecting lines",
-                  "Parallel and coincident lines"
+                  "Meaning And Purpose Of Pair Of Linear Equations In Two Variables",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Algebraic Methods",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Substitution",
-                  "Elimination",
-                  "Cross multiplication"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Age problems",
-                  "Number problems",
-                  "Speed-distance-time and money problems"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -692,31 +680,29 @@
           {
             "chapter_no": 4,
             "chapter_name": "Quadratic Equations",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
                 "topic_name": "Standard Form And Roots",
                 "subtopics": [
-                  "ax^2 + bx + c = 0",
-                  "Roots of a quadratic equation",
-                  "Discriminant and nature of roots"
+                  "Ax^2 + Bx + C = 0",
+                  "Roots Of A Quadratic Equation",
+                  "Nature Of Roots Using Discriminant"
                 ]
               },
               {
                 "topic_name": "Solution Methods",
                 "subtopics": [
-                  "Factorisation",
-                  "Completing the square",
-                  "Quadratic formula"
+                  "Factorisation Method",
+                  "Completing The Square",
+                  "Quadratic Formula"
                 ]
               },
               {
                 "topic_name": "Applications",
                 "subtopics": [
-                  "Area problems",
-                  "Number problems",
-                  "Motion and height problems"
+                  "Area Based Problems",
+                  "Number Problems",
+                  "Motion And Height Problems"
                 ]
               }
             ]
@@ -724,31 +710,29 @@
           {
             "chapter_no": 5,
             "chapter_name": "Arithmetic Progressions",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "AP Basics",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Terms of an AP",
-                  "Common difference",
-                  "Finite and infinite AP"
+                  "Meaning And Purpose Of Arithmetic Progressions",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Formulae",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "nth term",
-                  "Sum of first n terms",
-                  "Finding missing terms"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Pattern questions",
-                  "Savings and installment problems",
-                  "Arrangement problems"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -756,31 +740,29 @@
           {
             "chapter_no": 6,
             "chapter_name": "Triangles",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Similarity Of Triangles",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Similar figures",
-                  "AAA criterion",
-                  "SAS and SSS similarity"
+                  "Meaning And Purpose Of Triangles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Theorems",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Basic proportionality theorem",
-                  "Converse of BPT",
-                  "Area relation of similar triangles"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Pythagoras Theorem",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Right triangle relation",
-                  "Converse",
-                  "Applications"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -788,31 +770,29 @@
           {
             "chapter_no": 7,
             "chapter_name": "Coordinate Geometry",
-            "unit": "Coordinate Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
                 "topic_name": "Cartesian Plane",
                 "subtopics": [
-                  "Axes and quadrants",
-                  "Plotting points",
-                  "Coordinates of a point"
+                  "Axes",
+                  "Quadrants",
+                  "Plotting Points"
                 ]
               },
               {
-                "topic_name": "Distance And Section Formulae",
+                "topic_name": "Distance And Section",
                 "subtopics": [
-                  "Distance formula",
-                  "Section formula",
-                  "Midpoint formula"
+                  "Distance Formula",
+                  "Section Formula",
+                  "Midpoint Formula"
                 ]
               },
               {
-                "topic_name": "Area Of Triangle",
+                "topic_name": "Area And Applications",
                 "subtopics": [
-                  "Area from coordinates",
+                  "Area Of Triangle",
                   "Collinearity",
-                  "Coordinate word problems"
+                  "Coordinate Geometry Word Problems"
                 ]
               }
             ]
@@ -820,31 +800,29 @@
           {
             "chapter_no": 8,
             "chapter_name": "Introduction To Trigonometry",
-            "unit": "Trigonometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Trigonometric Ratios",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "sine, cosine, tangent",
-                  "cosecant, secant, cotangent",
-                  "Ratios in right triangles"
+                  "Meaning And Purpose Of Introduction To Trigonometry",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Standard Values",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "0, 30, 45, 60, 90 degrees",
-                  "Complementary angles",
-                  "Using tables"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Trigonometric Identities",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "sin^2 A + cos^2 A = 1",
-                  "tan and sec identity",
-                  "cot and cosec identity"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -852,23 +830,29 @@
           {
             "chapter_no": 9,
             "chapter_name": "Some Applications Of Trigonometry",
-            "unit": "Trigonometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Heights And Distances",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Angle of elevation",
-                  "Angle of depression",
-                  "Line of sight"
+                  "Meaning And Purpose Of Some Applications Of Trigonometry",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Problem Solving",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Single observation problems",
-                  "Two observation problems",
-                  "Real-life measurement"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
+                ]
+              },
+              {
+                "topic_name": "Applications And Practice",
+                "subtopics": [
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -876,119 +860,103 @@
           {
             "chapter_no": 10,
             "chapter_name": "Circles",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Tangents To A Circle",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Tangent at a point",
-                  "Radius perpendicular to tangent",
-                  "Secant and tangent distinction"
+                  "Meaning And Purpose Of Circles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Tangent Lengths",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Tangents from an external point",
-                  "Equal tangent lengths",
-                  "Applications"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
+                ]
+              },
+              {
+                "topic_name": "Applications And Practice",
+                "subtopics": [
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
           },
           {
             "chapter_no": 11,
-            "chapter_name": "Constructions",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
+            "chapter_name": "Areas Related To Circles",
             "topics": [
               {
-                "topic_name": "Division Of Line Segment",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Internal division",
-                  "Given ratio construction",
-                  "Verification steps"
+                  "Meaning And Purpose Of Areas Related To Circles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Tangents Construction",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Tangents from external point",
-                  "Circle construction",
-                  "Justification"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
+                ]
+              },
+              {
+                "topic_name": "Applications And Practice",
+                "subtopics": [
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
           },
           {
             "chapter_no": 12,
-            "chapter_name": "Areas Related To Circles",
-            "unit": "Mensuration",
-            "verification_status": "source_backed",
+            "chapter_name": "Surface Areas And Volumes",
             "topics": [
               {
-                "topic_name": "Circle Measures",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Circumference",
-                  "Area of circle",
-                  "Arc length"
+                  "Meaning And Purpose Of Surface Areas And Volumes",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Sector And Segment",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Area of sector",
-                  "Area of segment",
-                  "Combination of plane figures"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
+                ]
+              },
+              {
+                "topic_name": "Applications And Practice",
+                "subtopics": [
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
           },
           {
             "chapter_no": 13,
-            "chapter_name": "Surface Areas And Volumes",
-            "unit": "Mensuration",
-            "verification_status": "source_backed",
-            "topics": [
-              {
-                "topic_name": "Solid Figures",
-                "subtopics": [
-                  "Cube, cuboid, cylinder",
-                  "Cone and sphere",
-                  "Frustum basics"
-                ]
-              },
-              {
-                "topic_name": "Surface Area And Volume",
-                "subtopics": [
-                  "Curved surface area",
-                  "Total surface area",
-                  "Volume"
-                ]
-              },
-              {
-                "topic_name": "Combinations And Conversions",
-                "subtopics": [
-                  "Combined solids",
-                  "Conversion of solids",
-                  "Practical problems"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 14,
             "chapter_name": "Statistics",
-            "unit": "Statistics And Probability",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Grouped Data",
+                "topic_name": "Data Organization",
                 "subtopics": [
-                  "Class intervals",
-                  "Frequency distribution",
-                  "Cumulative frequency"
+                  "Raw Data",
+                  "Frequency Distribution",
+                  "Grouped Data"
                 ]
               },
               {
@@ -1000,35 +968,12 @@
                 ]
               },
               {
-                "topic_name": "Graphical Representation",
+                "topic_name": "Representation And Interpretation",
                 "subtopics": [
-                  "Ogive",
-                  "Histogram",
-                  "Interpreting data"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 15,
-            "chapter_name": "Probability",
-            "unit": "Statistics And Probability",
-            "verification_status": "source_backed",
-            "topics": [
-              {
-                "topic_name": "Classical Probability",
-                "subtopics": [
-                  "Outcomes",
-                  "Sample space",
-                  "Equally likely events"
-                ]
-              },
-              {
-                "topic_name": "Event Probability",
-                "subtopics": [
-                  "Favourable outcomes",
-                  "Complementary events",
-                  "Simple probability questions"
+                  "Bar Graphs",
+                  "Histograms",
+                  "Ogives",
+                  "Interpreting Results"
                 ]
               }
             ]
@@ -1041,50 +986,36 @@
           "class": 10,
           "subject": "Science",
           "year": "2026",
-          "verification_status": "partially_verified",
-          "source_note": "Chapter structure and syllabus units enriched from NCERT/CBSE Class 10 Mathematics and Science official textbook/syllabus references; topic packs are app-ready syllabus summaries for ORIN AI features.",
-          "sources": [
-            {
-              "name": "NCERT Textbooks",
-              "url": "https://ncert.nic.in/textbook.php",
-              "type": "official_textbook_index"
-            },
-            {
-              "name": "CBSE Academic Curriculum",
-              "url": "https://cbseacademic.nic.in/curriculum.html",
-              "type": "official_curriculum"
-            }
-          ]
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
             "chapter_no": 1,
             "chapter_name": "Chemical Reactions And Equations",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Chemical Reactions",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Reactants and products",
-                  "Word and skeletal equations",
-                  "Balanced chemical equations"
+                  "Key Concepts In Chemical Reactions And Equations",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Types Of Reactions",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Combination",
-                  "Decomposition",
-                  "Displacement and double displacement"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Oxidation And Reduction",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Oxidation",
-                  "Reduction",
-                  "Corrosion and rancidity"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1092,31 +1023,29 @@
           {
             "chapter_no": 2,
             "chapter_name": "Acids Bases And Salts",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Acids And Bases",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Indicators",
-                  "Chemical properties",
-                  "pH scale"
+                  "Key Concepts In Acids Bases And Salts",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Salts",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Preparation and uses",
-                  "Common salt",
-                  "Bleaching powder, baking soda and washing soda"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Water Of Crystallisation",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Hydrated salts",
-                  "Plaster of Paris",
-                  "Gypsum"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1124,31 +1053,29 @@
           {
             "chapter_no": 3,
             "chapter_name": "Metals And Non-Metals",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Properties",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Physical properties",
-                  "Chemical properties",
-                  "Reaction with oxygen, water and acids"
+                  "Key Concepts In Metals And Non-Metals",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Reactivity Series",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Displacement reactions",
-                  "Extraction basics",
-                  "Reduction of metal oxides"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Corrosion",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Prevention",
-                  "Alloys",
-                  "Uses of metals"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1156,31 +1083,29 @@
           {
             "chapter_no": 4,
             "chapter_name": "Carbon And Its Compounds",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Covalent Bonding",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Tetravalency",
-                  "Catenation",
-                  "Single, double and triple bonds"
+                  "Key Concepts In Carbon And Its Compounds",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Carbon Compounds",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Saturated and unsaturated compounds",
-                  "Chains, branches and rings",
-                  "Functional groups"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Chemical Properties",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Combustion",
-                  "Oxidation",
-                  "Addition and substitution reactions"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1188,31 +1113,29 @@
           {
             "chapter_no": 5,
             "chapter_name": "Life Processes",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Nutrition",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Autotrophic nutrition",
-                  "Heterotrophic nutrition",
-                  "Human digestion"
+                  "Key Concepts In Life Processes",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Respiration And Transport",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Aerobic and anaerobic respiration",
-                  "Human respiratory system",
-                  "Transport in plants and humans"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Excretion",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Human excretory system",
-                  "Nephron",
-                  "Excretion in plants"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1220,31 +1143,29 @@
           {
             "chapter_no": 6,
             "chapter_name": "Control And Coordination",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Nervous System",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Neuron",
-                  "Reflex action",
-                  "Human brain"
+                  "Key Concepts In Control And Coordination",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Plant Coordination",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Tropisms",
-                  "Plant hormones",
-                  "Movement in plants"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Hormones In Animals",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Endocrine glands",
-                  "Feedback mechanism",
-                  "Adrenaline and thyroxine"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1252,31 +1173,29 @@
           {
             "chapter_no": 7,
             "chapter_name": "How Do Organisms Reproduce",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Asexual Reproduction",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Fission",
-                  "Budding",
-                  "Fragmentation and regeneration"
+                  "Key Concepts In How Do Organisms Reproduce",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Sexual Reproduction",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Flower reproduction",
-                  "Human reproductive systems",
-                  "Fertilisation"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Reproductive Health",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Puberty",
-                  "Contraception",
-                  "STIs and awareness"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1284,31 +1203,29 @@
           {
             "chapter_no": 8,
             "chapter_name": "Heredity",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Inheritance",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Traits",
-                  "Mendel's experiments",
-                  "Dominant and recessive traits"
+                  "Key Concepts In Heredity",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Sex Determination",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Chromosomes",
-                  "Human sex determination",
-                  "Inherited variations"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Evolution Basics",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Acquired and inherited traits",
-                  "Speciation idea",
-                  "Tracing evolutionary relations"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1316,31 +1233,29 @@
           {
             "chapter_no": 9,
             "chapter_name": "Light Reflection And Refraction",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Reflection",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Spherical mirrors",
-                  "Image formation",
-                  "Mirror formula and magnification"
+                  "Key Concepts In Light Reflection And Refraction",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Refraction",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Refraction through glass slab",
-                  "Spherical lenses",
-                  "Lens formula and power"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Ray Diagrams",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Concave mirror",
-                  "Convex lens",
-                  "Sign convention"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1348,23 +1263,29 @@
           {
             "chapter_no": 10,
             "chapter_name": "The Human Eye And The Colourful World",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Human Eye",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Structure of eye",
-                  "Accommodation",
-                  "Defects of vision and correction"
+                  "Key Concepts In The Human Eye And The Colourful World",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Light Phenomena",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Dispersion",
-                  "Atmospheric refraction",
-                  "Scattering of light"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
+                ]
+              },
+              {
+                "topic_name": "Applications",
+                "subtopics": [
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1372,31 +1293,29 @@
           {
             "chapter_no": 11,
             "chapter_name": "Electricity",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Current And Potential Difference",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Electric current",
-                  "Potential difference",
-                  "Circuit symbols"
+                  "Key Concepts In Electricity",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Ohm's Law",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Resistance",
-                  "V-I graph",
-                  "Factors affecting resistance"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Heating Effect",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Joule's law",
-                  "Electric power",
-                  "Domestic electricity calculations"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1404,31 +1323,29 @@
           {
             "chapter_no": 12,
             "chapter_name": "Magnetic Effects Of Electric Current",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Magnetic Field",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Field lines",
-                  "Right-hand thumb rule",
-                  "Field due to current"
+                  "Key Concepts In Magnetic Effects Of Electric Current",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Force And Induction",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Force on current-carrying conductor",
-                  "Fleming's rules",
-                  "Electromagnetic induction"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Electric Motor And Generator",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Motor principle",
-                  "Generator principle",
-                  "Domestic circuits"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1436,23 +1353,29 @@
           {
             "chapter_no": 13,
             "chapter_name": "Our Environment",
-            "unit": "Environment",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Ecosystem",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Food chains",
-                  "Food webs",
-                  "Trophic levels"
+                  "Key Concepts In Our Environment",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Environmental Problems",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Ozone depletion",
-                  "Waste management",
-                  "Biodegradable and non-biodegradable substances"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
+                ]
+              },
+              {
+                "topic_name": "Applications",
+                "subtopics": [
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -1464,7 +1387,9 @@
           "board": "CBSE",
           "class": 10,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -2106,7 +2031,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -2296,7 +2223,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -2486,7 +2415,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -2676,7 +2607,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -3106,7 +3039,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -3926,7 +3861,9 @@
           "board": "CBSE",
           "class": 4,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -4238,7 +4175,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -4428,7 +4367,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -4618,7 +4559,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -4808,7 +4751,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -5238,7 +5183,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -5908,7 +5855,9 @@
           "board": "CBSE",
           "class": 5,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -6220,7 +6169,9 @@
           "board": "CBSE",
           "class": 6,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -6410,7 +6361,9 @@
           "board": "CBSE",
           "class": 6,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -6600,7 +6553,9 @@
           "board": "CBSE",
           "class": 6,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -6790,7 +6745,10 @@
           "board": "CBSE",
           "class": 6,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "BYJU'S",
+          "source_url": "https://byjus.com/cbse/class-6-maths-syllabus/",
+          "source_type": "secondary_html"
         },
         "chapters": [
           {
@@ -7576,7 +7534,9 @@
           "board": "CBSE",
           "class": 6,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -7946,7 +7906,9 @@
           "board": "CBSE",
           "class": 6,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -8318,7 +8280,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -8508,7 +8472,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -8698,7 +8664,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -8888,7 +8856,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -9288,7 +9258,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -9688,7 +9660,9 @@
           "board": "CBSE",
           "class": 7,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -10270,7 +10244,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -10460,7 +10436,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -10650,7 +10628,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -10840,7 +10820,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -11243,7 +11225,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -11643,7 +11627,9 @@
           "board": "CBSE",
           "class": 8,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -12255,7 +12241,9 @@
           "board": "CBSE",
           "class": 9,
           "subject": "Artificial Intelligence",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -12445,7 +12433,9 @@
           "board": "CBSE",
           "class": 9,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -12635,7 +12625,9 @@
           "board": "CBSE",
           "class": 9,
           "subject": "Hindi",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -12826,50 +12818,36 @@
           "class": 9,
           "subject": "Mathematics",
           "year": "2026",
-          "verification_status": "partially_verified",
-          "source_note": "Chapter structure and syllabus units enriched from NCERT/CBSE Class 9 Mathematics and Science official textbook/syllabus references; topic packs are app-ready syllabus summaries for ORIN AI features.",
-          "sources": [
-            {
-              "name": "NCERT Textbooks",
-              "url": "https://ncert.nic.in/textbook.php",
-              "type": "official_textbook_index"
-            },
-            {
-              "name": "CBSE Academic Curriculum",
-              "url": "https://cbseacademic.nic.in/curriculum.html",
-              "type": "official_curriculum"
-            }
-          ]
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
             "chapter_no": 1,
             "chapter_name": "Number Systems",
-            "unit": "Number Systems",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Real Numbers",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Natural, whole, integer and rational numbers",
-                  "Irrational numbers",
-                  "Representation on number line"
+                  "Meaning And Purpose Of Number Systems",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Decimal Expansion",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Terminating decimals",
-                  "Non-terminating recurring decimals",
-                  "Non-terminating non-recurring decimals"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Laws Of Exponents",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Exponents for real numbers",
-                  "Rationalising denominators",
-                  "Simplifying expressions"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -12877,31 +12855,29 @@
           {
             "chapter_no": 2,
             "chapter_name": "Polynomials",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Polynomial Basics",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Terms, coefficients and degree",
-                  "Linear, quadratic and cubic polynomials",
-                  "Value of a polynomial"
+                  "Meaning And Purpose Of Polynomials",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Zeros And Remainder",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Zeros of a polynomial",
-                  "Remainder theorem",
-                  "Factor theorem"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Algebraic Identities",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Standard identities",
-                  "Factorisation using identities",
-                  "Applications in simplification"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -12909,31 +12885,29 @@
           {
             "chapter_no": 3,
             "chapter_name": "Coordinate Geometry",
-            "unit": "Coordinate Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
                 "topic_name": "Cartesian Plane",
                 "subtopics": [
-                  "Coordinate axes",
+                  "Axes",
                   "Quadrants",
-                  "Origin and ordered pairs"
+                  "Plotting Points"
                 ]
               },
               {
-                "topic_name": "Plotting Points",
+                "topic_name": "Distance And Section",
                 "subtopics": [
-                  "Coordinates of a point",
-                  "Signs in quadrants",
-                  "Interpreting positions"
+                  "Distance Formula",
+                  "Section Formula",
+                  "Midpoint Formula"
                 ]
               },
               {
-                "topic_name": "Graph Reading",
+                "topic_name": "Area And Applications",
                 "subtopics": [
-                  "Location from graph",
-                  "Simple geometric patterns",
-                  "Coordinate-based reasoning"
+                  "Area Of Triangle",
+                  "Collinearity",
+                  "Coordinate Geometry Word Problems"
                 ]
               }
             ]
@@ -12941,63 +12915,61 @@
           {
             "chapter_no": 4,
             "chapter_name": "Linear Equations In Two Variables",
-            "unit": "Algebra",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Equation Form",
+                "topic_name": "Linear Equation Form",
                 "subtopics": [
-                  "ax + by + c = 0",
-                  "Solution of a linear equation",
-                  "Many solutions idea"
+                  "Ax + By + C = 0 Form",
+                  "Solution As An Ordered Pair",
+                  "Graph Of A Linear Equation"
                 ]
               },
               {
-                "topic_name": "Graph Of Linear Equations",
+                "topic_name": "Solving Pair Of Equations",
                 "subtopics": [
-                  "Table of values",
-                  "Plotting graph",
-                  "Line as solution set"
+                  "Graphical Method",
+                  "Substitution Method",
+                  "Elimination Method",
+                  "Cross Multiplication Method"
                 ]
               },
               {
                 "topic_name": "Applications",
                 "subtopics": [
-                  "Word problems",
-                  "Cost and quantity examples",
-                  "Interpreting graph in context"
+                  "Number Problems",
+                  "Age Problems",
+                  "Speed Distance Time Problems",
+                  "Money And Mixture Problems"
                 ]
               }
             ]
           },
           {
             "chapter_no": 5,
-            "chapter_name": "Introduction To Euclid's Geometry",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
+            "chapter_name": "Introduction To Euclid'S Geometry",
             "topics": [
               {
-                "topic_name": "Geometry Foundations",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Definitions",
-                  "Axioms and postulates",
-                  "Theorems and proof idea"
+                  "Meaning And Purpose Of Introduction To Euclid'S Geometry",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Euclid's Postulates",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Point, line and plane ideas",
-                  "Equal things and wholes",
-                  "Logical reasoning in geometry"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Modern Geometry Link",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Undefined terms",
-                  "Consistency of statements",
-                  "Using assumptions carefully"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13005,31 +12977,29 @@
           {
             "chapter_no": 6,
             "chapter_name": "Lines And Angles",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Angle Pairs",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Complementary and supplementary angles",
-                  "Adjacent and vertically opposite angles",
-                  "Linear pair"
+                  "Meaning And Purpose Of Lines And Angles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Parallel Lines",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Transversal",
-                  "Corresponding and alternate interior angles",
-                  "Co-interior angles"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Triangle Angle Sum",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Angle sum property",
-                  "Exterior angle property",
-                  "Using angle relations in problems"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13037,31 +13007,29 @@
           {
             "chapter_no": 7,
             "chapter_name": "Triangles",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Congruence Of Triangles",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "SSS, SAS, ASA and RHS criteria",
-                  "Corresponding parts",
-                  "Using congruence in proof"
+                  "Meaning And Purpose Of Triangles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Triangle Properties",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Isosceles triangle properties",
-                  "Median and altitude basics",
-                  "Equal sides and angles"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Inequalities In Triangles",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Side-angle relation",
-                  "Triangle inequality",
-                  "Problem solving"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13069,31 +13037,29 @@
           {
             "chapter_no": 8,
             "chapter_name": "Quadrilaterals",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Quadrilateral Basics",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Angle sum property",
-                  "Types of quadrilaterals",
-                  "Diagonals and sides"
+                  "Meaning And Purpose Of Quadrilaterals",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Parallelogram Properties",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Opposite sides and angles",
-                  "Diagonals bisect each other",
-                  "Tests for parallelogram"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Midpoint Theorem",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Midpoint theorem",
-                  "Converse",
-                  "Applications in triangle and quadrilateral problems"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13101,63 +13067,59 @@
           {
             "chapter_no": 9,
             "chapter_name": "Circles",
-            "unit": "Geometry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Circle Terms",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Radius, chord, diameter and arc",
-                  "Sector and segment",
-                  "Congruent circles and arcs"
+                  "Meaning And Purpose Of Circles",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Chords And Angles",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Equal chords",
-                  "Perpendicular from centre",
-                  "Angles subtended by chords"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Cyclic Quadrilaterals",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Opposite angles property",
-                  "Angles in same segment",
-                  "Applications"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
           },
           {
             "chapter_no": 10,
-            "chapter_name": "Heron's Formula",
-            "unit": "Mensuration",
-            "verification_status": "source_backed",
+            "chapter_name": "Heron'S Formula",
             "topics": [
               {
-                "topic_name": "Area Of Triangle",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Semi-perimeter",
-                  "Heron's formula",
-                  "Using side lengths"
+                  "Meaning And Purpose Of Heron'S Formula",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Area of quadrilaterals by splitting",
-                  "Field and plot problems",
-                  "Unit conversion"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Problem Accuracy",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Choosing formula",
-                  "Checking triangle validity",
-                  "Approximation and square roots"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13165,31 +13127,29 @@
           {
             "chapter_no": 11,
             "chapter_name": "Surface Areas And Volumes",
-            "unit": "Mensuration",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Surface Area",
+                "topic_name": "Concepts And Vocabulary",
                 "subtopics": [
-                  "Cube and cuboid",
-                  "Cylinder",
-                  "Cone and sphere"
+                  "Meaning And Purpose Of Surface Areas And Volumes",
+                  "Important Terms, Symbols, And Notation",
+                  "Properties, Rules, And Standard Forms"
                 ]
               },
               {
-                "topic_name": "Volume",
+                "topic_name": "Methods And Problem Solving",
                 "subtopics": [
-                  "Volume of cuboid and cube",
-                  "Volume of cylinder and cone",
-                  "Volume of sphere"
+                  "Worked Examples From Simple To Complex",
+                  "Mental Maths And Estimation Where Applicable",
+                  "Step-By-Step Written Solution Methods"
                 ]
               },
               {
-                "topic_name": "Composite Solids",
+                "topic_name": "Applications And Practice",
                 "subtopics": [
-                  "Combined shapes",
-                  "Hollow objects",
-                  "Practical measurement problems"
+                  "Daily-Life Word Problems",
+                  "Diagram, Table, Graph, Or Construction Based Questions",
+                  "Mixed Practice And Revision Problems"
                 ]
               }
             ]
@@ -13197,31 +13157,30 @@
           {
             "chapter_no": 12,
             "chapter_name": "Statistics",
-            "unit": "Statistics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Data Handling",
+                "topic_name": "Data Organization",
                 "subtopics": [
-                  "Primary and secondary data",
-                  "Frequency distribution",
-                  "Class intervals"
+                  "Raw Data",
+                  "Frequency Distribution",
+                  "Grouped Data"
                 ]
               },
               {
-                "topic_name": "Graphical Representation",
-                "subtopics": [
-                  "Bar graph",
-                  "Histogram",
-                  "Frequency polygon"
-                ]
-              },
-              {
-                "topic_name": "Central Tendency",
+                "topic_name": "Measures Of Central Tendency",
                 "subtopics": [
                   "Mean",
                   "Median",
                   "Mode"
+                ]
+              },
+              {
+                "topic_name": "Representation And Interpretation",
+                "subtopics": [
+                  "Bar Graphs",
+                  "Histograms",
+                  "Ogives",
+                  "Interpreting Results"
                 ]
               }
             ]
@@ -13234,50 +13193,36 @@
           "class": 9,
           "subject": "Science",
           "year": "2026",
-          "verification_status": "partially_verified",
-          "source_note": "Chapter structure and syllabus units enriched from NCERT/CBSE Class 9 Mathematics and Science official textbook/syllabus references; topic packs are app-ready syllabus summaries for ORIN AI features.",
-          "sources": [
-            {
-              "name": "NCERT Textbooks",
-              "url": "https://ncert.nic.in/textbook.php",
-              "type": "official_textbook_index"
-            },
-            {
-              "name": "CBSE Academic Curriculum",
-              "url": "https://cbseacademic.nic.in/curriculum.html",
-              "type": "official_curriculum"
-            }
-          ]
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
             "chapter_no": 1,
             "chapter_name": "Matter In Our Surroundings",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Nature Of Matter",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Particles of matter",
-                  "Space between particles",
-                  "Attraction between particles"
+                  "Key Concepts In Matter In Our Surroundings",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "States Of Matter",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Solid, liquid and gas",
-                  "Change of state",
-                  "Melting, boiling and sublimation"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Evaporation",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Factors affecting evaporation",
-                  "Cooling by evaporation",
-                  "Daily-life examples"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13285,31 +13230,29 @@
           {
             "chapter_no": 2,
             "chapter_name": "Is Matter Around Us Pure",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Mixtures And Pure Substances",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Elements and compounds",
-                  "Homogeneous and heterogeneous mixtures",
-                  "Solutions, suspensions and colloids"
+                  "Key Concepts In Is Matter Around Us Pure",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Separation Methods",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Evaporation and crystallisation",
-                  "Centrifugation and chromatography",
-                  "Distillation and separating funnel"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Physical And Chemical Changes",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Identifying changes",
-                  "Properties of mixtures",
-                  "Properties of compounds"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13317,31 +13260,29 @@
           {
             "chapter_no": 3,
             "chapter_name": "Atoms And Molecules",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Chemical Combination",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Law of conservation of mass",
-                  "Law of constant proportions",
-                  "Chemical formula basics"
+                  "Key Concepts In Atoms And Molecules",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Atoms And Molecules",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Atomic mass",
-                  "Molecular mass",
-                  "Ions and valency"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Mole Concept Basics",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Mole idea",
-                  "Molar mass",
-                  "Simple numerical practice"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13349,31 +13290,29 @@
           {
             "chapter_no": 4,
             "chapter_name": "Structure Of The Atom",
-            "unit": "Chemistry",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Charged Particles",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Electron, proton and neutron",
-                  "Discovery background",
-                  "Charge and mass comparison"
+                  "Key Concepts In Structure Of The Atom",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Atomic Models",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Thomson model",
-                  "Rutherford model",
-                  "Bohr model"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Atomic Number And Mass",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Atomic number",
-                  "Mass number",
-                  "Isotopes and isobars"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13381,31 +13320,29 @@
           {
             "chapter_no": 5,
             "chapter_name": "The Fundamental Unit Of Life",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Cell Basics",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Cell theory",
-                  "Prokaryotic and eukaryotic cells",
-                  "Cell shape and size"
+                  "Key Concepts In The Fundamental Unit Of Life",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Cell Organelles",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Nucleus",
-                  "Mitochondria, plastids and ribosomes",
-                  "Endoplasmic reticulum and Golgi apparatus"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Cell Membrane And Wall",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Plasma membrane",
-                  "Osmosis and diffusion",
-                  "Plant cell wall"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13413,31 +13350,29 @@
           {
             "chapter_no": 6,
             "chapter_name": "Tissues",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Plant Tissues",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Meristematic tissue",
-                  "Permanent tissue",
-                  "Xylem and phloem"
+                  "Key Concepts In Tissues",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Animal Tissues",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Epithelial tissue",
-                  "Connective tissue",
-                  "Muscular and nervous tissue"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Structure And Function",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Specialisation of tissues",
-                  "Location and role",
-                  "Microscopic identification"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13445,31 +13380,29 @@
           {
             "chapter_no": 7,
             "chapter_name": "Motion",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Motion Quantities",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Distance and displacement",
-                  "Speed and velocity",
-                  "Acceleration"
+                  "Key Concepts In Motion",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Graphical Representation",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Distance-time graph",
-                  "Velocity-time graph",
-                  "Interpreting slope and area"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Equations Of Motion",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Uniform acceleration",
-                  "Three equations of motion",
-                  "Simple numerical problems"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13477,31 +13410,29 @@
           {
             "chapter_no": 8,
             "chapter_name": "Force And Laws Of Motion",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Force And Inertia",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Balanced and unbalanced forces",
-                  "Inertia",
-                  "First law of motion"
+                  "Key Concepts In Force And Laws Of Motion",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Newton's Laws",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Second law and momentum",
-                  "Third law action-reaction",
-                  "Applications"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Conservation Of Momentum",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Momentum",
-                  "Impulse idea",
-                  "Collision examples"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13509,31 +13440,29 @@
           {
             "chapter_no": 9,
             "chapter_name": "Gravitation",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Universal Gravitation",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Universal law",
-                  "Gravitational constant",
-                  "Acceleration due to gravity"
+                  "Key Concepts In Gravitation",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Free Fall And Weight",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Mass and weight",
-                  "Free fall equations",
-                  "Weight on moon"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Thrust, Pressure And Buoyancy",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Pressure in fluids",
-                  "Archimedes' principle",
-                  "Relative density"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13541,31 +13470,29 @@
           {
             "chapter_no": 10,
             "chapter_name": "Work And Energy",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Work",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Positive, negative and zero work",
-                  "Work formula",
-                  "Units of work"
+                  "Key Concepts In Work And Energy",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Energy",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Kinetic energy",
-                  "Potential energy",
-                  "Conservation of energy"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Power",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Power formula",
-                  "Units",
-                  "Simple numerical problems"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13573,31 +13500,29 @@
           {
             "chapter_no": 11,
             "chapter_name": "Sound",
-            "unit": "Physics",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Production And Propagation",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Vibrations",
-                  "Medium for sound",
-                  "Longitudinal waves"
+                  "Key Concepts In Sound",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Characteristics Of Sound",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Frequency and pitch",
-                  "Amplitude and loudness",
-                  "Speed of sound"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Reflection And Hearing",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Echo",
-                  "Reverberation",
-                  "Human ear"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13605,31 +13530,29 @@
           {
             "chapter_no": 12,
             "chapter_name": "Improvement In Food Resources",
-            "unit": "Biology",
-            "verification_status": "source_backed",
             "topics": [
               {
-                "topic_name": "Crop Improvement",
+                "topic_name": "Core Ideas",
                 "subtopics": [
-                  "Variety improvement",
-                  "Crop production management",
-                  "Nutrient management"
+                  "Key Concepts In Improvement In Food Resources",
+                  "Important Definitions And Scientific Terms",
+                  "Cause-Effect Relationships And Classification"
                 ]
               },
               {
-                "topic_name": "Crop Protection",
+                "topic_name": "Observation And Experiments",
                 "subtopics": [
-                  "Weeds, pests and diseases",
-                  "Storage of grains",
-                  "Preventive methods"
+                  "Activities, Observations, And Inference",
+                  "Diagrams, Tables, And Data Recording",
+                  "Precautions And Scientific Reasoning"
                 ]
               },
               {
-                "topic_name": "Animal Husbandry",
+                "topic_name": "Applications",
                 "subtopics": [
-                  "Cattle farming",
-                  "Poultry and fish production",
-                  "Bee-keeping"
+                  "Examples From Daily Life And Environment",
+                  "Health, Technology, Or Society Connections",
+                  "Practice Questions And Concept Checks"
                 ]
               }
             ]
@@ -13641,7 +13564,9 @@
           "board": "CBSE",
           "class": 9,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -14195,7 +14120,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -14505,7 +14432,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -14875,7 +14804,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -15155,7 +15086,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -15345,7 +15278,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -15963,7 +15898,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -16303,7 +16240,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -16493,7 +16432,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -17583,7 +17524,9 @@
           "board": "ICSE",
           "class": 10,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -18315,7 +18258,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -18505,7 +18450,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -18695,7 +18642,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -18885,7 +18834,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -19075,7 +19026,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -19505,7 +19458,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -19695,7 +19650,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -19885,7 +19842,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -20705,7 +20664,9 @@
           "board": "ICSE",
           "class": 4,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -21017,7 +20978,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -21207,7 +21170,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -21397,7 +21362,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -21587,7 +21554,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -21777,7 +21746,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -22207,7 +22178,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -22397,7 +22370,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -22587,7 +22562,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -23257,7 +23234,9 @@
           "board": "ICSE",
           "class": 5,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -23569,7 +23548,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -23759,7 +23740,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -23949,7 +23932,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -24139,7 +24124,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -24329,7 +24316,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -24639,7 +24628,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -24829,7 +24820,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -25019,7 +25012,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -25389,7 +25384,9 @@
           "board": "ICSE",
           "class": 6,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -25761,7 +25758,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -25981,7 +25980,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -26171,7 +26172,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -26361,7 +26364,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -26551,7 +26556,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -26951,7 +26958,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -27141,7 +27150,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -27331,7 +27342,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -27731,7 +27744,9 @@
           "board": "ICSE",
           "class": 7,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -28313,7 +28328,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -28503,7 +28520,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -28723,7 +28742,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -28913,7 +28934,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -29103,7 +29126,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -29506,7 +29531,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -29696,7 +29723,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -29886,7 +29915,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -30286,7 +30317,9 @@
           "board": "ICSE",
           "class": 8,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -30898,7 +30931,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Biology",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -31118,7 +31153,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Chemistry",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -31338,7 +31375,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Computer Applications",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -31528,7 +31567,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -31718,7 +31759,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -32279,7 +32322,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Physics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -32499,7 +32544,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Regional Language",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -32689,7 +32736,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -33059,7 +33108,9 @@
           "board": "ICSE",
           "class": 9,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -33613,7 +33664,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -33923,7 +33976,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -34113,7 +34168,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -34303,7 +34360,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -34716,7 +34775,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -35086,7 +35147,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -35696,7 +35759,9 @@
           "board": "SSC",
           "class": 10,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -36396,190 +36461,15 @@
           "board": "SSC",
           "class": 10,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/telugu.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "pending_ocr",
+          "verification_status": "pending_ocr",
+          "source_note": "Manual PDF detected. Topics must come from this PDF after readable extraction/OCR.",
+          "extraction_message": "Telugu PDF text is font-encoded/mojibake; OCR is required."
         },
-        "chapters": [
-          {
-            "chapter_no": 1,
-            "chapter_name": "Telugu Sahityam Gadya",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Telugu Sahityam Gadya",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 2,
-            "chapter_name": "Telugu Sahityam Padya",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Telugu Sahityam Padya",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 3,
-            "chapter_name": "Upavachakam",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Upavachakam",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 4,
-            "chapter_name": "Vyakarana Mariyu Sampadana",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Vyakarana Mariyu Sampadana",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 5,
-            "chapter_name": "Lekhana Kaushalalu",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Lekhana Kaushalalu",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 6,
-            "chapter_name": "Project Mariyu Moukhika Pariksha",
-            "topics": [
-              {
-                "topic_name": "Reading And Appreciation",
-                "subtopics": [
-                  "Theme, Setting, And Main Ideas In Project Mariyu Moukhika Pariksha",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
-                ]
-              },
-              {
-                "topic_name": "Language Study",
-                "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
-                ]
-              },
-              {
-                "topic_name": "Writing And Expression",
-                "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
-                ]
-              }
-            ]
-          }
-        ]
+        "chapters": []
       }
     },
     "class_4": {
@@ -36588,7 +36478,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -36778,7 +36670,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -36968,7 +36862,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -37158,7 +37054,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -37588,7 +37486,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -37838,7 +37738,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -38658,7 +38560,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -38968,7 +38872,9 @@
           "board": "SSC",
           "class": 4,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -39160,7 +39066,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -39350,7 +39258,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -39540,7 +39450,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -39730,7 +39642,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -40160,7 +40074,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -40410,7 +40326,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -41080,7 +40998,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -41390,7 +41310,9 @@
           "board": "SSC",
           "class": 5,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -41582,7 +41504,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -41772,7 +41696,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -41962,7 +41888,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -42152,7 +42080,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -42462,7 +42392,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -42712,7 +42644,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -43082,7 +43016,9 @@
           "board": "SSC",
           "class": 6,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -43453,216 +43389,186 @@
           "class": 6,
           "subject": "Telugu",
           "year": "2026",
-          "verification_status": "partially_verified",
-          "source_note": "First six lessons enriched from provided Telangana SSC Class 6 Telugu textbook index screenshot; remaining lessons still need official PDF verification."
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
             "chapter_no": 1,
-            "chapter_name": "అమ్మఒడి",
-            "genre": "గేయం",
-            "theme": "తల్లిప్రేమ",
-            "month": "జూన్",
-            "pages": "1-8",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Vachakam Pathalu",
             "topics": [
               {
-                "topic_name": "పాఠ్య అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "అమ్మఒడి పాఠం భావం",
-                  "తల్లిప్రేమ మరియు కుటుంబ అనుబంధం",
-                  "ముఖ్య పదాలు మరియు భావవ్యక్తీకరణ"
+                  "Theme, Setting, And Main Ideas In Vachakam Pathalu",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "గేయ పఠనం",
-                  "పదార్థాలు మరియు వాక్య ప్రయోగం",
-                  "చిన్న ప్రశ్నలు మరియు దీర్ఘ సమాధానాలు"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "పాఠ సారాంశం రాయడం",
-                  "తల్లిప్రేమపై మాటలాడడం",
-                  "సృజనాత్మక రచన"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
           },
           {
             "chapter_no": 2,
-            "chapter_name": "తృప్తి",
-            "genre": "కథానిక",
-            "theme": "మానవ విలువలు",
-            "month": "జూలై",
-            "pages": "9-18",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Padyamulu",
             "topics": [
               {
-                "topic_name": "కథ అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "తృప్తి కథ ప్రధాన భావం",
-                  "పాత్రల స్వభావం",
-                  "మానవ విలువల గుర్తింపు"
+                  "Theme, Setting, And Main Ideas In Padyamulu",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "కథానిక లక్షణాలు",
-                  "పదజాలం మరియు సందర్భార్థం",
-                  "వాక్య నిర్మాణం"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "కథ సారాంశం",
-                  "నీతి / సందేశం గుర్తించడం",
-                  "ప్రశ్నోత్తరాలు"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
           },
           {
             "chapter_no": 3,
-            "chapter_name": "మాట్లాడే నాగేశ్వరము",
-            "genre": "గేయం",
-            "theme": "దేశభక్తి",
-            "month": "ఆగస్టు",
-            "pages": "19-26",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Vyakarana Prayogam",
             "topics": [
               {
-                "topic_name": "గేయ అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "మాట్లాడే నాగేశ్వరము పాఠం భావం",
-                  "దేశభక్తి భావాలు",
-                  "కవి సందేశం"
+                  "Theme, Setting, And Main Ideas In Vyakarana Prayogam",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "గేయ పఠనం మరియు లయ",
-                  "ముఖ్య పదాలు",
-                  "భావవ్యక్తీకరణ"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "దేశభక్తిపై చర్చ",
-                  "పాఠ సందేశం రాయడం",
-                  "చిన్న సమాధానాలు"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
           },
           {
             "chapter_no": 4,
-            "chapter_name": "సముద్రమంత మనసు",
-            "genre": "కథ",
-            "theme": "మానవతా విలువలు",
-            "month": "ఆగస్టు",
-            "pages": "27-36",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Pada Kosam",
             "topics": [
               {
-                "topic_name": "కథ అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "సముద్రమంత మనసు కథ భావం",
-                  "మానవతా విలువలు",
-                  "పాత్రలు మరియు సంఘటనలు"
+                  "Theme, Setting, And Main Ideas In Pada Kosam",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "కథనం",
-                  "పదజాలం",
-                  "సందర్భానుసార భావం"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "కథ సారాంశం",
-                  "విలువలపై చర్చ",
-                  "సృజనాత్మక రచన"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
           },
           {
             "chapter_no": 5,
-            "chapter_name": "మన మహనీయులు",
-            "genre": "వ్యాసం",
-            "theme": "దేశభక్తి",
-            "month": "సెప్టెంబర్",
-            "pages": "37-42",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Anuchheda Rachana",
             "topics": [
               {
-                "topic_name": "వ్యాస అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "మన మహనీయులు పాఠం భావం",
-                  "మహనీయుల జీవిత విలువలు",
-                  "దేశభక్తి మరియు సేవాభావం"
+                  "Theme, Setting, And Main Ideas In Anuchheda Rachana",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "వ్యాస నిర్మాణం",
-                  "ముఖ్య పదాలు",
-                  "ప్రశ్నోత్తరాలు"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "మహనీయులపై చిన్న వ్యాసం",
-                  "పాఠ సారాంశం",
-                  "చర్చా కార్యక్రమం"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
           },
           {
             "chapter_no": 6,
-            "chapter_name": "సత్కారాలు",
-            "genre": "శతక పద్యాలు",
-            "theme": "నీతివిలువలు",
-            "month": "సెప్టెంబర్",
-            "pages": "43-52",
-            "verification_status": "verified_from_textbook_index_screenshot",
+            "chapter_name": "Pradarshana Karyakramalu",
             "topics": [
               {
-                "topic_name": "పద్య అవగాహన",
+                "topic_name": "Reading And Appreciation",
                 "subtopics": [
-                  "సత్కారాలు పాఠం భావం",
-                  "శతక పద్యాల లక్షణాలు",
-                  "నీతివిలువల గుర్తింపు"
+                  "Theme, Setting, And Main Ideas In Pradarshana Karyakramalu",
+                  "Characters, Speaker, Narrator, Or Point Of View",
+                  "Vocabulary, Idioms, And Contextual Meaning"
                 ]
               },
               {
-                "topic_name": "భాషా అంశాలు",
+                "topic_name": "Language Study",
                 "subtopics": [
-                  "పద్య పఠనం",
-                  "పదార్థాలు",
-                  "భావం మరియు సందేశం"
+                  "Grammar And Usage From The Lesson",
+                  "Sentence Patterns, Punctuation, And Word Forms",
+                  "Figures Of Speech Or Literary Devices Where Applicable"
                 ]
               },
               {
-                "topic_name": "అభ్యాసం",
+                "topic_name": "Writing And Expression",
                 "subtopics": [
-                  "పద్య భావం రాయడం",
-                  "నీతివిలువలపై చర్చ",
-                  "కంఠస్థం / పఠనం"
+                  "Short Answers And Long Answers",
+                  "Creative, Descriptive, Or Formal Writing",
+                  "Listening, Speaking, Recitation, Or Presentation Tasks"
                 ]
               }
             ]
@@ -43676,7 +43582,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -43896,7 +43804,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -44086,7 +43996,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -44276,7 +44188,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -44676,7 +44590,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -44926,7 +44842,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -45326,7 +45244,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -45906,7 +45826,9 @@
           "board": "SSC",
           "class": 7,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -46098,7 +46020,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -46288,7 +46212,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -46478,7 +46404,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -46668,7 +46596,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -47071,7 +47001,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -47321,7 +47253,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -47721,7 +47655,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -48331,7 +48267,9 @@
           "board": "SSC",
           "class": 8,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -48523,7 +48461,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Biological Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -48743,7 +48683,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "English",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -48933,7 +48875,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "ICT",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -49123,7 +49067,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Mathematics",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -49496,7 +49442,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Physical Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -49746,7 +49694,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -50116,7 +50066,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Social Science",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {
@@ -50666,7 +50618,9 @@
           "board": "SSC",
           "class": 9,
           "subject": "Telugu",
-          "year": "2026"
+          "year": "2026",
+          "source": "curated_generation",
+          "source_type": "generated_fallback"
         },
         "chapters": [
           {

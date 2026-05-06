@@ -51,7 +51,16 @@ exports.getAcademicSubjectForClass = asyncHandler(async (req, res) => {
     });
   }
   const record = getSubjectRecordForClass(req.params.classNumber, req.params.subject);
-  res.status(200).json({ ...record, available: true });
+  const metadata = record?.subject?.metadata || record?.metadata || {};
+  const status = String(metadata.extraction_status || metadata.verification_status || "").trim().toLowerCase();
+  const isPending = ["pending_ocr", "needs_ocr", "extraction_pending"].includes(status);
+  res.status(200).json({
+    ...record,
+    available: !isPending,
+    message: isPending
+      ? metadata.extraction_message || metadata.source_note || "Academic PDF uploaded, extraction pending. Topics will appear after OCR is completed."
+      : ""
+  });
 });
 
 exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {

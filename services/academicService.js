@@ -2,14 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const ApiError = require("../utils/ApiError");
 
-const DEFAULT_DATASET_DIR = path.resolve(process.cwd(), "../../acadamics/orin-data-pipeline/final_dataset");
+const DEFAULT_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset");
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
 const AGGREGATE_DATASET_PATHS = [
   process.env.ACADEMICS_AGGREGATE_DATASET,
   path.resolve(process.cwd(), "data/academics/orin_academic_dataset.json"),
-  path.resolve(process.cwd(), "../../acadamics/orin-data-pipeline/final_dataset/orin_academic_dataset.json")
+  path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset/orin_academic_dataset.json")
 ].filter(Boolean);
 
 function readJson(filePath) {
@@ -72,6 +72,25 @@ function subjectMatches(slug, record, requestedSubject) {
   return names.some((name) => requestedOptions.has(name));
 }
 
+function recordMetadata(record) {
+  return record?.metadata || record?.subject?.metadata || {};
+}
+
+function isExtractionPending(record) {
+  const metadata = recordMetadata(record);
+  const status = String(metadata.extraction_status || metadata.verification_status || "").trim().toLowerCase();
+  return ["pending_ocr", "needs_ocr", "extraction_pending"].includes(status);
+}
+
+function pendingMessage(record) {
+  const metadata = recordMetadata(record);
+  return (
+    metadata.extraction_message ||
+    metadata.source_note ||
+    "Academic PDF uploaded, extraction pending. Topics will appear after OCR is completed."
+  );
+}
+
 function normalizeBoard(board) {
   return String(board || "").trim().toUpperCase();
 }
@@ -121,6 +140,9 @@ function getSubjects(board, classNumber) {
           key: slug,
           name,
           subject: name,
+          available: !isExtractionPending(record),
+          extractionStatus: recordMetadata(record).extraction_status || "",
+          message: isExtractionPending(record) ? pendingMessage(record) : "",
           verificationStatus: record?.metadata?.verification_status || "unknown",
           chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
         };
@@ -140,6 +162,9 @@ function getSubjects(board, classNumber) {
         key: slug,
         name,
         subject: name,
+        available: !isExtractionPending(record),
+        extractionStatus: recordMetadata(record).extraction_status || "",
+        message: isExtractionPending(record) ? pendingMessage(record) : "",
         verificationStatus: record?.metadata?.verification_status || "unknown",
         chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
       };
@@ -251,6 +276,14 @@ function topicTitle(topic) {
 
 function getTopicsForClassSubject(classNumber, subject) {
   const record = getSubjectRecordForClass(classNumber, subject);
+  if (isExtractionPending(record)) {
+    return {
+      ...record,
+      available: false,
+      message: pendingMessage(record),
+      chapters: []
+    };
+  }
   const chapters = getChaptersFromRecord(record.subject || record);
   return {
     ...record,
@@ -285,6 +318,7 @@ function summarizeAcademicContext(context = {}) {
   if (!classNumber || !subject) return null;
 
   const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
+  if (isExtractionPending(record)) return null;
   const subjectRecord = record.subject || record;
   const chapters = getChaptersFromRecord(subjectRecord);
   const selectedChapter =
