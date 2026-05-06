@@ -6,6 +6,11 @@ const DEFAULT_DATASET_DIR = path.resolve(process.cwd(), "../../acadamics/orin-da
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
+const AGGREGATE_DATASET_PATHS = [
+  process.env.ACADEMICS_AGGREGATE_DATASET,
+  path.resolve(process.cwd(), "data/academics/orin_academic_dataset.json"),
+  path.resolve(process.cwd(), "../../acadamics/orin-data-pipeline/final_dataset/orin_academic_dataset.json")
+].filter(Boolean);
 
 function readJson(filePath) {
   try {
@@ -20,6 +25,16 @@ function readJson(filePath) {
 
 function existsDir(dirPath) {
   return fs.existsSync(dirPath) && fs.statSync(dirPath).isDirectory();
+}
+
+function findAggregateDatasetPath() {
+  return AGGREGATE_DATASET_PATHS.find((filePath) => fs.existsSync(filePath) && fs.statSync(filePath).isFile()) || "";
+}
+
+function readAggregateDataset() {
+  const filePath = findAggregateDatasetPath();
+  if (!filePath) return null;
+  return readJson(filePath);
 }
 
 function titleFromSlug(value) {
@@ -47,6 +62,8 @@ function classDirName(classNumber) {
 }
 
 function getBoards() {
+  const aggregate = readAggregateDataset();
+  if (!existsDir(DATASET_DIR) && aggregate) return Object.keys(aggregate).sort();
   if (!existsDir(DATASET_DIR)) return [];
   return fs
     .readdirSync(DATASET_DIR, { withFileTypes: true })
@@ -57,6 +74,13 @@ function getBoards() {
 
 function getClasses(board) {
   const boardDir = path.join(DATASET_DIR, normalizeBoard(board));
+  const aggregate = readAggregateDataset();
+  if (!existsDir(boardDir) && aggregate?.[normalizeBoard(board)]) {
+    return Object.keys(aggregate[normalizeBoard(board)])
+      .map((classKey) => Number(String(classKey).replace("class_", "")))
+      .filter(Number.isFinite)
+      .sort((a, b) => a - b);
+  }
   if (!existsDir(boardDir)) return [];
   return fs
     .readdirSync(boardDir, { withFileTypes: true })
@@ -67,6 +91,23 @@ function getClasses(board) {
 
 function getSubjects(board, classNumber) {
   const classDir = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber));
+  const aggregate = readAggregateDataset();
+  const aggregateClass = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)];
+  if (!existsDir(classDir) && aggregateClass) {
+    return Object.entries(aggregateClass)
+      .map(([slug, record]) => {
+        const name = record?.metadata?.subject || titleFromSlug(slug);
+        return {
+          slug,
+          key: slug,
+          name,
+          subject: name,
+          verificationStatus: record?.metadata?.verification_status || "unknown",
+          chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
   if (!existsDir(classDir)) return [];
   return fs
     .readdirSync(classDir, { withFileTypes: true })
@@ -74,9 +115,12 @@ function getSubjects(board, classNumber) {
     .map((entry) => {
       const slug = entry.name.replace(/\.json$/, "");
       const record = readJson(path.join(classDir, entry.name));
+      const name = record?.metadata?.subject || titleFromSlug(slug);
       return {
         slug,
-        name: record?.metadata?.subject || titleFromSlug(slug),
+        key: slug,
+        name,
+        subject: name,
         verificationStatus: record?.metadata?.verification_status || "unknown",
         chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
       };
@@ -86,12 +130,24 @@ function getSubjects(board, classNumber) {
 
 function getSubjectRecord(board, classNumber, subject) {
   const filePath = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber), `${subjectSlug(subject)}.json`);
+  if (!fs.existsSync(filePath)) {
+    const aggregate = readAggregateDataset();
+    const record = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)]?.[subjectSlug(subject)];
+    if (record) {
+      return {
+        board: normalizeBoard(board),
+        classNumber: Number(classNumber),
+        subjectKey: subjectSlug(subject),
+        subject: record
+      };
+    }
+  }
   return readJson(filePath);
 }
 
 function getResourceLibrary() {
   return {
-    datasetRoot: DATASET_DIR,
+    datasetRoot: existsDir(DATASET_DIR) ? DATASET_DIR : findAggregateDatasetPath(),
     boards: getBoards().map((board) => ({
       board,
       classes: getClasses(board).map((classNumber) => ({
