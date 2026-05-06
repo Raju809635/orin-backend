@@ -1,0 +1,167 @@
+{
+  "manual_pdf_count": 15,
+  "filters": {
+    "board": "CBSE",
+    "class": 10,
+    "subject": "SCIENCE"
+  },
+  "status_counts": {
+    "text_extracted": 14,
+    "pending_ocr": 1
+  },
+  "subject_counts": {
+    "CBSE/class_10/Science": 15
+  },
+  "pdfs": [
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc101.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "“Facts are not science — as the dictionary is not literature.”\nMartin H. Fischer\n1\nCHAPTER\nChemical Reactions\nand Equations\nConsider the following situations of daily life and think what happens\nwhen –\nn milk is left at room temperature during summers.\nn an iron tawa/pan/nail is left exposed to humid atmosphere.\nn grapes get fermented.\nn food is cooked.\nn food gets digested in our body.\nn we respire.\nIn all the above situations, the nature and the identity of the initial\nsubstance have somewhat "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc102.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "2\nCHAPTER\nAcids, Bases\nand Salts\nYou have learnt in your previous classes that the sour and bitter\ntastes of food are due to acids and bases, respectively, present in them.\nIf someone in the family is suffering from a problem of acidity after\novereating, which of the following would you suggest as a remedy– lemon\njuice, vinegar or baking soda solution?\nn Which property did you think of while choosing the remedy?\nSurely you must have used your knowledge about the ability of\nacids and bases to nul"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc103.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "3\nCHAPTER\nMetals and Non-metals\nIn Class IX you have learnt about various elements. You have seen\nthat elements can be classified as metals or non-metals on the basis of\ntheir properties.\nn Think of some uses of metals and non-metals in your daily life.\nn What properties did you think of while categorising elements\nas metals or non-metals?\nn How are these properties related to the uses of these elements?\nLet us look at some of these properties in detail.\n33333.....11111 PPPPPHHHHHYYYYYSSSSSIIIII"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc104.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "4\nCHAPTER\nCarbon and its\nCompounds\nIn the last Chapter, we came to know many compounds of importance\nto us. In this Chapter we will study about some more interesting\ncompounds and their properties. Also, we shall be learning about carbon,\nan element which is of immense significance to us in both its elemental\nform and in the combined form.\nAAAAAccccctttttiiiiivvvvviiiiitttttyyyyy 44444.....11111 Things made Things made Others\nof metal of glass/clay\nn Make a list of ten things you have used\nor co"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc105.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "5\nCHAPTER\nLife Processes\nHow do we tell the difference between what is alive and what is not\nalive? If we see a dog running, or a cow chewing cud, or a man\nshouting loudly on the street, we know that these are living beings. What\nif the dog or the cow or the man were asleep? We would still think that\nthey were alive, but how did we know that? We see them breathing, and\nwe know that they are alive. What about plants? How do we know that\nthey are alive? We see them green, some of us will say. But "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc106.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "6\nCHAPTER\nControl and\nCoordination\nIn the previous chapter, we looked at life processes involved in the\nmaintenance functions in living organisms. There, we had started with\na notion we all have, that if we see something moving, it is alive. Some of\nthese movements are in fact the result of growth, as in plants. A seed\ngerminates and grows, and we can see that the seedling moves over the\ncourse of a few days, it pushes soil aside and comes out. But if its growth\nwere to be stopped, these movemen"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc107.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "7\nCHAPTER\nHow do Organisms\n?\nReproduce\nBefore we discuss the mechanisms by which organisms reproduce,\nlet us ask a more basic question – why do organisms reproduce?\nAfter all, reproduction is not necessary to maintain the life of an individual\norganism, unlike the essential life processes such as nutrition,\nrespiration, or excretion. On the other hand, if an individual organism is\ngoing to create more individuals, a lot of its energy will be spent in the\nprocess. So why should an individual orga"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc108.pdf",
+      "extractor": "failed: extraction_timeout",
+      "extraction_status": "pending_ocr",
+      "extraction_message": "No readable text extracted from PDF.",
+      "sample": ""
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc109.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "9\nCHAPTER\nLight – Reflection and\nRefraction\nWe see a variety of objects in the world around us. However, we are\nunable to see anything in a dark room. On lighting up the room,\nthings become visible. What makes things visible? During the day, the\nsunlight helps us to see objects. An object reflects light that falls on it.\nThis reflected light, when received by our eyes, enables us to see things.\nWe are able to see through a transparent medium as light is transmitted\nthrough it. There are a number"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc110.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "10\nCHAPTER\nThe Human Eye and\nthe Colourful World\nYou have studied in the previous chapter about refraction of light by\nlenses. You also studied the nature, position and relative size of\nimages formed by lenses. How can these ideas help us in the study of\nthe human eye? The human eye uses light and enables us to see objects\naround us. It has a lens in its structure. What is the function of the lens\nin a human eye? How do the lenses used in spectacles correct defects of\nvision? Let us consider the"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc111.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "11\nCHAPTER\nElectricity\nElectricity has an important place in modern society. It is a controllable\nand convenient form of energy for a variety of uses in homes, schools,\nhospitals, industries and so on. What constitutes electricity? How does\nit flow in an electric circuit? What are the factors that control or regulate\nthe current through an electric circuit? In this Chapter, we shall attempt\nto answer such questions. We shall also discuss the heating effect of\nelectric current and its application"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc112.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "12\nCHAPTER\nMagnetic Effects of\nElectric Current\nIn the previous Chapter on ‘Electricity’ we learnt about the heating\neffects of electric current. What could be the other effects of electric\ncurrent? We know that an electric current-carrying wire behaves like a\nmagnet. Let us perform the following Activity to reinforce it.\nResistor\nAAAAAccccctttttiiiiivvvvviiiiitttttyyyyy 1111122222.....11111\nLong straight\nconductor\nn Take a straight thick copper wire and place it\nbetween the points X and Y in an"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc113.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "13\nCHAPTER\nOur Environment\nWe have heard the word ‘environment’ often being used on the\ntelevision, in newspapers and by people around us. Our elders tell\nus that the ‘environment’ is not what it used to be earlier; others say that\nwe should work in a healthy ‘environment’; and global summits involving\nthe developed and developing countries are regularly held to discuss\n‘environmental’ issues. In this chapter, we shall be studying how various\ncomponents in the environment interact with each othe"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc1an.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "A n s w e r s\nChapter 1\n1. (i) 2. (d) 3. (a)\nChapter 2\n1. (d) 2. (b) 3. (d) 4. (c)\nChapter 3\n1. (d) 2. (c) 3. (a) 4. (c)\nChapter 4\n1. (b) 2. (c) 3. (b)\nChapter 5\n1. (c) 2. (a) 3. (d) 4. (b)\nChapter 6\n1. (d) 2. (b) 3. (d)\nChapter 7\n1. (b) 2. (c) 3. (d)\nChapter 8\n1. (c)\nChapter 9\n1. (d) 2. (d) 3. (b)\n4. (a) 5. (d) 6. (c)\n7. Distance less than 15cm; virtual; Enlarged.\n9. Yes\n10. 16.7 cm from the lens on the other side; 3.3 cm, reduced; real, inverted.\n11. 30 cm\n12. 6.0 cm, behind the mirror; virtua"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Science",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SCIENCE/jesc1ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "SCIENCE\nT C X\nEXTBOOK FOR LASS\nReprint 2026-27\n1064 – S CIENCE\nISBN 81-7450-636-5\nTextbook for Class X\nFirst Edition\nALL RIGHTS RESERVED\nDecember 2006 Agrahayana 1928\nq No part of this publication may be reproduced, stored in a retrieval system or\nReprinted\ntransmitted, in any form or by any means, electronic, mechanical, photocopying,\nNovember 2007, January 2009, recording or otherwise without the prior permission of the publisher.\nDecember 2009, November 2010, q This book is sold subject to th"
+    }
+  ]
+}

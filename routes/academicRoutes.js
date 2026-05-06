@@ -7,14 +7,18 @@ const {
   getAcademicSubject,
   getAcademicSubjectForClass,
   getAcademicTopicsForClassSubject,
-  getAcademicResourceLibrary
+  getAcademicPdfsForClassSubject,
+  getAcademicResourceLibrary,
+  openAcademicPdf
 } = require("../controllers/academicController");
 
 const router = express.Router();
 
 router.get("/library", getAcademicResourceLibrary);
+router.get("/pdf", openAcademicPdf);
 router.get("/boards", getAcademicBoards);
 router.get("/class/:classNumber/subjects", getAcademicSubjectsForClass);
+router.get("/class/:classNumber/subject/:subject/pdfs", getAcademicPdfsForClassSubject);
 router.get("/class/:classNumber/subject/:subject/topics", getAcademicTopicsForClassSubject);
 router.get("/class/:classNumber/subject/:subject", getAcademicSubjectForClass);
 router.get("/:board/classes", getAcademicClasses);

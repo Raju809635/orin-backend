@@ -7,7 +7,9 @@ const {
   getSubjectRecord,
   getSubjectRecordForClass,
   getTopicsForClassSubject,
-  getResourceLibrary
+  getResourceLibrary,
+  getManualPdfsForClassSubject,
+  resolveManualPdf
 } = require("../services/academicService");
 
 exports.getAcademicBoards = asyncHandler(async (req, res) => {
@@ -50,17 +52,7 @@ exports.getAcademicSubjectForClass = asyncHandler(async (req, res) => {
       subject: { metadata: { class: Number(req.params.classNumber), subject: req.params.subject }, chapters: [] }
     });
   }
-  const record = getSubjectRecordForClass(req.params.classNumber, req.params.subject);
-  const metadata = record?.subject?.metadata || record?.metadata || {};
-  const status = String(metadata.extraction_status || metadata.verification_status || "").trim().toLowerCase();
-  const isPending = ["pending_ocr", "needs_ocr", "extraction_pending"].includes(status);
-  res.status(200).json({
-    ...record,
-    available: !isPending,
-    message: isPending
-      ? metadata.extraction_message || metadata.source_note || "Academic PDF uploaded, extraction pending. Topics will appear after OCR is completed."
-      : ""
-  });
+  res.status(200).json(getTopicsForClassSubject(req.params.classNumber, req.params.subject));
 });
 
 exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
@@ -73,9 +65,36 @@ exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
       chapters: []
     });
   }
-  res.status(200).json({ ...getTopicsForClassSubject(req.params.classNumber, req.params.subject), available: true });
+  res.status(200).json(getTopicsForClassSubject(req.params.classNumber, req.params.subject));
 });
 
 exports.getAcademicResourceLibrary = asyncHandler(async (req, res) => {
   res.status(200).json(getResourceLibrary());
+});
+
+exports.getAcademicPdfsForClassSubject = asyncHandler(async (req, res) => {
+  if (Number(req.params.classNumber) !== 10) {
+    return res.status(200).json({
+      classNumber: Number(req.params.classNumber),
+      subjectKey: req.params.subject,
+      available: false,
+      message: "Academic PDFs for this class will be added later.",
+      pdfs: []
+    });
+  }
+  const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject);
+  res.status(200).json({
+    classNumber: Number(req.params.classNumber),
+    subjectKey: req.params.subject,
+    available: pdfs.length > 0,
+    message: pdfs.length ? "" : "No real PDF files are connected for this subject yet.",
+    pdfs
+  });
+});
+
+exports.openAcademicPdf = asyncHandler(async (req, res) => {
+  const filePath = resolveManualPdf(req.query.path);
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `inline; filename="${encodeURIComponent(require("path").basename(filePath))}"`);
+  res.sendFile(filePath);
 });

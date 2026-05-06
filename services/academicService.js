@@ -5,6 +5,7 @@ const ApiError = require("../utils/ApiError");
 const BACKEND_DATASET_DIR = path.resolve(process.cwd(), "data/academics/final_dataset");
 const PIPELINE_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset");
 const DEFAULT_DATASET_DIR = fs.existsSync(BACKEND_DATASET_DIR) ? BACKEND_DATASET_DIR : PIPELINE_DATASET_DIR;
+const MANUAL_PDF_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
@@ -71,7 +72,11 @@ function subjectMatches(slug, record, requestedSubject) {
     computer: "computer_applications"
   };
   const requestedOptions = new Set([requested, aliases[requested]].filter(Boolean));
-  return names.some((name) => requestedOptions.has(name));
+  return names.some((name) => requestedOptions.has(name) || requestedOptions.has(aliases[name]));
+}
+
+function namesMatchSubject(value, requestedSubject) {
+  return subjectMatches(value, { metadata: { subject: value } }, requestedSubject);
 }
 
 function recordMetadata(record) {
@@ -369,6 +374,70 @@ function summarizeAcademicContext(context = {}) {
   };
 }
 
+function normalizeManualBoard(folderName) {
+  const value = String(folderName || "").trim().toUpperCase();
+  if (value.startsWith("SSC")) return "SSC";
+  if (value.startsWith("CBSE")) return "CBSE";
+  if (value.startsWith("ICSE")) return "ICSE";
+  return value;
+}
+
+function manualPdfSubject(relativeParts, filePath) {
+  if (relativeParts.length >= 4) return titleFromSlug(subjectSlug(relativeParts[2]));
+  return titleFromSlug(subjectSlug(path.basename(filePath, ".pdf")));
+}
+
+function walkPdfFiles(dirPath) {
+  if (!fs.existsSync(dirPath)) return [];
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  return entries.flatMap((entry) => {
+    const nextPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) return walkPdfFiles(nextPath);
+    return entry.isFile() && entry.name.toLowerCase().endsWith(".pdf") ? [nextPath] : [];
+  });
+}
+
+function getManualPdfsForClassSubject(classNumber, subject) {
+  if (!fs.existsSync(MANUAL_PDF_DIR)) return [];
+  const requestedClass = Number(classNumber);
+  return walkPdfFiles(MANUAL_PDF_DIR)
+    .map((filePath) => {
+      const relativePath = path.relative(MANUAL_PDF_DIR, filePath);
+      const parts = relativePath.split(path.sep);
+      if (parts.length < 3) return null;
+      const board = normalizeManualBoard(parts[0]);
+      const detectedClass = Number(String(parts[1] || "").match(/\d+/)?.[0] || 0);
+      const detectedSubject = manualPdfSubject(parts, filePath);
+      if (detectedClass !== requestedClass || !namesMatchSubject(detectedSubject, subject)) return null;
+      const encodedPath = encodeURIComponent(relativePath.replace(/\\/g, "/"));
+      return {
+        id: `${board}-${detectedClass}-${subjectSlug(detectedSubject)}-${path.basename(filePath)}`,
+        board,
+        classNumber: detectedClass,
+        subject: detectedSubject,
+        title: path.basename(filePath, ".pdf").replace(/[_-]+/g, " ").trim(),
+        fileName: path.basename(filePath),
+        relativePath: relativePath.replace(/\\/g, "/"),
+        pdfUrl: `/api/academics/pdf?path=${encodedPath}`,
+        sizeBytes: fs.statSync(filePath).size
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.fileName.localeCompare(b.fileName, undefined, { numeric: true }));
+}
+
+function resolveManualPdf(relativePath) {
+  const cleanRelativePath = String(relativePath || "").replace(/^[/\\]+/, "");
+  const resolvedPath = path.resolve(MANUAL_PDF_DIR, cleanRelativePath);
+  if (!resolvedPath.startsWith(MANUAL_PDF_DIR) || path.extname(resolvedPath).toLowerCase() !== ".pdf") {
+    throw new ApiError(400, "Invalid academic PDF path");
+  }
+  if (!fs.existsSync(resolvedPath) || !fs.statSync(resolvedPath).isFile()) {
+    throw new ApiError(404, "Academic PDF not found");
+  }
+  return resolvedPath;
+}
+
 module.exports = {
   getBoards,
   getClasses,
@@ -378,5 +447,7 @@ module.exports = {
   getSubjectRecordForClass,
   getTopicsForClassSubject,
   getResourceLibrary,
+  getManualPdfsForClassSubject,
+  resolveManualPdf,
   summarizeAcademicContext
 };
