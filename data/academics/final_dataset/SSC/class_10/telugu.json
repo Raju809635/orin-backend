@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Telugu",
+    "year": "2026",
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/telugu.pdf",
+    "source_type": "manual_pdf",
+    "extraction_status": "pending_ocr",
+    "verification_status": "pending_ocr",
+    "source_note": "Manual PDF detected. Topics must come from this PDF after readable extraction/OCR.",
+    "extraction_message": "Telugu PDF text is font-encoded/mojibake; OCR is required."
+  },
+  "chapters": []
+}

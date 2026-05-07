@@ -1,0 +1,402 @@
+{
+  "metadata": {
+    "board": "CBSE",
+    "class": 10,
+    "subject": "Science",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Chemical Reactions And Equations",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Chemical Reactions And Equations",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Acids Bases And Salts",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Acids Bases And Salts",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Metals And Non-Metals",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Metals And Non-Metals",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Carbon And Its Compounds",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Carbon And Its Compounds",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Life Processes",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Life Processes",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Control And Coordination",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Control And Coordination",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "How Do Organisms Reproduce",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In How Do Organisms Reproduce",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Heredity",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Heredity",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Light Reflection And Refraction",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Light Reflection And Refraction",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "The Human Eye And The Colourful World",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In The Human Eye And The Colourful World",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Electricity",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Electricity",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Magnetic Effects Of Electric Current",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Magnetic Effects Of Electric Current",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Our Environment",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Our Environment",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    }
+  ]
+}

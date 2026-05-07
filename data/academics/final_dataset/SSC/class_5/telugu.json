@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 5,
+    "subject": "Telugu",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Kathanalu",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Kathanalu",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Padyalu Mariyu Geetalu",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Padyalu Mariyu Geetalu",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Vyakarana Abhyasam",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Vyakarana Abhyasam",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Pathana Avagahana",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Pathana Avagahana",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Lekha Rachana",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Lekha Rachana",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Maatladatam Mariyu Vinadam",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Maatladatam Mariyu Vinadam",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    }
+  ]
+}

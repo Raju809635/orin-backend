@@ -1,0 +1,252 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 7,
+    "subject": "Physical Science",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Physical Quantities",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Physical Quantities",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Motion",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Motion",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Heat",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Heat",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Light",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Light",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Matter And Its Composition",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Matter And Its Composition",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Physical And Chemical Changes",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Physical And Chemical Changes",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Elements And Compounds",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Elements And Compounds",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Acids Bases And Salts",
+      "topics": [
+        {
+          "topic_name": "Concepts And Laws",
+          "subtopics": [
+            "Key Physical Principles In Acids Bases And Salts",
+            "Definitions, Units, Symbols, And Formulae",
+            "Relationships Between Variables And Quantities"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Problem Solving",
+          "subtopics": [
+            "Ray Diagrams, Circuit Diagrams, Graphs, Or Apparatus Sketches",
+            "Numerical Problems With Standard Steps",
+            "Common Observations, Errors, And Precautions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Daily-Life And Technology Examples",
+            "Experimental Verification And Inference",
+            "Higher-Order And Exam-Style Questions"
+          ]
+        }
+      ]
+    }
+  ]
+}

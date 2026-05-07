@@ -1,0 +1,282 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 10,
+    "subject": "Computer Applications",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Revision Of Class Ix Java",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Revision Of Class Ix Java",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Class As The Basis Of Computation",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Class As The Basis Of Computation",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "User Defined Methods",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In User Defined Methods",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Constructors",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Constructors",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Library Classes",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Library Classes",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Arrays",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Arrays",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "String Handling",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In String Handling",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Encapsulation",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Encapsulation",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Programming Practice",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Programming Practice",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,672 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 5,
+    "subject": "Science",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Super Senses",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Super Senses",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "A Snake Charmer'S Story",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In A Snake Charmer'S Story",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "From Tasting To Digesting",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In From Tasting To Digesting",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Mangoes Round The Year",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Mangoes Round The Year",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Seeds And Seeds",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Seeds And Seeds",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Every Drop Counts",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Every Drop Counts",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Experiments With Water",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Experiments With Water",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "A Treat For Mosquitoes",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In A Treat For Mosquitoes",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Up You Go",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Up You Go",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Walls Tell Stories",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Walls Tell Stories",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Sunita In Space",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Sunita In Space",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "What If It Finishes",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In What If It Finishes",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "A Shelter So High",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In A Shelter So High",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "When The Earth Shook",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In When The Earth Shook",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 15,
+      "chapter_name": "Blow Hot Blow Cold",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Blow Hot Blow Cold",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 16,
+      "chapter_name": "Who Will Do This Work",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Who Will Do This Work",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 17,
+      "chapter_name": "Across The Wall",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Across The Wall",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 18,
+      "chapter_name": "No Place For Us",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In No Place For Us",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 19,
+      "chapter_name": "A Seed Tells A Farmer'S Story",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In A Seed Tells A Farmer'S Story",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 20,
+      "chapter_name": "Whose Forests",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Whose Forests",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 21,
+      "chapter_name": "Like Father Like Daughter",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In Like Father Like Daughter",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 22,
+      "chapter_name": "On The Move Again",
+      "topics": [
+        {
+          "topic_name": "Core Ideas",
+          "subtopics": [
+            "Key Concepts In On The Move Again",
+            "Important Definitions And Scientific Terms",
+            "Cause-Effect Relationships And Classification"
+          ]
+        },
+        {
+          "topic_name": "Observation And Experiments",
+          "subtopics": [
+            "Activities, Observations, And Inference",
+            "Diagrams, Tables, And Data Recording",
+            "Precautions And Scientific Reasoning"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Examples From Daily Life And Environment",
+            "Health, Technology, Or Society Connections",
+            "Practice Questions And Concept Checks"
+          ]
+        }
+      ]
+    }
+  ]
+}

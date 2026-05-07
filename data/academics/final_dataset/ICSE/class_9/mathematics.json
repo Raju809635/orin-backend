@@ -1,0 +1,563 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 9,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Rational And Irrational Numbers",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Rational And Irrational Numbers",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Compound Interest",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Compound Interest",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Expansions",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Expansions",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Factorisation",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Factorisation",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Simultaneous Linear Equations",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Simultaneous Linear Equations",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Indices",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Indices",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Logarithms",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Logarithms",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Triangles",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Triangles",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Rectilinear Figures",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Rectilinear Figures",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Theorems On Area",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Theorems On Area",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Pythagoras Theorem",
+      "topics": [
+        {
+          "topic_name": "Right Triangle Relation",
+          "subtopics": [
+            "Hypotenuse",
+            "Legs Of A Right Triangle",
+            "A^2 + B^2 = C^2"
+          ]
+        },
+        {
+          "topic_name": "Converse And Proof",
+          "subtopics": [
+            "Converse Of Pythagoras Theorem",
+            "Verification By Areas",
+            "Proof Based Questions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Finding Unknown Side",
+            "Diagonal Problems",
+            "Distance In Coordinate Plane"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Circle",
+      "topics": [
+        {
+          "topic_name": "Circle Terms",
+          "subtopics": [
+            "Radius",
+            "Diameter",
+            "Chord",
+            "Arc",
+            "Sector",
+            "Segment"
+          ]
+        },
+        {
+          "topic_name": "Tangents And Secants",
+          "subtopics": [
+            "Tangent At A Point",
+            "Length Of Tangents From An External Point",
+            "Secant Properties"
+          ]
+        },
+        {
+          "topic_name": "Angle Properties",
+          "subtopics": [
+            "Angle Subtended By Chord",
+            "Cyclic Quadrilateral",
+            "Inscribed Angle Theorem"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Statistics",
+      "topics": [
+        {
+          "topic_name": "Data Organization",
+          "subtopics": [
+            "Raw Data",
+            "Frequency Distribution",
+            "Grouped Data"
+          ]
+        },
+        {
+          "topic_name": "Measures Of Central Tendency",
+          "subtopics": [
+            "Mean",
+            "Median",
+            "Mode"
+          ]
+        },
+        {
+          "topic_name": "Representation And Interpretation",
+          "subtopics": [
+            "Bar Graphs",
+            "Histograms",
+            "Ogives",
+            "Interpreting Results"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "Mean Median Mode",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Mean Median Mode",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 15,
+      "chapter_name": "Coordinate Geometry",
+      "topics": [
+        {
+          "topic_name": "Cartesian Plane",
+          "subtopics": [
+            "Axes",
+            "Quadrants",
+            "Plotting Points"
+          ]
+        },
+        {
+          "topic_name": "Distance And Section",
+          "subtopics": [
+            "Distance Formula",
+            "Section Formula",
+            "Midpoint Formula"
+          ]
+        },
+        {
+          "topic_name": "Area And Applications",
+          "subtopics": [
+            "Area Of Triangle",
+            "Collinearity",
+            "Coordinate Geometry Word Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 16,
+      "chapter_name": "Mensuration",
+      "topics": [
+        {
+          "topic_name": "Plane Figures",
+          "subtopics": [
+            "Area",
+            "Perimeter",
+            "Circle Area And Circumference"
+          ]
+        },
+        {
+          "topic_name": "Solid Figures",
+          "subtopics": [
+            "Cube",
+            "Cuboid",
+            "Cylinder",
+            "Cone",
+            "Sphere"
+          ]
+        },
+        {
+          "topic_name": "Surface Area And Volume",
+          "subtopics": [
+            "Curved Surface Area",
+            "Total Surface Area",
+            "Volume",
+            "Combination Of Solids"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 17,
+      "chapter_name": "Trigonometry",
+      "topics": [
+        {
+          "topic_name": "Trigonometric Ratios",
+          "subtopics": [
+            "Sine",
+            "Cosine",
+            "Tangent",
+            "Cosecant",
+            "Secant",
+            "Cotangent"
+          ]
+        },
+        {
+          "topic_name": "Identities And Values",
+          "subtopics": [
+            "Standard Angle Values",
+            "Complementary Angle Relations",
+            "Basic Trigonometric Identities"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Heights And Distances",
+            "Angle Of Elevation",
+            "Angle Of Depression"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 18,
+      "chapter_name": "Probability",
+      "topics": [
+        {
+          "topic_name": "Random Experiments",
+          "subtopics": [
+            "Outcomes",
+            "Sample Space",
+            "Events"
+          ]
+        },
+        {
+          "topic_name": "Probability Calculation",
+          "subtopics": [
+            "Favourable Outcomes",
+            "Equally Likely Outcomes",
+            "Complementary Events"
+          ]
+        },
+        {
+          "topic_name": "Examples",
+          "subtopics": [
+            "Coins",
+            "Dice",
+            "Cards",
+            "Real-Life Chance Situations"
+          ]
+        }
+      ]
+    }
+  ]
+}

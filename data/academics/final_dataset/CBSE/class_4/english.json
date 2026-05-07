@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "CBSE",
+    "class": 4,
+    "subject": "English",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Prose Reader",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Prose Reader",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Poetry Reader",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Poetry Reader",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Grammar Foundations",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Grammar Foundations",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Vocabulary Building",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Vocabulary Building",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Paragraph Writing",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Paragraph Writing",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Listening And Speaking",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Listening And Speaking",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    }
+  ]
+}

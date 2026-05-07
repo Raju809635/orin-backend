@@ -1,0 +1,432 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 4,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Shapes Around Us",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Shapes Around Us",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Hide And Seek",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Hide And Seek",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Pattern Around Us",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Pattern Around Us",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Thousands Around Us",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Thousands Around Us",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Sharing And Measuring",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Sharing And Measuring",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Measuring Length",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Measuring Length",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "The Cleanest Village",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of The Cleanest Village",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Weigh It Pour It",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Weigh It Pour It",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Equal Groups",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Equal Groups",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Elephants Tigers And Leopards",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Elephants Tigers And Leopards",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Fun With Symmetry",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Fun With Symmetry",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Ticking Clocks And Turning Calendar",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Ticking Clocks And Turning Calendar",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "The Transport Museum",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of The Transport Museum",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "Data Handling",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Data Handling",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    }
+  ]
+}

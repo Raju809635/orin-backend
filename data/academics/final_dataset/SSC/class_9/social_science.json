@@ -1,0 +1,552 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 9,
+    "subject": "Social Science",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "The French Revolution",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In The French Revolution",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Socialism In Europe And The Russian Revolution",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Socialism In Europe And The Russian Revolution",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Nazism And The Rise Of Hitler",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Nazism And The Rise Of Hitler",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "India Size And Location",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In India Size And Location",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Physical Features Of India",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Physical Features Of India",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Drainage",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Drainage",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Climate",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Climate",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Natural Vegetation And Wildlife",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Natural Vegetation And Wildlife",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Population",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Population",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "What Is Democracy Why Democracy",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In What Is Democracy Why Democracy",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Constitutional Design",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Constitutional Design",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Electoral Politics",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Electoral Politics",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Working Of Institutions",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Working Of Institutions",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "Democratic Rights",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Democratic Rights",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 15,
+      "chapter_name": "The Story Of Village Palampur",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In The Story Of Village Palampur",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 16,
+      "chapter_name": "People As Resource",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In People As Resource",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 17,
+      "chapter_name": "Poverty As A Challenge",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Poverty As A Challenge",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 18,
+      "chapter_name": "Food Security In India",
+      "topics": [
+        {
+          "topic_name": "Key Ideas And Terms",
+          "subtopics": [
+            "Main Ideas In Food Security In India",
+            "Important People, Places, Events, Or Features",
+            "Keywords And Definitions"
+          ]
+        },
+        {
+          "topic_name": "Evidence And Interpretation",
+          "subtopics": [
+            "Maps, Timelines, Pictures, Tables, Or Sources",
+            "Comparison And Cause-Effect Relationships",
+            "Reading, Locating, And Interpreting Information"
+          ]
+        },
+        {
+          "topic_name": "Civic And Real-Life Connections",
+          "subtopics": [
+            "Rights, Duties, Environment, Or Community Links",
+            "Local, National, And Global Examples",
+            "Short Answers, Long Answers, And Project Work"
+          ]
+        }
+      ]
+    }
+  ]
+}

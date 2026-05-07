@@ -1,0 +1,789 @@
+{
+  "metadata": {
+    "board": "CBSE",
+    "class": 6,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "BYJU'S",
+    "source_url": "https://byjus.com/cbse/class-6-maths-syllabus/",
+    "source_type": "secondary_html"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Knowing Our Numbers",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Comparing Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Comparing Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Large Numbers In Practice",
+          "subtopics": [
+            "Meaning And Examples Of Large Numbers In Practice",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Using Brackets",
+          "subtopics": [
+            "Meaning And Examples Of Using Brackets",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Roman Numerals",
+          "subtopics": [
+            "Meaning And Examples Of Roman Numerals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Whole Numbers",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Whole Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Whole Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "The Number Line",
+          "subtopics": [
+            "Meaning And Examples Of The Number Line",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Properties Of Whole Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Properties Of Whole Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Patterns In Whole Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Patterns In Whole Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Playing With Numbers",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Factors And Multiples",
+          "subtopics": [
+            "Meaning And Examples Of Factors And Multiples",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Prime And Composite Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Prime And Composite Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Test For Divisibility Of Numbers",
+          "subtopics": [
+            "Meaning And Examples Of Test For Divisibility Of Numbers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Common Factors And Common Multiples",
+          "subtopics": [
+            "Meaning And Examples Of Common Factors And Common Multiples",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Some More Divisibility Rules",
+          "subtopics": [
+            "Meaning And Examples Of Some More Divisibility Rules",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Prime Factorisation",
+          "subtopics": [
+            "Meaning And Examples Of Prime Factorisation",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Highest Common Factor",
+          "subtopics": [
+            "Meaning And Examples Of Highest Common Factor",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Lowest Common Multiple",
+          "subtopics": [
+            "Meaning And Examples Of Lowest Common Multiple",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Some Problems On Hcf And Lcm",
+          "subtopics": [
+            "Meaning And Examples Of Some Problems On Hcf And Lcm",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Basic Geometrical Ideas",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Points",
+          "subtopics": [
+            "Meaning And Examples Of Points",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "A Line Segment",
+          "subtopics": [
+            "Meaning And Examples Of A Line Segment",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "A Line",
+          "subtopics": [
+            "Meaning And Examples Of A Line",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Intersecting Lines",
+          "subtopics": [
+            "Meaning And Examples Of Intersecting Lines",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Parallel Lines",
+          "subtopics": [
+            "Meaning And Examples Of Parallel Lines",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Ray",
+          "subtopics": [
+            "Meaning And Examples Of Ray",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Curves",
+          "subtopics": [
+            "Meaning And Examples Of Curves",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Polygons",
+          "subtopics": [
+            "Meaning And Examples Of Polygons",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Angles",
+          "subtopics": [
+            "Meaning And Examples Of Angles",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Triangles",
+          "subtopics": [
+            "Meaning And Examples Of Triangles",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Quadrilaterals",
+          "subtopics": [
+            "Meaning And Examples Of Quadrilaterals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Circles",
+          "subtopics": [
+            "Meaning And Examples Of Circles",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Understanding Elementary Shapes",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Measuring Line Segments",
+          "subtopics": [
+            "Meaning And Examples Of Measuring Line Segments",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Angles-'Right' And 'Straight'",
+          "subtopics": [
+            "Meaning And Examples Of Angles-'Right' And 'Straight'",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Angles- 'Acute', 'Obtuse' And 'Reflex'",
+          "subtopics": [
+            "Meaning And Examples Of Angles- 'Acute', 'Obtuse' And 'Reflex'",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Measuring Angles",
+          "subtopics": [
+            "Meaning And Examples Of Measuring Angles",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Perpendicular Lines",
+          "subtopics": [
+            "Meaning And Examples Of Perpendicular Lines",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Classification Of Triangles",
+          "subtopics": [
+            "Meaning And Examples Of Classification Of Triangles",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Quadrilaterals",
+          "subtopics": [
+            "Meaning And Examples Of Quadrilaterals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Polygons",
+          "subtopics": [
+            "Meaning And Examples Of Polygons",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Three Dimensional Shapes",
+          "subtopics": [
+            "Meaning And Examples Of Three Dimensional Shapes",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Integers",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Integers",
+          "subtopics": [
+            "Meaning And Examples Of Integers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Addition Of Integers",
+          "subtopics": [
+            "Meaning And Examples Of Addition Of Integers",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Subtraction Of Integers With The Help Of A Number Line",
+          "subtopics": [
+            "Meaning And Examples Of Subtraction Of Integers With The Help Of A Number Line",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Fractions",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "A Fraction",
+          "subtopics": [
+            "Meaning And Examples Of A Fraction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Fraction On The Number Line",
+          "subtopics": [
+            "Meaning And Examples Of Fraction On The Number Line",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Proper Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Proper Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Improper And Mixed Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Improper And Mixed Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Equivalent Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Equivalent Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Simplest Form Of A Fraction",
+          "subtopics": [
+            "Meaning And Examples Of Simplest Form Of A Fraction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Like Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Like Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Comparing Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Comparing Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Addition And Subtraction Of Fractions",
+          "subtopics": [
+            "Meaning And Examples Of Addition And Subtraction Of Fractions",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Decimals",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Tenths",
+          "subtopics": [
+            "Meaning And Examples Of Tenths",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Hundredths",
+          "subtopics": [
+            "Meaning And Examples Of Hundredths",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Comparing Decimals",
+          "subtopics": [
+            "Meaning And Examples Of Comparing Decimals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Using Decimals",
+          "subtopics": [
+            "Meaning And Examples Of Using Decimals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Addition Of Numbers With Decimals",
+          "subtopics": [
+            "Meaning And Examples Of Addition Of Numbers With Decimals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Subtraction Of Decimals",
+          "subtopics": [
+            "Meaning And Examples Of Subtraction Of Decimals",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Data Handling",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Recording Data",
+          "subtopics": [
+            "Meaning And Examples Of Recording Data",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Organisation Of Data",
+          "subtopics": [
+            "Meaning And Examples Of Organisation Of Data",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Pictograph",
+          "subtopics": [
+            "Meaning And Examples Of Pictograph",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Interpretation Of A Pictograph",
+          "subtopics": [
+            "Meaning And Examples Of Interpretation Of A Pictograph",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Drawing A Pictograph",
+          "subtopics": [
+            "Meaning And Examples Of Drawing A Pictograph",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "A Bar Graph",
+          "subtopics": [
+            "Meaning And Examples Of A Bar Graph",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Mensuration",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Perimeter",
+          "subtopics": [
+            "Meaning And Examples Of Perimeter",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Area",
+          "subtopics": [
+            "Meaning And Examples Of Area",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Algebra",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Matchstick Patterns",
+          "subtopics": [
+            "Meaning And Examples Of Matchstick Patterns",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "The Idea Of A Variable",
+          "subtopics": [
+            "Meaning And Examples Of The Idea Of A Variable",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "More Matchstick Patterns",
+          "subtopics": [
+            "Meaning And Examples Of More Matchstick Patterns",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "More Examples Of Variables",
+          "subtopics": [
+            "Meaning And Examples Of More Examples Of Variables",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Use Of Variables In Common Rules",
+          "subtopics": [
+            "Meaning And Examples Of Use Of Variables In Common Rules",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Expressions With Variables",
+          "subtopics": [
+            "Meaning And Examples Of Expressions With Variables",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Using Expressions Practically",
+          "subtopics": [
+            "Meaning And Examples Of Using Expressions Practically",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "What Is An Equation?",
+          "subtopics": [
+            "Meaning And Examples Of What Is An Equation?",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Solution Of An Equation",
+          "subtopics": [
+            "Meaning And Examples Of Solution Of An Equation",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Ratio And Proportion",
+      "topics": [
+        {
+          "topic_name": "Introduction",
+          "subtopics": [
+            "Meaning And Examples Of Introduction",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Ratio",
+          "subtopics": [
+            "Meaning And Examples Of Ratio",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Proportion",
+          "subtopics": [
+            "Meaning And Examples Of Proportion",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        },
+        {
+          "topic_name": "Unitary Method",
+          "subtopics": [
+            "Meaning And Examples Of Unitary Method",
+            "Key Terms And Standard Methods",
+            "Practice Questions And Applications"
+          ]
+        }
+      ]
+    }
+  ]
+}

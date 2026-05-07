@@ -1,0 +1,405 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 8,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Rational Numbers",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Rational Numbers",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Linear Equations In One Variable",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Linear Equations In One Variable",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Understanding Quadrilaterals",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Understanding Quadrilaterals",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Data Handling",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Data Handling",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Squares And Square Roots",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Squares And Square Roots",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Cubes And Cube Roots",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Cubes And Cube Roots",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Comparing Quantities",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Comparing Quantities",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Algebraic Expressions And Identities",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Algebraic Expressions And Identities",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Mensuration",
+      "topics": [
+        {
+          "topic_name": "Plane Figures",
+          "subtopics": [
+            "Area",
+            "Perimeter",
+            "Circle Area And Circumference"
+          ]
+        },
+        {
+          "topic_name": "Solid Figures",
+          "subtopics": [
+            "Cube",
+            "Cuboid",
+            "Cylinder",
+            "Cone",
+            "Sphere"
+          ]
+        },
+        {
+          "topic_name": "Surface Area And Volume",
+          "subtopics": [
+            "Curved Surface Area",
+            "Total Surface Area",
+            "Volume",
+            "Combination Of Solids"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Exponents And Powers",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Exponents And Powers",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Direct And Inverse Proportions",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Direct And Inverse Proportions",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Factorisation",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Factorisation",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Introduction To Graphs",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Introduction To Graphs",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    }
+  ]
+}

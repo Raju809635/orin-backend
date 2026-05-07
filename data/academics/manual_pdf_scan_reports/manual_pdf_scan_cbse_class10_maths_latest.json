@@ -1,0 +1,196 @@
+{
+  "manual_pdf_count": 18,
+  "filters": {
+    "board": "CBSE",
+    "class": 10,
+    "subject": "Maths"
+  },
+  "status_counts": {
+    "text_extracted": 18
+  },
+  "subject_counts": {
+    "CBSE/class_10/Maths": 18
+  },
+  "pdfs": [
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh101.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "REAL NUMBERS 1\n1\nR N\nEAL UMBERS\n1.1 Introduction\nIn Class IX, you began your exploration of the world of real numbers and encountered\nirrational numbers. We continue our discussion on real numbers in this chapter. We\nbegin with very important properties of positive integers in Sections 1.2, namely the\nEuclid’s division algorithm and the Fundamental Theorem of Arithmetic.\nEuclid’s division algorithm, as the name suggests, has to do with divisibility of\nintegers. Stated simply, it says any positiv"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh102.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "10 MATHEMATICS\n2\nP\nOLYNOMIALS\n2.1 Introduction\nIn Class IX, you have studied polynomials in one variable and their degrees. Recall\nthat if p(x) is a polynomial in x, the highest power of x in p(x) is called the degree of\nthe polynomial p(x). For example, 4x + 2 is a polynomial in the variable x of\ndegree 1, 2y2 – 3y + 4 is a polynomial in the variable y of degree 2, 5x3 – 4x2 + x – 2\n3\nis a polynomial in the variable x of degree 3 and 7u6 – u4 4u2  u 8 is a polynomial\n2\n1 1\nin the variable u "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh103.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "24 MATHEMATICS\nP L E\nAIR OF INEAR QUATIONS 3\nT V\nIN WO ARIABLES\n3.1 Introduction\nYou must have come across situations like the one given below :\nAkhila went to a fair in her village. She wanted to enjoy rides on the Giant Wheel\nand play Hoopla (a game in which you throw a ring on the items kept in a stall, and if\nthe ring covers any object completely, you get it). The number of times she played\nHoopla is half the number of rides she had on the Giant Wheel. If each ride costs\n` 3, and a game of H"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh104.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "38 MATHEMATICS\n4\nQ E\nUADRATIC QUATIONS\n4.1 Introduction\nIn Chapter 2, you have studied different types of polynomials. One type was the\nquadratic polynomial of the form ax2 + bx + c, a  0. When we equate this polynomial\nto zero, we get a quadratic equation. Quadratic equations come up when we deal with\nmany real-life situations. For instance, suppose a\ncharity trust decides to build a prayer hall having\na carpet area of 300 square metres with its length\none metre more than twice its breadth. Wh"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh105.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "ARITHMETIC PROGRESSIONS 49\n5\nA P\nRITHMETIC ROGRESSIONS\n5.1 Introduction\nYou must have observed that in nature, many things follow a certain pattern, such as\nthe petals of a sunflower, the holes of a honeycomb, the grains on a maize cob, the\nspirals on a pineapple and on a pine cone, etc.\nWe now look for some patterns which occur in our day-to-day life. Some such\nexamples are :\n(i) Reena applied for a job and got selected. She\nhas been offered a job with a starting monthly\nsalary of ` 8000, with "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh106.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "TRIANGLES 73\n6\nT\nRIANGLES\n6.1 Introduction\nYou are familiar with triangles and many of their properties from your earlier classes.\nIn Class IX, you have studied congruence of triangles in detail. Recall that two figures\nare said to be congruent, if they have the same shape and the same size. In this\nchapter, we shall study about those figures which have the same shape but not necessarily\nthe same size. Two figures having the same shape (and not necessarily the same size)\nare called similar figur"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh107.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "COORDINATE GEOMETRY 99\n7\nC G\nOORDINATE EOMETRY\n7.1 Introduction\nIn Class IX, you have studied that to locate the position of a point on a plane, we\nrequire a pair of coordinate axes. The distance of a point from the y-axis is called its\nx-coordinate, or abscissa. The distance of a point from the x-axis is called its\ny-coordinate, or ordinate. The coordinates of a point on the x-axis are of the form\n(x, 0), and of a point on the y-axis are of the form (0, y).\nHere is a play for you. Draw a set of"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh108.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "INTRODUCTION TO TRIGONOMETRY 113\nI\nNTRODUCTION TO 8\nT\nRIGONOMETRY\nThere is perhaps nothing which so occupies the\nmiddle position of mathematics as trigonometry.\n– J.F. Herbart (1890)\n8.1 Introduction\nYou have already studied about triangles, and in particular, right triangles, in your\nearlier classes. Let us take some examples from our surroundings where right triangles\ncan be imagined to be formed. For instance :\n1. Suppose the students of a school are\nvisiting Qutub Minar. Now, if a student\nis"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh109.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "SOME APPLICATIONS OF TRIGONOMETRY 133\nS A\nOME PPLICATIONS OF 9\nT\nRIGONOMETRY\n9.1 Heights and Distances\nIn the previous chapter, you have studied about trigonometric ratios. In this chapter,\nyou will be studying about some ways in which trigonometry is used in the life around\nyou.\nLet us consider Fig. 8.1 of prvious chapter, which is redrawn below in Fig. 9.1.\nFig. 9.1\nIn this figure, the line AC drawn from the eye of the student to the top of the\nminar is called the line of sight. The student is"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh110.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "144 MATHEMATICS\n10\nC\nIRCLES\n10.1 Introduction\nYou have studied in Class IX that a circle is a collection of all points in a plane\nwhich are at a constant distance (radius) from a fixed point (centre). You have\nalso studied various terms related to a circle like chord, segment, sector, arc etc.\nLet us now examine the different situations that can arise when a circle and a line\nare given in a plane.\nSo, let us consider a circle and a line PQ. There can be three possibilities given\nin Fig. 10.1 bel"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh111.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "154 MATHEMATICS\n11\nA R C\nREAS ELATED TO IRCLES\n11.1 Areas of Sector and Segment of a Circle\nYou have already come across the terms sector and\nsegment of a circle in your earlier classes. Recall\nthat the portion (or part) of the circular region enclosed\nby two radii and the corresponding arc is called a\nsector of the circle and the portion (or part) of the\ncircular region enclosed between a chord and the\ncorresponding arc is called a segment of the circle.\nThus, in Fig. 11.1, shaded region OAPB i"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh112.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "SURFACE AREAS AND VOLUMES 161\nS A 12\nURFACE REAS AND\nV\nOLUMES\n12.1 Introduction\nFrom Class IX, you are familiar with some of the solids like cuboid, cone, cylinder, and\nsphere (see Fig. 12.1). You have also learnt how to find their surface areas and volumes.\nFig. 12.1\nIn our day-to-day life, we come across a number of solids made up of combinations\nof two or more of the basic solids as shown above.\nYou must have seen a truck with a\ncontainer fitted on its back (see Fig. 12.2),\ncarrying oil or wa"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh113.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "STATISTICS 171\n13\nS\nTATISTICS\n13.1 Introduction\nIn Class IX, you have studied the classification of given data into ungrouped as well as\ngrouped frequency distributions. You have also learnt to represent the data pictorially\nin the form of various graphs such as bar graphs, histograms (including those of varying\nwidths) and frequency polygons. In fact, you went a step further by studying certain\nnumerical representatives of the ungrouped data, also called measures of central\ntendency, namely, me"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh114.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "202 MATHEMATICS\n14\nP\nROBABILITY\nThe theory of probabilities and the theory of errors now constitute\na formidable body of great mathematical interest and of great\npractical importance.\n– R.S. Woodward\n14.1 Probability — A Theoretical Approach\nLet us consider the following situation :\nSuppose a coin is tossed at random.\nWhen we speak of a coin, we assume it to be ‘fair’, that is, it is symmetrical so\nthat there is no reason for it to come down more often on one side than the other.\nWe call this pr"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh1a1.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "218 MATHEMATICS\nA1\nP M\nROOFS IN ATHEMATICS\nA1.1 Introduction\nThe ability to reason and think clearly is extremely useful in our daily life. For example,\nsuppose a politician tells you, ‘If you are interested in a clean government, then you\nshould vote for me.’ What he actually wants you to believe is that if you do not vote for\nhim, then you may not get a clean government. Similarly, if an advertisement tells you,\n‘The intelligent wear XYZ shoes’, what the company wants you to conclude is that i"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh1a2.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "MATHEMATICAL MODELLING 239\nA2\nM M\nATHEMATICAL ODELLING\nA2.1 Introduction\n An adult human body contains approximately 1,50,000 km of arteries and veins\nthat carry blood.\n The human heart pumps 5 to 6 litres of blood in the body every 60 seconds.\n The temperature at the surface of the Sun is about 6,000° C.\nHave you ever wondered how our scientists and mathematicians could possibly\nhave estimated these results? Did they pull out the veins and arteries from some adult\ndead bodies and measure the"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh1an.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "250 MATHEMATICS\nA 1\nPPENDIX\nANSWERS/HINTS\nEXERCISE 1.1\n1. (i) 22 × 5 × 7 (ii) 22 × 3 × 13 (iii) 32 × 52 × 17\n(iv) 5 × 7 × 11 × 13 (v) 17 × 19 × 23\n2. (i) LCM = 182; HCF = 13 (ii) LCM = 23460; HCF = 2 (iii) LCM = 3024; HCF = 6\n3. (i) LCM = 420; HCF = 3 (ii) LCM = 11339; HCF = 1 (iii) LCM = 1800; HCF = 1\n4. 22338 7. 36 minutes\nEXERCISE 2.1\n1. (i) No zeroes (ii) 1 (iii) 3 (iv) 2 (v) 4 (vi) 3\nEXERCISE 2.2\n1 1 1 3\n1. (i) –2, 4 (ii) , (iii) − ,\n2 2 3 2\n4\n(iv) –2, 0 (v) − 15, 15 (vi) –1,\n3\n2. (i) 4x2 –"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Maths",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/MATHS/jemh1ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "MATHEMATICS\nTextbook for Class X\nReprint 2026-27\n1062 – M ATHEMATICS\nISBN 81-7450-634-9\nTextbook for Class X\nFirst Edition ALL RIGHTS RESERVED\nDecember 2006 Pausa 1928 q No part of this publication may be reproduced, stored in a retrieval system or\ntransmitted, in any form or by any means, electronic, mechanical, photocopying,\nReprinted recording or otherwise without the prior permission of the publisher.\nOctober 2007, January 2009, q This book is sold subject to the condition that it shall not,"
+    }
+  ]
+}

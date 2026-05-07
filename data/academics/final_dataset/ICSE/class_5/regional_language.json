@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 5,
+    "subject": "Regional Language",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Prose Selections",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Prose Selections",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Poetry Selections",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Poetry Selections",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Grammar And Usage",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Grammar And Usage",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Reading Comprehension",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Reading Comprehension",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Composition And Translation",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Composition And Translation",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Oral Expression And Project Work",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Oral Expression And Project Work",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    }
+  ]
+}

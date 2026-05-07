@@ -1,0 +1,415 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Linear Equations In Two Variables",
+      "topics": [
+        {
+          "topic_name": "Linear Equation Form",
+          "subtopics": [
+            "Ax + By + C = 0 Form",
+            "Solution As An Ordered Pair",
+            "Graph Of A Linear Equation"
+          ]
+        },
+        {
+          "topic_name": "Solving Pair Of Equations",
+          "subtopics": [
+            "Graphical Method",
+            "Substitution Method",
+            "Elimination Method",
+            "Cross Multiplication Method"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Number Problems",
+            "Age Problems",
+            "Speed Distance Time Problems",
+            "Money And Mixture Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Quadratic Equations",
+      "topics": [
+        {
+          "topic_name": "Standard Form And Roots",
+          "subtopics": [
+            "Ax^2 + Bx + C = 0",
+            "Roots Of A Quadratic Equation",
+            "Nature Of Roots Using Discriminant"
+          ]
+        },
+        {
+          "topic_name": "Solution Methods",
+          "subtopics": [
+            "Factorisation Method",
+            "Completing The Square",
+            "Quadratic Formula"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Area Based Problems",
+            "Number Problems",
+            "Motion And Height Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Arithmetic Progression",
+      "topics": [
+        {
+          "topic_name": "Sequence Basics",
+          "subtopics": [
+            "Terms Of An Ap",
+            "Common Difference",
+            "Finite And Infinite Ap"
+          ]
+        },
+        {
+          "topic_name": "Formulae",
+          "subtopics": [
+            "Nth Term Of An Ap",
+            "Sum Of First N Terms",
+            "Finding Missing Terms"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Pattern Based Questions",
+            "Savings And Installment Problems",
+            "Arrangement Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Financial Planning",
+      "topics": [
+        {
+          "topic_name": "Tax And Income",
+          "subtopics": [
+            "Income Tax Slabs",
+            "Taxable Income",
+            "Deductions And Rebates"
+          ]
+        },
+        {
+          "topic_name": "Savings And Investments",
+          "subtopics": [
+            "Simple Interest",
+            "Compound Interest",
+            "Recurring Deposits And Returns"
+          ]
+        },
+        {
+          "topic_name": "Practical Calculations",
+          "subtopics": [
+            "Budget Planning",
+            "Profit And Loss",
+            "Discount And Bill Calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Probability",
+      "topics": [
+        {
+          "topic_name": "Random Experiments",
+          "subtopics": [
+            "Outcomes",
+            "Sample Space",
+            "Events"
+          ]
+        },
+        {
+          "topic_name": "Probability Calculation",
+          "subtopics": [
+            "Favourable Outcomes",
+            "Equally Likely Outcomes",
+            "Complementary Events"
+          ]
+        },
+        {
+          "topic_name": "Examples",
+          "subtopics": [
+            "Coins",
+            "Dice",
+            "Cards",
+            "Real-Life Chance Situations"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Statistics",
+      "topics": [
+        {
+          "topic_name": "Data Organization",
+          "subtopics": [
+            "Raw Data",
+            "Frequency Distribution",
+            "Grouped Data"
+          ]
+        },
+        {
+          "topic_name": "Measures Of Central Tendency",
+          "subtopics": [
+            "Mean",
+            "Median",
+            "Mode"
+          ]
+        },
+        {
+          "topic_name": "Representation And Interpretation",
+          "subtopics": [
+            "Bar Graphs",
+            "Histograms",
+            "Ogives",
+            "Interpreting Results"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Similarity",
+      "topics": [
+        {
+          "topic_name": "Similar Figures",
+          "subtopics": [
+            "Corresponding Angles",
+            "Corresponding Sides",
+            "Scale Factor"
+          ]
+        },
+        {
+          "topic_name": "Similarity Of Triangles",
+          "subtopics": [
+            "Aaa Test",
+            "Sas Test",
+            "Sss Test"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Heights And Distances",
+            "Map Scale",
+            "Area Relation Of Similar Triangles"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Pythagoras Theorem",
+      "topics": [
+        {
+          "topic_name": "Right Triangle Relation",
+          "subtopics": [
+            "Hypotenuse",
+            "Legs Of A Right Triangle",
+            "A^2 + B^2 = C^2"
+          ]
+        },
+        {
+          "topic_name": "Converse And Proof",
+          "subtopics": [
+            "Converse Of Pythagoras Theorem",
+            "Verification By Areas",
+            "Proof Based Questions"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Finding Unknown Side",
+            "Diagonal Problems",
+            "Distance In Coordinate Plane"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Circle",
+      "topics": [
+        {
+          "topic_name": "Circle Terms",
+          "subtopics": [
+            "Radius",
+            "Diameter",
+            "Chord",
+            "Arc",
+            "Sector",
+            "Segment"
+          ]
+        },
+        {
+          "topic_name": "Tangents And Secants",
+          "subtopics": [
+            "Tangent At A Point",
+            "Length Of Tangents From An External Point",
+            "Secant Properties"
+          ]
+        },
+        {
+          "topic_name": "Angle Properties",
+          "subtopics": [
+            "Angle Subtended By Chord",
+            "Cyclic Quadrilateral",
+            "Inscribed Angle Theorem"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Geometric Constructions",
+      "topics": [
+        {
+          "topic_name": "Basic Constructions",
+          "subtopics": [
+            "Perpendicular Bisector",
+            "Angle Bisector",
+            "Parallel Lines"
+          ]
+        },
+        {
+          "topic_name": "Triangle Constructions",
+          "subtopics": [
+            "Constructing Triangles From Given Measures",
+            "Similar Triangle Construction",
+            "Scale Factor Construction"
+          ]
+        },
+        {
+          "topic_name": "Circle Constructions",
+          "subtopics": [
+            "Tangents To A Circle",
+            "Touching Circle Constructions",
+            "Verification Of Construction Steps"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Coordinate Geometry",
+      "topics": [
+        {
+          "topic_name": "Cartesian Plane",
+          "subtopics": [
+            "Axes",
+            "Quadrants",
+            "Plotting Points"
+          ]
+        },
+        {
+          "topic_name": "Distance And Section",
+          "subtopics": [
+            "Distance Formula",
+            "Section Formula",
+            "Midpoint Formula"
+          ]
+        },
+        {
+          "topic_name": "Area And Applications",
+          "subtopics": [
+            "Area Of Triangle",
+            "Collinearity",
+            "Coordinate Geometry Word Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Trigonometry",
+      "topics": [
+        {
+          "topic_name": "Trigonometric Ratios",
+          "subtopics": [
+            "Sine",
+            "Cosine",
+            "Tangent",
+            "Cosecant",
+            "Secant",
+            "Cotangent"
+          ]
+        },
+        {
+          "topic_name": "Identities And Values",
+          "subtopics": [
+            "Standard Angle Values",
+            "Complementary Angle Relations",
+            "Basic Trigonometric Identities"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Heights And Distances",
+            "Angle Of Elevation",
+            "Angle Of Depression"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Mensuration",
+      "topics": [
+        {
+          "topic_name": "Plane Figures",
+          "subtopics": [
+            "Area",
+            "Perimeter",
+            "Circle Area And Circumference"
+          ]
+        },
+        {
+          "topic_name": "Solid Figures",
+          "subtopics": [
+            "Cube",
+            "Cuboid",
+            "Cylinder",
+            "Cone",
+            "Sphere"
+          ]
+        },
+        {
+          "topic_name": "Surface Area And Volume",
+          "subtopics": [
+            "Curved Surface Area",
+            "Total Surface Area",
+            "Volume",
+            "Combination Of Solids"
+          ]
+        }
+      ]
+    }
+  ]
+}

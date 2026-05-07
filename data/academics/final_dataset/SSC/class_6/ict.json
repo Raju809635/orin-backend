@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 6,
+    "subject": "ICT",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Digital Literacy",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Digital Literacy",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Data And Patterns",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Data And Patterns",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Computational Thinking",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Computational Thinking",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Block Programming",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Block Programming",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Ai Around Us",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Ai Around Us",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Digital Citizenship",
+      "topics": [
+        {
+          "topic_name": "Digital Concepts",
+          "subtopics": [
+            "Core Computing Ideas In Digital Citizenship",
+            "Terminology, Tools, And Safe Practices",
+            "Data, Files, Interfaces, And Workflows"
+          ]
+        },
+        {
+          "topic_name": "Practical Skills",
+          "subtopics": [
+            "Hands-On Tasks And Step-By-Step Procedures",
+            "Problem Solving, Debugging, Or Troubleshooting",
+            "Keyboard, Application, Or Coding Practice"
+          ]
+        },
+        {
+          "topic_name": "Applications And Ethics",
+          "subtopics": [
+            "Real-World Uses In School And Community",
+            "Cyber Safety, Privacy, And Responsible Use",
+            "Projects, Activities, And Portfolio Work"
+          ]
+        }
+      ]
+    }
+  ]
+}

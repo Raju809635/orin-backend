@@ -6,10 +6,14 @@ const defaultSource = path.resolve(
   backendRoot,
   "../acadamics/orin-data-pipeline/final_dataset/orin_academic_dataset.json"
 );
+const defaultSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/final_dataset");
 const defaultDestination = path.resolve(backendRoot, "data/academics/orin_academic_dataset.json");
+const defaultDestinationDir = path.resolve(backendRoot, "data/academics/final_dataset");
 
 const sourcePath = path.resolve(process.env.ACADEMICS_SYNC_SOURCE || defaultSource);
 const destinationPath = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION || defaultDestination);
+const sourceDir = path.resolve(process.env.ACADEMICS_SYNC_SOURCE_DIR || defaultSourceDir);
+const destinationDir = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION_DIR || defaultDestinationDir);
 
 function fail(message) {
   console.error(message);
@@ -34,6 +38,23 @@ if (!dataset || typeof dataset !== "object" || Array.isArray(dataset)) {
 fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
 fs.writeFileSync(destinationPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf8");
 
+function copyDirRecursive(source, destination) {
+  if (!fs.existsSync(source)) return;
+  fs.rmSync(destination, { recursive: true, force: true });
+  fs.mkdirSync(destination, { recursive: true });
+  for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    const from = path.join(source, entry.name);
+    const to = path.join(destination, entry.name);
+    if (entry.isDirectory()) {
+      copyDirRecursive(from, to);
+    } else if (entry.isFile()) {
+      fs.copyFileSync(from, to);
+    }
+  }
+}
+
+copyDirRecursive(sourceDir, destinationDir);
+
 const boards = Object.keys(dataset);
 const classCount = boards.reduce((total, board) => total + Object.keys(dataset[board] || {}).length, 0);
 const subjectCount = boards.reduce(
@@ -44,4 +65,5 @@ const subjectCount = boards.reduce(
 );
 
 console.log(`Synced academic dataset to ${path.relative(backendRoot, destinationPath)}`);
+console.log(`Synced academic final_dataset folder to ${path.relative(backendRoot, destinationDir)}`);
 console.log(`Boards: ${boards.length}, classes: ${classCount}, subjects: ${subjectCount}`);

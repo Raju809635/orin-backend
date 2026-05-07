@@ -1,0 +1,26 @@
+{
+  "manual_pdf_count": 1,
+  "filters": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Telugu"
+  },
+  "status_counts": {
+    "pending_ocr": 1
+  },
+  "subject_counts": {
+    "SSC/class_10/Telugu": 1
+  },
+  "pdfs": [
+    {
+      "board": "SSC",
+      "class": 10,
+      "subject": "Telugu",
+      "pdf": "raw_data/manual_pdfs/SSC TELANGANA/class 10/telugu.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "pending_ocr",
+      "extraction_message": "Telugu PDF text is font-encoded/mojibake; OCR is required.",
+      "sample": "|ü<√ ‘·s¡>∑‹\n‘Ó\\T>∑T yê#·ø£+\neTTK´dü\\Vü‰<ës¡T\nleT‹ ∫Á‘ê sêeT#·+Á<äHé,\n◊.m.mdt.,\nÁ|ü‘˚´ø£ Á|ü<Ûëq ø±s¡´<ä]Ù, $<ë´XÊK, ‘Ó\\+>±D.\nd+ü bÕ<≈ä e£ T+&*É\n&Üˆˆ ãqï nsTT\\j·T´,\nÁ|ü<ÛëHê#ês¡T´\\T, ÄsYº‡ eT]j·TT ôd’qT‡ ø£fi≤XÊ\\, es¡+>∑˝Ÿ.\n&Üˆˆ <äVü≤>±+ kÕ+ãeT÷]Ô,\n$ÁXÊ+‘· Á|ü<ÛëHê#ês¡T´\\T, ñbÕ<Ûë´j·T $<ë´ ø£fi≤XÊ\\, es¡+>∑˝Ÿ.\n&Üˆˆ mHé. s¡»ì,\n‘Ó\\T>∑T $uÛ≤>±~Û|ü‹, _.ÄsY.n+uÒ<äÿsY kÕs¡«Á‹ø£ $X¯«$<ë´\\j·T+, ôV’≤<äsêu≤<é.\n&Üˆˆ mdt. s¡|òüTT,\nndæôdº+{Ÿ Ábıô|òdüsY, ñkÕàìj·÷ $X¯«$<ë´\\j·T+, ôV’≤<äsêu≤<é.\nl <˚X¯|ü‹ lìyêdt,\n"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "CBSE",
+    "class": 5,
+    "subject": "Hindi",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Kahani Aur Kavita",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Kahani Aur Kavita",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Vyakaran Abhyas",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Vyakaran Abhyas",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Paryayvachi Aur Vilom",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Paryayvachi Aur Vilom",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Kaal Aur Kriya",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Kaal Aur Kriya",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Patra Lekhan",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Patra Lekhan",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Pathan Aur Vachan",
+      "topics": [
+        {
+          "topic_name": "Reading And Appreciation",
+          "subtopics": [
+            "Theme, Setting, And Main Ideas In Pathan Aur Vachan",
+            "Characters, Speaker, Narrator, Or Point Of View",
+            "Vocabulary, Idioms, And Contextual Meaning"
+          ]
+        },
+        {
+          "topic_name": "Language Study",
+          "subtopics": [
+            "Grammar And Usage From The Lesson",
+            "Sentence Patterns, Punctuation, And Word Forms",
+            "Figures Of Speech Or Literary Devices Where Applicable"
+          ]
+        },
+        {
+          "topic_name": "Writing And Expression",
+          "subtopics": [
+            "Short Answers And Long Answers",
+            "Creative, Descriptive, Or Formal Writing",
+            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          ]
+        }
+      ]
+    }
+  ]
+}

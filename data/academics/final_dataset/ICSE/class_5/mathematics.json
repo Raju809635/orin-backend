@@ -1,0 +1,432 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 5,
+    "subject": "Mathematics",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "The Fish Tale",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of The Fish Tale",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Shapes And Angles",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Shapes And Angles",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "How Many Squares",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of How Many Squares",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Parts And Wholes",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Parts And Wholes",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Does It Look The Same",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Does It Look The Same",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Be My Multiple I'Ll Be Your Factor",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Be My Multiple I'Ll Be Your Factor",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Can You See The Pattern",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Can You See The Pattern",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Mapping Your Way",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Mapping Your Way",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Boxes And Sketches",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Boxes And Sketches",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Tenths And Hundredths",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Tenths And Hundredths",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Area And Its Boundary",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Area And Its Boundary",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Smart Charts",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Smart Charts",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "Ways To Multiply And Divide",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of Ways To Multiply And Divide",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "How Big How Heavy",
+      "topics": [
+        {
+          "topic_name": "Concepts And Vocabulary",
+          "subtopics": [
+            "Meaning And Purpose Of How Big How Heavy",
+            "Important Terms, Symbols, And Notation",
+            "Properties, Rules, And Standard Forms"
+          ]
+        },
+        {
+          "topic_name": "Methods And Problem Solving",
+          "subtopics": [
+            "Worked Examples From Simple To Complex",
+            "Mental Maths And Estimation Where Applicable",
+            "Step-By-Step Written Solution Methods"
+          ]
+        },
+        {
+          "topic_name": "Applications And Practice",
+          "subtopics": [
+            "Daily-Life Word Problems",
+            "Diagram, Table, Graph, Or Construction Based Questions",
+            "Mixed Practice And Revision Problems"
+          ]
+        }
+      ]
+    }
+  ]
+}

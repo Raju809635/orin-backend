@@ -1,0 +1,286 @@
+{
+  "manual_pdf_count": 27,
+  "filters": {
+    "board": "CBSE",
+    "class": 10,
+    "subject": "Social"
+  },
+  "status_counts": {
+    "text_extracted": 27
+  },
+  "subject_counts": {
+    "CBSE/class_10/Social": 27
+  },
+  "pdfs": [
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess101.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "The process of transformation of things\nCan you identify and name the various items\navailable in our environment involves an\nused in making life comfortable in our villages\ninteractive relationship between nature,\nand towns. List the items and name the\ntechnology and institutions. Human beings\nmaterial used in their making.\ninteract with nature through technology and\ncreate institutions to accelerate their\nEverything available in our environment\neconomic development.\nwhich can be used to satisfy"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess102.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "Flora and Fauna in India\nNarak! My Lord, you are the creator of music\nIf you look around, you will be able to find\nin the world of Lepchas\nthat there are some animals and plants which\nOh Narak! My Lord, let me dedicate\nare unique in your area. In fact, India is\nmyself to you\none of the world’s richest countries in terms\nLet me gather your music from the\nof its vast array of biological diversity. This\nsprings, the rivers, the mountains, the forests,\nis possibly twice or thrice the number yet\nthe "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess103.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "You already know that three-fourth of the W ATER S CARCITY AND THE N EED FOR W ATER\nearth’s surface is covered with water, but only C M\nONSERVATIONAND ANAGEMENT\na small proportion of it accounts for\nfreshwater that can be put to use. This Given the abundance and renewability of\nfreshwater is mainly obtained from surface water, it is difficult to imagine that we may\nrun off and ground water that is continually suffer from water scarcity. The moment we\nbeing renewed and recharged through the speak"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess104.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "India is an agriculturally important country. through natural processes; land productivity\nTwo-thirds of its population is engaged in in this type of agriculture is low as the farmer\nagricultural activities. Agriculture is a primary does not use fertilisers or other modern\nactivity, which produces most of the food that inputs. It is known by different names in\nwe consume. Besides food grains, it also different parts of the country.\nproduces raw material for various industries.\nCan you name some "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess105.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "Haban comes to Guwahati with his father A bright smile from toothpaste\nfrom a remote village. and minerals\nHe sees people getting into strange\nToothpaste cleans your teeth. Abrasive\nhouse like objects which move along the minerals like silica, limestone, aluminium\nroad. He also sees a “kitchen” dragging a\noxide and various phosphate minerals do the\nnumber of house along with it. He is amazed cleaning. Fluoride which is used to reduce\nand asked his father “Why don’t our houses\ncavities, comes fro"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess106.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "On the occassion of Diwali, Harish went to IMPORTANCE OF MANUFACTURING\na market with his parents. They purchased\nManufacturing sector is considered the backbone\nshoes and clothes for him. His mother\nof development in general and economic\npurchased utensils, sugar, tea and diyas\ndevelopment in particular mainly because–\n(earthen lamps). Harish observed that the\n• Manufacturing industries not only help in\nshops in the market were flooded with\nmodernising agriculture, which forms the\nitems for sale"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess107.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "We use different materials and services in our the help of equally developed communication\ndaily life. Some of these are available in our system. Therefore, transport, communication\nimmediate surroundings, while other and trade are complementary to each other.\nrequirements are met by bringing things from Today, India is well-linked with the rest of\nother places. Goods and services do not move the world despite its vast size, diversity and\nfrom supply locales to demand locales on their linguistic"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess1a1.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "AAAAAppppppppppeeeeennnnndddddiiiiixxxxx-----IIIII\nWebsites you can see\nBombay Natural History Society: http://www.bnhs.org/\nBirding in India and South Asia: http://www.birding.in/\nWebsite of Project Tiger: http://projecttiger.nic.in/\nNature Conservation Foundation: http://www.ncf-india.org/\nWildlife Conservation Society of India: http://www.wildlife.in/\nWildlife Trust of India: http://www.wildlifetrustofindia.org/\nKalpavriksh Environment Action Group: http://www.kalpavriksh.org/\nDown to Earth M"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess1dd/jess1ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "Social Science\nContemporary\nIndia\nII\nTextbook in Geography\nfor Class X\nReprint 2026-27\n1068 – CONTEMPORARY INDIA-II\nISBN 81-7450-644-6\nTextbook for Class X\nFirst Edition\nJanuary 2006 Agrahayana 1928 ALL RIGHTS RESERVED\nReprinted q No part of this publication may be reproduced, stored in a retrieval system or transmitted,\nin any form or by any means, electronic, mechanical, photocopying, recording or otherwise\nDecember 2007, February 2009, without the prior permission of the publisher.\nJanuary 20"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess201.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "NOTES FOR THE TEACHER\nNOTES FOR TEACHERS\nCHAPTER I : DEVELOPMENT\nDevelopment has many aspects. The enable better understanding of the themes\npurpose of this chapter is to enable discussed by bringing the learners closer\nstudents to understand this idea. They to their real life situations.\nhave to understand that people have\nThere are certain terms used in this\ndifferent perspectives on development and\nchapter that would require clarification —\nthere are ways by which we can arrive at\nPer Capita "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess202.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "NOTES FOR THE TEACHER\nCHAPTER 2: SECTORS OF THE INDIAN ECONOMY\nAn economy is best understood when we industry and services should be related\nstudy its components or sectors. Sectoral to the experience of the children by taking\nclassification can be done on the basis of more examples that they may observe in\nseveral criteria. In this chapter, three their day-to-day life. Information derived\ntypes of classifications are discussed: from the media could be used for this\nprimary/secondary/tertiary; o"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess203.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "NOTES FOR THE TEACHER\nCHAPTER 3 : MONEY AND CREDIT\nMoney is a fascinating subject and full of legitimate and legal. They can also discuss the\ncuriosities. It is important to capture this transactions which are legal and why. It is also\nelement for the students. The history of important to intimate students that different\nmoney and how various forms were used at types of plastic cards are used in place of cash\ndifferent times is an interesting story. At this transactions but not all of them money"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess204.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "NNNNNOOOOOTTTTTEEEEESSSSS FFFFFOOOOORRRRR TTTTTHHHHHEEEEE TTTTTEEEEEAAAAACCCCCHHHHHEEEEERRRRR\nCHAPTER 4 : GLOBALISATION AND THE INDIAN ECONOMY\nMost regions of the world are getting increasingly of trade and investment policies and, pressures\ninterconnected. While this interconnectedness from international organisations such as the\nacross countries has many dimensions — WTO. Improvement in technology is a fascinating\ncultural, political, social and economic — this area for students and you may, w"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess205.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "NOTES FOR THE TEACHER\nCHAPTER 5 : CONSUMER RIGHTS\nThis chapter proposes to discuss the issue of posters collectively is another way to think about\nconsumer rights within the context of the ways these issues. This lesson contains activities,\nmarkets operate in our country. There are many which require visits — visit to consumer\naspects of unequal situations in a market and protection councils, consumer organisations,\npoor enforcement of rules and regulations. District/State/National level Consume"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess2dd/jess2ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "UUUUUNNNNNDDDDDEEEEERRRRRSSSSSTTTTTAAAAANNNNNDDDDDIIIIINNNNNGGGGG\nEEEEECCCCCOOOOONNNNNOOOOOMMMMMIIIIICCCCC\nDDDDDEEEEEVVVVVEEEEELLLLLOOOOOPPPPPMMMMMEEEEENNNNNTTTTT\nSOCIAL SCIENCE TEXTBOOK FOR CLASS X\nReprint 2026-27\n1070 – U NDERSTANDING E CONOMIC D EVELOPMENT\nISBN 81-7450-655-1\nTextbook for Class X\nFirst Edition\nDecember 2006 Agrahayana 1928\nALL RIGHTS RESERVED\nq No part of this publication may be reproduced, stored in a retrieval system or\nReprinted transmitted, in any form or by any means, ele"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess301.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "I\nSECTION\nEVENTS AND PROCESSES\nReprint 2026-27\nReprint 2026-27\n3\neporuE\nni\nmsilanoitaN\nIn 1848, Frédéric Sorrieu, a French artist, prepared a series of four\nprints visualising his dream of a world made up of ‘democratic\nand social Republics’, as he called them. The first print (Fig. 1) of the\nseries, shows the peoples of Europe and America – men and women\nof all ages and social classes – marching in a long train, and offering\nhomage to the statue of Liberty as they pass by it. As you would\nrecal"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess302.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "29\naidnI\nni\nmsilanoitaN\nAs you have seen, modern nationalism in Europe came to be\nassociated with the formation of nation-states. It also meant a change\nin people’s understanding of who they were, and what defined their\nidentity and sense of belonging. New symbols and icons, new songs\nand ideas forged new links and redefined the boundaries of\ncommunities. In most countries the making of this new national\nidentity was a long process. How did this consciousness emerge\nin India?\nIn India and as in "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess303.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "II\nSECTION\nLIVELIHOODS, ECONOMIES AND SOCIETIES\nReprint 2026-27\nReprint 2026-27\n53\ndlroW\nlabolG\na\nfo\ngnikaM\nehT\n1 The Pre-modern World\nWhen we talk of ‘globalisation’ we often refer to an economic\nsystem that has emerged since the last 50 years or so. But as you will\nsee in this chapter, the making of the global world has a long\nhistory – of trade, of migration, of people in search of work, the\nmovement of capital, and much else. As we think about the dramatic\nand visible signs of global interco"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess304.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "79\nnoitasilairtsudnI\nfo\negA\nehT\nVI\nretpahC\nnoitasilairtsudnI\nfo\negA\nehT\nThe Age of Industrialisation\nFig. 1 – Dawn of the Century, published by E.T. Paull Music Co.,\nNew York, England, 1900.\nIn 1900, a popular music publisher E.T. Paull produced a music\nbook that had a picture on the cover page announcing the ‘Dawn\nof the Century’ (Fig. 1). As you can see from the illustration, at the\ncentre of the picture is a goddess-like figure, the angel of progress,\nbearing the flag of the new century. She "
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess305.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "III\nSECTION\nEVERYDAY LIFE, CULTURE AND POLITICS\nReprint 2026-27\nReprint 2026-27\n105\nerutluC\ntnirP\nIt is difficult for us to imagine a world without printed matter. We\nfind evidence of print everywhere around us – in books, journals,\nnewspapers, prints of famous paintings, and also in everyday things\nlike theatre programmes, official circulars, calendars, diaries,\nadvertisements, cinema posters at street corners. We read printed\nliterature, see printed images, follow the news through newspapers,\n"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess3dd/jess3ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "Social Science\nIndia and the Contemporary World – II\nTextbook in History for Class X\nReprint 2026-27\n1066 – I NDIA AND THE C ONTEMPORARY W ORLD – II\nISBN 81-7450-707-8\nTextbook for Class X\nFirst Edition\nALL RIGHTS RESERVED\nMarch 2007 Chaitra 1928\nq No part of this publication may be reproduced, stored in a retrieval system or\nReprinted\ntransmitted, in any form or by any means, electronic, mechanical, photocopying,\nJanuary 2008 Pausa 1929 recording or otherwise without the prior permission of the"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess401.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "gnirahs-rewoP\n1\nI\nretpahC\nPower-sharing\nOverview\nWith this chapter, we resume the tour of democracy that we started last\nyear. We noted last year that in a democracy all power does not rest\nwith any one organ of the government. An intelligent sharing of power\namong legislature, executive and judiciary is very important to the design\nof a democracy. In this and the next two chapters, we carry this idea of\npower-sharing forward. We start with two stories from Belgium and Sri\nLanka. Both these stor"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess402.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "msilaredeF\n13\n2\nretpahC\nFederalism\nOverview\nIn the previous chapter, we noted that vertical division of power among\ndifferent levels of government is one of the major forms of power-sharing\nin modern democracies. In this chapter, we focus on this form of power-\nsharing. It is most commonly referred to as federalism. We begin by\ndescribing federalism in general terms. The rest of the chapter tries to\nunderstand the theory and practice of federalism in India. A discussion\nof the federal constituti"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess403.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "etsaC\ndna\nnoigileR\n,redneG\n29\n3\nretpahC\nGender,\nReligion and\nCaste\nOverview\nThe existence of social diversity does not threaten democracy. Political\nexpression of social differences is possible and sometimes quite desirable\nin a democratic system. In this chapter we apply these ideas to the practice\nof democracy in India. We look at three kinds of social differences that\ncan take the form of social divisions and inequalities. These are social\ndifferences based on gender, religion and caste. In e"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess404.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "46\nscitiloP\ncitarcomeD\n4\nretpahC\nPolitical Parties\nOverview\nIn this tour of democracy, we have come across political parties several\ntimes. In Class IX, we noticed the role of political parties in the rise of\ndemocracies, in the formation of constitutional designs, in electoral politics\nand in the making and working of governments. In this textbook, we have\nglanced at political parties as vehicles of federal sharing of political power\nand as negotiators of social divisions in the arena of democr"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess405.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "ycarcomeD\nfo\nsemoctuO\n63\n5\nretpahC\nOutcomes of\nDemocracy\nOverview\nAs we begin to wind up our tour of democracy, it is time to move\nbeyond our discussion of specific themes and ask a general set of\nquestions: What does democracy do? Or, what outcomes can we\nreasonably expect of democracy? Also, does democracy fulfil these\nexpectations in real life? We begin by thinking about how to assess\nthe outcomes of democracy. After some clarity on how to think on\nthis subject, we proceed to look at the expe"
+    },
+    {
+      "board": "CBSE",
+      "class": 10,
+      "subject": "Social",
+      "pdf": "raw_data/manual_pdfs/CBSE/CLASS 10/SOCIAL/jess4dd/jess4ps.pdf",
+      "extractor": "pdfplumber",
+      "extraction_status": "text_extracted",
+      "extraction_message": "PDF text extraction produced readable text.",
+      "sample": "Social Science\nD P -ii\nemocratic olitics\nTextbook in Political Science for Class X\nReprint 2026-27\n0_Prelims.indd 1 10-05-2022 17:06:28\n1072 – Democratic Politics-ii\nISBN 81-7450-711-6\nTextbook for Class X\nFirst Edition\nALL RIGHTS RESERVED\nMarch 2007 Chaitra 1928\n No part of this publication may be reproduced, stored in a retrieval system\nReprinted or transmitted, in any form or by any means, electronic, mechanical,\nphotocopying, recording or otherwise without the prior permission of\nFebruary 2"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 4,
+    "subject": "Chemistry",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Materials Around Us",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Materials Around Us",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Solids Liquids And Gases",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Solids Liquids And Gases",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Air And Water",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Air And Water",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Changes Around Us",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Changes Around Us",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Useful Substances",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Useful Substances",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Waste And Recycling",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Waste And Recycling",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    }
+  ]
+}

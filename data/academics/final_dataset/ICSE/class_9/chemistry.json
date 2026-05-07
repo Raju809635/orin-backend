@@ -1,0 +1,222 @@
+{
+  "metadata": {
+    "board": "ICSE",
+    "class": 9,
+    "subject": "Chemistry",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Matter And Its Composition",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Matter And Its Composition",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Atomic Structure",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Atomic Structure",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Periodic Table",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Periodic Table",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Chemical Bonding",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Chemical Bonding",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "The Mole Concept",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In The Mole Concept",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Study Of Gas Laws",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Study Of Gas Laws",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Atmospheric Pollution",
+      "topics": [
+        {
+          "topic_name": "Chemical Concepts",
+          "subtopics": [
+            "Important Ideas In Atmospheric Pollution",
+            "Terms, Symbols, Formulae, And Equations",
+            "Properties, Trends, And Classification"
+          ]
+        },
+        {
+          "topic_name": "Reactions And Laboratory Work",
+          "subtopics": [
+            "Balanced Equations And Reaction Conditions",
+            "Observations, Tests, And Inference",
+            "Safety Rules And Handling Of Chemicals"
+          ]
+        },
+        {
+          "topic_name": "Applications",
+          "subtopics": [
+            "Industrial, Environmental, And Household Uses",
+            "Reasoning Questions And Comparisons",
+            "Practice Problems And Structured Answers"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 5,
+    "subject": "Biological Science",
+    "year": "2026",
+    "source": "curated_generation",
+    "source_type": "generated_fallback"
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Plant Life",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In Plant Life",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Animal Life",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In Animal Life",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "The Human Body",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In The Human Body",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Health And Hygiene",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In Health And Hygiene",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Adaptations",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In Adaptations",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Environment",
+      "topics": [
+        {
+          "topic_name": "Life Processes And Structures",
+          "subtopics": [
+            "Main Biological Ideas In Environment",
+            "Important Terms, Functions, And Classifications",
+            "Structure-Function Relationships"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Investigation",
+          "subtopics": [
+            "Labelled Diagrams And Flow Charts",
+            "Observation, Experiment, And Inference",
+            "Comparison Of Organisms, Tissues, Or Systems"
+          ]
+        },
+        {
+          "topic_name": "Health Environment And Applications",
+          "subtopics": [
+            "Health, Agriculture, Or Ecosystem Connections",
+            "Technology And Society Links",
+            "Practice Questions And Project Work"
+          ]
+        }
+      ]
+    }
+  ]
+}
