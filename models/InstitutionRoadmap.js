@@ -31,6 +31,12 @@ const institutionRoadmapSchema = new mongoose.Schema(
     description: { type: String, default: "", maxlength: 3000 },
     domain: { type: String, default: "" },
     className: { type: String, default: "", maxlength: 120 },
+    audienceStage: {
+      type: String,
+      enum: ["", "highschool", "after12"],
+      default: "",
+      index: true
+    },
     status: {
       type: String,
       enum: ["draft", "published"],

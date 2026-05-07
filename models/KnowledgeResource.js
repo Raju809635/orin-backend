@@ -11,6 +11,12 @@ const knowledgeResourceSchema = new mongoose.Schema(
     },
     institutionName: { type: String, default: "", trim: true, index: true },
     className: { type: String, default: "", trim: true, index: true },
+    audienceStage: {
+      type: String,
+      enum: ["", "highschool", "after12"],
+      default: "",
+      index: true
+    },
     type: {
       type: String,
       enum: ["interview_questions", "roadmap", "coding_resource", "career_guide", "other"],

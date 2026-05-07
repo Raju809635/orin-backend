@@ -201,6 +201,34 @@ function normalizeContentScope({ requestedScope = "", role = "student", institut
   return { scope: "global", institutionName: "", className: "" };
 }
 
+function normalizeAudienceStage(value = "") {
+  const key = normalizeText(value);
+  if (["highschool", "high_school", "school"].includes(key)) return "highschool";
+  if (["after12", "after_12", "after12th", "career"].includes(key)) return "after12";
+  return "";
+}
+
+function audienceStageForMentorProfile(profile, requestedStage = "") {
+  const explicitStage = normalizeAudienceStage(requestedStage);
+  if (explicitStage) return explicitStage;
+  return profile?.mentorOrgRole === "institution_teacher" ? "highschool" : "after12";
+}
+
+function audienceStageForViewer(role = "student", profile = null) {
+  if (role === "mentor") return profile?.mentorOrgRole === "institution_teacher" ? "highschool" : "after12";
+  return profile?.learnerStage === "highschool" || profile?.learnerStage === "kid" ? "highschool" : "after12";
+}
+
+function audienceStageVisibilityFilter(stage = "", ownerField = "", ownerId = "") {
+  const filters = [
+    { audienceStage: { $exists: false } },
+    { audienceStage: "" }
+  ];
+  if (stage) filters.push({ audienceStage: stage });
+  if (ownerField && ownerId) filters.push({ [ownerField]: ownerId });
+  return { $or: filters };
+}
+
 function uniqueTokens(values = []) {
   const set = new Set();
   values.forEach((value) => {
@@ -4926,8 +4954,8 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
   const role = req.user.role;
 
   const profile = role === "mentor"
-    ? await MentorProfile.findOne({ userId }).select("institutionName").lean()
-    : await StudentProfile.findOne({ userId }).select("institutionName collegeName className").lean();
+    ? await MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean()
+    : await StudentProfile.findOne({ userId }).select("institutionName collegeName className learnerStage").lean();
 
   const institutionName = String(profile?.institutionName || profile?.collegeName || "").trim();
   const className = role === "student" ? String(profile?.className || "").trim() : "";
@@ -4940,7 +4968,10 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
     : {
         institutionName,
         status: "published",
-        ...(className ? { $or: [{ className }, { className: "" }, { className: { $exists: false } }] } : {})
+        $and: [
+          audienceStageVisibilityFilter(audienceStageForViewer(role, profile), "mentorId", userId),
+          ...(className ? [{ $or: [{ className }, { className: "" }, { className: { $exists: false } }] }] : [])
+        ]
       };
 
   const rows = await InstitutionRoadmap.find(query)
@@ -5010,7 +5041,7 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
 
 exports.createInstitutionRoadmap = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName").lean();
+  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean();
   const institutionName = String(mentorProfile?.institutionName || "").trim();
 
   if (!institutionName) {
@@ -5035,6 +5066,7 @@ exports.createInstitutionRoadmap = asyncHandler(async (req, res) => {
     description: String(req.body?.description || "").trim(),
     domain: String(req.body?.domain || "").trim(),
     className,
+    audienceStage: audienceStageForMentorProfile(mentorProfile, req.body?.audienceStage),
     status: String(req.body?.status || "published").trim() === "draft" ? "draft" : "published",
     weeks
   });
@@ -7507,10 +7539,12 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
   const goal = String(journeyState?.goal?.title || journeyState?.goal?.domain || "Career Growth").trim();
   const challengeState = buildChallengeJourneyState({ journeyState, profile, goal });
   const audienceProfile = role === "mentor"
-    ? await MentorProfile.findOne({ userId }).select("institutionName").lean()
-    : await StudentProfile.findOne({ userId }).select("institutionName collegeName className").lean();
+    ? await MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean()
+    : await StudentProfile.findOne({ userId }).select("institutionName collegeName className learnerStage").lean();
   const audienceInstitutionName = String(audienceProfile?.institutionName || audienceProfile?.collegeName || "").trim();
   const audienceClassName = String(audienceProfile?.className || "").trim();
+  const viewerAudienceStage = audienceStageForViewer(role, audienceProfile);
+  const audienceStageFilter = audienceStageVisibilityFilter(viewerAudienceStage, "createdBy", userId);
   const challengeAudienceFilters = [
     { scope: { $exists: false } },
     { scope: "global" },
@@ -7532,6 +7566,7 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
             {
               $or: challengeAudienceFilters
             },
+            audienceStageFilter,
             {
               $or: [
                 { isActive: true, approvalStatus: "approved" },
@@ -7544,7 +7579,10 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
       : {
           isActive: true,
           approvalStatus: "approved",
-          $or: challengeAudienceFilters
+          $and: [
+            { $or: challengeAudienceFilters },
+            audienceStageFilter
+          ]
         };
 
   let challenges = await CommunityChallenge.find(challengesQuery)
@@ -7557,7 +7595,7 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
     : [];
   const submissionMap = new Map(submissionRows.map((item) => [String(item.challengeId), item]));
 
-  if (!challenges.length) {
+  if (!challenges.length && viewerAudienceStage === "after12") {
     challenges = [
       {
         _id: "seed-challenge-ai",
@@ -7591,6 +7629,7 @@ exports.getCommunityChallenges = asyncHandler(async (req, res) => {
         scope: item.scope || "global",
         institutionName: item.institutionName || "",
         className: item.className || "",
+        audienceStage: item.audienceStage || "",
         mentor: item.createdBy
           ? {
               id: item.createdBy?._id || null,
@@ -7669,6 +7708,7 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
     scope: scopeDetails.scope,
     institutionName: scopeDetails.institutionName,
     className: scopeDetails.className,
+    audienceStage: audienceStageForMentorProfile(mentorProfile, req.body?.audienceStage),
     description,
     bannerImageUrl,
     prize,
@@ -8829,10 +8869,11 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
   };
 
   const profileForInstitution = req.user.role === "mentor"
-    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean()
-    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className").lean();
+    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName mentorOrgRole").lean()
+    : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className learnerStage").lean();
   const institutionName = String(profileForInstitution?.institutionName || profileForInstitution?.collegeName || "").trim();
   const className = String(profileForInstitution?.className || "").trim();
+  const resourceAudienceStageFilter = audienceStageVisibilityFilter(audienceStageForViewer(req.user.role, profileForInstitution), "submittedBy", req.user.id);
   const audienceQuery = {
     $or: [
       { scope: { $exists: false } },
@@ -8859,12 +8900,13 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
               ...(domainRegexes.length ? [{ domain: { $in: domainRegexes } }] : [{ domain: derivedDomain }])
             ]
           },
-          audienceQuery
+          audienceQuery,
+          resourceAudienceStageFilter
         ]
       }
     : {
         ...baseQuery,
-        $and: [audienceQuery]
+        $and: [audienceQuery, resourceAudienceStageFilter]
       };
 
   let resources = await KnowledgeResource.find(scopedQuery)
@@ -8902,10 +8944,15 @@ exports.getKnowledgeLibrary = asyncHandler(async (req, res) => {
     institutionDocs = await KnowledgeResource.find({
       isActive: true,
       approvalStatus: "approved",
-      $or: [
-        { scope: { $exists: false }, institutionName },
-        { scope: "institution", institutionName },
-        ...(className ? [{ scope: "class", institutionName, className }] : [])
+      $and: [
+        {
+          $or: [
+            { scope: { $exists: false }, institutionName },
+            { scope: "institution", institutionName },
+            ...(className ? [{ scope: "class", institutionName, className }] : [])
+          ]
+        },
+        resourceAudienceStageFilter
       ]
     })
       .populate("submittedBy", "name")
@@ -9010,7 +9057,7 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
   if (!title) throw new ApiError(400, "title is required");
 
   const contributorProfile = req.user.role === "mentor"
-    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean()
+    ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName mentorOrgRole").lean()
     : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className").lean();
   const institutionName = String(contributorProfile?.institutionName || contributorProfile?.collegeName || "").trim();
   const className = String(req.body?.className || contributorProfile?.className || "").trim();
@@ -9026,6 +9073,7 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
     scope: scopeDetails.scope,
     institutionName: scopeDetails.institutionName,
     className: scopeDetails.className,
+    audienceStage: req.user.role === "mentor" ? audienceStageForMentorProfile(contributorProfile, req.body?.audienceStage) : normalizeAudienceStage(req.body?.audienceStage),
     type,
     title,
     description,
@@ -9060,6 +9108,7 @@ exports.getMentorKnowledgeResources = asyncHandler(async (req, res) => {
     scope: item.scope || "global",
     institutionName: item.institutionName || "",
     className: item.className || "",
+    audienceStage: item.audienceStage || "",
     approvalStatus: item.approvalStatus || "pending",
     isActive: item.isActive !== false,
     updatedAt: item.updatedAt

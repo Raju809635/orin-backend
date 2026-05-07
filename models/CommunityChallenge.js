@@ -12,6 +12,12 @@ const communityChallengeSchema = new mongoose.Schema(
     },
     institutionName: { type: String, default: "", trim: true, index: true },
     className: { type: String, default: "", trim: true, index: true },
+    audienceStage: {
+      type: String,
+      enum: ["", "highschool", "after12"],
+      default: "",
+      index: true
+    },
     description: { type: String, default: "" },
     bannerImageUrl: { type: String, default: "" },
     prize: { type: String, default: "" },
