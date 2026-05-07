@@ -5,7 +5,9 @@ const ApiError = require("../utils/ApiError");
 const BACKEND_DATASET_DIR = path.resolve(process.cwd(), "data/academics/final_dataset");
 const PIPELINE_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/final_dataset");
 const DEFAULT_DATASET_DIR = fs.existsSync(BACKEND_DATASET_DIR) ? BACKEND_DATASET_DIR : PIPELINE_DATASET_DIR;
-const MANUAL_PDF_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
+const BACKEND_MANUAL_PDF_DIR = path.resolve(process.cwd(), "data/academics/manual_pdfs");
+const PIPELINE_MANUAL_PDF_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
+const MANUAL_PDF_DIR = fs.existsSync(BACKEND_MANUAL_PDF_DIR) ? BACKEND_MANUAL_PDF_DIR : PIPELINE_MANUAL_PDF_DIR;
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
@@ -98,7 +100,12 @@ function isSubjectUnavailable(record) {
   if (isExtractionPending(record)) return true;
   if (["needs_review", "review_required"].includes(extractionStatus)) return true;
   if (["needs_review", "review_required", "pending"].includes(verificationStatus)) return true;
-  if (["generated_fallback", "curated_fallback"].includes(sourceType)) return true;
+  if (["generated_fallback", "curated_fallback"].includes(sourceType)) {
+    const classNumber = metadata.class || record?.classNumber;
+    const subject = metadata.subject || record?.subjectKey;
+    if (classNumber && subject && getManualPdfsForClassSubject(classNumber, subject, metadata.board).length > 0) return false;
+    return true;
+  }
   return false;
 }
 
@@ -209,8 +216,12 @@ function getSubjectsForClass(classNumber) {
   sortedBoards.forEach((board) => {
     getSubjects(board, classNumber).forEach((subject) => {
       const key = subjectSlug(subject.name || subject.subject || subject.slug || subject.key);
-      if (!key || seen.has(key)) return;
-      seen.set(key, { ...subject, board });
+      if (!key) return;
+      const existing = seen.get(key);
+      const candidate = { ...subject, board };
+      if (!existing || (existing.available === false && candidate.available !== false)) {
+        seen.set(key, candidate);
+      }
     });
   });
 
@@ -243,6 +254,8 @@ function getSubjectRecordForClass(classNumber, subject) {
     return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi) || a.localeCompare(b);
   });
 
+  const matches = [];
+
   for (const board of sortedBoards) {
     const classDir = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber));
     const aggregate = readAggregateDataset();
@@ -257,12 +270,12 @@ function getSubjectRecordForClass(classNumber, subject) {
         const slug = fileName.replace(/\.json$/, "");
         const record = readJson(path.join(classDir, fileName));
         if (subjectMatches(slug, record, subject)) {
-          return {
+          matches.push({
             board: normalizeBoard(board),
             classNumber: Number(classNumber),
             subjectKey: slug,
             subject: record
-          };
+          });
         }
       }
     }
@@ -270,16 +283,20 @@ function getSubjectRecordForClass(classNumber, subject) {
     if (aggregateClass) {
       for (const [slug, record] of Object.entries(aggregateClass)) {
         if (subjectMatches(slug, record, subject)) {
-          return {
+          matches.push({
             board: normalizeBoard(board),
             classNumber: Number(classNumber),
             subjectKey: slug,
             subject: record
-          };
+          });
         }
       }
     }
   }
+
+  const availableMatch = matches.find((record) => !isSubjectUnavailable(record));
+  if (availableMatch) return availableMatch;
+  if (matches.length) return matches[0];
 
   throw new ApiError(404, "Academic resource not found");
 }
@@ -397,9 +414,10 @@ function walkPdfFiles(dirPath) {
   });
 }
 
-function getManualPdfsForClassSubject(classNumber, subject) {
+function getManualPdfsForClassSubject(classNumber, subject, boardFilter = "") {
   if (!fs.existsSync(MANUAL_PDF_DIR)) return [];
   const requestedClass = Number(classNumber);
+  const requestedBoard = normalizeBoard(boardFilter);
   return walkPdfFiles(MANUAL_PDF_DIR)
     .map((filePath) => {
       const relativePath = path.relative(MANUAL_PDF_DIR, filePath);
@@ -408,6 +426,7 @@ function getManualPdfsForClassSubject(classNumber, subject) {
       const board = normalizeManualBoard(parts[0]);
       const detectedClass = Number(String(parts[1] || "").match(/\d+/)?.[0] || 0);
       const detectedSubject = manualPdfSubject(parts, filePath);
+      if (requestedBoard && board !== requestedBoard) return null;
       if (detectedClass !== requestedClass || !namesMatchSubject(detectedSubject, subject)) return null;
       const encodedPath = encodeURIComponent(relativePath.replace(/\\/g, "/"));
       return {

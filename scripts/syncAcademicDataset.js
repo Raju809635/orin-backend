@@ -9,11 +9,15 @@ const defaultSource = path.resolve(
 const defaultSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/final_dataset");
 const defaultDestination = path.resolve(backendRoot, "data/academics/orin_academic_dataset.json");
 const defaultDestinationDir = path.resolve(backendRoot, "data/academics/final_dataset");
+const defaultManualPdfSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
+const defaultManualPdfDestinationDir = path.resolve(backendRoot, "data/academics/manual_pdfs");
 
 const sourcePath = path.resolve(process.env.ACADEMICS_SYNC_SOURCE || defaultSource);
 const destinationPath = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION || defaultDestination);
 const sourceDir = path.resolve(process.env.ACADEMICS_SYNC_SOURCE_DIR || defaultSourceDir);
 const destinationDir = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION_DIR || defaultDestinationDir);
+const manualPdfSourceDir = path.resolve(process.env.ACADEMICS_SYNC_MANUAL_PDF_SOURCE_DIR || defaultManualPdfSourceDir);
+const manualPdfDestinationDir = path.resolve(process.env.ACADEMICS_SYNC_MANUAL_PDF_DESTINATION_DIR || defaultManualPdfDestinationDir);
 
 function fail(message) {
   console.error(message);
@@ -54,6 +58,7 @@ function copyDirRecursive(source, destination) {
 }
 
 copyDirRecursive(sourceDir, destinationDir);
+copyDirRecursive(manualPdfSourceDir, manualPdfDestinationDir);
 
 const boards = Object.keys(dataset);
 const classCount = boards.reduce((total, board) => total + Object.keys(dataset[board] || {}).length, 0);
@@ -66,4 +71,5 @@ const subjectCount = boards.reduce(
 
 console.log(`Synced academic dataset to ${path.relative(backendRoot, destinationPath)}`);
 console.log(`Synced academic final_dataset folder to ${path.relative(backendRoot, destinationDir)}`);
+console.log(`Synced academic manual PDFs folder to ${path.relative(backendRoot, manualPdfDestinationDir)}`);
 console.log(`Boards: ${boards.length}, classes: ${classCount}, subjects: ${subjectCount}`);
