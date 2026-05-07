@@ -9,7 +9,8 @@ const {
   getTopicsForClassSubject,
   getResourceLibrary,
   getManualPdfsForClassSubject,
-  resolveManualPdf
+  resolveManualPdf,
+  getManualPdfUrl
 } = require("../services/academicService");
 
 exports.getAcademicBoards = asyncHandler(async (req, res) => {
@@ -93,6 +94,11 @@ exports.getAcademicPdfsForClassSubject = asyncHandler(async (req, res) => {
 });
 
 exports.openAcademicPdf = asyncHandler(async (req, res) => {
+  const redirectUrl = getManualPdfUrl(req.query.path);
+  if (redirectUrl) {
+    return res.redirect(302, redirectUrl);
+  }
+
   const filePath = resolveManualPdf(req.query.path);
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `inline; filename="${encodeURIComponent(require("path").basename(filePath))}"`);

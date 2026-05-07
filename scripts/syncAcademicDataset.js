@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { spawnSync } = require("child_process");
 
 const backendRoot = path.resolve(__dirname, "..");
 const defaultSource = path.resolve(
@@ -9,15 +10,16 @@ const defaultSource = path.resolve(
 const defaultSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/final_dataset");
 const defaultDestination = path.resolve(backendRoot, "data/academics/orin_academic_dataset.json");
 const defaultDestinationDir = path.resolve(backendRoot, "data/academics/final_dataset");
-const defaultManualPdfSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
-const defaultManualPdfDestinationDir = path.resolve(backendRoot, "data/academics/manual_pdfs");
+const defaultReportSourceDir = path.resolve(backendRoot, "../acadamics/orin-data-pipeline/reports");
+const defaultReportDestinationDir = path.resolve(backendRoot, "data/academics/manual_pdf_scan_reports");
 
 const sourcePath = path.resolve(process.env.ACADEMICS_SYNC_SOURCE || defaultSource);
 const destinationPath = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION || defaultDestination);
 const sourceDir = path.resolve(process.env.ACADEMICS_SYNC_SOURCE_DIR || defaultSourceDir);
 const destinationDir = path.resolve(process.env.ACADEMICS_SYNC_DESTINATION_DIR || defaultDestinationDir);
-const manualPdfSourceDir = path.resolve(process.env.ACADEMICS_SYNC_MANUAL_PDF_SOURCE_DIR || defaultManualPdfSourceDir);
-const manualPdfDestinationDir = path.resolve(process.env.ACADEMICS_SYNC_MANUAL_PDF_DESTINATION_DIR || defaultManualPdfDestinationDir);
+const reportSourceDir = path.resolve(process.env.ACADEMICS_SYNC_REPORT_SOURCE_DIR || defaultReportSourceDir);
+const reportDestinationDir = path.resolve(process.env.ACADEMICS_SYNC_REPORT_DESTINATION_DIR || defaultReportDestinationDir);
+const uploadPdfs = process.argv.includes("--upload-pdfs");
 
 function fail(message) {
   console.error(message);
@@ -58,7 +60,18 @@ function copyDirRecursive(source, destination) {
 }
 
 copyDirRecursive(sourceDir, destinationDir);
-copyDirRecursive(manualPdfSourceDir, manualPdfDestinationDir);
+copyDirRecursive(reportSourceDir, reportDestinationDir);
+
+if (uploadPdfs) {
+  const result = spawnSync(process.execPath, [path.join(__dirname, "uploadAcademicPdfsToFirebase.js")], {
+    cwd: backendRoot,
+    env: process.env,
+    stdio: "inherit"
+  });
+  if (result.status !== 0) {
+    fail(`Academic PDF upload failed with exit code ${result.status}`);
+  }
+}
 
 const boards = Object.keys(dataset);
 const classCount = boards.reduce((total, board) => total + Object.keys(dataset[board] || {}).length, 0);
@@ -71,5 +84,6 @@ const subjectCount = boards.reduce(
 
 console.log(`Synced academic dataset to ${path.relative(backendRoot, destinationPath)}`);
 console.log(`Synced academic final_dataset folder to ${path.relative(backendRoot, destinationDir)}`);
-console.log(`Synced academic manual PDFs folder to ${path.relative(backendRoot, manualPdfDestinationDir)}`);
+console.log(`Synced academic scan reports folder to ${path.relative(backendRoot, reportDestinationDir)}`);
+console.log(uploadPdfs ? "Uploaded academic PDFs to Firebase Storage and refreshed manifest" : "Skipped academic PDF upload; pass --upload-pdfs to refresh Firebase manifest");
 console.log(`Boards: ${boards.length}, classes: ${classCount}, subjects: ${subjectCount}`);

@@ -1,0 +1,616 @@
+{
+  "generatedAt": "2026-05-07T18:01:35.998Z",
+  "count": 61,
+  "pdfs": [
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh1a1.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh1a1.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh1a1.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh1a1.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=AymBUsgNZ5kQmHu8Rg6YJHkqAsuG8mqpfH7eFTa1wJUzmRRO5D7RzQAt27s0XFQeC7iirip3aYtPfvdCXbvh4%2B9kg0Dj293DXGDa1eRTHkSsAA5kfWVyE%2FHja4tyUXt%2FGV7HPjacJhKc6%2FZcOyVxGmaZVY3jh00bMGlosjHL2GyHwo1N2%2BycmDcvWkOM8xr1B9j9I87HiE3lLGrrza47sgAeRMVJVXzp6DQd7qb82bw5tj%2BXeVkaO%2FatYvyy2jfY6GhMFH4pPyFCiHHJ%2FL5dF20uy4Gyne5NCNB1q2ZYMMRsUbDafmLXnMcMQx%2FEKj3zeRrGdhphq1ayUwY4EcUpQQ%3D%3D",
+      "sizeBytes": 2024250
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh1a2.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh1a2.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh1a2.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh1a2.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=ALRJR2dCRn%2FTYwV2KY5lVUNjU8L63eLgGUEg%2FpljMRipCg4%2Btl3%2FRArAC8Yrto6FkTsEYSuDlsY6jF2iBZkOtcwAymPosGEGxqcUbqVE1Y3LEDqFLQ5sKlGZV1%2FViCDq33%2FzeYHDx0dKuLZToTeT2fuBKwLK9NnDkqU91JoFkJspObRHgl%2FngU3XiDNcF3Ytv9WlY7OMO37sCFOa8uh2HoaMWE2jq8CVQ1Tg87Ldx1%2FejLZYWxvk57kVvQe3Z%2F4nlZZLujzcwQ75%2BxUg9yRgwIpdUM9ryf%2BJEmiRpkaPOQwQBxA4RK4LmUFotWc7xrPvqKCEd9BHWpPrgQfluunEMw%3D%3D",
+      "sizeBytes": 1452288
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh1an.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh1an.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh1an.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh1an.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=JzqQY1vAoYPLYy9GxwA7bznY2gsPbeH0%2BdiHN0%2BBNKrk3sJcqzGv1%2FJerhlsfRutH%2FetSX%2BnogCsJI%2B8pUuAQDIUdmvQ%2FOD%2Bp2Ocdm96ZYuVPM4dzllusCAcQURhductHQojTBl2T5%2BCh7iRk2Pni6AFxFjtoRq8VxteuyssxH4KlZIrzgW3Ym0PJBcM9qwqniv7k5LTYiVlymVXj0iK1qNKbkEmO8EU8z%2FRH0k7F1YTbqrC5JfFUohND8J2UCr%2FSZgqU%2FUKjkhRbB6vp7JTkUpGeSog9CGTCqPKYoaWB7Gj8HtW90%2Fvb%2BOQ1YDuIBO59EyDBRPZpyTFP62omvS9rQ%3D%3D",
+      "sizeBytes": 1561426
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh1ps.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh1ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh1ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh1ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=mr7F6f4j4nNsm%2FZ%2FphsGqge%2FhdJKPd1%2FDX4SfACJDqIssJKDeQWmwmRDeKI4vO7PfTXw6vwfRZnxSpZS77pnGmEoPzlevwUZghXyqPxvFm4FYtjNtFmm0f66tS4wO0awwEbFCqGtcvP8%2B%2Byclple0FT6K7vQm4pOqDbTOCnaOyjbKlpXRsdL%2FjtMID4zzTPjm6tF5iVpEjNwdKLV1NdXANve2T8QX6pRZ%2BG6n5J3Wmd6BSkBnBzKiVvxxTrgJ7zQm7N%2Fo8sODCFkQpbGU8MPmYLlgUy5OfyccuY8P1zL0ePrDy0IKKhgcNP9Tey6Xpc3oROOpoOGl4Js4oy%2FnedcNA%3D%3D",
+      "sizeBytes": 1969484
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh101.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh101.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh101.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh101.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=AOlxAdFbxZIahzLOzzO45oy9z8687Nq5mh83vjnjpJCqvvh77cqaBugJjz%2F7tWLdsP%2FxA37EWnCnbqkLYiBn5J2MCitacnkrJtb3ZJ2ede8b%2Fi8E0NDSxIgn7LU9QWq%2BH8r9B6Yl5qY3v%2FoVlpiqFX8zRw5gl8afbHOyEkwt4RP8HSr%2FV16Aqj4vfmct288cPorTzSLBDlozmSgl4qHLzzoq8y%2BE0BqjlRcufdY%2FTgckDxEQvH7z36SR50rkL%2BGQ5toRwXPNPJmi%2BsjVTuqaJNQ7uGP8YMye%2F%2FCxyZAgL%2B6%2FczZDeh73x8k2am1Sf3k6rMvJdF3JiwktUTbtIBEo3w%3D%3D",
+      "sizeBytes": 1534149
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh102.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh102.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh102.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh102.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=PUf%2BDTFGKmrnKZel41EtsyWHaxAXsVf7feAAVZ1c6UcTGNQHywYC99xSyD0LzprDqI4JT3W0VfK7wUyoQ9TUFfrgR%2BY35vstI2P9c7BxskibjZek%2FbBJxcN%2BxByeAGiLy94fVkzzl7sEL0gzgIZ2zGh3tmCIL6IF28FSXdATDpj4nYJD7s1D2NyWajDB85K2I%2BXNgFCZgrEm%2BstVHwFQey3XptizWv88O9JNk46mwsThuhorQkHXUDs%2Bm3j6mdnxq%2FTKLvjyZFXRGH%2FzihzVm7D6XJ2ff2Wtaxu6Q4Z5E0wPlFAlJxfmxlK4rDv7mGy1%2F7RrsgufKcZqpD2jrsv4Sw%3D%3D",
+      "sizeBytes": 1686285
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh103.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh103.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh103.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh103.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=SEGQQIumwHfMpcoZApabQt4kDTDUvSNHp1PnQ5K0ms51kwakUVCNHH7tW9x0VGAdBpKSHqkGampq3R2fVUQrwFY0jKzjrczCbS2YtW7LOoEKzIxkepF0cthwORMx17UeZFmDR2CmFfpsBT2iqNw9Zj4k0ol%2B4wtiuvuMrT%2F7jh0oIeePy86X3YHBTbs8Zjo2u0jEWZJzDIMbNrJV1uGPRpa5fxItPxQcbZahQz77ZT31t396RqWUZ6eyhekFjuWtXH%2FKvIkLFHA9wt7BdUWf0HgVXQny6GGKg2Fw0Rkp5FU5eg9lYH8kFE7A44c1ktjZMloLTYOhkEE8ZLZn04kNlw%3D%3D",
+      "sizeBytes": 2084232
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh104.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh104.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh104.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh104.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=VaRGtKRDcHYWC15NKsVCPc7hktac35bgB9Q1Y7XpxOAyIJXiQI0tZ3FJBNm%2FChWwgP4SDxGD2fv5mTRzuQtGMgsMEY0lyze%2BPQgW2J9Au2QHpPOpJJHBRetaLZ9%2FSIkd0L3Z5DUByHkDYZy%2B9H1DG6NfCl0dDUtr7AVzST20DcMEfel%2BazLzxh6x0G%2BCSviIUSmuR2tX%2FYlSVJHWzRrhbcv0YNURvPgGeAoOEPUboL4PVaoLBIZ3AunbXyAgV9yfI7klMeh9xbzX96TnRqA6zmNfwxSigHd5KR9q7cPr0Np0wJr%2BIJzQI%2F4Yj6t8xeT%2FnYZyvQMuw8wPQ13bAGaVeg%3D%3D",
+      "sizeBytes": 1499207
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh105.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh105.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh105.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh105.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=eK11OKVT8syi2woOEESEEAplkyQHMfzNf0DSkDlad7AbLXMHojX%2BbdHYeHP%2BSYJ8a980oG6knWR69FIANqV9FvpOZ2uW9HpCGCketZdecp0bLpdDNG346LBsFsapTir1AXcL2y%2BkZXtP8RMOvhWxqkwvEUYojRNtpGnCo5T14llGbvZn%2BM6Xsx%2BBb9QZGbMQQvruDLnVWVmNik7h%2FacQZSjGo9ttTAl2OECB7L2LDmNT7hMByexMi%2FvBkod9SlC7ERURra8KE9Qzme%2B882C8ozqmMRiWzR%2B8ajm5t8rp8%2FP4abQkmsT9g97OKMZKVQpvtGxyG3GUVmAZHcMpm2MqrA%3D%3D",
+      "sizeBytes": 2357823
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh106.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh106.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh106.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh106.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=K4e3RcjeivKAvq0bfQ%2BM08u4KoqpbZoy9RhgCq%2F8BhOIxQ4KGbcfxAyUkdvHhzJCEI6m%2FW4CLRdKXc7A7zwG0uJMIVM69L%2FClX8IqVAtR93ttEBtYDFpui5PkvKdFwiDyo%2FvEg4l2Dxqt4liNDkZG0PwXMmqitCJCxstinTVuA2fj7PfBuXYdQt%2FGYBl6Ha0ymAQrUUBeJY1E7SS%2FSaFlq5jiYd48W1i27mrXLzRQgt3KFZ7kvCc2rh7gC%2FRprYHHObYCuOkp5fNPHTnV7yHm9lfGYXqw%2BtptnEGTpHb%2B6QgrT4tDlfhj%2B7bJ0PH5ffKb6zdlsQU9ID51yewKe8RYg%3D%3D",
+      "sizeBytes": 2799087
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh107.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh107.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh107.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh107.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=CGiyvmyXg2dVUlEJpBem%2F0%2FcN1ZE0AYlg7nB0OfcRuwgGZuZY1vPLPD1wqn7Ncnu%2Bk34oXD4RH5kp1%2FF0n5JsSwzRit3q3wlhtKRA8%2B0tESXQI4mRfi8R9iL0Wz%2FzE90fx%2FmU0YlYzbI0V7BDT6SxQsIpLiwB4FcGxpWS0ThKF3xaWcpXUu%2Bz7gIMmuzPGBFjGqugq99RarUOSnoKQ9t30YWrpqnlRuXwf0KD2XudYg3CIbn89a4lHc%2BPL%2F4MxsaU0Vux1DMKPVkXsRnzCWSnyS39Sh7XEKLnCATAfWhmPITiRTlrUNq9de1KOGmgZ4VNh9t0LYiKCa%2FBovDHC5ZqQ%3D%3D",
+      "sizeBytes": 2152902
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh108.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh108.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh108.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh108.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=YZ3KY7eO%2BcBSemGfcQ4iNHzcrOiB8wIxrpDPhXpNRyKb7F7DZn0rCndK0d8E9zTGSbi6%2BnBV%2BPYosQZc7ZK4qWJHNY3cnHObKZ15CzI9mjjKqc%2FnaeiYYw5vVuJMmWawmnml7s8uwzD6NpJLtMFuyhyFJSJuVO1F5fvN39JjbfChP92Qh7OZw9UPRpZQ0ETjS073o4IWg63y9xwLcIJmPWbOK19MivkZ%2FAQdiNB27RrFqAcfmSU8tCb7ZSDItlCvTBIoLUajgYRyO34mVVx%2FsHMCSPpIYVqwnNhSoosMx175NwDi6oOK%2BOc5XP%2BKlkRz%2B6Y3NVxvQ5J9vnYCP3SrEw%3D%3D",
+      "sizeBytes": 2230227
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh109.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh109.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh109.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh109.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=MHDk0tcOKVJaYqWAQrf3Tj3fLI9ogpi6bsJpaiXHXDo4WeYXnU%2FCfGydy%2FAHsXPVuzbDj9Pij1RkOZsX7M8rwpbvsoB%2FkEQjw74xCaccs3oXRYcAgBCDdBmtH4x58dJnldKkGRjIHYuF%2F%2FWtzcxpQWBGPTt0NJJ%2FeiRxgFYxieavPnqurQLQa7FWvXLk2urzS%2FHVCh3U7REDz95BpsIUHKwhYTZoWvsNfZVR%2FLdPDK8Zuxgb%2BFyZOiXvVzZvGZMllkmwD578uNldpG6lT%2B%2Br1KS6AkubtLIlIW5EDT0FR3vTt007GrBqXsICfBppCH%2FQWqOuJoliOl5OHsAf4jdbAQ%3D%3D",
+      "sizeBytes": 1838085
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh110.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh110.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh110.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh110.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=Ii%2F8CNQv9gfriNMfFjJVmjY6ouxyDdr8CjC%2FWeR5ow9LY3q28wGi6Enc4%2BfsROk0995tUualRKmuPUG8b8KXqOmdCwxcOTK0G42Ox18QpSiKwfJ5MvR0uEQExniCKcS9CWGaUDqpdAD7R%2FPYoBDHb6DmCUVVx35zyjVwyehzEzY9jYoqjidipX8FzAv0cytYM38LbKdfbj2%2F%2F8cKGhESPlakLcOoQe%2BuvwXwHgC7mMLrCsKSR2V22H%2BFlLKpCWgO%2BgPgKRS9UMHRusW%2B9VcoGvtefzk%2BuI1n6mN6fhC4y4j%2B96V%2FZpVaVEfdgBZkZqDXCpTCS1QJ6AlRr19A22ztbQ%3D%3D",
+      "sizeBytes": 1366412
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh111.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh111.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh111.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh111.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=LyE1qspRHk05I%2Fi326Q1Hc4auCFutguBMkYB0RjiUHBKsMXr%2BfV%2Bl3vHe6zt0zJMpGMG98gWv1oiQq5tuaU3bN4pj%2FqENaK13mO6ftfAUzV40IrIkQYjZwf6fcDe8s%2FdMfZjxjwpftRcqcS9wJLPItOltSC6awr8zVTLFT16c7G2Dms7WC924ytNp5FbJJK%2FollPhuLduHC5oT1H8pZzxz5GXvaHFNPubR2TFJtD5VUSm%2FBR%2Fz2roAeZz%2FLpeSVHzoavZJttIUzExpR%2B16GrVpavBfTE%2BQZIKRXmwJKaEe%2FQtpsbhvdmsT8UACdIk2MgCOkpgs%2BszBICi3Gb50dKxQ%3D%3D",
+      "sizeBytes": 1310079
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh112.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh112.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh112.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh112.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=WO8Z7hw8g8fK5CIdWH%2FlAZhUFzWTBj94jElDdyi47zZF7nF2WzC5oskfj0kgVSbqgV0l6IC%2FFHizLTv4nTEsYiwTB4jLmzrTZ9aJ3E9QNWwOZ927SlUcOKcQhbLX9o30XO%2BpocezQoe4YRBmRrorikozODDGhm74yhZ8bUR8xAila%2FK%2Btrg8%2B3%2B80we4GUobJYODOwZ97TDv0o0%2BCUYoCFxgZvVXJ5%2F06bSyWcwkgxglsHxqplmjGuVsAeLdpdMM%2FwOiHUmo6kN1wm3hUaak6cflrDt3J3IgMTHiLtd%2FcyaGlVryz4gKICUl3UChMB%2Fjog%2FXOk4Wf%2Bzl3hAnJWmFPA%3D%3D",
+      "sizeBytes": 1620005
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh113.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh113.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh113.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh113.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=JB74gFjY%2BweW7TL950MvPG01887spVQcDa9%2FPYypaQt13%2Fm4Pj3qeQEbpnNPs2gzGxjf5RjllgSN5TCrCdadmirCUyYqTPy7U7oZ09DqHA3%2BSmuuw3Fod%2FBeXr6838ircX%2FA8ZKinhgkHTFyJ6Hpw3PoUSCO9RrtTz8U9QM%2BBBOmBr8le%2Bs0rJBjVvBT9GvndTATjOePTG7FBZ4FOsHqDLaVA8FDg0c62HXT5OvfBz1ocyrUy9HBwjnaNtWqXc%2FVXc4JEnyZCjj2AUl%2BXDkm4HJFYVlhmQWs3Os%2B0ue57%2BW50oBVfDXmcTN5CKep34cTc1x2B1r7b56q0saUMywYXQ%3D%3D",
+      "sizeBytes": 2803743
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "jemh114.pdf",
+      "relativePath": "CBSE/CLASS 10/MATHS/jemh114.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/maths/jemh114.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/maths/jemh114.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=F1vdrc7p8E4jRfNNtY%2FMuTMK5X%2B4qB%2Bj1TI5NeBBhNHoenhFeAdDVYAmJYuFVEvrkS4%2BfbKGCqgy%2Fm2IIFIzmcCfoUKEP2oxQU3ugEqeh2AxhdFRS5UlFoTcU41GDlE823bRw4GejhSsE3SWi%2FXN5HtE2NOoHPmhAB9ucXiHlv50Vcyh84O355jox%2FXYsGEKgT%2BvI44H%2BNAN6JfFzSRkiK0PtRZCLpOej%2FQeCpILwy%2FmLDZNqhHuJyaWxyslxsWH93lyTpalOmIdJYWNKG6wB4coOfIUZua3l87S9b7h1oobrDOhO%2FY1DCwzUD9E%2BKlo9DLC2N9ItoST7sj3%2BQkdKg%3D%3D",
+      "sizeBytes": 1847788
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc1an.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc1an.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc1an.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc1an.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=QpHi4C5Gu%2FUuaohxIgKpo94XPefwIs8cizKKz9g3S4kHPyymaNYXrnutXbqaDicbVmSC32UFVa%2BlgAYAgD8yx4FWNWbFZnPwJMfl7qqFp8WlxfNsDQCY9q5Fb3NtMWgHsZG6UWmyYKnDzXJOMWL%2FDC6%2B9JFrJnf5LPntmTXf%2BTThtDgjHo0apjA1pz%2FPCXMgaUQogvXVSzdUm0rpxmBR0kn9WvopUEOqER5oovxua1Lc3u5pNrZfkYXCfZFc%2BxTVR0u57CEHP89%2FsKYLHg7jsmgjgWm%2BkFxJAOMDgpiVhPNnJT%2FRh0o21AaM7yVE8lyh5YF%2FpqotXdlIAZxtN%2BMj%2FQ%3D%3D",
+      "sizeBytes": 825615
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc1ps.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc1ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc1ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc1ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=ifiIZPJklPLX8JCisbLBJqoLt0srUje1oEhFW0WKOTqV6q8HBal2DJnT37keYS4Fw6z7qBn9ZMZIxyVUVjoVUWqOImM99Xn8iSHP8T9ltBllmzLjdXzMT4Pi5%2F6WnYixYehBfBcjZSwrDaISpxxZL4rA22vtoEEI1IXxmy9K04Env4jPmZeU0vE44aCrcYBIUZWFHxwtEi30bp5IUKX7YRDnacU6bsSQ5KdNTEuYmhBy%2FnfjrPnnorqvj4K7gK4Gb111gu0SE3JskCkLDDgVOjM8bU%2Bn37UMGKdxxUK6SMP83iyDC0ggHZeRJusxj5z36O36k1oMyKEufe0aPvUDtA%3D%3D",
+      "sizeBytes": 3429027
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc101.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc101.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc101.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc101.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=lfO2k0S4KCMUBpKw2JSRbR4jWcYguFujvq1INp9v9xoDSGfrbTWRIzIDMq39jwdwA3EjTXiJ%2BE48wJHHxaEM9Fjbbd9LHSJ5SfzibU4%2BHxCu7HlPWqCVnbiz%2F3t7B9uobTNrrBGPgGS1g5WHnkRXqUdJJNjCcD9hGcXITA69WxovT502CN7u9jO3r654q4HlCvANJkonkWSM%2BwrwAANJXeX3UhsfeHJOlqTVIWWcBR%2BbjzVO5AtkuCTgDk%2B%2BuAtIP3mKBKEolxmOrgpyUMiM6D7zaFniKFvYKfp1f0aCyB3TyKMbPE0aiY4lL2RioX27U3aQGhUEbZtcv94KaK4mAw%3D%3D",
+      "sizeBytes": 4161216
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc102.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc102.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc102.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc102.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=Y58ejSuL5PRDS6bJ2hzD6s5CsDCTO74fUydFw91tLjRJ%2Bjjffpuibzlp8x%2FYXguk4tUOcWdTazJDAjie%2F3K%2B5HcrPcrIDlVQIt2VPv8NImeKnMQx%2Bono0PfVzmixJN5hnXjOUr8L2GQrCUSpyttBErOnp0MELUcpI3rr5oohR4UXTaYJkZqbolae736gCk2K%2BN8M02%2Fwh0AvKgoIfivVU2ppP2GBIRon2nJJcQs%2FQ24Xyxr7O54oAUD9JFJi14ERlAVOE6pelBMfuBe5hc%2B%2Bpge1aJvEpI%2F1qZef%2BA3KDFhj5xDuFFc9cg%2BX5V7cCvpXOBzIDcORuGacT0NYo3gZtA%3D%3D",
+      "sizeBytes": 3958510
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc103.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc103.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc103.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc103.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=jXb6eLPHYLP%2Bq96%2Bu5%2BYxxiEUeQmF9n%2FuiZ9HgheWG6IhNEH1UWPkc1PigHqsdi5CV10LNynxNJzTceU85UUjRO6UfwDYFJh2VqazFvvIXMQ8QTW9kfeXIgKOFqwHqIN9%2BQ8RoIg6ikQz6aQOYg36xwRHssrTM6rlsU72WT3WYMcAZ9XMhgil3ps%2FAa9C3m97M47k5rkRw7db6y61kAXYr9kkKM9ZC0XBHTHF0J%2BgFcwYjI%2BohoOIQnNjOtsl5woESspeaGcgqKSFdgzdHQOBYcvu0OIcRv%2F7dMD0bIbJVY9vQuZcYcg%2Bv0s4P72uqwhHBZwxrwPMCspYx17MwNS1w%3D%3D",
+      "sizeBytes": 2891263
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc104.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc104.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc104.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc104.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=pNcwRkZtEenwkq0Sd5d1y0MuvdtxtkDkS7bUlGikdcJ2HVypmatmjl00GzT11PzXDW%2BXJYtXXH3bkUDpEMHZ75zA4Y7maF34As9SPGVwkELYM09YWY23cugXSoNdC2a4bsAyKMzk0cUivQHVTVCfjb15jQctMF%2BZoCC8IwH4KR2u67XcxrT%2B7ZgZyGkwBbD6jnsFj2SuE8n0NBGKv4mSjJB07D4nHLSE9jZucKs0CJibUAoY7k%2Bem3upsomZa%2BgWRhS8u1%2BxRGd4de74rATW4y1rY3FuyUoIaXYvJTqZ7Fz8GLdnio9w%2FrNZZGJXA8ZTFrD%2BRZIWtgeGhkcWWeP3Bg%3D%3D",
+      "sizeBytes": 12420418
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc105.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc105.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc105.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc105.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=XT07L0pJMEeZatTPapq0UjmdH2%2BaFeJcYtaDGJkeZNLq5w4R%2FZHHdw5EAAXL4fB43admHeMoW0ffds2lmO4lj05EeOUozX8Xxc99Peg6b%2FXXERBA0SCVwPvuVWrS5qhZdhsTlYOE6%2FpdVvdhh5qabXo1e2U2wT2XXtVSXwjJjMmoUJK%2FAdlsff6APU7baoikKvdy9Xv%2BzIViJhJxAe9zcZMwgwZ46LmPifhKliRb%2FkSnxhktoO7oG4TnsO6EW63ilCa5iLySrwVLL7Ne7VVVFbrRzILb%2FHhbIDjBf3pKKpL4HL6LPhzIkngFz%2BcXkO8HzuuOczAd%2FihtHClPMonP2w%3D%3D",
+      "sizeBytes": 9022079
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc106.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc106.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc106.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc106.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=orrIqA%2B5CS6gIspFXyhLQEk8StxWj9ZJmJ0uSh6lcGLXgaTywgRBTk%2BI5LO4IpEWaUvJ7QW73sH3tQz47CumdfEKdZUmjOjtoOp7jQsTaFbIDuSuo7Z%2B5EtbGuyiZ%2Fh8SpowvIsRGPAxeXidD5Hv8rEzDQWrmCOiUf3J87fAVtY18FYzXROuUXNChpKMO32Iu490Iu7hCgT%2FGzBS%2BggPLTjLX9QUxlyCsWB7QEoT6PIgteQPrh7lOmbiyaCoMEQmOGGSTLXANEZf%2FIsZ64Kx1k9jtbPj4EYg8HdbvvnlJct6lV9bqeW%2BSMZPCuk4QZ%2FY1YV84r7WwrgAe5vnabnCCw%3D%3D",
+      "sizeBytes": 2378288
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc107.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc107.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc107.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc107.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=XommYZxeERIC2lwQRPxXX9R7CX%2Bf8jVmRzgcRdxGftOUo7SsFelZH8k5thKdx7iu1UIxLrpb8uI6hiBr6ckAhXkAbYx0UhPWMMPSMccChbSq28SzToDmrGX58OfYpmITsOOp7xM%2BxKtEFPem0C9aLd8%2F%2FQ5YlRBRnSrmNe1dsQjNvPqUuD8ioxbtdNST852cjh3Mp3EeRj48wd8geqYUt1%2BrSEX%2FG%2FZpQ7xeC3nsNSgBlsg0HGhoYYh5YOTg2funbd9Oe4CaNECM%2BRYeI9iJmvcgkD6hugu7Z%2FSSnSWzxjlZ%2F7pMUf24%2BaHebUW0Ne9ACwrWNHFp06aD58b%2FS63XSw%3D%3D",
+      "sizeBytes": 4057580
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc108.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc108.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc108.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc108.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=hjs5sRdJMG0wpJGxm2kMCL1qfW4FtuqE9E9DHOgDAYXAe64YIPj5fjUL5sSAwvwoEl9C8GoU4osXK5QdrE4eBDZuywTpZfMU%2BIu174gn%2BHymNjjbQSZkawJ19%2Fop46phpu1Gff7arBqatfe6ltqJVhDmQU8uMv60NSvcbfaeTM0RrXy04yjozEvObSQxV%2FcG%2F8qiKGxTt2JnlGwF4SqvsPwtcAcdm3kYLmrCsbt5XxJEus1eAfieVl7XqOO5ymC5MEZjcjrmLq0N7aA5vcoVdSn%2FLpzDEWYSyLvXhxbpVFXsRvR2VBfXvdB086rY8pNabP1Xxtx3fxrapeLizU1XaQ%3D%3D",
+      "sizeBytes": 18120968
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc109.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc109.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc109.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc109.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=nb3kDKeQmrEKV9d%2BssmywekJz1li6CSST3GlufKgLgDvUfKF6T0nOmIX1J3m5pAtPH3E7EsVAv6BkKXyQZnx26iznsqruoyzoRAhA%2BdMk35AonV4BPKqdFyvlaKhDH7fnBizghBt%2BQe4pNdNNMTQRFMxhiCO1rak0MJmyfL9T04xo7H7OPvaBM5lHodznkEnqbI7O%2BQ1lzEQZuTIewNiwDSyr77y5tnjCLPhx3yEzDm3F%2F9p5C5LdzpyfJqxwFP3baevxkTjdqArwJYCnKvE2tRTgQoP4%2BilTf2P8NcSM%2FXEGVuNvS8GzWtBpAHyr7rvsxEiSKPgMTez31iULlYgQQ%3D%3D",
+      "sizeBytes": 2745224
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc110.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc110.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc110.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc110.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=gyIbQkKSBz9ywMPbyKtRGmValGPEKHV1%2BsIaKN5SXLCtDmX9gxEgFN8mnG0sJ6H7n3qFC8ufZelAHcJc0PGzDdmiIWdCErZHTtXQsD7UBQkOsOaJ%2Fzftii5vtejiiOp0q%2BPgfjnyEOquwr9qj5AzI9lPjj9OkAfn9449u82qkSqn3ohoUD4lXw67vxeeJFda0n6FCa7Ut1UB51kePRRKa3pOibESjPvbfhy4Yq5%2F1%2F5W4QgTlVBTylpW2cbbHoG1d8p1z8M8aK8pdYi8FKkLvw0xxq6YYC5VDMbxc3Qyq5PzsQRhXwIODvLpXLbSkJ1DGxpV3X8k6V%2FkBHzsJoYY6g%3D%3D",
+      "sizeBytes": 1725226
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc111.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc111.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc111.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc111.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=LuXhZ%2B6ETAftR%2BJSGCAh7NyJW0qkQ6uV5oj7Knh53lXhdP1goSghIM2G2S2%2Fkx0Cfx%2FMpJcuJyiRWny%2Fr9iLtUFTQvM4W4lzerLfDYgnmKjEtQUGpE1YArQ7DWeRzimzqbm2yQEq2knoJ4TFyLrWa2t6q6p4NDDU1A3OUpN1WJwdl49pTriFv9P8uc3eVQiRueqDiGc2O9zzleuyDawURyU2yMKYwiPEIUtGImPvUDNdgNf4QRubsxL%2BJ%2F7Iwo0YQBIlP3mMx1TCyX0dTN86Eb168CPNg1FSrLTKnVoQccfSzlNv%2Bt8M4JRNA1%2BF68xgI0OxSzCjUlsAYvdAOP0D1Q%3D%3D",
+      "sizeBytes": 2595813
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc112.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc112.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc112.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc112.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=M8R9Gsce8hf4EAnsBABWSArwRdj3I%2FzNaU3yQ%2F%2B40tO36BCPU%2BeUMnRwF73UB1ofU6q8vl%2FbC5ELC0%2B7YR%2FY0DJAtmRtAxMkDDRiu7JjwlU%2Fi2oIQAuMvf1pxIRZiSoaAuUi2Zw4R%2FlBKJsLSpBKOFjAvyJvLBSRj8MLNOT6bdyySFytiKPFmIgnMkewHAERzhZve5AqIiDNq2wifAErfdHwrg3A8WWkdjMtieOT%2FNXdyx1NWiKG9RiCAXs0zg%2FZB6urExYvtNS0fUGQmcKMoQFEkWBwK2Lm95Prf8fSTLlpU00N7d5Thjs5uia8S4ebutYwH9j5AQJ44a3WnZ6dCg%3D%3D",
+      "sizeBytes": 2215684
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Science",
+      "fileName": "jesc113.pdf",
+      "relativePath": "CBSE/CLASS 10/SCIENCE/jesc113.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/science/jesc113.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/science/jesc113.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=pw%2FevEQRMMfmhgUwXmSnr5e1fqla9Kp06l8sBAeW7f7%2FcCnuT8mUlhy0rU9A%2BRQKFdFPissvpE58PSAmUqx%2FXwqnbLrCuh5mMTHs6KJCARpSfX3wV7lOfLp23b4zxYpYZX%2B6NefayX0m%2Fhna1I64dK7y2cB1rDjD2Ream8bfZAV5kBjxgYPOA3eoRDBhL0OIKoZvaJV7yv%2BAR1l%2FvjJUIQp0LkdWraxuWWBoXA0XWkjt0x5RV%2BXcLkVXQDszPdnWaO1UTlTnHxPf0K8XPivJI5OUUtMxdUqu462sJ7HNJAAQQR6fwl7fooMAdL3orrAqk6VsXL1YRnXptipVgoGYqA%3D%3D",
+      "sizeBytes": 4194929
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess1a1.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess1a1.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess1a1.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess1a1.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=bgbPCeS3RZMg6N2vddOzBN09TG%2B9eL0sp9fklx72KVC6eorDubE9CFJLVV%2Bvn5kiKb5fC%2FoXO5LJN%2BJ57vHD1Zuvz5U5LyrCQuwU%2FdnQouy0tLsg6zaiUSowrbDPw7GAbHtvfXn%2F9IuJlMaNI3zbfoO59TxHDnNKxcGI%2B3bWHSjAhuWUi8ncfOmHECV303lcVpNv6iqdqKNCwS%2BBeoLHDZZXq5zI26jcG8q9aAORzhrM6n54GFFtWd9BTrBU8k2fp6d%2BArmy9vtfDIiU2RTEOQUCMv7mb20sRPm7Z3K7dYTeTFoEqwRaGtIUy9lEn2najc%2BllQdzMsfJdRbagijWew%3D%3D",
+      "sizeBytes": 449784
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess1ps.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess1ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess1ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess1ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=LvMRWQF2RE7NofhRyHBrWBn6eFCfqrTsoTcbShUTWhjFhRd3NldS3C3VxXZVS8SczInqUJOOdPiqoN9kNjF86R%2FwuFaI2qNl3PBG0pcT5lmdYxHO5p8y4Ct9HJuQUrKzwDBGs%2F1PufeGkVmPXW4u5HYeCanv9kGsvlHtMZ4PJsa0jd9phxFEQgcYxXjUqfJJ5CQ0EDFN18i1cYniA%2FoxoPIhHmPCF%2BvxO4V%2FBxRDfzCg%2BUNqtsFhD%2BmraOxNUi5wvMYF8BJw53R2ORU8FGp%2FxEC3RJiZlLnYUVzE6WOCWYAUl7MKEf1dUJdtM5fu3aEZ7t6YI9gQC%2BIFTs4hXP%2Fc8g%3D%3D",
+      "sizeBytes": 2036499
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess2ps.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess2ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess2ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess2ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=gW6K7BieyuADbd%2FGj5UQwXNNOTbg9C%2Fj%2FIf17gwB3i%2FkQHvb6HkOUoDWdP3IBBm3IpjicOJjpLmL1sxKaIIX7Lj0qufYo4MhA5IAIhoqqGmHNct5Lu9Nc%2Fr1kgiMnED%2B7FgaaJKDy%2FECdPbzTtmsInakLazuDb7RW4ayQ3nfLZKNKrdD%2FJP7LseqQnK3C%2BaSUFmRlEYz4fR2Wa5LhTkSWLIIy3SivxM9U%2FXmu6S7WjdkTu0InXGOMgaSaic2L%2FgZEXHKIrlkpUdpUa%2BSW9sNTuytP6%2BqpUlbbdiaxegp5ij2JT6fsyRshvgnNa0Sa8NcKJPXp3ebNX2LrVdverxpHg%3D%3D",
+      "sizeBytes": 1886551
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess3ps.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess3ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess3ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess3ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=SQiS47KQcu4NucNfUkZLKxg%2B9VdmohdQlApyRug5xdzQ7IVLUVPFXoS6ZRTzTQKQk2q%2Bl1a96Q1wQiVSFaKu7vR0byaLg%2F5OBIwIsJXey1DbR%2Fli%2BkuMJDPDp6aDCBVKLhrLCfEmsgdQB%2FtCmKGR1CkoruZrL7TTTmO33Jvcmv5ykpPV7fDV%2FJIVu2yJ7yD5GJ%2BFVMtEybTL2jVj0wmDzvrnzdv%2FiJ4MJAJnFXhMDv80yZB90JClfteQ1dS%2Bz9gl7tEPr2VKYsxySd3e9p6MlhyY0IGUFAQ4Fg8ij27R14jUbxFczrUS6qk3nqB0LS5XjyodgRxdMhDoqohyv70P0w%3D%3D",
+      "sizeBytes": 1952381
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess4ps.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess4ps.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess4ps.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess4ps.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=j%2BcRG27GRzn4YEuVNMKx0mW7scRUkU8XPfSav%2BIn%2FvTdP4Uqdeac0wZsb794r3urZqkv2QQNmUCI5IYeH6Rff1f7DbiJGxmtJ8SI9sIIVxLOAaWXt3Lb4ZS9YWtknkMB00vddiAi7LuKR75wU1rQhhjBo8Hqne0ti975wQ9n4AuiKhMnF5%2FAdBQc%2FT2XwENyaK%2FlUIx9EV4ipbL23LlOGIBf3ooiRL92C3NoCLWAWT9CRScINgU8wCbTUtvAWNSO6T%2BLo7jqHypFu5XuheELJO7%2B2aT5Xczv30X9opWWag1znLYnk%2F3dbYnE5SwvFrqASa%2FQYVd9vOwLjk0SALZsfQ%3D%3D",
+      "sizeBytes": 2115669
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess101.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess101.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess101.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess101.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=mdHVcfTK%2FGefk%2BBBt4sG3hVXxIZJw0ZY22Qu7xHzTBQzATx8JbQVQHcg%2FCmTgwvGE0ozwPf1etKtaHIA22Eg6mNtAAVx5UV0zoTOVQ1Dg3p4UJ6Dps1zBNgbWoYurADvUrxE9je6pwj6J%2Bkelm%2Bq8wxj3KPFRxWX%2BUt70dmhTZESqp7W765OY2sVdgr%2FGUdJUfE7pQxz5S%2FRO4RlNE%2Bi5mE%2F7lWNs2ur2MphekI1conFttTD2%2BBMmj3qSgP4v9ZFoXB3okqAHi4tDzwqKKUW%2FCVAugIBx3%2FoPK%2FeoTSna4Gmx8aO4Hs6IcJT%2FqOE2qiAuz%2Fw8U4m4DwEpG3IHwryDw%3D%3D",
+      "sizeBytes": 1799172
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess102.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess102.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess102.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess102.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=tOA4Pub4hj9NAcRWyUslFlnvBWwK90Wk%2BdkU2V8xOB%2BY6KcgE0EKxlzFLZC7sSCwLVuFQeTZ01ffOuxf9s7HhUTKqy7vhm1PXOdMQq5bPzAxxrqDgx2z4aALi4nCr7WIy5dA83OrTqDRSg7QbVPJudIr%2Bd8p1DbmhNOR98KkgNWavBZq%2Bc4Sd4%2B3sal7LNH9dxb3Nc5MlwATcH%2FKXvqr0cr5%2F4326LRfnX9FypNkWaNUKHPRiY8NkesorbEhYCnLo%2BMoV%2B1hkajLu3jSABj19kiQYzLMC6llpEqJBYD%2FVjrDYvy3fVPx8%2BNBn%2Fw2c085LhvX%2B0A%2F2UojnUExyRsW9g%3D%3D",
+      "sizeBytes": 976762
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess103.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess103.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess103.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess103.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=GxYRkRY59zmYASPzlKS1X3gf%2BCY9yk97Z8t1BFbWv7L1mP35RDr3KkoayuiWySnHd4E0JXO7JAqTW7tXzv7dYASNPH68rsZ%2FxCxBWfhQRBriVyjHjESsvS5pU8tjXldzNQwgkoQkriwXpXtfziCqtfe%2FifbyD4vblp4DqqIgqP%2FUnuQq%2FWdysMaPmTMvp%2F2NBovzMkQmjKm3G18uINlg86jPsNd7LYHIBtvZhYijWQVn5v%2Fs9hPq9%2B3YgzpxiaFzmBDpP5LrrMvSslkCYEI9DxQQSaV9bK5Xh7aXVHCwGCVuxanZTxWda4iNZMr0X29PhqxzOKApbJx1ObR7xd%2BRLA%3D%3D",
+      "sizeBytes": 1984568
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess104.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess104.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess104.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess104.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=MPySqlY0D3B%2F1ORGfltW9PkZ3DKY1OoBgKNVnCeFkjC%2F8BS0nsds0IrtWr9SMqymxcf6aGCqwJVaAydVyAJ5RlPDLYtfdpk2AbE0%2F%2BzwIcwT2cHWo7GJ6oa142rU6Q88fFDfOpYSiEdpikigykGRV3VrXVEgW5vEN9o0aA5lFldwZxVPSkOciBPRk3CxWi4UDZ%2FkdpdUTw%2FxuFOi2rae1lIc%2Bwld6kWEvAsBFYlSyaF7CYet14LyvfUf8oOzlzAR6Dr1jRR3%2BWhcI8Xqa%2FvhyhQw%2FXbdOVs7%2FWXYxWwqcpHumcag3K1x2vTs7coeCemD0UoWzYkbRaMULZ7%2FpxB5LA%3D%3D",
+      "sizeBytes": 2251016
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess105.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess105.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess105.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess105.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=qJIj5Z3wkTZ8RJ4euFKwnqT6KFLBxnpoK0f5uuQB1YVuZYnwrHBdzD4HHThvVzTlSeOvl4lL6TaCk4ykg7qo0cMDEFcXmJEMQtGvgE6S0eLwa7IL78lT4Sc4F9eEHJdgZdHq35jwOcLp2mx7YJAbnvdMq7yHlxtx9DgmQckda1hYsxYEq%2F%2B3HUiVrRhqbPzQPEhVYroidb3QSoOs7Dn4cVaIqQ9NRA8rPx3A8%2FQ4FGaYTevkuIeM0XbYh0EoxsR%2Bv0R0YP%2Fu54ghIH3WteXmmmhZAdLvBuB1y1fZ%2BpTygDsgXvpAPNESUvHYkkIWFmRGuOH%2B00nQpDPMiEZL8qGBiA%3D%3D",
+      "sizeBytes": 2698945
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess106.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess106.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess106.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess106.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=aJDE5Eh9h4bEMqDVR3s89v7GFvtkVt0Mre%2BvJaSH91Jq4eTnA5TC8fwJvesNfw5PwEK4%2BngJPDCdVU3HmmwlrYTsQceoDFweD3%2B39%2Fx14JGL3VYUbamYWc0RyBVwY%2F3nCnaMd%2FcDUlS8SQkpqlyDwBDcugtM0aWK6hVs66ugtGSMpIenOeu3CMewx0Ikc16SqjSyZDBQN3ixKezilMdmnUjID5nD4rGzQG%2BSA52upjmhCyykdPJgT6SIwf8KuWgLoTZu9l5qtQn%2F1iSjdzNNyxe42btqYVAlV3r0NAo%2FgxOEw9ae9hDF0cCrXKwNWrJeWSYxC%2FSz1XWPkqOoMbjQCA%3D%3D",
+      "sizeBytes": 1643551
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess107.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess1dd/jess107.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess107.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess107.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=AOqz1s6QC%2FTCwPWzVQFUZJDSdVOmAQb%2FKY6YhV7fIaxwPJ6027vnqrSVSUIlIgSyGv97KV7MV4sdz9VUAUUw3zvDRi%2BDZ0%2B0g4PcYzf%2BPHCHOzRxGJb%2BHKXx%2BY58IuZ04DXJxFYqzZItAIj8icp6zq9uBBfnrqGLSauyh8rJhN%2Flpvr3TIxhLap8dPfWYHxx4mPbGkF0QqND2ZAKCAH1XEa31Pd5HqLh68iFkzlX2Lgh9pd04KOsmJqgof3U4q0QmGVLA3GwxpnwTqWXje7CX2ACtUxMs1MGMa6xubmUnwov%2B0LOCZN5PgOc8hxgdbE9ze%2BpPKXZ6KT8kLAJtq4luA%3D%3D",
+      "sizeBytes": 2201818
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess201.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess201.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess201.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess201.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=EO5chJuUmBd8%2FSVEUXAsZRFS%2FNdsLIxT%2BwitdAJ9JsZW66eDLHXFcNTAhS0S5uJOUPfoWzKWlhHxYrTpmEjHLzV%2BJ91eKMnMoGP39elQL0yBVk3KxUEa5MDT9aSKVla1IKjs0zOxhboJOJPFn2iPONrpFv%2BuFPXf4xkpKlvvfSB0ZdMZoyf%2BEr18rmYfn4Oid%2FQ%2BnEidTZDWgdSKF8HwqCXse9QdfGqQHdFSFJS1GAPXDH1PkHRXld%2Bw0OECRtzrM%2Fg4SZQmfAOucJwJJABdB3inWuwPWDezBh8BkWJxFbviN2CzrfamTVvIOkMK7ECTCM90OSS5KJwcFCkLC0q%2BJQ%3D%3D",
+      "sizeBytes": 2484758
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess202.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess202.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess202.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess202.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=iuxOWGG7qh1SbTRoy%2F3vZqQH1GOeDtDeDJ8%2FMC5HPXZWzefbQOxGvALNq2V6QD2BszrAES9pFR5M%2BlU%2BRzygWnW5yPjv6etevq2dWyRZMabI8NhZG%2BDavnr73hi%2Fwz7rB4VQWjpq7EVwGTSMzwyIFs2GXkM0ePq3Va2ebvlN6bFI99qMn4q3V841y9L6QWNMX5TvKfeFwEGF7qbYar1Fkc22FLVO3Ju5HjrJB9ZFzf7CDJRJWiNQxv6FWfNezBAurNiYv0QpsUeB6DSYJrxNImkunlKb6dfmSmutyS1cy0BCVhOfSGMutb62%2FA6ptUYWcQbkGgoQ38GMjB7uckK6ug%3D%3D",
+      "sizeBytes": 3047458
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess203.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess203.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess203.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess203.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=AFdjwMkKQQt6N%2BKbGwQBbgJxtrJszyv%2FMJfI3hJ0ZI8CpZZNiiN7Q50JaUEfi0jmzvEA9DLX3iWxZXNzBYj%2F0nq7nQ084%2FxyNPBuHjP4gdivCG21rpCPcDH7lJxjCuoTTarSTW0zAu%2BEUg2U2O%2BNeATI6DTXmkufMRgKXHIlQ%2FnmIYpSBjbKCQccu1oDnjnKqNqNT5rrclF%2FkDDISZgrqklOjB32U%2FnMxBkzz3Xww7QAF2T6tU%2BNguDVPyPghsuEsouj0kQdNZGxvSq2CVdi9UglPo9aP4%2B5%2F%2FavJIj75l9KG40xnfIWEIEzNZMYPp0C5%2F8xUusccLOwWRKBNAoxgA%3D%3D",
+      "sizeBytes": 3375236
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess204.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess204.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess204.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess204.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=cnU7cjnW6B%2BAEag7jI3teWiPFG9tVDxx%2BxbK0pZzE1ofi25Y14Dp4sCwKPYPCkhKp6S0%2Fm1SM1iqKl9JqhOEV3u7jb4Conl%2B2h4jAMvysH6bvMzmwvw%2BXzc%2BzIOQgeRKYVHsPDK6R3%2B2jGwD%2FzVMQaT%2Fbd%2Fi%2BqRJTJrTovz04e6G5PkLGh14BNfiKcajkRvqUlQESsg97V2MKtp%2BFlXC25MBY9%2F1TnwTlpCENULiOr68Syn%2BXFFWz5VXY%2BiFlyF%2FLfg5u6YQ6zKXTZECNxr2kwgcY0BWTBU46xeL9dFQdGkyXjU8UsYOFP3NG0zl9wL9erTcuzQRehrxR0QoYMsY3w%3D%3D",
+      "sizeBytes": 3584392
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess205.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess2dd/jess205.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess205.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess205.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=vEmcl9FOeXaGYxFXvPj241EFdumGyJWSdL%2FvDTqb8J%2FIpGj4CXCCpaEpFh6RR7GxwG91YPIJHDCxo8Jj8dZMyU%2F8KzLnRwVs0XSLe7tra91xav1%2BmiuWanaNbzUGlzZ3VuEM3vEAeeuM%2F40LnApR7Pz3KDGeYKjroQdin15TLafpI%2FH4xjrtG9aO%2B8d3ZU82eMR2dBZ38dzE09IXaTxeWDtQF9zNTjDCs5M2Mne%2Bvcbq2phNOhf8CH5b9nG%2B6uzyDdC9ceMoRAOgMexB78df6HM8NU2deL91R9jbdn%2FjrCBuIKcvV7y7zIc4h5PIrnTTlvA%2Bj3QYyshb7OT%2F5PBwCQ%3D%3D",
+      "sizeBytes": 3184018
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess301.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess301.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess301.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess301.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=YKKWH5Ei9mm3ZMD%2BrqiQgKAYt3Gafc%2BLFIS2mhYK0Bx52k8vErM66CxD4CFLVs8Z883tpXKm%2FR%2F3bFobMNomFPwU2v0gYJ7K7mTlEFlRRW9NbtOQylu5BTLq%2BkOSsvYg4INgLjoNnPXu9gpr2k%2BaXMs57uSDyh3AfYgu8eh5mzHYTdtnTcly4DwdDrkrQUweUqvIFmIZ1wt53dU2fMBX7iasrZlNQtBYqKGo47L78SGnh5hUO6QUbhxGUosz4vdiBRE7vY1GhFn1uLo9rD5mVsD0Uc3v%2Febv2dWtprv7wE020zNUeT25HmFSj0dclxxdRqgjbZvOTNXUx8v%2Fek5Sig%3D%3D",
+      "sizeBytes": 5649051
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess302.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess302.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess302.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess302.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=ZZNPWVYziKp1OLO0tzrlgrmPQI%2BVhf2nIavpWKMcrQNMpglUClR9oTM%2FMRffRa9KdG6Ri3VO1ct25h7eeXei5FlGxSRKmfXvR4xDN6t0JqH3ofeRmT1AoZ8Yj6iLuPQIzdMoUCAzeqV4nMQFXMr1pih2KI813HuU1iqh9K4FnE9%2Bh13QWJHfKamTbyG8vew0q8XVhkNY7znBhyvkPdccGwZhjctrrl38uZ38jqdYIsN7lHBhOE6Wtpn8FbLYhQGQ3z65R6Qwra01DqIHNe6OLTTkglhrWtEIXXbnk%2FcRQxNWnLIjyBlnxbHkwM3gM7y%2Bvs5QKu%2FFyYOPA2z6T2sBcQ%3D%3D",
+      "sizeBytes": 5057222
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess303.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess303.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess303.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess303.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=fczRE9J7zTACdgHw9LPYrpI2jEfRMqPkA7KBrXkQw4m2YQO5rRiVf1P8hlBy%2FYax5BGPragshc%2BozpDzHMAtaZn5%2BFuwrqTfll59zTOSIfgLhsGEMAm%2Fgf%2BTzJ3hxLOWr95GN%2FB0YqKSm3aspo1Sd377EGH6u3c51EilaHyNyuE%2FDGSSQSP2Edebe6M0U%2FatzhiFoDHeQxEit%2FH17QlFodYxTiOs6r7zd02jW6G3o9GBtzfnaJbfNHuwSXpKvo%2BKIwfucSxp6wRith85zpMtotcfc65GIVoNxzyqTYEhh719reNMvfsM2e11g2PLdILR6yOqUajQSo72hVJAAtXdDQ%3D%3D",
+      "sizeBytes": 6060574
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess304.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess304.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess304.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess304.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=DdbHwS9FPTU3hVTWx4vb%2BH9UuLA0hJsQQNYzVOjuLNx%2FUX2xfVOqzvBVL38ESDiRoQt%2FMQdWlLpdCI6ZhrxuMAl%2B%2BQKdcf8VEVk5HTznoHG4pTVrCPWnDyL71rvlVmhkVqMBOUqdGYIkSIue9cYzKe9ovcqU%2B0ujHlq%2BB23nEJSlV%2B%2B9uSTGCa%2Bx6LajZSxC5YsyloaD68wy8%2BMef7Rn60tyTmg2C8LdsCpLosGLRTD1ON1uSIr6So5rQZvAv9z3va9c1bba2UaCi2olN5DmRTXg7jI%2Ben6JEim0y%2B%2Ba0WHuvIAtga7VFq9A%2BTZrX1HEyURVAiSp6XuUseynjJ6ikg%3D%3D",
+      "sizeBytes": 6015785
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess305.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess3dd/jess305.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess305.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess305.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=gpR93eL95QkgDrfdgvXOA41YPMZ4lPpgZJuymgFxpt9%2BPBJi5ytlGYE%2BjNocbC%2BeEst3JUdZgXYHQM8MF9f%2BkiSC3oLqXxxacjiC58MFji1%2FpJDob1Cf6Uwii6qm5neG94rYSlaoZAWSyYLtnE4k%2FdsRWV1%2FrF27LjLX5w5qUf6JWKSTHlXXmlda6MscxV%2F%2Fj8apmmS5GCzXEM1ZJN9vKaNdAY9qh%2FvrjvvuwOum6WwqClNE4ZKT21sQoybRBYXKq6u%2FKoZj4%2F13Pf1S5K6F%2F2JDWOC2TiL8l%2B6Qc3xGleIJNhApdsiBnlFSih2EfnIoY4wdr6ePbpyFqfP3SmR8qg%3D%3D",
+      "sizeBytes": 5466596
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess401.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess401.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess401.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess401.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=L26YAabbWSajtT3qr4eqkSM5YIHQLjdWe82L1fZvNHg7beFfE7WBkpRvnu81YVPpP%2FIpOfD4hhLnam3d%2B2Jmh%2B64jsV3O6Tueuw7SgR6pN1%2FlpsksZgeslYVddLvTzErk9neRCPuFMeLg%2F6TF6xlWIrIeB1mMZzj5x5Z%2Ftmioa9reH5uBIg%2FWG9F6iyAO84fDOxUwT1qSIxKFvr2Xj7KQuwj5DCJ4xovf2jWybm%2FM3FJgjRkjK7mKJHtU2LITZdGYCLlehiCRbpRTyMzaB8Wc1q%2FrJNfJ0LHArDqVTFjMUT2ptXwdXHtG2cZdqC2cQv%2FARmiY8tB3Df7tIWgxQn8SQ%3D%3D",
+      "sizeBytes": 1865598
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess402.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess402.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess402.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess402.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=nC5nE85QP1EUEXETGc9%2Ftyu1DIQnCziYPCvm3t3S7t8L0MH1P3j%2Bzp0ZKL75TDrBPdaRVPM%2F5%2F7pecoIStr%2BRVlUf%2F6kOPaKe7D5%2Fy95FB27Fouy7KPCAZXufZYgGFCJ3i%2FvEvQFuadIHVwNZSeTPjKlM9M%2FG7szehfpMQISHjce5RZf8MeptjuYIulhi%2Bm2RQqMseaCRdO6d8mrpll2%2FtDJ%2Fqncu0VUg4XmsCehoznYePeQVu%2BHVorqDt91eB9JTEa%2BKOuHcgln5NEwrTj6WQ9LCUYtdRHvVBYkGkaGTXDm2ohdwmtb0l2PYmABrl3yZ6GcinR8aklZgnwtnNiEHQ%3D%3D",
+      "sizeBytes": 2696611
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess403.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess403.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess403.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess403.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=SHi4MgDLMOd%2By%2Br2ufJtbDFgRNWqTJP6Q5w7sP2ZZ%2BPyn5UrKu7K1EA6tAdvC0AJdO4mle3liu32CTXJiVKwoVU3tS%2FHX%2BGSvLbztHfbrORS%2FMReCDx3fCCdpt5GahoYRzk04%2B0mMh2NjchuzqMRokahuCJK0zuf7fJm%2BJDpRiZeOxHibZP0Ok5l%2B2kTDGw4fQqiCX0amZlj1mwy4fCr42fntxgmUQRL48f%2FDQl6GhjLmsSUJ39X5hy7Ecy9%2FLZoI661dBVHA3RJR0Arg3eOGTqB3rW8tH3Kiqq6Dzm8ZeEnkoVDanELCS5nCuWvrkQ3fxeLZ8tEpSgs4jiXz7qygQ%3D%3D",
+      "sizeBytes": 2358657
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess404.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess404.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess404.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess404.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=MZed9V6%2FLLeUxDC0CaCiqmrv%2B8RAljfgiP4oX75ko1TtiYtUwtcx%2Fz485kit02puBwOzIx1O3Y%2BzT6bU9Bgbbzxothfa5x7Azitn04lsmAcshBykiY71%2BViU5d%2BRNysGGQ6Qq778iT6x6HBu2nJRNDxpCaOgF8KkTGudmiVCZv902xAmw9nBUJq8vdsI8pasKOkadFXz7RGT3GZSHaFrTCSpZKXIZCbTU4sWl8Ss%2FlteQ3CcZzn30WViMMnHW6zMi7obAgw9GLb9KNsgrpL2djx3%2BBrC%2FUTaNdPhQ7M2jn6Vn8exzysEy8weemvxeQo7QDfeaJBQjJSgwxofitiu4A%3D%3D",
+      "sizeBytes": 3555972
+    },
+    {
+      "board": "CBSE",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "jess405.pdf",
+      "relativePath": "CBSE/CLASS 10/SOCIAL/jess4dd/jess405.pdf",
+      "storagePath": "academics/manual_pdfs/CBSE/class_10/social/jess405.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/CBSE/class_10/social/jess405.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=jyL671rCf1rBxH6rvHeCIL01aN52gir9b52FLbxuElX867Q6coqLvnc64AFaWLTHc6kh7DXBRv6qt2l00SlvUmFhWg7SRwXrCLa7eI7anwl81YzwdKG7QVJoYS28hytYH49aoFDxngj%2BYJlEO2Vb9dF60BespUQPn701Z9MnfPQb344%2BGKdg63AZdYzqBYze0CNahLc%2FpCGjoewi3LQ2pVT8gMiORhcIB92jL8AV1ZXPt7zsv8sBSKYvf87VJJlXEe36mtoT2cftesQZSFPQlT%2BT6pfc5tL6vY8SNc2F9CN%2BzK1iSJ39Ho4iaETPgl1g%2Bd59WXPAoixH%2BbRQR12aow%3D%3D",
+      "sizeBytes": 2164380
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "Telugu",
+      "fileName": "telugu.pdf",
+      "relativePath": "SSC TELANGANA/class 10/telugu.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/telugu/telugu.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/telugu/telugu.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=bceXZUYU9ooKvBwtzZaaM4T%2FPND8R05B%2FHzxeffLeI9MmhpXByEQC5WWC0KZDQ2atR0rxBnY4JAJNe96CtJsS0g5vaX8QWXO%2BeruxNMxI5Q6KytkT5snTdY0yXcKg4jCMYCQGr5Lw5SzFLyiMBMXNHbTcPyPEQJItSdYTimmwO52ZFBlaO1mG%2Bj2gxC5Z0lArSuaibuoSlIe%2FiPWxBEigRAxdV%2BM9xmwgoYTrZPNHrGBkjk1VCWJNFeKkVGq92lZRp%2BC7MCxgkcOoljG1znYwcS7BIZVTogtNZtumnH86PPRfnNIQka3bctWdMV%2FJu4u76XOM1jnmyPNQimAJ%2FmdNg%3D%3D",
+      "sizeBytes": 14353017
+    }
+  ]
+}

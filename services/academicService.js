@@ -7,7 +7,7 @@ const PIPELINE_DATASET_DIR = path.resolve(process.cwd(), "../acadamics/orin-data
 const DEFAULT_DATASET_DIR = fs.existsSync(BACKEND_DATASET_DIR) ? BACKEND_DATASET_DIR : PIPELINE_DATASET_DIR;
 const BACKEND_MANUAL_PDF_DIR = path.resolve(process.cwd(), "data/academics/manual_pdfs");
 const PIPELINE_MANUAL_PDF_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
-const MANUAL_PDF_DIR = fs.existsSync(BACKEND_MANUAL_PDF_DIR) ? BACKEND_MANUAL_PDF_DIR : PIPELINE_MANUAL_PDF_DIR;
+const MANUAL_PDF_MANIFEST_PATH = path.resolve(process.cwd(), "data/academics/manual_pdf_manifest.json");
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
@@ -391,6 +391,12 @@ function summarizeAcademicContext(context = {}) {
   };
 }
 
+function readManualPdfManifest() {
+  if (!fs.existsSync(MANUAL_PDF_MANIFEST_PATH)) return [];
+  const data = readJson(MANUAL_PDF_MANIFEST_PATH);
+  return Array.isArray(data?.pdfs) ? data.pdfs : Array.isArray(data) ? data : [];
+}
+
 function normalizeManualBoard(folderName) {
   const value = String(folderName || "").trim().toUpperCase();
   if (value.startsWith("SSC")) return "SSC";
@@ -414,13 +420,44 @@ function walkPdfFiles(dirPath) {
   });
 }
 
+function hasPdfFiles(dirPath) {
+  return walkPdfFiles(dirPath).length > 0;
+}
+
+function getManualPdfDir() {
+  return hasPdfFiles(BACKEND_MANUAL_PDF_DIR) ? BACKEND_MANUAL_PDF_DIR : PIPELINE_MANUAL_PDF_DIR;
+}
+
 function getManualPdfsForClassSubject(classNumber, subject, boardFilter = "") {
-  if (!fs.existsSync(MANUAL_PDF_DIR)) return [];
   const requestedClass = Number(classNumber);
   const requestedBoard = normalizeBoard(boardFilter);
-  return walkPdfFiles(MANUAL_PDF_DIR)
+  const manifestRows = readManualPdfManifest()
+    .filter((item) => {
+      const board = normalizeManualBoard(item.board);
+      if (requestedBoard && board !== requestedBoard) return false;
+      return Number(item.classNumber || item.class) === requestedClass && namesMatchSubject(item.subject, subject) && item.pdfUrl;
+    })
+    .map((item) => ({
+      id: `${normalizeManualBoard(item.board)}-${Number(item.classNumber || item.class)}-${subjectSlug(item.subject)}-${item.fileName}`,
+      board: normalizeManualBoard(item.board),
+      classNumber: Number(item.classNumber || item.class),
+      subject: item.subject,
+      title: String(item.title || path.basename(item.fileName || "", ".pdf")).replace(/[_-]+/g, " ").trim(),
+      fileName: item.fileName,
+      relativePath: item.relativePath || "",
+      storagePath: item.storagePath || "",
+      pdfUrl: item.pdfUrl,
+      sizeBytes: Number(item.sizeBytes || 0)
+    }))
+    .sort((a, b) => String(a.fileName || "").localeCompare(String(b.fileName || ""), undefined, { numeric: true }));
+
+  if (manifestRows.length) return manifestRows;
+
+  const manualPdfDir = getManualPdfDir();
+  if (!fs.existsSync(manualPdfDir)) return [];
+  return walkPdfFiles(manualPdfDir)
     .map((filePath) => {
-      const relativePath = path.relative(MANUAL_PDF_DIR, filePath);
+      const relativePath = path.relative(manualPdfDir, filePath);
       const parts = relativePath.split(path.sep);
       if (parts.length < 3) return null;
       const board = normalizeManualBoard(parts[0]);
@@ -447,14 +484,25 @@ function getManualPdfsForClassSubject(classNumber, subject, boardFilter = "") {
 
 function resolveManualPdf(relativePath) {
   const cleanRelativePath = String(relativePath || "").replace(/^[/\\]+/, "");
-  const resolvedPath = path.resolve(MANUAL_PDF_DIR, cleanRelativePath);
-  if (!resolvedPath.startsWith(MANUAL_PDF_DIR) || path.extname(resolvedPath).toLowerCase() !== ".pdf") {
+  const manualPdfDir = getManualPdfDir();
+  const resolvedPath = path.resolve(manualPdfDir, cleanRelativePath);
+  if (!resolvedPath.startsWith(manualPdfDir) || path.extname(resolvedPath).toLowerCase() !== ".pdf") {
     throw new ApiError(400, "Invalid academic PDF path");
   }
   if (!fs.existsSync(resolvedPath) || !fs.statSync(resolvedPath).isFile()) {
     throw new ApiError(404, "Academic PDF not found");
   }
   return resolvedPath;
+}
+
+function getManualPdfUrl(relativePath) {
+  const cleanRelativePath = String(relativePath || "").replace(/^[/\\]+/, "").replace(/\\/g, "/");
+  if (!cleanRelativePath) return "";
+  const match = readManualPdfManifest().find((item) => {
+    const manifestRelative = String(item.relativePath || "").replace(/^[/\\]+/, "").replace(/\\/g, "/");
+    return manifestRelative === cleanRelativePath && item.pdfUrl;
+  });
+  return match?.pdfUrl || "";
 }
 
 module.exports = {
@@ -468,5 +516,6 @@ module.exports = {
   getResourceLibrary,
   getManualPdfsForClassSubject,
   resolveManualPdf,
+  getManualPdfUrl,
   summarizeAcademicContext
 };
