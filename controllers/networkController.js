@@ -4959,17 +4959,20 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
 
   const institutionName = String(profile?.institutionName || profile?.collegeName || "").trim();
   const className = role === "student" ? String(profile?.className || "").trim() : "";
-  if (!institutionName) {
-    return res.json({ institutionName: "", className, roadmaps: [] });
-  }
-
   const query = role === "mentor"
-    ? { mentorId: userId, institutionName }
+    ? { mentorId: userId }
     : {
-        institutionName,
         status: "published",
         $and: [
           audienceStageVisibilityFilter(audienceStageForViewer(role, profile), "mentorId", userId),
+          {
+            $or: [
+              { scope: "global" },
+              { scope: { $exists: false }, institutionName },
+              { scope: "institution", institutionName },
+              ...(className ? [{ scope: "class", institutionName, className }] : [])
+            ]
+          },
           ...(className ? [{ $or: [{ className }, { className: "" }, { className: { $exists: false } }] }] : [])
         ]
       };
@@ -4997,6 +5000,8 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
       title: item.title,
       description: item.description || "",
       domain: item.domain || "",
+      scope: item.scope || (item.institutionName ? "institution" : "global"),
+      institutionName: item.institutionName || "",
       className: item.className || "",
       status: item.status,
       weeks: (item.weeks || []).map((week, index) => ({
@@ -5042,14 +5047,15 @@ exports.getInstitutionRoadmaps = asyncHandler(async (req, res) => {
 exports.createInstitutionRoadmap = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean();
-  const institutionName = String(mentorProfile?.institutionName || "").trim();
-
-  if (!institutionName) {
-    throw new ApiError(400, "Add your institution name to mentor profile before creating institution roadmaps");
-  }
 
   const title = String(req.body?.title || "").trim();
   const className = String(req.body?.className || "").trim();
+  const scopeDetails = normalizeContentScope({
+    requestedScope: req.body?.scope,
+    role: req.user.role,
+    institutionName: req.body?.institutionName || mentorProfile?.institutionName || "",
+    className
+  });
   if (!title) throw new ApiError(400, "title is required");
 
   const weeks = (Array.isArray(req.body?.weeks) ? req.body.weeks : [])
@@ -5061,11 +5067,12 @@ exports.createInstitutionRoadmap = asyncHandler(async (req, res) => {
 
   const roadmap = await InstitutionRoadmap.create({
     mentorId: userId,
-    institutionName,
+    scope: scopeDetails.scope,
+    institutionName: scopeDetails.institutionName,
     title,
     description: String(req.body?.description || "").trim(),
     domain: String(req.body?.domain || "").trim(),
-    className,
+    className: scopeDetails.className,
     audienceStage: audienceStageForMentorProfile(mentorProfile, req.body?.audienceStage),
     status: String(req.body?.status || "published").trim() === "draft" ? "draft" : "published",
     weeks
@@ -5092,7 +5099,8 @@ exports.submitInstitutionRoadmapWeekProof = asyncHandler(async (req, res) => {
   ]);
   if (!roadmap || roadmap.status !== "published") throw new ApiError(404, "Institution roadmap not found");
   const institutionName = String(studentProfile?.institutionName || studentProfile?.collegeName || "").trim();
-  if (!institutionName || institutionName !== String(roadmap.institutionName || "").trim()) {
+  const roadmapScope = String(roadmap.scope || (roadmap.institutionName ? "institution" : "global")).trim();
+  if (roadmapScope !== "global" && (!institutionName || institutionName !== String(roadmap.institutionName || "").trim())) {
     throw new ApiError(403, "You cannot submit proof for this institution roadmap");
   }
   const studentClassName = String(studentProfile?.className || "").trim();
@@ -7683,8 +7691,8 @@ exports.submitCommunityChallenge = asyncHandler(async (req, res) => {
   const tasks = Array.isArray(req.body?.tasks)
     ? req.body.tasks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
     : [];
-  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName").lean();
-  const mentorInstitutionName = String(mentorProfile?.institutionName || "").trim();
+  const mentorProfile = await MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean();
+  const mentorInstitutionName = String(req.body?.institutionName || mentorProfile?.institutionName || "").trim();
   const targetClassName = String(req.body?.className || "").trim();
   const scopeDetails = normalizeContentScope({
     requestedScope: req.body?.scope,
@@ -9059,7 +9067,7 @@ exports.submitKnowledgeResource = asyncHandler(async (req, res) => {
   const contributorProfile = req.user.role === "mentor"
     ? await MentorProfile.findOne({ userId: req.user.id }).select("institutionName mentorOrgRole").lean()
     : await StudentProfile.findOne({ userId: req.user.id }).select("institutionName collegeName className").lean();
-  const institutionName = String(contributorProfile?.institutionName || contributorProfile?.collegeName || "").trim();
+  const institutionName = String(req.body?.institutionName || contributorProfile?.institutionName || contributorProfile?.collegeName || "").trim();
   const className = String(req.body?.className || contributorProfile?.className || "").trim();
   const scopeDetails = normalizeContentScope({
     requestedScope: req.body?.scope,
@@ -9322,7 +9330,7 @@ exports.getMentorCertificateTemplates = asyncHandler(async (req, res) => {
 exports.createMentorCertificateTemplate = asyncHandler(async (req, res) => {
   if (req.user.role !== "mentor") throw new ApiError(403, "Only mentors can create templates");
   const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("institutionName").lean();
-  const mentorInstitutionName = String(mentorProfile?.institutionName || "").trim();
+  const mentorInstitutionName = String(req.body?.institutionName || mentorProfile?.institutionName || "").trim();
   const title = String(req.body?.title || "").trim();
   const templateKey = String(req.body?.templateKey || title.toLowerCase().replace(/[^a-z0-9]+/g, "-")).trim();
   const storedTemplateKey = `mentor:${String(req.user.id)}:${templateKey}`;

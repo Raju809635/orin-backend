@@ -22,9 +22,15 @@ const institutionRoadmapSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    scope: {
+      type: String,
+      enum: ["global", "institution", "class"],
+      default: "institution",
+      index: true
+    },
     institutionName: {
       type: String,
-      required: true,
+      default: "",
       index: true
     },
     title: { type: String, required: true, maxlength: 200 },
