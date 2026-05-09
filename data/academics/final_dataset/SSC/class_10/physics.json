@@ -5,466 +5,3381 @@
     "subject": "Physics",
     "year": "2026",
     "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/physics.pdf",
-    "source_type": "manual_pdf",
-    "extraction_status": "verified_text_extracted",
-    "verification_status": "pdf_toc_source_backed",
-    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
-    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+    "source_type": "manual_pdf_full_lesson_text",
+    "extraction_status": "verified_full_text_extracted",
+    "verification_status": "pdf_lesson_text_extracted",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 10 textbook PDF.",
+    "extraction_message": "12 chapters and 525524 characters of lesson text were converted into roadmap weeks, lesson sections, definitions, activities, and quizzes."
   },
   "chapters": [
     {
       "chapter_no": 1,
-      "chapter_name": "Reflection Of Light At Curved Surfaces",
+      "chapter_name": "Reflection of Light at Curved Surfaces",
+      "source_pages": {
+        "start": 12,
+        "end": 31
+      },
       "topics": [
         {
-          "topic_name": "Reflection Of Light At Curved Surfaces - Core Concept",
+          "topic_name": "Reflection of Light at Curved Surfaces: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "This law is true for all surfaces, be it a plane surface or a curved one.",
+            "The important words here are ‘the angle made with normal at the point of A incidence’.",
+            "If for any surface one can decide the normal and find the incident N angle, it is possible to deduce the angle made by the reflected ray."
+          ],
+          "lessonSectionId": "reflection-of-light-at-curved-surfaces-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "Put some pins along a straight line on the foam as shown in the fig.-1(a).",
+            "R All these pins are perpendicular to the plane of foam.",
+            "If the foam is consideEred as a mirror, each pin would represent the normal at that point."
+          ],
+          "lessonSectionId": "reflection-of-light-at-curved-surfaces-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "They still represent the normal at various points, but you will notice that all the pins tend to converge at a point (or intersect at a point).",
+            "If we bend the foam piece outwards, we will see that the pins seem to move away from each other or in other words they diverge as shown in fig.-1(c).",
+            "This gives us an idea of what is likely to happen with a spherical mirror."
+          ],
+          "lessonSectionId": "reflection-of-light-at-curved-surfaces-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "This point is called centre of curvature(C) of A the mirror.",
+            "N Recall a little bit of geometry: while learning about circleAs and tangents, you have learnt that a radius is always perpendicular G to the tangent to the circle drawn at the point.",
+            "N This gives us a clue about how we can find normal at a point on a A spherical mirror."
+          ],
+          "lessonSectionId": "reflection-of-light-at-curved-surfaces-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "reflection-of-light-at-curved-surfaces-section-1",
+          "title": "Reflection of Light at Curved Surfaces: Core concepts",
+          "summary": [
+            "This law is true for all surfaces, be it a plane surface or a curved one.",
+            "The important words here are ‘the angle made with normal at the point of A incidence’.",
+            "If for any surface one can decide the normal and find the incident N angle, it is possible to deduce the angle made by the reflected ray."
+          ],
+          "keyPoints": [
+            "This law is true for all surfaces, be it a plane surface or a curved one.",
+            "The important words here are ‘the angle made with normal at the point of A incidence’.",
+            "If for any surface one can decide the normal and find the incident N angle, it is possible to deduce the angle made by the reflected ray.",
+            "It is very easy to find a normal at any point on the plane surface but for aA curved or uneven surface it is not straight forward.",
+            "G Activity 1 N Finding the normal to a curved surface A L E T fig-1(a) fig-1(b) fig-1(c) , Take a small piTece of thin foam or rubber (like the sole of a slipper)."
+          ],
+          "pageRange": "12-31"
+        },
+        {
+          "id": "reflection-of-light-at-curved-surfaces-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "Put some pins along a straight line on the foam as shown in the fig.-1(a).",
+            "R All these pins are perpendicular to the plane of foam.",
+            "If the foam is consideEred as a mirror, each pin would represent the normal at that point."
+          ],
+          "keyPoints": [
+            "Put some pins along a straight line on the foam as shown in the fig.-1(a).",
+            "R All these pins are perpendicular to the plane of foam.",
+            "If the foam is consideEred as a mirror, each pin would represent the normal at that point.",
+            "Any ray incident at the point where the pin makes contact with the surface C will reflect with the same angle as the incident ray made with the pin- S normal.",
+            "Now bend the foam piece inwards as shown in fig.-1(b), what differences will you observe to the pins?"
+          ],
+          "pageRange": "12-31"
+        },
+        {
+          "id": "reflection-of-light-at-curved-surfaces-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "They still represent the normal at various points, but you will notice that all the pins tend to converge at a point (or intersect at a point).",
+            "If we bend the foam piece outwards, we will see that the pins seem to move away from each other or in other words they diverge as shown in fig.-1(c).",
+            "This gives us an idea of what is likely to happen with a spherical mirror."
+          ],
+          "keyPoints": [
+            "They still represent the normal at various points, but you will notice that all the pins tend to converge at a point (or intersect at a point).",
+            "If we bend the foam piece outwards, we will see that the pins seem to move away from each other or in other words they diverge as shown in fig.-1(c).",
+            "This gives us an idea of what is likely to happen with a spherical mirror.",
+            "A concave mirror will be like the rubber sole bent inwards (fig-1(b)) and the convex mirror will be like the rubber sole bent out wards (fig-1(c)).",
+            "For a concave mirror, like these pins in fig.-1(b), all normals will converge towards a point."
+          ],
+          "pageRange": "12-31"
+        },
+        {
+          "id": "reflection-of-light-at-curved-surfaces-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "This point is called centre of curvature(C) of A the mirror.",
+            "N Recall a little bit of geometry: while learning about circleAs and tangents, you have learnt that a radius is always perpendicular G to the tangent to the circle drawn at the point.",
+            "N This gives us a clue about how we can find normal at a point on a A spherical mirror."
+          ],
+          "keyPoints": [
+            "This point is called centre of curvature(C) of A the mirror.",
+            "N Recall a little bit of geometry: while learning about circleAs and tangents, you have learnt that a radius is always perpendicular G to the tangent to the circle drawn at the point.",
+            "N This gives us a clue about how we can find normal at a point on a A spherical mirror."
+          ],
+          "pageRange": "12-31"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This point",
+          "meaning": "centre of curvature(C) of A the mirror"
+        },
+        {
+          "term": "P F C This point",
+          "meaning": "Focus or focal point (F) of the concave mirror"
+        },
+        {
+          "term": "That",
+          "meaning": "L to get a beam of parallel rays the source should be at a long distance and it E must be of sufficient intensity"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-1(a) fig-1(b) fig-1(c)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-1(a). R All these pins are perpendicular to the plane of foam. If the foam is consideEred as a mirror",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-1(b)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-1(c). 2 Reflection of light at curved surfaces",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-1(b)) and the convex mirror will be like the rubber sole bent out wards (fig-1(c)). For a concave mir",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2(a) dimensional fig. as shown in fig.-2(a). The concave r mirror is actually a part of a big sphere.",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2(b) makes with the normal shown as i and the reflected S angle is shown as r in fig.-2(b). We know b",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig. 2(b). What is your observation",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 1 N Finding the normal to a curved surface A L E T fig-1(a) fig-1(b) fig-1(c) , T",
+          "steps": [
+            "Activity 1 N Finding the normal to a curved surface A L E T fig-1(a) fig-1(b) fig-1(c) , Take a small piTece of thin foam or rubber (like the sole of a slipper)"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Activity 2 R Hold a concave mirror such that sunlight falls on it",
+          "steps": [
+            "Activity 2 R Hold a concave mirror such that sunlight falls on it"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Lab Activity Aim: Observing the types of images and measuring the object distance and imag",
+          "steps": [
+            "Lab Activity Aim: Observing the types of images and measuring the object distance and image distance from the mirror"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "activity-2 we saw the ray diagram of sunrays parallel to the concave R mirror and the imag",
+          "steps": [
+            "activity-2 we saw the ray diagram of sunrays parallel to the concave R mirror and the image of the sun was very small at the focal point (See fig"
           ]
+        },
+        {
+          "title": "Lab Activity,) A T Draw similar diagrams for other R fig-12 cases and verify that they mat",
+          "steps": [
+            "Lab Activity,) A T Draw similar diagrams for other R fig-12 cases and verify that they match with your observations"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Reflection of Light at Curved Surfaces: Core concepts",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-1"
+          ],
+          "focus": "Understand the concept. Section: Reflection of Light at Curved Surfaces: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Reflection of Light at Curved Surfaces key terms and exam answers",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-3",
+            "reflection-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "reflection-of-light-at-curved-surfaces-section-1",
+            "reflection-of-light-at-curved-surfaces-section-2",
+            "reflection-of-light-at-curved-surfaces-section-3",
+            "reflection-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "reflection-of-light-at-curved-surfaces-q1",
+          "question": "Which concept is important in Reflection of Light at Curved Surfaces?",
+          "options": [
+            "This point",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This point",
+          "explanation": "centre of curvature(C) of A the mirror"
+        },
+        {
+          "id": "reflection-of-light-at-curved-surfaces-q2",
+          "question": "What is one key point from 'Reflection of Light at Curved Surfaces: Core concepts'?",
+          "options": [
+            "This law is true for all surfaces, be it a plane surface or a curved one.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "This law is true for all surfaces, be it a plane surface or a curved one.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "reflection-of-light-at-curved-surfaces-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 2,
       "chapter_name": "Chemical Equations",
+      "source_pages": {
+        "start": 32,
+        "end": 44
+      },
       "topics": [
         {
-          "topic_name": "Chemical Equations - Core Concept",
+          "topic_name": "Chemical Equations: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "A CHAPTER N 2 A Chemical Equations G N A We had discussed in the previous classes on different changes that L occur around us and we have classified those changes into Physical and Chemical changes.",
+            "E Now, just think about the changes involved in the following processes T in our daily life.",
+            "C · Exposing iron nails to moisture in air for longer period."
+          ],
+          "lessonSectionId": "chemical-equations-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "In all the above processes, the nature of original substance would be changed.",
+            "If new substances are formed with properties completely unlike to those of the original substances, we say that a chemical change has taken place.",
+            "· How do we know that a chemical reaction has taken place?"
+          ],
+          "lessonSectionId": "chemical-equations-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "Calcium A oxide dissolves in water producing colourless solution.",
+            "Test the nature of solution with litmus papers.",
+            "A A red litmus paper turns blue when dipped in the above solution."
+          ],
+          "lessonSectionId": "chemical-equations-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "E 2 Observe the colours of the solutions obtained.",
+            "NaSO 2 4 T · What are the colours of the above solutions?",
+            "BaCl 2 , Add Na SO solution to BaCl solution and observe."
+          ],
+          "lessonSectionId": "chemical-equations-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "chemical-equations-section-1",
+          "title": "Chemical Equations: Core concepts",
+          "summary": [
+            "A CHAPTER N 2 A Chemical Equations G N A We had discussed in the previous classes on different changes that L occur around us and we have classified those changes into Physical and Chemical changes.",
+            "E Now, just think about the changes involved in the following processes T in our daily life.",
+            "C · Exposing iron nails to moisture in air for longer period."
+          ],
+          "keyPoints": [
+            "A CHAPTER N 2 A Chemical Equations G N A We had discussed in the previous classes on different changes that L occur around us and we have classified those changes into Physical and Chemical changes.",
+            "E Now, just think about the changes involved in the following processes T in our daily life.",
+            "C · Exposing iron nails to moisture in air for longer period.",
+            "Are they physical changes or chemical changes ?",
+            "Are they temporary changes or permanent changes?"
+          ],
+          "pageRange": "32-44"
+        },
+        {
+          "id": "chemical-equations-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "In all the above processes, the nature of original substance would be changed.",
+            "If new substances are formed with properties completely unlike to those of the original substances, we say that a chemical change has taken place.",
+            "· How do we know that a chemical reaction has taken place?"
+          ],
+          "keyPoints": [
+            "In all the above processes, the nature of original substance would be changed.",
+            "If new substances are formed with properties completely unlike to those of the original substances, we say that a chemical change has taken place.",
+            "· How do we know that a chemical reaction has taken place?",
+            "Activity 1 Take about 1 g of quick lime (calcium oxide) in a beaker.",
+            "The reason is that the calcium oxide (quick lime) reacts with water with the liberation of heat energy."
+          ],
+          "pageRange": "32-44"
+        },
+        {
+          "id": "chemical-equations-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "Calcium A oxide dissolves in water producing colourless solution.",
+            "Test the nature of solution with litmus papers.",
+            "A A red litmus paper turns blue when dipped in the above solution."
+          ],
+          "keyPoints": [
+            "Calcium A oxide dissolves in water producing colourless solution.",
+            "Test the nature of solution with litmus papers.",
+            "A A red litmus paper turns blue when dipped in the above solution.",
+            "Activity 2 N Take about 100 ml of water in a beaker and dissolve a A small quantity of sodium sulphate (Na SO ).",
+            "2 4 Take about 100ml of water in anothLer beaker and dissolve a small quantity of barium chloride (BaCl )."
+          ],
+          "pageRange": "32-44"
+        },
+        {
+          "id": "chemical-equations-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "E 2 Observe the colours of the solutions obtained.",
+            "NaSO 2 4 T · What are the colours of the above solutions?",
+            "BaCl 2 , Add Na SO solution to BaCl solution and observe."
+          ],
+          "keyPoints": [
+            "E 2 Observe the colours of the solutions obtained.",
+            "NaSO 2 4 T · What are the colours of the above solutions?",
+            "BaCl 2 , Add Na SO solution to BaCl solution and observe."
+          ],
+          "pageRange": "32-44"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The above method of balancing",
+          "meaning": "trial and error method only"
+        },
+        {
+          "term": "The reactant available in less amount",
+          "meaning": "limiting reagent as it limits the amount of product formed"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-1:Formation of barium",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2:Formation of hydrogen gas by the action of dilute HCl From the above activities you can on zinc and",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 1 Take about 1 g of quick lime (calcium oxide) in a beaker",
+          "steps": [
+            "Activity 1 Take about 1 g of quick lime (calcium oxide) in a beaker"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Activity 2 N Take about 100 ml of water in a beaker and dissolve a A small quantity of sod",
+          "steps": [
+            "Activity 2 N Take about 100 ml of water in a beaker and dissolve a A small quantity of sodium sulphate (Na SO )"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 3 Take soEme zinc granules in a conical flask",
+          "steps": [
+            "Activity 3 Take soEme zinc granules in a conical flask"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "activity 1, when calcium oxide reacts with wateNr a new substance is formed which is unlik",
+          "steps": [
+            "activity 1, when calcium oxide reacts with wateNr a new substance is formed which is unlike to either calcium oxide or water"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Chemical Equations: Core concepts",
+          "lessonSectionIds": [
+            "chemical-equations-section-1"
+          ],
+          "focus": "Understand the concept. Section: Chemical Equations: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "chemical-equations-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "chemical-equations-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "chemical-equations-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Chemical Equations key terms and exam answers",
+          "lessonSectionIds": [
+            "chemical-equations-section-3",
+            "chemical-equations-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "chemical-equations-section-1",
+            "chemical-equations-section-2",
+            "chemical-equations-section-3",
+            "chemical-equations-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "chemical-equations-q1",
+          "question": "Which concept is important in Chemical Equations?",
+          "options": [
+            "The above method of balancing",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The above method of balancing",
+          "explanation": "trial and error method only"
+        },
+        {
+          "id": "chemical-equations-q2",
+          "question": "What is one key point from 'Chemical Equations: Core concepts'?",
+          "options": [
+            "A CHAPTER N 2 A Chemical Equations G N A We had discussed in the previous classes on different changes that L occur around us and we have cl",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "A CHAPTER N 2 A Chemical Equations G N A We had discussed in the previous classes on different changes that L occur around us and we have cl",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "chemical-equations-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 3,
-      "chapter_name": "Acids, Bases And Salts",
+      "chapter_name": "Acids, Bases and Salts",
+      "source_pages": {
+        "start": 45,
+        "end": 68
+      },
       "topics": [
         {
-          "topic_name": "Acids, Bases And Salts - Core Concept",
+          "topic_name": "Acids, Bases and Salts: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "CHAPTER A Acids, Bases 3 N and Salts A G N In class VII you learnt about acids, bases and salts.",
+            "You know that acids are sour to taste and turn blue litmus to red, bases A are soapy to touch and turn red litmus to blue.",
+            "L You noticed that the person suffering from a problem of acidity, takes E antacid tonic or chewing tablets."
+          ],
+          "lessonSectionId": "acids-bases-and-salts-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "In adition to the above natural acid-base indicators, there are some synthetic E indicators such as methyl orange and phenolphthalein that can be used to C test for acids and bases.",
+            "In this chapter you study the reactions of acids and bases.",
+            "Many more interesting activities that we use and see in our day-to-day life are also studied."
+          ],
+          "lessonSectionId": "acids-bases-and-salts-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "G Take four watch glasses and put one drop of the first solution in each one of them and test the solution as follows.",
+            "dip the blue litmus paper in the first watch glass.",
+            "dip the red litmus paper in the second watch glass."
+          ],
+          "lessonSectionId": "acids-bases-and-salts-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Observe the respective colour changes and note down in Table-1.",
+            "Do T the same with all the above dilute solutions.",
+            "· Identify the sample as acidic or basic solution."
+          ],
+          "lessonSectionId": "acids-bases-and-salts-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "acids-bases-and-salts-section-1",
+          "title": "Acids, Bases and Salts: Core concepts",
+          "summary": [
+            "CHAPTER A Acids, Bases 3 N and Salts A G N In class VII you learnt about acids, bases and salts.",
+            "You know that acids are sour to taste and turn blue litmus to red, bases A are soapy to touch and turn red litmus to blue.",
+            "L You noticed that the person suffering from a problem of acidity, takes E antacid tonic or chewing tablets."
+          ],
+          "keyPoints": [
+            "CHAPTER A Acids, Bases 3 N and Salts A G N In class VII you learnt about acids, bases and salts.",
+            "You know that acids are sour to taste and turn blue litmus to red, bases A are soapy to touch and turn red litmus to blue.",
+            "L You noticed that the person suffering from a problem of acidity, takes E antacid tonic or chewing tablets.",
+            "There are m any natural materials like litmus, extract of red cabbage, , turmeric solution and extracts of coloured petals of some flowers contain T dye molecules which are weak acids or bases.",
+            "These can be used as acid- R base indicators to detect the nature of the solution for acidity or basicity."
+          ],
+          "pageRange": "45-68"
+        },
+        {
+          "id": "acids-bases-and-salts-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "In adition to the above natural acid-base indicators, there are some synthetic E indicators such as methyl orange and phenolphthalein that can be used to C test for acids and bases.",
+            "In this chapter you study the reactions of acids and bases.",
+            "Many more interesting activities that we use and see in our day-to-day life are also studied."
+          ],
+          "keyPoints": [
+            "In adition to the above natural acid-base indicators, there are some synthetic E indicators such as methyl orange and phenolphthalein that can be used to C test for acids and bases.",
+            "In this chapter you study the reactions of acids and bases.",
+            "Many more interesting activities that we use and see in our day-to-day life are also studied.",
+            "Litmus solution is a dye extracted from lichen, a plant belonging to the division of Thallophyta and is used as indicator.",
+            "Coloured petals of some flowers such as Hydrangea, Petunia and Geranium are also used as indicators."
+          ],
+          "pageRange": "45-68"
+        },
+        {
+          "id": "acids-bases-and-salts-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "G Take four watch glasses and put one drop of the first solution in each one of them and test the solution as follows.",
+            "dip the blue litmus paper in the first watch glass.",
+            "dip the red litmus paper in the second watch glass."
+          ],
+          "keyPoints": [
+            "G Take four watch glasses and put one drop of the first solution in each one of them and test the solution as follows.",
+            "dip the blue litmus paper in the first watch glass.",
+            "dip the red litmus paper in the second watch glass.",
+            "add a drop of methyle organge to theL third watch glass, and iv.",
+            "add a drop of phenolphthalein Eto the fourth watch glass."
+          ],
+          "pageRange": "45-68"
+        },
+        {
+          "id": "acids-bases-and-salts-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Observe the respective colour changes and note down in Table-1.",
+            "Do T the same with all the above dilute solutions.",
+            "· Identify the sample as acidic or basic solution."
+          ],
+          "keyPoints": [
+            "Observe the respective colour changes and note down in Table-1.",
+            "Do T the same with all the above dilute solutions.",
+            "· Identify the sample as acidic or basic solution."
+          ],
+          "pageRange": "45-68"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Such a process",
+          "meaning": "dilution 3 A and the acid or the base is said to be diluted"
+        },
+        {
+          "term": "The N process",
+          "meaning": "the chloro-alkali process – because of the products formed chloro for chlorine and alkali for sodAium hydroxide"
+        },
+        {
+          "term": "This",
+          "meaning": "plaster of paris, the substance which doctors 4 2 G use as plaster for supporting fractured bones in the right position"
+        },
+        {
+          "term": "These",
+          "meaning": "olfactory indicators"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-1: Reaction of zinc granules with dil. HCl and Atesting hydrogen gas by a burning candle Aim: To obse",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig. 1. - Take about 10ml of dilute HCl in a test tube and add a few zinc granules to it.",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2: Passing CO gas through 2 (calcium hydroxide solution) as Ca(OH) solution 2 shown in Fig-2 and reco",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3 by connecting a bulb to one of the wires. Now pour some dilute HCl in the beaker and switch on the",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3: Acid solution in water is flow of electric current through conducts electricity the solution. Acid",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-4: Preparation of HCl gas The HCl gas evolved at delivery tube dissociates in presence of water S to",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-5: Warning sign displayed on containers heat generated may cause the mixture to containing concentrat",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "Fig.5) on the can of concentrated sulphuric acid and on the bottle of sodium hydroxide pellets. Mixing an",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 1 Collect the following samples from the science laboratory; hydrochloric acid (H",
+          "steps": []
+        },
+        {
+          "title": "Activity 2 Put some finely chopped onions in a plastic bag along with some clean A cloth",
+          "steps": [
+            "Activity 2 Put some finely chopped onions in a plastic bag along with some clean A cloth"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "activity? S · Why pickles and sour substances are not stored in brass and copper vessels? ",
+          "steps": [
+            "S · Why pickles and sour substances are not stored in brass and copper vessels?",
+            "Think and discuss · Can you give example for use of olfactory indicators in daily life?",
+            "Discuss with your teacher"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Lab Activity Cork Delivery tube Stand A HCl N Test tube H Testing of hydrogen gas 2 A Glas",
+          "steps": [
+            "Lab Activity Cork Delivery tube Stand A HCl N Test tube H Testing of hydrogen gas 2 A Glass Zinc granules trough G N Soap water fig-1: Reaction of zinc granules with dil"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "activity is: Acid + Metal g Salt + Hydrogen 2 HCl + Zn g Zn Cl + H (aq) (s) 2(aq) 2(g) Rep",
+          "steps": [
+            "activity is: Acid + Metal g Salt + Hydrogen 2 HCl + Zn g Zn Cl + H (aq) (s) 2(aq) 2(g) Repeat the above experiment with some other acids like H SO and 2 4 HNO"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Acids, Bases and Salts: Core concepts",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-1"
+          ],
+          "focus": "Understand the concept. Section: Acids, Bases and Salts: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Acids, Bases and Salts key terms and exam answers",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-3",
+            "acids-bases-and-salts-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "acids-bases-and-salts-section-1",
+            "acids-bases-and-salts-section-2",
+            "acids-bases-and-salts-section-3",
+            "acids-bases-and-salts-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "acids-bases-and-salts-q1",
+          "question": "Which concept is important in Acids, Bases and Salts?",
+          "options": [
+            "Such a process",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Such a process",
+          "explanation": "dilution 3 A and the acid or the base is said to be diluted"
+        },
+        {
+          "id": "acids-bases-and-salts-q2",
+          "question": "What is one key point from 'Acids, Bases and Salts: Core concepts'?",
+          "options": [
+            "CHAPTER A Acids, Bases 3 N and Salts A G N In class VII you learnt about acids, bases and salts.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "CHAPTER A Acids, Bases 3 N and Salts A G N In class VII you learnt about acids, bases and salts.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "acids-bases-and-salts-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 4,
-      "chapter_name": "Refraction Of Light At Curved Surfaces",
+      "chapter_name": "Refraction of Light at Curved Surfaces",
+      "source_pages": {
+        "start": 69,
+        "end": 103
+      },
       "topics": [
         {
-          "topic_name": "Refraction Of Light At Curved Surfaces - Core Concept",
+          "topic_name": "Refraction of Light at Curved Surfaces: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "What we have learnt · Acid – base indicators are dyes or mixtures of dyes which are used to detect the presence of acids and bases.",
+            "· Acidic nature of a substance is due to the formation of H+ (aq) ions in solution.",
+            "Formation of OH- (aq) ions in solution is responsible for the basic nature of a substance."
+          ],
+          "lessonSectionId": "refraction-of-light-at-curved-surfaces-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "A · Acidic and basic solutions in water conduct electricity because they produce hydrogen ions and hydroxide ions respectively.",
+            "G · The strength of an acid or an alkali can be tested by using a scale called the pH scale (0-14) which gives the measure of hydrogen ion concentratiNon in a solution.",
+            "· A neutral solution has a pH of 7, while an acidic solution has a pH less than 7 and a basic A solution has a pH more than 7."
+          ],
+          "lessonSectionId": "refraction-of-light-at-curved-surfaces-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "E · Acids and bases neutralize each other to form corresponding salts and water.",
+            "· Water of crystallization is the fixed number of water molecules chemically attached to each T formula unit of a salt in its crystalline form.",
+            "· Salts have various uses in everyday life and in industries."
+          ],
+          "lessonSectionId": "refraction-of-light-at-curved-surfaces-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Draw a neat diagram for showing acid solution in water conducting electricity.",
+            "Why the flow of acid rain into a river make the survival of aquatic life in a river difficult?",
+            "How does baking powder make the cake soft and spongy?"
+          ],
+          "lessonSectionId": "refraction-of-light-at-curved-surfaces-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "refraction-of-light-at-curved-surfaces-section-1",
+          "title": "Refraction of Light at Curved Surfaces: Core concepts",
+          "summary": [
+            "What we have learnt · Acid – base indicators are dyes or mixtures of dyes which are used to detect the presence of acids and bases.",
+            "· Acidic nature of a substance is due to the formation of H+ (aq) ions in solution.",
+            "Formation of OH- (aq) ions in solution is responsible for the basic nature of a substance."
+          ],
+          "keyPoints": [
+            "What we have learnt · Acid – base indicators are dyes or mixtures of dyes which are used to detect the presence of acids and bases.",
+            "· Acidic nature of a substance is due to the formation of H+ (aq) ions in solution.",
+            "Formation of OH- (aq) ions in solution is responsible for the basic nature of a substance.",
+            "A · When a base reacts with a metal with the evolution of hydrogen gas, a salt is formed.",
+            "N · When an acid reacts with a metal carbonate or metal hydrogen carbonate gives the corresponding salt, carbon dioxide gas and water."
+          ],
+          "pageRange": "69-103"
+        },
+        {
+          "id": "refraction-of-light-at-curved-surfaces-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "A · Acidic and basic solutions in water conduct electricity because they produce hydrogen ions and hydroxide ions respectively.",
+            "G · The strength of an acid or an alkali can be tested by using a scale called the pH scale (0-14) which gives the measure of hydrogen ion concentratiNon in a solution.",
+            "· A neutral solution has a pH of 7, while an acidic solution has a pH less than 7 and a basic A solution has a pH more than 7."
+          ],
+          "keyPoints": [
+            "A · Acidic and basic solutions in water conduct electricity because they produce hydrogen ions and hydroxide ions respectively.",
+            "G · The strength of an acid or an alkali can be tested by using a scale called the pH scale (0-14) which gives the measure of hydrogen ion concentratiNon in a solution.",
+            "· A neutral solution has a pH of 7, while an acidic solution has a pH less than 7 and a basic A solution has a pH more than 7.",
+            "· Living beings carry out their metabolic activities within an optimal pH range.",
+            "L · Mixing concentrated acids or bases with water is a highly exothermic process."
+          ],
+          "pageRange": "69-103"
+        },
+        {
+          "id": "refraction-of-light-at-curved-surfaces-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "E · Acids and bases neutralize each other to form corresponding salts and water.",
+            "· Water of crystallization is the fixed number of water molecules chemically attached to each T formula unit of a salt in its crystalline form.",
+            "· Salts have various uses in everyday life and in industries."
+          ],
+          "keyPoints": [
+            "E · Acids and bases neutralize each other to form corresponding salts and water.",
+            "· Water of crystallization is the fixed number of water molecules chemically attached to each T formula unit of a salt in its crystalline form.",
+            "· Salts have various uses in everyday life and in industries.",
+            "Is this process exothermic or Cendothermic one?",
+            "Distilled water does not conduct electricity."
+          ],
+          "pageRange": "69-103"
+        },
+        {
+          "id": "refraction-of-light-at-curved-surfaces-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Draw a neat diagram for showing acid solution in water conducting electricity.",
+            "Why the flow of acid rain into a river make the survival of aquatic life in a river difficult?",
+            "How does baking powder make the cake soft and spongy?"
+          ],
+          "keyPoints": [
+            "Draw a neat diagram for showing acid solution in water conducting electricity.",
+            "Why the flow of acid rain into a river make the survival of aquatic life in a river difficult?",
+            "How does baking powder make the cake soft and spongy?"
+          ],
+          "pageRange": "69-103"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The centre of the curved surface",
+          "meaning": "the pole (P) of the curved surface"
+        },
+        {
+          "term": "This approximation",
+          "meaning": "paraxial approximation"
+        },
+        {
+          "term": "Such a lens",
+          "meaning": "double convex lens (Biconvex lens, see fig"
+        },
+        {
+          "term": "N midpoint of a thin lens",
+          "meaning": "optic centre of lens (P)"
+        },
+        {
+          "term": "This distance",
+          "meaning": "least distance of distinct vision"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-1 E When the vessel is filled with water",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 1. T",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 2. The centre of the sphere",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2 Any line drawn from the centre of curvature to a point on the curved surface becomes normal to the",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-3)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3 principal axis",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-4(a))",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-4(a) strikes a convex surface and passes from a denser R medium to rarer medium. (see fig.-4(b)) E No",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "activity to show the T water of crystallization",
+          "steps": [
+            "activity to show the T water of crystallization"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "activity to understand refraction of light at curved surfaces",
+          "steps": [
+            "activity to understand refraction of light at curved surfaces"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 1 S Draw an arrow of length 4 cm using a black sketch pen on a thick sheet of pap",
+          "steps": [
+            "Activity 1 S Draw an arrow of length 4 cm using a black sketch pen on a thick sheet of paper"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "Lab Activity S Aim: Observing the types of images and measuring the object distance and im",
+          "steps": [
+            "Lab Activity S Aim: Observing the types of images and measuring the object distance and image distance from the lens"
           ]
+        },
+        {
+          "title": "Activity 2 T Take the same lens that was used in lab activity",
+          "steps": [
+            "Activity 2 T Take the same lens that was used in lab activity"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Refraction of Light at Curved Surfaces: Core concepts",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-1"
+          ],
+          "focus": "Understand the concept. Section: Refraction of Light at Curved Surfaces: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Refraction of Light at Curved Surfaces key terms and exam answers",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-3",
+            "refraction-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "refraction-of-light-at-curved-surfaces-section-1",
+            "refraction-of-light-at-curved-surfaces-section-2",
+            "refraction-of-light-at-curved-surfaces-section-3",
+            "refraction-of-light-at-curved-surfaces-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "refraction-of-light-at-curved-surfaces-q1",
+          "question": "Which concept is important in Refraction of Light at Curved Surfaces?",
+          "options": [
+            "The centre of the curved surface",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The centre of the curved surface",
+          "explanation": "the pole (P) of the curved surface"
+        },
+        {
+          "id": "refraction-of-light-at-curved-surfaces-q2",
+          "question": "What is one key point from 'Refraction of Light at Curved Surfaces: Core concepts'?",
+          "options": [
+            "What we have learnt · Acid – base indicators are dyes or mixtures of dyes which are used to detect the presence of acids and bases.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "What we have learnt · Acid – base indicators are dyes or mixtures of dyes which are used to detect the presence of acids and bases.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "refraction-of-light-at-curved-surfaces-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 5,
-      "chapter_name": "Human Eye And Colourful World",
+      "chapter_name": "Human Eye and Colourful World",
+      "source_pages": {
+        "start": 104,
+        "end": 126
+      },
       "topics": [
         {
-          "topic_name": "Human Eye And Colourful World - Core Concept",
+          "topic_name": "Human Eye and Colourful World: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "In such cases, the rays coming from a nearby object, after H L refraction at eye lens, forms an image beyond the retina as fig-6(a) shown in fig.- 6 (a).",
+            "Let the point of least A L distance at which the eye lens H forms a clear image on the N fig-6(b) retina for a person with A hypermetropia be ‘H’.",
+            "H L G If an object is at H or beyond H, the eye can form its fig N -6(c) image on retina (see figures A 6(b) and 6(c))."
+          ],
+          "lessonSectionId": "human-eye-and-colourful-world-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "The people with defect of hypermetropia cannot see objTects placed between near point (H) and point of least distance of distinct vision (L).",
+            ", Eye lens can forTm a clear image on the retina when any object is placed beyond near point.",
+            "To correct the defect of hypermetropia, we need to use R a lens which forms an image of an object beyond near point, when the E object is between near point (H) and least distance of distinct vision (L)."
+          ],
+          "lessonSectionId": "human-eye-and-colourful-world-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "S To find the focal length of lens, let us consider that the object is at point of least L distance of distinct vision (L).",
+            "H fig-6(d) Then the defect of vision, hypermetropia, is corrected when the image of the object at L is formed at the near point (H) by using a bi-convex lens as shown in fig.-6(d).",
+            "This image acts like an object for the eye lens."
+          ],
+          "lessonSectionId": "human-eye-and-colourful-world-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "A 5.3.3 Presbyopia Presbyopia is vision defect when the ability of accommodation of the L eye usually decreases with ageing.",
+            "For most people the near point gradually recedes away.",
+            "They find it difficEult to see nearby objects clearly and distinctly."
+          ],
+          "lessonSectionId": "human-eye-and-colourful-world-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "human-eye-and-colourful-world-section-1",
+          "title": "Human Eye and Colourful World: Core concepts",
+          "summary": [
+            "In such cases, the rays coming from a nearby object, after H L refraction at eye lens, forms an image beyond the retina as fig-6(a) shown in fig.- 6 (a).",
+            "Let the point of least A L distance at which the eye lens H forms a clear image on the N fig-6(b) retina for a person with A hypermetropia be ‘H’.",
+            "H L G If an object is at H or beyond H, the eye can form its fig N -6(c) image on retina (see figures A 6(b) and 6(c))."
+          ],
+          "keyPoints": [
+            "In such cases, the rays coming from a nearby object, after H L refraction at eye lens, forms an image beyond the retina as fig-6(a) shown in fig.- 6 (a).",
+            "Let the point of least A L distance at which the eye lens H forms a clear image on the N fig-6(b) retina for a person with A hypermetropia be ‘H’.",
+            "H L G If an object is at H or beyond H, the eye can form its fig N -6(c) image on retina (see figures A 6(b) and 6(c)).",
+            "If the object is between H and point of least distance of distinct vision (L) then it cannot form an image.",
+            "L The point of minimum distance at which the eye lens can form an image E on the retina is called near point (d)."
+          ],
+          "pageRange": "104-126"
+        },
+        {
+          "id": "human-eye-and-colourful-world-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "The people with defect of hypermetropia cannot see objTects placed between near point (H) and point of least distance of distinct vision (L).",
+            ", Eye lens can forTm a clear image on the retina when any object is placed beyond near point.",
+            "To correct the defect of hypermetropia, we need to use R a lens which forms an image of an object beyond near point, when the E object is between near point (H) and least distance of distinct vision (L)."
+          ],
+          "keyPoints": [
+            "The people with defect of hypermetropia cannot see objTects placed between near point (H) and point of least distance of distinct vision (L).",
+            ", Eye lens can forTm a clear image on the retina when any object is placed beyond near point.",
+            "To correct the defect of hypermetropia, we need to use R a lens which forms an image of an object beyond near point, when the E object is between near point (H) and least distance of distinct vision (L).",
+            "This is possible only when a double convex lens is used.",
+            "C · How can you decide the focal length of the convex lens to be used?"
+          ],
+          "pageRange": "104-126"
+        },
+        {
+          "id": "human-eye-and-colourful-world-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "S To find the focal length of lens, let us consider that the object is at point of least L distance of distinct vision (L).",
+            "H fig-6(d) Then the defect of vision, hypermetropia, is corrected when the image of the object at L is formed at the near point (H) by using a bi-convex lens as shown in fig.-6(d).",
+            "This image acts like an object for the eye lens."
+          ],
+          "keyPoints": [
+            "S To find the focal length of lens, let us consider that the object is at point of least L distance of distinct vision (L).",
+            "H fig-6(d) Then the defect of vision, hypermetropia, is corrected when the image of the object at L is formed at the near point (H) by using a bi-convex lens as shown in fig.-6(d).",
+            "This image acts like an object for the eye lens.",
+            "Hence final image due to eye is formed at retina (see fig.- 6(d)) 94 Human Eye and Colourful World",
+            "Here object distance (u) = -25 cm Image distance (v) = distance of near point = -d Let ‘f’ be the focal length of bi-convex lens."
+          ],
+          "pageRange": "104-126"
+        },
+        {
+          "id": "human-eye-and-colourful-world-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "A 5.3.3 Presbyopia Presbyopia is vision defect when the ability of accommodation of the L eye usually decreases with ageing.",
+            "For most people the near point gradually recedes away.",
+            "They find it difficEult to see nearby objects clearly and distinctly."
+          ],
+          "keyPoints": [
+            "A 5.3.3 Presbyopia Presbyopia is vision defect when the ability of accommodation of the L eye usually decreases with ageing.",
+            "For most people the near point gradually recedes away.",
+            "They find it difficEult to see nearby objects clearly and distinctly."
+          ],
+          "pageRange": "104-126"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The angle between the incident ray and normal",
+          "meaning": "angle of incidence (i )"
+        },
+        {
+          "term": "The angle between the emergent ray and normal",
+          "meaning": "angle of emergence (i )"
+        },
+        {
+          "term": "The angle between the plane surfaces PQ and PR",
+          "meaning": "the angle of the prism or refracting angle of prism A and the angle between the incident N ray and emergent ray is called angle of deviation(d)"
+        },
+        {
+          "term": "Asities by the atom or molecule",
+          "meaning": "[ ] N A) Scattering of light B) dispersion of light C) reflection of light D) refraction of light A Suggested Experiments G 1"
+        },
+        {
+          "term": "This",
+          "meaning": "that the frequency of the light wave remains unaltered while its wavelength changes depending on the medium through which it passes"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-6(a) shown in fig.- 6 (a). Let the point of least A L distance at which the eye lens H forms a clear",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-6(b) retina for a person with A hypermetropia be",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 6(b). H L G If an object is at H or beyond H",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 6(a). L The point of minimum distance at which the eye lens can form an image E on the retina is call",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-6(d) Then the defect of vision",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.-6(d). This image acts like an object for the eye lens. Hence final image due to eye is formed at reti",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 6(d)) 94 Human Eye and Colourful World",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-7 96 Human Eye and Colourful World",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "activity to study the refraction of light through a A triangular prism",
+          "steps": [
+            "activity to study the refraction of light through a A triangular prism"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Lab Activity N Aim: Finding the refractive index of a prism",
+          "steps": [
+            "Lab Activity N Aim: Finding the refractive index of a prism"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 3 Do this activity in the dark room",
+          "steps": [
+            "Activity 3 Do this activity in the dark room"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "Activity 4 A Take a metal tray and fill it with water",
+          "steps": [
+            "Activity 4 A Take a metal tray and fill it with water"
           ]
+        },
+        {
+          "title": "activity (3) and (4), we ob,serve that white light is Metal splitting into certain difTfer",
+          "steps": [
+            "activity (3) and (4), we ob,serve that white light is Metal splitting into certain difTferent colours"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Human Eye and Colourful World: Core concepts",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-1"
+          ],
+          "focus": "Understand the concept. Section: Human Eye and Colourful World: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Human Eye and Colourful World key terms and exam answers",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-3",
+            "human-eye-and-colourful-world-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "human-eye-and-colourful-world-section-1",
+            "human-eye-and-colourful-world-section-2",
+            "human-eye-and-colourful-world-section-3",
+            "human-eye-and-colourful-world-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "human-eye-and-colourful-world-q1",
+          "question": "Which concept is important in Human Eye and Colourful World?",
+          "options": [
+            "The angle between the incident ray and normal",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The angle between the incident ray and normal",
+          "explanation": "angle of incidence (i )"
+        },
+        {
+          "id": "human-eye-and-colourful-world-q2",
+          "question": "What is one key point from 'Human Eye and Colourful World: Core concepts'?",
+          "options": [
+            "In such cases, the rays coming from a nearby object, after H L refraction at eye lens, forms an image beyond the retina as fig-6(a) shown in",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "In such cases, the rays coming from a nearby object, after H L refraction at eye lens, forms an image beyond the retina as fig-6(a) shown in",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "human-eye-and-colourful-world-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 6,
-      "chapter_name": "Structure Of Atom",
+      "chapter_name": "Structure of Atom",
+      "source_pages": {
+        "start": 127,
+        "end": 152
+      },
       "topics": [
         {
-          "topic_name": "Structure Of Atom - Core Concept",
+          "topic_name": "Structure of Atom: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "The lowest energy state of the electron is known as ground state.",
+            "The electron moves to a higher energy level i.e.",
+            "· Does the electron retain the absorved energy forever?"
+          ],
+          "lessonSectionId": "structure-of-atom-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "The A energy emitted by the electron is seen in the form of electromagnetic N energy of specific warelength and when the wavelength is in the visible region it is visible as an emission line.",
+            "A Bohr’s model explains all the line spectra observed in the case of hydrogen atom.",
+            "It is a successful model as far as line speGctra of hydrogen atom is concerned."
+          ],
+          "lessonSectionId": "structure-of-atom-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "L Bohr’s model failed to accounEt for splitting of line spectra.",
+            "He was guided by the fact that, in general, periodic motion under the influence of a central force will lead to elliptical orbits with the nucleus situated at one of the foci.",
+            "Bohr-Sommerfeld model, though successful in accounting for the fine line structure of hydrogen atomic spectra, does not provide a satisfactory picture of the structure of atom in general."
+          ],
+          "lessonSectionId": "structure-of-atom-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "N Max Karl Ernst Ludwig Planck was a German theoretical physicist who originated quAantum theory, which won him the Nobel Prize in Physics in 1918.",
+            "Planck made G many contributions to theoretical physics, but his fame rests primarily on his role as originator of the quantum theory.",
+            "N This theory revolutionized human understanding of atomic and subatomic processes."
+          ],
+          "lessonSectionId": "structure-of-atom-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "structure-of-atom-section-1",
+          "title": "Structure of Atom: Core concepts",
+          "summary": [
+            "The lowest energy state of the electron is known as ground state.",
+            "The electron moves to a higher energy level i.e.",
+            "· Does the electron retain the absorved energy forever?"
+          ],
+          "keyPoints": [
+            "The lowest energy state of the electron is known as ground state.",
+            "The electron moves to a higher energy level i.e.",
+            "· Does the electron retain the absorved energy forever?",
+            "The electron does not stay in the excited level for long.",
+            "The electron loses the energy and comes back to its ground state."
+          ],
+          "pageRange": "127-152"
+        },
+        {
+          "id": "structure-of-atom-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "The A energy emitted by the electron is seen in the form of electromagnetic N energy of specific warelength and when the wavelength is in the visible region it is visible as an emission line.",
+            "A Bohr’s model explains all the line spectra observed in the case of hydrogen atom.",
+            "It is a successful model as far as line speGctra of hydrogen atom is concerned."
+          ],
+          "keyPoints": [
+            "The A energy emitted by the electron is seen in the form of electromagnetic N energy of specific warelength and when the wavelength is in the visible region it is visible as an emission line.",
+            "A Bohr’s model explains all the line spectra observed in the case of hydrogen atom.",
+            "It is a successful model as far as line speGctra of hydrogen atom is concerned.",
+            "N But the line spectrum of hydrogen atom when observed through a high resolution spectroscope appears as groups of finer lines.",
+            "A · Did Bohr’s model account for the splitting of line spectra of a hydrogen atom into finer lines?"
+          ],
+          "pageRange": "127-152"
+        },
+        {
+          "id": "structure-of-atom-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "L Bohr’s model failed to accounEt for splitting of line spectra.",
+            "He was guided by the fact that, in general, periodic motion under the influence of a central force will lead to elliptical orbits with the nucleus situated at one of the foci.",
+            "Bohr-Sommerfeld model, though successful in accounting for the fine line structure of hydrogen atomic spectra, does not provide a satisfactory picture of the structure of atom in general."
+          ],
+          "keyPoints": [
+            "L Bohr’s model failed to accounEt for splitting of line spectra.",
+            "He was guided by the fact that, in general, periodic motion under the influence of a central force will lead to elliptical orbits with the nucleus situated at one of the foci.",
+            "Bohr-Sommerfeld model, though successful in accounting for the fine line structure of hydrogen atomic spectra, does not provide a satisfactory picture of the structure of atom in general.",
+            "This model failed to account for the atomic spectra of atoms of more than one electron.",
+            "· Why is the electron in an atom restricted to revolve around the nucleus A in stationary orbits located at certain fixed distances?"
+          ],
+          "pageRange": "127-152"
+        },
+        {
+          "id": "structure-of-atom-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "N Max Karl Ernst Ludwig Planck was a German theoretical physicist who originated quAantum theory, which won him the Nobel Prize in Physics in 1918.",
+            "Planck made G many contributions to theoretical physics, but his fame rests primarily on his role as originator of the quantum theory.",
+            "N This theory revolutionized human understanding of atomic and subatomic processes."
+          ],
+          "keyPoints": [
+            "N Max Karl Ernst Ludwig Planck was a German theoretical physicist who originated quAantum theory, which won him the Nobel Prize in Physics in 1918.",
+            "Planck made G many contributions to theoretical physics, but his fame rests primarily on his role as originator of the quantum theory.",
+            "N This theory revolutionized human understanding of atomic and subatomic processes."
+          ],
+          "pageRange": "127-152"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This",
+          "meaning": "the Aufbau principle (ThGe German word “Aufbau” means “building up"
+        },
+        {
+          "term": "This statement",
+          "meaning": "the R Dobereiner’s law of triads"
+        },
+        {
+          "term": "T in the atom of an element",
+          "meaning": "the atomic number of the element"
+        },
+        {
+          "term": "These",
+          "meaning": "degenerated orbitals"
+        },
+        {
+          "term": "IA elements",
+          "meaning": "alkali meAtals family"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-4: The allowed electronic orbits for the main Quantum numbers by Bohr - Sommerfeld model S In an atte",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-5: Shapes of orbitals in s",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-6) shows the increasing value of (n",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-6: The filling order of atomic orbitals (Moeller Chart) 124 Structure of Atom",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 3 N Complete the electronic configuration of the following elements",
+          "steps": [
+            "Activity 3 N Complete the electronic configuration of the following elements"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Activity 1 C Observe the following table",
+          "steps": [
+            "Activity 1 C Observe the following table"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 2 , T Some main group elements of s-block and p-block have family names as given ",
+          "steps": [
+            "Activity 2 , T Some main group elements of s-block and p-block have family names as given in the following table"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Structure of Atom: Core concepts",
+          "lessonSectionIds": [
+            "structure-of-atom-section-1"
+          ],
+          "focus": "Understand the concept. Section: Structure of Atom: Core concepts."
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "structure-of-atom-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "structure-of-atom-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "structure-of-atom-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Structure of Atom key terms and exam answers",
+          "lessonSectionIds": [
+            "structure-of-atom-section-3",
+            "structure-of-atom-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "structure-of-atom-section-1",
+            "structure-of-atom-section-2",
+            "structure-of-atom-section-3",
+            "structure-of-atom-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "structure-of-atom-q1",
+          "question": "Which concept is important in Structure of Atom?",
+          "options": [
+            "This",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This",
+          "explanation": "the Aufbau principle (ThGe German word “Aufbau” means “building up"
+        },
+        {
+          "id": "structure-of-atom-q2",
+          "question": "What is one key point from 'Structure of Atom: Core concepts'?",
+          "options": [
+            "The lowest energy state of the electron is known as ground state.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "The lowest energy state of the electron is known as ground state.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "structure-of-atom-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 7,
-      "chapter_name": "Classification Of Elements - The Periodic Table",
+      "chapter_name": "Classification of Elements - The Periodic Table",
+      "source_pages": {
+        "start": 153,
+        "end": 175
+      },
       "topics": [
         {
-          "topic_name": "Classification Of Elements - The Periodic Table - Core Concept",
+          "topic_name": "Classification of Elements - The Periodic Table: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "Third period starts with third main shell (M).",
+            "This shell (M) has 3 sub- shells, namely, 3s, 3p and 3d, but while electrons are being filled into the shells, ‘3d’ gets electrons only after ‘4s’ is filled.",
+            "Therefore, the 3rd period contains again 8 elements, which includes two s-block elements (Na, Mg) and six p-block elements (Al to Ar)."
+          ],
+          "lessonSectionId": "classification-of-elements-the-periodic-table-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "Due to this, the fourth period contains 18 elements which includes two s-block (K, Ca), 10 elements from d block (Sc to Zn) and six A elements from p-block ( Ga to Kr).",
+            "There are altogether eighteen 31 36 elements in the fourth period.",
+            "On the same lines, we can explain why there are 18 elements in the fifth period ( Rb to Xe)."
+          ],
+          "lessonSectionId": "classification-of-elements-the-periodic-table-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "Elements from Ce to Lu possess almost the same properties as La.",
+            "So, the name 58 71 T 57 lanthanoids is the most appropriate one for these elements.",
+            "7th period is incomplet e and contains 2 elements from s-block (7s) , 14 elements from f-block (5f), 10 elements from d-block (6d) and some T elements from p-block (7p)."
+          ],
+          "lessonSectionId": "classification-of-elements-the-periodic-table-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "S ‘Ide’ means ‘heir’ and it is used generally for a change like Cl to Cl-.",
+            "‘Cl’ is chlorine atom and Cl- is chloride ion.",
+            "Some scientists suggest lanthanoids as La to Yb, some suggest them as 57 70 Ce to Lu and some take La to Lu (15 elements)."
+          ],
+          "lessonSectionId": "classification-of-elements-the-periodic-table-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "classification-of-elements-the-periodic-table-section-1",
+          "title": "Classification of Elements - The Periodic Table: Core concepts",
+          "summary": [
+            "Third period starts with third main shell (M).",
+            "This shell (M) has 3 sub- shells, namely, 3s, 3p and 3d, but while electrons are being filled into the shells, ‘3d’ gets electrons only after ‘4s’ is filled.",
+            "Therefore, the 3rd period contains again 8 elements, which includes two s-block elements (Na, Mg) and six p-block elements (Al to Ar)."
+          ],
+          "keyPoints": [
+            "Third period starts with third main shell (M).",
+            "This shell (M) has 3 sub- shells, namely, 3s, 3p and 3d, but while electrons are being filled into the shells, ‘3d’ gets electrons only after ‘4s’ is filled.",
+            "Therefore, the 3rd period contains again 8 elements, which includes two s-block elements (Na, Mg) and six p-block elements (Al to Ar).",
+            "Fourth Period starts with Fourth main shell (N).",
+            "This shell (N) has four sub-shells namely 4s, 4p, 4d and 4f, but while electrons are being A filled into the shell, electrons enter the atoms in the order 4s, 3d and N 4p."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "classification-of-elements-the-periodic-table-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "Due to this, the fourth period contains 18 elements which includes two s-block (K, Ca), 10 elements from d block (Sc to Zn) and six A elements from p-block ( Ga to Kr).",
+            "There are altogether eighteen 31 36 elements in the fourth period.",
+            "On the same lines, we can explain why there are 18 elements in the fifth period ( Rb to Xe)."
+          ],
+          "keyPoints": [
+            "Due to this, the fourth period contains 18 elements which includes two s-block (K, Ca), 10 elements from d block (Sc to Zn) and six A elements from p-block ( Ga to Kr).",
+            "There are altogether eighteen 31 36 elements in the fourth period.",
+            "On the same lines, we can explain why there are 18 elements in the fifth period ( Rb to Xe).",
+            "There are thirty two elements in the Sixth period from Cs to Rn 55 86 which includes 2 elements from s-bloAck (6s) 14 elements from f-block (4f) 10 elements from d-block (5d) and 6 elements from L p-block (6p).",
+            "‘4f’ elements are called LanthEanoids or lanthanides."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "classification-of-elements-the-periodic-table-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "Elements from Ce to Lu possess almost the same properties as La.",
+            "So, the name 58 71 T 57 lanthanoids is the most appropriate one for these elements.",
+            "7th period is incomplet e and contains 2 elements from s-block (7s) , 14 elements from f-block (5f), 10 elements from d-block (6d) and some T elements from p-block (7p)."
+          ],
+          "keyPoints": [
+            "Elements from Ce to Lu possess almost the same properties as La.",
+            "So, the name 58 71 T 57 lanthanoids is the most appropriate one for these elements.",
+            "7th period is incomplet e and contains 2 elements from s-block (7s) , 14 elements from f-block (5f), 10 elements from d-block (6d) and some T elements from p-block (7p).",
+            "The 5f elements are called Actinoids or as Actinides.",
+            "90 103 The f-block elements known as lanthanoids and actinoids are shown E separately at the bottom of the periodic table."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "classification-of-elements-the-periodic-table-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "S ‘Ide’ means ‘heir’ and it is used generally for a change like Cl to Cl-.",
+            "‘Cl’ is chlorine atom and Cl- is chloride ion.",
+            "Some scientists suggest lanthanoids as La to Yb, some suggest them as 57 70 Ce to Lu and some take La to Lu (15 elements)."
+          ],
+          "keyPoints": [
+            "S ‘Ide’ means ‘heir’ and it is used generally for a change like Cl to Cl-.",
+            "‘Cl’ is chlorine atom and Cl- is chloride ion.",
+            "Some scientists suggest lanthanoids as La to Yb, some suggest them as 57 70 Ce to Lu and some take La to Lu (15 elements)."
+          ],
+          "pageRange": "153-175"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "A neutral gaseous atom of the element",
+          "meaning": "its first ionization energy"
+        },
+        {
+          "term": "Nment",
+          "meaning": "the 2nd ionization energy of that element and so on"
+        },
+        {
+          "term": "This",
+          "meaning": "the E screening effect"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Diagram / ray diagram / experiment setup from this chapter",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 3 · Find out the valencies of first 20 elements",
+          "steps": [
+            "Activity 3 · Find out the valencies of first 20 elements"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "activity of VIII A group elements (noble gases) from your school library and prepare a rep",
+          "steps": [
+            "activity of VIII A group elements (noble gases) from your school library and prepare a report on their special character when compared to other elements of periodic table"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "activity of elements in periodic table",
+          "steps": [
+            "activity of elements in periodic table"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "activity when compared to other elements",
+          "steps": [
+            "activity when compared to other elements"
           ]
+        },
+        {
+          "title": "Activity 1 Write the Lewis structures of the given elements in the table-2",
+          "steps": [
+            "Activity 1 Write the Lewis structures of the given elements in the table-2"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Classification of Elements - The Periodic Table: Core concepts",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-1"
+          ],
+          "focus": "Understand the concept. Section: Classification of Elements - The Periodic Table: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Classification of Elements - The Periodic Table key terms and exam answers",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-3",
+            "classification-of-elements-the-periodic-table-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "classification-of-elements-the-periodic-table-section-1",
+            "classification-of-elements-the-periodic-table-section-2",
+            "classification-of-elements-the-periodic-table-section-3",
+            "classification-of-elements-the-periodic-table-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "classification-of-elements-the-periodic-table-q1",
+          "question": "Which concept is important in Classification of Elements - The Periodic Table?",
+          "options": [
+            "A neutral gaseous atom of the element",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "A neutral gaseous atom of the element",
+          "explanation": "its first ionization energy"
+        },
+        {
+          "id": "classification-of-elements-the-periodic-table-q2",
+          "question": "What is one key point from 'Classification of Elements - The Periodic Table: Core concepts'?",
+          "options": [
+            "Third period starts with third main shell (M).",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Third period starts with third main shell (M).",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "classification-of-elements-the-periodic-table-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 8,
       "chapter_name": "Chemical Bonding",
+      "source_pages": {
+        "start": 176,
+        "end": 201
+      },
       "topics": [
         {
-          "topic_name": "Chemical Bonding - Core Concept",
+          "topic_name": "Chemical Bonding: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "2 Two ‘Na’ atoms transfer one electron each to one oxygen atom to form 2Na+ and O2- , Each Na+ gets ‘Ne’ configuration and O2- gets ‘Ne’ configuration.",
+            "These ions (2Na+ and O2-) attract to form Na O.",
+            "Formation of aluminium chloride (AlCl ): 3 Aluminium chloride formation can be explained as follows: 166 Chemical Bonding"
+          ],
+          "lessonSectionId": "chemical-bonding-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "E · Let us explain this with sodium chloride as our example: · Do you think that pairs of Na+ Cl- as units would be present in the solid T crystal?",
+            "Remember that electrostatic forces , are non directional.T Therefore, it is not possible for one Na+ to be attracted by one Cl– and vice-versa.",
+            "Depending upon the size and charge of a particular R ion, number of oppositely charged ions get attracted by it, but, in a definite number."
+          ],
+          "lessonSectionId": "chemical-bonding-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "The crystal structure of sodium chloride Sis given below: NaCl is said to possess face centered cubic lattice crystal structure (see figure-1).",
+            "The number of ions of opposite charge that surround a given ion of given charge is known as the coordination number of that given ion.",
+            "For example, in sodium chloride crystal, the coordination number of Na+ is 6 and that of Cl- is also 6."
+          ],
+          "lessonSectionId": "chemical-bonding-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Generally elements of metals have tendency of losing electron to attain the octet in their valence shell.",
+            "This property is called as the metallic A character or electropositivity.",
+            "Elements with more electropositive character form cations."
+          ],
+          "lessonSectionId": "chemical-bonding-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "chemical-bonding-section-1",
+          "title": "Chemical Bonding: Core concepts",
+          "summary": [
+            "2 Two ‘Na’ atoms transfer one electron each to one oxygen atom to form 2Na+ and O2- , Each Na+ gets ‘Ne’ configuration and O2- gets ‘Ne’ configuration.",
+            "These ions (2Na+ and O2-) attract to form Na O.",
+            "Formation of aluminium chloride (AlCl ): 3 Aluminium chloride formation can be explained as follows: 166 Chemical Bonding"
+          ],
+          "keyPoints": [
+            "2 Two ‘Na’ atoms transfer one electron each to one oxygen atom to form 2Na+ and O2- , Each Na+ gets ‘Ne’ configuration and O2- gets ‘Ne’ configuration.",
+            "These ions (2Na+ and O2-) attract to form Na O.",
+            "Formation of aluminium chloride (AlCl ): 3 Aluminium chloride formation can be explained as follows: 166 Chemical Bonding",
+            "G The compound AlCl is formed from its component ions Al3+and 3Cl– 3 by the electrostatic forces of attractions.",
+            "N Al3+ + 3Cl– g AlCl (g) (g) 3 (s) The arrangement of ions in ionic comApounds · How do cations and anions of an ionic compound exist in its solid L state?"
+          ],
+          "pageRange": "176-201"
+        },
+        {
+          "id": "chemical-bonding-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "E · Let us explain this with sodium chloride as our example: · Do you think that pairs of Na+ Cl- as units would be present in the solid T crystal?",
+            "Remember that electrostatic forces , are non directional.T Therefore, it is not possible for one Na+ to be attracted by one Cl– and vice-versa.",
+            "Depending upon the size and charge of a particular R ion, number of oppositely charged ions get attracted by it, but, in a definite number."
+          ],
+          "keyPoints": [
+            "E · Let us explain this with sodium chloride as our example: · Do you think that pairs of Na+ Cl- as units would be present in the solid T crystal?",
+            "Remember that electrostatic forces , are non directional.T Therefore, it is not possible for one Na+ to be attracted by one Cl– and vice-versa.",
+            "Depending upon the size and charge of a particular R ion, number of oppositely charged ions get attracted by it, but, in a definite number.",
+            "In sodium chloride crystal each Na+ is surrounded by 6 Cl- and E each Cl– by six Na+ ions.",
+            "Ionic compounds in the crystalline state consist ofC orderly arranged cations and anions held together by electrostatic forces of attractions in three dimensions."
+          ],
+          "pageRange": "176-201"
+        },
+        {
+          "id": "chemical-bonding-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "The crystal structure of sodium chloride Sis given below: NaCl is said to possess face centered cubic lattice crystal structure (see figure-1).",
+            "The number of ions of opposite charge that surround a given ion of given charge is known as the coordination number of that given ion.",
+            "For example, in sodium chloride crystal, the coordination number of Na+ is 6 and that of Cl- is also 6."
+          ],
+          "keyPoints": [
+            "The crystal structure of sodium chloride Sis given below: NaCl is said to possess face centered cubic lattice crystal structure (see figure-1).",
+            "The number of ions of opposite charge that surround a given ion of given charge is known as the coordination number of that given ion.",
+            "For example, in sodium chloride crystal, the coordination number of Na+ is 6 and that of Cl- is also 6.",
+            "Factors affecting the formation of cation and anion: In previous lesson you have learnt about variation of metallic and non metallic character of elements in a group or period of the periodic table.",
+            "Recall the facts about metallic and non metallic character of elements."
+          ],
+          "pageRange": "176-201"
+        },
+        {
+          "id": "chemical-bonding-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Generally elements of metals have tendency of losing electron to attain the octet in their valence shell.",
+            "This property is called as the metallic A character or electropositivity.",
+            "Elements with more electropositive character form cations."
+          ],
+          "keyPoints": [
+            "Generally elements of metals have tendency of losing electron to attain the octet in their valence shell.",
+            "This property is called as the metallic A character or electropositivity.",
+            "Elements with more electropositive character form cations."
+          ],
+          "pageRange": "176-201"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This property",
+          "meaning": "as the metallic A character or electropositivity"
+        },
+        {
+          "term": "A and the bond",
+          "meaning": "a polar covalent bond or partial ionic and partial covalent bond"
+        },
+        {
+          "term": "The outer most shell of an atom",
+          "meaning": "valence shell and electrons in this shell are called N valence electrons"
+        },
+        {
+          "term": "A to B",
+          "meaning": "potential difference between those points"
+        },
+        {
+          "term": "Lone pair",
+          "meaning": "unshared electron pair or non-bonding electron pair"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "figure-1). The number of ions of opposite charge that surround a given ion of given charge is known as the c",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-1 Cl",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 1. When the electrons are in random motion",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 1",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-1: Random motion of When the ends of the conductor are connected to electrons the battery through a b",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2: Ordered motion ordered motion. When the electrons are in ordered of electrons motion",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 2. This ordered motion of A electrons is called electric current. Thus we can say that electric curre",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3: Motion of electron collisions with other positive ions. In this way they A continue to move along",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "activity Highly reactive in polar Moderately Slow or very slow at solvents and reactions r",
+          "steps": []
+        },
+        {
+          "title": "activity, solubility etc, between those of ionic compounds and covalent compounds",
+          "steps": [
+            "activity, solubility etc, between those of ionic compounds and covalent compounds"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Activity 1 Situation 1: Take a bulb, a battery, a switch and few insulated copper wires",
+          "steps": [
+            "Activity 1 Situation 1: Take a bulb, a battery, a switch and few insulated copper wires"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Chemical Bonding: Core concepts",
+          "lessonSectionIds": [
+            "chemical-bonding-section-1"
+          ],
+          "focus": "Understand the concept. Section: Chemical Bonding: Core concepts."
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "chemical-bonding-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "chemical-bonding-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "chemical-bonding-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Chemical Bonding key terms and exam answers",
+          "lessonSectionIds": [
+            "chemical-bonding-section-3",
+            "chemical-bonding-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "chemical-bonding-section-1",
+            "chemical-bonding-section-2",
+            "chemical-bonding-section-3",
+            "chemical-bonding-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "chemical-bonding-q1",
+          "question": "Which concept is important in Chemical Bonding?",
+          "options": [
+            "This property",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This property",
+          "explanation": "as the metallic A character or electropositivity"
+        },
+        {
+          "id": "chemical-bonding-q2",
+          "question": "What is one key point from 'Chemical Bonding: Core concepts'?",
+          "options": [
+            "2 Two ‘Na’ atoms transfer one electron each to one oxygen atom to form 2Na+ and O2- , Each Na+ gets ‘Ne’ configuration and O2- gets ‘Ne’ con",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "2 Two ‘Na’ atoms transfer one electron each to one oxygen atom to form 2Na+ and O2- , Each Na+ gets ‘Ne’ configuration and O2- gets ‘Ne’ con",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "chemical-bonding-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 9,
       "chapter_name": "Electric Current",
+      "source_pages": {
+        "start": 202,
+        "end": 230
+      },
       "topics": [
         {
-          "topic_name": "Electric Current - Core Concept",
+          "topic_name": "Electric Current: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "At the same time negative ions of equal amount of charge move from positive terminal to negative terminal against the electric force (F ) because e of the chemical force acting on them within battery.",
+            "Thus, some chemical A energy is spent to move ions in the battery.",
+            "It means that an amount of N work is done by the chemical force (F )."
+          ],
+          "lessonSectionId": "electric-current-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "We know that F = F, then we get = W/q = F d/q.",
+            "e c e e L W This is the work done by the chemical force on unit negative charge to q E move it from positive terminal to negative terminal.",
+            "T e = W/q = Fd/q e Generally, emf is defined as the work done by the chemical force to move unit positive charge fro,m negative terminal to positive terminal of the T battery."
+          ],
+          "lessonSectionId": "electric-current-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "It must be connected in parallel to the electric device to measure the potential difference across the ends of C the electric device.",
+            "When a battery in a torch is used for several weeks, the light from its bulb S becomes dim.",
+            "We say that the battery or cell in the torch is discharged."
+          ],
+          "lessonSectionId": "electric-current-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "V Procedure: Connect a circuit as shown in fig.- 10.",
+            "Solder the conducting wires to the Iron spoke ends of the iron spoke.",
+            "Note I the readings of current from ammeter and A potential difference from volt meter in Battery key table 1."
+          ],
+          "lessonSectionId": "electric-current-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "electric-current-section-1",
+          "title": "Electric Current: Core concepts",
+          "summary": [
+            "At the same time negative ions of equal amount of charge move from positive terminal to negative terminal against the electric force (F ) because e of the chemical force acting on them within battery.",
+            "Thus, some chemical A energy is spent to move ions in the battery.",
+            "It means that an amount of N work is done by the chemical force (F )."
+          ],
+          "keyPoints": [
+            "At the same time negative ions of equal amount of charge move from positive terminal to negative terminal against the electric force (F ) because e of the chemical force acting on them within battery.",
+            "Thus, some chemical A energy is spent to move ions in the battery.",
+            "It means that an amount of N work is done by the chemical force (F ).",
+            "e The work done on negative charge q by the chemical force, W = Fd where N c ‘d’ is the distance between the terminals.",
+            "Then work done by the chemical force to move 1 Coulomb charge from positiveA terminal to negative terminal is given by, W/q = F d/q ."
+          ],
+          "pageRange": "202-230"
+        },
+        {
+          "id": "electric-current-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "We know that F = F, then we get = W/q = F d/q.",
+            "e c e e L W This is the work done by the chemical force on unit negative charge to q E move it from positive terminal to negative terminal.",
+            "T e = W/q = Fd/q e Generally, emf is defined as the work done by the chemical force to move unit positive charge fro,m negative terminal to positive terminal of the T battery."
+          ],
+          "keyPoints": [
+            "We know that F = F, then we get = W/q = F d/q.",
+            "e c e e L W This is the work done by the chemical force on unit negative charge to q E move it from positive terminal to negative terminal.",
+            "T e = W/q = Fd/q e Generally, emf is defined as the work done by the chemical force to move unit positive charge fro,m negative terminal to positive terminal of the T battery.",
+            "· How canR we measure potential difference or emf?",
+            "Generally a volt meter is used to measure potential difference or emf across aEn electric device like battery."
+          ],
+          "pageRange": "202-230"
+        },
+        {
+          "id": "electric-current-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "It must be connected in parallel to the electric device to measure the potential difference across the ends of C the electric device.",
+            "When a battery in a torch is used for several weeks, the light from its bulb S becomes dim.",
+            "We say that the battery or cell in the torch is discharged."
+          ],
+          "keyPoints": [
+            "It must be connected in parallel to the electric device to measure the potential difference across the ends of C the electric device.",
+            "When a battery in a torch is used for several weeks, the light from its bulb S becomes dim.",
+            "We say that the battery or cell in the torch is discharged.",
+            "· Is there any relation between emf of battery and drift speed of electrons in the conductor connected to a battery?",
+            "Materials required: 5 dry cells of 1.5V each, conducting wires, an ammeter, a volt meter, thin iron/manganin spoke of length 10cm, LED and key."
+          ],
+          "pageRange": "202-230"
+        },
+        {
+          "id": "electric-current-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "V Procedure: Connect a circuit as shown in fig.- 10.",
+            "Solder the conducting wires to the Iron spoke ends of the iron spoke.",
+            "Note I the readings of current from ammeter and A potential difference from volt meter in Battery key table 1."
+          ],
+          "keyPoints": [
+            "V Procedure: Connect a circuit as shown in fig.- 10.",
+            "Solder the conducting wires to the Iron spoke ends of the iron spoke.",
+            "Note I the readings of current from ammeter and A potential difference from volt meter in Battery key table 1."
+          ],
+          "pageRange": "202-230"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Constant I This constant",
+          "meaning": "resistance of the conductor"
+        },
+        {
+          "term": "S The reciprocal of resistivity",
+          "meaning": "conduc T tiv h i e t y v ( a s l ) u"
+        },
+        {
+          "term": "A to B in a conductor",
+          "meaning": "potential difference between those two points"
+        },
+        {
+          "term": "This",
+          "meaning": "that they lose mechanical energy in the form of heat"
+        },
+        {
+          "term": "A S This",
+          "meaning": "the line wires that are entering the meter have a 8A Fridge potential difference of 240V"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig.- 10. Solder the conducting wires to the Iron spoke ends of the iron spoke. Close the key. Note I the re",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-10 Table:1 SI.No. Potential difference (V) Current (I) V I Now connect two cells (in series) instead o",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 11. Repeat the process by using a LED instead of iron spoke. The long terminal of the LED is connected",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-11 (in volt)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 12. From the above lab activity we can conclude that the ratio between V and I is constant for some ma",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-12 We can define Ohm",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig.- 13. Switch on the circuit. After few minutes",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-13 Sreadings",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Lab Activity Aim: To show that the ratio V/I is a constant for a conductor",
+          "steps": [
+            "Lab Activity Aim: To show that the ratio V/I is a constant for a conductor"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "lab activity we can conclude that the ratio between V and I is constant for some materials",
+          "steps": [
+            "lab activity we can conclude that the ratio between V and I is constant for some materials at constant temperature"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 2 N Measure the resistance of the bulb when it is in open circuit using a multi m",
+          "steps": [
+            "Activity 2 N Measure the resistance of the bulb when it is in open circuit using a multi meter"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "Activity 3 Collect different metal rods of the same length and different metal rods are co",
+          "steps": [
+            "Activity 3 Collect different metal rods of the same length and different metal rods are connected between P and Q same cross sectional area like copper, aluminium, P Q iron etc"
           ]
+        },
+        {
+          "title": "activity, we conclude that the resistance of a conductor depends A on the material of the ",
+          "steps": [
+            "activity, we conclude that the resistance of a conductor depends A on the material of the conductor"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Electric Current: Core concepts",
+          "lessonSectionIds": [
+            "electric-current-section-1"
+          ],
+          "focus": "Understand the concept. Section: Electric Current: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "electric-current-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "electric-current-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "electric-current-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Electric Current key terms and exam answers",
+          "lessonSectionIds": [
+            "electric-current-section-3",
+            "electric-current-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "electric-current-section-1",
+            "electric-current-section-2",
+            "electric-current-section-3",
+            "electric-current-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "electric-current-q1",
+          "question": "Which concept is important in Electric Current?",
+          "options": [
+            "Constant I This constant",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Constant I This constant",
+          "explanation": "resistance of the conductor"
+        },
+        {
+          "id": "electric-current-q2",
+          "question": "What is one key point from 'Electric Current: Core concepts'?",
+          "options": [
+            "At the same time negative ions of equal amount of charge move from positive terminal to negative terminal against the electric force (F ) be",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "At the same time negative ions of equal amount of charge move from positive terminal to negative terminal against the electric force (F ) be",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "electric-current-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 10,
       "chapter_name": "Electromagnetism",
+      "source_pages": {
+        "start": 231,
+        "end": 257
+      },
       "topics": [
         {
-          "topic_name": "Electromagnetism - Core Concept",
+          "topic_name": "Electromagnetism: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "You have observed this already in activity-1.",
+            "Let us call this field which is responsible for deflection of the compass needle as ‘magnetic field’.",
+            "A · Can we observe the field of a bar magnet?"
+          ],
+          "lessonSectionId": "electromagnetism-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "Use a pencil and put dots on the N sheet on either side of the needle.",
+            "Remove the compass, draw a small line segment connecting the two dots.",
+            "Draw an arArow on it from South Pole of the needle to North Pole of the needle."
+          ],
+          "lessonSectionId": "electromagnetism-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "T Remove the bar magnet and place the magnetic compass on the paper.",
+            "It comes to rest along the no rth-south direction.",
+            "Now place the bar magnet , in its previous place."
+          ],
+          "lessonSectionId": "electromagnetism-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "A force causes the needle to deflect and makes it Cto come to rest in a certain direction.",
+            "· What is the nature of force that acts on the needle?",
+            "S The force which acts on the needle from a distance is due to the magnetic field of the bar magnet."
+          ],
+          "lessonSectionId": "electromagnetism-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "electromagnetism-section-1",
+          "title": "Electromagnetism: Core concepts",
+          "summary": [
+            "You have observed this already in activity-1.",
+            "Let us call this field which is responsible for deflection of the compass needle as ‘magnetic field’.",
+            "A · Can we observe the field of a bar magnet?"
+          ],
+          "keyPoints": [
+            "You have observed this already in activity-1.",
+            "Let us call this field which is responsible for deflection of the compass needle as ‘magnetic field’.",
+            "A · Can we observe the field of a bar magnet?",
+            "Activity 2 A Take a sheet of white paper and place it on the horizontal table.",
+            "Place a G bar magnet in the middle of the sheet."
+          ],
+          "pageRange": "231-257"
+        },
+        {
+          "id": "electromagnetism-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "Use a pencil and put dots on the N sheet on either side of the needle.",
+            "Remove the compass, draw a small line segment connecting the two dots.",
+            "Draw an arArow on it from South Pole of the needle to North Pole of the needle."
+          ],
+          "keyPoints": [
+            "Use a pencil and put dots on the N sheet on either side of the needle.",
+            "Remove the compass, draw a small line segment connecting the two dots.",
+            "Draw an arArow on it from South Pole of the needle to North Pole of the needle.",
+            "Repeat the same by placing the L compass needle at various positions on the paper.",
+            "The compass needle settles in different directions at diEfferent positions."
+          ],
+          "pageRange": "231-257"
+        },
+        {
+          "id": "electromagnetism-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "T Remove the bar magnet and place the magnetic compass on the paper.",
+            "It comes to rest along the no rth-south direction.",
+            "Now place the bar magnet , in its previous place."
+          ],
+          "keyPoints": [
+            "T Remove the bar magnet and place the magnetic compass on the paper.",
+            "It comes to rest along the no rth-south direction.",
+            "Now place the bar magnet , in its previous place.",
+            "T · Is there any change in the direction of the needle of the magnetic R compass?",
+            "The needle of the magnetic compass is affected by the bar magnet E without any physical contact."
+          ],
+          "pageRange": "231-257"
+        },
+        {
+          "id": "electromagnetism-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "A force causes the needle to deflect and makes it Cto come to rest in a certain direction.",
+            "· What is the nature of force that acts on the needle?",
+            "S The force which acts on the needle from a distance is due to the magnetic field of the bar magnet."
+          ],
+          "keyPoints": [
+            "A force causes the needle to deflect and makes it Cto come to rest in a certain direction.",
+            "· What is the nature of force that acts on the needle?",
+            "S The force which acts on the needle from a distance is due to the magnetic field of the bar magnet."
+          ],
+          "pageRange": "231-257"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Gplane",
+          "meaning": "the magnetic flux density"
+        },
+        {
+          "term": "The current generated",
+          "meaning": "induced current and is set up by an induced electromotive force (induced EMF)"
+        },
+        {
+          "term": "This phenomenon of getting induced current",
+          "meaning": "electromagnetic induction"
+        },
+        {
+          "term": "A Dt The equation",
+          "meaning": "Faraday’s law of induction where F (phi) is the L flux linked with coil"
+        },
+        {
+          "term": "This current",
+          "meaning": "alternating current (AC) in which, the direction of charge flow reverses periodically"
+        },
+        {
+          "term": "Technically these curves",
+          "meaning": "“magnetic field lines”"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig-2: Magnetic field lines as shown in fig.-2. 222 Electromagnetism",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "figure 3(a). You notice that a few field lines Area A pass through this plane. This number gives an fig-3(a)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "figure 3(b). The T effective area of the plane perpendicular to the field is A cosq. Then magnetic flux dens",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3(b) is given by F",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "figure 4(a). Place this plank on the table. Now Stand place a retort stand on the plank as shown in figure A",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-4(a)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-4(b) can be verified by sprinkling iron filings around the wire when current E flows in the wire. Mag",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 2 A Take a sheet of white paper and place it on the horizontal table",
+          "steps": [
+            "Activity 2 A Take a sheet of white paper and place it on the horizontal table"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "activity-2, you have already seen that the orientation of needle is different at different",
+          "steps": [
+            "activity-2, you have already seen that the orientation of needle is different at different places on paper"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "Activity 3 T Place a white sheet of paper on a horizontal table",
+          "steps": [
+            "Activity 3 T Place a white sheet of paper on a horizontal table"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "activity 1 we observed that the compass needle is deflected when current flows through the",
+          "steps": [
+            "activity 1 we observed that the compass needle is deflected when current flows through the circuit"
           ]
+        },
+        {
+          "title": "Activity 4 Take a wooden plank and make a hole as shown in figure 4(a)",
+          "steps": [
+            "Activity 4 Take a wooden plank and make a hole as shown in figure 4(a)"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Electromagnetism: Core concepts",
+          "lessonSectionIds": [
+            "electromagnetism-section-1"
+          ],
+          "focus": "Understand the concept. Section: Electromagnetism: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "electromagnetism-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "electromagnetism-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "electromagnetism-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Electromagnetism key terms and exam answers",
+          "lessonSectionIds": [
+            "electromagnetism-section-3",
+            "electromagnetism-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "electromagnetism-section-1",
+            "electromagnetism-section-2",
+            "electromagnetism-section-3",
+            "electromagnetism-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "electromagnetism-q1",
+          "question": "Which concept is important in Electromagnetism?",
+          "options": [
+            "Gplane",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Gplane",
+          "explanation": "the magnetic flux density"
+        },
+        {
+          "id": "electromagnetism-q2",
+          "question": "What is one key point from 'Electromagnetism: Core concepts'?",
+          "options": [
+            "You have observed this already in activity-1.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "You have observed this already in activity-1.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "electromagnetism-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 11,
-      "chapter_name": "Principles Of Metallurgy",
+      "chapter_name": "Principles of Metallurgy",
+      "source_pages": {
+        "start": 258,
+        "end": 287
+      },
       "topics": [
         {
-          "topic_name": "Principles Of Metallurgy - Core Concept",
+          "topic_name": "Principles of Metallurgy: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "Which of the following converts electrical energy into mechanical energy [ ] a) motor b) battery c) generator d) switch 2.",
+            "Which of the follwing converts mechanical energy into electrical energy [ ] A a) motor b) battery c) generator d) switch N 3.",
+            "The magnetic force on a current carrying wire placed in uniform magnetic field if the wire is oriented perpendicular to magnetic field is A[ ] a) 0 b) ILB G ILB c) 2ILB d) 2 N 4."
+          ],
+          "lessonSectionId": "principles-of-metallurgy-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "No force works on the conductor carrying electric current when kept [ ] T a) parallel to magnetic field b) perpendicular to magnetic field c) in the magnetic field d) away from magnetic field , Suggested Experiments T 1.",
+            "Explain with the help of two activities that current carrying wire produces magnetic field.",
+            "How do you verify experimentally that the current carrying conductor experiences a force when it is kept in magnetic field?"
+          ],
+          "lessonSectionId": "principles-of-metallurgy-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "What suggestions do you give to get good results of the experiment?",
+            "How can you verify that a current carrying wire produces a magnetic field with the help of an experiment?",
+            "Collect information about generation of current by using Faraday’s law."
+          ],
+          "lessonSectionId": "principles-of-metallurgy-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "CHAPTER A Principles of 11 N Metallurgy A G In class 8 you have studied about certain properties of metals like, N malleability, ductility, sonarity etc.",
+            "Metals play an important role in our daily life.",
+            "We use various metals for various pAurposes like gold and silver as jewellery, copper, iron, aluminium for making conducting wires and L for making utensils etc."
+          ],
+          "lessonSectionId": "principles-of-metallurgy-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "principles-of-metallurgy-section-1",
+          "title": "Principles of Metallurgy: Core concepts",
+          "summary": [
+            "Which of the following converts electrical energy into mechanical energy [ ] a) motor b) battery c) generator d) switch 2.",
+            "Which of the follwing converts mechanical energy into electrical energy [ ] A a) motor b) battery c) generator d) switch N 3.",
+            "The magnetic force on a current carrying wire placed in uniform magnetic field if the wire is oriented perpendicular to magnetic field is A[ ] a) 0 b) ILB G ILB c) 2ILB d) 2 N 4."
+          ],
+          "keyPoints": [
+            "Which of the following converts electrical energy into mechanical energy [ ] a) motor b) battery c) generator d) switch 2.",
+            "Which of the follwing converts mechanical energy into electrical energy [ ] A a) motor b) battery c) generator d) switch N 3.",
+            "The magnetic force on a current carrying wire placed in uniform magnetic field if the wire is oriented perpendicular to magnetic field is A[ ] a) 0 b) ILB G ILB c) 2ILB d) 2 N 4.",
+            "One Tesla = [ ] a) Newton/Coloumb b) NeAwton / ampere - meter c) Ampere / meter d) Newton / ampere second L 5.",
+            "Unit of Magnetic flux [ ] a) dyne b) Oersterd Ec) Guass d) Weber 6."
+          ],
+          "pageRange": "258-287"
+        },
+        {
+          "id": "principles-of-metallurgy-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "No force works on the conductor carrying electric current when kept [ ] T a) parallel to magnetic field b) perpendicular to magnetic field c) in the magnetic field d) away from magnetic field , Suggested Experiments T 1.",
+            "Explain with the help of two activities that current carrying wire produces magnetic field.",
+            "How do you verify experimentally that the current carrying conductor experiences a force when it is kept in magnetic field?"
+          ],
+          "keyPoints": [
+            "No force works on the conductor carrying electric current when kept [ ] T a) parallel to magnetic field b) perpendicular to magnetic field c) in the magnetic field d) away from magnetic field , Suggested Experiments T 1.",
+            "Explain with the help of two activities that current carrying wire produces magnetic field.",
+            "How do you verify experimentally that the current carrying conductor experiences a force when it is kept in magnetic field?",
+            "Explain Faraday’s law of induction with the help of activity.",
+            "What experiment do you suggest to understand Faraday’s law?"
+          ],
+          "pageRange": "258-287"
+        },
+        {
+          "id": "principles-of-metallurgy-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "What suggestions do you give to get good results of the experiment?",
+            "How can you verify that a current carrying wire produces a magnetic field with the help of an experiment?",
+            "Collect information about generation of current by using Faraday’s law."
+          ],
+          "keyPoints": [
+            "What suggestions do you give to get good results of the experiment?",
+            "How can you verify that a current carrying wire produces a magnetic field with the help of an experiment?",
+            "Collect information about generation of current by using Faraday’s law.",
+            "Collect information about material required and procedure of making a simple electric motor from internet and make a report.",
+            "Collect information of experiments done by Faraday."
+          ],
+          "pageRange": "258-287"
+        },
+        {
+          "id": "principles-of-metallurgy-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "CHAPTER A Principles of 11 N Metallurgy A G In class 8 you have studied about certain properties of metals like, N malleability, ductility, sonarity etc.",
+            "Metals play an important role in our daily life.",
+            "We use various metals for various pAurposes like gold and silver as jewellery, copper, iron, aluminium for making conducting wires and L for making utensils etc."
+          ],
+          "keyPoints": [
+            "CHAPTER A Principles of 11 N Metallurgy A G In class 8 you have studied about certain properties of metals like, N malleability, ductility, sonarity etc.",
+            "Metals play an important role in our daily life.",
+            "We use various metals for various pAurposes like gold and silver as jewellery, copper, iron, aluminium for making conducting wires and L for making utensils etc."
+          ],
+          "pageRange": "258-287"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The impurity present in the ore",
+          "meaning": "as [ ] a) Gangue b) flux c) Slag d) Mineral 2"
+        },
+        {
+          "term": "The new hybrid orbitals formed",
+          "meaning": "sp S hybrid orbitals, because they are made by an s-orbital and a p-orbital reorganizing themselves"
+        },
+        {
+          "term": "That",
+          "meaning": "there exists a sigma (s) bond and a pi (p) bond between two A carbon atoms in ethene molecule"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "fig.1)",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "Fig.2) E Froth bubbles carryCing sulphide Compressed Powdered ore ore particles Air S Magnetic wheel Sulp",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-2: Magnetic separation fig-1: Froth flotation process for the concentration of sulphide ores There ar",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-3(a) fig-3(b) fig-3(c) N C) Extraction of metals at the bottom of the activity series (Ag",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-4: Experimental setup for the electrolytic from the anode to the cathode. refining of copper 258 Prin",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-5: Investigating the conditions under which iron rusts 259 Principles of Metallurgy",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-6: Blast furance Limestone(flux) lime CaO",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "fig-7: Reverberatory box furnace where the fuel is kept for burning. 262 Principles of Metallurgy",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 1 Look at the followin,g ores",
+          "steps": [
+            "Activity 1 Look at the followin,g ores"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "activity? · What do you notice in Table – 2? G You will notice that the ores of many metal",
+          "steps": [
+            "What do you notice in Table – 2?",
+            "G You will notice that the ores of many metals are oxides and sulphides"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "activity we can arrange metal in descending order of their , reactivity as shownT below: K",
+          "steps": [
+            "E · Does the reactivity of a metal and form of its ore (oxides, sulphides, Cchlorides, carbonates sulphates) has any relation with pro"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
-          ]
+          "title": "activity reactivity reactivity ASulphide ore Halides Oxides Carbonate Sulphide Roasting G ",
+          "steps": []
+        },
+        {
+          "title": "activity of metals that are very familiar, we study their chemical reactions with cold wat",
+          "steps": []
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Principles of Metallurgy: Core concepts",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-1"
+          ],
+          "focus": "Understand the concept. Section: Principles of Metallurgy: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Principles of Metallurgy key terms and exam answers",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-3",
+            "principles-of-metallurgy-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "principles-of-metallurgy-section-1",
+            "principles-of-metallurgy-section-2",
+            "principles-of-metallurgy-section-3",
+            "principles-of-metallurgy-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "principles-of-metallurgy-q1",
+          "question": "Which concept is important in Principles of Metallurgy?",
+          "options": [
+            "The impurity present in the ore",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The impurity present in the ore",
+          "explanation": "as [ ] a) Gangue b) flux c) Slag d) Mineral 2"
+        },
+        {
+          "id": "principles-of-metallurgy-q2",
+          "question": "What is one key point from 'Principles of Metallurgy: Core concepts'?",
+          "options": [
+            "Which of the following converts electrical energy into mechanical energy [ ] a) motor b) battery c) generator d) switch 2.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Which of the following converts electrical energy into mechanical energy [ ] a) motor b) battery c) generator d) switch 2.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "principles-of-metallurgy-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 12,
-      "chapter_name": "Carbon And Its Compounds",
+      "chapter_name": "Carbon and its Compounds",
+      "source_pages": {
+        "start": 288,
+        "end": 318
+      },
       "topics": [
         {
-          "topic_name": "Carbon And Its Compounds - Core Concept",
+          "topic_name": "Carbon and its Compounds: Core concepts",
           "subtopics": [
-            "Definitions",
-            "Laws And Principles",
-            "Important Terms"
+            "containing millions of carbon atoms in molecules like some proteins.",
+            "Sulphur, phosphorus and some other non metals have this property but to a very less extent.",
+            "This ability of carbon to form bonds inA so many ways made it as versatile element in nature."
+          ],
+          "lessonSectionId": "carbon-and-its-compounds-section-1"
+        },
+        {
+          "topic_name": "Formulae and numericals",
+          "subtopics": [
+            "Hydrocarbons are classified into two categories known as open chain R hydrocarbons and closed chain hydrocarbons.",
+            "Open chain hydrocarbons are alsoE called aliphatic hydrocarbons or acyclic hydrocarbons.",
+            "| CH 3 3) CH – CH cyclo pentane, a cyclic compound or a ring compound 2 2 | | CH CH 2 2 CH 2 278 Carbon and its Compounds"
+          ],
+          "lessonSectionId": "carbon-and-its-compounds-section-2"
+        },
+        {
+          "topic_name": "Diagrams and activities",
+          "subtopics": [
+            "So, it is a closed chain hydrocarbon or ring A hydrocarbon.",
+            "All hydrocarbons (both Aliphatic and cyclic hydrocarbons) are aNgain classified as Alkanes, Alkenes and Alkynes: A 1) Hydrocarbons containing only single bonds between carbon atoms are called Alkanes.",
+            "(C–C) G 2) Hydrocarbons containing atleast one double bond between carbon atoms are called Alkenes."
+          ],
+          "lessonSectionId": "carbon-and-its-compounds-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "The T hydrocarbons that contain at least one double bond (C=C) or contain atleast one triple bond (C º C) between the two carbon atoms are called , unsaturated hydrocTarbons.",
+            "Alkenes and Alkynes are the examples for unsaturated hydrocarbons.",
+            "R Straight chain, branched chain and closed chain hydro carbon E compounds may be saturated or unsaturated."
+          ],
+          "lessonSectionId": "carbon-and-its-compounds-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "carbon-and-its-compounds-section-1",
+          "title": "Carbon and its Compounds: Core concepts",
+          "summary": [
+            "containing millions of carbon atoms in molecules like some proteins.",
+            "Sulphur, phosphorus and some other non metals have this property but to a very less extent.",
+            "This ability of carbon to form bonds inA so many ways made it as versatile element in nature."
+          ],
+          "keyPoints": [
+            "containing millions of carbon atoms in molecules like some proteins.",
+            "Sulphur, phosphorus and some other non metals have this property but to a very less extent.",
+            "This ability of carbon to form bonds inA so many ways made it as versatile element in nature.",
+            "Hence, carbon’s ability 1) to form largest L number of compounds 2) to show catenation 3) to form various types of bonds made it the versatile elemenEt.",
+            "The compounds containing only carbon and hydrogen in their molecules , are called hydrocarTbons."
+          ],
+          "pageRange": "288-318"
+        },
+        {
+          "id": "carbon-and-its-compounds-section-2",
+          "title": "Formulae and numericals",
+          "summary": [
+            "Hydrocarbons are classified into two categories known as open chain R hydrocarbons and closed chain hydrocarbons.",
+            "Open chain hydrocarbons are alsoE called aliphatic hydrocarbons or acyclic hydrocarbons.",
+            "| CH 3 3) CH – CH cyclo pentane, a cyclic compound or a ring compound 2 2 | | CH CH 2 2 CH 2 278 Carbon and its Compounds"
+          ],
+          "keyPoints": [
+            "Hydrocarbons are classified into two categories known as open chain R hydrocarbons and closed chain hydrocarbons.",
+            "Open chain hydrocarbons are alsoE called aliphatic hydrocarbons or acyclic hydrocarbons.",
+            "| CH 3 3) CH – CH cyclo pentane, a cyclic compound or a ring compound 2 2 | | CH CH 2 2 CH 2 278 Carbon and its Compounds",
+            "· Do all the above compounds have equal number of C and H atoms?",
+            "In the third example we find that carbon chain is closed to form a ring."
+          ],
+          "pageRange": "288-318"
+        },
+        {
+          "id": "carbon-and-its-compounds-section-3",
+          "title": "Diagrams and activities",
+          "summary": [
+            "So, it is a closed chain hydrocarbon or ring A hydrocarbon.",
+            "All hydrocarbons (both Aliphatic and cyclic hydrocarbons) are aNgain classified as Alkanes, Alkenes and Alkynes: A 1) Hydrocarbons containing only single bonds between carbon atoms are called Alkanes.",
+            "(C–C) G 2) Hydrocarbons containing atleast one double bond between carbon atoms are called Alkenes."
+          ],
+          "keyPoints": [
+            "So, it is a closed chain hydrocarbon or ring A hydrocarbon.",
+            "All hydrocarbons (both Aliphatic and cyclic hydrocarbons) are aNgain classified as Alkanes, Alkenes and Alkynes: A 1) Hydrocarbons containing only single bonds between carbon atoms are called Alkanes.",
+            "(C–C) G 2) Hydrocarbons containing atleast one double bond between carbon atoms are called Alkenes.",
+            "(C=C) N 3) Hydrocarbons containing atleast one triple bond between carbon atoms A are called Alkynes.",
+            "(C º C) L 12.5.2 Saturated and unsaturated hydrocarbons E The hydrocarbons containing only C–C single bonds are known as saturated hydrocarbons."
+          ],
+          "pageRange": "288-318"
+        },
+        {
+          "id": "carbon-and-its-compounds-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "The T hydrocarbons that contain at least one double bond (C=C) or contain atleast one triple bond (C º C) between the two carbon atoms are called , unsaturated hydrocTarbons.",
+            "Alkenes and Alkynes are the examples for unsaturated hydrocarbons.",
+            "R Straight chain, branched chain and closed chain hydro carbon E compounds may be saturated or unsaturated."
+          ],
+          "keyPoints": [
+            "The T hydrocarbons that contain at least one double bond (C=C) or contain atleast one triple bond (C º C) between the two carbon atoms are called , unsaturated hydrocTarbons.",
+            "Alkenes and Alkynes are the examples for unsaturated hydrocarbons.",
+            "R Straight chain, branched chain and closed chain hydro carbon E compounds may be saturated or unsaturated."
+          ],
+          "pageRange": "288-318"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The first one",
+          "meaning": "butane (or) in the common system it is known as n-butane"
+        },
+        {
+          "term": "The second one",
+          "meaning": "2-methyl propane or iso-butane in the common system"
+        },
+        {
+          "term": "N oxygen to give heat and light",
+          "meaning": "the combustion reaction"
+        },
+        {
+          "term": "C H OH",
+          "meaning": "2 5 fermentation process"
+        },
+        {
+          "term": "Pure ethanol",
+          "meaning": "absolute (100 %) alcohol"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Figure 1 : The hydrophobic end of the soap Soap molecules move towards the dirt or grease cloth solution S p",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "figure 1 Hydrophobic ends attach to the dirt particle Figure 2: The hydrophobic ends attached to the dirt pa",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "figure 2 302 Carbon and its Compounds",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        },
+        {
+          "title": "Figure 3",
+          "whatToLearn": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity 1 Observe the names of the following compounds",
+          "steps": [
+            "Activity 1 Observe the names of the following compounds"
           ]
         },
         {
-          "topic_name": "Diagrams And Experiments",
-          "subtopics": [
-            "Ray/Process Diagrams",
-            "Lab Activity",
-            "Observation Points"
+          "title": "Activity -2 A Take 1 ml of ethanol (absolute alcohol) Test tube and 1ml of glacial acetic ",
+          "steps": []
+        },
+        {
+          "title": "activity – 2 is cEalled esterification reaction",
+          "steps": [
+            "activity – 2 is cEalled esterification reaction"
           ]
         },
         {
-          "topic_name": "Numericals And Applications",
-          "subtopics": [
-            "Formula Use",
-            "Solved Problems",
-            "Daily-Life Applications"
+          "title": "do this? For understanding this you should know about a ‘true solution’ and a colloidal so",
+          "steps": [
+            "For understanding this you should know about a ‘true solution’ and a colloidal solution"
           ]
         },
         {
-          "topic_name": "Exam Practice",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Final Quiz"
+          "title": "Activity 3 N A L E T Micelle 3D structure of a micelle , Activity 3 T Formation of micelle",
+          "steps": [
+            "Activity 3 N A L E T Micelle 3D structure of a micelle , Activity 3 T Formation of micelle R Take about 10 ml of water each in two test tubes"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Carbon and its Compounds: Core concepts",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-1"
+          ],
+          "focus": "Understand the concept. Section: Carbon and its Compounds: Core concepts."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Formulae and numericals",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-2"
+          ],
+          "focus": "Practice formulae/numericals. Section: Formulae and numericals."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and activities",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-3"
+          ],
+          "focus": "Draw diagrams or experiments. Section: Diagrams and activities."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Carbon and its Compounds key terms and exam answers",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-3",
+            "carbon-and-its-compounds-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "carbon-and-its-compounds-section-1",
+            "carbon-and-its-compounds-section-2",
+            "carbon-and-its-compounds-section-3",
+            "carbon-and-its-compounds-section-4"
+          ],
+          "focus": "Practice labels, direction of rays/current, observation, and formula connection."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "carbon-and-its-compounds-q1",
+          "question": "Which concept is important in Carbon and its Compounds?",
+          "options": [
+            "The first one",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The first one",
+          "explanation": "butane (or) in the common system it is known as n-butane"
+        },
+        {
+          "id": "carbon-and-its-compounds-q2",
+          "question": "What is one key point from 'Carbon and its Compounds: Core concepts'?",
+          "options": [
+            "containing millions of carbon atoms in molecules like some proteins.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "containing millions of carbon atoms in molecules like some proteins.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "carbon-and-its-compounds-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     }

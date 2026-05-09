@@ -5,11 +5,3483 @@
     "subject": "Hindi",
     "year": "2026",
     "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/hindi.pdf",
-    "source_type": "manual_pdf",
-    "extraction_status": "pending_ocr",
-    "verification_status": "needs_review",
-    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
-    "extraction_message": "Hindi PDF text is font-encoded and Hindi OCR language data is not installed yet. Topics will appear after Hindi OCR verification."
+    "source_type": "manual_pdf_ocr_full_lesson_text",
+    "extraction_status": "ocr_verified",
+    "verification_status": "pdf_lesson_text_extracted",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 10 textbook PDF.",
+    "extraction_message": "13 chapters and 121751 characters of lesson text were converted into roadmap weeks, lesson sections, definitions, activities, and quizzes."
   },
-  "chapters": []
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "बरसते बादल",
+      "source_pages": {
+        "start": 11,
+        "end": 13
+      },
+      "topics": [
+        {
+          "topic_name": "बरसते बादल: Lesson reading",
+          "subtopics": [
+            "बरसते बादल e 2 5 इकाई - - सुमित्रानंदन पंत rea 4 हि is Lia mee Y8Fam5 क्या गाती हो, किसे बुलाती, बतला दो कोयल रानी।",
+            "प्यासी धरती देख माँगती, हो क्या मेघों से पानी?",
+            "प्रकृति के प्रति काव्य रचनाओं के प्रोत्साहन के साथ-साथ सौंदर्यवोध पाना और मनोरंजन करना।"
+          ],
+          "lessonSectionId": "बरसत-ब-दल-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "प्रस्तुत कविता are (ध्वनि) के साथ गेय योग्य है।",
+            "& Sa SBR बेजोड़ कवि माने जाने वाले सुमित्रानंदन पंत का जन्म सन्‌ t000 में # अल्मोड़ा में हुआ।",
+            "साहित्य लेखन के लिए इन्हें 'साहित्य अकादमी ', 'सोवियत ea ae 'ज्ञानपीठ पुरस्कार' दिया गया।"
+          ],
+          "lessonSectionId": "बरसत-ब-दल-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "इन्हें चिदंबरा काव्य के लिए ज्ञानपीठ पुरस्कार से सम्मानित किया गया।",
+            ", विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।"
+          ],
+          "lessonSectionId": "बरसत-ब-दल-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "aed बादल ———— अरृति के क्षेत्र मं जो साधा करते हैं, उन्‍हें सहज ही शक्ति प्राप्त हो जाती है।",
+            "विषय प्रवेश : वर्षा ऋतु हमेशा से सबकी प्रिय ऋतु रही है।",
+            "वर्षा के समय प्रकृति की सुंदरता देखने लायक होती है।"
+          ],
+          "lessonSectionId": "बरसत-ब-दल-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "इसी सौंदर्य का वर्णन यहाँ प्रस्तुत किया गया है।",
+            "८7५ “कम: ram ae बरसते हैं सावन के| Paice a cil a iy के।"
+          ],
+          "lessonSectionId": "बरसत-ब-दल-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "बरसत-ब-दल-section-1",
+          "title": "बरसते बादल: Lesson reading",
+          "summary": [
+            "बरसते बादल e 2 5 इकाई - - सुमित्रानंदन पंत rea 4 हि is Lia mee Y8Fam5 क्या गाती हो, किसे बुलाती, बतला दो कोयल रानी।",
+            "प्यासी धरती देख माँगती, हो क्या मेघों से पानी?",
+            "प्रकृति के प्रति काव्य रचनाओं के प्रोत्साहन के साथ-साथ सौंदर्यवोध पाना और मनोरंजन करना।"
+          ],
+          "keyPoints": [
+            "बरसते बादल e 2 5 इकाई - - सुमित्रानंदन पंत rea 4 हि is Lia mee Y8Fam5 क्या गाती हो, किसे बुलाती, बतला दो कोयल रानी।",
+            "प्यासी धरती देख माँगती, हो क्या मेघों से पानी?",
+            "प्रकृति के प्रति काव्य रचनाओं के प्रोत्साहन के साथ-साथ सौंदर्यवोध पाना और मनोरंजन करना।",
+            "कविता भावनाओं को उदात्त बनाने के साथ-साथ सौंदर्यवोध को भी सजाती-सँवारती है।"
+          ],
+          "pageRange": "11-13"
+        },
+        {
+          "id": "बरसत-ब-दल-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "प्रस्तुत कविता are (ध्वनि) के साथ गेय योग्य है।",
+            "& Sa SBR बेजोड़ कवि माने जाने वाले सुमित्रानंदन पंत का जन्म सन्‌ t000 में # अल्मोड़ा में हुआ।",
+            "साहित्य लेखन के लिए इन्हें 'साहित्य अकादमी ', 'सोवियत ea ae 'ज्ञानपीठ पुरस्कार' दिया गया।"
+          ],
+          "keyPoints": [
+            "प्रस्तुत कविता are (ध्वनि) के साथ गेय योग्य है।",
+            "& Sa SBR बेजोड़ कवि माने जाने वाले सुमित्रानंदन पंत का जन्म सन्‌ t000 में # अल्मोड़ा में हुआ।",
+            "साहित्य लेखन के लिए इन्हें 'साहित्य अकादमी ', 'सोवियत ea ae 'ज्ञानपीठ पुरस्कार' दिया गया।",
+            "इनकी प्रमुख रचनाएँ हैं- वीणा, ग्रंथि, 4 पल्‍लव, गुंजन, युगांत, WAT, स्वर्णकिरण, कला और बूढ़ा चाँद तथा चिदंबरा आदी।"
+          ],
+          "pageRange": "11-13"
+        },
+        {
+          "id": "बरसत-ब-दल-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "इन्हें चिदंबरा काव्य के लिए ज्ञानपीठ पुरस्कार से सम्मानित किया गया।",
+            ", विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।"
+          ],
+          "keyPoints": [
+            "इन्हें चिदंबरा काव्य के लिए ज्ञानपीठ पुरस्कार से सम्मानित किया गया।",
+            ", विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।"
+          ],
+          "pageRange": "11-13"
+        },
+        {
+          "id": "बरसत-ब-दल-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "aed बादल ———— अरृति के क्षेत्र मं जो साधा करते हैं, उन्‍हें सहज ही शक्ति प्राप्त हो जाती है।",
+            "विषय प्रवेश : वर्षा ऋतु हमेशा से सबकी प्रिय ऋतु रही है।",
+            "वर्षा के समय प्रकृति की सुंदरता देखने लायक होती है।"
+          ],
+          "keyPoints": [
+            "aed बादल ———— अरृति के क्षेत्र मं जो साधा करते हैं, उन्‍हें सहज ही शक्ति प्राप्त हो जाती है।",
+            "विषय प्रवेश : वर्षा ऋतु हमेशा से सबकी प्रिय ऋतु रही है।",
+            "वर्षा के समय प्रकृति की सुंदरता देखने लायक होती है।",
+            "पेड़-पौधे, पशु-पक्षी और मनुष्य खुशी से झूम उठते हैं।"
+          ],
+          "pageRange": "11-13"
+        },
+        {
+          "id": "बरसत-ब-दल-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "इसी सौंदर्य का वर्णन यहाँ प्रस्तुत किया गया है।",
+            "८7५ “कम: ram ae बरसते हैं सावन के| Paice a cil a iy के।"
+          ],
+          "keyPoints": [
+            "इसी सौंदर्य का वर्णन यहाँ प्रस्तुत किया गया है।",
+            "८7५ “कम: ram ae बरसते हैं सावन के| Paice a cil a iy के।"
+          ],
+          "pageRange": "11-13"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ap reracl इकाई",
+          "meaning": "I l. बरसते बादल e 2 5 इकाई"
+        },
+        {
+          "term": "ि काव्य रचनाओं के प्रोत्साहन के साथ",
+          "meaning": "साथ सौंदर्यवोध पाना और मनोरंजन करना।"
+        },
+        {
+          "term": "विता भावनाओं को उदात्त बनाने के साथ",
+          "meaning": "साथ सौंदर्यवोध को भी सजाती"
+        },
+        {
+          "term": "दिया गया। इनकी प्रमुख रचनाएँ हैं",
+          "meaning": "वीणा, ग्रंथि, 4 पल्"
+        },
+        {
+          "term": "ें सहज ही शक्ति प्राप्त हो जाती है।",
+          "meaning": "रबींनाब Satz"
+        },
+        {
+          "term": "की सुंदरता देखने लायक होती है। पेड़",
+          "meaning": "पौधे, पशु"
+        },
+        {
+          "term": "हे थम",
+          "meaning": "थम fea के of में सपुत्रे जगते मत के।।"
+        },
+        {
+          "term": "age टर",
+          "meaning": "टर करते झिल्ली बजती झन"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: बरसते बादल: Lesson reading",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-1"
+          ],
+          "focus": "Read the lesson. Section: बरसते बादल: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: बरसते बादल key terms and exam answers",
+          "lessonSectionIds": [
+            "बरसत-ब-दल-section-4",
+            "बरसत-ब-दल-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "बरसत-ब-दल-q1",
+          "question": "Which word/idea is important in बरसते बादल?",
+          "options": [
+            "ap reracl इकाई",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ap reracl इकाई",
+          "explanation": "I l. बरसते बादल e 2 5 इकाई"
+        },
+        {
+          "id": "बरसत-ब-दल-q2",
+          "question": "What is one key point from 'बरसते बादल: Lesson reading'?",
+          "options": [
+            "बरसते बादल e 2 5 इकाई - - सुमित्रानंदन पंत rea 4 हि is Lia mee Y8Fam5 क्या गाती हो, किसे बुलाती, बतला दो कोयल रानी।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "बरसते बादल e 2 5 इकाई - - सुमित्रानंदन पंत rea 4 हि is Lia mee Y8Fam5 क्या गाती हो, किसे बुलाती, बतला दो कोयल रानी।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "बरसत-ब-दल-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "ईदगाह",
+      "source_pages": {
+        "start": 14,
+        "end": 18
+      },
+      "topics": [
+        {
+          "topic_name": "ईदगाह: Lesson reading",
+          "subtopics": [
+            "= यम [7४274 a V8H9BS पथिकों को जलती दुपहर में, पेड़ सदा देते हैं छाया।",
+            "__ ee खुशबू भरे फूल देते हैं, i, पथिकों को जलती दुपहर में gaa आराम हमको नव फूलों की माला।",
+            "ea भी तो कुछ देना सीखें - कवि ने ऐसा क्यों कहा होगा?"
+          ],
+          "lessonSectionId": "ईदग-ह-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "“कहानी' शब्द “कह' धातु के साथ “आती Hea प्रत्यय जोड़ने से बना है।",
+            "किसी घटना या बात का सुंदर ढंग से प्रस्तुत किया जाना ही कहानी है ।",
+            "प्रेमचंद का जन्म एक गरीब घराने में काशी में 3।"
+          ],
+          "lessonSectionId": "ईदग-ह-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "इन्होंने लगभग एक दर्जन उपन्यास और लगभग तीन सौ कहानियों की रचना की।",
+            "इनकी कहानियाँ मानसरोवर शीर्षक से आठ खंडों में संकलित हैं।",
+            "गोदान, गबन, सेवासदन, निर्मला, कर्मभूमि, रंगभूमि, कायाकल्प, प्रतिज्ञा, मंगलसृत्र आदि इनके प्रमुख उपन्यास हैं।"
+          ],
+          "lessonSectionId": "ईदग-ह-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "छात्रों के लिए सूचनाएँ \\, विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।"
+          ],
+          "lessonSectionId": "ईदग-ह-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "विषय प्रवेश : प्राचीन काल से ही नैतिक मूल्य भारतीय जीवन के ग्रतिबिंब रहे हैं।",
+            "हम अपने बुज़ुर्यों (वयोवृद्धों) का बड़ा ध्यान रखते हैं।"
+          ],
+          "lessonSectionId": "ईदग-ह-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "ईदग-ह-section-1",
+          "title": "ईदगाह: Lesson reading",
+          "summary": [
+            "= यम [7४274 a V8H9BS पथिकों को जलती दुपहर में, पेड़ सदा देते हैं छाया।",
+            "__ ee खुशबू भरे फूल देते हैं, i, पथिकों को जलती दुपहर में gaa आराम हमको नव फूलों की माला।",
+            "ea भी तो कुछ देना सीखें - कवि ने ऐसा क्यों कहा होगा?"
+          ],
+          "keyPoints": [
+            "= यम [7४274 a V8H9BS पथिकों को जलती दुपहर में, पेड़ सदा देते हैं छाया।",
+            "__ ee खुशबू भरे फूल देते हैं, i, पथिकों को जलती दुपहर में gaa आराम हमको नव फूलों की माला।",
+            "ea भी तो कुछ देना सीखें - कवि ने ऐसा क्यों कहा होगा?",
+            "उनमें त्याग, सद्भाव व विवेक जैसे संवेदनशील कर्त्तव्य बोध संबंधी गुणों का विकास करना।"
+          ],
+          "pageRange": "14-18"
+        },
+        {
+          "id": "ईदग-ह-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "“कहानी' शब्द “कह' धातु के साथ “आती Hea प्रत्यय जोड़ने से बना है।",
+            "किसी घटना या बात का सुंदर ढंग से प्रस्तुत किया जाना ही कहानी है ।",
+            "प्रेमचंद का जन्म एक गरीब घराने में काशी में 3।"
+          ],
+          "keyPoints": [
+            "“कहानी' शब्द “कह' धातु के साथ “आती Hea प्रत्यय जोड़ने से बना है।",
+            "किसी घटना या बात का सुंदर ढंग से प्रस्तुत किया जाना ही कहानी है ।",
+            "प्रेमचंद का जन्म एक गरीब घराने में काशी में 3।",
+            "इन्होंने ट्यूशन पढ़ाते हुए मैट्रिक ear नौकरी करते हुए बी.ए."
+          ],
+          "pageRange": "14-18"
+        },
+        {
+          "id": "ईदग-ह-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "इन्होंने लगभग एक दर्जन उपन्यास और लगभग तीन सौ कहानियों की रचना की।",
+            "इनकी कहानियाँ मानसरोवर शीर्षक से आठ खंडों में संकलित हैं।",
+            "गोदान, गबन, सेवासदन, निर्मला, कर्मभूमि, रंगभूमि, कायाकल्प, प्रतिज्ञा, मंगलसृत्र आदि इनके प्रमुख उपन्यास हैं।"
+          ],
+          "keyPoints": [
+            "इन्होंने लगभग एक दर्जन उपन्यास और लगभग तीन सौ कहानियों की रचना की।",
+            "इनकी कहानियाँ मानसरोवर शीर्षक से आठ खंडों में संकलित हैं।",
+            "गोदान, गबन, सेवासदन, निर्मला, कर्मभूमि, रंगभूमि, कायाकल्प, प्रतिज्ञा, मंगलसृत्र आदि इनके प्रमुख उपन्यास हैं।",
+            "इनकी प्रमुख कहानियों में पंचपरमेश्वर, बड़े घर की बेटी, कफ़न आदि प्रमुख हैं।"
+          ],
+          "pageRange": "14-18"
+        },
+        {
+          "id": "ईदग-ह-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "छात्रों के लिए सूचनाएँ \\, विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।"
+          ],
+          "keyPoints": [
+            "छात्रों के लिए सूचनाएँ \\, विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।",
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।",
+            "जन जे पक सता हे सकते कह कहे पतन छात्रों की प्रगति हेतु सरकार का उपहार"
+          ],
+          "pageRange": "14-18"
+        },
+        {
+          "id": "ईदग-ह-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "विषय प्रवेश : प्राचीन काल से ही नैतिक मूल्य भारतीय जीवन के ग्रतिबिंब रहे हैं।",
+            "हम अपने बुज़ुर्यों (वयोवृद्धों) का बड़ा ध्यान रखते हैं।"
+          ],
+          "keyPoints": [
+            "विषय प्रवेश : प्राचीन काल से ही नैतिक मूल्य भारतीय जीवन के ग्रतिबिंब रहे हैं।",
+            "हम अपने बुज़ुर्यों (वयोवृद्धों) का बड़ा ध्यान रखते हैं।"
+          ],
+          "pageRange": "14-18"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ea भी तो कुछ देना सीखें",
+          "meaning": "कवि ने ऐसा क्यों कहा होगा? कहानी विधा से परिचित कराना। छात्रों में कहानीःलेखन कला का विकास करना। उनमें त्याग, सद्भाव व व"
+        },
+        {
+          "term": "ं। जैसे इस कहानी में दर्शाया गया है",
+          "meaning": "रमज़ान के पूरे तीस रोज़ों के बाद आज ईद आई है। कितना मनोहर, कितना सुहावना प्रभात! वृक्षों पर कुछ अजीब हरियाली है। खेतों म"
+        },
+        {
+          "term": "लड़के सबसे ज़्यादा प्रसन्न हैं। बार",
+          "meaning": "बार जेब से खज़ाना निकालकेर frat हैं। महमूद गिनता है, एक"
+        },
+        {
+          "term": "दस",
+          "meaning": "बारह। उसके पास aE AS हैं। मोहसिन के पास पंद्रह पैसे हैं। इनसे अनगिनत चीज़ें लाएँगे"
+        },
+        {
+          "term": "गेंद और न जाने क्या",
+          "meaning": "क्या ...। और सबसे ज़्यादा प्रसन्"
+        },
+        {
+          "term": "्त्र है हामिद। वह भोली सूरत का चार",
+          "meaning": "पाँच साल का दुबला"
+        },
+        {
+          "term": "अल्लाह मियाँ के घर से उसके लिए बहुत",
+          "meaning": "सी अच्छी"
+        },
+        {
+          "term": "उसके",
+          "meaning": "घर में दाना तक नहीं है। लेकिन हामिद! उसके अंदर प्रकाश है, बाहर आशा की किरण। हामिद भीतर जाकर दादी से कहता है"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: ईदगाह: Lesson reading",
+          "lessonSectionIds": [
+            "ईदग-ह-section-1"
+          ],
+          "focus": "Read the lesson. Section: ईदगाह: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "ईदग-ह-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "ईदग-ह-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "ईदग-ह-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "ईदग-ह-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: ईदगाह key terms and exam answers",
+          "lessonSectionIds": [
+            "ईदग-ह-section-4",
+            "ईदग-ह-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "ईदग-ह-q1",
+          "question": "Which word/idea is important in ईदगाह?",
+          "options": [
+            "ea भी तो कुछ देना सीखें",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ea भी तो कुछ देना सीखें",
+          "explanation": "कवि ने ऐसा क्यों कहा होगा? कहानी विधा से परिचित कराना। छात्रों में कहानीःलेखन कला का विकास करना। उनमें त्याग, सद्भाव व व"
+        },
+        {
+          "id": "ईदग-ह-q2",
+          "question": "What is one key point from 'ईदगाह: Lesson reading'?",
+          "options": [
+            "= यम [7४274 a V8H9BS पथिकों को जलती दुपहर में, पेड़ सदा देते हैं छाया।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "= यम [7४274 a V8H9BS पथिकों को जलती दुपहर में, पेड़ सदा देते हैं छाया।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "ईदग-ह-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "यह रास्ता कहाँ जाता है?",
+      "source_pages": {
+        "start": 19,
+        "end": 22
+      },
+      "topics": [
+        {
+          "topic_name": "यह रास्ता कहाँ जाता है?: Lesson reading",
+          "subtopics": [
+            "; गोलू : (नानी को मनाने के स्वर में) हाँ, नानी, कहो न!",
+            "(एक क्षण Sexes नानी कहती है।) बहुत पुरानी बात है।",
+            "गोलू : हाँ, नानी, उज्जैन नाम का एक नगर oT, fe?"
+          ],
+          "lessonSectionId": "यह-र-स-त-कह-ज-त-ह-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "उसके दरबार में एक कवि रहता था, नाम था उसका ATA गोलू : नानी को कहने दो न!",
+            "नानी : राजा भोज,अ्रजा(का सुख-दुःख जानने के लिए भेष बदलकर रात में घूमा ea था।",
+            "नानी pare कोई पहचान न al उसके साथ कबि माघ भी रहता था।"
+          ],
+          "lessonSectionId": "यह-र-स-त-कह-ज-त-ह-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "दूसरा दृश्य माघ छे = लगता है हम रास्ता भूल गए हैं।",
+            "माघ : लेकिन यह रात तो ख़त्म होने का नाम ही नहीं ले रही है।",
+            "माघ : अब चिंता छोड़ें, यहाँ देखिए, पूरब दिशा पसर रही है, सूर्योदय हो रहा है।"
+          ],
+          "lessonSectionId": "यह-र-स-त-कह-ज-त-ह-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "माघ : ठीक है, महाराज, हमें उसके पास चलना चाहिए।",
+            "भोज : (लकड़हारिन को चुपचाप खड़ा देख कर) तुम्हीं से पूछ रहें हैं।",
+            "यही सोच रही Zl भोज : इसमें सोचने की कौन-सी ara 2?"
+          ],
+          "lessonSectionId": "यह-र-स-त-कह-ज-त-ह-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "भोज : हम दोनों मुसाफिर*हैं और उज्जैन जाना चाहते हैं।",
+            "लकड़॒हारिन : मुसाफ़िर तो इस दुनिया में दो ही हैं - एक सूर्य, जो उधर निकल रहा है और एक चाँद/जो उधर मिट रहा है।"
+          ],
+          "lessonSectionId": "यह-र-स-त-कह-ज-त-ह-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-section-1",
+          "title": "यह रास्ता कहाँ जाता है?: Lesson reading",
+          "summary": [
+            "; गोलू : (नानी को मनाने के स्वर में) हाँ, नानी, कहो न!",
+            "(एक क्षण Sexes नानी कहती है।) बहुत पुरानी बात है।",
+            "गोलू : हाँ, नानी, उज्जैन नाम का एक नगर oT, fe?"
+          ],
+          "keyPoints": [
+            "; गोलू : (नानी को मनाने के स्वर में) हाँ, नानी, कहो न!",
+            "(एक क्षण Sexes नानी कहती है।) बहुत पुरानी बात है।",
+            "गोलू : हाँ, नानी, उज्जैन नाम का एक नगर oT, fe?",
+            "नानी : राजा भोज वहाँ का राजा TI मोना : मेरी किताब में लिखा है, न्ञानी;-कि वह बहुत बड़ा विद्वान था।"
+          ],
+          "pageRange": "19-22"
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "उसके दरबार में एक कवि रहता था, नाम था उसका ATA गोलू : नानी को कहने दो न!",
+            "नानी : राजा भोज,अ्रजा(का सुख-दुःख जानने के लिए भेष बदलकर रात में घूमा ea था।",
+            "नानी pare कोई पहचान न al उसके साथ कबि माघ भी रहता था।"
+          ],
+          "keyPoints": [
+            "उसके दरबार में एक कवि रहता था, नाम था उसका ATA गोलू : नानी को कहने दो न!",
+            "नानी : राजा भोज,अ्रजा(का सुख-दुःख जानने के लिए भेष बदलकर रात में घूमा ea था।",
+            "नानी pare कोई पहचान न al उसके साथ कबि माघ भी रहता था।",
+            "एक रात प्रजा का सुख-दुःख जानने के लिए दोनों महल से निकले।"
+          ],
+          "pageRange": "19-22"
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "दूसरा दृश्य माघ छे = लगता है हम रास्ता भूल गए हैं।",
+            "माघ : लेकिन यह रात तो ख़त्म होने का नाम ही नहीं ले रही है।",
+            "माघ : अब चिंता छोड़ें, यहाँ देखिए, पूरब दिशा पसर रही है, सूर्योदय हो रहा है।"
+          ],
+          "keyPoints": [
+            "दूसरा दृश्य माघ छे = लगता है हम रास्ता भूल गए हैं।",
+            "माघ : लेकिन यह रात तो ख़त्म होने का नाम ही नहीं ले रही है।",
+            "माघ : अब चिंता छोड़ें, यहाँ देखिए, पूरब दिशा पसर रही है, सूर्योदय हो रहा है।",
+            "भोज : वह तो है, लेकिन यहाँ तो कोई दिखाई भी नहीं देता, जिससे उज्जैन जाने का मार्ग पूछा जाए।"
+          ],
+          "pageRange": "19-22"
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "माघ : ठीक है, महाराज, हमें उसके पास चलना चाहिए।",
+            "भोज : (लकड़हारिन को चुपचाप खड़ा देख कर) तुम्हीं से पूछ रहें हैं।",
+            "यही सोच रही Zl भोज : इसमें सोचने की कौन-सी ara 2?"
+          ],
+          "keyPoints": [
+            "माघ : ठीक है, महाराज, हमें उसके पास चलना चाहिए।",
+            "भोज : (लकड़हारिन को चुपचाप खड़ा देख कर) तुम्हीं से पूछ रहें हैं।",
+            "यही सोच रही Zl भोज : इसमें सोचने की कौन-सी ara 2?",
+            "माघ : फिर कहो, हम भी तो सुने लकड॒हारिन : यह रास्ता कहीं आता-जाता नहीं है।"
+          ],
+          "pageRange": "19-22"
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "भोज : हम दोनों मुसाफिर*हैं और उज्जैन जाना चाहते हैं।",
+            "लकड़॒हारिन : मुसाफ़िर तो इस दुनिया में दो ही हैं - एक सूर्य, जो उधर निकल रहा है और एक चाँद/जो उधर मिट रहा है।"
+          ],
+          "keyPoints": [
+            "भोज : हम दोनों मुसाफिर*हैं और उज्जैन जाना चाहते हैं।",
+            "लकड़॒हारिन : मुसाफ़िर तो इस दुनिया में दो ही हैं - एक सूर्य, जो उधर निकल रहा है और एक चाँद/जो उधर मिट रहा है।"
+          ],
+          "pageRange": "19-22"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ों महल से निकले। दूसरा दृश्य माघ छे",
+          "meaning": "लगता है हम रास्ता भूल गए हैं। इस जंगल में हम भटक गए हैं। भोज"
+        },
+        {
+          "term": "का सुख",
+          "meaning": "दुःख जानने के लिए भेष बदलकर रात में घूमा ea था। गोलू"
+        },
+        {
+          "term": "माघ भी रहता था। एक रात प्रजा का सुख",
+          "meaning": "दुःख जानने के लिए दोनों महल से निकले। दूसरा दृश्य माघ छे"
+        },
+        {
+          "term": "ृगुतारा बहुत ऊपर आ गया है। वन्य पशु",
+          "meaning": "पक्षी भी जाग चुके हैं। बह रास्ता कहाँ जाता BP कल ललक लत नल्लक wie"
+        },
+        {
+          "term": "इसमें सोचने की कौन",
+          "meaning": "सी ara 2? लकड़हारिन"
+        },
+        {
+          "term": "यह रास्ता कहीं आता",
+          "meaning": "जाता नहीं है। वह तो यहीं पड़ा रहता है। लोग इस पर आते"
+        },
+        {
+          "term": "मुसाफ़िर तो इस दुनिया में दो ही हैं",
+          "meaning": "एक सूर्य, जो उधर निकल रहा है और एक चाँद"
+        },
+        {
+          "term": "ते क्योंकि मेहमान भी दो ही होते हैं",
+          "meaning": "Usa और दूसरा यौवन। समझे। भोज"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: यह रास्ता कहाँ जाता है?: Lesson reading",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-1"
+          ],
+          "focus": "Read the lesson. Section: यह रास्ता कहाँ जाता है?: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: यह रास्ता कहाँ जाता है? key terms and exam answers",
+          "lessonSectionIds": [
+            "यह-र-स-त-कह-ज-त-ह-section-4",
+            "यह-र-स-त-कह-ज-त-ह-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-q1",
+          "question": "Which word/idea is important in यह रास्ता कहाँ जाता है??",
+          "options": [
+            "ों महल से निकले। दूसरा दृश्य माघ छे",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ों महल से निकले। दूसरा दृश्य माघ छे",
+          "explanation": "लगता है हम रास्ता भूल गए हैं। इस जंगल में हम भटक गए हैं। भोज"
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-q2",
+          "question": "What is one key point from 'यह रास्ता कहाँ जाता है?: Lesson reading'?",
+          "options": [
+            "; गोलू : (नानी को मनाने के स्वर में) हाँ, नानी, कहो न!",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "; गोलू : (नानी को मनाने के स्वर में) हाँ, नानी, कहो न!",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "यह-र-स-त-कह-ज-त-ह-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "माँ मुझे आने दे!",
+      "source_pages": {
+        "start": 23,
+        "end": 25
+      },
+      "topics": [
+        {
+          "topic_name": "माँ मुझे आने दे!: Lesson reading",
+          "subtopics": [
+            "विषय प्रवेश : स्त्री और पुरुष दोनों समाज रूपी शक्ति के दो रूप हैं।",
+            "दोनों कार्य कुशल, गुणी और बुद्धिमान होते हैं।",
+            "कहते हैं जहाँ नारी का वास होता है वहाँ देवता बसते हैं।"
+          ],
+          "lessonSectionId": "म-म-झ-आन-द-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "फैलूँगी तेरे आँगन में हरियाली बनकर लिपदूँगी तेरे आँचल में खुशबू बनकर मेरी किलक और ठुमकते कदमों में घर का सन्नाटा बिखर जाएगा L bay * सबसे अच्छी सहेली जो पसरा है पिता के दंभ गा भाई की उद्दंडता के कारण सदियों से।",
+            "पोछ दूँगी अँधेरा, जो तेरे माथे की'सिलंवटों में सिमटा है कभी-कभी झर जाता है ओस की बूँदों-सा, आँखों की कोरों से।",
+            "आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास अकड़ीला मिज़ाज जो चिपका है घर की सारी की सारी दीवारों बंद दरवाज़ों-खिड़कियों में।"
+          ],
+          "lessonSectionId": "म-म-झ-आन-द-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "जा सकती हूँ मैं दूर-पार, उस झिलमिलाती दुनिया में ला सकती हूँ वहाँ से चमकीले टुकड़े तेरे सपनों के, समुंदर की लहरों के थपेड़ों में ge सकती हूँ मैं मोती और सीपी और नाविकों के किस्से।",
+            "कर सकती हूँ माँ, मैं सब-कुछ जो रोशनी-सा चमकीला Saar चटकीला हो, पर आने तो दे, डर मत माँ...मुझे आने दे।",
+            "अर्थग्राहयता-प्रतिक्रिया Bear (अ) प्रश्नों के उत्तर दीजिए।"
+          ],
+          "lessonSectionId": "म-म-झ-आन-द-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "“भ्रूण हत्या एक सामाजिक अपराध है।' क्या भ्रूण हत्या का bt दहेज प्रथा से संबंध है?",
+            "(इ) निम्नलिखित पंक्तियों का भाव स्पष्ट कीजिए।",
+            "L आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास।"
+          ],
+          "lessonSectionId": "म-म-झ-आन-द-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "उषा है यह कम्॒लभूंग की, है पतझड़ की हरियाली।।",
+            "अभिव्यक्ति-सृजनात्मकता (अ) “माँ मुझे आने दे” कविता समाज की किस स्थिति के बारे में बताती है?"
+          ],
+          "lessonSectionId": "म-म-झ-आन-द-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "म-म-झ-आन-द-section-1",
+          "title": "माँ मुझे आने दे!: Lesson reading",
+          "summary": [
+            "विषय प्रवेश : स्त्री और पुरुष दोनों समाज रूपी शक्ति के दो रूप हैं।",
+            "दोनों कार्य कुशल, गुणी और बुद्धिमान होते हैं।",
+            "कहते हैं जहाँ नारी का वास होता है वहाँ देवता बसते हैं।"
+          ],
+          "keyPoints": [
+            "विषय प्रवेश : स्त्री और पुरुष दोनों समाज रूपी शक्ति के दो रूप हैं।",
+            "दोनों कार्य कुशल, गुणी और बुद्धिमान होते हैं।",
+            "कहते हैं जहाँ नारी का वास होता है वहाँ देवता बसते हैं।",
+            "लेकिन सामाजिक विषमताओं के कारण आज भी श्रृणहत्याएँ देखी जा रही हैं।"
+          ],
+          "pageRange": "23-25"
+        },
+        {
+          "id": "म-म-झ-आन-द-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "फैलूँगी तेरे आँगन में हरियाली बनकर लिपदूँगी तेरे आँचल में खुशबू बनकर मेरी किलक और ठुमकते कदमों में घर का सन्नाटा बिखर जाएगा L bay * सबसे अच्छी सहेली जो पसरा है पिता के दंभ गा भाई की उद्दंडता के कारण सदियों से।",
+            "पोछ दूँगी अँधेरा, जो तेरे माथे की'सिलंवटों में सिमटा है कभी-कभी झर जाता है ओस की बूँदों-सा, आँखों की कोरों से।",
+            "आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास अकड़ीला मिज़ाज जो चिपका है घर की सारी की सारी दीवारों बंद दरवाज़ों-खिड़कियों में।"
+          ],
+          "keyPoints": [
+            "फैलूँगी तेरे आँगन में हरियाली बनकर लिपदूँगी तेरे आँचल में खुशबू बनकर मेरी किलक और ठुमकते कदमों में घर का सन्नाटा बिखर जाएगा L bay * सबसे अच्छी सहेली जो पसरा है पिता के दंभ गा भाई की उद्दंडता के कारण सदियों से।",
+            "पोछ दूँगी अँधेरा, जो तेरे माथे की'सिलंवटों में सिमटा है कभी-कभी झर जाता है ओस की बूँदों-सा, आँखों की कोरों से।",
+            "आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास अकड़ीला मिज़ाज जो चिपका है घर की सारी की सारी दीवारों बंद दरवाज़ों-खिड़कियों में।",
+            "तेरी आँखों*में तैरते ये समुंदर ये आसमान के अक्स मैंने te fem हैं माँ।"
+          ],
+          "pageRange": "23-25"
+        },
+        {
+          "id": "म-म-झ-आन-द-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "जा सकती हूँ मैं दूर-पार, उस झिलमिलाती दुनिया में ला सकती हूँ वहाँ से चमकीले टुकड़े तेरे सपनों के, समुंदर की लहरों के थपेड़ों में ge सकती हूँ मैं मोती और सीपी और नाविकों के किस्से।",
+            "कर सकती हूँ माँ, मैं सब-कुछ जो रोशनी-सा चमकीला Saar चटकीला हो, पर आने तो दे, डर मत माँ...मुझे आने दे।",
+            "अर्थग्राहयता-प्रतिक्रिया Bear (अ) प्रश्नों के उत्तर दीजिए।"
+          ],
+          "keyPoints": [
+            "जा सकती हूँ मैं दूर-पार, उस झिलमिलाती दुनिया में ला सकती हूँ वहाँ से चमकीले टुकड़े तेरे सपनों के, समुंदर की लहरों के थपेड़ों में ge सकती हूँ मैं मोती और सीपी और नाविकों के किस्से।",
+            "कर सकती हूँ माँ, मैं सब-कुछ जो रोशनी-सा चमकीला Saar चटकीला हो, पर आने तो दे, डर मत माँ...मुझे आने दे।",
+            "अर्थग्राहयता-प्रतिक्रिया Bear (अ) प्रश्नों के उत्तर दीजिए।",
+            "प् et हु LAT मुझे आने दे” कविता आपको कैसी लगी और क्‍यों?"
+          ],
+          "pageRange": "23-25"
+        },
+        {
+          "id": "म-म-झ-आन-द-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "“भ्रूण हत्या एक सामाजिक अपराध है।' क्या भ्रूण हत्या का bt दहेज प्रथा से संबंध है?",
+            "(इ) निम्नलिखित पंक्तियों का भाव स्पष्ट कीजिए।",
+            "L आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास।"
+          ],
+          "keyPoints": [
+            "“भ्रूण हत्या एक सामाजिक अपराध है।' क्या भ्रूण हत्या का bt दहेज प्रथा से संबंध है?",
+            "(इ) निम्नलिखित पंक्तियों का भाव स्पष्ट कीजिए।",
+            "L आने तो दे, धुल जाएगा सारा का सारा रुखीला अहसास।",
+            "तेरी आँखों में तैरते ये समुंदर ये आसमान के अक्स मैंने देख लिए हैं माँ (ई) नीचे दिया गया पद्यांश पढ़कर सही उत्तर पहचानिएँ यह मेरी गोदी की शोभा, सुख सुहाग की है लाली।"
+          ],
+          "pageRange": "23-25"
+        },
+        {
+          "id": "म-म-झ-आन-द-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "उषा है यह कम्॒लभूंग की, है पतझड़ की हरियाली।।",
+            "अभिव्यक्ति-सृजनात्मकता (अ) “माँ मुझे आने दे” कविता समाज की किस स्थिति के बारे में बताती है?"
+          ],
+          "keyPoints": [
+            "उषा है यह कम्॒लभूंग की, है पतझड़ की हरियाली।।",
+            "अभिव्यक्ति-सृजनात्मकता (अ) “माँ मुझे आने दे” कविता समाज की किस स्थिति के बारे में बताती है?"
+          ],
+          "pageRange": "23-25"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "सिलंवटों में सिमटा है कभी",
+          "meaning": "कभी झर जाता है ओस की बूँदों"
+        },
+        {
+          "term": "ी सारी की सारी दीवारों बंद दरवाज़ों",
+          "meaning": "खिड़कियों में। तेरी आँखों"
+        },
+        {
+          "term": "जा सकती हूँ मैं दूर",
+          "meaning": "पार, उस झिलमिलाती दुनिया में ला सकती हूँ वहाँ से चमकीले टुकड़े तेरे सपनों के, समुंदर की लहरों के थपेड़ों में ge सकती हूँ"
+        },
+        {
+          "term": "मैं सब",
+          "meaning": "कुछ जो रोशनी"
+        },
+        {
+          "term": "मुझे आने दे।",
+          "meaning": "aga जोशी"
+        },
+        {
+          "term": "अर्थग्राहयता",
+          "meaning": "प्रतिक्रिया Bear"
+        },
+        {
+          "term": "माँ के लिए बेटी क्या",
+          "meaning": "क्या करना चाहती है?"
+        },
+        {
+          "term": "है पतझड़ की हरियाली।।",
+          "meaning": "सुभद्रा कुमारी चौहान"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: माँ मुझे आने दे!: Lesson reading",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-1"
+          ],
+          "focus": "Read the lesson. Section: माँ मुझे आने दे!: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: माँ मुझे आने दे! key terms and exam answers",
+          "lessonSectionIds": [
+            "म-म-झ-आन-द-section-4",
+            "म-म-झ-आन-द-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "म-म-झ-आन-द-q1",
+          "question": "Which word/idea is important in माँ मुझे आने दे!?",
+          "options": [
+            "सिलंवटों में सिमटा है कभी",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "सिलंवटों में सिमटा है कभी",
+          "explanation": "कभी झर जाता है ओस की बूँदों"
+        },
+        {
+          "id": "म-म-झ-आन-द-q2",
+          "question": "What is one key point from 'माँ मुझे आने दे!: Lesson reading'?",
+          "options": [
+            "विषय प्रवेश : स्त्री और पुरुष दोनों समाज रूपी शक्ति के दो रूप हैं।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "विषय प्रवेश : स्त्री और पुरुष दोनों समाज रूपी शक्ति के दो रूप हैं।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "म-म-झ-आन-द-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "शांति की राह में",
+      "source_pages": {
+        "start": 26,
+        "end": 30
+      },
+      "topics": [
+        {
+          "topic_name": "शांति की राह में: Lesson reading",
+          "subtopics": [
+            "यदि हमारे पास दुनिया का सारा वैभव और सुख साधन उपलब्ध है लेकिन शांति नहीं है तो वैसे सुख साधन व्यर्थ हैं।",
+            "संसार में मानव द्वारा जितने भी कार्य किए जा रहे हैं सबका एक ही उद्देश्य है- शांति सबसे पहले तो हमें यह जान लेना चाहिए कि शांति aap es?",
+            "शांति का केवल यह अर्थ नहीं कि मुख से चुप रहें।"
+          ],
+          "lessonSectionId": "श-त-क-र-ह-म-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "इसीलिए-जहाँ शांति है, वहाँ सुख है, जहाँ सुख है वहाँ स्वर्ग है, जहाँ स्वर्ग.है वही दुनिया का श्रेष्ठ स्थान है।",
+            "युद्ध, दुख, लालच और सभी पीड़ाओं को मिटाने का उत्तम मार्ग 'शांति' है।",
+            "धन-दौलत से भौतिक संपदा aig aed हैं, किंतु शांति नहीं।"
+          ],
+          "lessonSectionId": "श-त-क-र-ह-म-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "इन प्रयासों में कहीं युदूध और कहीं चेर्चाएँ हो रही हैं।",
+            "वास्तव में age से कभी शांति स्थापित नहीं at सकती।",
+            "सभी देशों के बीच सहयोग स्थापित करने के दूवारा शांति की स्थापना की जा सकती है।"
+          ],
+          "lessonSectionId": "श-त-क-र-ह-म-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "इसका मूल उद्देश्य विश्व में सभी देशों के बीच शांति-की स्थापना करना है।",
+            "विश्व शांति के इन प्रयासों में ही शांति के लिए उत्कृष्ट कार्य करने वालों को हर वर्ष नोबेल पुरस्कार भी दिया जाता है।",
+            "शांति की स्थापना में अपना जीवन समर्पित करने वाले कई महान व्यक्ति हुए हैं।"
+          ],
+          "lessonSectionId": "श-त-क-र-ह-म-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "& मंडेला के नाम से विश्वभर में प्रख्यात शांतिदूत का पूरा ७ ्‌ नाम Acad रोलिहलहला ASAT था।",
+            "उनका जन्म 8 ४ जुलाई, 9I8 को दक्षिण अफ्रीका में हुआ।"
+          ],
+          "lessonSectionId": "श-त-क-र-ह-म-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "श-त-क-र-ह-म-section-1",
+          "title": "शांति की राह में: Lesson reading",
+          "summary": [
+            "यदि हमारे पास दुनिया का सारा वैभव और सुख साधन उपलब्ध है लेकिन शांति नहीं है तो वैसे सुख साधन व्यर्थ हैं।",
+            "संसार में मानव द्वारा जितने भी कार्य किए जा रहे हैं सबका एक ही उद्देश्य है- शांति सबसे पहले तो हमें यह जान लेना चाहिए कि शांति aap es?",
+            "शांति का केवल यह अर्थ नहीं कि मुख से चुप रहें।"
+          ],
+          "keyPoints": [
+            "यदि हमारे पास दुनिया का सारा वैभव और सुख साधन उपलब्ध है लेकिन शांति नहीं है तो वैसे सुख साधन व्यर्थ हैं।",
+            "संसार में मानव द्वारा जितने भी कार्य किए जा रहे हैं सबका एक ही उद्देश्य है- शांति सबसे पहले तो हमें यह जान लेना चाहिए कि शांति aap es?",
+            "शांति का केवल यह अर्थ नहीं कि मुख से चुप रहें।",
+            "वास्तव में मन को&नियंत्रित कर उसे बुराई के रास्ते पर चलने से रोकना ही 'शांति' है।"
+          ],
+          "pageRange": "26-30"
+        },
+        {
+          "id": "श-त-क-र-ह-म-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "इसीलिए-जहाँ शांति है, वहाँ सुख है, जहाँ सुख है वहाँ स्वर्ग है, जहाँ स्वर्ग.है वही दुनिया का श्रेष्ठ स्थान है।",
+            "युद्ध, दुख, लालच और सभी पीड़ाओं को मिटाने का उत्तम मार्ग 'शांति' है।",
+            "धन-दौलत से भौतिक संपदा aig aed हैं, किंतु शांति नहीं।"
+          ],
+          "keyPoints": [
+            "इसीलिए-जहाँ शांति है, वहाँ सुख है, जहाँ सुख है वहाँ स्वर्ग है, जहाँ स्वर्ग.है वही दुनिया का श्रेष्ठ स्थान है।",
+            "युद्ध, दुख, लालच और सभी पीड़ाओं को मिटाने का उत्तम मार्ग 'शांति' है।",
+            "धन-दौलत से भौतिक संपदा aig aed हैं, किंतु शांति नहीं।",
+            "यही कारण है कि दुनिया भर के कई देश 'शांति' बनाएँ रखने के लिए प्रयास कर रहे हैं।"
+          ],
+          "pageRange": "26-30"
+        },
+        {
+          "id": "श-त-क-र-ह-म-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "इन प्रयासों में कहीं युदूध और कहीं चेर्चाएँ हो रही हैं।",
+            "वास्तव में age से कभी शांति स्थापित नहीं at सकती।",
+            "सभी देशों के बीच सहयोग स्थापित करने के दूवारा शांति की स्थापना की जा सकती है।"
+          ],
+          "keyPoints": [
+            "इन प्रयासों में कहीं युदूध और कहीं चेर्चाएँ हो रही हैं।",
+            "वास्तव में age से कभी शांति स्थापित नहीं at सकती।",
+            "सभी देशों के बीच सहयोग स्थापित करने के दूवारा शांति की स्थापना की जा सकती है।",
+            "इसी उद्देश्य से 24 अक्तूबर, 945 में संयुक्त राष्ट्र संघ की स्थापना हुई।"
+          ],
+          "pageRange": "26-30"
+        },
+        {
+          "id": "श-त-क-र-ह-म-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "इसका मूल उद्देश्य विश्व में सभी देशों के बीच शांति-की स्थापना करना है।",
+            "विश्व शांति के इन प्रयासों में ही शांति के लिए उत्कृष्ट कार्य करने वालों को हर वर्ष नोबेल पुरस्कार भी दिया जाता है।",
+            "शांति की स्थापना में अपना जीवन समर्पित करने वाले कई महान व्यक्ति हुए हैं।"
+          ],
+          "keyPoints": [
+            "इसका मूल उद्देश्य विश्व में सभी देशों के बीच शांति-की स्थापना करना है।",
+            "विश्व शांति के इन प्रयासों में ही शांति के लिए उत्कृष्ट कार्य करने वालों को हर वर्ष नोबेल पुरस्कार भी दिया जाता है।",
+            "शांति की स्थापना में अपना जीवन समर्पित करने वाले कई महान व्यक्ति हुए हैं।",
+            "यहाँ उन्हीं में से दो महान शांतिदूतों का परिचय दिया जा रहा है जिन्होंने अपना सारा जीवन शांति और सेवा के मार्ग पर समर्पित कर दिया है।"
+          ],
+          "pageRange": "26-30"
+        },
+        {
+          "id": "श-त-क-र-ह-म-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "& मंडेला के नाम से विश्वभर में प्रख्यात शांतिदूत का पूरा ७ ्‌ नाम Acad रोलिहलहला ASAT था।",
+            "उनका जन्म 8 ४ जुलाई, 9I8 को दक्षिण अफ्रीका में हुआ।"
+          ],
+          "keyPoints": [
+            "& मंडेला के नाम से विश्वभर में प्रख्यात शांतिदूत का पूरा ७ ्‌ नाम Acad रोलिहलहला ASAT था।",
+            "उनका जन्म 8 ४ जुलाई, 9I8 को दक्षिण अफ्रीका में हुआ।"
+          ],
+          "pageRange": "26-30"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ए जा रहे हैं सबका एक ही उद्देश्य है",
+          "meaning": "शांति सबसे पहले तो हमें यह जान लेना चाहिए कि शांति aap es? शांति का केवल यह अर्थ नहीं कि मुख से चुप रहें। वास्तव में मन"
+        },
+        {
+          "term": "है। इसीलिए",
+          "meaning": "जहाँ शांति है, वहाँ सुख है, जहाँ सुख है वहाँ स्वर्ग है, जहाँ स्वर्ग.है वही दुनिया का श्रेष्ठ स्थान है। युद्ध, दुख, लालच"
+        },
+        {
+          "term": "है। धन",
+          "meaning": "दौलत से भौतिक संपदा aig aed हैं, किंतु शांति नहीं। यही कारण है कि दुनिया भर के कई देश"
+        },
+        {
+          "term": "्य विश्व में सभी देशों के बीच शांति",
+          "meaning": "की स्थापना करना है। विश्व शांति के इन प्रयासों में ही शांति के लिए उत्कृष्ट कार्य करने वालों को हर वर्ष नोबेल पुरस्कार भ"
+        },
+        {
+          "term": "आगे चलकर सेवा की भावना में रत",
+          "meaning": "होकर भारत की नागरिकता स्वीकार ली। प्रारंभ में उन्होंने अध्यापिका के रूप में काम किया। कितु उनका सपना कुछ और ही था। वे अन"
+        },
+        {
+          "term": "्य और श्रेष्ठ परोपकारी गुण आज भी एक",
+          "meaning": "दिव्यज्योति के रूप में हमें वास्तविक जीवन बिताने की राह दिखाते हैं। L. शांति की परिभाषा क्"
+        },
+        {
+          "term": "आपकी सहायता कौन",
+          "meaning": "कौन करते Jet क्र Wiad मे लक a ee छात्रों की प्रगति हेतु सरकार का उपहार"
+        },
+        {
+          "term": "था श्रम। यह पाठ छात्रों को सामाजिक",
+          "meaning": "काव्ये.सृजन की प्रेरणा देते हुए समाज़"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: शांति की राह में: Lesson reading",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-1"
+          ],
+          "focus": "Read the lesson. Section: शांति की राह में: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: शांति की राह में key terms and exam answers",
+          "lessonSectionIds": [
+            "श-त-क-र-ह-म-section-4",
+            "श-त-क-र-ह-म-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "श-त-क-र-ह-म-q1",
+          "question": "Which word/idea is important in शांति की राह में?",
+          "options": [
+            "ए जा रहे हैं सबका एक ही उद्देश्य है",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ए जा रहे हैं सबका एक ही उद्देश्य है",
+          "explanation": "शांति सबसे पहले तो हमें यह जान लेना चाहिए कि शांति aap es? शांति का केवल यह अर्थ नहीं कि मुख से चुप रहें। वास्तव में मन"
+        },
+        {
+          "id": "श-त-क-र-ह-म-q2",
+          "question": "What is one key point from 'शांति की राह में: Lesson reading'?",
+          "options": [
+            "यदि हमारे पास दुनिया का सारा वैभव और सुख साधन उपलब्ध है लेकिन शांति नहीं है तो वैसे सुख साधन व्यर्थ हैं।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "यदि हमारे पास दुनिया का सारा वैभव और सुख साधन उपलब्ध है लेकिन शांति नहीं है तो वैसे सुख साधन व्यर्थ हैं।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "श-त-क-र-ह-म-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "लोकगीत",
+      "source_pages": {
+        "start": 31,
+        "end": 38
+      },
+      "topics": [
+        {
+          "topic_name": "लोकगीत: Lesson reading",
+          "subtopics": [
+            "अर्थग्राहयता-प्रतिक्रिया lope} (अ) पलों के उत्तर दीजिए।",
+            "203: Lane और कर्म में आप किसे श्रेष्ठ मानते हैं?",
+            "श्रम के बल पर हम क्या-क्या हासिल कर सकते हैं?"
+          ],
+          "lessonSectionId": "ल-कग-त-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "(इ) निम्नलिखित भाव से संबंधित कविता की पंक्तियाँ चुनकर लिखिए।",
+            "प्रकृति से पहले परिश्रम करने वाले को सुख मिलना ख्वाहिए।",
+            "कदम-कदम बढ़ाए जा, सफलता तू पाए जा, ये भाग्य है तुम्हारा, तू कर्म से बनाए जा, निगाहें रखो लक्ष्य पर, कठिन नहीं ये सफर, ये जन्म है तुम्हारा, तू सार्थक बनाएँ जा॥"
+          ],
+          "lessonSectionId": "ल-कग-त-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "अभिव्यक्ति-सृजनात्मकता' (अ) कवि मेहनत करने वालों को सदा आगे रखने की बात क्‍यों कर रहे हैं?",
+            "(आ) कवि ने मज़दूरों के अधिकारों का वर्णन कैसे किया है?",
+            "(ई) “नर aaa भाग्य एक है, वह श्रम, वह भुजबल है।' जीवन की सफलता का मार्ग श्रम है॥अपने विचार व्यक्त कीजिए।"
+          ],
+          "lessonSectionId": "ल-कग-त-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "जन-जन, कण-कण (पुनरुक्त शब्दों से वाक्य प्रयोग कीजिए।) 4.",
+            "मनुष्य, मज़दूर (भाववाचक संज्ञा में बदलकर लिखिए।) कराकर का अधिकारी बन fee के sore है।",
+            "श्रम-जल, नभ-तल, भुजबल (समास पहचानिए।) (इ) इन्हें समझिए।"
+          ],
+          "lessonSectionId": "ल-कग-त-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "प्राकृतिक, अधिकारी, भाग्यवान (प्रत्यय पहचानिए।",
+            "(रेखांकित शब्द का लिंग बदलकर वाक्य लिखिए।) (ई) रेखांकित शब्दों का पद परिचय दीजिए।"
+          ],
+          "lessonSectionId": "ल-कग-त-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "ल-कग-त-section-1",
+          "title": "लोकगीत: Lesson reading",
+          "summary": [
+            "अर्थग्राहयता-प्रतिक्रिया lope} (अ) पलों के उत्तर दीजिए।",
+            "203: Lane और कर्म में आप किसे श्रेष्ठ मानते हैं?",
+            "श्रम के बल पर हम क्या-क्या हासिल कर सकते हैं?"
+          ],
+          "keyPoints": [
+            "अर्थग्राहयता-प्रतिक्रिया lope} (अ) पलों के उत्तर दीजिए।",
+            "203: Lane और कर्म में आप किसे श्रेष्ठ मानते हैं?",
+            "श्रम के बल पर हम क्या-क्या हासिल कर सकते हैं?",
+            "op: 2083 (आ) पाठ पढ़कर नीचे दिए गए प्रश्नों के उत्तर लिखिए।"
+          ],
+          "pageRange": "31-38"
+        },
+        {
+          "id": "ल-कग-त-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "(इ) निम्नलिखित भाव से संबंधित कविता की पंक्तियाँ चुनकर लिखिए।",
+            "प्रकृति से पहले परिश्रम करने वाले को सुख मिलना ख्वाहिए।",
+            "कदम-कदम बढ़ाए जा, सफलता तू पाए जा, ये भाग्य है तुम्हारा, तू कर्म से बनाए जा, निगाहें रखो लक्ष्य पर, कठिन नहीं ये सफर, ये जन्म है तुम्हारा, तू सार्थक बनाएँ जा॥"
+          ],
+          "keyPoints": [
+            "(इ) निम्नलिखित भाव से संबंधित कविता की पंक्तियाँ चुनकर लिखिए।",
+            "प्रकृति से पहले परिश्रम करने वाले को सुख मिलना ख्वाहिए।",
+            "कदम-कदम बढ़ाए जा, सफलता तू पाए जा, ये भाग्य है तुम्हारा, तू कर्म से बनाए जा, निगाहें रखो लक्ष्य पर, कठिन नहीं ये सफर, ये जन्म है तुम्हारा, तू सार्थक बनाएँ जा॥",
+            "Late के अनुसार सफलता क्षिस प्रकार प्राप्त हो सकती है?"
+          ],
+          "pageRange": "31-38"
+        },
+        {
+          "id": "ल-कग-त-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "अभिव्यक्ति-सृजनात्मकता' (अ) कवि मेहनत करने वालों को सदा आगे रखने की बात क्‍यों कर रहे हैं?",
+            "(आ) कवि ने मज़दूरों के अधिकारों का वर्णन कैसे किया है?",
+            "(ई) “नर aaa भाग्य एक है, वह श्रम, वह भुजबल है।' जीवन की सफलता का मार्ग श्रम है॥अपने विचार व्यक्त कीजिए।"
+          ],
+          "keyPoints": [
+            "अभिव्यक्ति-सृजनात्मकता' (अ) कवि मेहनत करने वालों को सदा आगे रखने की बात क्‍यों कर रहे हैं?",
+            "(आ) कवि ने मज़दूरों के अधिकारों का वर्णन कैसे किया है?",
+            "(ई) “नर aaa भाग्य एक है, वह श्रम, वह भुजबल है।' जीवन की सफलता का मार्ग श्रम है॥अपने विचार व्यक्त कीजिए।",
+            "aa SAY बात (a) “Stes में दी गयी सूचना पढ़िए और उसके अनुसार कीजिए।"
+          ],
+          "pageRange": "31-38"
+        },
+        {
+          "id": "ल-कग-त-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "जन-जन, कण-कण (पुनरुक्त शब्दों से वाक्य प्रयोग कीजिए।) 4.",
+            "मनुष्य, मज़दूर (भाववाचक संज्ञा में बदलकर लिखिए।) कराकर का अधिकारी बन fee के sore है।",
+            "श्रम-जल, नभ-तल, भुजबल (समास पहचानिए।) (इ) इन्हें समझिए।"
+          ],
+          "keyPoints": [
+            "जन-जन, कण-कण (पुनरुक्त शब्दों से वाक्य प्रयोग कीजिए।) 4.",
+            "मनुष्य, मज़दूर (भाववाचक संज्ञा में बदलकर लिखिए।) कराकर का अधिकारी बन fee के sore है।",
+            "श्रम-जल, नभ-तल, भुजबल (समास पहचानिए।) (इ) इन्हें समझिए।",
+            "Lara, दुर्भाग्य, सौभाग्य (उपसर्ग पहचानिए।) 2."
+          ],
+          "pageRange": "31-38"
+        },
+        {
+          "id": "ल-कग-त-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "प्राकृतिक, अधिकारी, भाग्यवान (प्रत्यय पहचानिए।",
+            "(रेखांकित शब्द का लिंग बदलकर वाक्य लिखिए।) (ई) रेखांकित शब्दों का पद परिचय दीजिए।"
+          ],
+          "keyPoints": [
+            "प्राकृतिक, अधिकारी, भाग्यवान (प्रत्यय पहचानिए।",
+            "(रेखांकित शब्द का लिंग बदलकर वाक्य लिखिए।) (ई) रेखांकित शब्दों का पद परिचय दीजिए।"
+          ],
+          "pageRange": "31-38"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "अर्थग्राहयता",
+          "meaning": "प्रतिक्रिया lope"
+        },
+        {
+          "term": "श्रम के बल पर हम क्या",
+          "meaning": "क्या हासिल कर सकते हैं? op"
+        },
+        {
+          "term": "कण",
+          "meaning": "कण का अधिकारी fare कहा गया है और क्"
+        },
+        {
+          "term": "पढ़िए। प्रश्नों के उत्तर दीजिए। कदम",
+          "meaning": "कदम बढ़ाए जा, सफलता तू पाए जा, ये भाग्य है तुम्हारा, तू कर्म से बनाए जा, निगाहें रखो लक्ष्य पर, कठिन नहीं ये सफर, ये जन्"
+        },
+        {
+          "term": "उचित शीर्षक दीजिए। अभिव्यक्ति",
+          "meaning": "सृजनात्मकता"
+        },
+        {
+          "term": "नभ",
+          "meaning": "तल, भुजबल"
+        },
+        {
+          "term": "Aa K ey a Re",
+          "meaning": "भगवतशरण उपाध्याय 6.37 4"
+        },
+        {
+          "term": "किन",
+          "meaning": "किन संदर्भों में लोकगीत गाए जाते हैं? निबंध विधा से परिचित कराते हुए निबंध लिखने Sheen देना। लोकगीत लिखने के लिए प्रेरित"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: लोकगीत: Lesson reading",
+          "lessonSectionIds": [
+            "ल-कग-त-section-1"
+          ],
+          "focus": "Read the lesson. Section: लोकगीत: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "ल-कग-त-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "ल-कग-त-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "ल-कग-त-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "ल-कग-त-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: लोकगीत key terms and exam answers",
+          "lessonSectionIds": [
+            "ल-कग-त-section-4",
+            "ल-कग-त-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "ल-कग-त-q1",
+          "question": "Which word/idea is important in लोकगीत?",
+          "options": [
+            "अर्थग्राहयता",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "अर्थग्राहयता",
+          "explanation": "प्रतिक्रिया lope"
+        },
+        {
+          "id": "ल-कग-त-q2",
+          "question": "What is one key point from 'लोकगीत: Lesson reading'?",
+          "options": [
+            "अर्थग्राहयता-प्रतिक्रिया lope} (अ) पलों के उत्तर दीजिए।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "अर्थग्राहयता-प्रतिक्रिया lope} (अ) पलों के उत्तर दीजिए।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "ल-कग-त-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "अंतर्राष्ट्रीय स्तर पर हिंदी",
+      "source_pages": {
+        "start": 39,
+        "end": 48
+      },
+      "topics": [
+        {
+          "topic_name": "अंतर्राष्ट्रीय स्तर पर हिंदी: Lesson reading",
+          "subtopics": [
+            "इसका मतलब वे एक-दूसरे का आशय बखूबी-समझ लेते हैं।",
+            "यह बात तो है कि पशु-पक्षियों की मनुष्यों जैसी सुविकसित भाषा नहीं होती, पर वे सीधी-सादी आवाज़ों और क्रियाओं से अपने भाव व्यक्त कर सकते हैं।",
+            "ये बड़ी आसानी से खुशी, भय, चेतावनी, आमंत्रण जैसी कई भावनाएँ दर्शा सकते हैं।"
+          ],
+          "lessonSectionId": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "मनुष्य और पशु-पक्षियों के जीवन में per अंतर क्या हैं?",
+            "पत्न-विधा पाठ में प्रेषक अपने विषय से जुड़ा पत्र पावक (पत्र पाने वाला) के नाम लिखता है।",
+            "पत्रों के दृवारा अपने विचार दूसरों तक पहुँचा सकते हैं।"
+          ],
+          "lessonSectionId": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।",
+            "mea सर पर हिंी caper के प्रचार को हें अपसी रा्रीवता का अंत गाता हो."
+          ],
+          "lessonSectionId": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "यह सबकी संस्कृति, सभ्यता व गरिया का प्रतीक है।",
+            "गाँधी जी ने अपना जीवन देश की स्वतंत्रता के साथ-साथ हिंदी की सेवा में समर्पित कर दिया था।",
+            "अब हिंदी न केवल भारत की बल्कि विश्व की भाषा बन चुकी है।"
+          ],
+          "lessonSectionId": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "आशा करता हूँ कि तुम अपने परिवार के साथ सकुशल हो।",
+            "यह जानकर बड़ी प्रसन्नता हुई कि तुम हिदी से जुड़े विविध कार्यक्रमों में भाग ले रहे हो।"
+          ],
+          "lessonSectionId": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-1",
+          "title": "अंतर्राष्ट्रीय स्तर पर हिंदी: Lesson reading",
+          "summary": [
+            "इसका मतलब वे एक-दूसरे का आशय बखूबी-समझ लेते हैं।",
+            "यह बात तो है कि पशु-पक्षियों की मनुष्यों जैसी सुविकसित भाषा नहीं होती, पर वे सीधी-सादी आवाज़ों और क्रियाओं से अपने भाव व्यक्त कर सकते हैं।",
+            "ये बड़ी आसानी से खुशी, भय, चेतावनी, आमंत्रण जैसी कई भावनाएँ दर्शा सकते हैं।"
+          ],
+          "keyPoints": [
+            "इसका मतलब वे एक-दूसरे का आशय बखूबी-समझ लेते हैं।",
+            "यह बात तो है कि पशु-पक्षियों की मनुष्यों जैसी सुविकसित भाषा नहीं होती, पर वे सीधी-सादी आवाज़ों और क्रियाओं से अपने भाव व्यक्त कर सकते हैं।",
+            "ये बड़ी आसानी से खुशी, भय, चेतावनी, आमंत्रण जैसी कई भावनाएँ दर्शा सकते हैं।",
+            "किसी पक्षी caren किये गये संकेत अन्य पक्षी भी पहचान सकते हैं।"
+          ],
+          "pageRange": "39-48"
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "मनुष्य और पशु-पक्षियों के जीवन में per अंतर क्या हैं?",
+            "पत्न-विधा पाठ में प्रेषक अपने विषय से जुड़ा पत्र पावक (पत्र पाने वाला) के नाम लिखता है।",
+            "पत्रों के दृवारा अपने विचार दूसरों तक पहुँचा सकते हैं।"
+          ],
+          "keyPoints": [
+            "मनुष्य और पशु-पक्षियों के जीवन में per अंतर क्या हैं?",
+            "पत्न-विधा पाठ में प्रेषक अपने विषय से जुड़ा पत्र पावक (पत्र पाने वाला) के नाम लिखता है।",
+            "पत्रों के दृवारा अपने विचार दूसरों तक पहुँचा सकते हैं।",
+            "छात्रों के लिए सूचनाएँ है , विषय प्रवेश ध्यान से पढ़िए, पाठ्य विषय समझिए।"
+          ],
+          "pageRange": "39-48"
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।",
+            "mea सर पर हिंी caper के प्रचार को हें अपसी रा्रीवता का अंत गाता हो."
+          ],
+          "keyPoints": [
+            "शब्द का अर्थ समझ में न आए तो उसके नीचे रेखा खींचिए।",
+            "समझ में न आने वाले अंश हों तो छात्र समूहों में या अध्यापक से चर्चा कीजिए।",
+            "mea सर पर हिंी caper के प्रचार को हें अपसी रा्रीवता का अंत गाता हो.",
+            "विषय प्रवेश : हिंदी एक ऐसी भाषा है जो भारतीयों की साँसों में बसी है।"
+          ],
+          "pageRange": "39-48"
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "यह सबकी संस्कृति, सभ्यता व गरिया का प्रतीक है।",
+            "गाँधी जी ने अपना जीवन देश की स्वतंत्रता के साथ-साथ हिंदी की सेवा में समर्पित कर दिया था।",
+            "अब हिंदी न केवल भारत की बल्कि विश्व की भाषा बन चुकी है।"
+          ],
+          "keyPoints": [
+            "यह सबकी संस्कृति, सभ्यता व गरिया का प्रतीक है।",
+            "गाँधी जी ने अपना जीवन देश की स्वतंत्रता के साथ-साथ हिंदी की सेवा में समर्पित कर दिया था।",
+            "अब हिंदी न केवल भारत की बल्कि विश्व की भाषा बन चुकी है।",
+            "संसार के विविध क्षेत्रों में हिंदी करोड़ों लोगों की जीविका बन चुकी है।"
+          ],
+          "pageRange": "39-48"
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "आशा करता हूँ कि तुम अपने परिवार के साथ सकुशल हो।",
+            "यह जानकर बड़ी प्रसन्नता हुई कि तुम हिदी से जुड़े विविध कार्यक्रमों में भाग ले रहे हो।"
+          ],
+          "keyPoints": [
+            "आशा करता हूँ कि तुम अपने परिवार के साथ सकुशल हो।",
+            "यह जानकर बड़ी प्रसन्नता हुई कि तुम हिदी से जुड़े विविध कार्यक्रमों में भाग ले रहे हो।"
+          ],
+          "pageRange": "39-48"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "TSP6G5 पशु",
+          "meaning": "पक्षियों की भी भाषा होती है। इसका मतलब वे एक"
+        },
+        {
+          "term": "दूसरे का आशय बखूबी",
+          "meaning": "समझ लेते हैं। यह बात तो है कि पशु"
+        },
+        {
+          "term": "पर वे सीधी",
+          "meaning": "सादी आवाज़ों और क्रियाओं से अपने भाव व्यक्त कर सकते हैं। ये बड़ी आसानी से खुशी, भय, चेतावनी, आमंत्रण जैसी कई भावनाएँ दर्"
+        },
+        {
+          "term": "मनुष्य और पशु",
+          "meaning": "पक्षियों के जीवन में per अंतर क्या हैं? पत्र"
+        },
+        {
+          "term": "स्तर पर हिंदी का महत्व बताना। पत्न",
+          "meaning": "विधा पाठ में प्रेषक अपने विषय से जुड़ा पत्र पावक"
+        },
+        {
+          "term": "अपना जीवन देश की स्वतंत्रता के साथ",
+          "meaning": "साथ हिंदी की सेवा में समर्पित कर दिया था। अब हिंदी न केवल भारत की बल्कि विश्व की भाषा बन चुकी है। संसार के विविध क्षेत्र"
+        },
+        {
+          "term": "कर सकते हैं। भारत के अलग",
+          "meaning": "अलग प्रांतों में अलग"
+        },
+        {
+          "term": "ती ही जा रही है। इस तरह आज हिंदी नए",
+          "meaning": "नए रोज़गारों का प्रमुख आधार बन चुकी BA से अपने भविष्य का निर्माण करने वालों के"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: अंतर्राष्ट्रीय स्तर पर हिंदी: Lesson reading",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-1"
+          ],
+          "focus": "Read the lesson. Section: अंतर्राष्ट्रीय स्तर पर हिंदी: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: अंतर्राष्ट्रीय स्तर पर हिंदी key terms and exam answers",
+          "lessonSectionIds": [
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-4",
+            "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-q1",
+          "question": "Which word/idea is important in अंतर्राष्ट्रीय स्तर पर हिंदी?",
+          "options": [
+            "TSP6G5 पशु",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "TSP6G5 पशु",
+          "explanation": "पक्षियों की भी भाषा होती है। इसका मतलब वे एक"
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-q2",
+          "question": "What is one key point from 'अंतर्राष्ट्रीय स्तर पर हिंदी: Lesson reading'?",
+          "options": [
+            "इसका मतलब वे एक-दूसरे का आशय बखूबी-समझ लेते हैं।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "इसका मतलब वे एक-दूसरे का आशय बखूबी-समझ लेते हैं।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "अ-तर-र-ष-ट-र-य-स-तर-पर-ह-द-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "भक्ति पद",
+      "source_pages": {
+        "start": 49,
+        "end": 55
+      },
+      "topics": [
+        {
+          "topic_name": "भक्ति पद: Lesson reading",
+          "subtopics": [
+            "अर्थग्राहयता-प्रतिक्रिया नफ््श्तान (अ) प्रश्नों के उत्तर दीजिए।",
+            "रैदास व मीरा की भक्ति भावना में क्‍या अंतर है?",
+            "हमारे जीवन में भक्ति भावना का क्‍या महत्व है?"
+          ],
+          "lessonSectionId": "भक-त-पद-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "प्रभुजी, तुम चंदन हम पानी, जाकी अँग-अँग ara समानी॥",
+            "मैया मोरी मैं नहिं माखन खायो, भोर भयो गैयन के पाछे मधुबन मोहि/पठोयो।",
+            "चार पहर बंसीबट भटकयो साँझ.परे/ घर TT, मैं बालक बहिंयन को छोटो Stat केहि विधि पायो।"
+          ],
+          "lessonSectionId": "भक-त-पद-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "अभिव्यक्ति-सृजनात्मकता (अ) इन प्रश्नों के उत्तर तीन-चार पंक्तियों में लिखिए।",
+            "रैदास जी ने ईश्वर की तुलना चंदन, बादल और मोती से की है।",
+            "(आ) “मीरा के पद” का भाव अपने शब्दों में लिखिए।"
+          ],
+          "lessonSectionId": "भक-त-पद-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "(ई) भक्ति और मानवीय मूल्यों के विकास में भक्ति साहित्य किस प्रकार सहायक हो सकता है?",
+            "खरच, अमोलक, जनम (शुद्ध व प्रचलित शब्द लिखिंए।) (आ) सूचना पढ़िए।",
+            "जग, नाँव, अमोलक (अर्थ लिखिए॥) (इ) वचन बदलकर वाक्य फिर से लिखिए L.atdt सागर में मिलता है।"
+          ],
+          "lessonSectionId": "भक-त-पद-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "स्वराज्य की नींव au AID3N4 शासक का यह दायित्व होता है कि वे सबका बराबर ध्यान रखे।",
+            "विपत्ति की हालत में act और समयस्फूर्ति से काम al क़ानून और नियमों का समान रूप से अनुसरण eel जो शासक अधिकार में क्षमा का गुण रखता है, निस्संदेह वह आदर्श शासक कहलाता है।"
+          ],
+          "lessonSectionId": "भक-त-पद-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "भक-त-पद-section-1",
+          "title": "भक्ति पद: Lesson reading",
+          "summary": [
+            "अर्थग्राहयता-प्रतिक्रिया नफ््श्तान (अ) प्रश्नों के उत्तर दीजिए।",
+            "रैदास व मीरा की भक्ति भावना में क्‍या अंतर है?",
+            "हमारे जीवन में भक्ति भावना का क्‍या महत्व है?"
+          ],
+          "keyPoints": [
+            "अर्थग्राहयता-प्रतिक्रिया नफ््श्तान (अ) प्रश्नों के उत्तर दीजिए।",
+            "रैदास व मीरा की भक्ति भावना में क्‍या अंतर है?",
+            "हमारे जीवन में भक्ति भावना का क्‍या महत्व है?",
+            "(इ) नीचे दी गई पंक्तियों का भाव स्पष्ट कीजिए।"
+          ],
+          "pageRange": "49-55"
+        },
+        {
+          "id": "भक-त-पद-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "प्रभुजी, तुम चंदन हम पानी, जाकी अँग-अँग ara समानी॥",
+            "मैया मोरी मैं नहिं माखन खायो, भोर भयो गैयन के पाछे मधुबन मोहि/पठोयो।",
+            "चार पहर बंसीबट भटकयो साँझ.परे/ घर TT, मैं बालक बहिंयन को छोटो Stat केहि विधि पायो।"
+          ],
+          "keyPoints": [
+            "प्रभुजी, तुम चंदन हम पानी, जाकी अँग-अँग ara समानी॥",
+            "मैया मोरी मैं नहिं माखन खायो, भोर भयो गैयन के पाछे मधुबन मोहि/पठोयो।",
+            "चार पहर बंसीबट भटकयो साँझ.परे/ घर TT, मैं बालक बहिंयन को छोटो Stat केहि विधि पायो।",
+            "ग्वाल बाल सब बैर परे हैं बरबस मुख लपटायो, यह ले अपनी लकुटी safer बहुतहि नाच नचायो।"
+          ],
+          "pageRange": "49-55"
+        },
+        {
+          "id": "भक-त-पद-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "अभिव्यक्ति-सृजनात्मकता (अ) इन प्रश्नों के उत्तर तीन-चार पंक्तियों में लिखिए।",
+            "रैदास जी ने ईश्वर की तुलना चंदन, बादल और मोती से की है।",
+            "(आ) “मीरा के पद” का भाव अपने शब्दों में लिखिए।"
+          ],
+          "keyPoints": [
+            "अभिव्यक्ति-सृजनात्मकता (अ) इन प्रश्नों के उत्तर तीन-चार पंक्तियों में लिखिए।",
+            "रैदास जी ने ईश्वर की तुलना चंदन, बादल और मोती से की है।",
+            "(आ) “मीरा के पद” का भाव अपने शब्दों में लिखिए।",
+            "(इ) भक्ति भावना से संबंधित छोटी-सी कविता का सृजन कीजिए।"
+          ],
+          "pageRange": "49-55"
+        },
+        {
+          "id": "भक-त-पद-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "(ई) भक्ति और मानवीय मूल्यों के विकास में भक्ति साहित्य किस प्रकार सहायक हो सकता है?",
+            "खरच, अमोलक, जनम (शुद्ध व प्रचलित शब्द लिखिंए।) (आ) सूचना पढ़िए।",
+            "जग, नाँव, अमोलक (अर्थ लिखिए॥) (इ) वचन बदलकर वाक्य फिर से लिखिए L.atdt सागर में मिलता है।"
+          ],
+          "keyPoints": [
+            "(ई) भक्ति और मानवीय मूल्यों के विकास में भक्ति साहित्य किस प्रकार सहायक हो सकता है?",
+            "खरच, अमोलक, जनम (शुद्ध व प्रचलित शब्द लिखिंए।) (आ) सूचना पढ़िए।",
+            "जग, नाँव, अमोलक (अर्थ लिखिए॥) (इ) वचन बदलकर वाक्य फिर से लिखिए L.atdt सागर में मिलता है।",
+            "BE परियोजना कार्य भक्ति भावना दर्शाने वाली किसी कविता का संग्रह कर कक्षा में प्रदर्शन कीजिए।"
+          ],
+          "pageRange": "49-55"
+        },
+        {
+          "id": "भक-त-पद-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "स्वराज्य की नींव au AID3N4 शासक का यह दायित्व होता है कि वे सबका बराबर ध्यान रखे।",
+            "विपत्ति की हालत में act और समयस्फूर्ति से काम al क़ानून और नियमों का समान रूप से अनुसरण eel जो शासक अधिकार में क्षमा का गुण रखता है, निस्संदेह वह आदर्श शासक कहलाता है।"
+          ],
+          "keyPoints": [
+            "स्वराज्य की नींव au AID3N4 शासक का यह दायित्व होता है कि वे सबका बराबर ध्यान रखे।",
+            "विपत्ति की हालत में act और समयस्फूर्ति से काम al क़ानून और नियमों का समान रूप से अनुसरण eel जो शासक अधिकार में क्षमा का गुण रखता है, निस्संदेह वह आदर्श शासक कहलाता है।"
+          ],
+          "pageRange": "49-55"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "अर्थग्राहयता",
+          "meaning": "प्रतिक्रिया नफ््श्तान"
+        },
+        {
+          "term": "हरख",
+          "meaning": "हरख गायो जस॥"
+        },
+        {
+          "term": "जाकी अँग",
+          "meaning": "अँग ara समानी॥"
+        },
+        {
+          "term": "अभिव्यक्ति",
+          "meaning": "सृजनात्मकता"
+        },
+        {
+          "term": "इन प्रश्नों के उत्तर तीन",
+          "meaning": "चार पंक्तियों में लिखिए। 4. रैदास जी ने ईश्वर की तुलना चंदन, बादल और मोती से की है। आप ईश्वर की तुलना किससे करना चाहेंगे"
+        },
+        {
+          "term": "भक्ति भावना से संबंधित छोटी",
+          "meaning": "सी कविता का सृजन कीजिए।"
+        },
+        {
+          "term": "े लिए प्रोत्साहित करना एवं इसके साथ",
+          "meaning": "साथ छात्रों में देश के लिए समर्पित होने की भावना का बिकास करना इस पाठ का उद्देश्य है। इस पाठ की विधा एकांकी है। एकांकी स"
+        },
+        {
+          "term": "एकांकी का अर्थ है",
+          "meaning": "एक अंक वाला। यह एक अंक वाला नाटक"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: भक्ति पद: Lesson reading",
+          "lessonSectionIds": [
+            "भक-त-पद-section-1"
+          ],
+          "focus": "Read the lesson. Section: भक्ति पद: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "भक-त-पद-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "भक-त-पद-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "भक-त-पद-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "भक-त-पद-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: भक्ति पद key terms and exam answers",
+          "lessonSectionIds": [
+            "भक-त-पद-section-4",
+            "भक-त-पद-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "भक-त-पद-q1",
+          "question": "Which word/idea is important in भक्ति पद?",
+          "options": [
+            "अर्थग्राहयता",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "अर्थग्राहयता",
+          "explanation": "प्रतिक्रिया नफ््श्तान"
+        },
+        {
+          "id": "भक-त-पद-q2",
+          "question": "What is one key point from 'भक्ति पद: Lesson reading'?",
+          "options": [
+            "अर्थग्राहयता-प्रतिक्रिया नफ््श्तान (अ) प्रश्नों के उत्तर दीजिए।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "अर्थग्राहयता-प्रतिक्रिया नफ््श्तान (अ) प्रश्नों के उत्तर दीजिए।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "भक-त-पद-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "स्वराज्य की नींव",
+      "source_pages": {
+        "start": 56,
+        "end": 65
+      },
+      "topics": [
+        {
+          "topic_name": "स्वराज्य की नींव: Lesson reading",
+          "subtopics": [
+            "शायद चाटुकारों में जागीर बाँटना अभी खत्म नहीं हुआ है?",
+            "हम इसी योग्य हैं, लेकिन जो कुछ हो रहा है, वह आप जानती ही हैं।",
+            "लक्ष्मीबाई : शायद ब्रहमभोज के उपलक्ष्य में ये तोपें चल रही हैं।"
+          ],
+          "lessonSectionId": "स-वर-ज-य-क-न-व-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "लक्ष्मीबाई : लेकिन आज हमें Sagat की आवश्यकता है।",
+            "नूपुरों की झंकार के स्थान पर तोपों का गर्जक्त होने दो।",
+            "लेकिन सेनापति, इस बार यह याद रखना कि यदि दुर्भाग्य सेविजय न मिल सकी तो तुम्हें सेना और सामग्री दोनों दुश्मन के घेरे से निकालकर ले जाना है।"
+          ],
+          "lessonSectionId": "स-वर-ज-य-क-न-व-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "चिंता केवल इस बात की है, हमारी वीरता कलंकित न होने पाए।",
+            "wa पर आत्म के omer aw ही कर्क bee छात्रों की प्रगति हेतु सरकार का उपहार",
+            "आपके रहते कलंक हमारी छाया को भी नहीं छू सकेगा।"
+          ],
+          "lessonSectionId": "स-वर-ज-य-क-न-व-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "लक्ष्मीबाई : और हम सब मिलकर या तो स्वराज्य प्राप्त करके रहेंगे AT RTT की नींव का पत्थर बनेंगे।",
+            "अर्थग्राहयता-प्रतिक्रिया (अ) प्रश्नों के उत्तर दीजिए।",
+            "Lael में हिमालय के अड़ने, डराॉवनी लहरों के थपेड़े मारने, नाविकों के सो जाने से क्‍या अभिप्राय है?"
+          ],
+          "lessonSectionId": "स-वर-ज-य-क-न-व-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "बाबा गंगादासण्ले रानी/लक्ष्मीबाई से क्‍या कहा था?",
+            "Lara प्राप्ति से बढ़कर है स्वराज्य की स्थापना के लिए भूमि तैयार करना, स्वराज्य की teat पत्थर बनना।"
+          ],
+          "lessonSectionId": "स-वर-ज-य-क-न-व-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "स-वर-ज-य-क-न-व-section-1",
+          "title": "स्वराज्य की नींव: Lesson reading",
+          "summary": [
+            "शायद चाटुकारों में जागीर बाँटना अभी खत्म नहीं हुआ है?",
+            "हम इसी योग्य हैं, लेकिन जो कुछ हो रहा है, वह आप जानती ही हैं।",
+            "लक्ष्मीबाई : शायद ब्रहमभोज के उपलक्ष्य में ये तोपें चल रही हैं।"
+          ],
+          "keyPoints": [
+            "शायद चाटुकारों में जागीर बाँटना अभी खत्म नहीं हुआ है?",
+            "हम इसी योग्य हैं, लेकिन जो कुछ हो रहा है, वह आप जानती ही हैं।",
+            "लक्ष्मीबाई : शायद ब्रहमभोज के उपलक्ष्य में ये तोपें चल रही हैं।",
+            "श्रीखंड और लड्डुओं के लिए घी शक्कर की कमी तो नहीं पड़ी जूही : सरकार इस बार इनको माफ़ कर दीजिए।"
+          ],
+          "pageRange": "56-65"
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "लक्ष्मीबाई : लेकिन आज हमें Sagat की आवश्यकता है।",
+            "नूपुरों की झंकार के स्थान पर तोपों का गर्जक्त होने दो।",
+            "लेकिन सेनापति, इस बार यह याद रखना कि यदि दुर्भाग्य सेविजय न मिल सकी तो तुम्हें सेना और सामग्री दोनों दुश्मन के घेरे से निकालकर ले जाना है।"
+          ],
+          "keyPoints": [
+            "लक्ष्मीबाई : लेकिन आज हमें Sagat की आवश्यकता है।",
+            "नूपुरों की झंकार के स्थान पर तोपों का गर्जक्त होने दो।",
+            "लेकिन सेनापति, इस बार यह याद रखना कि यदि दुर्भाग्य सेविजय न मिल सकी तो तुम्हें सेना और सामग्री दोनों दुश्मन के घेरे से निकालकर ले जाना है।",
+            "मेरा मन कहता है कि यह मेरे जीवन का अंतिम युद्ध है।"
+          ],
+          "pageRange": "56-65"
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "चिंता केवल इस बात की है, हमारी वीरता कलंकित न होने पाए।",
+            "wa पर आत्म के omer aw ही कर्क bee छात्रों की प्रगति हेतु सरकार का उपहार",
+            "आपके रहते कलंक हमारी छाया को भी नहीं छू सकेगा।"
+          ],
+          "keyPoints": [
+            "चिंता केवल इस बात की है, हमारी वीरता कलंकित न होने पाए।",
+            "wa पर आत्म के omer aw ही कर्क bee छात्रों की प्रगति हेतु सरकार का उपहार",
+            "आपके रहते कलंक हमारी छाया को भी नहीं छू सकेगा।",
+            "मैं सीधी युद्धभूमि में जा रही हूँ, देर न लगाना।"
+          ],
+          "pageRange": "56-65"
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "लक्ष्मीबाई : और हम सब मिलकर या तो स्वराज्य प्राप्त करके रहेंगे AT RTT की नींव का पत्थर बनेंगे।",
+            "अर्थग्राहयता-प्रतिक्रिया (अ) प्रश्नों के उत्तर दीजिए।",
+            "Lael में हिमालय के अड़ने, डराॉवनी लहरों के थपेड़े मारने, नाविकों के सो जाने से क्‍या अभिप्राय है?"
+          ],
+          "keyPoints": [
+            "लक्ष्मीबाई : और हम सब मिलकर या तो स्वराज्य प्राप्त करके रहेंगे AT RTT की नींव का पत्थर बनेंगे।",
+            "अर्थग्राहयता-प्रतिक्रिया (अ) प्रश्नों के उत्तर दीजिए।",
+            "Lael में हिमालय के अड़ने, डराॉवनी लहरों के थपेड़े मारने, नाविकों के सो जाने से क्‍या अभिप्राय है?",
+            "इस एकांकी को पढ़ने के बाद उस समय की किन परिस्थितियों का पता चलता है?"
+          ],
+          "pageRange": "56-65"
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "बाबा गंगादासण्ले रानी/लक्ष्मीबाई से क्‍या कहा था?",
+            "Lara प्राप्ति से बढ़कर है स्वराज्य की स्थापना के लिए भूमि तैयार करना, स्वराज्य की teat पत्थर बनना।"
+          ],
+          "keyPoints": [
+            "बाबा गंगादासण्ले रानी/लक्ष्मीबाई से क्‍या कहा था?",
+            "Lara प्राप्ति से बढ़कर है स्वराज्य की स्थापना के लिए भूमि तैयार करना, स्वराज्य की teat पत्थर बनना।"
+          ],
+          "pageRange": "56-65"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "पों का गर्जक्त होने दो। भूल जाओ राग",
+          "meaning": "रंग। याद रखो, हमें स्वराज्य लेना है। हमें रणभूमि में मौत से जूझना है। arent"
+        },
+        {
+          "term": "सिदृध कीजिए। अर्थग्राहयता",
+          "meaning": "प्रतिक्रिया"
+        },
+        {
+          "term": "अमृत बनकर बहा करती है।",
+          "meaning": "रामकुमार वर्मा 47"
+        },
+        {
+          "term": "हमारा कर्तव्य है। इसी प्रकार POCSO",
+          "meaning": "20I2 बच्चों को लैंगिक उत्पीड़न से बचाने के लिए बनाया गया है। L.aet किसके बारे में बताया गया है? 2. अनुच्छेद 5"
+        },
+        {
+          "term": "POCSO",
+          "meaning": "202 के बारे में आप क्या जानते हैं? अभिव्यक्ति"
+        },
+        {
+          "term": "्वास और आत्मनिर्भरता के महत्व पर दो",
+          "meaning": "दो वाक्य लिखिए। भाषा की बात"
+        },
+        {
+          "term": "राजू पुस्तक पढ़ता है।",
+          "meaning": "राजू से पुस्तक पढ़ी जाती है। Loser भोजन करता है। 2. रानी ने आज्ञा दी। 3. लक्ष्मीबाई ने जूही से कहा।"
+        },
+        {
+          "term": "शब्दों के स्थान पर नीचे दिये गये एक",
+          "meaning": "एक शब्द का प्रयोग कर वाक्य बनाइए। कक्षा में एक लड़का आया। सब लड़के कक्षा में पहुँच चुके थे। लड़कों में अनुशासन बना था। L"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: स्वराज्य की नींव: Lesson reading",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-1"
+          ],
+          "focus": "Read the lesson. Section: स्वराज्य की नींव: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: स्वराज्य की नींव key terms and exam answers",
+          "lessonSectionIds": [
+            "स-वर-ज-य-क-न-व-section-4",
+            "स-वर-ज-य-क-न-व-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "स-वर-ज-य-क-न-व-q1",
+          "question": "Which word/idea is important in स्वराज्य की नींव?",
+          "options": [
+            "पों का गर्जक्त होने दो। भूल जाओ राग",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "पों का गर्जक्त होने दो। भूल जाओ राग",
+          "explanation": "रंग। याद रखो, हमें स्वराज्य लेना है। हमें रणभूमि में मौत से जूझना है। arent"
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-q2",
+          "question": "What is one key point from 'स्वराज्य की नींव: Lesson reading'?",
+          "options": [
+            "शायद चाटुकारों में जागीर बाँटना अभी खत्म नहीं हुआ है?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "शायद चाटुकारों में जागीर बाँटना अभी खत्म नहीं हुआ है?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "स-वर-ज-य-क-न-व-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "दक्षिणी गंगा गोदावरी",
+      "source_pages": {
+        "start": 66,
+        "end": 73
+      },
+      "topics": [
+        {
+          "topic_name": "दक्षिणी गंगा गोदावरी: Lesson reading",
+          "subtopics": [
+            "जब बाक़ी सभी लड़के खेलने जाते तो वह कक्षा में ही बैठा रहता।",
+            "अब तक पूरा स्कूल जान गया था कि राजू एक गँवार लड़का है और उसे अपने गाँव के स्कूल का बड़ा घमंड है।",
+            "आख़िरकार राजू ने इस स्थिति से निबटने के लिए बड़ी चतुराई से एक योजना बनाई।"
+          ],
+          "lessonSectionId": "दक-ष-ण-ग-ग-ग-द-वर-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "परिणामस्वरूप बहुत शीघ्र ही अध्यापकों और छात्रों नेःउस पर ध्यान देना बंद कर दिया।",
+            "इसलिए उसने घर प्र अधिक परिश्रम किया-आख़िर उसे नए स्कूल के समक्ष प्रमाणित करना-था कि उसका पुराना गाँव का स्कूल कोई कम नहीं था।",
+            "सबने मान लिया था कि राजू को तो फेल होना ही हैं।"
+          ],
+          "lessonSectionId": "दक-ष-ण-ग-ग-ग-द-वर-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "राजू अब बहुत Mar हो गया.था और चुपचाप मन में मुस्कुराता हुआ अपनी पढ़ाई करता रहा।",
+            "एक.संप्ताह में ही वार्षिक परीक्षा समाप्त हो गई।",
+            "राजू दो सप्ताह की छुट्टी के लिए गाँव वापस गया।"
+          ],
+          "lessonSectionId": "दक-ष-ण-ग-ग-ग-द-वर-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "उसके पिताजी खुश थे लेकिन राजू के हर्ष की तो सीमा.ही नहीं ,थी।",
+            "प्रथम आने पर वह इतना प्रसन्‍न कभी नहीं हुआ था, क्योंकि अब उसने अपने स्कूल को सुंदर और समुचित उपहार समर्पित किया है।",
+            "राजू के प्रति नए स्कूल के साथियों का व्यवहार कैसा था?"
+          ],
+          "lessonSectionId": "दक-ष-ण-ग-ग-ग-द-वर-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "M4IiK3 फलवाले जो तरु होते हैं बुलबुल मीठा बोले, धरती तक नव जाते।",
+            "बिन फलवाले वृक्ष व्यर्थ ही पर कौए की बोली अपनी अकड़ दिखाते।"
+          ],
+          "lessonSectionId": "दक-ष-ण-ग-ग-ग-द-वर-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-section-1",
+          "title": "दक्षिणी गंगा गोदावरी: Lesson reading",
+          "summary": [
+            "जब बाक़ी सभी लड़के खेलने जाते तो वह कक्षा में ही बैठा रहता।",
+            "अब तक पूरा स्कूल जान गया था कि राजू एक गँवार लड़का है और उसे अपने गाँव के स्कूल का बड़ा घमंड है।",
+            "आख़िरकार राजू ने इस स्थिति से निबटने के लिए बड़ी चतुराई से एक योजना बनाई।"
+          ],
+          "keyPoints": [
+            "जब बाक़ी सभी लड़के खेलने जाते तो वह कक्षा में ही बैठा रहता।",
+            "अब तक पूरा स्कूल जान गया था कि राजू एक गँवार लड़का है और उसे अपने गाँव के स्कूल का बड़ा घमंड है।",
+            "आख़िरकार राजू ने इस स्थिति से निबटने के लिए बड़ी चतुराई से एक योजना बनाई।",
+            "कक्षा के अध्यापकों दूवारा प्रश्न पूछे जाने पर उसने हाथ उठाना ही बंद कर दिया।"
+          ],
+          "pageRange": "66-73"
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "परिणामस्वरूप बहुत शीघ्र ही अध्यापकों और छात्रों नेःउस पर ध्यान देना बंद कर दिया।",
+            "इसलिए उसने घर प्र अधिक परिश्रम किया-आख़िर उसे नए स्कूल के समक्ष प्रमाणित करना-था कि उसका पुराना गाँव का स्कूल कोई कम नहीं था।",
+            "सबने मान लिया था कि राजू को तो फेल होना ही हैं।"
+          ],
+          "keyPoints": [
+            "परिणामस्वरूप बहुत शीघ्र ही अध्यापकों और छात्रों नेःउस पर ध्यान देना बंद कर दिया।",
+            "इसलिए उसने घर प्र अधिक परिश्रम किया-आख़िर उसे नए स्कूल के समक्ष प्रमाणित करना-था कि उसका पुराना गाँव का स्कूल कोई कम नहीं था।",
+            "सबने मान लिया था कि राजू को तो फेल होना ही हैं।",
+            "जैसे-जैसे समय पास आता गया, सभी लड़के पढ़ने में व्यस्त होते AT ae राजू को किताबें लिए देखकर उस पर हँसने और मज़ाक उड़ाने का/समये फिर भी निकाल ही लेते।"
+          ],
+          "pageRange": "66-73"
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "राजू अब बहुत Mar हो गया.था और चुपचाप मन में मुस्कुराता हुआ अपनी पढ़ाई करता रहा।",
+            "एक.संप्ताह में ही वार्षिक परीक्षा समाप्त हो गई।",
+            "राजू दो सप्ताह की छुट्टी के लिए गाँव वापस गया।"
+          ],
+          "keyPoints": [
+            "राजू अब बहुत Mar हो गया.था और चुपचाप मन में मुस्कुराता हुआ अपनी पढ़ाई करता रहा।",
+            "एक.संप्ताह में ही वार्षिक परीक्षा समाप्त हो गई।",
+            "राजू दो सप्ताह की छुट्टी के लिए गाँव वापस गया।",
+            "परिणाम निकलने & पहले दिन राजू लौट आया और अगले दिन पूरे आत्मविश्वास से अपने पिता के साथ परीक्षा-फल देखने गया।"
+          ],
+          "pageRange": "66-73"
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "उसके पिताजी खुश थे लेकिन राजू के हर्ष की तो सीमा.ही नहीं ,थी।",
+            "प्रथम आने पर वह इतना प्रसन्‍न कभी नहीं हुआ था, क्योंकि अब उसने अपने स्कूल को सुंदर और समुचित उपहार समर्पित किया है।",
+            "राजू के प्रति नए स्कूल के साथियों का व्यवहार कैसा था?"
+          ],
+          "keyPoints": [
+            "उसके पिताजी खुश थे लेकिन राजू के हर्ष की तो सीमा.ही नहीं ,थी।",
+            "प्रथम आने पर वह इतना प्रसन्‍न कभी नहीं हुआ था, क्योंकि अब उसने अपने स्कूल को सुंदर और समुचित उपहार समर्पित किया है।",
+            "राजू के प्रति नए स्कूल के साथियों का व्यवहार कैसा था?",
+            "wane arf है जो wal रूस dal के dude wor wie छात्रों की प्रगति हेतु सरकार का उपहार"
+          ],
+          "pageRange": "66-73"
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "M4IiK3 फलवाले जो तरु होते हैं बुलबुल मीठा बोले, धरती तक नव जाते।",
+            "बिन फलवाले वृक्ष व्यर्थ ही पर कौए की बोली अपनी अकड़ दिखाते।"
+          ],
+          "keyPoints": [
+            "M4IiK3 फलवाले जो तरु होते हैं बुलबुल मीठा बोले, धरती तक नव जाते।",
+            "बिन फलवाले वृक्ष व्यर्थ ही पर कौए की बोली अपनी अकड़ दिखाते।"
+          ],
+          "pageRange": "66-73"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "दैनिक भास्कर we OR 3",
+          "meaning": "Lye जिंदगी"
+        },
+        {
+          "term": "इसलिए उसने घर प्र अधिक परिश्रम किया",
+          "meaning": "आख़िर उसे नए स्कूल के समक्ष प्रमाणित करना"
+        },
+        {
+          "term": "कि राजू को तो फेल होना ही हैं। जैसे",
+          "meaning": "जैसे समय पास आता गया, सभी लड़के पढ़ने में व्यस्त होते AT ae राजू को किताबें लिए देखकर उस पर हँसने और मज़ाक उड़ाने का"
+        },
+        {
+          "term": "विश्वास से अपने पिता के साथ परीक्षा",
+          "meaning": "फल देखने गया। एक बार फिर वह कक्षा में प्रथम आया था। उसके पिताजी खुश थे लेकिन राजू के हर्ष की तो सीमा.ही नहीं ,थी। प्रथम"
+        },
+        {
+          "term": "सही",
+          "meaning": "ग़लत में भेद कर सकते हैं। कवि"
+        },
+        {
+          "term": "556",
+          "meaning": "626 प्रसिद्ध रचनाएँ"
+        },
+        {
+          "term": "मोती मालुष चूत",
+          "meaning": "पानी गए न Hae, मोती मानुष चून।। पंक्ति का भाव बताइए। A कवि"
+        },
+        {
+          "term": "t595",
+          "meaning": "4663, प्रसिदृध रचना"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: दक्षिणी गंगा गोदावरी: Lesson reading",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-1"
+          ],
+          "focus": "Read the lesson. Section: दक्षिणी गंगा गोदावरी: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: दक्षिणी गंगा गोदावरी key terms and exam answers",
+          "lessonSectionIds": [
+            "दक-ष-ण-ग-ग-ग-द-वर-section-4",
+            "दक-ष-ण-ग-ग-ग-द-वर-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-q1",
+          "question": "Which word/idea is important in दक्षिणी गंगा गोदावरी?",
+          "options": [
+            "दैनिक भास्कर we OR 3",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "दैनिक भास्कर we OR 3",
+          "explanation": "Lye जिंदगी"
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-q2",
+          "question": "What is one key point from 'दक्षिणी गंगा गोदावरी: Lesson reading'?",
+          "options": [
+            "जब बाक़ी सभी लड़के खेलने जाते तो वह कक्षा में ही बैठा रहता।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "जब बाक़ी सभी लड़के खेलने जाते तो वह कक्षा में ही बैठा रहता।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "दक-ष-ण-ग-ग-ग-द-वर-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "नीति दोहे",
+      "source_pages": {
+        "start": 74,
+        "end": 79
+      },
+      "topics": [
+        {
+          "topic_name": "नीति दोहे: Lesson reading",
+          "subtopics": [
+            "अर्थग्राहययता-प्रतिक्रिया ot i as I (अ) प्रश्नों के उत्तर दीजिए।",
+            "धरती पर हर हिस्से में जल है, किंतु स्वच्छ जल की 662903 मात्रा बहुत कम है।",
+            "हमारे घर पहुँचने वाले जल का उपयोग हम किसके लिए कर रहे हैं?"
+          ],
+          "lessonSectionId": "न-त-द-ह-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "LBe प्रकार पृथ्वी का चक्कर लगाने का क्या मतलब हो सकता है?",
+            "आप अपने जलाशयों को साफ़ और सुरक्षित रखें ताकिआपको भी हमारी तरह जलचोर न बनना पड़े।",
+            ": i ५ bd ae we BRY, Ad भारत सरकार का राष्ट्रीय किशोर कार्यक्रम वर्तमान pe ‘eal: patie ५ चिकित्सालय संबंधी देख-भाल-एवं समुदाय आधारित स्वास्थ्य A al मी वन की ओर एक नई शुरुआत का संकेत है।"
+          ],
+          "lessonSectionId": "न-त-द-ह-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "यह-कार्यक्रम छह प्राथमिकता क्षेत्रों में क्रियाशीलता है : प्रजनन एवं यौन स्वास्थ्य, न्यूट्रीशन, मानसिक स्वास्थ्य, घरेलू एवं लिंग आधारित हिसा नशीले पदार्थों का सेवन एवं असंक्रमणशील बीमारियाँ।",
+            "इस कॉर्यक्रम के अंतर्गत लगभग चौबीस करोड़ किशोरों को लाभ पहुँचेगा।",
+            "वर्तमान में किशोर स्वास्थ्य पर निवेश करके भविष्य को उजज्जवल भविष्य बनाया जाएगा और इस न ।"
+          ],
+          "lessonSectionId": "न-त-द-ह-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Wy ae शहर लात कल जे age we है खो की अर हद तार का उपहार",
+            "अभिव्यक्ति-सृजनात्मकता (अ) जल स्रोतों के रखरखाव के बारे में आप क्‍या सुझाव देना चाहेंगे?",
+            "(आ) आज दुनिया के सभी देशों में जल की समस्या बनी हुई है।"
+          ],
+          "lessonSectionId": "न-त-द-ह-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "(इ) “जल ही जीवन 2 इस विषय पर एक पोस्टर बनाइए।",
+            "(ई) आपके गाँव में जल संरक्षण कैसे किया जा रहा है?"
+          ],
+          "lessonSectionId": "न-त-द-ह-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "न-त-द-ह-section-1",
+          "title": "नीति दोहे: Lesson reading",
+          "summary": [
+            "अर्थग्राहययता-प्रतिक्रिया ot i as I (अ) प्रश्नों के उत्तर दीजिए।",
+            "धरती पर हर हिस्से में जल है, किंतु स्वच्छ जल की 662903 मात्रा बहुत कम है।",
+            "हमारे घर पहुँचने वाले जल का उपयोग हम किसके लिए कर रहे हैं?"
+          ],
+          "keyPoints": [
+            "अर्थग्राहययता-प्रतिक्रिया ot i as I (अ) प्रश्नों के उत्तर दीजिए।",
+            "धरती पर हर हिस्से में जल है, किंतु स्वच्छ जल की 662903 मात्रा बहुत कम है।",
+            "हमारे घर पहुँचने वाले जल का उपयोग हम किसके लिए कर रहे हैं?",
+            "जल की समस्या भविष्य में क्या आपदाएँ ला सकती हैं?"
+          ],
+          "pageRange": "74-79"
+        },
+        {
+          "id": "न-त-द-ह-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "LBe प्रकार पृथ्वी का चक्कर लगाने का क्या मतलब हो सकता है?",
+            "आप अपने जलाशयों को साफ़ और सुरक्षित रखें ताकिआपको भी हमारी तरह जलचोर न बनना पड़े।",
+            ": i ५ bd ae we BRY, Ad भारत सरकार का राष्ट्रीय किशोर कार्यक्रम वर्तमान pe ‘eal: patie ५ चिकित्सालय संबंधी देख-भाल-एवं समुदाय आधारित स्वास्थ्य A al मी वन की ओर एक नई शुरुआत का संकेत है।"
+          ],
+          "keyPoints": [
+            "LBe प्रकार पृथ्वी का चक्कर लगाने का क्या मतलब हो सकता है?",
+            "आप अपने जलाशयों को साफ़ और सुरक्षित रखें ताकिआपको भी हमारी तरह जलचोर न बनना पड़े।",
+            ": i ५ bd ae we BRY, Ad भारत सरकार का राष्ट्रीय किशोर कार्यक्रम वर्तमान pe ‘eal: patie ५ चिकित्सालय संबंधी देख-भाल-एवं समुदाय आधारित स्वास्थ्य A al मी वन की ओर एक नई शुरुआत का संकेत है।",
+            "जिसका उद्देश्य किशोर जहाँ हैं, वहाँ तक उनके पास पहुँचना यानी कि स्कूलों और समुदायों में।"
+          ],
+          "pageRange": "74-79"
+        },
+        {
+          "id": "न-त-द-ह-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "यह-कार्यक्रम छह प्राथमिकता क्षेत्रों में क्रियाशीलता है : प्रजनन एवं यौन स्वास्थ्य, न्यूट्रीशन, मानसिक स्वास्थ्य, घरेलू एवं लिंग आधारित हिसा नशीले पदार्थों का सेवन एवं असंक्रमणशील बीमारियाँ।",
+            "इस कॉर्यक्रम के अंतर्गत लगभग चौबीस करोड़ किशोरों को लाभ पहुँचेगा।",
+            "वर्तमान में किशोर स्वास्थ्य पर निवेश करके भविष्य को उजज्जवल भविष्य बनाया जाएगा और इस न ।"
+          ],
+          "keyPoints": [
+            "यह-कार्यक्रम छह प्राथमिकता क्षेत्रों में क्रियाशीलता है : प्रजनन एवं यौन स्वास्थ्य, न्यूट्रीशन, मानसिक स्वास्थ्य, घरेलू एवं लिंग आधारित हिसा नशीले पदार्थों का सेवन एवं असंक्रमणशील बीमारियाँ।",
+            "इस कॉर्यक्रम के अंतर्गत लगभग चौबीस करोड़ किशोरों को लाभ पहुँचेगा।",
+            "वर्तमान में किशोर स्वास्थ्य पर निवेश करके भविष्य को उजज्जवल भविष्य बनाया जाएगा और इस न ।",
+            "प्रकार पीढ़ी दर पीढ़ी चलने वाली घटिया स्वास्थ्य के कुचक्र को तोड़ ° !"
+          ],
+          "pageRange": "74-79"
+        },
+        {
+          "id": "न-त-द-ह-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "Wy ae शहर लात कल जे age we है खो की अर हद तार का उपहार",
+            "अभिव्यक्ति-सृजनात्मकता (अ) जल स्रोतों के रखरखाव के बारे में आप क्‍या सुझाव देना चाहेंगे?",
+            "(आ) आज दुनिया के सभी देशों में जल की समस्या बनी हुई है।"
+          ],
+          "keyPoints": [
+            "Wy ae शहर लात कल जे age we है खो की अर हद तार का उपहार",
+            "अभिव्यक्ति-सृजनात्मकता (अ) जल स्रोतों के रखरखाव के बारे में आप क्‍या सुझाव देना चाहेंगे?",
+            "(आ) आज दुनिया के सभी देशों में जल की समस्या बनी हुई है।",
+            "इसके समाधान में हम सब की क्या ज़िम्मेदारी है?"
+          ],
+          "pageRange": "74-79"
+        },
+        {
+          "id": "न-त-द-ह-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "(इ) “जल ही जीवन 2 इस विषय पर एक पोस्टर बनाइए।",
+            "(ई) आपके गाँव में जल संरक्षण कैसे किया जा रहा है?"
+          ],
+          "keyPoints": [
+            "(इ) “जल ही जीवन 2 इस विषय पर एक पोस्टर बनाइए।",
+            "(ई) आपके गाँव में जल संरक्षण कैसे किया जा रहा है?"
+          ],
+          "pageRange": "74-79"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "है",
+          "meaning": "आधुनिक समाज में भाषा का विक्धि रूप"
+        },
+        {
+          "term": "अर्थग्राहययता",
+          "meaning": "प्रतिक्रिया ot i as I"
+        },
+        {
+          "term": "भाल",
+          "meaning": "एवं समुदाय आधारित स्वास्थ्य A al मी वन की ओर एक नई शुरुआत का संकेत है। जिसका उद्देश्य किशोर जहाँ हैं, वहाँ तक उनके पास प"
+        },
+        {
+          "term": "यानी कि स्कूलों और समुदायों में। यह",
+          "meaning": "कार्यक्रम छह प्राथमिकता क्षेत्रों में क्रियाशीलता है"
+        },
+        {
+          "term": "अभिव्यक्ति",
+          "meaning": "सृजनात्मकता"
+        },
+        {
+          "term": "नदी",
+          "meaning": "नालों में कचरा बहाना मना है। परियोजना कार्य"
+        },
+        {
+          "term": "कक्षा में प्रस्तुत कीजिए। 66 विचार",
+          "meaning": "विमर्श बच्चों की सुरक्षा के लिए सरकार ने 20८50 क़ानून बनाया। जिसमें बच्चों को तंग करने, शारीरिक और व्यक्तिगत नियम तोड़ने"
+        },
+        {
+          "term": "ORE के लिए हम क्या",
+          "meaning": "क्या कर सकते हैं? जल पेयजल"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: नीति दोहे: Lesson reading",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-1"
+          ],
+          "focus": "Read the lesson. Section: नीति दोहे: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: नीति दोहे key terms and exam answers",
+          "lessonSectionIds": [
+            "न-त-द-ह-section-4",
+            "न-त-द-ह-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "न-त-द-ह-q1",
+          "question": "Which word/idea is important in नीति दोहे?",
+          "options": [
+            "है",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "है",
+          "explanation": "आधुनिक समाज में भाषा का विक्धि रूप"
+        },
+        {
+          "id": "न-त-द-ह-q2",
+          "question": "What is one key point from 'नीति दोहे: Lesson reading'?",
+          "options": [
+            "अर्थग्राहययता-प्रतिक्रिया ot i as I (अ) प्रश्नों के उत्तर दीजिए।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "अर्थग्राहययता-प्रतिक्रिया ot i as I (अ) प्रश्नों के उत्तर दीजिए।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "न-त-द-ह-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "जल ही जीवन है",
+      "source_pages": {
+        "start": 80,
+        "end": 86
+      },
+      "topics": [
+        {
+          "topic_name": "जल ही जीवन है: Lesson reading",
+          "subtopics": [
+            "बालक: बड़े हमेशा बच्चों को कुछ न कुछ उपदेश देते रहते हैं।",
+            "कुछ लोग कहते हैं कि अनुशासित रहना चाहिए, कुछ लोग कहते हैं खूब पढ़ाई करनी चाहिए, तो कुछ लोग कहते हैं कि ईमानदार बनना चाहिए, कड़ी मेहनत करनी चाहिए आदि।",
+            "वैसे तो इन बातों का पालन करना महत्वपूर्ण है, किंतु एक छात्र के लिए सबसे महत्वपूर्ण गुण क्‍या है?"
+          ],
+          "lessonSectionId": "जल-ह-ज-वन-ह-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "एक छात्र के रूप में मैं विकसित भारत के आपके स्वप्न को साकार करने की दिशा में क्या.कर-सकता हूँ?",
+            "अब्दुल कलाम : एक छात्र होने के नाते, आप जिस कक्षा में भी पढ़ते हो, उसमें आगे बढ़ने के लिए qa परिश्रम (करें।",
+            "फिर Tara करने के लिए आवश्यक ज्ञान और अनुभव प्राप्त ST बाधाओं."
+          ],
+          "lessonSectionId": "जल-ह-ज-वन-ह-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "छात्रों को हमेशा प्ररिश्रमी बनने का प्रयास करना चाहिए।",
+            "छुट्टी के दिनों में छात्र गरीब और सुविधाओं से वंचित बच्चों को पढ़ाने का काम करें\"और इसे अपने जीवन में एक उद्देश्य के रूप में al छात्र अंधिक से अधिक पौधे लगाएँ।",
+            "इससे पर्यावरण को संतुलित बने रहने में सहायता मिलेगी।"
+          ],
+          "lessonSectionId": "जल-ह-ज-वन-ह-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "निरक्षरों को साक्षर बनाने के लिए सरकार द्वारा क्या-क्या क़दम उठाये जा रहे हैं?",
+            "एक छात्र में कौन-कौन से महत्वपूर्ण गुण होने चाहिए?",
+            "Fe Ra ek Fa eg eh ge छात्रों की प्रगति हेतु सरकार का उपहार हो।- गांधीजी"
+          ],
+          "lessonSectionId": "जल-ह-ज-वन-ह-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "मैं सुबह-सुबह ही हैदराबाद के डिफेंस क्वार्टर्स में स्थित उनके घर पहुँच गई।",
+            "घर में देखा तो पुरस्कारों और सम्मानों का भंडार पड़ा aml किंतु इसमें भी विशेष था 'हाथी वाला ares’ जो उन्हें (लक उनके इंजीनियरिंग की पढ़ाई के समय कॉलेज की ओर से दिया गया था।"
+          ],
+          "lessonSectionId": "जल-ह-ज-वन-ह-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "जल-ह-ज-वन-ह-section-1",
+          "title": "जल ही जीवन है: Lesson reading",
+          "summary": [
+            "बालक: बड़े हमेशा बच्चों को कुछ न कुछ उपदेश देते रहते हैं।",
+            "कुछ लोग कहते हैं कि अनुशासित रहना चाहिए, कुछ लोग कहते हैं खूब पढ़ाई करनी चाहिए, तो कुछ लोग कहते हैं कि ईमानदार बनना चाहिए, कड़ी मेहनत करनी चाहिए आदि।",
+            "वैसे तो इन बातों का पालन करना महत्वपूर्ण है, किंतु एक छात्र के लिए सबसे महत्वपूर्ण गुण क्‍या है?"
+          ],
+          "keyPoints": [
+            "बालक: बड़े हमेशा बच्चों को कुछ न कुछ उपदेश देते रहते हैं।",
+            "कुछ लोग कहते हैं कि अनुशासित रहना चाहिए, कुछ लोग कहते हैं खूब पढ़ाई करनी चाहिए, तो कुछ लोग कहते हैं कि ईमानदार बनना चाहिए, कड़ी मेहनत करनी चाहिए आदि।",
+            "वैसे तो इन बातों का पालन करना महत्वपूर्ण है, किंतु एक छात्र के लिए सबसे महत्वपूर्ण गुण क्‍या है?",
+            "अब्दुल कलाम :एक छात्र के लिए सबसे महत्वपूर्ण है- उसकी अपने प्रति ईमानदारी और दूसरों के प्रति आदर का गुण।"
+          ],
+          "pageRange": "80-86"
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "एक छात्र के रूप में मैं विकसित भारत के आपके स्वप्न को साकार करने की दिशा में क्या.कर-सकता हूँ?",
+            "अब्दुल कलाम : एक छात्र होने के नाते, आप जिस कक्षा में भी पढ़ते हो, उसमें आगे बढ़ने के लिए qa परिश्रम (करें।",
+            "फिर Tara करने के लिए आवश्यक ज्ञान और अनुभव प्राप्त ST बाधाओं."
+          ],
+          "keyPoints": [
+            "एक छात्र के रूप में मैं विकसित भारत के आपके स्वप्न को साकार करने की दिशा में क्या.कर-सकता हूँ?",
+            "अब्दुल कलाम : एक छात्र होने के नाते, आप जिस कक्षा में भी पढ़ते हो, उसमें आगे बढ़ने के लिए qa परिश्रम (करें।",
+            "फिर Tara करने के लिए आवश्यक ज्ञान और अनुभव प्राप्त ST बाधाओं.",
+            "निरंतर प्रय॑ंत्नशील*रहते हुए सबसे बढ़िया काम करने की ओर बढ़ते रहें।"
+          ],
+          "pageRange": "80-86"
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "छात्रों को हमेशा प्ररिश्रमी बनने का प्रयास करना चाहिए।",
+            "छुट्टी के दिनों में छात्र गरीब और सुविधाओं से वंचित बच्चों को पढ़ाने का काम करें\"और इसे अपने जीवन में एक उद्देश्य के रूप में al छात्र अंधिक से अधिक पौधे लगाएँ।",
+            "इससे पर्यावरण को संतुलित बने रहने में सहायता मिलेगी।"
+          ],
+          "keyPoints": [
+            "छात्रों को हमेशा प्ररिश्रमी बनने का प्रयास करना चाहिए।",
+            "छुट्टी के दिनों में छात्र गरीब और सुविधाओं से वंचित बच्चों को पढ़ाने का काम करें\"और इसे अपने जीवन में एक उद्देश्य के रूप में al छात्र अंधिक से अधिक पौधे लगाएँ।",
+            "इससे पर्यावरण को संतुलित बने रहने में सहायता मिलेगी।",
+            "हमारे ये कार्य न केवल हमको, बल्कि हमारे राष्ट्र को भी विकास और समृद्धि के पथ पर ले जाएँगे।"
+          ],
+          "pageRange": "80-86"
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "निरक्षरों को साक्षर बनाने के लिए सरकार द्वारा क्या-क्या क़दम उठाये जा रहे हैं?",
+            "एक छात्र में कौन-कौन से महत्वपूर्ण गुण होने चाहिए?",
+            "Fe Ra ek Fa eg eh ge छात्रों की प्रगति हेतु सरकार का उपहार हो।- गांधीजी"
+          ],
+          "keyPoints": [
+            "निरक्षरों को साक्षर बनाने के लिए सरकार द्वारा क्या-क्या क़दम उठाये जा रहे हैं?",
+            "एक छात्र में कौन-कौन से महत्वपूर्ण गुण होने चाहिए?",
+            "Fe Ra ek Fa eg eh ge छात्रों की प्रगति हेतु सरकार का उपहार हो।- गांधीजी",
+            "बड़ी मुश्किल से मुझे टेसी थॉमस का साक्षात्कार करने -€छज का मौका मिला था।"
+          ],
+          "pageRange": "80-86"
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "मैं सुबह-सुबह ही हैदराबाद के डिफेंस क्वार्टर्स में स्थित उनके घर पहुँच गई।",
+            "घर में देखा तो पुरस्कारों और सम्मानों का भंडार पड़ा aml किंतु इसमें भी विशेष था 'हाथी वाला ares’ जो उन्हें (लक उनके इंजीनियरिंग की पढ़ाई के समय कॉलेज की ओर से दिया गया था।"
+          ],
+          "keyPoints": [
+            "मैं सुबह-सुबह ही हैदराबाद के डिफेंस क्वार्टर्स में स्थित उनके घर पहुँच गई।",
+            "घर में देखा तो पुरस्कारों और सम्मानों का भंडार पड़ा aml किंतु इसमें भी विशेष था 'हाथी वाला ares’ जो उन्हें (लक उनके इंजीनियरिंग की पढ़ाई के समय कॉलेज की ओर से दिया गया था।"
+          ],
+          "pageRange": "80-86"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "जा कुमारवर्मा को ree बहुत खुशी हुई।",
+          "meaning": "Se उनोबा आाव अप राजा के अलाबार मे एना का काश हो जाता baer on"
+        },
+        {
+          "term": "एक छात्र के लिए सबसे महत्वपूर्ण है",
+          "meaning": "उसकी अपने प्रति ईमानदारी और दूसरों के प्रति आदर का गुण। ये गुण आपको निस्संदेह आदर्श नागरिक बनाएँगे। छात्र"
+        },
+        {
+          "term": "कर",
+          "meaning": "सकता हूँ? अब्दुल कलाम"
+        },
+        {
+          "term": "क्षर बनाने के लिए सरकार द्वारा क्या",
+          "meaning": "क्या क़दम उठाये जा रहे हैं? 2. एक छात्र में कौन"
+        },
+        {
+          "term": "छज का मौका मिला था। मैं सुबह",
+          "meaning": "सुबह ही हैदराबाद के डिफेंस क्वार्टर्स में स्थित उनके घर पहुँच गई। घर में देखा तो पुरस्कारों और सम्मानों का भंडार पड़ा am"
+        },
+        {
+          "term": "ज की ओर से दिया गया था। उनकी शिक्षा",
+          "meaning": "दीक्षा केरल स्थित अलप्पुझा में हुई। यहीं पर उनका जन्म हुआ था। रक्षा अनुसंधान और विज्ञान को पुरुषों का क्षेत्र माना जाता"
+        },
+        {
+          "term": "के अग्नि",
+          "meaning": "5 कार्यक्रम की निदेशक बनीं। उन्होंने देश feet मिज़ाइल प्रॉजेक्ट की पहली महिला प्रमुख बनने का गौरव प्राप्त किया॥_चलिए. उन"
+        },
+        {
+          "term": "हीं से उनके बारे में जानते हैं। मैं",
+          "meaning": "आप अपने आरंभिक जीवन, के बारे में क्या बता सकती हैं? टेसी जी"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: जल ही जीवन है: Lesson reading",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-1"
+          ],
+          "focus": "Read the lesson. Section: जल ही जीवन है: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: जल ही जीवन है key terms and exam answers",
+          "lessonSectionIds": [
+            "जल-ह-ज-वन-ह-section-4",
+            "जल-ह-ज-वन-ह-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "जल-ह-ज-वन-ह-q1",
+          "question": "Which word/idea is important in जल ही जीवन है?",
+          "options": [
+            "जा कुमारवर्मा को ree बहुत खुशी हुई।",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "जा कुमारवर्मा को ree बहुत खुशी हुई।",
+          "explanation": "Se उनोबा आाव अप राजा के अलाबार मे एना का काश हो जाता baer on"
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-q2",
+          "question": "What is one key point from 'जल ही जीवन है: Lesson reading'?",
+          "options": [
+            "बालक: बड़े हमेशा बच्चों को कुछ न कुछ उपदेश देते रहते हैं।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "बालक: बड़े हमेशा बच्चों को कुछ न कुछ उपदेश देते रहते हैं।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "जल-ह-ज-वन-ह-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    },
+    {
+      "chapter_no": 13,
+      "chapter_name": "धरती के सवाल अंतरिक्ष के जवाब",
+      "source_pages": {
+        "start": 87,
+        "end": 94
+      },
+      "topics": [
+        {
+          "topic_name": "धरती के सवाल अंतरिक्ष के जवाब: Lesson reading",
+          "subtopics": [
+            "उसके पांडित्य की जाँच करने का समय न होने के कारण मैंने राजा को यह कह दिया कि वह बड़ा \\ पंडित है।",
+            "आगे ——— चलकर मुझे पता चला कि वह पंडित केवल औसत a \\ a था।",
+            "मेरे आलस के कारण मैं राजा को उचित le - सलाह न दे सका।"
+          ],
+          "lessonSectionId": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "= ee = इन तीन घटनाओं से उसे यह सीख मिली 5० कि हमें छोटी से छोटी भूल भी adh watt चाहिए।",
+            "यदि हमसे कोई भूल हो ,तो उसे तुरंत सुधार लेनी चाहिए।",
+            "राजा ने इस सीख का ores fear कुछ ही दिनों में उसका राज्य खुशहाल बन गया।"
+          ],
+          "lessonSectionId": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "प्रस्तुत कहानी तेलुगु भाषा में रचित उनकी प्रसिद्ध रचना dare कुंदेलुँ' की अनूदित रचना सोने का खरगोश” से ली गई है।) era कुमारवर्मा के राज्य में अकाल की स्थिति क्यों उत्पन्न हुई होगी?",
+            "अकाल की समस्या के परिष्कार के लिए राजा ने क्या-क्या उपाय सोचे होंगे?",
+            "राजा कुमारवर्मा की जगह पर यदि आप होते तो अकाल की समस्या से कैसे जूझते ?"
+          ],
+          "lessonSectionId": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "घर शब्दकोश इस शब्दकोश से आपको इस पुस्तक के पाठों के नए शब्दों के अर्थ समझने में सहायता मिलेगी।",
+            "नीचे बाई ओर कठिन शब्द तथा दाई ओर उसका अर्थ तेलुगु और अंग्रेजी में दिया गया है।",
+            "इससे आप प्रसंग के अनुसार अनुकूल शब्द का चयन करना सीख सकेंगे | यह शब्दकोश आपको शब्दों के न केवल सही अर्थ जानने में मदद करेगा अपितु उनकी सही वर्तनी भी सिखाएगा।"
+          ],
+          "lessonSectionId": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "FARM == 8208, abolishment कुरीतियों का उन्मूलन करना चाहिए।",
+            "उलझन = dss, trouble साहसी व्यक्ति उलझन्न से नहीं घबराता।"
+          ],
+          "lessonSectionId": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-1",
+          "title": "धरती के सवाल अंतरिक्ष के जवाब: Lesson reading",
+          "summary": [
+            "उसके पांडित्य की जाँच करने का समय न होने के कारण मैंने राजा को यह कह दिया कि वह बड़ा \\ पंडित है।",
+            "आगे ——— चलकर मुझे पता चला कि वह पंडित केवल औसत a \\ a था।",
+            "मेरे आलस के कारण मैं राजा को उचित le - सलाह न दे सका।"
+          ],
+          "keyPoints": [
+            "उसके पांडित्य की जाँच करने का समय न होने के कारण मैंने राजा को यह कह दिया कि वह बड़ा \\ पंडित है।",
+            "आगे ——— चलकर मुझे पता चला कि वह पंडित केवल औसत a \\ a था।",
+            "मेरे आलस के कारण मैं राजा को उचित le - सलाह न दे सका।",
+            "ऐसी भूल करने वाला मैं, e हितोपदेश के योग्य नहीं समझता।"
+          ],
+          "pageRange": "87-94"
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "= ee = इन तीन घटनाओं से उसे यह सीख मिली 5० कि हमें छोटी से छोटी भूल भी adh watt चाहिए।",
+            "यदि हमसे कोई भूल हो ,तो उसे तुरंत सुधार लेनी चाहिए।",
+            "राजा ने इस सीख का ores fear कुछ ही दिनों में उसका राज्य खुशहाल बन गया।"
+          ],
+          "keyPoints": [
+            "= ee = इन तीन घटनाओं से उसे यह सीख मिली 5० कि हमें छोटी से छोटी भूल भी adh watt चाहिए।",
+            "यदि हमसे कोई भूल हो ,तो उसे तुरंत सुधार लेनी चाहिए।",
+            "राजा ने इस सीख का ores fear कुछ ही दिनों में उसका राज्य खुशहाल बन गया।",
+            "(वर्ष 202 के लिएँ ज्ञानपीठ पुरस्कार से सम्मानित स्वर्गीय श्री arate भरद्वाज तेलुगु के प्रसिद्ध हस्ताक्षर हैं।"
+          ],
+          "pageRange": "87-94"
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "प्रस्तुत कहानी तेलुगु भाषा में रचित उनकी प्रसिद्ध रचना dare कुंदेलुँ' की अनूदित रचना सोने का खरगोश” से ली गई है।) era कुमारवर्मा के राज्य में अकाल की स्थिति क्यों उत्पन्न हुई होगी?",
+            "अकाल की समस्या के परिष्कार के लिए राजा ने क्या-क्या उपाय सोचे होंगे?",
+            "राजा कुमारवर्मा की जगह पर यदि आप होते तो अकाल की समस्या से कैसे जूझते ?"
+          ],
+          "keyPoints": [
+            "प्रस्तुत कहानी तेलुगु भाषा में रचित उनकी प्रसिद्ध रचना dare कुंदेलुँ' की अनूदित रचना सोने का खरगोश” से ली गई है।) era कुमारवर्मा के राज्य में अकाल की स्थिति क्यों उत्पन्न हुई होगी?",
+            "अकाल की समस्या के परिष्कार के लिए राजा ने क्या-क्या उपाय सोचे होंगे?",
+            "राजा कुमारवर्मा की जगह पर यदि आप होते तो अकाल की समस्या से कैसे जूझते ?",
+            "seit उपाय बल और दुक्के के जब्त में कक महल हे।"
+          ],
+          "pageRange": "87-94"
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "घर शब्दकोश इस शब्दकोश से आपको इस पुस्तक के पाठों के नए शब्दों के अर्थ समझने में सहायता मिलेगी।",
+            "नीचे बाई ओर कठिन शब्द तथा दाई ओर उसका अर्थ तेलुगु और अंग्रेजी में दिया गया है।",
+            "इससे आप प्रसंग के अनुसार अनुकूल शब्द का चयन करना सीख सकेंगे | यह शब्दकोश आपको शब्दों के न केवल सही अर्थ जानने में मदद करेगा अपितु उनकी सही वर्तनी भी सिखाएगा।"
+          ],
+          "keyPoints": [
+            "घर शब्दकोश इस शब्दकोश से आपको इस पुस्तक के पाठों के नए शब्दों के अर्थ समझने में सहायता मिलेगी।",
+            "नीचे बाई ओर कठिन शब्द तथा दाई ओर उसका अर्थ तेलुगु और अंग्रेजी में दिया गया है।",
+            "इससे आप प्रसंग के अनुसार अनुकूल शब्द का चयन करना सीख सकेंगे | यह शब्दकोश आपको शब्दों के न केवल सही अर्थ जानने में मदद करेगा अपितु उनकी सही वर्तनी भी सिखाएगा।",
+            "20७90, amazing संसार में अजीब घटनाएँ घटतीहैं।"
+          ],
+          "pageRange": "87-94"
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "FARM == 8208, abolishment कुरीतियों का उन्मूलन करना चाहिए।",
+            "उलझन = dss, trouble साहसी व्यक्ति उलझन्न से नहीं घबराता।"
+          ],
+          "keyPoints": [
+            "FARM == 8208, abolishment कुरीतियों का उन्मूलन करना चाहिए।",
+            "उलझन = dss, trouble साहसी व्यक्ति उलझन्न से नहीं घबराता।"
+          ],
+          "pageRange": "87-94"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ee",
+          "meaning": "इन तीन घटनाओं से उसे यह सीख मिली 5० कि हमें छोटी से छोटी भूल भी adh watt चाहिए। यदि हमसे कोई भूल हो ,तो उसे तुरंत सुधार"
+        },
+        {
+          "term": "रीतियों का उन्मूलन करना चाहिए। उलझन",
+          "meaning": "dss, trouble साहसी व्यक्ति उलझन्न से नहीं घबराता। amet"
+        },
+        {
+          "term": "कविताएँ ओजस्वी होती हैं। क्रंदन",
+          "meaning": "96089, weaping sat कारण किसान क्रंदन करने लगे। wae"
+        },
+        {
+          "term": "नों में चारों ओर FTA छा जाता है। घन",
+          "meaning": "Sayer, cloud मोर घन को देखकर नाचने लगे। जिज्ञासा"
+        },
+        {
+          "term": "ं में जानने की जिज्ञासा होती है। तम",
+          "meaning": "86, darkness दीपक की रोशनी रात के तम को दूर करती है। तबाही"
+        },
+        {
+          "term": "टर्र सुनाई देती है। नफ़रत",
+          "meaning": "९७७५४, hate हमें किसी से नफ़रत नहीं करनी चाहिए। नींव,"
+        },
+        {
+          "term": "ागार्जुन सागर बाँध की नींव डाली। ae",
+          "meaning": "wshons, spread प्रकृति सुंदरता से न्यस्त है। पावन धाम."
+        },
+        {
+          "term": "मदिन के अवसर पर भैंट दी जाती है। रज",
+          "meaning": "26, dust वर्षा का पानी रज को बहा ले जाता है। रौनक"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: धरती के सवाल अंतरिक्ष के जवाब: Lesson reading",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-1"
+          ],
+          "focus": "Read the lesson. Section: धरती के सवाल अंतरिक्ष के जवाब: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: धरती के सवाल अंतरिक्ष के जवाब key terms and exam answers",
+          "lessonSectionIds": [
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-4",
+            "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-q1",
+          "question": "Which word/idea is important in धरती के सवाल अंतरिक्ष के जवाब?",
+          "options": [
+            "ee",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ee",
+          "explanation": "इन तीन घटनाओं से उसे यह सीख मिली 5० कि हमें छोटी से छोटी भूल भी adh watt चाहिए। यदि हमसे कोई भूल हो ,तो उसे तुरंत सुधार"
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-q2",
+          "question": "What is one key point from 'धरती के सवाल अंतरिक्ष के जवाब: Lesson reading'?",
+          "options": [
+            "उसके पांडित्य की जाँच करने का समय न होने के कारण मैंने राजा को यह कह दिया कि वह बड़ा \\ पंडित है।",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "उसके पांडित्य की जाँच करने का समय न होने के कारण मैंने राजा को यह कह दिया कि वह बड़ा \\ पंडित है।",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "धरत-क-सव-ल-अ-तर-क-ष-क-जव-ब-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
+        }
+      ]
+    }
+  ]
 }

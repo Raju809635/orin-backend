@@ -562,6 +562,79 @@ function buildRoadmapTopicPlan(subjectName, chapter, academicTopics = []) {
   return { verified: true, pendingMessage: "", topics, missions };
 }
 
+function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+  try {
+    const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
+    const subjectRecord = record.subject || record;
+    const chapters = Array.isArray(subjectRecord?.chapters) ? subjectRecord.chapters : [];
+    const requested = String(chapter || "").trim().toLowerCase();
+    const selectedChapter = chapters.find((item) => String(item?.chapter_name || "").trim().toLowerCase() === requested)
+      || chapters.find((item) => String(item?.chapter_name || "").trim().toLowerCase().includes(requested));
+    if (!selectedChapter || !Array.isArray(selectedChapter.weeklyPlan) || !selectedChapter.weeklyPlan.length) return null;
+    return {
+      chapter: selectedChapter,
+      weeklyPlan: selectedChapter.weeklyPlan,
+      lessonSections: Array.isArray(selectedChapter.lessonSections) ? selectedChapter.lessonSections : [],
+      quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
+    };
+  } catch {
+    return null;
+  }
+}
+
+function buildLessonBackedStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, lessonPlan }) {
+  const subjectName = normalizeExamSubject(subject) || subject || "Biology";
+  const chapterName = String(lessonPlan?.chapter?.chapter_name || chapter || "").trim();
+  const steps = (lessonPlan?.weeklyPlan || []).map((week, index) => ({
+    id: String(week.id || `week-${index + 1}`),
+    stepNumber: index + 1,
+    title: String(week.title || `Week ${index + 1}: ${chapterName}`).trim(),
+    status: index === 0 ? "active" : "locked",
+    completed: false,
+    canStart: index === 0,
+    canSubmitProof: false,
+    proofRequired: false,
+    proofStatus: "not_submitted",
+    startedAt: null,
+    completedAt: null,
+    unlockedAt: index === 0 ? new Date() : null,
+    missionType: "academic_lesson_week",
+    focus: String(week.focus || "Read the lesson section and complete the quiz correctly.").trim(),
+    outcome: "Complete this week by answering every quiz question correctly.",
+    xpReward: 20,
+    lessonSectionIds: Array.isArray(week.lessonSectionIds) ? week.lessonSectionIds : [],
+    quizQuestions: Array.isArray(lessonPlan?.quizQuestions) ? lessonPlan.quizQuestions.slice(0, 5) : [],
+    tasks: [
+      { id: `week-${index + 1}-learn`, type: "Read", title: "Study the lesson explanation and key points", duration: "20 min", completed: false },
+      { id: `week-${index + 1}-notes`, type: "Practice", title: "Revise definitions, diagrams, and textbook notes", duration: "15 min", completed: false },
+      { id: `week-${index + 1}-quiz`, type: "Quiz", title: "Answer all quiz questions correctly to complete", duration: "10 min", completed: false }
+    ]
+  }));
+
+  return {
+    title: `${subjectName} ${chapterName} Weekly Roadmap`,
+    goal: `${subjectName}: ${studyGoal}`,
+    subject: subjectName,
+    classLevel,
+    studyGoal,
+    currentLevel,
+    timePerDay,
+    chapter: chapterName,
+    summary: `A lesson-backed ${subjectName} roadmap for ${chapterName}. Open each week, study the actual textbook section, then complete the quiz with all correct answers.`,
+    steps,
+    progress: {
+      completedSteps: 0,
+      totalSteps: steps.length,
+      progressPercent: 0,
+      currentStepId: steps[0]?.id || "",
+      lockHours: 0
+    },
+    certificatePrompt: `Complete every ${chapterName} week quiz to finish this academic roadmap.`,
+    reminders: ["Open the week before attempting the quiz.", "Revise diagrams and definitions.", "All quiz answers must be correct to complete a week."]
+  };
+}
+
 function roadmapTopicsForSubject(subjectName, chapter, academicTopics = []) {
   const datasetTopics = buildRoadmapTopicPlan(subjectName, chapter, academicTopics).missions
     .map((item) => cleanAcademicText(item?.topic || item?.title || ""))
@@ -1491,13 +1564,16 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     subjects: [subject],
     requestedTopics: chapter ? [chapter] : []
   });
+  const lessonPlan = findAcademicLessonPlan({ board, classLevel, subject, chapter });
   const topicPlan = buildRoadmapTopicPlan(subject, chapter, academicTopics);
   const subjectRules = roadmapMissionTemplate(subject)
     .map((item, index) => `${index + 1}. ${item.label}: ${item.practice}; proof: ${item.proof}`)
     .join("\n");
 
-  let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, academicTopics });
-  let source = "fallback";
+  let roadmap = lessonPlan
+    ? buildLessonBackedStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, lessonPlan })
+    : buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, academicTopics });
+  let source = lessonPlan ? "lesson_dataset" : "fallback";
   let provider = "local";
   let model = "deterministic";
 
@@ -1511,6 +1587,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       `Subject: ${subject}.`,
       `Chapter/topic focus: ${chapter || "use the most important syllabus topics"}.`,
       `Dataset verification: ${topicPlan.verified ? "verified topic context available" : "verified topic context is pending or unreadable"}.`,
+      lessonPlan ? `Lesson-backed weekly plan: ${lessonPlan.weeklyPlan.map((item) => item.title).join("; ")}.` : "No full lesson weekly plan exists yet.",
       `Academic dataset topics: ${topicPlan.verified ? topicPlan.topics.map((item) => `${item.chapter} > ${item.topic}${item.subtopics?.length ? ` (${item.subtopics.slice(0, 3).join(", ")})` : ""}`).join("; ") : topicPlan.pendingMessage}.`,
       `Subject-specific mission rules:\n${subjectRules}`,
       `Study goal: ${studyGoal}.`,
@@ -1565,6 +1642,8 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
           focus: String(step?.focus || fallbackStep.focus || "Complete tasks, practice, and submit proof.").trim().slice(0, 180),
           outcome: String(step?.outcome || fallbackStep.outcome || "Show your understanding with practice proof.").trim().slice(0, 180),
           xpReward: clampNumber(step?.xpReward, 10, 100, fallbackStep.xpReward || 20),
+          lessonSectionIds: Array.isArray(fallbackStep.lessonSectionIds) ? fallbackStep.lessonSectionIds : [],
+          quizQuestions: Array.isArray(fallbackStep.quizQuestions) ? fallbackStep.quizQuestions : [],
           tasks: parsedTasks.length ? parsedTasks : (Array.isArray(fallbackStep.tasks) ? fallbackStep.tasks : [])
         };
       };

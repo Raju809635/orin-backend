@@ -5,982 +5,2138 @@
     "subject": "Telugu",
     "year": "2026",
     "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/telugu.pdf",
-    "source_type": "manual_pdf_ocr",
-    "extraction_status": "ocr_table_of_contents_extracted",
-    "verification_status": "pdf_toc_source_backed",
-    "source_note": "Lessons extracted from the OCR-rendered table of contents page of the uploaded SSC Telangana Class 10 Telugu PDF.",
-    "extraction_message": "Tesseract Telugu OCR successfully read the contents page; lesson/topic records are sourced from the PDF table of contents."
+    "source_type": "manual_pdf_ocr_full_lesson_text",
+    "extraction_status": "ocr_verified",
+    "verification_status": "pdf_lesson_text_extracted",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 10 textbook PDF.",
+    "extraction_message": "8 chapters and 285644 characters of lesson text were converted into roadmap weeks, lesson sections, definitions, activities, and quizzes."
   },
   "chapters": [
     {
       "chapter_no": 1,
-      "chapter_name": "వానలు",
+      "chapter_name": "దానశీలము",
+      "source_pages": {
+        "start": 14,
+        "end": 25
+      },
       "topics": [
         {
-          "topic_name": "వానలు",
+          "topic_name": "దానశీలము: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "> rm 333030 1 = e చదువండి - ఆలోచించి చెప్పండి.",
+            "కర్ణుని పూజామందిరంలో సూర్యుడు ప్రత్యక్షమై కర్ణునితో ఇట్లా అన్నాడు.",
+            "బ్రాహ్మణ వేషంలో వచ్చి ఇంద్రుడు నీ కవచకుండలాలను చానంగా అడుగుతాడు."
+          ],
+          "lessonSectionId": "ద-నశ-లమ-section-1"
         },
         {
-          "topic_name": "పర్యావరణం - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "ఇంద్రుడంతటివాడు రూపం మార్చుకొని “దేహి” అని నాదగ్గరకు వస్తే ఎట్లా కాదంటాను.",
+            "సూర్యుడు కర్ణుని దానం చేయకుండా \"లై 2 Bors శసాధ్యప ఎంట రారు Se కో 4.",
+            "1150219 య wae”: Ko విరోచనుని కుమారుడైన బలి అసుర చక్రవర్తి."
+          ],
+          "lessonSectionId": "ద-నశ-లమ-section-2"
         },
         {
-          "topic_name": "గేయం - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "ఇతని పరిపాలనలో కొందరు దేవతలు స్వర్గాన్ని వదిలిపోగా మిగిలినవారు వివక్షకు గురైనారు.",
+            "ఈ విషయాన్ని వారు మహావిష్ణువుతో చెప్పుకోగా తాను వామనునిగా జన్మించి దేవతల కష్టాలు తీరుస్తానని అభయమిచ్చాడు.",
+            "ఆ తర్వాత కొంతకాలానికి మహావిష్ణువు వామనావతారం ఎత్తినాడు."
+          ],
+          "lessonSectionId": "ద-నశ-లమ-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "రాక్షసగురువైన శుక్రాచార్యుడు వామనుని మాటల్లో ఏదో మోనం ఉందని గ్రహించాడు.",
+            "ఇచ్చిన మాటకు కట్టువడే తత్త్వాన్ని, దానం చేయడంలోని గొప్పదనాన్ని తెలియజేయడమే ఈ పాఠం ఉద్దేశం.",
+            "వురాణం అంటే ఈ త్‌ పాతదైననూ కొత్తగా భానీంచేది."
+          ],
+          "lessonSectionId": "ద-నశ-లమ-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "a Pez oe aSyeo oye is S Ff A ( పోతన జనగామ జిల్లా బమ్మెర (గ్రామ నివానీ.",
+            "పోతన DED సహ పండియడని ప్రసిద్ధి 1% @ మానవమాత్రులైన రాజులకు తనగ్రంథాన్ని అంకితరి చెయ్యనని, భగవంతుడిచ్చిన కవితాకళను ~~ భగవంతునికే అంకితం SIE BYES భాగవత వురాణాన్ని శ్రీరామచంద్రునికే అంకితం చేశాడు."
+          ],
+          "lessonSectionId": "ద-నశ-లమ-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "ద-నశ-లమ-section-1",
+          "title": "దానశీలము: Lesson reading",
+          "summary": [
+            "> rm 333030 1 = e చదువండి - ఆలోచించి చెప్పండి.",
+            "కర్ణుని పూజామందిరంలో సూర్యుడు ప్రత్యక్షమై కర్ణునితో ఇట్లా అన్నాడు.",
+            "బ్రాహ్మణ వేషంలో వచ్చి ఇంద్రుడు నీ కవచకుండలాలను చానంగా అడుగుతాడు."
+          ],
+          "keyPoints": [
+            "> rm 333030 1 = e చదువండి - ఆలోచించి చెప్పండి.",
+            "కర్ణుని పూజామందిరంలో సూర్యుడు ప్రత్యక్షమై కర్ణునితో ఇట్లా అన్నాడు.",
+            "బ్రాహ్మణ వేషంలో వచ్చి ఇంద్రుడు నీ కవచకుండలాలను చానంగా అడుగుతాడు.",
+            "వాటిని దానం చేస్తే నీ ప్రాణానికే ముప్పు వస్తుంది నాయనా."
+          ],
+          "pageRange": "14-25"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "ద-నశ-లమ-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "ఇంద్రుడంతటివాడు రూపం మార్చుకొని “దేహి” అని నాదగ్గరకు వస్తే ఎట్లా కాదంటాను.",
+            "సూర్యుడు కర్ణుని దానం చేయకుండా \"లై 2 Bors శసాధ్యప ఎంట రారు Se కో 4.",
+            "1150219 య wae”: Ko విరోచనుని కుమారుడైన బలి అసుర చక్రవర్తి."
+          ],
+          "keyPoints": [
+            "ఇంద్రుడంతటివాడు రూపం మార్చుకొని “దేహి” అని నాదగ్గరకు వస్తే ఎట్లా కాదంటాను.",
+            "సూర్యుడు కర్ణుని దానం చేయకుండా \"లై 2 Bors శసాధ్యప ఎంట రారు Se కో 4.",
+            "1150219 య wae”: Ko విరోచనుని కుమారుడైన బలి అసుర చక్రవర్తి.",
+            "ఇతడు తన శక్తిసామర్థ్రాలతో స్వర్గలోకాన్ని ఆక్రమించాడు."
+          ],
+          "pageRange": "14-25"
+        },
+        {
+          "id": "ద-నశ-లమ-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "ఇతని పరిపాలనలో కొందరు దేవతలు స్వర్గాన్ని వదిలిపోగా మిగిలినవారు వివక్షకు గురైనారు.",
+            "ఈ విషయాన్ని వారు మహావిష్ణువుతో చెప్పుకోగా తాను వామనునిగా జన్మించి దేవతల కష్టాలు తీరుస్తానని అభయమిచ్చాడు.",
+            "ఆ తర్వాత కొంతకాలానికి మహావిష్ణువు వామనావతారం ఎత్తినాడు."
+          ],
+          "keyPoints": [
+            "ఇతని పరిపాలనలో కొందరు దేవతలు స్వర్గాన్ని వదిలిపోగా మిగిలినవారు వివక్షకు గురైనారు.",
+            "ఈ విషయాన్ని వారు మహావిష్ణువుతో చెప్పుకోగా తాను వామనునిగా జన్మించి దేవతల కష్టాలు తీరుస్తానని అభయమిచ్చాడు.",
+            "ఆ తర్వాత కొంతకాలానికి మహావిష్ణువు వామనావతారం ఎత్తినాడు.",
+            "బలి నర్మదానదీ తీరంలో యాగం చేస్తుండగా వామనుడు 3 తనకు మూడడుగుల నేల కావాలని కోరగా తాను ఇస్తానని బలి మాట యిచ్చాడు."
+          ],
+          "pageRange": "14-25"
+        },
+        {
+          "id": "ద-నశ-లమ-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "రాక్షసగురువైన శుక్రాచార్యుడు వామనుని మాటల్లో ఏదో మోనం ఉందని గ్రహించాడు.",
+            "ఇచ్చిన మాటకు కట్టువడే తత్త్వాన్ని, దానం చేయడంలోని గొప్పదనాన్ని తెలియజేయడమే ఈ పాఠం ఉద్దేశం.",
+            "వురాణం అంటే ఈ త్‌ పాతదైననూ కొత్తగా భానీంచేది."
+          ],
+          "keyPoints": [
+            "రాక్షసగురువైన శుక్రాచార్యుడు వామనుని మాటల్లో ఏదో మోనం ఉందని గ్రహించాడు.",
+            "ఇచ్చిన మాటకు కట్టువడే తత్త్వాన్ని, దానం చేయడంలోని గొప్పదనాన్ని తెలియజేయడమే ఈ పాఠం ఉద్దేశం.",
+            "వురాణం అంటే ఈ త్‌ పాతదైననూ కొత్తగా భానీంచేది.",
+            "ప్రస్తుత పాఠ్యభాగం శ్‌ De శ్రీమహాభాగవతం అష్టమ స్కంధంలోని “వామన చరిత్ర' లోనిది."
+          ],
+          "pageRange": "14-25"
+        },
+        {
+          "id": "ద-నశ-లమ-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "a Pez oe aSyeo oye is S Ff A ( పోతన జనగామ జిల్లా బమ్మెర (గ్రామ నివానీ.",
+            "పోతన DED సహ పండియడని ప్రసిద్ధి 1% @ మానవమాత్రులైన రాజులకు తనగ్రంథాన్ని అంకితరి చెయ్యనని, భగవంతుడిచ్చిన కవితాకళను ~~ భగవంతునికే అంకితం SIE BYES భాగవత వురాణాన్ని శ్రీరామచంద్రునికే అంకితం చేశాడు."
+          ],
+          "keyPoints": [
+            "a Pez oe aSyeo oye is S Ff A ( పోతన జనగామ జిల్లా బమ్మెర (గ్రామ నివానీ.",
+            "పోతన DED సహ పండియడని ప్రసిద్ధి 1% @ మానవమాత్రులైన రాజులకు తనగ్రంథాన్ని అంకితరి చెయ్యనని, భగవంతుడిచ్చిన కవితాకళను ~~ భగవంతునికే అంకితం SIE BYES భాగవత వురాణాన్ని శ్రీరామచంద్రునికే అంకితం చేశాడు."
+          ],
+          "pageRange": "14-25"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "rm 333030 1",
+          "meaning": "e చదువండి"
+        },
+        {
+          "term": "ansereriarmee",
+          "meaning": "గ జ, గా కు ee సెట్స్"
+        },
+        {
+          "term": "తేజస్సును నిలుపుము",
+          "meaning": "కాపాడుము. ఈ కుబ్దుండు"
+        },
+        {
+          "term": "విశ్వంభరుండు",
+          "meaning": "విశ్వమును భరింపగల్లు వాడు"
+        },
+        {
+          "term": "పోడు",
+          "meaning": "ఇంత తక్కువతో పోడు. త్రివిక్రమ స్ఫురణవాండు"
+        },
+        {
+          "term": "ఒకండు",
+          "meaning": "మరొకడు SPS"
+        },
+        {
+          "term": "కలడే",
+          "meaning": "తప్పింపగలుగుతాడా! నా"
+        },
+        {
+          "term": "నాయొక్క పలుకులు",
+          "meaning": "మాటలు కర్ణంబులన్"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: దానశీలము: Lesson reading",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-1"
+          ],
+          "focus": "Read the lesson. Section: దానశీలము: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: దానశీలము key terms and exam answers",
+          "lessonSectionIds": [
+            "ద-నశ-లమ-section-4",
+            "ద-నశ-లమ-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "ద-నశ-లమ-q1",
+          "question": "Which word/idea is important in దానశీలము?",
+          "options": [
+            "rm 333030 1",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "rm 333030 1",
+          "explanation": "e చదువండి"
+        },
+        {
+          "id": "ద-నశ-లమ-q2",
+          "question": "What is one key point from 'దానశీలము: Lesson reading'?",
+          "options": [
+            "> rm 333030 1 = e చదువండి - ఆలోచించి చెప్పండి.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "> rm 333030 1 = e చదువండి - ఆలోచించి చెప్పండి.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "ద-నశ-లమ-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 2,
-      "chapter_name": "స్నేహగీతి",
+      "chapter_name": "ఎవరి భాష వాళ్ళకు",
+      "source_pages": {
+        "start": 26,
+        "end": 39
+      },
       "topics": [
         {
-          "topic_name": "స్నేహగీతి",
+          "topic_name": "ఎవరి భాష వాళ్ళకు: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "వదైనా ఒక అంశాన్ని గురించి క జ్‌ నంగ్రహంగా, ఆకట్టుకునేటట్లు వివరించేది వ్యానం.",
+            "సూటిగా, స్పష్టంగా, చై Es నిర్దిష్టంగా, నులభంగా అర్ధమయ్యే విధంగా ఉండటం వ్యానం లక్షణం.",
+            "= Dag, పాఠ్యభాగం దా సామల నదాళివ తన న్వీయ a Peay TS 'యాది” అనే వ్యాస నంపుటిలోనిది...కనో > ఎదలు v= | x S Ff గ ou సామల నదాళివ కుంరఠంభీం ఆసిఫాబాద్‌ జిల్లాలో భాగమైన దహెగామ్‌ మండలం తెనుగువల్లెలో జన్హించాడు."
+          ],
+          "lessonSectionId": "ఎవర-భ-ష-వ-ళ-ళక-section-1"
         },
         {
-          "topic_name": "స్నేహం విలువ - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "ఉర్దూ, ఫార్సీ, పొందీ, మరాఠీ కవుల రచయితల సాపొత్యాన్ని ఈయన తెలుగులోకి అనువాదం చేశాడు.",
+            "11-05-1928 ఉర్దూ సాహిత్య చరిత్ర, అమ్రద్‌రుబాయోలు/మలయమారుతాలు, యాది, సంగీత శిఖరాలు 07-08-2012 వి ఇతని రచనలు.",
+            "pS కబాయీలు' అనువాదానికి 1964లో ఆంధ్రప్రదేశ్‌ ప్రభత్వందే ఉత్తమ అనువాద రచనా వురస్మారం, 'స్వరలయలు' (గ్రంథానికి 2011లో కేంద్ర ores ఆకాడమీ అవాడ్డు లభించింది."
+          ],
+          "lessonSectionId": "ఎవర-భ-ష-వ-ళ-ళక-section-2"
         },
         {
-          "topic_name": "గేయం - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "సదాశివను పొందుస్తానీ - కర్ణాటక సంగీతానికి సాంస్కృతిక వారధిగా విద్వాంసులు గ గుత్తిలహీరు''సవ్ఫృదయ విమర్థకుడైన ఇతని రచనల్లో భాష సహజ సుందరంగా, సరళంగా క్ష BIBL రూపంలో మనసుకు వాత్తుకు పోయేటట్లు ఉంటుంది.",
+            "వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి.",
+            "was CRA i FRA RE RER PER => “2౨౪1౨౨౨౨ ౨౮ ౨|| 1౨౨ 1౮ ౨౨౫౨౧ ౨౨౩ ౪౨..."
+          ],
+          "lessonSectionId": "ఎవర-భ-ష-వ-ళ-ళక-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "ఇటువంటి మరెన్నో ; | ఆశ్చర్యకర సంఘటనల గురించి తెలుసుకోవాలంటే ఈ పాఠం చదువవలనిందే!",
+            "ఇగపటు నీ పాను, జర్దా డబ్బీ” ode నాలుగేళ్ల'మనుమరాలు లావణ్య నా చేతికిచ్చింది.",
+            "ఆమె కంటే రెండేళ్లు పెద్ద మనుమరాలు కావ్య సెలవుల్లో అమ్మమ్మ గారింట వున్నది."
+          ],
+          "lessonSectionId": "ఎవర-భ-ష-వ-ళ-ళక-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "వాళ్లకు తెలుగురాదు:' అంటే కొన్ని తెలుగు మాటలు హిందీలోంచి అనువదించుకొని మాట్లాడతారు.",
+            "గాని తెలుగువాళ్ల పలుకుబడి, నుడికారము వాళ్లకు తెలియదు."
+          ],
+          "lessonSectionId": "ఎవర-భ-ష-వ-ళ-ళక-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-section-1",
+          "title": "ఎవరి భాష వాళ్ళకు: Lesson reading",
+          "summary": [
+            "వదైనా ఒక అంశాన్ని గురించి క జ్‌ నంగ్రహంగా, ఆకట్టుకునేటట్లు వివరించేది వ్యానం.",
+            "సూటిగా, స్పష్టంగా, చై Es నిర్దిష్టంగా, నులభంగా అర్ధమయ్యే విధంగా ఉండటం వ్యానం లక్షణం.",
+            "= Dag, పాఠ్యభాగం దా సామల నదాళివ తన న్వీయ a Peay TS 'యాది” అనే వ్యాస నంపుటిలోనిది...కనో > ఎదలు v= | x S Ff గ ou సామల నదాళివ కుంరఠంభీం ఆసిఫాబాద్‌ జిల్లాలో భాగమైన దహెగామ్‌ మండలం తెనుగువల్లెలో జన్హించాడు."
+          ],
+          "keyPoints": [
+            "వదైనా ఒక అంశాన్ని గురించి క జ్‌ నంగ్రహంగా, ఆకట్టుకునేటట్లు వివరించేది వ్యానం.",
+            "సూటిగా, స్పష్టంగా, చై Es నిర్దిష్టంగా, నులభంగా అర్ధమయ్యే విధంగా ఉండటం వ్యానం లక్షణం.",
+            "= Dag, పాఠ్యభాగం దా సామల నదాళివ తన న్వీయ a Peay TS 'యాది” అనే వ్యాస నంపుటిలోనిది...కనో > ఎదలు v= | x S Ff గ ou సామల నదాళివ కుంరఠంభీం ఆసిఫాబాద్‌ జిల్లాలో భాగమైన దహెగామ్‌ మండలం తెనుగువల్లెలో జన్హించాడు.",
+            "సంస్కృతం, పొందీ, ఆంగ్లం, dtp, HE, మరాఠీ భాషల్లో ఈయన వండితుడు."
+          ],
+          "pageRange": "26-39"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "ఉర్దూ, ఫార్సీ, పొందీ, మరాఠీ కవుల రచయితల సాపొత్యాన్ని ఈయన తెలుగులోకి అనువాదం చేశాడు.",
+            "11-05-1928 ఉర్దూ సాహిత్య చరిత్ర, అమ్రద్‌రుబాయోలు/మలయమారుతాలు, యాది, సంగీత శిఖరాలు 07-08-2012 వి ఇతని రచనలు.",
+            "pS కబాయీలు' అనువాదానికి 1964లో ఆంధ్రప్రదేశ్‌ ప్రభత్వందే ఉత్తమ అనువాద రచనా వురస్మారం, 'స్వరలయలు' (గ్రంథానికి 2011లో కేంద్ర ores ఆకాడమీ అవాడ్డు లభించింది."
+          ],
+          "keyPoints": [
+            "ఉర్దూ, ఫార్సీ, పొందీ, మరాఠీ కవుల రచయితల సాపొత్యాన్ని ఈయన తెలుగులోకి అనువాదం చేశాడు.",
+            "11-05-1928 ఉర్దూ సాహిత్య చరిత్ర, అమ్రద్‌రుబాయోలు/మలయమారుతాలు, యాది, సంగీత శిఖరాలు 07-08-2012 వి ఇతని రచనలు.",
+            "pS కబాయీలు' అనువాదానికి 1964లో ఆంధ్రప్రదేశ్‌ ప్రభత్వందే ఉత్తమ అనువాద రచనా వురస్మారం, 'స్వరలయలు' (గ్రంథానికి 2011లో కేంద్ర ores ఆకాడమీ అవాడ్డు లభించింది.",
+            "కాకతీయ, తెలుగు విశ్వవిద్యాలయాలు గౌరవడాక్టరేట్‌తో సత్తరించాయే."
+          ],
+          "pageRange": "26-39"
+        },
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "సదాశివను పొందుస్తానీ - కర్ణాటక సంగీతానికి సాంస్కృతిక వారధిగా విద్వాంసులు గ గుత్తిలహీరు''సవ్ఫృదయ విమర్థకుడైన ఇతని రచనల్లో భాష సహజ సుందరంగా, సరళంగా క్ష BIBL రూపంలో మనసుకు వాత్తుకు పోయేటట్లు ఉంటుంది.",
+            "వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి.",
+            "was CRA i FRA RE RER PER => “2౨౪1౨౨౨౨ ౨౮ ౨|| 1౨౨ 1౮ ౨౨౫౨౧ ౨౨౩ ౪౨..."
+          ],
+          "keyPoints": [
+            "సదాశివను పొందుస్తానీ - కర్ణాటక సంగీతానికి సాంస్కృతిక వారధిగా విద్వాంసులు గ గుత్తిలహీరు''సవ్ఫృదయ విమర్థకుడైన ఇతని రచనల్లో భాష సహజ సుందరంగా, సరళంగా క్ష BIBL రూపంలో మనసుకు వాత్తుకు పోయేటట్లు ఉంటుంది.",
+            "వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి.",
+            "was CRA i FRA RE RER PER => “2౨౪1౨౨౨౨ ౨౮ ౨|| 1౨౨ 1౮ ౨౨౫౨౧ ౨౨౩ ౪౨...",
+            "; ఆ గుడిపూజారి - “మొదలు మీ కండ్లకు నీళ్ళు పెట్టుకోండి” అని ఆశ్చర్యపరచాడు."
+          ],
+          "pageRange": "26-39"
+        },
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "ఇటువంటి మరెన్నో ; | ఆశ్చర్యకర సంఘటనల గురించి తెలుసుకోవాలంటే ఈ పాఠం చదువవలనిందే!",
+            "ఇగపటు నీ పాను, జర్దా డబ్బీ” ode నాలుగేళ్ల'మనుమరాలు లావణ్య నా చేతికిచ్చింది.",
+            "ఆమె కంటే రెండేళ్లు పెద్ద మనుమరాలు కావ్య సెలవుల్లో అమ్మమ్మ గారింట వున్నది."
+          ],
+          "keyPoints": [
+            "ఇటువంటి మరెన్నో ; | ఆశ్చర్యకర సంఘటనల గురించి తెలుసుకోవాలంటే ఈ పాఠం చదువవలనిందే!",
+            "ఇగపటు నీ పాను, జర్దా డబ్బీ” ode నాలుగేళ్ల'మనుమరాలు లావణ్య నా చేతికిచ్చింది.",
+            "ఆమె కంటే రెండేళ్లు పెద్ద మనుమరాలు కావ్య సెలవుల్లో అమ్మమ్మ గారింట వున్నది.",
+            "హైదరాబాద్‌లో వుండే నా ఇద్దరు మనుమరాళ్లు హిందీ మాట్లాడతారు."
+          ],
+          "pageRange": "26-39"
+        },
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "వాళ్లకు తెలుగురాదు:' అంటే కొన్ని తెలుగు మాటలు హిందీలోంచి అనువదించుకొని మాట్లాడతారు.",
+            "గాని తెలుగువాళ్ల పలుకుబడి, నుడికారము వాళ్లకు తెలియదు."
+          ],
+          "keyPoints": [
+            "వాళ్లకు తెలుగురాదు:' అంటే కొన్ని తెలుగు మాటలు హిందీలోంచి అనువదించుకొని మాట్లాడతారు.",
+            "గాని తెలుగువాళ్ల పలుకుబడి, నుడికారము వాళ్లకు తెలియదు."
+          ],
+          "pageRange": "26-39"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "దాన్ని వారు తమ జీవిత a",
+          "meaning": "కాలంలో మొత్తం అచ్చువేసినట్లు లేరు. అక్కడక్కడ శ్ర is కొన్ని అచ్చయిన పద్యాలు కనిపిస్తాయి. Dore Loy ఇం SOS అయిన కర్ణసుందరి"
+        },
+        {
+          "term": "Sc",
+          "meaning": "er తరచుగా జాబులు రాస్తూ వారి ద్వారా అనేక he చ శ్ర DS సాహిత్య విషయాలు తెలుసుకున్నాను. కాబట్టి వారు TB జ్"
+        },
+        {
+          "term": "యాదిచేసుకొను",
+          "meaning": "నేను, నా స్నేహితుడు చిన్నప్పటి సంగత్తులు యాదిచేసుకొని బాగా నవ్వుకున్నాం. అ"
+        },
+        {
+          "term": "ఆలు",
+          "meaning": "పేదరాలు బీద"
+        },
+        {
+          "term": "05",
+          "meaning": "1928 ఉర్దూ సాహిత్య చరిత్ర, అమ్రద్"
+        },
+        {
+          "term": "08",
+          "meaning": "2012 వి ఇతని రచనలు. pS కబాయీలు"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: ఎవరి భాష వాళ్ళకు: Lesson reading",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-1"
+          ],
+          "focus": "Read the lesson. Section: ఎవరి భాష వాళ్ళకు: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: ఎవరి భాష వాళ్ళకు key terms and exam answers",
+          "lessonSectionIds": [
+            "ఎవర-భ-ష-వ-ళ-ళక-section-4",
+            "ఎవర-భ-ష-వ-ళ-ళక-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-q1",
+          "question": "Which word/idea is important in ఎవరి భాష వాళ్ళకు?",
+          "options": [
+            "దాన్ని వారు తమ జీవిత a",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "దాన్ని వారు తమ జీవిత a",
+          "explanation": "కాలంలో మొత్తం అచ్చువేసినట్లు లేరు. అక్కడక్కడ శ్ర is కొన్ని అచ్చయిన పద్యాలు కనిపిస్తాయి. Dore Loy ఇం SOS అయిన కర్ణసుందరి"
+        },
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-q2",
+          "question": "What is one key point from 'ఎవరి భాష వాళ్ళకు: Lesson reading'?",
+          "options": [
+            "వదైనా ఒక అంశాన్ని గురించి క జ్‌ నంగ్రహంగా, ఆకట్టుకునేటట్లు వివరించేది వ్యానం.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "వదైనా ఒక అంశాన్ని గురించి క జ్‌ నంగ్రహంగా, ఆకట్టుకునేటట్లు వివరించేది వ్యానం.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "ఎవర-భ-ష-వ-ళ-ళక-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 3,
-      "chapter_name": "సత్పాత్రదానము",
+      "chapter_name": "కృష్ణమాచార్య ప్రశస్తి",
+      "source_pages": {
+        "start": 40,
+        "end": 52
+      },
       "topics": [
         {
-          "topic_name": "సత్పాత్రదానము",
+          "topic_name": "కృష్ణమాచార్య ప్రశస్తి: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "సముద్రం ఉప్పొంగుతుండగా చూనేవాడు అరుదుగా ఉంటాడు.",
+            "సముద్రం | ఓ =| | చెలియలికట్ట దాటదం ఎవరూ ఊహించలేదు.",
+            "| wags పరిణామాలను, అద్భుతాలను ప్రపంచానికి చూపెట్టింది."
+          ],
+          "lessonSectionId": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-1"
         },
         {
-          "topic_name": "పరోపకారం - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "ఆ HG, తెలంగాణ 4 | oe ట్య | Ste తిరుగుబాటు జోరును, మహోన్నత త్యాగాల bits దాశరథి వద్దాల్లో |.",
+            "1 Neg ww J క I అ పు | | లో ౬౨౨౨-౮౮-౮౯) | గ్గ కసే | !",
+            "నీ పెదవులొత్తిన శంఖ మహారమమ్ములీ ్ట il Al భూతలమెల్ల నొక్కమొగి బొబ్బలు పెట్టినయట్లు తోచె, ఓ i Ab."
+          ],
+          "lessonSectionId": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-2"
         },
         {
-          "topic_name": "కథ - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "\\* OS ade సూన తరళీకృత దేవనదీతరంగముల్‌ 1 11 Z Ic} > x“ | Ye, tp శా.",
+            "నీ ప్రతిభా విశేషములు భూతప్రేత; హస్తమ్ములన్‌' zi \\ Yy న క Ae OBS కొన్ని తరాలదాక!",
+            "ఇపుడడ్డుల్‌ వోయె; సౌదామనీ క్ష yy టో క్ర వల్లీ ఫుల్లవిభావళుల్‌ బ్రతుకుత్రోవల్‌జూపు కాలమ్ములున్‌ “గాడ Vy గ్ల శ DHS!"
+          ],
+          "lessonSectionId": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "— స) We Se dike + (బితుకుతోవ చూపే కాలం \\ గగ a Ase Sum రావడం అంటే ఏమిటి?",
+            "నీ యొడిలోన పెంచితివి నిండుగ కోటి తెలుంగు కుర్రలన్‌!",
+            "(ప్రాయము వచ్చినంతనె కృపాణములిచ్చితి, యుద్ధమాడి వా God భుజాబలమ్ము SOROS జగమ్ము, నవాబుతో సవాల్‌ 'చేయుమటంటి; వీ తెలుగు రేగడిలో జిగి మెండు మాతరో!"
+          ],
+          "lessonSectionId": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "రా జలలాముం డనువాని పీచమడచన్‌ సాగించె యుద్ధమ్ము!",
+            "భీ తిలిపోయెన్‌ జగమెల్ల యేమియగునో తెల్యంగరాకన్‌!"
+          ],
+          "lessonSectionId": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-1",
+          "title": "కృష్ణమాచార్య ప్రశస్తి: Lesson reading",
+          "summary": [
+            "సముద్రం ఉప్పొంగుతుండగా చూనేవాడు అరుదుగా ఉంటాడు.",
+            "సముద్రం | ఓ =| | చెలియలికట్ట దాటదం ఎవరూ ఊహించలేదు.",
+            "| wags పరిణామాలను, అద్భుతాలను ప్రపంచానికి చూపెట్టింది."
+          ],
+          "keyPoints": [
+            "సముద్రం ఉప్పొంగుతుండగా చూనేవాడు అరుదుగా ఉంటాడు.",
+            "సముద్రం | ఓ =| | చెలియలికట్ట దాటదం ఎవరూ ఊహించలేదు.",
+            "| wags పరిణామాలను, అద్భుతాలను ప్రపంచానికి చూపెట్టింది.",
+            "తెలంగాణ | (౧ A H నేలమీద జరిగిన నిజాం విముక్తి ఉద్యమంలో తెలంగాణ ప్రజలు సముద్రంలో కట 1 { అలల మాదిరిగా ఉవ్వెత్తున ఉప్పొంగి ఎగిశారు."
+          ],
+          "pageRange": "40-52"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "ఆ HG, తెలంగాణ 4 | oe ట్య | Ste తిరుగుబాటు జోరును, మహోన్నత త్యాగాల bits దాశరథి వద్దాల్లో |.",
+            "1 Neg ww J క I అ పు | | లో ౬౨౨౨-౮౮-౮౯) | గ్గ కసే | !",
+            "నీ పెదవులొత్తిన శంఖ మహారమమ్ములీ ్ట il Al భూతలమెల్ల నొక్కమొగి బొబ్బలు పెట్టినయట్లు తోచె, ఓ i Ab."
+          ],
+          "keyPoints": [
+            "ఆ HG, తెలంగాణ 4 | oe ట్య | Ste తిరుగుబాటు జోరును, మహోన్నత త్యాగాల bits దాశరథి వద్దాల్లో |.",
+            "1 Neg ww J క I అ పు | | లో ౬౨౨౨-౮౮-౮౯) | గ్గ కసే | !",
+            "నీ పెదవులొత్తిన శంఖ మహారమమ్ములీ ్ట il Al భూతలమెల్ల నొక్కమొగి బొబ్బలు పెట్టినయట్లు తోచె, ఓ i Ab.",
+            "తెలవార్చివేసినవి ఒక్కొక దిక్కు నవోదయార్మ రుక్‌ 7."
+          ],
+          "pageRange": "40-52"
+        },
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "\\* OS ade సూన తరళీకృత దేవనదీతరంగముల్‌ 1 11 Z Ic} > x“ | Ye, tp శా.",
+            "నీ ప్రతిభా విశేషములు భూతప్రేత; హస్తమ్ములన్‌' zi \\ Yy న క Ae OBS కొన్ని తరాలదాక!",
+            "ఇపుడడ్డుల్‌ వోయె; సౌదామనీ క్ష yy టో క్ర వల్లీ ఫుల్లవిభావళుల్‌ బ్రతుకుత్రోవల్‌జూపు కాలమ్ములున్‌ “గాడ Vy గ్ల శ DHS!"
+          ],
+          "keyPoints": [
+            "\\* OS ade సూన తరళీకృత దేవనదీతరంగముల్‌ 1 11 Z Ic} > x“ | Ye, tp శా.",
+            "నీ ప్రతిభా విశేషములు భూతప్రేత; హస్తమ్ములన్‌' zi \\ Yy న క Ae OBS కొన్ని తరాలదాక!",
+            "ఇపుడడ్డుల్‌ వోయె; సౌదామనీ క్ష yy టో క్ర వల్లీ ఫుల్లవిభావళుల్‌ బ్రతుకుత్రోవల్‌జూపు కాలమ్ములున్‌ “గాడ Vy గ్ల శ DHS!",
+            "స్వచ్చతరోజ్ఞ్వల ప్రథమ సంధ్యాభానువేతెంచెడిన్‌ 2 Wey క gs : a “ Gps = oN SGA (|| శల ఇ ASiines గ +4 see ఎందుకు UT ENN Me z4 Aa |?"
+          ],
+          "pageRange": "40-52"
+        },
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "— స) We Se dike + (బితుకుతోవ చూపే కాలం \\ గగ a Ase Sum రావడం అంటే ఏమిటి?",
+            "నీ యొడిలోన పెంచితివి నిండుగ కోటి తెలుంగు కుర్రలన్‌!",
+            "(ప్రాయము వచ్చినంతనె కృపాణములిచ్చితి, యుద్ధమాడి వా God భుజాబలమ్ము SOROS జగమ్ము, నవాబుతో సవాల్‌ 'చేయుమటంటి; వీ తెలుగు రేగడిలో జిగి మెండు మాతరో!"
+          ],
+          "keyPoints": [
+            "— స) We Se dike + (బితుకుతోవ చూపే కాలం \\ గగ a Ase Sum రావడం అంటే ఏమిటి?",
+            "నీ యొడిలోన పెంచితివి నిండుగ కోటి తెలుంగు కుర్రలన్‌!",
+            "(ప్రాయము వచ్చినంతనె కృపాణములిచ్చితి, యుద్ధమాడి వా God భుజాబలమ్ము SOROS జగమ్ము, నవాబుతో సవాల్‌ 'చేయుమటంటి; వీ తెలుగు రేగడిలో జిగి మెండు మాతరో!",
+            "తెలగాణమ్మున గడ్డిపోచయును సంధించెన్‌ కృపాణమ్ము!"
+          ],
+          "pageRange": "40-52"
+        },
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "రా జలలాముం డనువాని పీచమడచన్‌ సాగించె యుద్ధమ్ము!",
+            "భీ తిలిపోయెన్‌ జగమెల్ల యేమియగునో తెల్యంగరాకన్‌!"
+          ],
+          "keyPoints": [
+            "రా జలలాముం డనువాని పీచమడచన్‌ సాగించె యుద్ధమ్ము!",
+            "భీ తిలిపోయెన్‌ జగమెల్ల యేమియగునో తెల్యంగరాకన్‌!"
+          ],
+          "pageRange": "40-52"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "తల్లీ",
+          "meaning": "అమ్మా! నీ"
+        },
+        {
+          "term": "నీయొక్క ప్రతిభావిశేషములు",
+          "meaning": "ప్రజ్ఞా విశేషాలు కొన్ని తరాలదాక"
+        },
+        {
+          "term": "కొన్ని తరాల వరకు భూతప్రేత",
+          "meaning": "చెడు శక్తుల"
+        },
+        {
+          "term": "ఇపుడు",
+          "meaning": "ఇప్పుడు అడ్డుల్"
+        },
+        {
+          "term": "సౌదామనీవల్లీ",
+          "meaning": "మెరుపుతీగల ఫుల్ల"
+        },
+        {
+          "term": "దారులను చూపు",
+          "meaning": "చూపే కాలమ్ములున్"
+        },
+        {
+          "term": "స్వచ్చతర ఇ అత్యంత స్వచ్ఫమైన ఉజ్జ్వల",
+          "meaning": "ప్రకాశవంతమైన"
+        },
+        {
+          "term": "ప్రథమ సంధ్యా",
+          "meaning": "తొలి పొద్దు భానువు"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: కృష్ణమాచార్య ప్రశస్తి: Lesson reading",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-1"
+          ],
+          "focus": "Read the lesson. Section: కృష్ణమాచార్య ప్రశస్తి: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: కృష్ణమాచార్య ప్రశస్తి key terms and exam answers",
+          "lessonSectionIds": [
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-4",
+            "క-ష-ణమ-చ-ర-య-ప-రశస-త-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-q1",
+          "question": "Which word/idea is important in కృష్ణమాచార్య ప్రశస్తి?",
+          "options": [
+            "తల్లీ",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "తల్లీ",
+          "explanation": "అమ్మా! నీ"
+        },
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-q2",
+          "question": "What is one key point from 'కృష్ణమాచార్య ప్రశస్తి: Lesson reading'?",
+          "options": [
+            "సముద్రం ఉప్పొంగుతుండగా చూనేవాడు అరుదుగా ఉంటాడు.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "సముద్రం ఉప్పొంగుతుండగా చూనేవాడు అరుదుగా ఉంటాడు.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "క-ష-ణమ-చ-ర-య-ప-రశస-త-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 4,
-      "chapter_name": "అసామాన్యులు",
+      "chapter_name": "నగరగీతం",
+      "source_pages": {
+        "start": 53,
+        "end": 64
+      },
       "topics": [
         {
-          "topic_name": "అసామాన్యులు",
+          "topic_name": "నగరగీతం: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "ఇర్కుటాన వడి Ho పడ్డ ఎల్కతీర్ణ తండ్లాడిన గని ఉపాయం SHS పెండ్లాం పిల్లల దీస్కొని సుట్టాల మార్గం అంట రంగాపురం జేరిండు.” ఈ రంగరాయుడు చిన్న సన్నోడుగాడే!",
+            "ఈ పసికారు రొండెర్లక నివురు గమ్మిన కొరివి తోటి నెత్తి గోక్కుంట లేరు గదా!",
+            "ఇప్పుడు మా బావ పోలీసుపటేలు పాపిరెడ్డికి సాగువాటు సరిగలేదంట సూచాయగ ఇన్న మరి ఆయినేం పచ్చపూస గన్మనా?"
+          ],
+          "lessonSectionId": "నగరగ-త-section-1"
         },
         {
-          "topic_name": "శ్రమజీవన సౌందర్యం - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "ఎన్నాళ్ళంట వీళ్ళ చెప్పుకింద తేళ్ళ తీర్ణ అణిగి మణిగి ఉంటరు?",
+            "సన్నకారు మంది అంత ఇప్పుడు అయిందానికి కానిదానికి కయ్యాలకు దిగి కుస్తిపట్లు, పట్టి నెత్తురు కండ్ల జూస్కోని పంచాయితిల పడి ఆ పంచాయితిడార్లకు అప్పు సప్పు జేసి దండుగలు గట్టుకం లేదు.",
+            "ఏ వాడన పంచాయితి ఆ వాడనె తీర్పులు జరుగుతుండవి."
+          ],
+          "lessonSectionId": "నగరగ-త-section-2"
         },
         {
-          "topic_name": "గేయకవిత - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "ఆడ మా పెదమామ ఇంటిపోంటి ఉన్న గరిసెల ఇండ్లల్ల దీపాలు ఎలిగినట్లు నలుగుర్మమణుసులు, మెసిల్చట్లు జళకళ గలగల సప్పుడు ఇనిపిచ్చింది.",
+            "అన్నట్లు మా తమ్ముణి దిక్కుజూసిన, ఎంటనె మా హాజిర్‌ జవాబు ఎక్కళ్ళేని ఉల్లాసం తోటి బుజాన ఏసుకున్న దస్తు రుమాలు జాడిచ్చి దులుపుకుంట “అక్కా!",
+            "ఇది మన Sys పల్లకీ nod పాత పొత్తులిల్లు, జనం మెదులక బండ జింకలు జేరి అబ్బో అన్నట్లుంటుండె, అది ఇప్పుడు మనూరికి రాశత్రిబడి ఐంది."
+          ],
+          "lessonSectionId": "నగరగ-త-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "సంబురానికి మెరిమెణ జేసి పగటి దీపాలెలిగిచ్చి ఊరంత మెరిచ్చిన మెరియ్యని ఊరేగింపులు తీసె మగ్దూరు లేదు అంట కట్టడి జేసినం.",
+            "ఇంగ మనపెత్తాత కండ్లు నిప్పుకలు RMON, SAS లేక తామసం ఆపుకొని పణమీది చెముటలు చిన్నపంచె తోటి తుడ్సుకుంట బుస్సు బుస్సు మంటుండంగ 'మేమంత ఈ పాత సవారీలను బద్దురంగ గుమ్ములింట్ల అలంకారాలోలె యాళ్ళాడగట్టినం”.",
+            "గజ్జెల సప్పుడు ఇని ఆ సుట్టుపక్కల పిల్లలంత ఉరుక్కుంటొచ్చి సుట్టు జుట్టుకున్నరు."
+          ],
+          "lessonSectionId": "నగరగ-త-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "(1 ఎ ee ee er ee, i | Wa Bee ERAT SA 4 aay Sa) Ss gh OS SEND ౦కే ప AR 0% ళా రోగి తము CE EPR TR CR RAO ed 'బండిదిగి బంకులు దాటి ఇంట్లకు నడ్సిన.",
+            "అలువాటు సొప్పున బాయికాడి \\ గచ్చుల్లకు నడ్సిన."
+          ],
+          "lessonSectionId": "నగరగ-త-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "నగరగ-త-section-1",
+          "title": "నగరగీతం: Lesson reading",
+          "summary": [
+            "ఇర్కుటాన వడి Ho పడ్డ ఎల్కతీర్ణ తండ్లాడిన గని ఉపాయం SHS పెండ్లాం పిల్లల దీస్కొని సుట్టాల మార్గం అంట రంగాపురం జేరిండు.” ఈ రంగరాయుడు చిన్న సన్నోడుగాడే!",
+            "ఈ పసికారు రొండెర్లక నివురు గమ్మిన కొరివి తోటి నెత్తి గోక్కుంట లేరు గదా!",
+            "ఇప్పుడు మా బావ పోలీసుపటేలు పాపిరెడ్డికి సాగువాటు సరిగలేదంట సూచాయగ ఇన్న మరి ఆయినేం పచ్చపూస గన్మనా?"
+          ],
+          "keyPoints": [
+            "ఇర్కుటాన వడి Ho పడ్డ ఎల్కతీర్ణ తండ్లాడిన గని ఉపాయం SHS పెండ్లాం పిల్లల దీస్కొని సుట్టాల మార్గం అంట రంగాపురం జేరిండు.” ఈ రంగరాయుడు చిన్న సన్నోడుగాడే!",
+            "ఈ పసికారు రొండెర్లక నివురు గమ్మిన కొరివి తోటి నెత్తి గోక్కుంట లేరు గదా!",
+            "ఇప్పుడు మా బావ పోలీసుపటేలు పాపిరెడ్డికి సాగువాటు సరిగలేదంట సూచాయగ ఇన్న మరి ఆయినేం పచ్చపూస గన్మనా?",
+            "ఊళ్ళ ఒకణ్ణి ఎక్కిచ్చి ఒగణ్ణి దించి ఇద్దర్ని ఎదుగనీయకుండ ఎప్పటి శిగలు అప్పుడె గత్తరిచ్చె విద్దెలు ఈ అయ్యలకు పొత్తిళ్ళనాడె అబ్బుకొచ్చినవి."
+          ],
+          "pageRange": "53-64"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "నగరగ-త-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "ఎన్నాళ్ళంట వీళ్ళ చెప్పుకింద తేళ్ళ తీర్ణ అణిగి మణిగి ఉంటరు?",
+            "సన్నకారు మంది అంత ఇప్పుడు అయిందానికి కానిదానికి కయ్యాలకు దిగి కుస్తిపట్లు, పట్టి నెత్తురు కండ్ల జూస్కోని పంచాయితిల పడి ఆ పంచాయితిడార్లకు అప్పు సప్పు జేసి దండుగలు గట్టుకం లేదు.",
+            "ఏ వాడన పంచాయితి ఆ వాడనె తీర్పులు జరుగుతుండవి."
+          ],
+          "keyPoints": [
+            "ఎన్నాళ్ళంట వీళ్ళ చెప్పుకింద తేళ్ళ తీర్ణ అణిగి మణిగి ఉంటరు?",
+            "సన్నకారు మంది అంత ఇప్పుడు అయిందానికి కానిదానికి కయ్యాలకు దిగి కుస్తిపట్లు, పట్టి నెత్తురు కండ్ల జూస్కోని పంచాయితిల పడి ఆ పంచాయితిడార్లకు అప్పు సప్పు జేసి దండుగలు గట్టుకం లేదు.",
+            "ఏ వాడన పంచాయితి ఆ వాడనె తీర్పులు జరుగుతుండవి.",
+            "ఇన్నాళ్ళ తీరుగ అద్దమ్మ రాత్రిర్లు దొంగతనాలు లేవు, సేండ్ల దోపిండ్లు లేవు, పరిక్కరీపలు' లేవు/గలాగుల తొండలు లేవు, ముంతపొగలు లేవు, ఈపు ముద్దెర్లు SH, Oe బర్వులు లేవు, అడుక్కు తిండ్లు లేవు”."
+          ],
+          "pageRange": "53-64"
+        },
+        {
+          "id": "నగరగ-త-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "ఆడ మా పెదమామ ఇంటిపోంటి ఉన్న గరిసెల ఇండ్లల్ల దీపాలు ఎలిగినట్లు నలుగుర్మమణుసులు, మెసిల్చట్లు జళకళ గలగల సప్పుడు ఇనిపిచ్చింది.",
+            "అన్నట్లు మా తమ్ముణి దిక్కుజూసిన, ఎంటనె మా హాజిర్‌ జవాబు ఎక్కళ్ళేని ఉల్లాసం తోటి బుజాన ఏసుకున్న దస్తు రుమాలు జాడిచ్చి దులుపుకుంట “అక్కా!",
+            "ఇది మన Sys పల్లకీ nod పాత పొత్తులిల్లు, జనం మెదులక బండ జింకలు జేరి అబ్బో అన్నట్లుంటుండె, అది ఇప్పుడు మనూరికి రాశత్రిబడి ఐంది."
+          ],
+          "keyPoints": [
+            "ఆడ మా పెదమామ ఇంటిపోంటి ఉన్న గరిసెల ఇండ్లల్ల దీపాలు ఎలిగినట్లు నలుగుర్మమణుసులు, మెసిల్చట్లు జళకళ గలగల సప్పుడు ఇనిపిచ్చింది.",
+            "అన్నట్లు మా తమ్ముణి దిక్కుజూసిన, ఎంటనె మా హాజిర్‌ జవాబు ఎక్కళ్ళేని ఉల్లాసం తోటి బుజాన ఏసుకున్న దస్తు రుమాలు జాడిచ్చి దులుపుకుంట “అక్కా!",
+            "ఇది మన Sys పల్లకీ nod పాత పొత్తులిల్లు, జనం మెదులక బండ జింకలు జేరి అబ్బో అన్నట్లుంటుండె, అది ఇప్పుడు మనూరికి రాశత్రిబడి ఐంది.",
+            "మేమంత గలిసి ఈ ఊళ్ళ ఎవరి పెండ్లిళ్ళైనగాని, వాళ్ళెంత మోతెబరి కర్ణప్పటేండ్లైన, వాండ్ల 'పెండ్లిండ్లకు మణుసులు మోసే మ్యానా పల్లకీలు రాగూడదు."
+          ],
+          "pageRange": "53-64"
+        },
+        {
+          "id": "నగరగ-త-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "సంబురానికి మెరిమెణ జేసి పగటి దీపాలెలిగిచ్చి ఊరంత మెరిచ్చిన మెరియ్యని ఊరేగింపులు తీసె మగ్దూరు లేదు అంట కట్టడి జేసినం.",
+            "ఇంగ మనపెత్తాత కండ్లు నిప్పుకలు RMON, SAS లేక తామసం ఆపుకొని పణమీది చెముటలు చిన్నపంచె తోటి తుడ్సుకుంట బుస్సు బుస్సు మంటుండంగ 'మేమంత ఈ పాత సవారీలను బద్దురంగ గుమ్ములింట్ల అలంకారాలోలె యాళ్ళాడగట్టినం”.",
+            "గజ్జెల సప్పుడు ఇని ఆ సుట్టుపక్కల పిల్లలంత ఉరుక్కుంటొచ్చి సుట్టు జుట్టుకున్నరు."
+          ],
+          "keyPoints": [
+            "సంబురానికి మెరిమెణ జేసి పగటి దీపాలెలిగిచ్చి ఊరంత మెరిచ్చిన మెరియ్యని ఊరేగింపులు తీసె మగ్దూరు లేదు అంట కట్టడి జేసినం.",
+            "ఇంగ మనపెత్తాత కండ్లు నిప్పుకలు RMON, SAS లేక తామసం ఆపుకొని పణమీది చెముటలు చిన్నపంచె తోటి తుడ్సుకుంట బుస్సు బుస్సు మంటుండంగ 'మేమంత ఈ పాత సవారీలను బద్దురంగ గుమ్ములింట్ల అలంకారాలోలె యాళ్ళాడగట్టినం”.",
+            "గజ్జెల సప్పుడు ఇని ఆ సుట్టుపక్కల పిల్లలంత ఉరుక్కుంటొచ్చి సుట్టు జుట్టుకున్నరు.",
+            "ఈ పిల్లలు ఇన్నాళ్ళ తీర్ణ ఈసురుమంట లేరు, ఇప్పుడు ha ముక్కులు లేవు, సింపులు లేవు, సీరపేండ్లు లేవు, వోరగాళ్ళు లేవు, ఊడ్సుకండ్లు లేవు, పిల్లలందరు దోసపండ్లోలె, ఉంకు చెండ్లోలె కళకళ లాడ్తుండరు."
+          ],
+          "pageRange": "53-64"
+        },
+        {
+          "id": "నగరగ-త-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "(1 ఎ ee ee er ee, i | Wa Bee ERAT SA 4 aay Sa) Ss gh OS SEND ౦కే ప AR 0% ళా రోగి తము CE EPR TR CR RAO ed 'బండిదిగి బంకులు దాటి ఇంట్లకు నడ్సిన.",
+            "అలువాటు సొప్పున బాయికాడి \\ గచ్చుల్లకు నడ్సిన."
+          ],
+          "keyPoints": [
+            "(1 ఎ ee ee er ee, i | Wa Bee ERAT SA 4 aay Sa) Ss gh OS SEND ౦కే ప AR 0% ళా రోగి తము CE EPR TR CR RAO ed 'బండిదిగి బంకులు దాటి ఇంట్లకు నడ్సిన.",
+            "అలువాటు సొప్పున బాయికాడి \\ గచ్చుల్లకు నడ్సిన."
+          ],
+          "pageRange": "53-64"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "గ్ర",
+          "meaning": "j ఏమిటి? చర్చించండి."
+        },
+        {
+          "term": "ఆస్తువోయుటి",
+          "meaning": "_ ______"
+        },
+        {
+          "term": "అనే మినీ కవితలలో",
+          "meaning": "SF కొన్నిటిని"
+        },
+        {
+          "term": "భావం కవితారూపం శ్ర ta le",
+          "meaning": "గే, సంతరించుకుంటుంది. 1 Seg"
+        },
+        {
+          "term": "రంలోని మనిషి వెనక అనేక ఆసక్తికరమైనః",
+          "meaning": "ఆనంద, విషాదగాథలుంటాయి."
+        },
+        {
+          "term": "01",
+          "meaning": "1998 భోటోగ్రాఫర్"
+        },
+        {
+          "term": "వృదయం ఎట్లా దర్భించిందో",
+          "meaning": "అలిశెట్టి"
+        },
+        {
+          "term": "ఆలోచించండి",
+          "meaning": "చెప్పండి"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: నగరగీతం: Lesson reading",
+          "lessonSectionIds": [
+            "నగరగ-త-section-1"
+          ],
+          "focus": "Read the lesson. Section: నగరగీతం: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "నగరగ-త-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "నగరగ-త-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "నగరగ-త-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "నగరగ-త-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: నగరగీతం key terms and exam answers",
+          "lessonSectionIds": [
+            "నగరగ-త-section-4",
+            "నగరగ-త-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "నగరగ-త-q1",
+          "question": "Which word/idea is important in నగరగీతం?",
+          "options": [
+            "గ్ర",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "గ్ర",
+          "explanation": "j ఏమిటి? చర్చించండి."
+        },
+        {
+          "id": "నగరగ-త-q2",
+          "question": "What is one key point from 'నగరగీతం: Lesson reading'?",
+          "options": [
+            "ఇర్కుటాన వడి Ho పడ్డ ఎల్కతీర్ణ తండ్లాడిన గని ఉపాయం SHS పెండ్లాం పిల్లల దీస్కొని సుట్టాల మార్గం అంట రంగాపురం జేరిండు.” ఈ రంగరాయుడు చిన్న సన్న",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "ఇర్కుటాన వడి Ho పడ్డ ఎల్కతీర్ణ తండ్లాడిన గని ఉపాయం SHS పెండ్లాం పిల్లల దీస్కొని సుట్టాల మార్గం అంట రంగాపురం జేరిండు.” ఈ రంగరాయుడు చిన్న సన్న",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "నగరగ-త-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 5,
-      "chapter_name": "విహారయాత్ర",
+      "chapter_name": "శతక మధురిమ",
+      "source_pages": {
+        "start": 65,
+        "end": 81
+      },
       "topics": [
         {
-          "topic_name": "విహారయాత్ర",
+          "topic_name": "శతక మధురిమ: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "మగడు (1) PER ఆ) కవితలో కవి ఏయే పండుగలు ప్రస్తావించాడు?",
+            "ఇ) మనుషుల నడుమ బాంధవ్యాలను కవి వేటితో పోల్చాడు?",
+            "కింది ప్రశ్నలకు ఐదేసి వాక్యాల్లో జవాబులు రాయండి."
+          ],
+          "lessonSectionId": "శతక-మధ-ర-మ-section-1"
         },
         {
-          "topic_name": "గిరిజన సంస్కృతి - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "ఇ) నగర జీవితంలోని ప్రతికూల అంశాలను ఇంత కఠినంగా వర్ణించడంలో కవి ఆంతర్యం ఏమిటి?",
+            "ఈ) నగరంలో మనిషి జీవన విధానంగుర్తించి మీ“అభిప్రాయం తెలుపండి.",
+            "అ) నేడు నగర జీవనం;విందుకు సంక్లిష్టంగా మారిందో విశ్లేషించండి."
+          ],
+          "lessonSectionId": "శతక-మధ-ర-మ-section-2"
         },
         {
-          "topic_name": "సంభాషణ - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "అ) నగారా = ఆ) సందడి = ఇ) ఘోష = ఈ) పఠనీయ (గ్రంథం =",
+            "కింది పదాలకు పర్యాయపదాలు రాసి వాటితో వాక్యాలు రాయండి.",
+            ") నరుడు ఆ) అరణ్యం ఇ) రైతు ఈ) పువ్వు ఉ) మరణం ఊ) వాంఛ ఎ) వృక్షం ఏ) పల్లె em పల్లె - గ్రామం, జనపదం పల్లెలే దేశానికి పట్టుగొమ్మలు అని గ్రామస్వరాజ్యం కోసం గాంధీజీ కలలు కన్నాడు."
+          ],
+          "lessonSectionId": "శతక-మధ-ర-మ-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "అ) నగారా మోగిందా నయాగరా దుమికిందా ఆ) కొందరికి రెండు కాళ్ళు రిక్షావాళ్ళకి మూడు కాళ్ళు ఉన్నవాళ్ళకి నాలుక్కాళ్ళు 2.",
+            "@ ఉపాధ్యాయుడు జ్ఞానజ్యోతులను ప్రకాశింపజేస్తాడు.",
+            "ale గా en Gat US స Goer రును FER SERRANO OD) BRE Ae 1 RR FER RA మొదటి వాక్యంలో జ్ఞానమే జ్యోతిగా చెప్పబడింది."
+          ],
+          "lessonSectionId": "శతక-మధ-ర-మ-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "ఇట్లా అభేదం చెప్పడాన్నే 'రూపకాలంకారం' అంటారు.",
+            "లక్షణం : ఉపమేయానికి, ఉపమానానికి భేదం (తేడా) ఉన్నా, లేనట్లు చెపితే అది రూపకాలంకారం."
+          ],
+          "lessonSectionId": "శతక-మధ-ర-మ-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "శతక-మధ-ర-మ-section-1",
+          "title": "శతక మధురిమ: Lesson reading",
+          "summary": [
+            "మగడు (1) PER ఆ) కవితలో కవి ఏయే పండుగలు ప్రస్తావించాడు?",
+            "ఇ) మనుషుల నడుమ బాంధవ్యాలను కవి వేటితో పోల్చాడు?",
+            "కింది ప్రశ్నలకు ఐదేసి వాక్యాల్లో జవాబులు రాయండి."
+          ],
+          "keyPoints": [
+            "మగడు (1) PER ఆ) కవితలో కవి ఏయే పండుగలు ప్రస్తావించాడు?",
+            "ఇ) మనుషుల నడుమ బాంధవ్యాలను కవి వేటితో పోల్చాడు?",
+            "కింది ప్రశ్నలకు ఐదేసి వాక్యాల్లో జవాబులు రాయండి.",
+            "కోరిక చిక్కడు” అనే.క్రవితాపంక్తుల్లోని వాస్తవాన్ని వివరించండి."
+          ],
+          "pageRange": "65-81"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "శతక-మధ-ర-మ-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "ఇ) నగర జీవితంలోని ప్రతికూల అంశాలను ఇంత కఠినంగా వర్ణించడంలో కవి ఆంతర్యం ఏమిటి?",
+            "ఈ) నగరంలో మనిషి జీవన విధానంగుర్తించి మీ“అభిప్రాయం తెలుపండి.",
+            "అ) నేడు నగర జీవనం;విందుకు సంక్లిష్టంగా మారిందో విశ్లేషించండి."
+          ],
+          "keyPoints": [
+            "ఇ) నగర జీవితంలోని ప్రతికూల అంశాలను ఇంత కఠినంగా వర్ణించడంలో కవి ఆంతర్యం ఏమిటి?",
+            "ఈ) నగరంలో మనిషి జీవన విధానంగుర్తించి మీ“అభిప్రాయం తెలుపండి.",
+            "అ) నేడు నగర జీవనం;విందుకు సంక్లిష్టంగా మారిందో విశ్లేషించండి.",
+            "అ) మనపరిసరాల పరిశుభ్రత కోసం అందరూ కృషిచేయాలని తెలిపేటట్లు కరపత్రం రాసి ప్రదర్శించండి."
+          ],
+          "pageRange": "65-81"
+        },
+        {
+          "id": "శతక-మధ-ర-మ-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "అ) నగారా = ఆ) సందడి = ఇ) ఘోష = ఈ) పఠనీయ (గ్రంథం =",
+            "కింది పదాలకు పర్యాయపదాలు రాసి వాటితో వాక్యాలు రాయండి.",
+            ") నరుడు ఆ) అరణ్యం ఇ) రైతు ఈ) పువ్వు ఉ) మరణం ఊ) వాంఛ ఎ) వృక్షం ఏ) పల్లె em పల్లె - గ్రామం, జనపదం పల్లెలే దేశానికి పట్టుగొమ్మలు అని గ్రామస్వరాజ్యం కోసం గాంధీజీ కలలు కన్నాడు."
+          ],
+          "keyPoints": [
+            "అ) నగారా = ఆ) సందడి = ఇ) ఘోష = ఈ) పఠనీయ (గ్రంథం =",
+            "కింది పదాలకు పర్యాయపదాలు రాసి వాటితో వాక్యాలు రాయండి.",
+            ") నరుడు ఆ) అరణ్యం ఇ) రైతు ఈ) పువ్వు ఉ) మరణం ఊ) వాంఛ ఎ) వృక్షం ఏ) పల్లె em పల్లె - గ్రామం, జనపదం పల్లెలే దేశానికి పట్టుగొమ్మలు అని గ్రామస్వరాజ్యం కోసం గాంధీజీ కలలు కన్నాడు.",
+            "కింది కవితాభాగాల్లోని అలంకారాన్ని గుర్తించండి."
+          ],
+          "pageRange": "65-81"
+        },
+        {
+          "id": "శతక-మధ-ర-మ-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "అ) నగారా మోగిందా నయాగరా దుమికిందా ఆ) కొందరికి రెండు కాళ్ళు రిక్షావాళ్ళకి మూడు కాళ్ళు ఉన్నవాళ్ళకి నాలుక్కాళ్ళు 2.",
+            "@ ఉపాధ్యాయుడు జ్ఞానజ్యోతులను ప్రకాశింపజేస్తాడు.",
+            "ale గా en Gat US స Goer రును FER SERRANO OD) BRE Ae 1 RR FER RA మొదటి వాక్యంలో జ్ఞానమే జ్యోతిగా చెప్పబడింది."
+          ],
+          "keyPoints": [
+            "అ) నగారా మోగిందా నయాగరా దుమికిందా ఆ) కొందరికి రెండు కాళ్ళు రిక్షావాళ్ళకి మూడు కాళ్ళు ఉన్నవాళ్ళకి నాలుక్కాళ్ళు 2.",
+            "@ ఉపాధ్యాయుడు జ్ఞానజ్యోతులను ప్రకాశింపజేస్తాడు.",
+            "ale గా en Gat US స Goer రును FER SERRANO OD) BRE Ae 1 RR FER RA మొదటి వాక్యంలో జ్ఞానమే జ్యోతిగా చెప్పబడింది.",
+            "ఈ రెండింటికి భేదం లేనట్లు (అభేదం)గా చెప్పబడింది."
+          ],
+          "pageRange": "65-81"
+        },
+        {
+          "id": "శతక-మధ-ర-మ-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "ఇట్లా అభేదం చెప్పడాన్నే 'రూపకాలంకారం' అంటారు.",
+            "లక్షణం : ఉపమేయానికి, ఉపమానానికి భేదం (తేడా) ఉన్నా, లేనట్లు చెపితే అది రూపకాలంకారం."
+          ],
+          "keyPoints": [
+            "ఇట్లా అభేదం చెప్పడాన్నే 'రూపకాలంకారం' అంటారు.",
+            "లక్షణం : ఉపమేయానికి, ఉపమానానికి భేదం (తేడా) ఉన్నా, లేనట్లు చెపితే అది రూపకాలంకారం."
+          ],
+          "pageRange": "65-81"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "గ్రంథం",
+          "meaning": "2. కింది పదాలకు పర్యాయపదాలు రాసి వాటితో వాక్యాలు రాయండి."
+        },
+        {
+          "term": "ss ta a",
+          "meaning": "ఆయన అనేక బపారంగ సభలు నిర్వహించాడు. గడా"
+        },
+        {
+          "term": "ఆయన చేవట్టిన NS",
+          "meaning": "apy ! వనులలోకెల్లా మరవురానిది దోవదానీ, ముర్లీ, Lape గ్ల . Ae దేవునికి వదిలివేయడాన్ని తీవంగా Ho. CAR"
+        },
+        {
+          "term": "ఉన్నతి",
+          "meaning": "ఇ స్వేళ్ళ 2 ఈ"
+        },
+        {
+          "term": "వికాసం",
+          "meaning": "_ .,._ 2 కింది పదాలను ఉపయోగిస్తూ సొంతవాక్యాలు రాయండి. అ"
+        },
+        {
+          "term": "మచ్చుతుక",
+          "meaning": "__ ఇ మహమ్మాం"
+        },
+        {
+          "term": "నిరంతరం",
+          "meaning": "8. కింది పదాలను"
+        },
+        {
+          "term": "ఈతని a",
+          "meaning": "రచనల్లో భక్తి తత్తరతతోపాటు తాత్త్విక చింతన, PEPPY కనిపిస్తుంది. తెలంగాణ గా a"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: శతక మధురిమ: Lesson reading",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-1"
+          ],
+          "focus": "Read the lesson. Section: శతక మధురిమ: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: శతక మధురిమ key terms and exam answers",
+          "lessonSectionIds": [
+            "శతక-మధ-ర-మ-section-4",
+            "శతక-మధ-ర-మ-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "శతక-మధ-ర-మ-q1",
+          "question": "Which word/idea is important in శతక మధురిమ?",
+          "options": [
+            "గ్రంథం",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "గ్రంథం",
+          "explanation": "2. కింది పదాలకు పర్యాయపదాలు రాసి వాటితో వాక్యాలు రాయండి."
+        },
+        {
+          "id": "శతక-మధ-ర-మ-q2",
+          "question": "What is one key point from 'శతక మధురిమ: Lesson reading'?",
+          "options": [
+            "మగడు (1) PER ఆ) కవితలో కవి ఏయే పండుగలు ప్రస్తావించాడు?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "మగడు (1) PER ఆ) కవితలో కవి ఏయే పండుగలు ప్రస్తావించాడు?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "శతక-మధ-ర-మ-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 6,
-      "chapter_name": "మాతృదేశం",
+      "chapter_name": "లక్ష్యసిద్ధి",
+      "source_pages": {
+        "start": 82,
+        "end": 98
+      },
       "topics": [
         {
-          "topic_name": "మాతృదేశం",
+          "topic_name": "లక్ష్యసిద్ధి: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "Le, YJ bs గ గ = Z-AN oN \\ > / || \\ _< Jat 7 / “ల్‌ (1౨౫ రాజ, Se.",
+            "భండనభీముం డార్తజన బాంధవుండుజ్జ్వల బాణతూణ కో దండ కళాప్రచండభుజతారిడవ కీర్తికి రామమూర్తికిన్‌ రెండవ PO BSH 'లేండనుచున్‌ గడగట్టి భేరికా wots డడాండజాండ నినదంబులజాండము నిండ మత్తవే దండము, నెక్కిచాటెదను దాశరథీ!",
+            "ఒకరి వర్షాశనము ముంచకున్నం జాలు ౧ arto doth & p బేరు కీర్తిగ సత్రముల్‌ పెట్టినట్లు భూషణవికాస!"
+          ],
+          "lessonSectionId": "లక-ష-యస-ద-ధ-section-1"
         },
         {
-          "topic_name": "దేశభక్తి - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "కలనైన సత్యంబు బలుకనొల్లనివాడు {Oo ps అ 'మాయమాటల సొమ్ము దీయువాడు శ్రా శక...",
+            "కులగర్వమున పేద కొంపలార్చెడివాడు 2 గ్ల ( లంచంబులకు వెల బెంచువాడు a గై చెడు ప్రవర్తనలందు జెలగి తిరుగువాడు , (\\ వరుసవావికి నీళ్ళు వదులువాడు సై 1 ముచ్చటాడుచు కొంప ముంచజూచెడివాడు = SS <a కన్నవారల గెంటుచున్నవాడు 2) A a — గీ.",
+            "BEE నరరూపుడై పుట్టియున్న రాక్షసుడు గాక వేరౌన రామచంద్ర!"
+          ],
+          "lessonSectionId": "లక-ష-యస-ద-ధ-section-2"
         },
         {
-          "topic_name": "వచనకవిత - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "అల బల బా బా బా బా ఇ | ప ‘ | ~ ee — i> సర్వేశ్వరా!",
+            "Sang, com & క్ర లని అమృతంవంటి ననన చండ : 1 దానగుణం కలిగిన; టి వాడవయిన ఓ సు ప్రజలు రాజులను స స | పొందేవా!",
+            "0 కలవాడయి: pe లేకున్నా = = పొందే _ = a డమును స | ese మంకు కం Baits సంపదలు లే ae | 1 భుజతాండవంతో ae — : నెక్కి ధనుర్విఢ మంతమైన ca sve!"
+          ],
+          "lessonSectionId": "లక-ష-యస-ద-ధ-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "- | seo కానా 68 o 7 ae oon oe | a se xv 'రించేవాడా!",
+            "దేవతా మాన్యముల్లను var a oe =a | 1 సత్రాలు ట్లే.",
+            "hee ఏక సరిపడ భోజనాన్ని) cams Sey , ae ea eee స్తంభంతో కూడిన | - 'చాలు, 1 DEP పంచి, or చ న్‌ మ Be 1058 దీనస్థితిని రూ | | 7) ఓ లొంక'రామేశ్వతా!' 'వుతారు."
+          ],
+          "lessonSectionId": "లక-ష-యస-ద-ధ-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "స అ SDSS) స 8) దః కుంట “ = : 1 ces నిధివంటి __.",
+            "నిండు | senigoste Fe armas a “ a పేదవాండ్ల స్‌ = | 1 చే at, వావివరుసల ఇండ్లను నాశనం గ పే న స men | యాలను!"
+          ],
+          "lessonSectionId": "లక-ష-యస-ద-ధ-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "లక-ష-యస-ద-ధ-section-1",
+          "title": "లక్ష్యసిద్ధి: Lesson reading",
+          "summary": [
+            "Le, YJ bs గ గ = Z-AN oN \\ > / || \\ _< Jat 7 / “ల్‌ (1౨౫ రాజ, Se.",
+            "భండనభీముం డార్తజన బాంధవుండుజ్జ్వల బాణతూణ కో దండ కళాప్రచండభుజతారిడవ కీర్తికి రామమూర్తికిన్‌ రెండవ PO BSH 'లేండనుచున్‌ గడగట్టి భేరికా wots డడాండజాండ నినదంబులజాండము నిండ మత్తవే దండము, నెక్కిచాటెదను దాశరథీ!",
+            "ఒకరి వర్షాశనము ముంచకున్నం జాలు ౧ arto doth & p బేరు కీర్తిగ సత్రముల్‌ పెట్టినట్లు భూషణవికాస!"
+          ],
+          "keyPoints": [
+            "Le, YJ bs గ గ = Z-AN oN \\ > / || \\ _< Jat 7 / “ల్‌ (1౨౫ రాజ, Se.",
+            "భండనభీముం డార్తజన బాంధవుండుజ్జ్వల బాణతూణ కో దండ కళాప్రచండభుజతారిడవ కీర్తికి రామమూర్తికిన్‌ రెండవ PO BSH 'లేండనుచున్‌ గడగట్టి భేరికా wots డడాండజాండ నినదంబులజాండము నిండ మత్తవే దండము, నెక్కిచాటెదను దాశరథీ!",
+            "ఒకరి వర్షాశనము ముంచకున్నం జాలు ౧ arto doth & p బేరు కీర్తిగ సత్రముల్‌ పెట్టినట్లు భూషణవికాస!",
+            "ప స శ గ లా Pi, ఘనుడవ్వాడగు, వేడు త్యాగమయ దీక్షంబూని సర్వంసహా న్యా | he LS జన దైన్యస్థితి బోనడంచి సకలాశాపేశలానంద జీ \\ ట్‌ Os, “ze వన సంరంభము Hod, దేశజననీ ప్రాశస్త్యమున్‌ పంచునో = 2 TS అనిదంపూర్వ యశస్వి యాతడగు నన్నా!"
+          ],
+          "pageRange": "82-98"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "లక-ష-యస-ద-ధ-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "కలనైన సత్యంబు బలుకనొల్లనివాడు {Oo ps అ 'మాయమాటల సొమ్ము దీయువాడు శ్రా శక...",
+            "కులగర్వమున పేద కొంపలార్చెడివాడు 2 గ్ల ( లంచంబులకు వెల బెంచువాడు a గై చెడు ప్రవర్తనలందు జెలగి తిరుగువాడు , (\\ వరుసవావికి నీళ్ళు వదులువాడు సై 1 ముచ్చటాడుచు కొంప ముంచజూచెడివాడు = SS <a కన్నవారల గెంటుచున్నవాడు 2) A a — గీ.",
+            "BEE నరరూపుడై పుట్టియున్న రాక్షసుడు గాక వేరౌన రామచంద్ర!"
+          ],
+          "keyPoints": [
+            "కలనైన సత్యంబు బలుకనొల్లనివాడు {Oo ps అ 'మాయమాటల సొమ్ము దీయువాడు శ్రా శక...",
+            "కులగర్వమున పేద కొంపలార్చెడివాడు 2 గ్ల ( లంచంబులకు వెల బెంచువాడు a గై చెడు ప్రవర్తనలందు జెలగి తిరుగువాడు , (\\ వరుసవావికి నీళ్ళు వదులువాడు సై 1 ముచ్చటాడుచు కొంప ముంచజూచెడివాడు = SS <a కన్నవారల గెంటుచున్నవాడు 2) A a — గీ.",
+            "BEE నరరూపుడై పుట్టియున్న రాక్షసుడు గాక వేరౌన రామచంద్ర!",
+            "మద్వేల్పు శౌరి 8 + మిత్రుని నహాయం ఎన్ని విధాలుగా ఉంటుంది?"
+          ],
+          "pageRange": "82-98"
+        },
+        {
+          "id": "లక-ష-యస-ద-ధ-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "అల బల బా బా బా బా ఇ | ప ‘ | ~ ee — i> సర్వేశ్వరా!",
+            "Sang, com & క్ర లని అమృతంవంటి ననన చండ : 1 దానగుణం కలిగిన; టి వాడవయిన ఓ సు ప్రజలు రాజులను స స | పొందేవా!",
+            "0 కలవాడయి: pe లేకున్నా = = పొందే _ = a డమును స | ese మంకు కం Baits సంపదలు లే ae | 1 భుజతాండవంతో ae — : నెక్కి ధనుర్విఢ మంతమైన ca sve!"
+          ],
+          "keyPoints": [
+            "అల బల బా బా బా బా ఇ | ప ‘ | ~ ee — i> సర్వేశ్వరా!",
+            "Sang, com & క్ర లని అమృతంవంటి ననన చండ : 1 దానగుణం కలిగిన; టి వాడవయిన ఓ సు ప్రజలు రాజులను స స | పొందేవా!",
+            "0 కలవాడయి: pe లేకున్నా = = పొందే _ = a డమును స | ese మంకు కం Baits సంపదలు లే ae | 1 భుజతాండవంతో ae — : నెక్కి ధనుర్విఢ మంతమైన ca sve!",
+            "'ందిన నీకు మ = = కలో క సాటివచ్చే wa ee | ము om వినబడే!"
+          ],
+          "pageRange": "82-98"
+        },
+        {
+          "id": "లక-ష-యస-ద-ధ-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "- | seo కానా 68 o 7 ae oon oe | a se xv 'రించేవాడా!",
+            "దేవతా మాన్యముల్లను var a oe =a | 1 సత్రాలు ట్లే.",
+            "hee ఏక సరిపడ భోజనాన్ని) cams Sey , ae ea eee స్తంభంతో కూడిన | - 'చాలు, 1 DEP పంచి, or చ న్‌ మ Be 1058 దీనస్థితిని రూ | | 7) ఓ లొంక'రామేశ్వతా!' 'వుతారు."
+          ],
+          "keyPoints": [
+            "- | seo కానా 68 o 7 ae oon oe | a se xv 'రించేవాడా!",
+            "దేవతా మాన్యముల్లను var a oe =a | 1 సత్రాలు ట్లే.",
+            "hee ఏక సరిపడ భోజనాన్ని) cams Sey , ae ea eee స్తంభంతో కూడిన | - 'చాలు, 1 DEP పంచి, or చ న్‌ మ Be 1058 దీనస్థితిని రూ | | 7) ఓ లొంక'రామేశ్వతా!' 'వుతారు.",
+            "\"పృతనాన్ని ఎవరయితే సా రా | (దపరుస్తారో స ae : | 1 )ల్పువైన ధనంవలె !"
+          ],
+          "pageRange": "82-98"
+        },
+        {
+          "id": "లక-ష-యస-ద-ధ-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "స అ SDSS) స 8) దః కుంట “ = : 1 ces నిధివంటి __.",
+            "నిండు | senigoste Fe armas a “ a పేదవాండ్ల స్‌ = | 1 చే at, వావివరుసల ఇండ్లను నాశనం గ పే న స men | యాలను!"
+          ],
+          "keyPoints": [
+            "స అ SDSS) స 8) దః కుంట “ = : 1 ces నిధివంటి __.",
+            "నిండు | senigoste Fe armas a “ a పేదవాండ్ల స్‌ = | 1 చే at, వావివరుసల ఇండ్లను నాశనం గ పే న స men | యాలను!"
+          ],
+          "pageRange": "82-98"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "పంచునో",
+          "meaning": "2 TS అనిదంపూర్వ యశస్వి యాతడగు నన్నా! విశ్వనాథేశ్వరా! 6 VA Ss YQ"
+        },
+        {
+          "term": "పొందే _",
+          "meaning": "a డమును స"
+        },
+        {
+          "term": "ee i",
+          "meaning": "e 1 కునేవాడు, స"
+        },
+        {
+          "term": "నరరూపరాక్షసుడు",
+          "meaning": "2. కిందోవాక్యాలలోని పర్యాయ పదాలు గుర్తించండి. రాయండి. అ"
+        },
+        {
+          "term": "లక్ష్యసిద్ధి",
+          "meaning": "నమస్తృతెలంగాణ NHSOOTPE"
+        },
+        {
+          "term": "ఉద్వాతారల్లు",
+          "meaning": "చుక్కలు, నక్షత్రాలు ఆకాశంలో నక్షత్రాలు మల్లెలు విరబూసినట్లుగా ఎంతో అద్భుతంగా ఉన్నాయి."
+        },
+        {
+          "term": "gio",
+          "meaning": "___________"
+        },
+        {
+          "term": "పోరాటం",
+          "meaning": "_______________"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: లక్ష్యసిద్ధి: Lesson reading",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-1"
+          ],
+          "focus": "Read the lesson. Section: లక్ష్యసిద్ధి: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: లక్ష్యసిద్ధి key terms and exam answers",
+          "lessonSectionIds": [
+            "లక-ష-యస-ద-ధ-section-4",
+            "లక-ష-యస-ద-ధ-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "లక-ష-యస-ద-ధ-q1",
+          "question": "Which word/idea is important in లక్ష్యసిద్ధి?",
+          "options": [
+            "పంచునో",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "పంచునో",
+          "explanation": "2 TS అనిదంపూర్వ యశస్వి యాతడగు నన్నా! విశ్వనాథేశ్వరా! 6 VA Ss YQ"
+        },
+        {
+          "id": "లక-ష-యస-ద-ధ-q2",
+          "question": "What is one key point from 'లక్ష్యసిద్ధి: Lesson reading'?",
+          "options": [
+            "Le, YJ bs గ గ = Z-AN oN \\ > / || \\ _< Jat 7 / “ల్‌ (1౨౫ రాజ, Se.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Le, YJ bs గ గ = Z-AN oN \\ > / || \\ _< Jat 7 / “ల్‌ (1౨౫ రాజ, Se.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "లక-ష-యస-ద-ధ-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 7,
-      "chapter_name": "నా చదువు",
+      "chapter_name": "గోలకొండ పట్టణము",
+      "source_pages": {
+        "start": 99,
+        "end": 130
+      },
       "topics": [
         {
-          "topic_name": "నా చదువు",
+          "topic_name": "గోలకొండ పట్టణము: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "చ - దా సి.నారాయణ రెడ్డి వరులకోసం పాటువడని గ ae 7 మూగనేలకు నీరందివ్వని 420413 వాగుపరుగు దేనికని?",
+            "జల్లుకు నిలవని ఎండకు ఆగని చిల్లులగొడుగు దేనికని?",
+            "పాఠం ఉదేశం | N A తట్టుకుంటూ కష్టాలను ఎదుర్శొంటూ తనంతటతాను ఎదుగుతూ ఇతరుల కోసం పాటుపదుతూ జీవించే మనిషి సమాజంలో గౌరవం పొందుతాడని చెప్పడం, తెలుగులో గజల్‌ ప్రక్రియను వరిచయం చేయడం & పాఠం ఉద్దేశం."
+          ],
+          "lessonSectionId": "గ-లక-డ-పట-టణమ-section-1"
         },
         {
-          "topic_name": "స్త్రీ సాధికారత - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "Med వల్లవిని “మళ్లా” అని, \"ఈ జ చివరి చరణాన్ని “మక్తా” అని, కవి నామముద్రను “తఖల్లున్‌” అని అంటారు.",
+            "S వల్లవి చివర ఉన్న వదం, GB చరణం చివర అంత్య్యప్రానను రూపొందిస్తుంది.",
+            "% సరస భావన, చమత్సార Hows, ఇంపూ, కుదింపూ గజల్‌ జీవగుణాలు."
+          ],
+          "lessonSectionId": "గ-లక-డ-పట-టణమ-section-2"
         },
         {
-          "topic_name": "ఆత్మకథ - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "\"ఇ మ్య ఎకి” Dyer eays> గ ~ - 5 రాజన్న సిరిసిల్ల జిల్లా హానుమాజీపేట (గ్రామంలో జన్మించిన ఆచార్య సింగిరెడ్డి నారాయణ.",
+            "ot నాగార్జున సాగరం, కర్పూర వసంతరాయలు; మధ్యతరగతి మందహాసం, ద్విపదులు, ( AY (ప్రపంచపదులు మొదలైన 708 Brisa; రాశాడు.",
+            "నీనిమా పాటలకు సాపాతీ | గుబాళింపులను అద్దిన రసవ్యదయుడు;నీనారె."
+          ],
+          "lessonSectionId": "గ-లక-డ-పట-టణమ-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "29-07-1931 ఉస్మానియా విశ్వవిద్యాలయంలో తెలుగుశాఖలో ఆచార్యుడుగా అధికార భాషా సంఘం 12-06-2017 SBOP అంబేద్యర్‌ సార్వత్రిక విశ్వవిద్యాలయానికీ తెలుగు విశ్వవిద్ధాలయానికీ ఉపకులపతి GS ఛాన్స్‌లర్‌)గా పని చేశాడు.",
+            "ఆంధ్ర సారస్వత పరిషత్తు అధ్యక్షులుగా సేవల్తందించాడు.",
+            "భారత ట్రభుత్వం వారిచే “పద్మభూషణ్‌' HORS సత్యరించబడ్డాడు."
+          ],
+          "lessonSectionId": "గ-లక-డ-పట-టణమ-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "శబ్దశక్తి, అర్ధయుక్తి నీనారె కలానికీ, గళానికీ ఉన్న (ప్రత్యేకత.",
+            "Ca వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి."
+          ],
+          "lessonSectionId": "గ-లక-డ-పట-టణమ-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "గ-లక-డ-పట-టణమ-section-1",
+          "title": "గోలకొండ పట్టణము: Lesson reading",
+          "summary": [
+            "చ - దా సి.నారాయణ రెడ్డి వరులకోసం పాటువడని గ ae 7 మూగనేలకు నీరందివ్వని 420413 వాగుపరుగు దేనికని?",
+            "జల్లుకు నిలవని ఎండకు ఆగని చిల్లులగొడుగు దేనికని?",
+            "పాఠం ఉదేశం | N A తట్టుకుంటూ కష్టాలను ఎదుర్శొంటూ తనంతటతాను ఎదుగుతూ ఇతరుల కోసం పాటుపదుతూ జీవించే మనిషి సమాజంలో గౌరవం పొందుతాడని చెప్పడం, తెలుగులో గజల్‌ ప్రక్రియను వరిచయం చేయడం & పాఠం ఉద్దేశం."
+          ],
+          "keyPoints": [
+            "చ - దా సి.నారాయణ రెడ్డి వరులకోసం పాటువడని గ ae 7 మూగనేలకు నీరందివ్వని 420413 వాగుపరుగు దేనికని?",
+            "జల్లుకు నిలవని ఎండకు ఆగని చిల్లులగొడుగు దేనికని?",
+            "పాఠం ఉదేశం | N A తట్టుకుంటూ కష్టాలను ఎదుర్శొంటూ తనంతటతాను ఎదుగుతూ ఇతరుల కోసం పాటుపదుతూ జీవించే మనిషి సమాజంలో గౌరవం పొందుతాడని చెప్పడం, తెలుగులో గజల్‌ ప్రక్రియను వరిచయం చేయడం & పాఠం ఉద్దేశం.",
+            "పు త AS CE EPO FER ROR BONERS AS | on, COIS A> ఇ Pe ag పాఠ్యభాగ వివరాలు లు తో ఈ పాఠం Tad ప్రక్రియకు చెందినది."
+          ],
+          "pageRange": "99-130"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "గ-లక-డ-పట-టణమ-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "Med వల్లవిని “మళ్లా” అని, \"ఈ జ చివరి చరణాన్ని “మక్తా” అని, కవి నామముద్రను “తఖల్లున్‌” అని అంటారు.",
+            "S వల్లవి చివర ఉన్న వదం, GB చరణం చివర అంత్య్యప్రానను రూపొందిస్తుంది.",
+            "% సరస భావన, చమత్సార Hows, ఇంపూ, కుదింపూ గజల్‌ జీవగుణాలు."
+          ],
+          "keyPoints": [
+            "Med వల్లవిని “మళ్లా” అని, \"ఈ జ చివరి చరణాన్ని “మక్తా” అని, కవి నామముద్రను “తఖల్లున్‌” అని అంటారు.",
+            "S వల్లవి చివర ఉన్న వదం, GB చరణం చివర అంత్య్యప్రానను రూపొందిస్తుంది.",
+            "% సరస భావన, చమత్సార Hows, ఇంపూ, కుదింపూ గజల్‌ జీవగుణాలు.",
+            "= Dp ప్రస్తుత పాఠ్యభాగం “డాక్టర్‌ నీ.నారాయణరెడ్డి నమగ్ర సాపొత్యం” ఆరవ త్‌ = BSD “తెలుగు గజళ్ళు” లోనిది."
+          ],
+          "pageRange": "99-130"
+        },
+        {
+          "id": "గ-లక-డ-పట-టణమ-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "\"ఇ మ్య ఎకి” Dyer eays> గ ~ - 5 రాజన్న సిరిసిల్ల జిల్లా హానుమాజీపేట (గ్రామంలో జన్మించిన ఆచార్య సింగిరెడ్డి నారాయణ.",
+            "ot నాగార్జున సాగరం, కర్పూర వసంతరాయలు; మధ్యతరగతి మందహాసం, ద్విపదులు, ( AY (ప్రపంచపదులు మొదలైన 708 Brisa; రాశాడు.",
+            "నీనిమా పాటలకు సాపాతీ | గుబాళింపులను అద్దిన రసవ్యదయుడు;నీనారె."
+          ],
+          "keyPoints": [
+            "\"ఇ మ్య ఎకి” Dyer eays> గ ~ - 5 రాజన్న సిరిసిల్ల జిల్లా హానుమాజీపేట (గ్రామంలో జన్మించిన ఆచార్య సింగిరెడ్డి నారాయణ.",
+            "ot నాగార్జున సాగరం, కర్పూర వసంతరాయలు; మధ్యతరగతి మందహాసం, ద్విపదులు, ( AY (ప్రపంచపదులు మొదలైన 708 Brisa; రాశాడు.",
+            "నీనిమా పాటలకు సాపాతీ | గుబాళింపులను అద్దిన రసవ్యదయుడు;నీనారె.",
+            "“ఆధునికాం(ధ కవిత్వము - సంప్రదాయములు ‘a ప్రయోగములు” ఆన్న వీరి ప్రామాణిక సిద్ధాంత (గ్రంథం ఎందరో పరిశోధకులకు మార్గదర్భకం."
+          ],
+          "pageRange": "99-130"
+        },
+        {
+          "id": "గ-లక-డ-పట-టణమ-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "29-07-1931 ఉస్మానియా విశ్వవిద్యాలయంలో తెలుగుశాఖలో ఆచార్యుడుగా అధికార భాషా సంఘం 12-06-2017 SBOP అంబేద్యర్‌ సార్వత్రిక విశ్వవిద్యాలయానికీ తెలుగు విశ్వవిద్ధాలయానికీ ఉపకులపతి GS ఛాన్స్‌లర్‌)గా పని చేశాడు.",
+            "ఆంధ్ర సారస్వత పరిషత్తు అధ్యక్షులుగా సేవల్తందించాడు.",
+            "భారత ట్రభుత్వం వారిచే “పద్మభూషణ్‌' HORS సత్యరించబడ్డాడు."
+          ],
+          "keyPoints": [
+            "29-07-1931 ఉస్మానియా విశ్వవిద్యాలయంలో తెలుగుశాఖలో ఆచార్యుడుగా అధికార భాషా సంఘం 12-06-2017 SBOP అంబేద్యర్‌ సార్వత్రిక విశ్వవిద్యాలయానికీ తెలుగు విశ్వవిద్ధాలయానికీ ఉపకులపతి GS ఛాన్స్‌లర్‌)గా పని చేశాడు.",
+            "ఆంధ్ర సారస్వత పరిషత్తు అధ్యక్షులుగా సేవల్తందించాడు.",
+            "భారత ట్రభుత్వం వారిచే “పద్మభూషణ్‌' HORS సత్యరించబడ్డాడు.",
+            "ల 'విత్వంభర్‌' కావ్యానికి జాతీయస్థాయిలో అత్యున్నత సాహితీ పురస్కారమైన “జ్ఞానపీఠ అవార్డును ట్ర ( అందుకున్నాడు."
+          ],
+          "pageRange": "99-130"
+        },
+        {
+          "id": "గ-లక-డ-పట-టణమ-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "శబ్దశక్తి, అర్ధయుక్తి నీనారె కలానికీ, గళానికీ ఉన్న (ప్రత్యేకత.",
+            "Ca వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి."
+          ],
+          "keyPoints": [
+            "శబ్దశక్తి, అర్ధయుక్తి నీనారె కలానికీ, గళానికీ ఉన్న (ప్రత్యేకత.",
+            "Ca వాటి అర్థాలను పుస్తకం చివర ఉన్న 'పదవిజ్ఞానం' పట్టికలో చూసి లేదా నిఘంటువులో చూసి తెలుసుకొండి."
+          ],
+          "pageRange": "99-130"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "అవుతుంది So",
+          "meaning": "అ్వత్తులకు4 BAS"
+        },
+        {
+          "term": "అందచందములు",
+          "meaning": "CS on Y ప... 38 తత్త ఎ గ్"
+        },
+        {
+          "term": "Z ae Wy a",
+          "meaning": "IS Pee. es go"
+        },
+        {
+          "term": "ige",
+          "meaning": "Wa క 3 Av"
+        },
+        {
+          "term": "ధ కవిత్వము",
+          "meaning": "సంప్రదాయములు"
+        },
+        {
+          "term": "07",
+          "meaning": "1931 ఉస్మానియా విశ్వవిద్యాలయంలో తెలుగుశాఖలో ఆచార్యుడుగా అధికార భాషా సంఘం 12"
+        },
+        {
+          "term": "06",
+          "meaning": "2017 SBOP అంబేద్యర్"
+        },
+        {
+          "term": "10 N ట్ట",
+          "meaning": "ఆదిరాజు వీరభద్రరావు"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: గోలకొండ పట్టణము: Lesson reading",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-1"
+          ],
+          "focus": "Read the lesson. Section: గోలకొండ పట్టణము: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: గోలకొండ పట్టణము key terms and exam answers",
+          "lessonSectionIds": [
+            "గ-లక-డ-పట-టణమ-section-4",
+            "గ-లక-డ-పట-టణమ-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "గ-లక-డ-పట-టణమ-q1",
+          "question": "Which word/idea is important in గోలకొండ పట్టణము?",
+          "options": [
+            "అవుతుంది So",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "అవుతుంది So",
+          "explanation": "అ్వత్తులకు4 BAS"
+        },
+        {
+          "id": "గ-లక-డ-పట-టణమ-q2",
+          "question": "What is one key point from 'గోలకొండ పట్టణము: Lesson reading'?",
+          "options": [
+            "చ - దా సి.నారాయణ రెడ్డి వరులకోసం పాటువడని గ ae 7 మూగనేలకు నీరందివ్వని 420413 వాగుపరుగు దేనికని?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "చ - దా సి.నారాయణ రెడ్డి వరులకోసం పాటువడని గ ae 7 మూగనేలకు నీరందివ్వని 420413 వాగుపరుగు దేనికని?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "గ-లక-డ-పట-టణమ-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 8,
-      "chapter_name": "బాల్యక్రీడలు",
+      "chapter_name": "రామాయణం",
+      "source_pages": {
+        "start": 131,
+        "end": 186
+      },
       "topics": [
         {
-          "topic_name": "బాల్యక్రీడలు",
+          "topic_name": "రామాయణం: Lesson reading",
           "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+            "* కింది తరగతులలో తేటగీతి, ఆటవెలది పద్యాలు తెలుసుకున్నారు కదా!",
+            "ఉదా ర సల ర సల 'సీసపద్య లక్షణం : ౮|౮ | TUL) ౮|| ౮ 1|౮| కాకతీ యులకంచు | Koo మో గిననాడు + ఇందులో నాలుగు పాదాలుంటాయి.",
+            "ఇంద్ర ఇంద్ర ఇంద్ర | ఇంద్ర + ప్రతిపాదంలో ఆరు నగ | నగ | న | & రెండు సూర్యగ్గ గా WLU ||| 1|| ౮|| ఉంటాయి."
+          ],
+          "lessonSectionId": "ర-మ-యణ-section-1"
         },
         {
-          "topic_name": "పిల్లల స్వభావం - ఇతివృత్తం",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+            "11౮| || ౮| jut ||| ప్రరరాజు లకు గుండె | Bex కొనియ్‌ + తేటగీతి లేదా ఆటవెలది దీనికి i చివరగా ఉంటుంది.",
+            "పై పద్యపాదాల్లో - + ఒక్కొక్కటి రెండు భాగాలుగా ఉన్నాయి.",
+            "(ఆరు ఇంద్రగణాలు + రెండు సూర్యగణాలు) + యతి, ప్రాస్తయతులు (కా-గ; ర-ర) (ప-పు; ప-ప) ఉన్నాయి."
+          ],
+          "lessonSectionId": "ర-మ-యణ-section-2"
         },
         {
-          "topic_name": "పద్యం - ప్రక్రియ",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+            "SSssesssesssssass మేధావి ఎన్నికష్టాలుపడ్డా, శుద్ధమైన నడవడిని, SSSSSSESESEESEES",
+            "| భూమిక 1 Sy - గూడూరి సీతారాం చదువండి - ఆలోచించి చెప్పండి.",
+            "కాని వాటిని చదివితే మనకు రెక్కలు మొలిచినట్లుగా ఉంటుంది."
+          ],
+          "lessonSectionId": "ర-మ-యణ-section-3"
         },
         {
-          "topic_name": "పదజాలం",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+            "శ్రరీదానికి వ్యాయామం ఎట్లాంటి శక్తినిస్తుందో మంచివుస్తకం చదవడంవల్ల మనసుకు CFOS ఉత్తేజం కలుగుతుంది.",
+            "ఏది మంచివుస్తకం, ఏ వుస్తకాన్ని చదువాలనే ఎంపీకలో ఫుస్తక'పరిచయవాక్యాలు మార్గదర్శనం చేస్తాయి.",
+            "Sas 4 a4 చదువాలి” అనే ఆసక్తిని కలిగించే అంశమేది?"
+          ],
+          "lessonSectionId": "ర-మ-యణ-section-4"
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
+          "topic_name": "Revision quiz",
           "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+            "సకన్‌ పాఠ్యభాగ వివరాలు టు త్త ఈ పాఠం S68 ప్రక్రియకు చెందినది.",
+            "దీనికే ముందుమాట, భూమిక, ట్రస్తావన, తొలివలుకు, మున్నుడి, లా 2D ఆముఖం మొదలైన పేర్లెన్నో ఉన్నాయి."
+          ],
+          "lessonSectionId": "ర-మ-యణ-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "ర-మ-యణ-section-1",
+          "title": "రామాయణం: Lesson reading",
+          "summary": [
+            "* కింది తరగతులలో తేటగీతి, ఆటవెలది పద్యాలు తెలుసుకున్నారు కదా!",
+            "ఉదా ర సల ర సల 'సీసపద్య లక్షణం : ౮|౮ | TUL) ౮|| ౮ 1|౮| కాకతీ యులకంచు | Koo మో గిననాడు + ఇందులో నాలుగు పాదాలుంటాయి.",
+            "ఇంద్ర ఇంద్ర ఇంద్ర | ఇంద్ర + ప్రతిపాదంలో ఆరు నగ | నగ | న | & రెండు సూర్యగ్గ గా WLU ||| 1|| ౮|| ఉంటాయి."
+          ],
+          "keyPoints": [
+            "* కింది తరగతులలో తేటగీతి, ఆటవెలది పద్యాలు తెలుసుకున్నారు కదా!",
+            "ఉదా ర సల ర సల 'సీసపద్య లక్షణం : ౮|౮ | TUL) ౮|| ౮ 1|౮| కాకతీ యులకంచు | Koo మో గిననాడు + ఇందులో నాలుగు పాదాలుంటాయి.",
+            "ఇంద్ర ఇంద్ర ఇంద్ర | ఇంద్ర + ప్రతిపాదంలో ఆరు నగ | నగ | న | & రెండు సూర్యగ్గ గా WLU ||| 1|| ౮|| ఉంటాయి.",
+            "కరకు రా wow త |త్రరలు పుట్టె + గా ఇంద్ర | ఇంద్ర (సూర్య సూర్య త ర ర | సల + ల్లోను మూడో గణంలోని UlU ౮|| ౮ ౮|౮ TUL అక్షరం యతి లేదా కాప్రయ్య నాయకుం 'డేప్రసూ | పిననాడు NS ప్రాస సల సల |& | s 'ప్రాసనియమం లేదు."
+          ],
+          "pageRange": "131-186"
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
+          "id": "ర-మ-యణ-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "11౮| || ౮| jut ||| ప్రరరాజు లకు గుండె | Bex కొనియ్‌ + తేటగీతి లేదా ఆటవెలది దీనికి i చివరగా ఉంటుంది.",
+            "పై పద్యపాదాల్లో - + ఒక్కొక్కటి రెండు భాగాలుగా ఉన్నాయి.",
+            "(ఆరు ఇంద్రగణాలు + రెండు సూర్యగణాలు) + యతి, ప్రాస్తయతులు (కా-గ; ర-ర) (ప-పు; ప-ప) ఉన్నాయి."
+          ],
+          "keyPoints": [
+            "11౮| || ౮| jut ||| ప్రరరాజు లకు గుండె | Bex కొనియ్‌ + తేటగీతి లేదా ఆటవెలది దీనికి i చివరగా ఉంటుంది.",
+            "పై పద్యపాదాల్లో - + ఒక్కొక్కటి రెండు భాగాలుగా ఉన్నాయి.",
+            "(ఆరు ఇంద్రగణాలు + రెండు సూర్యగణాలు) + యతి, ప్రాస్తయతులు (కా-గ; ర-ర) (ప-పు; ప-ప) ఉన్నాయి.",
+            "పాఠంలోని ప్రీటేపద్యానికి గణవిభజన చేసి లక్షణాలను అన్వయించండి."
+          ],
+          "pageRange": "131-186"
+        },
+        {
+          "id": "ర-మ-యణ-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "SSssesssesssssass మేధావి ఎన్నికష్టాలుపడ్డా, శుద్ధమైన నడవడిని, SSSSSSESESEESEES",
+            "| భూమిక 1 Sy - గూడూరి సీతారాం చదువండి - ఆలోచించి చెప్పండి.",
+            "కాని వాటిని చదివితే మనకు రెక్కలు మొలిచినట్లుగా ఉంటుంది."
+          ],
+          "keyPoints": [
+            "SSssesssesssssass మేధావి ఎన్నికష్టాలుపడ్డా, శుద్ధమైన నడవడిని, SSSSSSESESEESEES",
+            "| భూమిక 1 Sy - గూడూరి సీతారాం చదువండి - ఆలోచించి చెప్పండి.",
+            "కాని వాటిని చదివితే మనకు రెక్కలు మొలిచినట్లుగా ఉంటుంది.",
+            "ఆ రెక్కలు జ్ఞానాన్ని, ఆలోచనాశక్తిని, స్పజనాత్మకతా నైపుణ్యాన్ని, లోకపర్ధిళీలనా GRO, జిజ్ఞాసను, ఉత్సాహాన్ని అందిస్తాయి."
+          ],
+          "pageRange": "131-186"
+        },
+        {
+          "id": "ర-మ-యణ-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "శ్రరీదానికి వ్యాయామం ఎట్లాంటి శక్తినిస్తుందో మంచివుస్తకం చదవడంవల్ల మనసుకు CFOS ఉత్తేజం కలుగుతుంది.",
+            "ఏది మంచివుస్తకం, ఏ వుస్తకాన్ని చదువాలనే ఎంపీకలో ఫుస్తక'పరిచయవాక్యాలు మార్గదర్శనం చేస్తాయి.",
+            "Sas 4 a4 చదువాలి” అనే ఆసక్తిని కలిగించే అంశమేది?"
+          ],
+          "keyPoints": [
+            "శ్రరీదానికి వ్యాయామం ఎట్లాంటి శక్తినిస్తుందో మంచివుస్తకం చదవడంవల్ల మనసుకు CFOS ఉత్తేజం కలుగుతుంది.",
+            "ఏది మంచివుస్తకం, ఏ వుస్తకాన్ని చదువాలనే ఎంపీకలో ఫుస్తక'పరిచయవాక్యాలు మార్గదర్శనం చేస్తాయి.",
+            "Sas 4 a4 చదువాలి” అనే ఆసక్తిని కలిగించే అంశమేది?",
+            "1211140 SEE ముందుమాటవల్ల వుస్తకంపై ప్రాథమిక అవగాహన ఎలా కలుగుతుందో పుస్తకాన్ని చదవాలనే ఆసక్తి, ఆతురత ఎట్లా వర్పడుతాయో తెలియజేస్తూ దాని న్వరూపన్వభావాలను వరిచయం చేయడమే ఈ పాఠం ఉద్దేశం."
+          ],
+          "pageRange": "131-186"
+        },
+        {
+          "id": "ర-మ-యణ-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "సకన్‌ పాఠ్యభాగ వివరాలు టు త్త ఈ పాఠం S68 ప్రక్రియకు చెందినది.",
+            "దీనికే ముందుమాట, భూమిక, ట్రస్తావన, తొలివలుకు, మున్నుడి, లా 2D ఆముఖం మొదలైన పేర్లెన్నో ఉన్నాయి."
+          ],
+          "keyPoints": [
+            "సకన్‌ పాఠ్యభాగ వివరాలు టు త్త ఈ పాఠం S68 ప్రక్రియకు చెందినది.",
+            "దీనికే ముందుమాట, భూమిక, ట్రస్తావన, తొలివలుకు, మున్నుడి, లా 2D ఆముఖం మొదలైన పేర్లెన్నో ఉన్నాయి."
+          ],
+          "pageRange": "131-186"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "ుధ రైతాంగ పోరాటంలో నాలుగువేల మంది గ",
+          "meaning": "అనిని చనిపోయారు. మరోవైపు రజాకార్లు విజృంభించి ON ary Pa AS am రైతాంగ పోరాటంపై దాడులు చేశారు. రజాకార్లకు రాడో శానా es కాశ"
+        },
+        {
+          "term": "కు వెళ్ళిపోవాలని",
+          "meaning": "vA భావించారు. కొందరు వెళ్ళిపోయారు. ఈ చారిత్రక,"
+        },
+        {
+          "term": "దశకంఠుడు",
+          "meaning": "_________________"
+        },
+        {
+          "term": "ఇ అరవిదానన",
+          "meaning": "_ ఇ... ఈమృగేత్ర"
+        },
+        {
+          "term": "చంచలాక్షి",
+          "meaning": "_ ౨ ు .. ఊ"
+        },
+        {
+          "term": "మానధనులు",
+          "meaning": "._ బురావదన శ... బూనీరజభవుడు"
+        },
+        {
+          "term": "హిమాలయపర్వతానికి",
+          "meaning": "be ae Ne వెళ్ళాడు. Stars బంధుమిత్ర సమేతంగా దశరథుడు త్త క్రూ _"
+        },
+        {
+          "term": "4 గీ",
+          "meaning": "A PRUCIYS"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Read the lesson and write meanings, grammar, and answers",
+          "steps": [
+            "Read aloud.",
+            "Write meanings.",
+            "Answer comprehension and writing questions."
           ]
         }
-      ]
-    },
-    {
-      "chapter_no": 9,
-      "chapter_name": "బడి",
-      "topics": [
+      ],
+      "weeklyPlan": [
         {
-          "topic_name": "బడి",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+          "id": "week-1",
+          "title": "Week 1: రామాయణం: Lesson reading",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-1"
+          ],
+          "focus": "Read the lesson. Section: రామాయణం: Lesson reading."
         },
         {
-          "topic_name": "సామాజిక బాధ్యత - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
         },
         {
-          "topic_name": "కథానిక - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
         },
         {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
         },
         {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
         },
         {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
+          "id": "week-6",
+          "title": "Week 6: రామాయణం key terms and exam answers",
+          "lessonSectionIds": [
+            "ర-మ-యణ-section-4",
+            "ర-మ-యణ-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
         }
-      ]
-    },
-    {
-      "chapter_no": 10,
-      "chapter_name": "గోలకొండ కోట",
-      "topics": [
+      ],
+      "quizQuestions": [
         {
-          "topic_name": "గోలకొండ కోట",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
+          "id": "ర-మ-యణ-q1",
+          "question": "Which word/idea is important in రామాయణం?",
+          "options": [
+            "ుధ రైతాంగ పోరాటంలో నాలుగువేల మంది గ",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "ుధ రైతాంగ పోరాటంలో నాలుగువేల మంది గ",
+          "explanation": "అనిని చనిపోయారు. మరోవైపు రజాకార్లు విజృంభించి ON ary Pa AS am రైతాంగ పోరాటంపై దాడులు చేశారు. రజాకార్లకు రాడో శానా es కాశ"
         },
         {
-          "topic_name": "తెలంగాణ చారిత్రక వైభవం - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
+          "id": "ర-మ-యణ-q2",
+          "question": "What is one key point from 'రామాయణం: Lesson reading'?",
+          "options": [
+            "* కింది తరగతులలో తేటగీతి, ఆటవెలది పద్యాలు తెలుసుకున్నారు కదా!",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "* కింది తరగతులలో తేటగీతి, ఆటవెలది పద్యాలు తెలుసుకున్నారు కదా!",
+          "explanation": "This point is extracted from the selected textbook lesson section."
         },
         {
-          "topic_name": "పద్యం - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 11,
-      "chapter_name": "సాహితీమూర్తి",
-      "topics": [
-        {
-          "topic_name": "సాహితీమూర్తి",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "స్ఫూర్తి - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "అభినందన వ్యాసం - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 12,
-      "chapter_name": "శతక పద్యాలు",
-      "topics": [
-        {
-          "topic_name": "శతక పద్యాలు",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "నైతిక విలువలు - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "పద్యం - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 13,
-      "chapter_name": "భాగ్యోదయం",
-      "topics": [
-        {
-          "topic_name": "భాగ్యోదయం",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "సంఘసేవ / సామాజికస్పృహ - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "జీవిత చరిత్ర - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 14,
-      "chapter_name": "ప్రపంచపదులు",
-      "topics": [
-        {
-          "topic_name": "ప్రపంచపదులు",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తిత్వ వికాసం - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "కవిత - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 15,
-      "chapter_name": "సీతమ్మ గారి సీమ ప్రయాణం",
-      "topics": [
-        {
-          "topic_name": "సీతమ్మ గారి సీమ ప్రయాణం",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "హాస్యం - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "కథ - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 16,
-      "chapter_name": "హితబోధ",
-      "topics": [
-        {
-          "topic_name": "హితబోధ",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "హితోపదేశం - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "ద్విపద - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 17,
-      "chapter_name": "పుస్తకాలు మన నిత్య సహచరులు",
-      "topics": [
-        {
-          "topic_name": "పుస్తకాలు మన నిత్య సహచరులు",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "ప్రేరణ / పఠనాభిలాష - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "ఆత్మకథ - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 18,
-      "chapter_name": "అహంకారం",
-      "topics": [
-        {
-          "topic_name": "అహంకారం",
-          "subtopics": [
-            "పాఠ్యభాగం చదవడం",
-            "ప్రధాన భావం గుర్తించడం",
-            "ముఖ్యమైన ప్రశ్నలు"
-          ]
-        },
-        {
-          "topic_name": "నైతిక విలువలు - ఇతివృత్తం",
-          "subtopics": [
-            "ఇతివృత్త విశ్లేషణ",
-            "పాత్రలు / భావాలు",
-            "సందేశం"
-          ]
-        },
-        {
-          "topic_name": "పద్యం - ప్రక్రియ",
-          "subtopics": [
-            "ప్రక్రియ లక్షణాలు",
-            "రచనా శైలి",
-            "ఉదాహరణలు"
-          ]
-        },
-        {
-          "topic_name": "పదజాలం",
-          "subtopics": [
-            "అర్థాలు",
-            "పర్యాయపదాలు",
-            "వాక్యప్రయోగం"
-          ]
-        },
-        {
-          "topic_name": "అవగాహన - ప్రతిస్పందన",
-          "subtopics": [
-            "సారాంశం",
-            "చిన్న జవాబులు",
-            "విశ్లేషణాత్మక జవాబులు"
-          ]
-        },
-        {
-          "topic_name": "వ్యక్తీకరణ - సృజనాత్మకత",
-          "subtopics": [
-            "స్వీయరచన",
-            "సృజనాత్మక రచన",
-            "పరీక్షా రచన"
-          ]
+          "id": "ర-మ-యణ-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     }

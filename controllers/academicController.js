@@ -8,6 +8,7 @@ const {
   getSubjectRecordForClass,
   getTopicsForClassSubject,
   getTopicsForBoardClassSubject,
+  getLessonForBoardClassSubjectChapter,
   getResourceLibrary,
   getManualPdfsForClassSubject,
   resolveManualPdf,
@@ -72,6 +73,17 @@ exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
 
 exports.getAcademicTopicsForBoardClassSubject = asyncHandler(async (req, res) => {
   res.status(200).json(getTopicsForBoardClassSubject(req.params.board, req.params.classNumber, req.params.subject));
+});
+
+exports.getAcademicLessonForBoardClassSubjectChapter = asyncHandler(async (req, res) => {
+  res.status(200).json(
+    getLessonForBoardClassSubjectChapter(
+      req.params.board,
+      req.params.classNumber,
+      req.params.subject,
+      req.params.chapter
+    )
+  );
 });
 
 exports.getAcademicResourceLibrary = asyncHandler(async (req, res) => {

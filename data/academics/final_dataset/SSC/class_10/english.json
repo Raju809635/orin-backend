@@ -5,314 +5,2016 @@
     "subject": "English",
     "year": "2026",
     "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/english.pdf",
-    "source_type": "manual_pdf",
-    "extraction_status": "verified_text_extracted",
-    "verification_status": "pdf_toc_source_backed",
-    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
-    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+    "source_type": "manual_pdf_full_lesson_text",
+    "extraction_status": "verified_full_text_extracted",
+    "verification_status": "pdf_lesson_text_extracted",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 10 textbook PDF.",
+    "extraction_message": "8 chapters and 378471 characters of lesson text were converted into roadmap weeks, lesson sections, definitions, activities, and quizzes."
   },
   "chapters": [
     {
       "chapter_no": 1,
       "chapter_name": "Personality Development",
+      "source_pages": {
+        "start": 14,
+        "end": 43
+      },
       "topics": [
         {
-          "topic_name": "Personality Development - Reading",
+          "topic_name": "Personality Development: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "His parents decided not to send him to a special school - a decision he said was very hard for him, but which may have been the best decision they could have made for him.",
+            "When Nick was born his father was so shocked that he left the hospital room to vomit.",
+            "His distraught mother couldn't bring herself to hold him until he was four months old."
+          ],
+          "lessonSectionId": "personality-development-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "'My mother was a nurse and she did everything right durinAg pregnancy but she still blamed herself,' he said.",
+            "I totally love the English Premier League.' N Nick's father was a computer programmer and accountant and he taught his little son how to type with his toe at just 6 years old.",
+            "His mum invented a special plastic device that A meant he could hold a pen and pencil."
+          ],
+          "lessonSectionId": "personality-development-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "'It was the best decision they could have made for me,' adds Nick, who later achieved T a degree in Financial Planning and Real Estate.",
+            "'It was very hard but it gave me independence.' Nick, who was teased and bullied, had an electric wheelchair for mobility, and a team of , carers to help him.",
+            "T 'I was deeply deRpressed when I was eight years old,' he said."
+          ],
+          "lessonSectionId": "personality-development-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "'I felt there was no purpose when you lack purpose and strength.",
+            "of his religion, friends and family, Nick managed to pull through to become an international symbol of triumph over adversity.",
+            "'When I was 13, I read a newspaper article about a disabled man who had managed to achieve great things and helped others,' said Nick."
+          ],
+          "lessonSectionId": "personality-development-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "They are not there to run us over\", said Nick.",
+            "In 1990 Nick won the Australian Young Citizen of the Year award , T for his bravery and perseverance."
+          ],
+          "lessonSectionId": "personality-development-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "personality-development-section-1",
+          "title": "Personality Development: Lesson reading",
+          "summary": [
+            "His parents decided not to send him to a special school - a decision he said was very hard for him, but which may have been the best decision they could have made for him.",
+            "When Nick was born his father was so shocked that he left the hospital room to vomit.",
+            "His distraught mother couldn't bring herself to hold him until he was four months old."
+          ],
+          "keyPoints": [
+            "His parents decided not to send him to a special school - a decision he said was very hard for him, but which may have been the best decision they could have made for him.",
+            "When Nick was born his father was so shocked that he left the hospital room to vomit.",
+            "His distraught mother couldn't bring herself to hold him until he was four months old.",
+            "His disability came without any medical explanation - a rare occurrence called Phocomelia - and Nick and his parents spent many years asking why this cruel trick would happen to them."
+          ],
+          "pageRange": "14-43"
+        },
+        {
+          "id": "personality-development-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "'My mother was a nurse and she did everything right durinAg pregnancy but she still blamed herself,' he said.",
+            "I totally love the English Premier League.' N Nick's father was a computer programmer and accountant and he taught his little son how to type with his toe at just 6 years old.",
+            "His mum invented a special plastic device that A meant he could hold a pen and pencil."
+          ],
+          "keyPoints": [
+            "'My mother was a nurse and she did everything right durinAg pregnancy but she still blamed herself,' he said.",
+            "I totally love the English Premier League.' N Nick's father was a computer programmer and accountant and he taught his little son how to type with his toe at just 6 years old.",
+            "His mum invented a special plastic device that A meant he could hold a pen and pencil.",
+            "L Despite the risk of being bullied, his parents insisted Nick on attending mainstream E school."
+          ],
+          "pageRange": "14-43"
+        },
+        {
+          "id": "personality-development-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "'It was the best decision they could have made for me,' adds Nick, who later achieved T a degree in Financial Planning and Real Estate.",
+            "'It was very hard but it gave me independence.' Nick, who was teased and bullied, had an electric wheelchair for mobility, and a team of , carers to help him.",
+            "T 'I was deeply deRpressed when I was eight years old,' he said."
+          ],
+          "keyPoints": [
+            "'It was the best decision they could have made for me,' adds Nick, who later achieved T a degree in Financial Planning and Real Estate.",
+            "'It was very hard but it gave me independence.' Nick, who was teased and bullied, had an electric wheelchair for mobility, and a team of , carers to help him.",
+            "T 'I was deeply deRpressed when I was eight years old,' he said.",
+            "'I went to my mum crying and told her I wanted to kill myself.’ E 'I felt cold and bitter."
+          ],
+          "pageRange": "14-43"
+        },
+        {
+          "id": "personality-development-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "'I felt there was no purpose when you lack purpose and strength.",
+            "of his religion, friends and family, Nick managed to pull through to become an international symbol of triumph over adversity.",
+            "'When I was 13, I read a newspaper article about a disabled man who had managed to achieve great things and helped others,' said Nick."
+          ],
+          "keyPoints": [
+            "'I felt there was no purpose when you lack purpose and strength.",
+            "of his religion, friends and family, Nick managed to pull through to become an international symbol of triumph over adversity.",
+            "'When I was 13, I read a newspaper article about a disabled man who had managed to achieve great things and helped others,' said Nick.",
+            "'I realised why God had made us like this - to give hope to others."
+          ],
+          "pageRange": "14-43"
+        },
+        {
+          "id": "personality-development-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "They are not there to run us over\", said Nick.",
+            "In 1990 Nick won the Australian Young Citizen of the Year award , T for his bravery and perseverance."
+          ],
+          "keyPoints": [
+            "They are not there to run us over\", said Nick.",
+            "In 1990 Nick won the Australian Young Citizen of the Year award , T for his bravery and perseverance."
+          ],
+          "pageRange": "14-43"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This",
+          "meaning": "failing forward, rather than backward"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Activity You’ve listened to the story",
+          "steps": [
+            "Activity You’ve listened to the story"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work You have read about Nick Vujicic, who has accomplished every seemingly imposs",
+          "steps": [
+            "Project Work You have read about Nick Vujicic, who has accomplished every seemingly impossible thing in life despite having the most difficult form of disability"
           ]
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
+          "title": "Project Work: E • I was able to write a short biographical sketch about the T differently ",
+          "steps": [
+            "Project Work: E • I was able to write a short biographical sketch about the T differently abled person who faced hardships/hurdles in life and became successful"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Personality Development: Lesson reading",
+          "lessonSectionIds": [
+            "personality-development-section-1"
+          ],
+          "focus": "Read the lesson. Section: Personality Development: Lesson reading."
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "personality-development-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "personality-development-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "personality-development-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "personality-development-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Personality Development key terms and exam answers",
+          "lessonSectionIds": [
+            "personality-development-section-4",
+            "personality-development-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "personality-development-q1",
+          "question": "Which word/idea is important in Personality Development?",
+          "options": [
+            "This",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This",
+          "explanation": "failing forward, rather than backward"
+        },
+        {
+          "id": "personality-development-q2",
+          "question": "What is one key point from 'Personality Development: Lesson reading'?",
+          "options": [
+            "His parents decided not to send him to a special school - a decision he said was very hard for him, but which may have been the best decisio",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "His parents decided not to send him to a special school - a decision he said was very hard for him, but which may have been the best decisio",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "personality-development-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 2,
-      "chapter_name": "Wit And Humour",
+      "chapter_name": "Wit and Humour",
+      "source_pages": {
+        "start": 44,
+        "end": 71
+      },
       "topics": [
         {
-          "topic_name": "Wit And Humour - Reading",
+          "topic_name": "Wit and Humour: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
-          ]
+            "Wit and Humour Look at the picture and answer the questions that follow.",
+            "Can you recall anything comic associated with these animals?",
+            "Can you imagine, what may be the conversation between the rat and the cat?"
+          ],
+          "lessonSectionId": "wit-and-humour-section-1"
         },
         {
-          "topic_name": "Vocabulary And Meanings",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
-          ]
+            "Oral Discourse: Role play - (based on the scene depicted in the picture).",
+            "Now let's read a play in which the characters behave in a humorous way.",
+            "A Reading The Dear Departed - I (One-act Play) A CHARACTERS N } Mrs."
+          ],
+          "lessonSectionId": "wit-and-humour-section-2"
         },
         {
-          "topic_name": "Grammar And Writing",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
-          ]
+            "She goes to the window, opens it and calls into the street) T Mrs.",
+            "R (Victoria a precocious girl often dressed in colours, enters.) E Mrs.",
+            "Be off now, and change your dress Cbefore your Aunt Elizabeth and your Uncle Ben come."
+          ],
+          "lessonSectionId": "wit-and-humour-section-3"
         },
         {
-          "topic_name": "Question Answers",
+          "topic_name": "Grammar or writing practice",
           "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
+            "Slater: They're coming to talk over poor grandpa's affairs.",
+            "Your father sent them a telegram as soon as we found he was dead.",
+            "(A noise is heard.) (Henry Slater, a stooping, heavy man with a drooping moustache, enters."
+          ],
+          "lessonSectionId": "wit-and-humour-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "When you and Elizabeth quarrelled, she said she'd never set foot in your house again.",
+            "Slater: She'll come fast enough after her share of what our father's left."
+          ],
+          "lessonSectionId": "wit-and-humour-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "wit-and-humour-section-1",
+          "title": "Wit and Humour: Lesson reading",
+          "summary": [
+            "Wit and Humour Look at the picture and answer the questions that follow.",
+            "Can you recall anything comic associated with these animals?",
+            "Can you imagine, what may be the conversation between the rat and the cat?"
+          ],
+          "keyPoints": [
+            "Wit and Humour Look at the picture and answer the questions that follow.",
+            "Can you recall anything comic associated with these animals?",
+            "Can you imagine, what may be the conversation between the rat and the cat?",
+            "How do people differ in enjoying humour: young and old; rural and urban; literates and illiterates?"
+          ],
+          "pageRange": "44-71"
+        },
+        {
+          "id": "wit-and-humour-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "Oral Discourse: Role play - (based on the scene depicted in the picture).",
+            "Now let's read a play in which the characters behave in a humorous way.",
+            "A Reading The Dear Departed - I (One-act Play) A CHARACTERS N } Mrs."
+          ],
+          "keyPoints": [
+            "Oral Discourse: Role play - (based on the scene depicted in the picture).",
+            "Now let's read a play in which the characters behave in a humorous way.",
+            "A Reading The Dear Departed - I (One-act Play) A CHARACTERS N } Mrs.",
+            "She is a vigorous, plump, red-faced, vulgar woman prepared to do any amount of straight talking to get her own way."
+          ],
+          "pageRange": "44-71"
+        },
+        {
+          "id": "wit-and-humour-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "She goes to the window, opens it and calls into the street) T Mrs.",
+            "R (Victoria a precocious girl often dressed in colours, enters.) E Mrs.",
+            "Be off now, and change your dress Cbefore your Aunt Elizabeth and your Uncle Ben come."
+          ],
+          "keyPoints": [
+            "She goes to the window, opens it and calls into the street) T Mrs.",
+            "R (Victoria a precocious girl often dressed in colours, enters.) E Mrs.",
+            "Be off now, and change your dress Cbefore your Aunt Elizabeth and your Uncle Ben come.",
+            "It would never do for them to find you in colours with grandfather lying dead, upstairs."
+          ],
+          "pageRange": "44-71"
+        },
+        {
+          "id": "wit-and-humour-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "Slater: They're coming to talk over poor grandpa's affairs.",
+            "Your father sent them a telegram as soon as we found he was dead.",
+            "(A noise is heard.) (Henry Slater, a stooping, heavy man with a drooping moustache, enters."
+          ],
+          "keyPoints": [
+            "Slater: They're coming to talk over poor grandpa's affairs.",
+            "Your father sent them a telegram as soon as we found he was dead.",
+            "(A noise is heard.) (Henry Slater, a stooping, heavy man with a drooping moustache, enters.",
+            "He is wearing a black tailcoat, grey trousers, a black tie and a bowler hat.) Henry: I'm wondering if they'll come at all."
+          ],
+          "pageRange": "44-71"
+        },
+        {
+          "id": "wit-and-humour-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "When you and Elizabeth quarrelled, she said she'd never set foot in your house again.",
+            "Slater: She'll come fast enough after her share of what our father's left."
+          ],
+          "keyPoints": [
+            "When you and Elizabeth quarrelled, she said she'd never set foot in your house again.",
+            "Slater: She'll come fast enough after her share of what our father's left."
+          ],
+          "pageRange": "44-71"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Wit and Humour",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "projecting from the wall over the N fireplace A usher (v) : lead / show the way / welcome ",
+          "steps": []
+        },
+        {
+          "title": "project work several days ________________ the deadline",
+          "steps": [
+            "project work several days ________________ the deadline"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Wit and Humour: Lesson reading",
+          "lessonSectionIds": [
+            "wit-and-humour-section-1"
+          ],
+          "focus": "Read the lesson. Section: Wit and Humour: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "wit-and-humour-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "wit-and-humour-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "wit-and-humour-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "wit-and-humour-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Wit and Humour key terms and exam answers",
+          "lessonSectionIds": [
+            "wit-and-humour-section-4",
+            "wit-and-humour-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "wit-and-humour-q1",
+          "question": "Which word/idea is important in Wit and Humour?",
+          "options": [
+            "Wit and Humour",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Wit and Humour",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "wit-and-humour-q2",
+          "question": "What is one key point from 'Wit and Humour: Lesson reading'?",
+          "options": [
+            "Wit and Humour Look at the picture and answer the questions that follow.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Wit and Humour Look at the picture and answer the questions that follow.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "wit-and-humour-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 3,
       "chapter_name": "Human Relations",
+      "source_pages": {
+        "start": 72,
+        "end": 101
+      },
       "topics": [
         {
-          "topic_name": "Human Relations - Reading",
+          "topic_name": "Human Relations: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "C: But he ________________________(arrive) already!",
+            "B: _______________ you ________________________(talk) to him?",
+            "A: ________________ you _______________(call) me, mother?"
+          ],
+          "lessonSectionId": "human-relations-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "A I _______________(put) it on the table last night.",
+            "I _______________(look) all over the house for it.",
+            "But I _______________( not, find) Git anywhere."
+          ],
+          "lessonSectionId": "human-relations-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "Maybe father _______________(take) it with himA by mistake.",
+            "I _______________(know) her for nearly four years.",
+            "It ______________ T (be) at a high school that I first _______________(see) her in 2009."
+          ],
+          "lessonSectionId": "human-relations-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "R,ecently we _______________ (meet) at the wedding of a T mutual friend of us.\" R V.",
+            "Editing E The following passage has some errors.",
+            "Identify and rewrite them with C necessary corrections."
+          ],
+          "lessonSectionId": "human-relations-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "Hindu pilgrims go to there to purify their souls.",
+            "To the Hindus Varanasi is a holiest pilgrimage center to all."
+          ],
+          "lessonSectionId": "human-relations-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "human-relations-section-1",
+          "title": "Human Relations: Lesson reading",
+          "summary": [
+            "C: But he ________________________(arrive) already!",
+            "B: _______________ you ________________________(talk) to him?",
+            "A: ________________ you _______________(call) me, mother?"
+          ],
+          "keyPoints": [
+            "C: But he ________________________(arrive) already!",
+            "B: _______________ you ________________________(talk) to him?",
+            "A: ________________ you _______________(call) me, mother?",
+            "________ you _______________(see) my diary today?"
+          ],
+          "pageRange": "72-101"
+        },
+        {
+          "id": "human-relations-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "A I _______________(put) it on the table last night.",
+            "I _______________(look) all over the house for it.",
+            "But I _______________( not, find) Git anywhere."
+          ],
+          "keyPoints": [
+            "A I _______________(put) it on the table last night.",
+            "I _______________(look) all over the house for it.",
+            "But I _______________( not, find) Git anywhere.",
+            "N A: I _______________(see) it on the table this morning, if I remember right."
+          ],
+          "pageRange": "72-101"
+        },
+        {
+          "id": "human-relations-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "Maybe father _______________(take) it with himA by mistake.",
+            "I _______________(know) her for nearly four years.",
+            "It ______________ T (be) at a high school that I first _______________(see) her in 2009."
+          ],
+          "keyPoints": [
+            "Maybe father _______________(take) it with himA by mistake.",
+            "I _______________(know) her for nearly four years.",
+            "It ______________ T (be) at a high school that I first _______________(see) her in 2009.",
+            "I ___________(work) with her for several years."
+          ],
+          "pageRange": "72-101"
+        },
+        {
+          "id": "human-relations-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "R,ecently we _______________ (meet) at the wedding of a T mutual friend of us.\" R V.",
+            "Editing E The following passage has some errors.",
+            "Identify and rewrite them with C necessary corrections."
+          ],
+          "keyPoints": [
+            "R,ecently we _______________ (meet) at the wedding of a T mutual friend of us.\" R V.",
+            "Editing E The following passage has some errors.",
+            "Identify and rewrite them with C necessary corrections.",
+            "S Varanasi is locate on the north eastern part of India."
+          ],
+          "pageRange": "72-101"
+        },
+        {
+          "id": "human-relations-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "Hindu pilgrims go to there to purify their souls.",
+            "To the Hindus Varanasi is a holiest pilgrimage center to all."
+          ],
+          "keyPoints": [
+            "Hindu pilgrims go to there to purify their souls.",
+            "To the Hindus Varanasi is a holiest pilgrimage center to all."
+          ],
+          "pageRange": "72-101"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Human Relations",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Activity , T R Work in groups",
+          "steps": [
+            "Activity , T R Work in groups"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work: A I was able to collect a humorous story andL analyse how the writer created",
+          "steps": [
+            "Project Work: A I was able to collect a humorous story andL analyse how the writer created humour in it"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Human Relations: Lesson reading",
+          "lessonSectionIds": [
+            "human-relations-section-1"
+          ],
+          "focus": "Read the lesson. Section: Human Relations: Lesson reading."
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "human-relations-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "human-relations-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "human-relations-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "human-relations-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Human Relations key terms and exam answers",
+          "lessonSectionIds": [
+            "human-relations-section-4",
+            "human-relations-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "human-relations-q1",
+          "question": "Which word/idea is important in Human Relations?",
+          "options": [
+            "Human Relations",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Human Relations",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "human-relations-q2",
+          "question": "What is one key point from 'Human Relations: Lesson reading'?",
+          "options": [
+            "C: But he ________________________(arrive) already!",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "C: But he ________________________(arrive) already!",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "human-relations-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 4,
-      "chapter_name": "Films And Theatre",
+      "chapter_name": "Films and Theatre",
+      "source_pages": {
+        "start": 102,
+        "end": 131
+      },
       "topics": [
         {
-          "topic_name": "Films And Theatre - Reading",
+          "topic_name": "Films and Theatre: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "You see, although we could never buy a car outright, we can enjoy all the pleasures of motoring for a mere five pounds down.",
+            "Aunt Jane: And the rest by easy instalments, I suppose.",
+            "A Jack : Well, that's the- N Aunt Jane: And the piano?"
+          ],
+          "lessonSectionId": "films-and-theatre-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "N Jack : I-I'm afraid so- A Aunt Jane: I suppose all you own is this Lleg.",
+            "(She points to one) E Jill : Well, no, as a matter of fact, it's that one.",
+            "(She points to another.) T , T R E C S 92 Human Relations"
+          ],
+          "lessonSectionId": "films-and-theatre-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "Jack : Well, actually-(He takes out his pocket-book and consults it.)- actually to seven pounds eight and eight pence a week.",
+            "A Jack : As a matter of fact-er-that is-six pounds.",
+            "How can you pay seven pounds eight and eight pence out of six pounds?"
+          ],
+          "lessonSectionId": "films-and-theatre-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "L Jill : They're only too glad to lEoan you any amount you like, on note of hand alone.",
+            "T Aunt Jane : And how do you propose to pay that back?",
+            "(She claps her hand to her forehead and sinks back weakly R into the chair."
+          ],
+          "lessonSectionId": "films-and-theatre-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "Do you suppose I'm going to trust myself in a bed that belongs to Mr.",
+            "Travel in a car that has only one tyre and two thingummies!"
+          ],
+          "lessonSectionId": "films-and-theatre-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "films-and-theatre-section-1",
+          "title": "Films and Theatre: Lesson reading",
+          "summary": [
+            "You see, although we could never buy a car outright, we can enjoy all the pleasures of motoring for a mere five pounds down.",
+            "Aunt Jane: And the rest by easy instalments, I suppose.",
+            "A Jack : Well, that's the- N Aunt Jane: And the piano?"
+          ],
+          "keyPoints": [
+            "You see, although we could never buy a car outright, we can enjoy all the pleasures of motoring for a mere five pounds down.",
+            "Aunt Jane: And the rest by easy instalments, I suppose.",
+            "A Jack : Well, that's the- N Aunt Jane: And the piano?",
+            "A Jill : Well, of course- G Aunt Jane: And the furniture?"
+          ],
+          "pageRange": "102-131"
+        },
+        {
+          "id": "films-and-theatre-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "N Jack : I-I'm afraid so- A Aunt Jane: I suppose all you own is this Lleg.",
+            "(She points to one) E Jill : Well, no, as a matter of fact, it's that one.",
+            "(She points to another.) T , T R E C S 92 Human Relations"
+          ],
+          "keyPoints": [
+            "N Jack : I-I'm afraid so- A Aunt Jane: I suppose all you own is this Lleg.",
+            "(She points to one) E Jill : Well, no, as a matter of fact, it's that one.",
+            "(She points to another.) T , T R E C S 92 Human Relations",
+            "(She stands up.) Now, tell me, how much do all these instalments come to?"
+          ],
+          "pageRange": "102-131"
+        },
+        {
+          "id": "films-and-theatre-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "Jack : Well, actually-(He takes out his pocket-book and consults it.)- actually to seven pounds eight and eight pence a week.",
+            "A Jack : As a matter of fact-er-that is-six pounds.",
+            "How can you pay seven pounds eight and eight pence out of six pounds?"
+          ],
+          "keyPoints": [
+            "Jack : Well, actually-(He takes out his pocket-book and consults it.)- actually to seven pounds eight and eight pence a week.",
+            "A Jack : As a matter of fact-er-that is-six pounds.",
+            "How can you pay seven pounds eight and eight pence out of six pounds?",
+            "You see, all you haAve to do is to borrow the rest of the money for the payments from the Thrift and Providence Trust Corporation."
+          ],
+          "pageRange": "102-131"
+        },
+        {
+          "id": "films-and-theatre-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "L Jill : They're only too glad to lEoan you any amount you like, on note of hand alone.",
+            "T Aunt Jane : And how do you propose to pay that back?",
+            "(She claps her hand to her forehead and sinks back weakly R into the chair."
+          ],
+          "keyPoints": [
+            "L Jill : They're only too glad to lEoan you any amount you like, on note of hand alone.",
+            "T Aunt Jane : And how do you propose to pay that back?",
+            "(She claps her hand to her forehead and sinks back weakly R into the chair.",
+            "Sage's piece and E leaps to her feet again with a little shriek.) C Jack : Aunt Jane!"
+          ],
+          "pageRange": "102-131"
+        },
+        {
+          "id": "films-and-theatre-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "Do you suppose I'm going to trust myself in a bed that belongs to Mr.",
+            "Travel in a car that has only one tyre and two thingummies!"
+          ],
+          "keyPoints": [
+            "Do you suppose I'm going to trust myself in a bed that belongs to Mr.",
+            "Travel in a car that has only one tyre and two thingummies!"
+          ],
+          "pageRange": "102-131"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "They",
+          "meaning": "modal auxiliaries or modals"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Activity Your dream mobile is on sale at a never before discount",
+          "steps": [
+            "Activity Your dream mobile is on sale at a never before discount"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work: I was able to collect the information and write a report on how the modern g",
+          "steps": [
+            "Project Work: I was able to collect the information and write a report on how the modern gadgets are influencing human relations and present it before the class"
           ]
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
+          "title": "Activity Make a short speech of 2-3 minutes about the film you have seen recently",
+          "steps": [
+            "Activity Make a short speech of 2-3 minutes about the film you have seen recently"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Films and Theatre: Lesson reading",
+          "lessonSectionIds": [
+            "films-and-theatre-section-1"
+          ],
+          "focus": "Read the lesson. Section: Films and Theatre: Lesson reading."
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "films-and-theatre-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "films-and-theatre-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "films-and-theatre-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "films-and-theatre-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Films and Theatre key terms and exam answers",
+          "lessonSectionIds": [
+            "films-and-theatre-section-4",
+            "films-and-theatre-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "films-and-theatre-q1",
+          "question": "Which word/idea is important in Films and Theatre?",
+          "options": [
+            "They",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "They",
+          "explanation": "modal auxiliaries or modals"
+        },
+        {
+          "id": "films-and-theatre-q2",
+          "question": "What is one key point from 'Films and Theatre: Lesson reading'?",
+          "options": [
+            "You see, although we could never buy a car outright, we can enjoy all the pleasures of motoring for a mere five pounds down.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "You see, although we could never buy a car outright, we can enjoy all the pleasures of motoring for a mere five pounds down.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "films-and-theatre-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 5,
       "chapter_name": "Social Issues",
+      "source_pages": {
+        "start": 132,
+        "end": 163
+      },
       "topics": [
         {
-          "topic_name": "Social Issues - Reading",
+          "topic_name": "Social Issues: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "The main verb will always be the V form after the modals.",
+            "Past form of some modals stands for 'politeness'.",
+            "Read the follEowing sentences and identify the functions performed by the modals."
+          ],
+          "lessonSectionId": "social-issues-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "S c) We should complete the shooting by tomorrow evening.",
+            "e) The time was up but the makeup person would not turn up.",
+            "i) The agreement between the two parties shall be in force for two years."
+          ],
+          "lessonSectionId": "social-issues-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "Write a review of a film / a TV Programme / an episode of a TV serial you have seen.",
+            "N Dear Sir / Madam, A I am a regular reader of your esteemed newspaper.",
+            "I am very much interested in L reading the news in 'Friday Review' in your newspaper every week."
+          ],
+          "lessonSectionId": "social-issues-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Recently 'Mayabazaar' w as released again but this time it was a different 'Maya Bazaar', , Maya Bazaar-in colour!",
+            "T Thanks to the Goldstone Technologies, I was carried away to a different world of R colourful visuals.",
+            "But here and there the effects E of digital track sound have made some difference."
+          ],
+          "lessonSectionId": "social-issues-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "I hope many such experiments C are welcome to the film lovers.",
+            "S Thanking you Sir, Yours sincerely, Ramu, Govt."
+          ],
+          "lessonSectionId": "social-issues-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "social-issues-section-1",
+          "title": "Social Issues: Lesson reading",
+          "summary": [
+            "The main verb will always be the V form after the modals.",
+            "Past form of some modals stands for 'politeness'.",
+            "Read the follEowing sentences and identify the functions performed by the modals."
+          ],
+          "keyPoints": [
+            "The main verb will always be the V form after the modals.",
+            "Past form of some modals stands for 'politeness'.",
+            "Read the follEowing sentences and identify the functions performed by the modals.",
+            "C b) You could take an umbrella, it's raining outside."
+          ],
+          "pageRange": "132-163"
+        },
+        {
+          "id": "social-issues-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "S c) We should complete the shooting by tomorrow evening.",
+            "e) The time was up but the makeup person would not turn up.",
+            "i) The agreement between the two parties shall be in force for two years."
+          ],
+          "keyPoints": [
+            "S c) We should complete the shooting by tomorrow evening.",
+            "e) The time was up but the makeup person would not turn up.",
+            "i) The agreement between the two parties shall be in force for two years.",
+            "j) It might be an idea to postpone the release of the film."
+          ],
+          "pageRange": "132-163"
+        },
+        {
+          "id": "social-issues-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "Write a review of a film / a TV Programme / an episode of a TV serial you have seen.",
+            "N Dear Sir / Madam, A I am a regular reader of your esteemed newspaper.",
+            "I am very much interested in L reading the news in 'Friday Review' in your newspaper every week."
+          ],
+          "keyPoints": [
+            "Write a review of a film / a TV Programme / an episode of a TV serial you have seen.",
+            "N Dear Sir / Madam, A I am a regular reader of your esteemed newspaper.",
+            "I am very much interested in L reading the news in 'Friday Review' in your newspaper every week.",
+            "E I would like to bring to your notice certain feelings I had when I watched the colour version of the movie 'Maya BazaaTr'."
+          ],
+          "pageRange": "132-163"
+        },
+        {
+          "id": "social-issues-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "Recently 'Mayabazaar' w as released again but this time it was a different 'Maya Bazaar', , Maya Bazaar-in colour!",
+            "T Thanks to the Goldstone Technologies, I was carried away to a different world of R colourful visuals.",
+            "But here and there the effects E of digital track sound have made some difference."
+          ],
+          "keyPoints": [
+            "Recently 'Mayabazaar' w as released again but this time it was a different 'Maya Bazaar', , Maya Bazaar-in colour!",
+            "T Thanks to the Goldstone Technologies, I was carried away to a different world of R colourful visuals.",
+            "But here and there the effects E of digital track sound have made some difference.",
+            "Such an experiment began in Hindi with 'Mughal-E-Azam' and received applause from the audience."
+          ],
+          "pageRange": "132-163"
+        },
+        {
+          "id": "social-issues-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "I hope many such experiments C are welcome to the film lovers.",
+            "S Thanking you Sir, Yours sincerely, Ramu, Govt."
+          ],
+          "keyPoints": [
+            "I hope many such experiments C are welcome to the film lovers.",
+            "S Thanking you Sir, Yours sincerely, Ramu, Govt."
+          ],
+          "pageRange": "132-163"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Non which",
+          "meaning": "a perfect Telugu girl"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Project Work Collect the information about the people who are involved in making a film",
+          "steps": [
+            "Project Work Collect the information about the people who are involved in making a film"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work: I was able to write a report about a successful movie and the different peop",
+          "steps": [
+            "Project Work: I was able to write a report about a successful movie and the different people involved in its production"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Social Issues: Lesson reading",
+          "lessonSectionIds": [
+            "social-issues-section-1"
+          ],
+          "focus": "Read the lesson. Section: Social Issues: Lesson reading."
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "social-issues-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "social-issues-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "social-issues-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "social-issues-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Social Issues key terms and exam answers",
+          "lessonSectionIds": [
+            "social-issues-section-4",
+            "social-issues-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "social-issues-q1",
+          "question": "Which word/idea is important in Social Issues?",
+          "options": [
+            "Non which",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Non which",
+          "explanation": "a perfect Telugu girl"
+        },
+        {
+          "id": "social-issues-q2",
+          "question": "What is one key point from 'Social Issues: Lesson reading'?",
+          "options": [
+            "The main verb will always be the V form after the modals.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "The main verb will always be the V form after the modals.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "social-issues-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 6,
       "chapter_name": "Bio-Diversity",
+      "source_pages": {
+        "start": 164,
+        "end": 195
+      },
       "topics": [
         {
-          "topic_name": "Bio-Diversity - Reading",
+          "topic_name": "Bio-Diversity: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "Report: 1 Jawan from Mahabubnagar killed in Srinagar attack MAHABUBNAGAR: A jawan from Andhra Pradesh was among the eight men of the Indian Army killed in Monday’s terror attack in Srinagar.",
+            "Yadaiah (28) was from Mahabubnagar district, officials said.",
+            "His body is likely to be flown into Hyderabad on Thursday."
+          ],
+          "lessonSectionId": "bio-diversity-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "Yadaiah who belonged to A Scheduled Castes joined the Army in 2003 and married Sumathi in 2009.",
+            "He is survived by wife and two daughters Rashmitha (3) and Ashwitha (10 months).",
+            "N He studied SSC at Kalwakurthy and while studying Intermediate first year he joined the Army as signal man."
+          ],
+          "lessonSectionId": "bio-diversity-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "Girija Shankar conveyed condolences to the family members of the deceased Army jawan.",
+            "G Eight soldiers were killed when two militants opened fire and lobbed grenades on an Army convoy on the outskirts of Srinagar.",
+            "The last The young man, who joined the Indian armed force in T rites would be performed at 2003, had been transferred to Kashmir a few years ago."
+          ],
+          "lessonSectionId": "bio-diversity-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Raju said, “At around 8 am on E Tuesday, we received the sad news and the entire family feels shattered.",
+            "Yadaiah’s wife Sumanthamma is in a state of shock.",
+            "His elder daughter is just 3 years old C and the younger one is a few months old."
+          ],
+          "lessonSectionId": "bio-diversity-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "I never knew that it will be his last visit home.",
+            "Yadaiah was supposed to visit us before year end.” According to Army officials, M."
+          ],
+          "lessonSectionId": "bio-diversity-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "bio-diversity-section-1",
+          "title": "Bio-Diversity: Lesson reading",
+          "summary": [
+            "Report: 1 Jawan from Mahabubnagar killed in Srinagar attack MAHABUBNAGAR: A jawan from Andhra Pradesh was among the eight men of the Indian Army killed in Monday’s terror attack in Srinagar.",
+            "Yadaiah (28) was from Mahabubnagar district, officials said.",
+            "His body is likely to be flown into Hyderabad on Thursday."
+          ],
+          "keyPoints": [
+            "Report: 1 Jawan from Mahabubnagar killed in Srinagar attack MAHABUBNAGAR: A jawan from Andhra Pradesh was among the eight men of the Indian Army killed in Monday’s terror attack in Srinagar.",
+            "Yadaiah (28) was from Mahabubnagar district, officials said.",
+            "His body is likely to be flown into Hyderabad on Thursday.",
+            "It will then be taken to his village for cremation."
+          ],
+          "pageRange": "164-195"
+        },
+        {
+          "id": "bio-diversity-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "Yadaiah who belonged to A Scheduled Castes joined the Army in 2003 and married Sumathi in 2009.",
+            "He is survived by wife and two daughters Rashmitha (3) and Ashwitha (10 months).",
+            "N He studied SSC at Kalwakurthy and while studying Intermediate first year he joined the Army as signal man."
+          ],
+          "keyPoints": [
+            "Yadaiah who belonged to A Scheduled Castes joined the Army in 2003 and married Sumathi in 2009.",
+            "He is survived by wife and two daughters Rashmitha (3) and Ashwitha (10 months).",
+            "N He studied SSC at Kalwakurthy and while studying Intermediate first year he joined the Army as signal man.",
+            "Minister for Information and Public Relations D."
+          ],
+          "pageRange": "164-195"
+        },
+        {
+          "id": "bio-diversity-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "Girija Shankar conveyed condolences to the family members of the deceased Army jawan.",
+            "G Eight soldiers were killed when two militants opened fire and lobbed grenades on an Army convoy on the outskirts of Srinagar.",
+            "The last The young man, who joined the Indian armed force in T rites would be performed at 2003, had been transferred to Kashmir a few years ago."
+          ],
+          "keyPoints": [
+            "Girija Shankar conveyed condolences to the family members of the deceased Army jawan.",
+            "G Eight soldiers were killed when two militants opened fire and lobbed grenades on an Army convoy on the outskirts of Srinagar.",
+            "The last The young man, who joined the Indian armed force in T rites would be performed at 2003, had been transferred to Kashmir a few years ago.",
+            "Inci- his native village with military dentally, he was slatRed to come home on a visit soon."
+          ],
+          "pageRange": "164-195"
+        },
+        {
+          "id": "bio-diversity-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "Raju said, “At around 8 am on E Tuesday, we received the sad news and the entire family feels shattered.",
+            "Yadaiah’s wife Sumanthamma is in a state of shock.",
+            "His elder daughter is just 3 years old C and the younger one is a few months old."
+          ],
+          "keyPoints": [
+            "Raju said, “At around 8 am on E Tuesday, we received the sad news and the entire family feels shattered.",
+            "Yadaiah’s wife Sumanthamma is in a state of shock.",
+            "His elder daughter is just 3 years old C and the younger one is a few months old.",
+            "” S Raju added, “In April, Yadaiah was in Kondareddypally of Kalwakurti mandal, Mahbubnagar on a short visit."
+          ],
+          "pageRange": "164-195"
+        },
+        {
+          "id": "bio-diversity-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "I never knew that it will be his last visit home.",
+            "Yadaiah was supposed to visit us before year end.” According to Army officials, M."
+          ],
+          "keyPoints": [
+            "I never knew that it will be his last visit home.",
+            "Yadaiah was supposed to visit us before year end.” According to Army officials, M."
+          ],
+          "pageRange": "164-195"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "So they",
+          "meaning": "'one-word substitutes'"
+        },
+        {
+          "term": "Chipko",
+          "meaning": "___________________________________________________"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Project Work Collect the information about the people who fought against social evils",
+          "steps": [
+            "Project Work Collect the information about the people who fought against social evils"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work: I was able to write a report on the people who fought against social evils a",
+          "steps": [
+            "Project Work: I was able to write a report on the people who fought against social evils and present it before my class"
           ]
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
+          "title": "activity is to plant a tree,’ said Wangari Maathai",
+          "steps": [
+            "activity is to plant a tree,’ said Wangari Maathai"
           ]
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
+          "title": "activityT, which was interrupted by bouts of deep depression and despair, produced the maj",
+          "steps": [
+            "activityT, which was interrupted by bouts of deep depression and despair, produced the majority of his most famous paintings"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Bio-Diversity: Lesson reading",
+          "lessonSectionIds": [
+            "bio-diversity-section-1"
+          ],
+          "focus": "Read the lesson. Section: Bio-Diversity: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "bio-diversity-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "bio-diversity-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "bio-diversity-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "bio-diversity-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Bio-Diversity key terms and exam answers",
+          "lessonSectionIds": [
+            "bio-diversity-section-4",
+            "bio-diversity-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "bio-diversity-q1",
+          "question": "Which word/idea is important in Bio-Diversity?",
+          "options": [
+            "So they",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "So they",
+          "explanation": "'one-word substitutes'"
+        },
+        {
+          "id": "bio-diversity-q2",
+          "question": "What is one key point from 'Bio-Diversity: Lesson reading'?",
+          "options": [
+            "Report: 1 Jawan from Mahabubnagar killed in Srinagar attack MAHABUBNAGAR: A jawan from Andhra Pradesh was among the eight men of the Indian ",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Report: 1 Jawan from Mahabubnagar killed in Srinagar attack MAHABUBNAGAR: A jawan from Andhra Pradesh was among the eight men of the Indian ",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "bio-diversity-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 7,
-      "chapter_name": "Nation And Diversity",
+      "chapter_name": "Nation and Diversity",
+      "source_pages": {
+        "start": 196,
+        "end": 227
+      },
       "topics": [
         {
-          "topic_name": "Nation And Diversity - Reading",
+          "topic_name": "Nation and Diversity: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "Sunday Nana, his wife and four smNall children live in Koko Village, Nigeria .",
+            "The A village is like any other African vGillage-picturesque, colourful and noisy.",
+            "The Nana family's house N too, is the same as all the other Ahouses in the village, with mud walls and a rusting corrugated iron L roof, and with children and E chickens sharing the compound."
+          ],
+          "lessonSectionId": "nation-and-diversity-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "And in a clearing 200m away from the village, next to a stream that the villagers get their drinking R water from, is an enormous pyramid of identical drums, reaching to the sky.",
+            "Some of them E are badly corroded, their slimy contents of various colours - grey, dark green, bright orange, etc.",
+            "- leaking out, down, on to the baked African earth and into the stream."
+          ],
+          "lessonSectionId": "nation-and-diversity-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "Some are swelling, as if their contents are bursting to get out.",
+            "“They came on a Wednesday,” said Sunday, “Many, many big lorries.",
+            "They gave the Chief a brown paper bag-I saw him smiling as the lorries drove away."
+          ],
+          "lessonSectionId": "nation-and-diversity-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "He came home one weekend with a new Chemistry book, and spent all day looking at the drums and writing things down and talking to himself and shaking his head.",
+            "Then he called a meeting of the village and told us that the drums contained 186 Bio-Diversity",
+            "Sunday Nana stopped, frowning, a troubled look on his face, \"In the last five years, 13 people have died in this village, my own elder brother one of them."
+          ],
+          "lessonSectionId": "nation-and-diversity-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "We have written to Italy, but they do nothing.",
+            "The Chief says we should movAe our houses to another place."
+          ],
+          "lessonSectionId": "nation-and-diversity-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "nation-and-diversity-section-1",
+          "title": "Nation and Diversity: Lesson reading",
+          "summary": [
+            "Sunday Nana, his wife and four smNall children live in Koko Village, Nigeria .",
+            "The A village is like any other African vGillage-picturesque, colourful and noisy.",
+            "The Nana family's house N too, is the same as all the other Ahouses in the village, with mud walls and a rusting corrugated iron L roof, and with children and E chickens sharing the compound."
+          ],
+          "keyPoints": [
+            "Sunday Nana, his wife and four smNall children live in Koko Village, Nigeria .",
+            "The A village is like any other African vGillage-picturesque, colourful and noisy.",
+            "The Nana family's house N too, is the same as all the other Ahouses in the village, with mud walls and a rusting corrugated iron L roof, and with children and E chickens sharing the compound.",
+            "Nana's front are three large empty metal drums, the bright red paint , now flaking away, but thTe skull and crossbones symbol clearly visible on each."
+          ],
+          "pageRange": "196-227"
+        },
+        {
+          "id": "nation-and-diversity-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "And in a clearing 200m away from the village, next to a stream that the villagers get their drinking R water from, is an enormous pyramid of identical drums, reaching to the sky.",
+            "Some of them E are badly corroded, their slimy contents of various colours - grey, dark green, bright orange, etc.",
+            "- leaking out, down, on to the baked African earth and into the stream."
+          ],
+          "keyPoints": [
+            "And in a clearing 200m away from the village, next to a stream that the villagers get their drinking R water from, is an enormous pyramid of identical drums, reaching to the sky.",
+            "Some of them E are badly corroded, their slimy contents of various colours - grey, dark green, bright orange, etc.",
+            "- leaking out, down, on to the baked African earth and into the stream.",
+            "Some have fallen C down and rolled - or been rolled by playful children - into the bush."
+          ],
+          "pageRange": "196-227"
+        },
+        {
+          "id": "nation-and-diversity-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "Some are swelling, as if their contents are bursting to get out.",
+            "“They came on a Wednesday,” said Sunday, “Many, many big lorries.",
+            "They gave the Chief a brown paper bag-I saw him smiling as the lorries drove away."
+          ],
+          "keyPoints": [
+            "Some are swelling, as if their contents are bursting to get out.",
+            "“They came on a Wednesday,” said Sunday, “Many, many big lorries.",
+            "They gave the Chief a brown paper bag-I saw him smiling as the lorries drove away.",
+            "Then three months ago, one of the brightest boys in the village - Thomas Agonyo - started university in Lagos."
+          ],
+          "pageRange": "196-227"
+        },
+        {
+          "id": "nation-and-diversity-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "He came home one weekend with a new Chemistry book, and spent all day looking at the drums and writing things down and talking to himself and shaking his head.",
+            "Then he called a meeting of the village and told us that the drums contained 186 Bio-Diversity",
+            "Sunday Nana stopped, frowning, a troubled look on his face, \"In the last five years, 13 people have died in this village, my own elder brother one of them."
+          ],
+          "keyPoints": [
+            "He came home one weekend with a new Chemistry book, and spent all day looking at the drums and writing things down and talking to himself and shaking his head.",
+            "Then he called a meeting of the village and told us that the drums contained 186 Bio-Diversity",
+            "Sunday Nana stopped, frowning, a troubled look on his face, \"In the last five years, 13 people have died in this village, my own elder brother one of them.",
+            "We have asked the Government to take the drums away, but they do nothing."
+          ],
+          "pageRange": "196-227"
+        },
+        {
+          "id": "nation-and-diversity-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "We have written to Italy, but they do nothing.",
+            "The Chief says we should movAe our houses to another place."
+          ],
+          "keyPoints": [
+            "We have written to Italy, but they do nothing.",
+            "The Chief says we should movAe our houses to another place."
+          ],
+          "pageRange": "196-227"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "They",
+          "meaning": "linkers or discourse markers"
+        },
+        {
+          "term": "That",
+          "meaning": ", I would like to visit India sometime between October and November and stay there at least for a month and would like to visit your place"
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "activity is having an effect on the world's climate",
+          "steps": [
+            "activity is having an effect on the world's climate"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "activity and climate believe that the world climate has gAone through ___________ changes ",
+          "steps": [
+            "activity and climate believe that the world climate has gAone through ___________ changes since the earth and its atmosphere first formed"
           ]
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
+          "title": "Project Work R Talk to your elders about life fifty years ago",
+          "steps": [
+            "Project Work R Talk to your elders about life fifty years ago"
           ]
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
+          "title": "Project Work: T I was able to seek the views of the elders on how the plants, animals and ",
+          "steps": [
+            "Project Work: T I was able to seek the views of the elders on how the plants, animals and water bodies were cared for or not cared"
           ]
+        },
+        {
+          "title": "projectT India's cultural unity has been the , holding of Festivals of India in T various ",
+          "steps": [
+            "projectT India's cultural unity has been the , holding of Festivals of India in T various parts of the world"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Nation and Diversity: Lesson reading",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-1"
+          ],
+          "focus": "Read the lesson. Section: Nation and Diversity: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Nation and Diversity key terms and exam answers",
+          "lessonSectionIds": [
+            "nation-and-diversity-section-4",
+            "nation-and-diversity-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "nation-and-diversity-q1",
+          "question": "Which word/idea is important in Nation and Diversity?",
+          "options": [
+            "They",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "They",
+          "explanation": "linkers or discourse markers"
+        },
+        {
+          "id": "nation-and-diversity-q2",
+          "question": "What is one key point from 'Nation and Diversity: Lesson reading'?",
+          "options": [
+            "Sunday Nana, his wife and four smNall children live in Koko Village, Nigeria .",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Sunday Nana, his wife and four smNall children live in Koko Village, Nigeria .",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "nation-and-diversity-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 8,
       "chapter_name": "Human Rights",
+      "source_pages": {
+        "start": 228,
+        "end": 270
+      },
       "topics": [
         {
-          "topic_name": "Human Rights - Reading",
+          "topic_name": "Human Rights: Lesson reading",
           "subtopics": [
-            "Text Reading",
-            "Main Idea",
-            "Important Lines"
+            "What do you understand by the eLxpression' Unity in diversity'?",
+            "Pick out the factors that contribute to Unity in Diversity?",
+            "Why did the wTriter use the statement ' It is a mere collection of separate people'."
+          ],
+          "lessonSectionId": "human-rights-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "Read the following words / phrases and find the words / phrases from the text which convey the same meaning.",
+            "myriad ______________________________________________ 2.",
+            "synthesis ______________________________________________ 3."
+          ],
+          "lessonSectionId": "human-rights-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "dialects ______________________________________________ 5.",
+            "saints ______________________________________________ II.",
+            "Read the phrases and find the suitable words equivalent to them from the text."
+          ],
+          "lessonSectionId": "human-rights-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Telangana , _________________________________ T 2.",
+            "Andhra Pradesh _________________________________ R 3.",
+            "Punjab _________________________________ E 4."
+          ],
+          "lessonSectionId": "human-rights-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "Tamil Nadu _________________________________ II.",
+            "Develop a write up on any one of the dance forms of India."
+          ],
+          "lessonSectionId": "human-rights-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "human-rights-section-1",
+          "title": "Human Rights: Lesson reading",
+          "summary": [
+            "What do you understand by the eLxpression' Unity in diversity'?",
+            "Pick out the factors that contribute to Unity in Diversity?",
+            "Why did the wTriter use the statement ' It is a mere collection of separate people'."
+          ],
+          "keyPoints": [
+            "What do you understand by the eLxpression' Unity in diversity'?",
+            "Pick out the factors that contribute to Unity in Diversity?",
+            "Why did the wTriter use the statement ' It is a mere collection of separate people'.",
+            "‘Hindi is now understood and recognised as the national language of India’."
+          ],
+          "pageRange": "228-270"
+        },
+        {
+          "id": "human-rights-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "Read the following words / phrases and find the words / phrases from the text which convey the same meaning.",
+            "myriad ______________________________________________ 2.",
+            "synthesis ______________________________________________ 3."
+          ],
+          "keyPoints": [
+            "Read the following words / phrases and find the words / phrases from the text which convey the same meaning.",
+            "myriad ______________________________________________ 2.",
+            "synthesis ______________________________________________ 3.",
+            "diversity ______________________________________________ 218 Nation and Diversity"
+          ],
+          "pageRange": "228-270"
+        },
+        {
+          "id": "human-rights-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "dialects ______________________________________________ 5.",
+            "saints ______________________________________________ II.",
+            "Read the phrases and find the suitable words equivalent to them from the text."
+          ],
+          "keyPoints": [
+            "dialects ______________________________________________ 5.",
+            "saints ______________________________________________ II.",
+            "Read the phrases and find the suitable words equivalent to them from the text.",
+            "Fill in the table with the most apLpropriate dance form related to each state and the occasion on whEich it is performed."
+          ],
+          "pageRange": "228-270"
+        },
+        {
+          "id": "human-rights-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "Telangana , _________________________________ T 2.",
+            "Andhra Pradesh _________________________________ R 3.",
+            "Punjab _________________________________ E 4."
+          ],
+          "keyPoints": [
+            "Telangana , _________________________________ T 2.",
+            "Andhra Pradesh _________________________________ R 3.",
+            "Punjab _________________________________ E 4.",
+            "Karnataka _________________________________ C 5."
+          ],
+          "pageRange": "228-270"
+        },
+        {
+          "id": "human-rights-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "Tamil Nadu _________________________________ II.",
+            "Develop a write up on any one of the dance forms of India."
+          ],
+          "keyPoints": [
+            "Tamil Nadu _________________________________ II.",
+            "Develop a write up on any one of the dance forms of India."
+          ],
+          "pageRange": "228-270"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Human Rights",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Project Work Collect the data from different families in your area about the festivals the",
+          "steps": [
+            "Project Work Collect the data from different families in your area about the festivals they celebrate"
           ]
         },
         {
-          "topic_name": "Vocabulary And Meanings",
-          "subtopics": [
-            "New Words",
-            "Meanings",
-            "Sentence Use"
+          "title": "Project Work: C I was able to collect the data from different families in my area S about ",
+          "steps": [
+            "Project Work: C I was able to collect the data from different families in my area S about the festivals and talk about the concept of unity in diversity in our festivals"
           ]
         },
         {
-          "topic_name": "Grammar And Writing",
-          "subtopics": [
-            "Grammar Points",
-            "Writing Practice",
-            "Exam Format"
+          "title": "Activity Imagine that on the occasion of 'Children's Day' your school is organizing a spee",
+          "steps": [
+            "Activity Imagine that on the occasion of 'Children's Day' your school is organizing a speech competition on the topic ' Education of girls for women's empowerment'"
           ]
         },
         {
-          "topic_name": "Question Answers",
-          "subtopics": [
-            "Short Answers",
-            "Long Answers",
-            "Revision Questions"
-          ]
+          "title": "Project Work Collect paper clippings that appeared in daily newspapers over a period of fi",
+          "steps": []
+        },
+        {
+          "title": "Project Work: G I was able to share my views on the responsibility of the students N in or",
+          "steps": []
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Human Rights: Lesson reading",
+          "lessonSectionIds": [
+            "human-rights-section-1"
+          ],
+          "focus": "Read the lesson. Section: Human Rights: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "human-rights-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "human-rights-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "human-rights-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "human-rights-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Human Rights key terms and exam answers",
+          "lessonSectionIds": [
+            "human-rights-section-4",
+            "human-rights-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "human-rights-q1",
+          "question": "Which word/idea is important in Human Rights?",
+          "options": [
+            "Human Rights",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Human Rights",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "human-rights-q2",
+          "question": "What is one key point from 'Human Rights: Lesson reading'?",
+          "options": [
+            "What do you understand by the eLxpression' Unity in diversity'?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "What do you understand by the eLxpression' Unity in diversity'?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "human-rights-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     }

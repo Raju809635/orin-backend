@@ -8,6 +8,7 @@ const {
   getAcademicSubjectForClass,
   getAcademicTopicsForClassSubject,
   getAcademicTopicsForBoardClassSubject,
+  getAcademicLessonForBoardClassSubjectChapter,
   getAcademicPdfsForClassSubject,
   getAcademicPdfsForBoardClassSubject,
   getAcademicResourceLibrary,
@@ -25,6 +26,7 @@ router.get("/class/:classNumber/subject/:subject/topics", getAcademicTopicsForCl
 router.get("/class/:classNumber/subject/:subject", getAcademicSubjectForClass);
 router.get("/:board/classes", getAcademicClasses);
 router.get("/:board/class/:classNumber/subjects", getAcademicSubjects);
+router.get("/:board/class/:classNumber/subject/:subject/chapter/:chapter/lesson", getAcademicLessonForBoardClassSubjectChapter);
 router.get("/:board/class/:classNumber/subject/:subject/topics", getAcademicTopicsForBoardClassSubject);
 router.get("/:board/class/:classNumber/subject/:subject/pdfs", getAcademicPdfsForBoardClassSubject);
 router.get("/:board/class/:classNumber/subject/:subject", getAcademicSubject);

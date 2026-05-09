@@ -398,6 +398,68 @@ function topicTitle(topic) {
   return String(topic?.topic_name || topic?.title || topic?.name || topic || "").trim();
 }
 
+function normalizeChapterKey(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getLessonForBoardClassSubjectChapter(board, classNumber, subject, chapterName) {
+  const record = getSubjectRecord(board, classNumber, subject);
+  const wrappedRecord = record.subject
+    ? record
+    : {
+        board: normalizeBoard(board),
+        classNumber: Number(classNumber),
+        subjectKey: subjectSlug(subject),
+        subject: record
+      };
+  if (isSubjectUnavailable(wrappedRecord)) {
+    return {
+      ...wrappedRecord,
+      available: false,
+      message: pendingMessage(wrappedRecord),
+      chapter: null
+    };
+  }
+
+  const subjectRecord = wrappedRecord.subject || wrappedRecord;
+  const chapters = getChaptersFromRecord(subjectRecord);
+  const requestedKey = normalizeChapterKey(chapterName);
+  const selectedChapter = chapters.find((chapter) => normalizeChapterKey(chapterTitle(chapter)) === requestedKey)
+    || chapters.find((chapter) => normalizeChapterKey(chapterTitle(chapter)).includes(requestedKey) || requestedKey.includes(normalizeChapterKey(chapterTitle(chapter))));
+
+  if (!selectedChapter) {
+    return {
+      ...wrappedRecord,
+      available: false,
+      message: "Lesson content for this chapter is not available yet.",
+      chapter: null
+    };
+  }
+
+  return {
+    ...wrappedRecord,
+    available: true,
+    metadata: subjectRecord.metadata || {},
+    chapter: {
+      chapter_no: selectedChapter.chapter_no,
+      chapter_name: chapterTitle(selectedChapter),
+      source_pages: selectedChapter.source_pages || null,
+      topics: Array.isArray(selectedChapter.topics) ? selectedChapter.topics : [],
+      lessonSections: Array.isArray(selectedChapter.lessonSections) ? selectedChapter.lessonSections : [],
+      definitions: Array.isArray(selectedChapter.definitions) ? selectedChapter.definitions : [],
+      diagrams: Array.isArray(selectedChapter.diagrams) ? selectedChapter.diagrams : [],
+      activities: Array.isArray(selectedChapter.activities) ? selectedChapter.activities : [],
+      weeklyPlan: Array.isArray(selectedChapter.weeklyPlan) ? selectedChapter.weeklyPlan : [],
+      quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
+    }
+  };
+}
+
 function getTopicsForClassSubject(classNumber, subject) {
   const record = getSubjectRecordForClass(classNumber, subject);
   if (isSubjectUnavailable(record)) {
@@ -597,6 +659,7 @@ module.exports = {
   getSubjectRecordForClass,
   getTopicsForClassSubject,
   getTopicsForBoardClassSubject,
+  getLessonForBoardClassSubjectChapter,
   getResourceLibrary,
   getManualPdfsForClassSubject,
   resolveManualPdf,

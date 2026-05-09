@@ -5,390 +5,2874 @@
     "subject": "Biology",
     "year": "2026",
     "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/Biology.PDF",
-    "source_type": "manual_pdf",
-    "extraction_status": "verified_text_extracted",
-    "verification_status": "pdf_toc_source_backed",
-    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
-    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+    "source_type": "manual_pdf_full_lesson_text",
+    "extraction_status": "verified_full_text_extracted",
+    "verification_status": "pdf_lesson_text_extracted",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 10 textbook PDF.",
+    "extraction_message": "10 chapters and 474680 characters of lesson text were converted into roadmap weeks, lesson sections, definitions, activities, and quizzes."
   },
   "chapters": [
     {
       "chapter_no": 1,
       "chapter_name": "Nutrition",
+      "source_pages": {
+        "start": 10,
+        "end": 25
+      },
       "topics": [
         {
-          "topic_name": "Nutrition - Concept Understanding",
+          "topic_name": "Nutrition: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "Chapter N UTRITION Food is needed by all living organisms mainly for growth and repair.",
+            "Several organisms need food to maintain body temperature as well.",
+            "A variety of substances are taken as food by organisms from single celluar organisms like amoeba to the complex multicellular organisms like the human being."
+          ],
+          "lessonSectionId": "nutrition-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "You have studied in the previous classes about how different organisms get their food.",
+            "Let us study about autotrophic and heterotrophic modes of nutrition and also find out why most of the plants are called as autotrophs.",
+            "They acquire nutrients like mineral salts and water from the soil as well as some gases from the air."
+          ],
+          "lessonSectionId": "nutrition-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Most of the food that we eat is obtained from plants.",
+            "Even if we depend on animal products, we would find that those animals usually depend on plants for their food.",
+            "But how do plants carry out their life processes?"
+          ],
+          "lessonSectionId": "nutrition-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "You have studied something about photosynthesis in your earlier classes.",
+            "Investigations into plant life processes might have started long ago.",
+            "Actual experimentations to know about plant needs have been recorded from 17th century."
+          ],
+          "lessonSectionId": "nutrition-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "nutrition-section-1",
+          "title": "Nutrition: Concept explanation",
+          "summary": [
+            "Chapter N UTRITION Food is needed by all living organisms mainly for growth and repair.",
+            "Several organisms need food to maintain body temperature as well.",
+            "A variety of substances are taken as food by organisms from single celluar organisms like amoeba to the complex multicellular organisms like the human being."
+          ],
+          "keyPoints": [
+            "Chapter N UTRITION Food is needed by all living organisms mainly for growth and repair.",
+            "Several organisms need food to maintain body temperature as well.",
+            "A variety of substances are taken as food by organisms from single celluar organisms like amoeba to the complex multicellular organisms like the human being.",
+            "Even within the human body the cells require a wide variety of substances as food to carryout their functions.",
+            "The mode of acquiring food varies from organism to organism."
+          ],
+          "pageRange": "10-25"
+        },
+        {
+          "id": "nutrition-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "You have studied in the previous classes about how different organisms get their food.",
+            "Let us study about autotrophic and heterotrophic modes of nutrition and also find out why most of the plants are called as autotrophs.",
+            "They acquire nutrients like mineral salts and water from the soil as well as some gases from the air."
+          ],
+          "keyPoints": [
+            "You have studied in the previous classes about how different organisms get their food.",
+            "Let us study about autotrophic and heterotrophic modes of nutrition and also find out why most of the plants are called as autotrophs.",
+            "They acquire nutrients like mineral salts and water from the soil as well as some gases from the air.",
+            "They are capable of producing complex compounds like carbohydrates, proteins and lipids from these very simple substances.",
+            "These compounds produced by autotrophic plants are utilized for providing energy to most of the living organisms."
+          ],
+          "pageRange": "10-25"
+        },
+        {
+          "id": "nutrition-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Most of the food that we eat is obtained from plants.",
+            "Even if we depend on animal products, we would find that those animals usually depend on plants for their food.",
+            "But how do plants carry out their life processes?"
+          ],
+          "keyPoints": [
+            "Most of the food that we eat is obtained from plants.",
+            "Even if we depend on animal products, we would find that those animals usually depend on plants for their food.",
+            "But how do plants carry out their life processes?",
+            "Scientists have been working for centuries to find out how plants carry out their life processes.",
+            "We know that among all the life processes, the process of photosynthesis makes plants “The universal food providers” for all living organisms."
+          ],
+          "pageRange": "10-25"
+        },
+        {
+          "id": "nutrition-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "You have studied something about photosynthesis in your earlier classes.",
+            "Investigations into plant life processes might have started long ago.",
+            "Actual experimentations to know about plant needs have been recorded from 17th century."
+          ],
+          "keyPoints": [
+            "You have studied something about photosynthesis in your earlier classes.",
+            "Investigations into plant life processes might have started long ago.",
+            "Actual experimentations to know about plant needs have been recorded from 17th century."
+          ],
+          "pageRange": "10-25"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This process",
+          "meaning": "carbon dioxide as photosynthesis"
+        },
+        {
+          "term": "Light dependent events or reactions",
+          "meaning": "light reactions and it has been found to take place in grana, while the rest are called light independent or dark reactions and they occur in the stroma"
+        },
+        {
+          "term": "This",
+          "meaning": "that plants must be able to absorb energy as they produce oxygen"
+        },
+        {
+          "term": "It only",
+          "meaning": "that these reactions do not depend on light"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-1: Photosynthesis formed. Scientists had tried to formulate a simple equation to indicate this proces",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2(a). Take methylated spirit in a test tube and put the leaf in it. First boil the leaf in water then",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2(a): boiling the leaf Fig-2(b): Iodine test in methylated spirit Take the leaf carefully from test t",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Priestley experiment lenticels in the stems and aerial roots. Activity-2 Carbondioxide is necessar",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-4: Mohl",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-4. Take a wide mouthed transparent glass bottle. Take potassium hydroxide (KOH) pellets or potassium",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-5 and make two identical sets with water plant (like Hydrilla). 2. Keep the whole setup in a bucket f",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-5: Hydrilla experiment removing test tube from the beaker",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity-1 Presence of starch (a type of carbohydrate) in leaves Let us take a soft and th",
+          "steps": [
+            "Activity-1 Presence of starch (a type of carbohydrate) in leaves Let us take a soft and thin leaf from a plant which is well exposed to sunlight"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "Activity-2 Carbondioxide is necessary for Photosynthesis (Mohl’s half leaf experiment) We ",
+          "steps": [
+            "Activity-2 Carbondioxide is necessary for Photosynthesis (Mohl’s half leaf experiment) We need a destarched plant to start with"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "Lab Activity Experiment to observe oxygen is evolved during photosynthesis in the presence",
+          "steps": []
+        },
+        {
+          "title": "Activity-3 Sunlight is necessary to form starch in green plants Take a potted plant and de",
+          "steps": [
+            "Activity-3 Sunlight is necessary to form starch in green plants Take a potted plant and destarch the leaves"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "activity- 7 of co-ordination in life process of this text book",
+          "steps": [
+            "activity- 7 of co-ordination in life process of this text book"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Nutrition: Concept explanation",
+          "lessonSectionIds": [
+            "nutrition-section-1"
+          ],
+          "focus": "Understand the process. Section: Nutrition: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "nutrition-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "nutrition-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "nutrition-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Nutrition key terms and exam answers",
+          "lessonSectionIds": [
+            "nutrition-section-3",
+            "nutrition-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "nutrition-section-1",
+            "nutrition-section-2",
+            "nutrition-section-3",
+            "nutrition-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "nutrition-q1",
+          "question": "Which term/process is important in Nutrition?",
+          "options": [
+            "This process",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This process",
+          "explanation": "carbon dioxide as photosynthesis"
+        },
+        {
+          "id": "nutrition-q2",
+          "question": "What is one key point from 'Nutrition: Concept explanation'?",
+          "options": [
+            "Chapter N UTRITION Food is needed by all living organisms mainly for growth and repair.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Chapter N UTRITION Food is needed by all living organisms mainly for growth and repair.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "nutrition-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 2,
       "chapter_name": "Respiration",
+      "source_pages": {
+        "start": 26,
+        "end": 50
+      },
       "topics": [
         {
-          "topic_name": "Respiration - Concept Understanding",
+          "topic_name": "Respiration: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "What are the end products formed after the digestion of fats?",
+            "Transport of the products of digestion from the intestine into blood (through the wall of small intestine) is called absorption.",
+            "Internally, intestinal wall has a number of finger like projections called Microvilli."
+          ],
+          "lessonSectionId": "respiration-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Products of digestion are absorbed first into the villi and from there into the blood vessels.",
+            "This means the digested food absorbed by the walls of the small intestine.",
+            "Thus after maximum absorption of food in the small intestine the rest passes into the large intestine which is undigested."
+          ],
+          "lessonSectionId": "respiration-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Food that passes out of the anus still contains considerable amount of proteins, fats and carbohydrates, roughages or fibres of either carbohydrates or proteins.",
+            "We will learn some more points about the coordination of digestive system with other systems in the chapter coordination in life processes.",
+            "Flow chart of human digestive system What is the necessity of the process of digestion?"
+          ],
+          "lessonSectionId": "respiration-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Vomiting is the body’s method of ridding itself of unwanted or harmful substances from the stomach.",
+            "The peristaltic movements of the stomach and oesophagus reverse their normal direction and the food is expelled.",
+            "There are many causes of vomiting, but one of the most common is overeating, especially when the food contains a high proportions of fat."
+          ],
+          "lessonSectionId": "respiration-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "respiration-section-1",
+          "title": "Respiration: Concept explanation",
+          "summary": [
+            "What are the end products formed after the digestion of fats?",
+            "Transport of the products of digestion from the intestine into blood (through the wall of small intestine) is called absorption.",
+            "Internally, intestinal wall has a number of finger like projections called Microvilli."
+          ],
+          "keyPoints": [
+            "What are the end products formed after the digestion of fats?",
+            "Transport of the products of digestion from the intestine into blood (through the wall of small intestine) is called absorption.",
+            "Internally, intestinal wall has a number of finger like projections called Microvilli.",
+            "The villi increase the surface area for absorption.",
+            "Blood vessels and lymph vessels are present in the form of a network in the villi."
+          ],
+          "pageRange": "26-50"
+        },
+        {
+          "id": "respiration-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Products of digestion are absorbed first into the villi and from there into the blood vessels.",
+            "This means the digested food absorbed by the walls of the small intestine.",
+            "Thus after maximum absorption of food in the small intestine the rest passes into the large intestine which is undigested."
+          ],
+          "keyPoints": [
+            "Products of digestion are absorbed first into the villi and from there into the blood vessels.",
+            "This means the digested food absorbed by the walls of the small intestine.",
+            "Thus after maximum absorption of food in the small intestine the rest passes into the large intestine which is undigested.",
+            "This material is then expelled through the anus which is the last part of the alimentary canal.",
+            "This passage of undigested material from the body by the way of anus is called defecation."
+          ],
+          "pageRange": "26-50"
+        },
+        {
+          "id": "respiration-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Food that passes out of the anus still contains considerable amount of proteins, fats and carbohydrates, roughages or fibres of either carbohydrates or proteins.",
+            "We will learn some more points about the coordination of digestive system with other systems in the chapter coordination in life processes.",
+            "Flow chart of human digestive system What is the necessity of the process of digestion?"
+          ],
+          "keyPoints": [
+            "Food that passes out of the anus still contains considerable amount of proteins, fats and carbohydrates, roughages or fibres of either carbohydrates or proteins.",
+            "We will learn some more points about the coordination of digestive system with other systems in the chapter coordination in life processes.",
+            "Flow chart of human digestive system What is the necessity of the process of digestion?",
+            "What are its major steps involved in the process of digestion?",
+            "Sometimes it rebels, and we either feel sick or have indigestion."
+          ],
+          "pageRange": "26-50"
+        },
+        {
+          "id": "respiration-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Vomiting is the body’s method of ridding itself of unwanted or harmful substances from the stomach.",
+            "The peristaltic movements of the stomach and oesophagus reverse their normal direction and the food is expelled.",
+            "There are many causes of vomiting, but one of the most common is overeating, especially when the food contains a high proportions of fat."
+          ],
+          "keyPoints": [
+            "Vomiting is the body’s method of ridding itself of unwanted or harmful substances from the stomach.",
+            "The peristaltic movements of the stomach and oesophagus reverse their normal direction and the food is expelled.",
+            "There are many causes of vomiting, but one of the most common is overeating, especially when the food contains a high proportions of fat."
+          ],
+          "pageRange": "26-50"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "That is why mitochondria",
+          "meaning": "“power houses of the cell”"
+        },
+        {
+          "term": "This",
+          "meaning": "the digested food absorbed by the walls of the small intestine"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-14: Kwashiorkor swollen due to accumulation of water in the intercellular spaces. Very poor muscle dev",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-15: Marasmus muscles",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-16: Obesity renal",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-17: Pellagra and supplies vitamins to the body. Vitamins are classified into two groups. They are :1.",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Lavoisier 26 Respiration",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Priestley The air that we breathe out made lime water milky while the air that is formed after hea",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "figure-3 and try to do the experiment once again to find out what happens. What does this experiment indicat",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Identifying the Presence of CO 2 We shall have to study the pathway of air in our body through our",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "projections called Microvilli",
+          "steps": [
+            "projections called Microvilli"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "projections which increases the surface area in small intestine are called________________",
+          "steps": [
+            "projections which increases the surface area in small intestine are called____________________"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "activity to feel what happens when we swallow food",
+          "steps": [
+            "activity to feel what happens when we swallow food"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "Activity-1 Keep your palm around an inch away from your nose, feel you are breathing out, ",
+          "steps": [
+            "Activity-1 Keep your palm around an inch away from your nose, feel you are breathing out, do not remove it until you have finished the activity"
           ]
+        },
+        {
+          "title": "activity of lung capacity performed by you in class VII in the chapter ‘Respiration in Org",
+          "steps": [
+            "activity of lung capacity performed by you in class VII in the chapter ‘Respiration in Organisms’"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Respiration: Concept explanation",
+          "lessonSectionIds": [
+            "respiration-section-1"
+          ],
+          "focus": "Understand the process. Section: Respiration: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "respiration-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "respiration-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "respiration-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Respiration key terms and exam answers",
+          "lessonSectionIds": [
+            "respiration-section-3",
+            "respiration-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "respiration-section-1",
+            "respiration-section-2",
+            "respiration-section-3",
+            "respiration-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "respiration-q1",
+          "question": "Which term/process is important in Respiration?",
+          "options": [
+            "That is why mitochondria",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "That is why mitochondria",
+          "explanation": "“power houses of the cell”"
+        },
+        {
+          "id": "respiration-q2",
+          "question": "What is one key point from 'Respiration: Concept explanation'?",
+          "options": [
+            "What are the end products formed after the digestion of fats?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "What are the end products formed after the digestion of fats?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "respiration-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 3,
       "chapter_name": "Circulation",
+      "source_pages": {
+        "start": 51,
+        "end": 77
+      },
       "topics": [
         {
-          "topic_name": "Circulation - Concept Understanding",
+          "topic_name": "Circulation: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "When glucose burns, carbon dioxide and water are produced and energy is released as heat.",
+            "We know that combustion of glucose gives us glucose carbon dioxide, water and energy while from the test tube respiratory equation we get the same products.",
+            "But essentially the processes should differ due to heat delivery following reasons."
+          ],
+          "lessonSectionId": "circulation-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Water normally stops combustion from taking release place while cells contain a lot of water and respiration still goes on.",
+            "Living animals and plants usually produce energy in the form of heat.",
+            "We feel warm when we wear sweater in winter season."
+          ],
+          "lessonSectionId": "circulation-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "What are the other ways in which our body loses heat?",
+            "Heat is constantly lost from the body surface thus it must be continuously generated within our bodies to replace what has been lost to keep the body temperature constant.",
+            "Is the rate of heat production always the same?"
+          ],
+          "lessonSectionId": "circulation-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "During cellular respiration energy is released.",
+            "Some amount of energy is stored in the form of ATP.",
+            "Some amount of energy is utilised in our day to day life activities and the excess amount of energy is released in the form of heat."
+          ],
+          "lessonSectionId": "circulation-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "circulation-section-1",
+          "title": "Circulation: Concept explanation",
+          "summary": [
+            "When glucose burns, carbon dioxide and water are produced and energy is released as heat.",
+            "We know that combustion of glucose gives us glucose carbon dioxide, water and energy while from the test tube respiratory equation we get the same products.",
+            "But essentially the processes should differ due to heat delivery following reasons."
+          ],
+          "keyPoints": [
+            "When glucose burns, carbon dioxide and water are produced and energy is released as heat.",
+            "We know that combustion of glucose gives us glucose carbon dioxide, water and energy while from the test tube respiratory equation we get the same products.",
+            "But essentially the processes should differ due to heat delivery following reasons.",
+            "Glucose must be burnt at high temperature in the laboratory to liberate energy, if it happened in our cells,all cells would be burnt.",
+            "Once glucose starts burning we can’t stop the process easily, but living cells are able to lime water exercise control over the sort of burning of glucose in the presence of oxygen."
+          ],
+          "pageRange": "51-77"
+        },
+        {
+          "id": "circulation-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Water normally stops combustion from taking release place while cells contain a lot of water and respiration still goes on.",
+            "Living animals and plants usually produce energy in the form of heat.",
+            "We feel warm when we wear sweater in winter season."
+          ],
+          "keyPoints": [
+            "Water normally stops combustion from taking release place while cells contain a lot of water and respiration still goes on.",
+            "Living animals and plants usually produce energy in the form of heat.",
+            "We feel warm when we wear sweater in winter season.",
+            "We know that sweater prevents loss of heat energy produced by the body.",
+            "Does this suggest any way in which our bodies lose heat to the surroundings?"
+          ],
+          "pageRange": "51-77"
+        },
+        {
+          "id": "circulation-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "What are the other ways in which our body loses heat?",
+            "Heat is constantly lost from the body surface thus it must be continuously generated within our bodies to replace what has been lost to keep the body temperature constant.",
+            "Is the rate of heat production always the same?"
+          ],
+          "keyPoints": [
+            "What are the other ways in which our body loses heat?",
+            "Heat is constantly lost from the body surface thus it must be continuously generated within our bodies to replace what has been lost to keep the body temperature constant.",
+            "Is the rate of heat production always the same?",
+            "In the course of vigorous activity, a greater amount of heat is generated.",
+            "We know that we feel hot after some form of strenuous exercise such as running."
+          ],
+          "pageRange": "51-77"
+        },
+        {
+          "id": "circulation-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "During cellular respiration energy is released.",
+            "Some amount of energy is stored in the form of ATP.",
+            "Some amount of energy is utilised in our day to day life activities and the excess amount of energy is released in the form of heat."
+          ],
+          "keyPoints": [
+            "During cellular respiration energy is released.",
+            "Some amount of energy is stored in the form of ATP.",
+            "Some amount of energy is utilised in our day to day life activities and the excess amount of energy is released in the form of heat."
+          ],
+          "pageRange": "51-77"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This",
+          "meaning": "branchial respiration (gill respiration)"
+        },
+        {
+          "term": "Respiration through skin",
+          "meaning": "cutaneous respiration"
+        },
+        {
+          "term": "The art of breathing in Yogabyasa",
+          "meaning": "Pranayama prana means gas, ayama means journey"
+        },
+        {
+          "term": "This specialized system",
+          "meaning": "‘the circulatory system’"
+        },
+        {
+          "term": "Now let us count the rhythm which",
+          "meaning": "the pulse, for a minute"
+        },
+        {
+          "term": "Cluster of air sacs in lungs",
+          "meaning": "( ) A) alveoli B) bronchi C) bronchioles D) air spaces 3"
+        },
+        {
+          "term": "Two upper chambers",
+          "meaning": "atria (auricles), and the lower ones are called ventricles"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-13: CO - by-product of energy 2 3. Water normally stops combustion from taking release place while cel",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-14: Leaf as a respiratory organ required by plants to produce energy and carbon dioxide is released. 2",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-15: Lenticels on stem of ATP to perform metabolic activities. The carbon dioxide passes out into the a",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-16: Aerial",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-17: Evolution of unsprouted seeds. Keep this set undisturbed for one or CO in respiration two days. Du",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-18: Heat evolved during Where does the heat come from",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1. You feel something pushing your fingers rhythmically up and down. This rythm called pulse. Now let",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Pulse Note the pulse for a minute. Take readings of at least two of your friends in the same manne",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "activity, a greater amount of heat is generated",
+          "steps": [
+            "activity, a greater amount of heat is generated"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "activity like running we need more amount of energy",
+          "steps": [
+            "activity like running we need more amount of energy"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "Activity-3 Take a handful of moong or Bengal gram seeds",
+          "steps": [
+            "Activity-3 Take a handful of moong or Bengal gram seeds"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "Activity-4 Take sprouts which were prepared for above activity thermometer in a thermosfla",
+          "steps": [
+            "Activity-4 Take sprouts which were prepared for above activity thermometer in a thermosflask"
           ]
+        },
+        {
+          "title": "do this for at least 24 hours",
+          "steps": []
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Circulation: Concept explanation",
+          "lessonSectionIds": [
+            "circulation-section-1"
+          ],
+          "focus": "Understand the process. Section: Circulation: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "circulation-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "circulation-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "circulation-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Circulation key terms and exam answers",
+          "lessonSectionIds": [
+            "circulation-section-3",
+            "circulation-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "circulation-section-1",
+            "circulation-section-2",
+            "circulation-section-3",
+            "circulation-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "circulation-q1",
+          "question": "Which term/process is important in Circulation?",
+          "options": [
+            "This",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This",
+          "explanation": "branchial respiration (gill respiration)"
+        },
+        {
+          "id": "circulation-q2",
+          "question": "What is one key point from 'Circulation: Concept explanation'?",
+          "options": [
+            "When glucose burns, carbon dioxide and water are produced and energy is released as heat.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "When glucose burns, carbon dioxide and water are produced and energy is released as heat.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "circulation-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 4,
       "chapter_name": "Excretion",
+      "source_pages": {
+        "start": 78,
+        "end": 99
+      },
       "topics": [
         {
-          "topic_name": "Excretion - Concept Understanding",
+          "topic_name": "Excretion: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "Examine some mustard seedlings which have been grown.",
+            "Observe the mass of fine threads coming from the seed by hand lens.",
+            "They have fine microscopic structures called root hairs."
+          ],
+          "lessonSectionId": "excretion-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Note the thinness of the walls of root hairs.",
+            "Osmosis plays an important role in movement of water from root hairs to xylem.",
+            "Every living cell acts as an osmotic system, the cytoplasm lining of the cell wall acts as the semipermeable membrane."
+          ],
+          "lessonSectionId": "excretion-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "The soil water is an extremely dilute solution of salts.",
+            "Soil water concentration is more dilute than that of the cellsap in the root hair; therefore water will pass into the vacuole of the root hair by osmosis.",
+            "Recall the process of osmosis that you have learnt in the chapter “moving of substances through plasma membrane” in class IX."
+          ],
+          "lessonSectionId": "excretion-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "As there are vast number of root hairs and root cells involved, a pressure in the xylem vessels develops which forces the water upwards.",
+            "This total pressure is known as root pressure.",
+            "Root pressure is not the main cause of movement of water in xylem but it is certainly one of the factor."
+          ],
+          "lessonSectionId": "excretion-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "excretion-section-1",
+          "title": "Excretion: Concept explanation",
+          "summary": [
+            "Examine some mustard seedlings which have been grown.",
+            "Observe the mass of fine threads coming from the seed by hand lens.",
+            "They have fine microscopic structures called root hairs."
+          ],
+          "keyPoints": [
+            "Examine some mustard seedlings which have been grown.",
+            "Observe the mass of fine threads coming from the seed by hand lens.",
+            "They have fine microscopic structures called root hairs.",
+            "These are root hairs through which water enters the plant.",
+            "Gently squash a portion of the root hair between slide and cover slip put a drop of water and observe under a compound microscope."
+          ],
+          "pageRange": "78-99"
+        },
+        {
+          "id": "excretion-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Note the thinness of the walls of root hairs.",
+            "Osmosis plays an important role in movement of water from root hairs to xylem.",
+            "Every living cell acts as an osmotic system, the cytoplasm lining of the cell wall acts as the semipermeable membrane."
+          ],
+          "keyPoints": [
+            "Note the thinness of the walls of root hairs.",
+            "Osmosis plays an important role in movement of water from root hairs to xylem.",
+            "Every living cell acts as an osmotic system, the cytoplasm lining of the cell wall acts as the semipermeable membrane.",
+            "Observe the following figure, notice how do roots penetrate into soil?",
+            "You will find that the root hairs grow out into the spaces between the soil particles and that the hairs are surrounded by moisture."
+          ],
+          "pageRange": "78-99"
+        },
+        {
+          "id": "excretion-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "The soil water is an extremely dilute solution of salts.",
+            "Soil water concentration is more dilute than that of the cellsap in the root hair; therefore water will pass into the vacuole of the root hair by osmosis.",
+            "Recall the process of osmosis that you have learnt in the chapter “moving of substances through plasma membrane” in class IX."
+          ],
+          "keyPoints": [
+            "The soil water is an extremely dilute solution of salts.",
+            "Soil water concentration is more dilute than that of the cellsap in the root hair; therefore water will pass into the vacuole of the root hair by osmosis.",
+            "Recall the process of osmosis that you have learnt in the chapter “moving of substances through plasma membrane” in class IX.",
+            "The entry of water dilutes the contents of the root hair vacuole so that it becomes more dilute than it’s neighbouring cell.",
+            "So, water passes into the neighbouring cell which in turn becomes diluted, finally water enters the xylem vessels."
+          ],
+          "pageRange": "78-99"
+        },
+        {
+          "id": "excretion-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "As there are vast number of root hairs and root cells involved, a pressure in the xylem vessels develops which forces the water upwards.",
+            "This total pressure is known as root pressure.",
+            "Root pressure is not the main cause of movement of water in xylem but it is certainly one of the factor."
+          ],
+          "keyPoints": [
+            "As there are vast number of root hairs and root cells involved, a pressure in the xylem vessels develops which forces the water upwards.",
+            "This total pressure is known as root pressure.",
+            "Root pressure is not the main cause of movement of water in xylem but it is certainly one of the factor."
+          ],
+          "pageRange": "78-99"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Dark brown coloured outer zone",
+          "meaning": "cortex and pale inner zone is called medulla"
+        },
+        {
+          "term": "This condition",
+          "meaning": "as ‘diabetes insipidus’"
+        },
+        {
+          "term": "Complete and irreversible kidney failure",
+          "meaning": "End Stage Renal Disease (ESRD)"
+        },
+        {
+          "term": "These functional units",
+          "meaning": "'nephrons' or 'uriniferous tubules'"
+        },
+        {
+          "term": "Then connect a glass tube by",
+          "meaning": "water level of strong rubber tubing as shown in the strong rubber tubing figure"
+        },
+        {
+          "term": "In latin ex",
+          "meaning": "'out', crenere means 'shift'"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-16: L.S of root showing relationship of root hair and soil water Note: In Fig-16 Arrow marks shows the",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-17: Root pressure hours. Then observe and mark the water level (M ) in the tube. 2 Is there any increa",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-18: Transpiration 70 Circulation",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-19: Aphid extracting food round the young stems of plants as they feed on the material from plant plan",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-20: Removing a ring of bark from stem center outwards",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "fig-4. Now let us observe the external and internal features of a kidney in goat",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Kidney of goat 81 Excretion",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1 and 2. What is the shape of kidneys",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity-6 What is root pressure clamp Take a regularly watered potted plant and glass tub",
+          "steps": [
+            "Activity-6 What is root pressure clamp Take a regularly watered potted plant and glass tube cut the stem portion 1 cm above the ground level"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "activity that you performed in lower classes",
+          "steps": [
+            "activity that you performed in lower classes"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
-          ]
+          "title": "do this to young saplings at ground level and rabbits can do much damage to older ones",
+          "steps": []
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
-          ]
+          "title": "Lab Activity Aim: Studying the external and internal characters of kidney Materials requir",
+          "steps": []
+        },
+        {
+          "title": "do this activity under the guidance of your teacher",
+          "steps": []
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Excretion: Concept explanation",
+          "lessonSectionIds": [
+            "excretion-section-1"
+          ],
+          "focus": "Understand the process. Section: Excretion: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "excretion-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "excretion-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "excretion-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Excretion key terms and exam answers",
+          "lessonSectionIds": [
+            "excretion-section-3",
+            "excretion-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "excretion-section-1",
+            "excretion-section-2",
+            "excretion-section-3",
+            "excretion-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "excretion-q1",
+          "question": "Which term/process is important in Excretion?",
+          "options": [
+            "Dark brown coloured outer zone",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Dark brown coloured outer zone",
+          "explanation": "cortex and pale inner zone is called medulla"
+        },
+        {
+          "id": "excretion-q2",
+          "question": "What is one key point from 'Excretion: Concept explanation'?",
+          "options": [
+            "Examine some mustard seedlings which have been grown.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Examine some mustard seedlings which have been grown.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "excretion-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 5,
       "chapter_name": "Coordination",
+      "source_pages": {
+        "start": 100,
+        "end": 122
+      },
       "topics": [
         {
-          "topic_name": "Coordination - Concept Understanding",
+          "topic_name": "Coordination: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "Sponges and coelenterates do not have special excretory organs.",
+            "Excretory organs are first seen in platyhelmenthes.",
+            "We are amazed to answer such type of questions."
+          ],
+          "lessonSectionId": "coordination-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Plants break down the waste substances at much slower rate than the animals.",
+            "Hence the production and accumulation of waste is also much slower in plants.",
+            "Green plants in darkness (in night time) plants that do not possess chlorophyll produce carbon dioxide and water as respiratory waste products."
+          ],
+          "lessonSectionId": "coordination-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Plants can get rid of excess water by a process like transpiration and guttation.",
+            "Waste products may be stored in leaves, bark, and fruits.",
+            "When these riped parts fall off from the tree then waste products in them are get rid off."
+          ],
+          "lessonSectionId": "coordination-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Many plants synthesize waste materials and store them in roots, leaves, seeds, etc., for protection against herbivores.",
+            "Most of the chemicals are unpleasant to taste.",
+            "Hence, herbivores usually do not prefer to eat such plants."
+          ],
+          "lessonSectionId": "coordination-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "coordination-section-1",
+          "title": "Coordination: Concept explanation",
+          "summary": [
+            "Sponges and coelenterates do not have special excretory organs.",
+            "Excretory organs are first seen in platyhelmenthes.",
+            "We are amazed to answer such type of questions."
+          ],
+          "keyPoints": [
+            "Sponges and coelenterates do not have special excretory organs.",
+            "Excretory organs are first seen in platyhelmenthes.",
+            "We are amazed to answer such type of questions.",
+            "You are aware that a variety of end products are formed during metabolism and these nitrogenous wastes are important.",
+            "Plants does not have specific organs to excrete these wastes."
+          ],
+          "pageRange": "100-122"
+        },
+        {
+          "id": "coordination-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Plants break down the waste substances at much slower rate than the animals.",
+            "Hence the production and accumulation of waste is also much slower in plants.",
+            "Green plants in darkness (in night time) plants that do not possess chlorophyll produce carbon dioxide and water as respiratory waste products."
+          ],
+          "keyPoints": [
+            "Plants break down the waste substances at much slower rate than the animals.",
+            "Hence the production and accumulation of waste is also much slower in plants.",
+            "Green plants in darkness (in night time) plants that do not possess chlorophyll produce carbon dioxide and water as respiratory waste products.",
+            "Oxygen is generated during photosynthesis as a product, that exits out side through stomata of leaves and lenticels of stem.",
+            "How do the plants manage or send out waste products from its body?"
+          ],
+          "pageRange": "100-122"
+        },
+        {
+          "id": "coordination-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Plants can get rid of excess water by a process like transpiration and guttation.",
+            "Waste products may be stored in leaves, bark, and fruits.",
+            "When these riped parts fall off from the tree then waste products in them are get rid off."
+          ],
+          "keyPoints": [
+            "Plants can get rid of excess water by a process like transpiration and guttation.",
+            "Waste products may be stored in leaves, bark, and fruits.",
+            "When these riped parts fall off from the tree then waste products in them are get rid off.",
+            "Waste gets stored in the fruits in the form of solid bodies called Raphides.",
+            "However several compounds are synthesized by the plants for their own use especially for defence."
+          ],
+          "pageRange": "100-122"
+        },
+        {
+          "id": "coordination-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Many plants synthesize waste materials and store them in roots, leaves, seeds, etc., for protection against herbivores.",
+            "Most of the chemicals are unpleasant to taste.",
+            "Hence, herbivores usually do not prefer to eat such plants."
+          ],
+          "keyPoints": [
+            "Many plants synthesize waste materials and store them in roots, leaves, seeds, etc., for protection against herbivores.",
+            "Most of the chemicals are unpleasant to taste.",
+            "Hence, herbivores usually do not prefer to eat such plants."
+          ],
+          "pageRange": "100-122"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "So it",
+          "meaning": "autonomous nervous system"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-11: Plants which produce Alkaloids Observe common alkaloids produced in plants and their parts",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-12(a): Cassia Fig-12(b): Acacia Fig-12(c): Pinus 93 Excretion",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-13(a): Neem Fig-13(b): Jatropha Fig-13(c): Rubber plant",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "fig-1 . Ask your friend to hold the stick",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Holding stick Could you hold it exactly at the point where it was suspended between your fingers",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Galen retaining normal muscular control of its movement. Galen concluded that nerves were of two k",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig.-3. 102 Coordination",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Nerve cell are non-myelinated axons. The covering separates adjacent axons. The nerve cell body li",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "activity to find more about response to stimuli",
+          "steps": [
+            "activity to find more about response to stimuli"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "Activity-1 Holding a falling stick Take a long scale or stick at least around ½ meter",
+          "steps": [
+            "Activity-1 Holding a falling stick Take a long scale or stick at least around ½ meter"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "Activity-2 Observe the permanent slide of nerve cell or neuron under the microscope",
+          "steps": [
+            "Activity-2 Observe the permanent slide of nerve cell or neuron under the microscope"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "projections nissl’s granules mainly of two types extending from the cell body nucleus cell",
+          "steps": [
+            "projections nissl’s granules mainly of two types extending from the cell body nucleus cell body of the nerve cell"
           ]
+        },
+        {
+          "title": "projections are dendrites while a long one that extends to different schwann cell parts of",
+          "steps": [
+            "projections are dendrites while a long one that extends to different schwann cell parts of our body is called Axon"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Coordination: Concept explanation",
+          "lessonSectionIds": [
+            "coordination-section-1"
+          ],
+          "focus": "Understand the process. Section: Coordination: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "coordination-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "coordination-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "coordination-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Coordination key terms and exam answers",
+          "lessonSectionIds": [
+            "coordination-section-3",
+            "coordination-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "coordination-section-1",
+            "coordination-section-2",
+            "coordination-section-3",
+            "coordination-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "coordination-q1",
+          "question": "Which term/process is important in Coordination?",
+          "options": [
+            "So it",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "So it",
+          "explanation": "autonomous nervous system"
+        },
+        {
+          "id": "coordination-q2",
+          "question": "What is one key point from 'Coordination: Concept explanation'?",
+          "options": [
+            "Sponges and coelenterates do not have special excretory organs.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Sponges and coelenterates do not have special excretory organs.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "coordination-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 6,
       "chapter_name": "Reproduction",
+      "source_pages": {
+        "start": 123,
+        "end": 152
+      },
       "topics": [
         {
-          "topic_name": "Reproduction - Concept Understanding",
+          "topic_name": "Reproduction: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "Table-2: Endocrine glands Name of the Location Hormone secreted Effect of hormone Endocrine gland Pitutary Floor of brain 1.",
+            "Gonadotropin Activity of ovary and testis Stimulates secretion from adrenal 4.",
+            "Adreno cortico trophic cortex hormone In males - secretion of 5."
+          ],
+          "lessonSectionId": "reproduction-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Vasopressin Regulate absorption of water from the renal tubules Thyroid Throat Thyroxine General growth rate and metabolic activities Ovary Lower abdomen 1.",
+            "Estrogen Growth of the uterus and skeleton of the pelvis Control of the 28 days menstrual cycle in females.",
+            "Progesteron Development of uterus, implantation, development of mammary glands."
+          ],
+          "lessonSectionId": "reproduction-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Insulin Decrease glucose percentage in blood Increase glucose percentage in 2.",
+            "The produciton of several hormones is controlled in this manner.",
+            "Let us take example of some hormones to understand this."
+          ],
+          "lessonSectionId": "reproduction-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "When the glucose level in blood rises above normal level certain cells of pancreas respond by producing more amount of insulin hormone into the blood effectively lowering blood glucose levels.",
+            "Lowering to normal level results in turning down the secretion of the hormone.",
+            "If the glucose level comes back to normal level secretion of insulin is automatically reduced."
+          ],
+          "lessonSectionId": "reproduction-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "reproduction-section-1",
+          "title": "Reproduction: Concept explanation",
+          "summary": [
+            "Table-2: Endocrine glands Name of the Location Hormone secreted Effect of hormone Endocrine gland Pitutary Floor of brain 1.",
+            "Gonadotropin Activity of ovary and testis Stimulates secretion from adrenal 4.",
+            "Adreno cortico trophic cortex hormone In males - secretion of 5."
+          ],
+          "keyPoints": [
+            "Table-2: Endocrine glands Name of the Location Hormone secreted Effect of hormone Endocrine gland Pitutary Floor of brain 1.",
+            "Gonadotropin Activity of ovary and testis Stimulates secretion from adrenal 4.",
+            "Adreno cortico trophic cortex hormone In males - secretion of 5.",
+            "In female - Ovulation, development of corpus luteum and secretion of progesterone.",
+            "Follicle stimulating In male - spermatogenesis hormone In female - growth of graafian follicles, estrogen secretion, milk production and secretion."
+          ],
+          "pageRange": "123-152"
+        },
+        {
+          "id": "reproduction-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Vasopressin Regulate absorption of water from the renal tubules Thyroid Throat Thyroxine General growth rate and metabolic activities Ovary Lower abdomen 1.",
+            "Estrogen Growth of the uterus and skeleton of the pelvis Control of the 28 days menstrual cycle in females.",
+            "Progesteron Development of uterus, implantation, development of mammary glands."
+          ],
+          "keyPoints": [
+            "Vasopressin Regulate absorption of water from the renal tubules Thyroid Throat Thyroxine General growth rate and metabolic activities Ovary Lower abdomen 1.",
+            "Estrogen Growth of the uterus and skeleton of the pelvis Control of the 28 days menstrual cycle in females.",
+            "Progesteron Development of uterus, implantation, development of mammary glands.",
+            "Testes Scrotal sac Testosterone Growth of hair on face, muscular development, deepening of voice, normal sexual behavior and development of male sex organs.",
+            "Adrenal Attached to Adrenalin Increase in heart-beat rate."
+          ],
+          "pageRange": "123-152"
+        },
+        {
+          "id": "reproduction-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Insulin Decrease glucose percentage in blood Increase glucose percentage in 2.",
+            "The produciton of several hormones is controlled in this manner.",
+            "Let us take example of some hormones to understand this."
+          ],
+          "keyPoints": [
+            "Insulin Decrease glucose percentage in blood Increase glucose percentage in 2.",
+            "The produciton of several hormones is controlled in this manner.",
+            "Let us take example of some hormones to understand this.",
+            "A pituitary hormone, ‘prolactin’ stimulates mammary glands to produce milk.",
+            "As the baby sucks, more prolactin is produced enhancing milk production."
+          ],
+          "pageRange": "123-152"
+        },
+        {
+          "id": "reproduction-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "When the glucose level in blood rises above normal level certain cells of pancreas respond by producing more amount of insulin hormone into the blood effectively lowering blood glucose levels.",
+            "Lowering to normal level results in turning down the secretion of the hormone.",
+            "If the glucose level comes back to normal level secretion of insulin is automatically reduced."
+          ],
+          "keyPoints": [
+            "When the glucose level in blood rises above normal level certain cells of pancreas respond by producing more amount of insulin hormone into the blood effectively lowering blood glucose levels.",
+            "Lowering to normal level results in turning down the secretion of the hormone.",
+            "If the glucose level comes back to normal level secretion of insulin is automatically reduced."
+          ],
+          "pageRange": "123-152"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This type of response",
+          "meaning": "tropism or tropic movement"
+        },
+        {
+          "term": "Such type of response of a plant to light",
+          "meaning": "phototropism (photo means light, tropism means movement)"
+        },
+        {
+          "term": "When more cells are formed it",
+          "meaning": "Fig-1: multiple fission"
+        },
+        {
+          "term": "This",
+          "meaning": "as vegetative propagation"
+        },
+        {
+          "term": "One which is attached to soil",
+          "meaning": "stock and the cut stem of another scion plant without roots is called scion"
+        },
+        {
+          "term": "These",
+          "meaning": "Petals unisexual flowers"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-18: Mimosa pudica",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-19: Bending which side less to bring about this effect",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-20: Elongation of cells epidermal cells",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-21: Went experiment block was placed. Agar block that had not been in contact with coleoptile tip prod",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-22: Tendrils 118 Coordination",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: multiple fission. This is often and the only mode of Fission in paramoecium reproduction in these",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Budding in yeast Yeast. 124 Reproduction",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Fragmentation in reproduction in algae",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity of ovary and testis Stimulates secretion from adrenal 4",
+          "steps": [
+            "Activity of ovary and testis Stimulates secretion from adrenal 4"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "Activity-4 Activity-4 Touch the leaves of Mimosa pudica (athipathi, touch me not) plant an",
+          "steps": [
+            "Activity-4 Activity-4 Touch the leaves of Mimosa pudica (athipathi, touch me not) plant and observe the response of leaves"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "Activity-5 Take a glass jar and fill with soil",
+          "steps": [
+            "Activity-5 Take a glass jar and fill with soil"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "activity to find out how fast an organism might be reproducing Activity-1 Growth of bacter",
+          "steps": []
+        },
+        {
+          "title": "Lab Activity To examine Rhizopus or common mold under the microscope, it is best to grow o",
+          "steps": [
+            "Lab Activity To examine Rhizopus or common mold under the microscope, it is best to grow on your own in a controlled environment"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Reproduction: Concept explanation",
+          "lessonSectionIds": [
+            "reproduction-section-1"
+          ],
+          "focus": "Understand the process. Section: Reproduction: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "reproduction-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "reproduction-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "reproduction-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Reproduction key terms and exam answers",
+          "lessonSectionIds": [
+            "reproduction-section-3",
+            "reproduction-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "reproduction-section-1",
+            "reproduction-section-2",
+            "reproduction-section-3",
+            "reproduction-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "reproduction-q1",
+          "question": "Which term/process is important in Reproduction?",
+          "options": [
+            "This type of response",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This type of response",
+          "explanation": "tropism or tropic movement"
+        },
+        {
+          "id": "reproduction-q2",
+          "question": "What is one key point from 'Reproduction: Concept explanation'?",
+          "options": [
+            "Table-2: Endocrine glands Name of the Location Hormone secreted Effect of hormone Endocrine gland Pitutary Floor of brain 1.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "Table-2: Endocrine glands Name of the Location Hormone secreted Effect of hormone Endocrine gland Pitutary Floor of brain 1.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "reproduction-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 7,
-      "chapter_name": "Coordination In Life Processes",
+      "chapter_name": "Coordination in Life Processes",
+      "source_pages": {
+        "start": 153,
+        "end": 175
+      },
       "topics": [
         {
-          "topic_name": "Coordination In Life Processes - Concept Understanding",
+          "topic_name": "Coordination in Life Processes: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "They become visible even in light microscope and nucleoli become smaller.",
+            "Chromosomes split lengthwise to form chromatids, connected by centromeres.",
+            "Centrosome, containing rod-like centrioles, divide and form ends of spindle (probably animal cells only)."
+          ],
+          "lessonSectionId": "coordination-in-life-processes-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Centromeres split, separating the chromatids.",
+            "Spindle fibres attached to centromeres contract, pulling chromatids towards poles 4.",
+            "Chromatids elongate, become invisible, replication at this stage to become chromosomes."
+          ],
+          "lessonSectionId": "coordination-in-life-processes-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Nucleus divides into two and division of cytoplasm starts Two cells are formed.",
+            "Meiosis occurs only during the formation of gametes in sexual reproduction.",
+            "During the first phase of meiosis the parent cell containing two sets of chromosomes (diploid) divides and daughter cells containg one set of chromosomes (haploid) are formed."
+          ],
+          "lessonSectionId": "coordination-in-life-processes-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Hence meiosis is also called as Reduction Division.",
+            "You will learn more about this in further classes.",
+            "Meiosis-II Prophase 1 Metaphase 1 Anaphase 1 Telophase 1 Daughter cells Fig-30: Meiosis What differences do you find in mitosis and meiosis?"
+          ],
+          "lessonSectionId": "coordination-in-life-processes-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "coordination-in-life-processes-section-1",
+          "title": "Coordination in Life Processes: Concept explanation",
+          "summary": [
+            "They become visible even in light microscope and nucleoli become smaller.",
+            "Chromosomes split lengthwise to form chromatids, connected by centromeres.",
+            "Centrosome, containing rod-like centrioles, divide and form ends of spindle (probably animal cells only)."
+          ],
+          "keyPoints": [
+            "They become visible even in light microscope and nucleoli become smaller.",
+            "Chromosomes split lengthwise to form chromatids, connected by centromeres.",
+            "Centrosome, containing rod-like centrioles, divide and form ends of spindle (probably animal cells only).",
+            "(Note: No pairing of chromosomes as in meiosis).",
+            "Chromosomes move to cell equator, spindle fibres attached to centromeres."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "coordination-in-life-processes-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Centromeres split, separating the chromatids.",
+            "Spindle fibres attached to centromeres contract, pulling chromatids towards poles 4.",
+            "Chromatids elongate, become invisible, replication at this stage to become chromosomes."
+          ],
+          "keyPoints": [
+            "Centromeres split, separating the chromatids.",
+            "Spindle fibres attached to centromeres contract, pulling chromatids towards poles 4.",
+            "Chromatids elongate, become invisible, replication at this stage to become chromosomes.",
+            "Nuclear membranes form round daughter nuclei.",
+            "Necleolus is resynthesized in each daughter nucleus."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "coordination-in-life-processes-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Nucleus divides into two and division of cytoplasm starts Two cells are formed.",
+            "Meiosis occurs only during the formation of gametes in sexual reproduction.",
+            "During the first phase of meiosis the parent cell containing two sets of chromosomes (diploid) divides and daughter cells containg one set of chromosomes (haploid) are formed."
+          ],
+          "keyPoints": [
+            "Nucleus divides into two and division of cytoplasm starts Two cells are formed.",
+            "Meiosis occurs only during the formation of gametes in sexual reproduction.",
+            "During the first phase of meiosis the parent cell containing two sets of chromosomes (diploid) divides and daughter cells containg one set of chromosomes (haploid) are formed.",
+            "The second phase of meiosis is similar to normal mitosis.",
+            "Thus the four daughter cells have just half the number of chromosomes of the parent cell."
+          ],
+          "pageRange": "153-175"
+        },
+        {
+          "id": "coordination-in-life-processes-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Hence meiosis is also called as Reduction Division.",
+            "You will learn more about this in further classes.",
+            "Meiosis-II Prophase 1 Metaphase 1 Anaphase 1 Telophase 1 Daughter cells Fig-30: Meiosis What differences do you find in mitosis and meiosis?"
+          ],
+          "keyPoints": [
+            "Hence meiosis is also called as Reduction Division.",
+            "You will learn more about this in further classes.",
+            "Meiosis-II Prophase 1 Metaphase 1 Anaphase 1 Telophase 1 Daughter cells Fig-30: Meiosis What differences do you find in mitosis and meiosis?"
+          ],
+          "pageRange": "153-175"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "Coordination in Life Processes",
+          "meaning": "Important life-science concept from the selected chapter. Revise the process, diagram, and key terms."
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-30: Meiosis What differences do you find in mitosis and meiosis",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-31: infections such as Gonorrhea and syphilis",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-32: Birth control methods 147 Reflection of light at curvReedp sruordfuaccteiosn",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Papillae on tongue Could you feel the taste of both or did they taste the same",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Tongue the opening of the taste bud letting it to reach the taste cells and triggering and palate",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Dentition while molars and premolars have blunt and nearly flat surface. What do you think could b",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "fig.4) You can do this in your school by taking a small piece of the pH paper and touching it to your ton",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-4: pH functioning of digestion in the mouth",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "projects implementing various programmes like ASHA (Accredited Social Health Activist), Re",
+          "steps": [
+            "projects implementing various programmes like ASHA (Accredited Social Health Activist), Red Ribbon Express, etc"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "Activity-1 Let us observe the following table",
+          "steps": [
+            "Activity-1 Let us observe the following table"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "activity helps us to observe how taste is affected by the sense of smell",
+          "steps": [
+            "activity helps us to observe how taste is affected by the sense of smell"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "Activity-2 Chewing cumin (Jeera), saunf (fennel seeds), potato and apple First close your ",
+          "steps": [
+            "Activity-2 Chewing cumin (Jeera), saunf (fennel seeds), potato and apple First close your nose with your fingers"
           ]
+        },
+        {
+          "title": "activity by chewing a piece of an apple followed by a potato(remember to close your nose)",
+          "steps": [
+            "activity by chewing a piece of an apple followed by a potato(remember to close your nose)"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Coordination in Life Processes: Concept explanation",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-1"
+          ],
+          "focus": "Understand the process. Section: Coordination in Life Processes: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Coordination in Life Processes key terms and exam answers",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-3",
+            "coordination-in-life-processes-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "coordination-in-life-processes-section-1",
+            "coordination-in-life-processes-section-2",
+            "coordination-in-life-processes-section-3",
+            "coordination-in-life-processes-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "coordination-in-life-processes-q1",
+          "question": "Which term/process is important in Coordination in Life Processes?",
+          "options": [
+            "Coordination in Life Processes",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "Coordination in Life Processes",
+          "explanation": "Important life-science concept from the selected chapter. Revise the process, diagram, and key terms."
+        },
+        {
+          "id": "coordination-in-life-processes-q2",
+          "question": "What is one key point from 'Coordination in Life Processes: Concept explanation'?",
+          "options": [
+            "They become visible even in light microscope and nucleoli become smaller.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "They become visible even in light microscope and nucleoli become smaller.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "coordination-in-life-processes-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 8,
       "chapter_name": "Heredity - Evolution",
+      "source_pages": {
+        "start": 176,
+        "end": 204
+      },
       "topics": [
         {
-          "topic_name": "Heredity - Evolution - Concept Understanding",
+          "topic_name": "Heredity - Evolution: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "The walls of the intestine allows only tiny nutrient particles to pass through.",
+            "(Refer Movement of substances through plasma membrane in class IX) Activity-9 Paper tube and folded papers Take 10 20cm size chart paper fold the chart paper and join both ends with gum to make a tube.",
+            "Now take 20 20cm chart paper and make a tube as mentioned the same above try to insert the big tube in small one."
+          ],
+          "lessonSectionId": "heredity-evolution-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "Compare the area of the folded papers with that of the roll.",
+            "Do you find any increase in the area ?If so try to find out the reasons?",
+            "The inner surface of the small intestine contains thousands of finger Fig-8: like projections called villi."
+          ],
+          "lessonSectionId": "heredity-evolution-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Do you think those systems work together in the whole length of the digestive canal?",
+            "Fig-9: Schematic diagram of a villus 167 ReflectioCno oofr ldiignhatt aiotn c uinr vleifde spurrofcaecsesses",
+            "The neural apparatus of our digestive tract comprises of such a vast and complicated network of neurons that it has been nicknamed by scientists as the second brain!"
+          ],
+          "lessonSectionId": "heredity-evolution-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "A deeper understanding of this mass of neural tissue, filled with important 'neurotransmitters', is revealing that it does much more than merely handle digestion or inflict the occasional nervous pang of hunger.",
+            "The little brain in our inner yards, in connection with the big one in our skull, partly determines our mental state and plays key roles in certain diseases throughout the body.",
+            "Often you may have experienced that if you have tension for some reason you start having loose motions."
+          ],
+          "lessonSectionId": "heredity-evolution-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "heredity-evolution-section-1",
+          "title": "Heredity - Evolution: Concept explanation",
+          "summary": [
+            "The walls of the intestine allows only tiny nutrient particles to pass through.",
+            "(Refer Movement of substances through plasma membrane in class IX) Activity-9 Paper tube and folded papers Take 10 20cm size chart paper fold the chart paper and join both ends with gum to make a tube.",
+            "Now take 20 20cm chart paper and make a tube as mentioned the same above try to insert the big tube in small one."
+          ],
+          "keyPoints": [
+            "The walls of the intestine allows only tiny nutrient particles to pass through.",
+            "(Refer Movement of substances through plasma membrane in class IX) Activity-9 Paper tube and folded papers Take 10 20cm size chart paper fold the chart paper and join both ends with gum to make a tube.",
+            "Now take 20 20cm chart paper and make a tube as mentioned the same above try to insert the big tube in small one.",
+            "Now take another 20 20cm chart paper fold the paper as many folds as possible.",
+            "Now join both ends to make a folded paper tube."
+          ],
+          "pageRange": "176-204"
+        },
+        {
+          "id": "heredity-evolution-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "Compare the area of the folded papers with that of the roll.",
+            "Do you find any increase in the area ?If so try to find out the reasons?",
+            "The inner surface of the small intestine contains thousands of finger Fig-8: like projections called villi."
+          ],
+          "keyPoints": [
+            "Compare the area of the folded papers with that of the roll.",
+            "Do you find any increase in the area ?If so try to find out the reasons?",
+            "The inner surface of the small intestine contains thousands of finger Fig-8: like projections called villi.",
+            "Paper tube What is the relation between finger like structures and paper folds These villi increase the surface area so that the food retained in the folds can remain longer thereby enhancing absorption.",
+            "What systems do you think are working together here?"
+          ],
+          "pageRange": "176-204"
+        },
+        {
+          "id": "heredity-evolution-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Do you think those systems work together in the whole length of the digestive canal?",
+            "Fig-9: Schematic diagram of a villus 167 ReflectioCno oofr ldiignhatt aiotn c uinr vleifde spurrofcaecsesses",
+            "The neural apparatus of our digestive tract comprises of such a vast and complicated network of neurons that it has been nicknamed by scientists as the second brain!"
+          ],
+          "keyPoints": [
+            "Do you think those systems work together in the whole length of the digestive canal?",
+            "Fig-9: Schematic diagram of a villus 167 ReflectioCno oofr ldiignhatt aiotn c uinr vleifde spurrofcaecsesses",
+            "The neural apparatus of our digestive tract comprises of such a vast and complicated network of neurons that it has been nicknamed by scientists as the second brain!",
+            "Research in this area is currently investigating how the second brain mediates the body’s immune response; after all, at least 70 percent of our immune system is aimed at the gut to expel and kill foreign invaders.",
+            "Scientists are also working to find out how trillions of bacteria in the gut communicate with the cells of gut nervous system."
+          ],
+          "pageRange": "176-204"
+        },
+        {
+          "id": "heredity-evolution-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "A deeper understanding of this mass of neural tissue, filled with important 'neurotransmitters', is revealing that it does much more than merely handle digestion or inflict the occasional nervous pang of hunger.",
+            "The little brain in our inner yards, in connection with the big one in our skull, partly determines our mental state and plays key roles in certain diseases throughout the body.",
+            "Often you may have experienced that if you have tension for some reason you start having loose motions."
+          ],
+          "keyPoints": [
+            "A deeper understanding of this mass of neural tissue, filled with important 'neurotransmitters', is revealing that it does much more than merely handle digestion or inflict the occasional nervous pang of hunger.",
+            "The little brain in our inner yards, in connection with the big one in our skull, partly determines our mental state and plays key roles in certain diseases throughout the body.",
+            "Often you may have experienced that if you have tension for some reason you start having loose motions."
+          ],
+          "pageRange": "176-204"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "The remaining pair",
+          "meaning": "allosomes or sex chromosomes"
+        },
+        {
+          "term": "This",
+          "meaning": "‘survival of the fittest’"
+        },
+        {
+          "term": "YY and yy",
+          "meaning": "homozygous as the factors in them are same"
+        },
+        {
+          "term": "Filial",
+          "meaning": "progeny) All pea seeds were Yellow"
+        },
+        {
+          "term": "That",
+          "meaning": "if ‘Y’ and ‘y’ come together ‘Y’ will dominate"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-8: like projections called villi. Paper tube What is the relation between finger like structures and",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-9: Schematic diagram of a villus 167 ReflectioCno oofr ldiignhatt aiotn c uinr vleifde spurrofcaecses",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-10: Anal sphincter body",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Variations in iris colour and ear lobes Is variation all about apparent differences",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Gregor Johann Mendel Mendel made many careful observations of plants and found that pea plants wou",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "figure. 8.2.3 Monohybrid Cross A cross-pollination between a pure breed of yellow seed bearing plant and gree",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3 8.5 Evolution Sex determination in human beings Variations develop during reproduction in organisms",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-4: Variation in Beetle population in three different situations Let us discuss the above in three dif",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity-9 Paper tube and folded papers Take 10 20cm size chart paper fold the chart paper",
+          "steps": [
+            "Activity-9 Paper tube and folded papers Take 10 20cm size chart paper fold the chart paper and join both ends with gum to make a tube"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "activity ,blood flow,digestion and absorption of nutrients and other activities of the foo",
+          "steps": [
+            "activity ,blood flow,digestion and absorption of nutrients and other activities of the food canal (gastro intestinal tract)"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "activity to find out more about this",
+          "steps": [
+            "activity to find out more about this"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "Activity-1 Compare your traits with the traits of your parents, brother, sister and grand ",
+          "steps": [
+            "Activity-1 Compare your traits with the traits of your parents, brother, sister and grand parents by drawing a table as given below in your notebook"
           ]
+        },
+        {
+          "title": "Activity-2 Observe some of your friends and note their characters in the following table",
+          "steps": [
+            "Activity-2 Observe some of your friends and note their characters in the following table"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Heredity - Evolution: Concept explanation",
+          "lessonSectionIds": [
+            "heredity-evolution-section-1"
+          ],
+          "focus": "Understand the process. Section: Heredity - Evolution: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "heredity-evolution-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "heredity-evolution-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "heredity-evolution-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Heredity - Evolution key terms and exam answers",
+          "lessonSectionIds": [
+            "heredity-evolution-section-3",
+            "heredity-evolution-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "heredity-evolution-section-1",
+            "heredity-evolution-section-2",
+            "heredity-evolution-section-3",
+            "heredity-evolution-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "heredity-evolution-q1",
+          "question": "Which term/process is important in Heredity - Evolution?",
+          "options": [
+            "The remaining pair",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "The remaining pair",
+          "explanation": "allosomes or sex chromosomes"
+        },
+        {
+          "id": "heredity-evolution-q2",
+          "question": "What is one key point from 'Heredity - Evolution: Concept explanation'?",
+          "options": [
+            "The walls of the intestine allows only tiny nutrient particles to pass through.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "The walls of the intestine allows only tiny nutrient particles to pass through.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "heredity-evolution-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 9,
       "chapter_name": "Our Environment",
+      "source_pages": {
+        "start": 205,
+        "end": 224
+      },
       "topics": [
         {
-          "topic_name": "Our Environment - Concept Understanding",
+          "topic_name": "Our Environment: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "(for example while eating beetles crows dropped some beetles accidently in the long distance far away places) for long years.",
+            "There might be a lot of variations taken place in these years in the red and green beetle population.",
+            "Now even though they may meet accidentally, they cannot mate and produce new offsprings."
+          ],
+          "lessonSectionId": "our-environment-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "In the same way evolution of organisms requires evidences.",
+            "These traits in different organisms would be similar because they are inherited from a common ancestor.",
+            "You may be surprised to know the internal structure of forelimb (flipper) of a whale (swimmer) wing of a bat (flyer), leg of a cheetah (runner), claw of a mole (digger) and hand of a man (grasping)."
+          ],
+          "lessonSectionId": "our-environment-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "This type of evolution is called divergent evolution.",
+            "However, all similarities simply in organ shape are not necessarily to have a common ancestry.",
+            "What would we think about the wings of birds and bats?"
+          ],
+          "lessonSectionId": "our-environment-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Before we jump into this conclusion, let us look at the wings of birds and insects more closely.",
+            "When we observe, we find that the wings of insects have outgrowths of Hand Forelimb Flipper Wing their exoskeleton that enable them to fly.",
+            "Fig-12: Homologous organs 196 Heredity and Evolution"
+          ],
+          "lessonSectionId": "our-environment-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "our-environment-section-1",
+          "title": "Our Environment: Concept explanation",
+          "summary": [
+            "(for example while eating beetles crows dropped some beetles accidently in the long distance far away places) for long years.",
+            "There might be a lot of variations taken place in these years in the red and green beetle population.",
+            "Now even though they may meet accidentally, they cannot mate and produce new offsprings."
+          ],
+          "keyPoints": [
+            "(for example while eating beetles crows dropped some beetles accidently in the long distance far away places) for long years.",
+            "There might be a lot of variations taken place in these years in the red and green beetle population.",
+            "Now even though they may meet accidentally, they cannot mate and produce new offsprings.",
+            "They can only mate in their population either red or green and can reproduce its off spring.",
+            "Whatever scientists propose they require evidences or proofs."
+          ],
+          "pageRange": "205-224"
+        },
+        {
+          "id": "our-environment-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "In the same way evolution of organisms requires evidences.",
+            "These traits in different organisms would be similar because they are inherited from a common ancestor.",
+            "You may be surprised to know the internal structure of forelimb (flipper) of a whale (swimmer) wing of a bat (flyer), leg of a cheetah (runner), claw of a mole (digger) and hand of a man (grasping)."
+          ],
+          "keyPoints": [
+            "In the same way evolution of organisms requires evidences.",
+            "These traits in different organisms would be similar because they are inherited from a common ancestor.",
+            "You may be surprised to know the internal structure of forelimb (flipper) of a whale (swimmer) wing of a bat (flyer), leg of a cheetah (runner), claw of a mole (digger) and hand of a man (grasping).",
+            "If we carefully observe the anatomy of all these animals, they show a common pattern in the arrangement of bones, even though their external form and functions are different.",
+            "It indicates that all the vertebrates have evolved from a common ancestor and these organs are called homologous organs."
+          ],
+          "pageRange": "205-224"
+        },
+        {
+          "id": "our-environment-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "This type of evolution is called divergent evolution.",
+            "However, all similarities simply in organ shape are not necessarily to have a common ancestry.",
+            "What would we think about the wings of birds and bats?"
+          ],
+          "keyPoints": [
+            "This type of evolution is called divergent evolution.",
+            "However, all similarities simply in organ shape are not necessarily to have a common ancestry.",
+            "What would we think about the wings of birds and bats?",
+            "Birds and bats have wings, but squirrels and lizards do not.",
+            "So birds and bats are more closely related to each other than squirrels or lizards."
+          ],
+          "pageRange": "205-224"
+        },
+        {
+          "id": "our-environment-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Before we jump into this conclusion, let us look at the wings of birds and insects more closely.",
+            "When we observe, we find that the wings of insects have outgrowths of Hand Forelimb Flipper Wing their exoskeleton that enable them to fly.",
+            "Fig-12: Homologous organs 196 Heredity and Evolution"
+          ],
+          "keyPoints": [
+            "Before we jump into this conclusion, let us look at the wings of birds and insects more closely.",
+            "When we observe, we find that the wings of insects have outgrowths of Hand Forelimb Flipper Wing their exoskeleton that enable them to fly.",
+            "Fig-12: Homologous organs 196 Heredity and Evolution"
+          ],
+          "pageRange": "205-224"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "This type of evolution",
+          "meaning": "convergent Bird wing evolution"
+        },
+        {
+          "term": "This",
+          "meaning": "phenotype and the ratio is 3:1"
+        },
+        {
+          "term": "This theory",
+          "meaning": "‘inheritence of acquired characters’"
+        },
+        {
+          "term": "Natural selection",
+          "meaning": "( ) A) Nature selects desirable characters B) Nature rejects undesirable characters C) Nature reacts with an organism D) A, B 4"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-12). Birds and bats have wings",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-12: Homologous organs 196 Heredity and Evolution",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-13: Embryological evidences other. What does it indicate",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-14: Fossil ripple marks on a pre-historic shore. Usually when organisms die",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-15: Dinosaur (Fossils Remnants) Collect information about radio carbon dating method and radioactive i",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Biotic components of a food chain 205 Reflection of light at cOuurvr eEdn svuirrofancmeesnt",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "figure-1. Prepare a food chain consisting of grass",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-2: Food chains in different ladybirds and other insects",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity-6 Let us observe different stages of development of vertebrate embryos",
+          "steps": [
+            "Activity-6 Let us observe different stages of development of vertebrate embryos"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "activity brings harmful changes in ecosystem and affects organisms of each trophic level",
+          "steps": [
+            "activity brings harmful changes in ecosystem and affects organisms of each trophic level"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Our Environment: Concept explanation",
+          "lessonSectionIds": [
+            "our-environment-section-1"
+          ],
+          "focus": "Understand the process. Section: Our Environment: Concept explanation."
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "our-environment-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "our-environment-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "our-environment-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Our Environment key terms and exam answers",
+          "lessonSectionIds": [
+            "our-environment-section-3",
+            "our-environment-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "our-environment-section-1",
+            "our-environment-section-2",
+            "our-environment-section-3",
+            "our-environment-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "our-environment-q1",
+          "question": "Which term/process is important in Our Environment?",
+          "options": [
+            "This type of evolution",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "This type of evolution",
+          "explanation": "convergent Bird wing evolution"
+        },
+        {
+          "id": "our-environment-q2",
+          "question": "What is one key point from 'Our Environment: Concept explanation'?",
+          "options": [
+            "(for example while eating beetles crows dropped some beetles accidently in the long distance far away places) for long years.",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "(for example while eating beetles crows dropped some beetles accidently in the long distance far away places) for long years.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "our-environment-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 10,
       "chapter_name": "Natural Resources",
+      "source_pages": {
+        "start": 225,
+        "end": 257
+      },
       "topics": [
         {
-          "topic_name": "Natural Resources - Concept Understanding",
+          "topic_name": "Natural Resources: Concept explanation",
           "subtopics": [
-            "Life Process",
-            "Key Definitions",
-            "Textbook Flow"
+            "What are the factors that affected the number of migratory birds to decrease?",
+            "Do you find any relationship between biological and physical problems?",
+            "What happens if the dissolved oxygen is reduced in lake water?"
+          ],
+          "lessonSectionId": "natural-resources-section-1"
+        },
+        {
+          "topic_name": "Definitions and key terms",
+          "subtopics": [
+            "How does pollution influence the migration of birds?",
+            "The Ministry of Environment and Forest (MoEF), Government of India constituted a committee “Operation Kolleru” to protect the lake.",
+            "The objective of the programme is to bring back the ecological balance of Kolleru Lake which is a Gift of nature."
+          ],
+          "lessonSectionId": "natural-resources-section-2"
+        },
+        {
+          "topic_name": "Diagrams and processes",
+          "subtopics": [
+            "Names of the students in a group: _____________________ Date: _____________ 2.",
+            "Name of the ecosystem: _____________________________________________ 3.",
+            "Topography: ______________________________________________________ 4."
+          ],
+          "lessonSectionId": "natural-resources-section-3"
+        },
+        {
+          "topic_name": "Textbook questions",
+          "subtopics": [
+            "Food relationships among them: food habits / preferences: ___________________ 8.",
+            "Show / draw the different food chains: __________________________________ 9.",
+            "Showcase the food web: _____________________________________________ 10."
+          ],
+          "lessonSectionId": "natural-resources-section-4"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "natural-resources-section-1",
+          "title": "Natural Resources: Concept explanation",
+          "summary": [
+            "What are the factors that affected the number of migratory birds to decrease?",
+            "Do you find any relationship between biological and physical problems?",
+            "What happens if the dissolved oxygen is reduced in lake water?"
+          ],
+          "keyPoints": [
+            "What are the factors that affected the number of migratory birds to decrease?",
+            "Do you find any relationship between biological and physical problems?",
+            "What happens if the dissolved oxygen is reduced in lake water?",
+            "Is BOD of turbid and nutrient rich water high or low?",
+            "People living in catchment area of Kolleru faced so many problems."
+          ],
+          "pageRange": "225-257"
+        },
+        {
+          "id": "natural-resources-section-2",
+          "title": "Definitions and key terms",
+          "summary": [
+            "How does pollution influence the migration of birds?",
+            "The Ministry of Environment and Forest (MoEF), Government of India constituted a committee “Operation Kolleru” to protect the lake.",
+            "The objective of the programme is to bring back the ecological balance of Kolleru Lake which is a Gift of nature."
+          ],
+          "keyPoints": [
+            "How does pollution influence the migration of birds?",
+            "The Ministry of Environment and Forest (MoEF), Government of India constituted a committee “Operation Kolleru” to protect the lake.",
+            "The objective of the programme is to bring back the ecological balance of Kolleru Lake which is a Gift of nature.",
+            "Activity-1 Observe any (water) ecosystem in your surroundings and identify the different food chains and food web operating in this ecosystem.",
+            "Write the following details in your notebook, as under."
+          ],
+          "pageRange": "225-257"
+        },
+        {
+          "id": "natural-resources-section-3",
+          "title": "Diagrams and processes",
+          "summary": [
+            "Names of the students in a group: _____________________ Date: _____________ 2.",
+            "Name of the ecosystem: _____________________________________________ 3.",
+            "Topography: ______________________________________________________ 4."
+          ],
+          "keyPoints": [
+            "Names of the students in a group: _____________________ Date: _____________ 2.",
+            "Name of the ecosystem: _____________________________________________ 3.",
+            "Topography: ______________________________________________________ 4.",
+            "Names / Number of plants (producers) identified: _________________________ 5.",
+            "Names / Number of animals identified: __________________________________ 6."
+          ],
+          "pageRange": "225-257"
+        },
+        {
+          "id": "natural-resources-section-4",
+          "title": "Textbook questions",
+          "summary": [
+            "Food relationships among them: food habits / preferences: ___________________ 8.",
+            "Show / draw the different food chains: __________________________________ 9.",
+            "Showcase the food web: _____________________________________________ 10."
+          ],
+          "keyPoints": [
+            "Food relationships among them: food habits / preferences: ___________________ 8.",
+            "Show / draw the different food chains: __________________________________ 9.",
+            "Showcase the food web: _____________________________________________ 10."
+          ],
+          "pageRange": "225-257"
+        }
+      ],
+      "definitions": [
+        {
+          "term": "A soil conservation method",
+          "meaning": "contour strip cropping"
+        },
+        {
+          "term": "Protecting nature",
+          "meaning": "protecting yourselves"
+        },
+        {
+          "term": "Sustainable development",
+          "meaning": "( ) (A) prevention of wastage (B) stable growth (C) development without damaging (D) high yieldings in less time 244 Natural Resources ACADEMIC STANDARDS S"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Fig-9: Edulabad Water Reservoir A study was undertaken to assess the enrichment of heavy metal such as Le",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-10: Sparrow in danger hunted down as they were in China in 1958. A radical campaign to rapidly increas",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-11: Sparrow campaign One of the most famous initiatives then was to form co-operatives or collectives",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-1: Community based dam Fig-2: Contour field bunding",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-3: Broad bed furrow Fig-4: Plantation of Gliricidia on bunds Farmers obtained 250 kg more red gram an",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-5: Tree plantation on What ways of restoration of a resource does wasteland the Kothapally case tell",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-6: in countries or regions with absolute Sources vs area under irrigation water scarcity. Activity-1",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        },
+        {
+          "title": "Fig-7: the harm to animals that may be forced to find new habitats",
+          "whatToLearn": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "activities": [
+        {
+          "title": "Activity-1 Observe any (water) ecosystem in your surroundings and identify the different f",
+          "steps": [
+            "Activity-1 Observe any (water) ecosystem in your surroundings and identify the different food chains and food web operating in this ecosystem"
           ]
         },
         {
-          "topic_name": "Diagrams And Labels",
-          "subtopics": [
-            "Important Diagrams",
-            "Parts And Functions",
-            "Observation Points"
+          "title": "project of the Centre for World Solidarity (Secundrabad, Telangana) that addresses sustain",
+          "steps": []
+        },
+        {
+          "title": "Project also known as the Pochampadu Project",
+          "steps": [
+            "Project also known as the Pochampadu Project"
           ]
         },
         {
-          "topic_name": "Textbook Questions",
-          "subtopics": [
-            "Short Answers",
-            "Reasoning Questions",
-            "Application Questions"
+          "title": "project is a project on the Godavari River",
+          "steps": [
+            "project is a project on the Godavari River"
           ]
         },
         {
-          "topic_name": "Revision Check",
-          "subtopics": [
-            "Key Terms",
-            "Compare And Differentiate",
-            "Final Quiz"
+          "title": "project to serve needs in erstwhile districts of Karimnagar, Sri ram sagar project Waranga",
+          "steps": [
+            "project to serve needs in erstwhile districts of Karimnagar, Sri ram sagar project Warangal, Adilabad, Nalgonda, and Khammam districts"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Natural Resources: Concept explanation",
+          "lessonSectionIds": [
+            "natural-resources-section-1"
+          ],
+          "focus": "Understand the process. Section: Natural Resources: Concept explanation."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Definitions and key terms",
+          "lessonSectionIds": [
+            "natural-resources-section-2"
+          ],
+          "focus": "Revise definitions. Section: Definitions and key terms."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Diagrams and processes",
+          "lessonSectionIds": [
+            "natural-resources-section-3"
+          ],
+          "focus": "Practice diagrams. Section: Diagrams and processes."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Textbook questions",
+          "lessonSectionIds": [
+            "natural-resources-section-4"
+          ],
+          "focus": "Answer textbook questions. Section: Textbook questions."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Natural Resources key terms and exam answers",
+          "lessonSectionIds": [
+            "natural-resources-section-3",
+            "natural-resources-section-4"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Visuals, activities and final quiz",
+          "lessonSectionIds": [
+            "natural-resources-section-1",
+            "natural-resources-section-2",
+            "natural-resources-section-3",
+            "natural-resources-section-4"
+          ],
+          "focus": "Practice labels, parts/functions, and process sequence."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "natural-resources-q1",
+          "question": "Which term/process is important in Natural Resources?",
+          "options": [
+            "A soil conservation method",
+            "Random app menu",
+            "Unrelated shortcut",
+            "None of these"
+          ],
+          "correct": "A soil conservation method",
+          "explanation": "contour strip cropping"
+        },
+        {
+          "id": "natural-resources-q2",
+          "question": "What is one key point from 'Natural Resources: Concept explanation'?",
+          "options": [
+            "What are the factors that affected the number of migratory birds to decrease?",
+            "Only open the page once",
+            "Ignore the chapter",
+            "Select another subject"
+          ],
+          "correct": "What are the factors that affected the number of migratory birds to decrease?",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "natural-resources-q3",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     }
