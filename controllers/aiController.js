@@ -1577,6 +1577,14 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   let provider = "local";
   let model = "deterministic";
 
+  if (lessonPlan) {
+    return res.status(200).json({
+      source,
+      roadmap,
+      meta: { provider, model }
+    });
+  }
+
   try {
     const prompt = [
       "Create a high-school AI Study Roadmap like a mission-based academic journey, not a timetable.",
