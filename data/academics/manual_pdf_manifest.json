@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-07T18:01:35.998Z",
-  "count": 61,
+  "generatedAt": "2026-05-09T17:53:43.597Z",
+  "count": 67,
   "pdfs": [
     {
       "board": "CBSE",
@@ -605,12 +605,72 @@
     {
       "board": "SSC",
       "classNumber": 10,
+      "subject": "Biology",
+      "fileName": "Biology.PDF",
+      "relativePath": "SSC TELANGANA/class 10/Biology.PDF",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/biology/Biology.PDF",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/biology/Biology.PDF?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=TlLSj2l%2BvOh7DDfwyxCDLeKHveWNZpPm%2FUa3IPl8lyWrCmH2iaAOhw6bQXfrpfQoyFC6P0%2B9nW5oKVYshqltGT9g3L%2BABGs25dLP%2BLNM0dHs6URZtCXSou%2BMMoO1OH1IfvqxBOeFbCi8bSVKxs1P89AflLDDTf43uEEdzNaOhi7%2FZT6prbdtL%2BAKpSQvmHzSzklnUECTBVB9ugFld3Kw1piTxafnvsBrtvYZXI9VMheT%2B7ElvEThhRwFYR9tdxR0ycaoXv%2Bq%2FU6o9LEc7As0nhOZLEl00zkQ505EftJUH3W5AY5w1ldAEfxhZOC0nzI%2BQ%2FFVMYCOY6OcRTng9p%2FhjQ%3D%3D",
+      "sizeBytes": 12675028
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "English",
+      "fileName": "english.pdf",
+      "relativePath": "SSC TELANGANA/class 10/english.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/english/english.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/english/english.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=MPu%2BlOo8JeNr1QymQPdHICCeZR3eUmdSCZ5ugnJCYZ4RN%2BBumHNUG9CrlL2Yn11UnRs82n6PImD5jObxXd%2FvRdFxnzAN%2FMJOciR5inucLq9q%2BK5bddibsGTR6GunLHiKXs%2F2MP9LIzSulKsfNxdg8VPeom11Q5ak%2BfZsiKOztt73cbUedgQWT6i%2Fs65tPc0m6x7kCphdAw%2BeLiI7CtzBoN0N9MiuLPPIphroO9Sqkxffb2i2duw7hGTJXSIY6ffgtY89DdWCeMzMU8C9gsWo7HyUBJ9dQhD0i2tA2w8tjek919TXGu22zYvxyoSN9G7QextiJ6HJwJypgx7ycquCBw%3D%3D",
+      "sizeBytes": 16995167
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "Hindi",
+      "fileName": "hindi.pdf",
+      "relativePath": "SSC TELANGANA/class 10/hindi.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/hindi/hindi.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/hindi/hindi.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=Z5qCQ%2FeJGIVEcc%2BCzLUKHH6WPIck1YX0kdotO28Ia%2FEgrzda9Gt1Vsv84MhwDP2stHEACkHeDFxt61iQ1VpQ18%2BOrzWz3Ta5k%2FL%2Fh5r0u5U87GDy%2B95lXlUEydSnkdDZqzNXC9E1%2BIP1P3MrztLE0Dak1onBUssCFbVgClIEl3owEt2g1ZYWckv%2BfSVOtvarMJmlYrZuUTHlNpbjRzzfMtNX0SECaWlDmBx3ysX6RVOrCycBGbTJnjysw7DaHqQwmsvzhPl%2FmOhtUnA2TAAA79ZdbdadWtNOzDQJLCH0Z27fFtD8D9mHZfCe%2BU6wZUwtDYccXCQG%2BHe%2Fk11Et60gWA%3D%3D",
+      "sizeBytes": 15711318
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "Maths",
+      "fileName": "maths.pdf",
+      "relativePath": "SSC TELANGANA/class 10/maths.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/maths/maths.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/maths/maths.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=nk1408QBrR9Zuhr%2Bskg%2BXQnSl5lQn789VLWkE%2FyFmcPBopiiTent7f7XUvwhdNTliXEl2iLJrfWik7Cd3EqwDCbAnwN%2BIn8lTlOcDxlQbXHHXIskn7y4VeCsHiUsE1Zeeom20au1I5%2BCOKTYyWPCactP3VA96C2umvewSkzeMBz9%2B%2FL2ZrZOeXVG5idePXfbqwwMVrJ9VkIC7d5K9EeewFgiCAvHODkQw8iqs1D64jNOpbsHY%2BYwkw97GEYqPXqizCZYcPPTp6ezbLbU1f1uyhuEWJq0qb6UNZmCRLKPhog0X3aZLp3lBmyNRvMWsj%2BVTfGwcRLyJs2FrgQME7JLNg%3D%3D",
+      "sizeBytes": 96102647
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "Physics",
+      "fileName": "physics.pdf",
+      "relativePath": "SSC TELANGANA/class 10/physics.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/physics/physics.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/physics/physics.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=Ncxnt9Fpupx4Fj0mniEPvoXCLrN4v77nf8xfSJYgRndDDLV%2BMcDTaz7kKlFjtvaQERsevcjD1lOnEkhs3ewf%2FXNeBTS0%2FksLyPRS87gJOWGXVI%2FbITezaOewnmY5PCp0eIHizxsNxGpvK1%2F2JoSNPSQ5Ntr5WixblpvrpmEJu4fLefFBMb3Vuh7MwA6i%2FPx9XYnlo3JNe%2B0jrq9a4jdRI94CNJCLV7ao7pJfrI48FOxS8y6um5hi8vIvjNbyF9XcmdJ5yf49UsbTHJd%2B%2FjZolwUvWkM8NCL2rGwLASGcQ9sUHDHCxJeHmkSj4XKcUnOmOYYtlVOUwxIm7gf8GbgvXw%3D%3D",
+      "sizeBytes": 7154071
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
+      "subject": "Social",
+      "fileName": "social.pdf",
+      "relativePath": "SSC TELANGANA/class 10/social.pdf",
+      "storagePath": "academics/manual_pdfs/SSC/class_10/social/social.pdf",
+      "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/social/social.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=kyLsr6IVhGvTZ87ldEgBx%2BSxxxgxhkjgeNjkX00jbqLRnfkxarGzTKOPqWHjvg%2Bce1X2lsAxOy4O8ky6b%2BN%2Buek47eCy2dv9BcMDBSpRLLoBuSmlZ6YW9el8dC%2B51CCEi1EOOsvpaNuaovdrFgXFsWN1GX4jD5YaNz2pMdv1wR7es293Muh9atSPs5kHA156hHvim%2BQNhOCn4PHJYPTaVZpyCgudWx38WQ3oeD6upijxWKo%2BSmWtwvPKWnRiThjcPGu1Qx2veVbUuQHDdXPVnNQSReLuYVsTnpzOApAp21vGIyviUY8jXsehDsFwZHf5hipkgsy2FjQTnl%2FnThWGsg%3D%3D",
+      "sizeBytes": 30818374
+    },
+    {
+      "board": "SSC",
+      "classNumber": 10,
       "subject": "Telugu",
       "fileName": "telugu.pdf",
       "relativePath": "SSC TELANGANA/class 10/telugu.pdf",
       "storagePath": "academics/manual_pdfs/SSC/class_10/telugu/telugu.pdf",
       "pdfUrl": "https://storage.googleapis.com/orin-raju.firebasestorage.app/academics/manual_pdfs/SSC/class_10/telugu/telugu.pdf?GoogleAccessId=firebase-adminsdk-fbsvc%40orin-raju.iam.gserviceaccount.com&Expires=16730303400&Signature=bceXZUYU9ooKvBwtzZaaM4T%2FPND8R05B%2FHzxeffLeI9MmhpXByEQC5WWC0KZDQ2atR0rxBnY4JAJNe96CtJsS0g5vaX8QWXO%2BeruxNMxI5Q6KytkT5snTdY0yXcKg4jCMYCQGr5Lw5SzFLyiMBMXNHbTcPyPEQJItSdYTimmwO52ZFBlaO1mG%2Bj2gxC5Z0lArSuaibuoSlIe%2FiPWxBEigRAxdV%2BM9xmwgoYTrZPNHrGBkjk1VCWJNFeKkVGq92lZRp%2BC7MCxgkcOoljG1znYwcS7BIZVTogtNZtumnH86PPRfnNIQka3bctWdMV%2FJu4u76XOM1jnmyPNQimAJ%2FmdNg%3D%3D",
-      "sizeBytes": 14353017
+      "sizeBytes": 14962576
     }
   ]
 }

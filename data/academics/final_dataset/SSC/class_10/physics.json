@@ -1,0 +1,472 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Physics",
+    "year": "2026",
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/physics.pdf",
+    "source_type": "manual_pdf",
+    "extraction_status": "verified_text_extracted",
+    "verification_status": "pdf_toc_source_backed",
+    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Reflection Of Light At Curved Surfaces",
+      "topics": [
+        {
+          "topic_name": "Reflection Of Light At Curved Surfaces - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Chemical Equations",
+      "topics": [
+        {
+          "topic_name": "Chemical Equations - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Acids, Bases And Salts",
+      "topics": [
+        {
+          "topic_name": "Acids, Bases And Salts - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Refraction Of Light At Curved Surfaces",
+      "topics": [
+        {
+          "topic_name": "Refraction Of Light At Curved Surfaces - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Human Eye And Colourful World",
+      "topics": [
+        {
+          "topic_name": "Human Eye And Colourful World - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Structure Of Atom",
+      "topics": [
+        {
+          "topic_name": "Structure Of Atom - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Classification Of Elements - The Periodic Table",
+      "topics": [
+        {
+          "topic_name": "Classification Of Elements - The Periodic Table - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Chemical Bonding",
+      "topics": [
+        {
+          "topic_name": "Chemical Bonding - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Electric Current",
+      "topics": [
+        {
+          "topic_name": "Electric Current - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Electromagnetism",
+      "topics": [
+        {
+          "topic_name": "Electromagnetism - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 11,
+      "chapter_name": "Principles Of Metallurgy",
+      "topics": [
+        {
+          "topic_name": "Principles Of Metallurgy - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 12,
+      "chapter_name": "Carbon And Its Compounds",
+      "topics": [
+        {
+          "topic_name": "Carbon And Its Compounds - Core Concept",
+          "subtopics": [
+            "Definitions",
+            "Laws And Principles",
+            "Important Terms"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Experiments",
+          "subtopics": [
+            "Ray/Process Diagrams",
+            "Lab Activity",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Numericals And Applications",
+          "subtopics": [
+            "Formula Use",
+            "Solved Problems",
+            "Daily-Life Applications"
+          ]
+        },
+        {
+          "topic_name": "Exam Practice",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Final Quiz"
+          ]
+        }
+      ]
+    }
+  ]
+}

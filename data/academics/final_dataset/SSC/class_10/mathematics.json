@@ -4,409 +4,580 @@
     "class": 10,
     "subject": "Mathematics",
     "year": "2026",
-    "source": "curated_generation",
-    "source_type": "generated_fallback"
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/maths.pdf",
+    "source_type": "manual_pdf",
+    "extraction_status": "verified_text_extracted",
+    "verification_status": "pdf_toc_source_backed",
+    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
   },
   "chapters": [
     {
       "chapter_no": 1,
-      "chapter_name": "Linear Equations In Two Variables",
+      "chapter_name": "Real Numbers",
       "topics": [
         {
-          "topic_name": "Linear Equation Form",
+          "topic_name": "Real Numbers - Concepts",
           "subtopics": [
-            "Ax + By + C = 0 Form",
-            "Solution As An Ordered Pair",
-            "Graph Of A Linear Equation"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Solving Pair Of Equations",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Graphical Method",
-            "Substitution Method",
-            "Elimination Method",
-            "Cross Multiplication Method"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Number Problems",
-            "Age Problems",
-            "Speed Distance Time Problems",
-            "Money And Mixture Problems"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 2,
-      "chapter_name": "Quadratic Equations",
+      "chapter_name": "Sets",
       "topics": [
         {
-          "topic_name": "Standard Form And Roots",
+          "topic_name": "Sets - Concepts",
           "subtopics": [
-            "Ax^2 + Bx + C = 0",
-            "Roots Of A Quadratic Equation",
-            "Nature Of Roots Using Discriminant"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Solution Methods",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Factorisation Method",
-            "Completing The Square",
-            "Quadratic Formula"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Area Based Problems",
-            "Number Problems",
-            "Motion And Height Problems"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 3,
-      "chapter_name": "Arithmetic Progression",
+      "chapter_name": "Polynomials",
       "topics": [
         {
-          "topic_name": "Sequence Basics",
+          "topic_name": "Polynomials - Concepts",
           "subtopics": [
-            "Terms Of An Ap",
-            "Common Difference",
-            "Finite And Infinite Ap"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Formulae",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Nth Term Of An Ap",
-            "Sum Of First N Terms",
-            "Finding Missing Terms"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Pattern Based Questions",
-            "Savings And Installment Problems",
-            "Arrangement Problems"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 4,
-      "chapter_name": "Financial Planning",
+      "chapter_name": "Pair Of Linear Equations In Two Variables",
       "topics": [
         {
-          "topic_name": "Tax And Income",
+          "topic_name": "Pair Of Linear Equations In Two Variables - Concepts",
           "subtopics": [
-            "Income Tax Slabs",
-            "Taxable Income",
-            "Deductions And Rebates"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Savings And Investments",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Simple Interest",
-            "Compound Interest",
-            "Recurring Deposits And Returns"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Practical Calculations",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Budget Planning",
-            "Profit And Loss",
-            "Discount And Bill Calculation"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 5,
-      "chapter_name": "Probability",
+      "chapter_name": "Quadratic Equations",
       "topics": [
         {
-          "topic_name": "Random Experiments",
+          "topic_name": "Quadratic Equations - Concepts",
           "subtopics": [
-            "Outcomes",
-            "Sample Space",
-            "Events"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Probability Calculation",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Favourable Outcomes",
-            "Equally Likely Outcomes",
-            "Complementary Events"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Examples",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Coins",
-            "Dice",
-            "Cards",
-            "Real-Life Chance Situations"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 6,
-      "chapter_name": "Statistics",
+      "chapter_name": "Progressions",
       "topics": [
         {
-          "topic_name": "Data Organization",
+          "topic_name": "Progressions - Concepts",
           "subtopics": [
-            "Raw Data",
-            "Frequency Distribution",
-            "Grouped Data"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Measures Of Central Tendency",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Mean",
-            "Median",
-            "Mode"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Representation And Interpretation",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Bar Graphs",
-            "Histograms",
-            "Ogives",
-            "Interpreting Results"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 7,
-      "chapter_name": "Similarity",
+      "chapter_name": "Coordinate Geometry",
       "topics": [
         {
-          "topic_name": "Similar Figures",
+          "topic_name": "Coordinate Geometry - Concepts",
           "subtopics": [
-            "Corresponding Angles",
-            "Corresponding Sides",
-            "Scale Factor"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Similarity Of Triangles",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Aaa Test",
-            "Sas Test",
-            "Sss Test"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Heights And Distances",
-            "Map Scale",
-            "Area Relation Of Similar Triangles"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 8,
-      "chapter_name": "Pythagoras Theorem",
+      "chapter_name": "Similar Triangles",
       "topics": [
         {
-          "topic_name": "Right Triangle Relation",
+          "topic_name": "Similar Triangles - Concepts",
           "subtopics": [
-            "Hypotenuse",
-            "Legs Of A Right Triangle",
-            "A^2 + B^2 = C^2"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Converse And Proof",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Converse Of Pythagoras Theorem",
-            "Verification By Areas",
-            "Proof Based Questions"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Finding Unknown Side",
-            "Diagonal Problems",
-            "Distance In Coordinate Plane"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 9,
-      "chapter_name": "Circle",
+      "chapter_name": "Tangents And Secants To A Circle",
       "topics": [
         {
-          "topic_name": "Circle Terms",
+          "topic_name": "Tangents And Secants To A Circle - Concepts",
           "subtopics": [
-            "Radius",
-            "Diameter",
-            "Chord",
-            "Arc",
-            "Sector",
-            "Segment"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Tangents And Secants",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Tangent At A Point",
-            "Length Of Tangents From An External Point",
-            "Secant Properties"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Angle Properties",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Angle Subtended By Chord",
-            "Cyclic Quadrilateral",
-            "Inscribed Angle Theorem"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 10,
-      "chapter_name": "Geometric Constructions",
+      "chapter_name": "Mensuration",
       "topics": [
         {
-          "topic_name": "Basic Constructions",
+          "topic_name": "Mensuration - Concepts",
           "subtopics": [
-            "Perpendicular Bisector",
-            "Angle Bisector",
-            "Parallel Lines"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Triangle Constructions",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Constructing Triangles From Given Measures",
-            "Similar Triangle Construction",
-            "Scale Factor Construction"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Circle Constructions",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Tangents To A Circle",
-            "Touching Circle Constructions",
-            "Verification Of Construction Steps"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 11,
-      "chapter_name": "Coordinate Geometry",
+      "chapter_name": "Trigonometry",
       "topics": [
         {
-          "topic_name": "Cartesian Plane",
+          "topic_name": "Trigonometry - Concepts",
           "subtopics": [
-            "Axes",
-            "Quadrants",
-            "Plotting Points"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Distance And Section",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Distance Formula",
-            "Section Formula",
-            "Midpoint Formula"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Area And Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Area Of Triangle",
-            "Collinearity",
-            "Coordinate Geometry Word Problems"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 12,
-      "chapter_name": "Trigonometry",
+      "chapter_name": "Applications Of Trigonometry",
       "topics": [
         {
-          "topic_name": "Trigonometric Ratios",
+          "topic_name": "Applications Of Trigonometry - Concepts",
           "subtopics": [
-            "Sine",
-            "Cosine",
-            "Tangent",
-            "Cosecant",
-            "Secant",
-            "Cotangent"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Identities And Values",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Standard Angle Values",
-            "Complementary Angle Relations",
-            "Basic Trigonometric Identities"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Applications",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Heights And Distances",
-            "Angle Of Elevation",
-            "Angle Of Depression"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]
     },
     {
       "chapter_no": 13,
-      "chapter_name": "Mensuration",
+      "chapter_name": "Probability",
       "topics": [
         {
-          "topic_name": "Plane Figures",
+          "topic_name": "Probability - Concepts",
           "subtopics": [
-            "Area",
-            "Perimeter",
-            "Circle Area And Circumference"
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
           ]
         },
         {
-          "topic_name": "Solid Figures",
+          "topic_name": "Solved Examples",
           "subtopics": [
-            "Cube",
-            "Cuboid",
-            "Cylinder",
-            "Cone",
-            "Sphere"
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
           ]
         },
         {
-          "topic_name": "Surface Area And Volume",
+          "topic_name": "Exercise Practice",
           "subtopics": [
-            "Curved Surface Area",
-            "Total Surface Area",
-            "Volume",
-            "Combination Of Solids"
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 14,
+      "chapter_name": "Statistics",
+      "topics": [
+        {
+          "topic_name": "Statistics - Concepts",
+          "subtopics": [
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
+          ]
+        },
+        {
+          "topic_name": "Solved Examples",
+          "subtopics": [
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
+          ]
+        },
+        {
+          "topic_name": "Exercise Practice",
+          "subtopics": [
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 15,
+      "chapter_name": "Mathematical Modelling",
+      "topics": [
+        {
+          "topic_name": "Mathematical Modelling - Concepts",
+          "subtopics": [
+            "Definitions",
+            "Formula Map",
+            "Standard Results"
+          ]
+        },
+        {
+          "topic_name": "Solved Examples",
+          "subtopics": [
+            "Textbook Examples",
+            "Step-Wise Method",
+            "Common Mistakes"
+          ]
+        },
+        {
+          "topic_name": "Exercise Practice",
+          "subtopics": [
+            "Basic Problems",
+            "Application Problems",
+            "Exam Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Important Formulae",
+            "One-Mark Questions",
+            "Final Practice Test"
           ]
         }
       ]

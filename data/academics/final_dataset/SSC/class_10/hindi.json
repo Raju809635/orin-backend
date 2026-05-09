@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Hindi",
+    "year": "2026",
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/hindi.pdf",
+    "source_type": "manual_pdf",
+    "extraction_status": "pending_ocr",
+    "verification_status": "needs_review",
+    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+    "extraction_message": "Hindi PDF text is font-encoded and Hindi OCR language data is not installed yet. Topics will appear after Hindi OCR verification."
+  },
+  "chapters": []
+}

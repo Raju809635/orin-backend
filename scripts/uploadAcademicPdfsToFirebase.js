@@ -50,7 +50,7 @@ function classNumberFrom(value) {
 
 function subjectFromParts(parts, filePath) {
   if (parts.length >= 4) return titleFromSlug(slug(parts[2]));
-  return titleFromSlug(slug(path.basename(filePath, ".pdf")));
+  return titleFromSlug(slug(path.parse(filePath).name));
 }
 
 function walk(dirPath) {

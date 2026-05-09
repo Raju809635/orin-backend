@@ -15,10 +15,6 @@
     {
       "chapter_no": 1,
       "chapter_name": "వానలు",
-      "author": "వానమామలై వరదాచార్యులు",
-      "theme": "పర్యావరణం",
-      "genre": "గేయం",
-      "page": 2,
       "topics": [
         {
           "topic_name": "వానలు",
@@ -73,10 +69,6 @@
     {
       "chapter_no": 2,
       "chapter_name": "స్నేహగీతి",
-      "author": "దాశరథి కృష్ణమాచార్య",
-      "theme": "స్నేహం విలువ",
-      "genre": "గేయం",
-      "page": 11,
       "topics": [
         {
           "topic_name": "స్నేహగీతి",
@@ -131,10 +123,6 @@
     {
       "chapter_no": 3,
       "chapter_name": "సత్పాత్రదానము",
-      "author": "భండారు అచ్చమాంబ",
-      "theme": "పరోపకారం",
-      "genre": "కథ",
-      "page": 19,
       "topics": [
         {
           "topic_name": "సత్పాత్రదానము",
@@ -189,10 +177,6 @@
     {
       "chapter_no": 4,
       "chapter_name": "అసామాన్యులు",
-      "author": "కావూరి పాపయ్య శాస్త్రి",
-      "theme": "శ్రమజీవన సౌందర్యం",
-      "genre": "గేయకవిత",
-      "page": 29,
       "topics": [
         {
           "topic_name": "అసామాన్యులు",
@@ -247,10 +231,6 @@
     {
       "chapter_no": 5,
       "chapter_name": "విహారయాత్ర",
-      "author": "-",
-      "theme": "గిరిజన సంస్కృతి",
-      "genre": "సంభాషణ",
-      "page": 39,
       "topics": [
         {
           "topic_name": "విహారయాత్ర",
@@ -305,10 +285,6 @@
     {
       "chapter_no": 6,
       "chapter_name": "మాతృదేశం",
-      "author": "కాళోజీ నారాయణరావు",
-      "theme": "దేశభక్తి",
-      "genre": "వచనకవిత",
-      "page": 50,
       "topics": [
         {
           "topic_name": "మాతృదేశం",
@@ -363,10 +339,6 @@
     {
       "chapter_no": 7,
       "chapter_name": "నా చదువు",
-      "author": "సంగం లక్ష్మీబాయి",
-      "theme": "స్త్రీ సాధికారత",
-      "genre": "ఆత్మకథ",
-      "page": 61,
       "topics": [
         {
           "topic_name": "నా చదువు",
@@ -421,10 +393,6 @@
     {
       "chapter_no": 8,
       "chapter_name": "బాల్యక్రీడలు",
-      "author": "బమ్మెర పోతన",
-      "theme": "పిల్లల స్వభావం",
-      "genre": "పద్యం",
-      "page": 70,
       "topics": [
         {
           "topic_name": "బాల్యక్రీడలు",
@@ -479,10 +447,6 @@
     {
       "chapter_no": 9,
       "chapter_name": "బడి",
-      "author": "మాదిరెడ్డి సులోచన",
-      "theme": "సామాజిక బాధ్యత",
-      "genre": "కథానిక",
-      "page": 80,
       "topics": [
         {
           "topic_name": "బడి",
@@ -537,10 +501,6 @@
     {
       "chapter_no": 10,
       "chapter_name": "గోలకొండ కోట",
-      "author": "వేముగంటి నరసింహాచార్యులు",
-      "theme": "తెలంగాణ చారిత్రక వైభవం",
-      "genre": "పద్యం",
-      "page": 91,
       "topics": [
         {
           "topic_name": "గోలకొండ కోట",
@@ -595,10 +555,6 @@
     {
       "chapter_no": 11,
       "chapter_name": "సాహితీమూర్తి",
-      "author": "బి.ఎన్. శాస్త్రి",
-      "theme": "స్ఫూర్తి",
-      "genre": "అభినందన వ్యాసం",
-      "page": 101,
       "topics": [
         {
           "topic_name": "సాహితీమూర్తి",
@@ -653,10 +609,6 @@
     {
       "chapter_no": 12,
       "chapter_name": "శతక పద్యాలు",
-      "author": "శతక కవులు",
-      "theme": "నైతిక విలువలు",
-      "genre": "పద్యం",
-      "page": 111,
       "topics": [
         {
           "topic_name": "శతక పద్యాలు",
@@ -711,10 +663,6 @@
     {
       "chapter_no": 13,
       "chapter_name": "భాగ్యోదయం",
-      "author": "కృష్ణస్వామి ముదిరాజ్",
-      "theme": "సంఘసేవ / సామాజికస్పృహ",
-      "genre": "జీవిత చరిత్ర",
-      "page": 122,
       "topics": [
         {
           "topic_name": "భాగ్యోదయం",
@@ -769,10 +717,6 @@
     {
       "chapter_no": 14,
       "chapter_name": "ప్రపంచపదులు",
-      "author": "సి. నారాయణరెడ్డి",
-      "theme": "వ్యక్తిత్వ వికాసం",
-      "genre": "కవిత",
-      "page": 131,
       "topics": [
         {
           "topic_name": "ప్రపంచపదులు",
@@ -827,10 +771,6 @@
     {
       "chapter_no": 15,
       "chapter_name": "సీతమ్మ గారి సీమ ప్రయాణం",
-      "author": "పాకాల యశోదారెడ్డి",
-      "theme": "హాస్యం",
-      "genre": "కథ",
-      "page": 140,
       "topics": [
         {
           "topic_name": "సీతమ్మ గారి సీమ ప్రయాణం",
@@ -885,10 +825,6 @@
     {
       "chapter_no": 16,
       "chapter_name": "హితబోధ",
-      "author": "గోనబుద్ధారెడ్డి",
-      "theme": "హితోపదేశం",
-      "genre": "ద్విపద",
-      "page": 149,
       "topics": [
         {
           "topic_name": "హితబోధ",
@@ -943,10 +879,6 @@
     {
       "chapter_no": 17,
       "chapter_name": "పుస్తకాలు మన నిత్య సహచరులు",
-      "author": "ఎ.పి.జె. అబ్దుల్ కలాం",
-      "theme": "ప్రేరణ / పఠనాభిలాష",
-      "genre": "ఆత్మకథ",
-      "page": 159,
       "topics": [
         {
           "topic_name": "పుస్తకాలు మన నిత్య సహచరులు",
@@ -1001,10 +933,6 @@
     {
       "chapter_no": 18,
       "chapter_name": "అహంకారం",
-      "author": "కొడవటి గోపరాజు",
-      "theme": "నైతిక విలువలు",
-      "genre": "పద్యం",
-      "page": 170,
       "topics": [
         {
           "topic_name": "అహంకారం",

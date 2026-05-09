@@ -7,6 +7,7 @@ const {
   getSubjectRecord,
   getSubjectRecordForClass,
   getTopicsForClassSubject,
+  getTopicsForBoardClassSubject,
   getResourceLibrary,
   getManualPdfsForClassSubject,
   resolveManualPdf,
@@ -69,6 +70,10 @@ exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
   res.status(200).json(getTopicsForClassSubject(req.params.classNumber, req.params.subject));
 });
 
+exports.getAcademicTopicsForBoardClassSubject = asyncHandler(async (req, res) => {
+  res.status(200).json(getTopicsForBoardClassSubject(req.params.board, req.params.classNumber, req.params.subject));
+});
+
 exports.getAcademicResourceLibrary = asyncHandler(async (req, res) => {
   res.status(200).json(getResourceLibrary());
 });
@@ -85,6 +90,18 @@ exports.getAcademicPdfsForClassSubject = asyncHandler(async (req, res) => {
   }
   const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject);
   res.status(200).json({
+    classNumber: Number(req.params.classNumber),
+    subjectKey: req.params.subject,
+    available: pdfs.length > 0,
+    message: pdfs.length ? "" : "No real PDF files are connected for this subject yet.",
+    pdfs
+  });
+});
+
+exports.getAcademicPdfsForBoardClassSubject = asyncHandler(async (req, res) => {
+  const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject, req.params.board);
+  res.status(200).json({
+    board: String(req.params.board || "").toUpperCase(),
     classNumber: Number(req.params.classNumber),
     subjectKey: req.params.subject,
     available: pdfs.length > 0,

@@ -60,12 +60,24 @@ const {
   createNetworkAdminBootcamp,
   toggleNetworkAdminBootcamp
 } = require("../controllers/adminController");
+const {
+  getAppMetricsSummary,
+  getAppMetricsCountries,
+  getAppMetricsDevices,
+  getAppMetricsVersions,
+  getAppMetricsActivity
+} = require("../controllers/appMetricsController");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
 router.put("/approve/:id", verifyToken, authorizeRoles("admin"), approveMentor);
 router.get("/students", verifyToken, authorizeRoles("admin"), getStudents);
 router.get("/mentors/profiles", verifyToken, authorizeRoles("admin"), getMentorProfiles);
 router.get("/demographics", verifyToken, authorizeRoles("admin"), getDemographics);
+router.get("/app-metrics/summary", verifyToken, authorizeRoles("admin"), getAppMetricsSummary);
+router.get("/app-metrics/countries", verifyToken, authorizeRoles("admin"), getAppMetricsCountries);
+router.get("/app-metrics/devices", verifyToken, authorizeRoles("admin"), getAppMetricsDevices);
+router.get("/app-metrics/versions", verifyToken, authorizeRoles("admin"), getAppMetricsVersions);
+router.get("/app-metrics/activity", verifyToken, authorizeRoles("admin"), getAppMetricsActivity);
 router.get("/notifications", verifyToken, authorizeRoles("admin"), getNotifications);
 router.get("/audit-logs", verifyToken, authorizeRoles("admin"), getAuditLogs);
 router.get("/collaborate/applications", verifyToken, authorizeRoles("admin"), getCollaborateApplications);

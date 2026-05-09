@@ -69,6 +69,10 @@ function subjectMatches(slug, record, requestedSubject) {
   const aliases = {
     maths: "mathematics",
     math: "mathematics",
+    physical_science: "physics",
+    physics: "physical_science",
+    biological_science: "biology",
+    biology: "biological_science",
     social_studies: "social_science",
     social: "social_science",
     computer: "computer_applications"
@@ -159,11 +163,21 @@ function getClasses(board) {
 }
 
 function getSubjects(board, classNumber) {
+  const visibleSubjectOrder = normalizeBoard(board) === "SSC" && Number(classNumber) === 10
+    ? ["Mathematics", "Physics", "Biology", "Social Science", "English", "Hindi", "Telugu"]
+    : null;
+  const applyVisibleSubjects = (subjects) => {
+    if (!visibleSubjectOrder) return subjects;
+    const order = new Map(visibleSubjectOrder.map((name, index) => [subjectSlug(name), index]));
+    return subjects
+      .filter((subject) => order.has(subjectSlug(subject.name || subject.subject || subject.slug || subject.key)))
+      .sort((a, b) => order.get(subjectSlug(a.name || a.subject || a.slug || a.key)) - order.get(subjectSlug(b.name || b.subject || b.slug || b.key)));
+  };
   const classDir = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber));
   const aggregate = readAggregateDataset();
   const aggregateClass = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)];
   if (!existsDir(classDir) && aggregateClass) {
-    return Object.entries(aggregateClass)
+    return applyVisibleSubjects(Object.entries(aggregateClass)
       .map(([slug, record]) => {
         const name = record?.metadata?.subject || titleFromSlug(slug);
         return {
@@ -178,10 +192,10 @@ function getSubjects(board, classNumber) {
           chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
         };
       })
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => a.name.localeCompare(b.name)));
   }
   if (!existsDir(classDir)) return [];
-  return fs
+  return applyVisibleSubjects(fs
     .readdirSync(classDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
     .map((entry) => {
@@ -200,7 +214,7 @@ function getSubjects(board, classNumber) {
         chapterCount: Array.isArray(record?.chapters) ? record.chapters.length : 0
       };
     })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => a.name.localeCompare(b.name)));
 }
 
 function getSubjectsForClass(classNumber) {
@@ -232,14 +246,47 @@ function getSubjectRecord(board, classNumber, subject) {
   const filePath = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber), `${subjectSlug(subject)}.json`);
   if (!fs.existsSync(filePath)) {
     const aggregate = readAggregateDataset();
-    const record = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)]?.[subjectSlug(subject)];
-    if (record) {
+    const aggregateClass = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)];
+    const exactRecord = aggregateClass?.[subjectSlug(subject)];
+    if (exactRecord) {
       return {
         board: normalizeBoard(board),
         classNumber: Number(classNumber),
         subjectKey: subjectSlug(subject),
-        subject: record
+        subject: exactRecord
       };
+    }
+    if (aggregateClass) {
+      for (const [slug, record] of Object.entries(aggregateClass)) {
+        if (subjectMatches(slug, record, subject)) {
+          return {
+            board: normalizeBoard(board),
+            classNumber: Number(classNumber),
+            subjectKey: slug,
+            subject: record
+          };
+        }
+      }
+    }
+    const classDir = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber));
+    if (existsDir(classDir)) {
+      const matchedFileName = fs
+        .readdirSync(classDir, { withFileTypes: true })
+        .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+        .map((entry) => entry.name)
+        .find((fileName) => {
+          const slug = fileName.replace(/\.json$/, "");
+          return subjectMatches(slug, readJson(path.join(classDir, fileName)), subject);
+        });
+      if (matchedFileName) {
+        const slug = matchedFileName.replace(/\.json$/, "");
+        return {
+          board: normalizeBoard(board),
+          classNumber: Number(classNumber),
+          subjectKey: slug,
+          subject: readJson(path.join(classDir, matchedFileName))
+        };
+      }
     }
   }
   return readJson(filePath);
@@ -299,6 +346,42 @@ function getSubjectRecordForClass(classNumber, subject) {
   if (matches.length) return matches[0];
 
   throw new ApiError(404, "Academic resource not found");
+}
+
+function getTopicsForBoardClassSubject(board, classNumber, subject) {
+  const record = getSubjectRecord(board, classNumber, subject);
+  const wrappedRecord = record.subject
+    ? record
+    : {
+        board: normalizeBoard(board),
+        classNumber: Number(classNumber),
+        subjectKey: subjectSlug(subject),
+        subject: record
+      };
+  if (isSubjectUnavailable(wrappedRecord)) {
+    return {
+      ...wrappedRecord,
+      available: false,
+      message: pendingMessage(wrappedRecord),
+      chapters: []
+    };
+  }
+  const subjectRecord = wrappedRecord.subject || wrappedRecord;
+  const chapters = getChaptersFromRecord(subjectRecord);
+  return {
+    ...wrappedRecord,
+    available: true,
+    chapters: chapters.map((chapter) => ({
+      chapter_no: chapter.chapter_no,
+      chapter_name: chapterTitle(chapter),
+      topics: (Array.isArray(chapter.topics) ? chapter.topics : [])
+        .map((topic) => ({
+          topic_name: topicTitle(topic),
+          subtopics: Array.isArray(topic?.subtopics) ? topic.subtopics : []
+        }))
+        .filter((topic) => topic.topic_name)
+    }))
+  };
 }
 
 function getChaptersFromRecord(record) {
@@ -513,6 +596,7 @@ module.exports = {
   getSubjectRecord,
   getSubjectRecordForClass,
   getTopicsForClassSubject,
+  getTopicsForBoardClassSubject,
   getResourceLibrary,
   getManualPdfsForClassSubject,
   resolveManualPdf,

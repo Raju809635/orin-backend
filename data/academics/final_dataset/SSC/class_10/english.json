@@ -4,186 +4,314 @@
     "class": 10,
     "subject": "English",
     "year": "2026",
-    "source": "curated_generation",
-    "source_type": "generated_fallback"
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/english.pdf",
+    "source_type": "manual_pdf",
+    "extraction_status": "verified_text_extracted",
+    "verification_status": "pdf_toc_source_backed",
+    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
   },
   "chapters": [
     {
       "chapter_no": 1,
-      "chapter_name": "First Flight Prose",
+      "chapter_name": "Personality Development",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Personality Development - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In First Flight Prose",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]
     },
     {
       "chapter_no": 2,
-      "chapter_name": "First Flight Poetry",
+      "chapter_name": "Wit And Humour",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Wit And Humour - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In First Flight Poetry",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]
     },
     {
       "chapter_no": 3,
-      "chapter_name": "Footprints Without Feet",
+      "chapter_name": "Human Relations",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Human Relations - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Footprints Without Feet",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]
     },
     {
       "chapter_no": 4,
-      "chapter_name": "Grammar And Integrated Exercises",
+      "chapter_name": "Films And Theatre",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Films And Theatre - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Grammar And Integrated Exercises",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]
     },
     {
       "chapter_no": 5,
-      "chapter_name": "Analytical Paragraph And Letters",
+      "chapter_name": "Social Issues",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Social Issues - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Analytical Paragraph And Letters",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]
     },
     {
       "chapter_no": 6,
-      "chapter_name": "Speaking And Listening Assessment",
+      "chapter_name": "Bio-Diversity",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Bio-Diversity - Reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Speaking And Listening Assessment",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
           ]
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Vocabulary And Meanings",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+            "New Words",
+            "Meanings",
+            "Sentence Use"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Grammar And Writing",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Nation And Diversity",
+      "topics": [
+        {
+          "topic_name": "Nation And Diversity - Reading",
+          "subtopics": [
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
+          ]
+        },
+        {
+          "topic_name": "Vocabulary And Meanings",
+          "subtopics": [
+            "New Words",
+            "Meanings",
+            "Sentence Use"
+          ]
+        },
+        {
+          "topic_name": "Grammar And Writing",
+          "subtopics": [
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Human Rights",
+      "topics": [
+        {
+          "topic_name": "Human Rights - Reading",
+          "subtopics": [
+            "Text Reading",
+            "Main Idea",
+            "Important Lines"
+          ]
+        },
+        {
+          "topic_name": "Vocabulary And Meanings",
+          "subtopics": [
+            "New Words",
+            "Meanings",
+            "Sentence Use"
+          ]
+        },
+        {
+          "topic_name": "Grammar And Writing",
+          "subtopics": [
+            "Grammar Points",
+            "Writing Practice",
+            "Exam Format"
+          ]
+        },
+        {
+          "topic_name": "Question Answers",
+          "subtopics": [
+            "Short Answers",
+            "Long Answers",
+            "Revision Questions"
           ]
         }
       ]

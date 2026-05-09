@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Booking = require("../models/Booking");
 const Session = require("../models/Session");
 const Notification = require("../models/Notification");
+const { dispatchPushNotification } = require("../services/pushNotificationService");
 const AuditLog = require("../models/AuditLog");
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
@@ -30,6 +31,26 @@ const { issueCertificate } = require("../utils/certificateService");
 
 function roundCurrency(value) {
   return Math.round(Number(value || 0) * 100) / 100;
+}
+
+function normalizeAudienceStage(value = "") {
+  const key = String(value || "").trim().toLowerCase();
+  if (["highschool", "high_school", "school"].includes(key)) return "highschool";
+  if (["after12", "after_12", "after12th", "career"].includes(key)) return "after12";
+  return "";
+}
+
+function normalizeScopePayload(body = {}) {
+  const requestedScope = String(body.scope || "global").trim().toLowerCase();
+  const institutionName = String(body.institutionName || "").trim();
+  const className = String(body.className || "").trim();
+  if (requestedScope === "class" && institutionName && className) {
+    return { scope: "class", institutionName, className };
+  }
+  if ((requestedScope === "institution" || requestedScope === "class") && institutionName) {
+    return { scope: "institution", institutionName, className: "" };
+  }
+  return { scope: "global", institutionName: "", className: "" };
 }
 
 function getResolvedSprintPayoutStatus(enrollment = {}, sprint = null) {
@@ -132,7 +153,16 @@ exports.getStudents = asyncHandler(async (req, res) => {
 });
 
 exports.getDemographics = asyncHandler(async (req, res) => {
-  const [roleCounts, mentorCategoryCounts, bookingStatusCounts, topStudentStates, topStudentColleges, topMentorStates] = await Promise.all([
+  const [
+    roleCounts,
+    mentorCategoryCounts,
+    bookingStatusCounts,
+    topStudentStates,
+    topStudentColleges,
+    topMentorStates,
+    learnerStageCounts,
+    mentorOrgRoleCounts
+  ] = await Promise.all([
     User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
     User.aggregate([
       { $match: { role: "mentor", approvalStatus: "approved" } },
@@ -157,6 +187,12 @@ exports.getDemographics = asyncHandler(async (req, res) => {
       { $group: { _id: "$state", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 8 }
+    ]),
+    StudentProfile.aggregate([
+      { $group: { _id: "$learnerStage", count: { $sum: 1 } } }
+    ]),
+    MentorProfile.aggregate([
+      { $group: { _id: "$mentorOrgRole", count: { $sum: 1 } } }
     ])
   ]);
 
@@ -197,6 +233,34 @@ exports.getDemographics = asyncHandler(async (req, res) => {
     }
   });
 
+  const learnerStages = {
+    highschool: 0,
+    after12: 0,
+    kid: 0,
+    unknown: 0
+  };
+  learnerStageCounts.forEach((row) => {
+    const key = String(row._id || "").trim();
+    if (key === "highschool") learnerStages.highschool = row.count;
+    else if (key === "after12") learnerStages.after12 = row.count;
+    else if (key === "kid") learnerStages.kid = row.count;
+    else learnerStages.unknown += row.count;
+  });
+
+  const mentorModes = {
+    globalMentors: 0,
+    globalTeachers: 0,
+    legacyHeads: 0,
+    unknown: 0
+  };
+  mentorOrgRoleCounts.forEach((row) => {
+    const key = String(row._id || "").trim();
+    if (!key || key === "global_mentor") mentorModes.globalMentors += row.count;
+    else if (key === "institution_teacher") mentorModes.globalTeachers += row.count;
+    else if (key === "organisation_head") mentorModes.legacyHeads += row.count;
+    else mentorModes.unknown += row.count;
+  });
+
   res.status(200).json({
     totals: {
       users: totalUsers,
@@ -208,6 +272,8 @@ exports.getDemographics = asyncHandler(async (req, res) => {
       approvedMentors
     },
     roles: roleSummary,
+    learnerStages,
+    mentorModes,
     bookings: bookingSummary,
     mentorCategories: mentorCategoryCounts.map((row) => ({
       category: row._id || "Unspecified",
@@ -244,6 +310,14 @@ exports.sendNotification = asyncHandler(async (req, res) => {
       recipient: recipientUser._id
     });
 
+    dispatchPushNotification({
+      title,
+      message,
+      type,
+      recipientUserId: recipientUser._id,
+      notificationId: notification._id
+    }).catch(() => null);
+
     return res.status(201).json({
       message: "Notification sent to user",
       notification
@@ -257,6 +331,14 @@ exports.sendNotification = asyncHandler(async (req, res) => {
     sentBy: req.user.id,
     targetRole: targetRole || "all"
   });
+
+  dispatchPushNotification({
+    title,
+    message,
+    type,
+    targetRole: targetRole || "all",
+    notificationId: notification._id
+  }).catch(() => null);
 
   return res.status(201).json({
     message: "Notification sent",
@@ -987,6 +1069,7 @@ exports.createNetworkAdminChallenge = asyncHandler(async (req, res) => {
 
   if (!title) throw new ApiError(400, "title is required");
   if (Number.isNaN(deadline.getTime())) throw new ApiError(400, "deadline is invalid");
+  const scopePayload = normalizeScopePayload(req.body);
 
   const doc = await CommunityChallenge.create({
     title,
@@ -1000,6 +1083,8 @@ exports.createNetworkAdminChallenge = asyncHandler(async (req, res) => {
     deadline,
     isActive: true,
     isFeatured: Boolean(req.body?.isFeatured),
+    audienceStage: normalizeAudienceStage(req.body?.audienceStage),
+    ...scopePayload,
     createdBy: req.user.id,
     participants: [],
     topParticipants: []
@@ -1035,6 +1120,10 @@ exports.updateNetworkAdminChallenge = asyncHandler(async (req, res) => {
     patch.deadline = deadline;
   }
   if (req.body?.isFeatured !== undefined) patch.isFeatured = Boolean(req.body.isFeatured);
+  if (req.body?.audienceStage !== undefined) patch.audienceStage = normalizeAudienceStage(req.body.audienceStage);
+  if (req.body?.scope !== undefined || req.body?.institutionName !== undefined || req.body?.className !== undefined) {
+    Object.assign(patch, normalizeScopePayload(req.body));
+  }
 
   const doc = await CommunityChallenge.findByIdAndUpdate(challengeId, patch, { new: true });
   if (!doc) throw new ApiError(404, "Challenge not found");
@@ -1084,6 +1173,7 @@ exports.deleteNetworkAdminOpportunity = asyncHandler(async (req, res) => {
 exports.createNetworkAdminOpportunity = asyncHandler(async (req, res) => {
   const title = String(req.body?.title || "").trim();
   if (!title) throw new ApiError(400, "title is required");
+  const scopePayload = normalizeScopePayload(req.body);
 
   const doc = await CareerOpportunity.create({
     title,
@@ -1100,6 +1190,8 @@ exports.createNetworkAdminOpportunity = asyncHandler(async (req, res) => {
     domainTags: Array.isArray(req.body?.domainTags) ? req.body.domainTags : [],
     applicationUrl: String(req.body?.applicationUrl || "").trim(),
     description: String(req.body?.description || "").trim(),
+    audienceStage: normalizeAudienceStage(req.body?.audienceStage),
+    ...scopePayload,
     isActive: true,
     postedBy: req.user.id
   });
@@ -1166,6 +1258,7 @@ exports.deleteNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
 exports.createNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
   const title = String(req.body?.title || "").trim();
   if (!title) throw new ApiError(400, "title is required");
+  const scopePayload = normalizeScopePayload(req.body);
 
   const doc = await KnowledgeResource.create({
     domain: String(req.body?.domain || "").trim(),
@@ -1183,6 +1276,8 @@ exports.createNetworkAdminKnowledgeResource = asyncHandler(async (req, res) => {
     reviewedBy: req.user.id,
     reviewedAt: new Date(),
     isFeatured: Boolean(req.body?.isFeatured),
+    audienceStage: normalizeAudienceStage(req.body?.audienceStage),
+    ...scopePayload,
     isActive: true
   });
 

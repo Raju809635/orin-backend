@@ -1,8 +1,10 @@
 const Notification = require("../models/Notification");
+const DevicePushToken = require("../models/DevicePushToken");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { dispatchPushNotification, isExpoPushToken } = require("../services/pushNotificationService");
 
 exports.getMyMessages = asyncHandler(async (req, res) => {
   const messages = await Notification.find({
@@ -41,10 +43,60 @@ exports.sendMessageToAdmin = asyncHandler(async (req, res) => {
     recipient: adminUser._id
   });
 
+  dispatchPushNotification({
+    title,
+    message,
+    type: "direct",
+    recipientUserId: adminUser._id,
+    notificationId: notification._id
+  }).catch(() => null);
+
   res.status(201).json({
     message: "Message sent to admin",
     notification
   });
+});
+
+exports.registerPushToken = asyncHandler(async (req, res) => {
+  const { expoPushToken, platform, deviceId, appVersion } = req.body;
+  if (!isExpoPushToken(expoPushToken)) {
+    throw new ApiError(400, "Invalid Expo push token");
+  }
+
+  const token = await DevicePushToken.findOneAndUpdate(
+    { userId: req.user.id, expoPushToken },
+    {
+      $set: {
+        platform: platform || "unknown",
+        deviceId: deviceId || "",
+        appVersion: appVersion || "",
+        enabled: true,
+        lastSeenAt: new Date(),
+        disabledAt: null,
+        lastError: ""
+      }
+    },
+    { upsert: true, new: true, runValidators: true }
+  ).select("_id platform enabled lastSeenAt");
+
+  res.status(200).json({
+    message: "Push token registered",
+    token
+  });
+});
+
+exports.unregisterPushToken = asyncHandler(async (req, res) => {
+  const { expoPushToken } = req.body;
+  if (!isExpoPushToken(expoPushToken)) {
+    throw new ApiError(400, "Invalid Expo push token");
+  }
+
+  await DevicePushToken.updateMany(
+    { userId: req.user.id, expoPushToken },
+    { $set: { enabled: false, disabledAt: new Date() } }
+  );
+
+  res.status(200).json({ message: "Push token unregistered" });
 });
 
 exports.getMyNotifications = asyncHandler(async (req, res) => {

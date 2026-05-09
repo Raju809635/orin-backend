@@ -1,0 +1,396 @@
+{
+  "metadata": {
+    "board": "SSC",
+    "class": 10,
+    "subject": "Biology",
+    "year": "2026",
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/Biology.PDF",
+    "source_type": "manual_pdf",
+    "extraction_status": "verified_text_extracted",
+    "verification_status": "pdf_toc_source_backed",
+    "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+    "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+  },
+  "chapters": [
+    {
+      "chapter_no": 1,
+      "chapter_name": "Nutrition",
+      "topics": [
+        {
+          "topic_name": "Nutrition - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 2,
+      "chapter_name": "Respiration",
+      "topics": [
+        {
+          "topic_name": "Respiration - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 3,
+      "chapter_name": "Circulation",
+      "topics": [
+        {
+          "topic_name": "Circulation - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 4,
+      "chapter_name": "Excretion",
+      "topics": [
+        {
+          "topic_name": "Excretion - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 5,
+      "chapter_name": "Coordination",
+      "topics": [
+        {
+          "topic_name": "Coordination - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 6,
+      "chapter_name": "Reproduction",
+      "topics": [
+        {
+          "topic_name": "Reproduction - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 7,
+      "chapter_name": "Coordination In Life Processes",
+      "topics": [
+        {
+          "topic_name": "Coordination In Life Processes - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 8,
+      "chapter_name": "Heredity - Evolution",
+      "topics": [
+        {
+          "topic_name": "Heredity - Evolution - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 9,
+      "chapter_name": "Our Environment",
+      "topics": [
+        {
+          "topic_name": "Our Environment - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_no": 10,
+      "chapter_name": "Natural Resources",
+      "topics": [
+        {
+          "topic_name": "Natural Resources - Concept Understanding",
+          "subtopics": [
+            "Life Process",
+            "Key Definitions",
+            "Textbook Flow"
+          ]
+        },
+        {
+          "topic_name": "Diagrams And Labels",
+          "subtopics": [
+            "Important Diagrams",
+            "Parts And Functions",
+            "Observation Points"
+          ]
+        },
+        {
+          "topic_name": "Textbook Questions",
+          "subtopics": [
+            "Short Answers",
+            "Reasoning Questions",
+            "Application Questions"
+          ]
+        },
+        {
+          "topic_name": "Revision Check",
+          "subtopics": [
+            "Key Terms",
+            "Compare And Differentiate",
+            "Final Quiz"
+          ]
+        }
+      ]
+    }
+  ]
+}

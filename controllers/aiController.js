@@ -2,6 +2,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const AiChatLog = require("../models/AiChatLog");
 const { aiChatDailyLimit } = require("../config/env");
+const { getSubscriptionEntitlement } = require("../services/subscriptionService");
 const { requestAiResponse } = require("../services/aiService");
 const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass } = require("../services/academicService");
 const User = require("../models/User");
@@ -392,9 +393,178 @@ function buildFallbackFocusPlan(score) {
   };
 }
 
+function decodePdfMojibake(value = "") {
+  const text = String(value || "");
+  if (!/[àÂ][\u0080-\u00ff]/.test(text) && !text.includes("à°") && !text.includes("à±")) return text;
+  try {
+    const decoded = Buffer.from(text, "latin1").toString("utf8");
+    return decoded && decoded !== text ? decoded : text;
+  } catch {
+    return text;
+  }
+}
+
+function cleanAcademicText(value = "") {
+  return decodePdfMojibake(value)
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function hasBrokenPdfText(value = "") {
+  const text = String(value || "");
+  return /(?:à°|à±|Â|�)/.test(text);
+}
+
+function isGenericRoadmapText(value = "") {
+  const key = String(value || "").trim().toLowerCase();
+  return !key || /^(mission|step|core topic|concept clarity|practice|quick quiz|final check)(\s+\d+)?$/.test(key);
+}
+
+function recordVerificationState(record = {}) {
+  const metadata = record?.metadata || record?.subject?.metadata || {};
+  const extractionStatus = String(metadata.extraction_status || "").trim().toLowerCase();
+  const verificationStatus = String(metadata.verification_status || "").trim().toLowerCase();
+  const sourceType = String(metadata.source_type || "").trim().toLowerCase();
+  const pending = ["pending_ocr", "needs_ocr", "extraction_pending", "needs_review", "review_required"].some((status) =>
+    extractionStatus.includes(status) || verificationStatus.includes(status)
+  );
+  const fallback = ["generated_fallback", "curated_fallback"].includes(sourceType);
+  return {
+    verified: !pending && !fallback,
+    extractionStatus,
+    verificationStatus,
+    message: metadata.extraction_message || metadata.source_note || ""
+  };
+}
+
+function roadmapSubjectKind(subjectName = "") {
+  const key = String(subjectName || "").toLowerCase();
+  if (key.includes("math")) return "mathematics";
+  if (key.includes("physics") || key.includes("physical")) return "physics";
+  if (key.includes("biology") || key.includes("biological")) return "biology";
+  if (key.includes("social")) return "social";
+  if (key.includes("telugu") || key.includes("hindi") || key.includes("english") || key.includes("sanskrit")) return "language";
+  if (key.includes("science") || key.includes("chem")) return "science";
+  return "general";
+}
+
+function roadmapSkillLevel(value = "") {
+  const key = String(value || "").toLowerCase();
+  if (key.includes("strong") || key.includes("advanced")) return "advanced";
+  if (key.includes("average") || key.includes("intermediate")) return "intermediate";
+  return "beginner";
+}
+
+function roadmapMissionTemplate(subjectName = "") {
+  const kind = roadmapSubjectKind(subjectName);
+  const templates = {
+    mathematics: [
+      { label: "Concept Foundation", type: "Read", practice: "Build a formula map and list standard results", proof: "Upload formula notes or solved example page" },
+      { label: "Formula Map", type: "Practice", practice: "Write formulas with one example each", proof: "Submit your formula sheet" },
+      { label: "Solved Examples", type: "Practice", practice: "Solve textbook examples step by step", proof: "Submit 3 solved examples" },
+      { label: "Exercise Practice", type: "Practice", practice: "Solve exercise problems from easy to application level", proof: "Submit exercise answers or score" },
+      { label: "Weak-Area Drill", type: "Quiz", practice: "Retry mistakes and similar questions", proof: "Submit mistake corrections" },
+      { label: "Revision Test", type: "Quiz", practice: "Take a short timed chapter test", proof: "Submit test score and corrections" }
+    ],
+    physics: [
+      { label: "Concept Foundation", type: "Read", practice: "Define key terms and laws in your own words", proof: "Submit concept notes" },
+      { label: "Formula and Numericals", type: "Practice", practice: "Practice formula use and solved numericals", proof: "Submit numerical solutions" },
+      { label: "Diagram or Experiment", type: "Practice", practice: "Draw diagrams or write lab observations", proof: "Submit diagram/experiment notes" },
+      { label: "Textbook Questions", type: "Practice", practice: "Answer short and long textbook questions", proof: "Submit answer practice" },
+      { label: "Application Practice", type: "Quiz", practice: "Solve application or daily-life questions", proof: "Submit application answers" },
+      { label: "Revision Quiz", type: "Quiz", practice: "Take a quick revision quiz", proof: "Submit quiz score and corrections" }
+    ],
+    biology: [
+      { label: "Concept Foundation", type: "Read", practice: "Explain the process or system clearly", proof: "Submit concept notes" },
+      { label: "Diagrams and Processes", type: "Practice", practice: "Draw labelled diagrams and flow steps", proof: "Submit diagram/process page" },
+      { label: "Definitions", type: "Read", practice: "Write important definitions and terms", proof: "Submit definitions list" },
+      { label: "Textbook Questions", type: "Practice", practice: "Answer textbook short and long questions", proof: "Submit answer practice" },
+      { label: "Revision Quiz", type: "Quiz", practice: "Take a concept and diagram quiz", proof: "Submit quiz score and corrections" }
+    ],
+    social: [
+      { label: "Chapter Reading", type: "Read", practice: "Read the chapter and mark key ideas", proof: "Submit reading notes" },
+      { label: "Key Terms and Dates", type: "Practice", practice: "List important terms, dates, places, and people", proof: "Submit key terms sheet" },
+      { label: "Map or Timeline Work", type: "Practice", practice: "Create a map, timeline, or flow chart where relevant", proof: "Submit map/timeline notes" },
+      { label: "Short and Long Answers", type: "Practice", practice: "Write exam-style answers", proof: "Submit answer practice" },
+      { label: "Case-Based Practice", type: "Quiz", practice: "Attempt case/context questions", proof: "Submit case answers" },
+      { label: "Revision Test", type: "Quiz", practice: "Take a short chapter test", proof: "Submit test score and corrections" }
+    ],
+    language: [
+      { label: "Lesson Reading", type: "Read", practice: "Read the lesson and identify the main idea", proof: "Submit reading summary" },
+      { label: "Vocabulary and Meanings", type: "Practice", practice: "Write meanings, synonyms, and important words", proof: "Submit vocabulary notes" },
+      { label: "Grammar", type: "Practice", practice: "Practice grammar items linked to the lesson", proof: "Submit grammar practice" },
+      { label: "Question Answers", type: "Practice", practice: "Write short and long answers", proof: "Submit answer practice" },
+      { label: "Writing Practice", type: "Practice", practice: "Write paragraph, letter, or creative response", proof: "Submit writing work" },
+      { label: "Revision Check", type: "Quiz", practice: "Revise lesson points and take a short quiz", proof: "Submit quiz score and corrections" }
+    ],
+    science: [
+      { label: "Concept Foundation", type: "Read", practice: "Understand key concepts and terms", proof: "Submit concept notes" },
+      { label: "Diagrams and Definitions", type: "Practice", practice: "Write definitions and draw diagrams where needed", proof: "Submit diagram/definition notes" },
+      { label: "Textbook Questions", type: "Practice", practice: "Answer textbook questions", proof: "Submit answer practice" },
+      { label: "Application Practice", type: "Quiz", practice: "Try application questions", proof: "Submit practice answers" },
+      { label: "Revision Test", type: "Quiz", practice: "Take a short revision test", proof: "Submit test score and corrections" }
+    ],
+    general: [
+      { label: "Core Ideas", type: "Read", practice: "Study core ideas from the selected topic", proof: "Submit notes" },
+      { label: "Examples and Notes", type: "Practice", practice: "Work through examples and notes", proof: "Submit example work" },
+      { label: "Practice Set", type: "Practice", practice: "Complete a short practice set", proof: "Submit practice answers" },
+      { label: "Weak-Area Drill", type: "Quiz", practice: "Retry mistakes and unclear points", proof: "Submit corrections" },
+      { label: "Final Check", type: "Quiz", practice: "Complete a final check", proof: "Submit score and corrections" }
+    ]
+  };
+  return templates[kind] || templates.general;
+}
+
+function buildRoadmapTopicPlan(subjectName, chapter, academicTopics = []) {
+  const readableTopics = academicTopics
+    .map((item) => ({
+      chapter: cleanAcademicText(item?.chapter || ""),
+      topic: cleanAcademicText(item?.topic || ""),
+      subtopics: Array.isArray(item?.subtopics) ? item.subtopics.map(cleanAcademicText).filter(Boolean).slice(0, 4) : [],
+      verified: item?.verified !== false,
+      message: cleanAcademicText(item?.message || "")
+    }))
+    .filter((item) => item.verified && item.topic && !hasBrokenPdfText(item.topic) && !hasBrokenPdfText(item.chapter));
+
+  const pendingMessage = academicTopics.find((item) => item?.verified === false)?.message || "";
+  const selectedChapter = cleanAcademicText(chapter || readableTopics[0]?.chapter || "");
+  const template = roadmapMissionTemplate(subjectName);
+
+  if (!readableTopics.length) {
+    return {
+      verified: false,
+      pendingMessage: pendingMessage || "Verified textbook topics for this selection are still pending. Use the PDF in Resource Library and add proof as you study.",
+      topics: [],
+      missions: template.slice(0, 4).map((item, index) => ({
+        title: selectedChapter ? `${selectedChapter}: ${item.label}` : `Topic data pending: ${item.label}`,
+        topic: selectedChapter || "Verified topic data pending",
+        template: item,
+        subtopics: []
+      }))
+    };
+  }
+
+  const topics = readableTopics.slice(0, 6);
+  const missions = template.slice(0, Math.min(6, Math.max(5, topics.length))).map((item, index) => {
+    const topic = topics[index] || topics[topics.length - 1];
+    const baseTopic = cleanAcademicText(topic?.topic || selectedChapter || item.label);
+    const chapterPrefix = selectedChapter && !baseTopic.toLowerCase().includes(selectedChapter.toLowerCase())
+      ? `${selectedChapter}: `
+      : "";
+    return {
+      title: `${chapterPrefix}${item.label}`,
+      topic: baseTopic,
+      template: item,
+      subtopics: topic?.subtopics || []
+    };
+  });
+
+  return { verified: true, pendingMessage: "", topics, missions };
+}
+
 function roadmapTopicsForSubject(subjectName, chapter, academicTopics = []) {
-  const datasetTopics = academicTopics
-    .map((item) => String(item?.topic || item?.chapter || "").trim())
+  const datasetTopics = buildRoadmapTopicPlan(subjectName, chapter, academicTopics).missions
+    .map((item) => cleanAcademicText(item?.topic || item?.title || ""))
     .filter(Boolean)
     .slice(0, 5);
   if (datasetTopics.length) return datasetTopics;
@@ -422,12 +592,20 @@ function roadmapTopicsForSubject(subjectName, chapter, academicTopics = []) {
 
 function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter = "", academicTopics = [] }) {
   const subjectName = normalizeExamSubject(subject) || "Mathematics";
-  const topics = roadmapTopicsForSubject(subjectName, chapter, academicTopics);
+  const topicPlan = buildRoadmapTopicPlan(subjectName, chapter, academicTopics);
+  const missions = topicPlan.missions.length
+    ? topicPlan.missions
+    : roadmapTopicsForSubject(subjectName, chapter, academicTopics).map((topic) => ({
+      title: topic,
+      topic,
+      template: roadmapMissionTemplate(subjectName)[0],
+      subtopics: []
+    }));
   const minutes = String(timePerDay || "").includes("2") ? 35 : String(timePerDay || "").includes("3") ? 45 : 25;
-  const steps = topics.map((topic, index) => ({
+  const steps = missions.map((mission, index) => ({
     id: `hs-${subjectName.toLowerCase()}-${index + 1}`,
     stepNumber: index + 1,
-    title: topic,
+    title: mission.title,
     status: index === 0 ? "active" : "locked",
     completed: false,
     canStart: index === 0,
@@ -437,20 +615,30 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
     startedAt: null,
     completedAt: null,
     unlockedAt: index === 0 ? new Date() : null,
-    missionType: index === topics.length - 1 ? "revision_test" : "learning_mission",
-    focus: index === 0 ? "Start with concept clarity and short practice." : "Unlock after completing the previous mission.",
-    outcome: index === topics.length - 1 ? "Prove readiness with a revision test." : `Build confidence in ${topic}.`,
+    missionType: index === missions.length - 1 ? "revision_test" : "learning_mission",
+    focus: topicPlan.verified
+      ? `${mission.template.practice} for ${mission.topic}.`
+      : topicPlan.pendingMessage,
+    outcome: index === missions.length - 1
+      ? `Prove readiness in ${mission.topic} with a revision check.`
+      : `Show clear progress in ${mission.topic}.`,
     xpReward: 20,
     tasks: [
-      { id: `w${index + 1}-read`, type: "Read", title: `Study: ${topic}`, duration: `${Math.max(10, minutes - 10)} min`, completed: index === 0 },
+      {
+        id: `w${index + 1}-read`,
+        type: mission.template.type || "Read",
+        title: topicPlan.verified ? `${mission.template.label}: ${mission.topic}` : "Open the PDF/resource and study the selected topic",
+        duration: `${Math.max(10, minutes - 10)} min`,
+        completed: index === 0
+      },
       {
         id: `w${index + 1}-practice`,
         type: "Practice",
-        title: subjectName === "Telugu" ? "Write answers and meanings" : "Practice: 10 Questions",
+        title: mission.subtopics.length ? `Practice: ${mission.subtopics.slice(0, 2).join(", ")}` : mission.template.practice,
         duration: "15 min",
         completed: false
       },
-      { id: `w${index + 1}-quiz`, type: "Quiz", title: "Quick Quiz", duration: "10 min", completed: false }
+      { id: `w${index + 1}-proof`, type: "Proof", title: mission.template.proof, duration: "5 min", completed: false }
     ]
   }));
 
@@ -462,7 +650,9 @@ function buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel,
     studyGoal,
     currentLevel,
     timePerDay,
-    summary: `A mission-style ${subjectName} roadmap built around ${chapter || studyGoal}. Start each mission, complete the work, submit proof, and unlock the next milestone.`,
+    summary: topicPlan.verified
+      ? `A dataset-grounded ${subjectName} roadmap for ${cleanAcademicText(chapter) || "selected textbook topics"}. Start each mission, complete the work, submit proof, and unlock the next milestone.`
+      : `${topicPlan.pendingMessage} This roadmap keeps the mission flow ready without inventing textbook topics.`,
     steps,
     progress: {
       completedSteps: 0,
@@ -836,24 +1026,50 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
   const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
   if (classNumber !== 10) return [];
   const requested = Array.isArray(requestedTopics)
-    ? requestedTopics.map((item) => String(item || "").trim()).filter(Boolean)
+    ? requestedTopics.map((item) => cleanAcademicText(item || "")).filter(Boolean)
     : [];
   const rows = [];
 
   for (const subject of subjects) {
     try {
       const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
+      const subjectRecord = record?.subject || record;
+      const verification = recordVerificationState(subjectRecord);
       const chapters = Array.isArray(record?.chapters || record?.subject?.chapters) ? record.chapters || record.subject.chapters : [];
+      if (!verification.verified || !chapters.length) {
+        rows.push({
+          subject,
+          chapter: "",
+          topic: "",
+          subtopics: [],
+          verified: false,
+          extractionStatus: verification.extractionStatus,
+          verificationStatus: verification.verificationStatus,
+          message: verification.message || "Verified academic topics for this selection are pending."
+        });
+        continue;
+      }
       for (const chapter of chapters) {
-        const chapterName = String(chapter?.chapter_name || chapter?.title || chapter?.name || "").trim();
+        const chapterName = cleanAcademicText(chapter?.chapter_name || chapter?.title || chapter?.name || "");
+        if (hasBrokenPdfText(chapterName)) continue;
         const topicList = Array.isArray(chapter?.topics) ? chapter.topics : [];
         if (!topicList.length && chapterName) {
-          rows.push({ subject, chapter: chapterName, topic: chapterName });
+          rows.push({ subject, chapter: chapterName, topic: chapterName, subtopics: [], verified: true });
         }
         for (const topic of topicList) {
-          const topicName = String(topic?.topic_name || topic?.title || topic?.name || topic || "").trim();
+          const topicName = cleanAcademicText(topic?.topic_name || topic?.title || topic?.name || topic || "");
           if (!topicName) continue;
-          rows.push({ subject, chapter: chapterName, topic: topicName });
+          if (hasBrokenPdfText(topicName)) continue;
+          rows.push({
+            subject,
+            chapter: chapterName,
+            topic: topicName,
+            subtopics: Array.isArray(topic?.subtopics) ? topic.subtopics.map(cleanAcademicText).filter(Boolean) : [],
+            verified: true,
+            extractionStatus: verification.extractionStatus,
+            verificationStatus: verification.verificationStatus,
+            message: verification.message
+          });
         }
       }
     } catch {
@@ -864,6 +1080,9 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
   const filtered = requested.length
     ? rows.filter((row) => requested.some((topic) => topic.toLowerCase() === row.topic.toLowerCase() || topic.toLowerCase() === row.chapter.toLowerCase()))
     : rows;
+  if (!filtered.length && rows.some((row) => row.verified === false)) {
+    return rows.filter((row) => row.verified === false).slice(0, 3);
+  }
   return filtered.slice(0, 80);
 }
 
@@ -998,14 +1217,16 @@ function buildHighSchoolAssistantFallbackAnswer({ message, assistantMode, classL
 exports.chatWithAi = asyncHandler(async (req, res) => {
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
+  const entitlement = await getSubscriptionEntitlement(req.user.id);
+  const dailyLimit = entitlement.aiChatDailyLimit || aiChatDailyLimit;
 
   const usedToday = await AiChatLog.countDocuments({
     userId: req.user.id,
     createdAt: { $gte: startOfDay }
   });
 
-  if (usedToday >= aiChatDailyLimit) {
-    throw new ApiError(429, `Daily AI limit reached (${aiChatDailyLimit}). Try again tomorrow.`);
+  if (usedToday >= dailyLimit) {
+    throw new ApiError(429, `Daily AI limit reached (${dailyLimit}). Try again tomorrow.`);
   }
 
   const assistantMode = req.body?.context?.assistantMode === "personalized" ? "personalized" : "general";
@@ -1087,7 +1308,10 @@ exports.chatWithAi = asyncHandler(async (req, res) => {
     meta: {
       provider,
       model,
-      remainingToday: Math.max(aiChatDailyLimit - usedToday - 1, 0)
+      isPremium: entitlement.isPremium,
+      planId: entitlement.planId,
+      dailyLimit,
+      remainingToday: Math.max(dailyLimit - usedToday - 1, 0)
     }
   });
 });
@@ -1107,6 +1331,8 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
   const questionCount = clampNumber(req.body?.questionCount, 5, 15, 9);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
   const focusTopic = String(req.body?.focusTopic || "").trim().slice(0, 80);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
+  const academicTopics = collectExamAcademicTopics({ board, classLevel, subjects, requestedTopics: focusTopic ? [focusTopic] : [] });
 
   const fallbackQuestions = buildSubjectGapFallbackQuiz({ subjects, questionCount, focusTopic });
   let source = "fallback";
@@ -1120,10 +1346,12 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
       "Return JSON only with this shape:",
       '{"questions":[{"id":"short-id","subject":"Mathematics|Science|English","topic":"topic name","question":"question text","options":["real answer 1","real answer 2","real answer 3","real answer 4"],"correct":"exact option text","explanation":"short explanation"}]}',
       `Class level: ${classLevel}.`,
+      `Board: ${board}.`,
       `Subjects: ${subjects.join(", ")}.`,
       focusTopic ? `Focus topic: ${focusTopic}.` : "Mix foundational topics across the selected subjects.",
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No verified textbook topics found for this selection. Avoid fake topic names."}.`,
       `Create exactly ${questionCount} questions.`,
-      "Rules: school-safe content, no adult career/marketplace content, each correct value must exactly match one option, concise explanations.",
+      "Rules: textbook-first, school-safe content, no adult career/marketplace content, each correct value must exactly match one option, concise explanations.",
       "Do not use placeholder options like A, B, C, D. Options must be the actual answer text."
     ].join("\n");
 
@@ -1255,12 +1483,18 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
   const chapter = String(req.body?.chapter || req.body?.topic || "").trim().slice(0, 80);
   const academicTopics = collectExamAcademicTopics({
+    board,
     classLevel,
     subjects: [subject],
     requestedTopics: chapter ? [chapter] : []
   });
+  const topicPlan = buildRoadmapTopicPlan(subject, chapter, academicTopics);
+  const subjectRules = roadmapMissionTemplate(subject)
+    .map((item, index) => `${index + 1}. ${item.label}: ${item.practice}; proof: ${item.proof}`)
+    .join("\n");
 
   let roadmap = buildFallbackHighSchoolStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, academicTopics });
   let source = "fallback";
@@ -1273,13 +1507,16 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       "Return JSON only with this exact shape:",
       '{"title":"Science Academic Mission Roadmap","goal":"Improve Science marks","summary":"short summary","steps":[{"id":"step-1","stepNumber":1,"title":"Life Processes Foundation","status":"active|locked|completed","completed":false,"canStart":true,"canSubmitProof":false,"proofRequired":true,"proofStatus":"not_submitted","startedAt":null,"completedAt":null,"missionType":"learning_mission","focus":"short focus","outcome":"what student proves","xpReward":20,"tasks":[{"id":"task-1","type":"Read|Practice|Quiz|Proof","title":"Read NCERT notes","duration":"15 min","completed":false}]}],"progress":{"completedSteps":0,"totalSteps":5,"progressPercent":0,"currentStepId":"step-1","lockHours":0},"certificatePrompt":"short prompt","reminders":["reminder"]}',
       `Class level: ${classLevel}.`,
+      `Board: ${board}.`,
       `Subject: ${subject}.`,
       `Chapter/topic focus: ${chapter || "use the most important syllabus topics"}.`,
-      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
+      `Dataset verification: ${topicPlan.verified ? "verified topic context available" : "verified topic context is pending or unreadable"}.`,
+      `Academic dataset topics: ${topicPlan.verified ? topicPlan.topics.map((item) => `${item.chapter} > ${item.topic}${item.subtopics?.length ? ` (${item.subtopics.slice(0, 3).join(", ")})` : ""}`).join("; ") : topicPlan.pendingMessage}.`,
+      `Subject-specific mission rules:\n${subjectRules}`,
       `Study goal: ${studyGoal}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
-      "Rules: create 5-6 sequential missions, each with proof-oriented tasks. Do not create weekly timetable rows. Prioritize Academic dataset topics when available. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
+      "Rules: create 5-6 sequential missions, each with proof-oriented tasks. Do not create weekly timetable rows. Prioritize Academic dataset topics when available. If verified dataset topics are not available, do not invent textbook chapter names; state that verified topic data is pending and keep tasks generic around opening the PDF/resource. Keep text concise and school-safe."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -1301,31 +1538,36 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         duration: String(task?.duration || "15 min").trim().slice(0, 30),
         completed: Boolean(task?.completed)
       });
-      const normalizeStep = (step, index) => ({
-        id: String(step?.id || `step-${index + 1}`).trim().slice(0, 80),
-        stepNumber: Number(step?.stepNumber || index + 1),
-        title: String(step?.title || "Core Topic Mission").trim().slice(0, 90),
-        status: ["active", "locked", "completed"].includes(String(step?.status || "").toLowerCase())
-          ? String(step.status).toLowerCase()
-          : index === 0 ? "active" : "locked",
-        completed: Boolean(step?.completed),
-        canStart: index === 0,
-        canSubmitProof: false,
-        proofRequired: true,
-        proofStatus: ["not_submitted", "submitted", "approved"].includes(String(step?.proofStatus || ""))
-          ? String(step.proofStatus)
-          : "not_submitted",
-        startedAt: step?.startedAt || null,
-        completedAt: step?.completedAt || null,
-        unlockedAt: index === 0 ? new Date() : null,
-        missionType: String(step?.missionType || "learning_mission").trim().slice(0, 40),
-        focus: String(step?.focus || "Complete tasks, practice, and submit proof.").trim().slice(0, 180),
-        outcome: String(step?.outcome || "Show your understanding with practice proof.").trim().slice(0, 180),
-        xpReward: clampNumber(step?.xpReward, 10, 100, 20),
-        tasks: Array.isArray(step?.tasks)
+      const normalizeStep = (step, index) => {
+        const fallbackStep = roadmap.steps[index] || {};
+        const parsedTitle = cleanAcademicText(step?.title || "");
+        const parsedTasks = Array.isArray(step?.tasks)
           ? step.tasks.map((task, taskIndex) => normalizeTask(task, `step-${index + 1}-task-${taskIndex + 1}`)).slice(0, 5)
-          : []
-      });
+          : [];
+        return {
+          id: String(step?.id || fallbackStep.id || `step-${index + 1}`).trim().slice(0, 80),
+          stepNumber: Number(step?.stepNumber || fallbackStep.stepNumber || index + 1),
+          title: (isGenericRoadmapText(parsedTitle) ? fallbackStep.title : parsedTitle || fallbackStep.title || "Core Topic Mission").slice(0, 90),
+          status: ["active", "locked", "completed"].includes(String(step?.status || "").toLowerCase())
+            ? String(step.status).toLowerCase()
+            : fallbackStep.status || (index === 0 ? "active" : "locked"),
+          completed: Boolean(step?.completed),
+          canStart: index === 0,
+          canSubmitProof: false,
+          proofRequired: true,
+          proofStatus: ["not_submitted", "submitted", "approved"].includes(String(step?.proofStatus || ""))
+            ? String(step.proofStatus)
+            : "not_submitted",
+          startedAt: step?.startedAt || null,
+          completedAt: step?.completedAt || null,
+          unlockedAt: index === 0 ? new Date() : null,
+          missionType: String(step?.missionType || fallbackStep.missionType || "learning_mission").trim().slice(0, 40),
+          focus: String(step?.focus || fallbackStep.focus || "Complete tasks, practice, and submit proof.").trim().slice(0, 180),
+          outcome: String(step?.outcome || fallbackStep.outcome || "Show your understanding with practice proof.").trim().slice(0, 180),
+          xpReward: clampNumber(step?.xpReward, 10, 100, fallbackStep.xpReward || 20),
+          tasks: parsedTasks.length ? parsedTasks : (Array.isArray(fallbackStep.tasks) ? fallbackStep.tasks : [])
+        };
+      };
       const steps = parsed.steps.map(normalizeStep).filter((step) => step.title).slice(0, 6);
       roadmap = {
         ...roadmap,
@@ -1364,7 +1606,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         domain: `Class ${classLevel}`,
         subDomain: subject,
         focus: chapter || studyGoal,
-        source: "highschool_ai_roadmap"
+        source: "assistant"
       },
       req.user.role
     );
@@ -1374,9 +1616,9 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         knownSkills: [currentLevel, subject].filter(Boolean),
         missingSkills: [chapter || studyGoal].filter(Boolean),
         readinessScore: Number(roadmap.progress?.progressPercent || 0),
-        level: currentLevel,
+        level: roadmapSkillLevel(currentLevel),
         roadmapSteps: missionTitles,
-        roadmapId: `highschool:${classLevel}:${subject}:${chapter || studyGoal}`
+        roadmapId: `highschool:${board}:${classLevel}:${subject}:${cleanAcademicText(chapter) || studyGoal}`
       },
       req.user.role
     );
@@ -1525,7 +1767,9 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
   const academicTopics = collectExamAcademicTopics({
+    board,
     classLevel,
     subjects: [subject],
     requestedTopics: skills.split(",").map((item) => item.trim()).filter(Boolean)
@@ -1542,6 +1786,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       "Return JSON only with this exact shape:",
       '{"title":"Science Study Plan","summary":"short summary","overallProgress":25,"weeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"active|locked|completed","progress":25,"focus":"short focus","tasks":[{"id":"task-1","type":"Read|Practice|Quiz|Test","title":"Read: States of Matter","duration":"15 min","completed":true}]}],"dailyTasks":[{"id":"task-1","type":"Read","title":"Read: States of Matter","duration":"15 min","completed":true}],"analytics":[{"label":"Revision","percent":35}],"adaptivePlan":{"newFocus":"Atoms & Molecules","reason":"why this focus","updatedWeeks":[{"id":"week-1","week":"Week 1","title":"Matter in Our Surroundings","status":"completed","progress":100,"focus":"done","tasks":[]}]},"reminders":["reminder"]}',
       `Class level: ${classLevel}.`,
+      `Board: ${board}.`,
       `Subject: ${subject}.`,
       `Study goal: ${goal}.`,
       `Current skills or chapters: ${skills}.`,
@@ -1635,6 +1880,7 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
     ? req.body.academicSubjects.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 6)
     : [];
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
 
   let explorer = buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel });
   let source = "fallback";
@@ -1647,6 +1893,7 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
       "Return JSON only with this exact shape:",
       '{"greeting":"Hi, Student!","summary":"short personalized summary","categories":["Science"],"careers":[{"title":"Doctor","field":"Healthcare & Medical","subjects":["Biology"],"skills":["Focus"],"nextStep":"next step","futureScope":"scope","fitScore":92,"salaryRange":"High growth"}],"featuredCareer":{"title":"Doctor","field":"Healthcare & Medical","subjects":["Biology"],"skills":["Focus"],"nextStep":"next step","futureScope":"scope","fitScore":92,"salaryRange":"High growth","overview":"career overview","workEnvironment":"Dynamic","jobSatisfaction":"Very high","roadmap":["step"],"skillRatings":[{"skill":"Communication","level":"High","percent":85}]},"compare":[{"title":"Doctor","factor":"Healthcare","salary":"High","growth":"High","satisfaction":"Very high","workLifeBalance":"Medium"}],"savedCareers":[{"title":"Doctor","field":"Healthcare"}],"progress":{"profileCompletion":72,"completed":["Interest Areas"],"pending":["Career Roadmap"]},"assistantPrompts":["prompt"],"subjectsCovered":["Physics"]}',
       `Class level: ${classLevel}.`,
+      `Board: ${board}.`,
       `Interest/category: ${interest}.`,
       `Student strengths/interests: ${strengths}.`,
       `Current school subjects/favorites: ${academicSubjects.join(", ") || "Not specified"}.`,
@@ -1744,11 +1991,12 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
   const examName = String(req.body?.examName || "Half Yearly Exam").trim().slice(0, 80);
   const examDate = String(req.body?.examDate || "").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "Class 10").trim().slice(0, 40);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
   const syllabus = String(req.body?.syllabus || "School syllabus").trim().slice(0, 120);
   const rawSubjects = Array.isArray(req.body?.subjects) ? req.body.subjects : [];
   const subjects = Array.from(new Set(rawSubjects.map(normalizeExamSubject).filter(Boolean))).slice(0, 8);
   const selectedTopics = Array.isArray(req.body?.topics) ? req.body.topics.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 40) : [];
-  const academicTopics = collectExamAcademicTopics({ classLevel, subjects, requestedTopics: selectedTopics });
+  const academicTopics = collectExamAcademicTopics({ board, classLevel, subjects, requestedTopics: selectedTopics });
 
   let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics });
   let source = "fallback";
@@ -1762,6 +2010,7 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       '{"expectedScore":85,"summary":"short strategy","priorityCounts":{"high":0,"medium":0,"low":0},"timeAllocation":[{"subject":"Mathematics","percent":28}],"highPriorityTopics":[{"subject":"Mathematics","topic":"Quadratic Equations","priority":"high|medium|low","weightageMarks":8,"reason":"why important","tasks":["task"]}],"weeklyPlan":[{"week":"Week 1","title":"title","tasks":["task"]}],"reminders":["reminder"]}',
       `Exam: ${examName}.`,
       `Exam date: ${examDate || "Not specified"}.`,
+      `Board: ${board}.`,
       `Class: ${classLevel}.`,
       `Syllabus: ${syllabus}.`,
       `Subjects: ${(subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5)).join(", ")}.`,
@@ -1858,7 +2107,9 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
   const goal = String(req.body?.goal || "Create a school-ready project with proof").trim().slice(0, 160);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "10").trim().slice(0, 40);
   const difficulty = String(req.body?.difficulty || "Medium").trim().slice(0, 30);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
   const academicTopics = collectExamAcademicTopics({
+    board,
     classLevel,
     subjects: [subject],
     requestedTopics: chapter ? [chapter] : []
@@ -1875,6 +2126,7 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
       "Return JSON only with this exact shape:",
       '{"title":"Science School Projects","summary":"short summary","projects":[{"id":"project-1","title":"Working model","type":"Model|Research|Presentation|Experiment","difficulty":"Medium","duration":"2 days","why":"why useful","materials":["item"],"steps":["step"],"outcome":"learning outcome","proofRequired":true,"teacherFeedbackPrompt":"short prompt"}]}',
       `Class: ${classLevel}.`,
+      `Board: ${board}.`,
       `Subject: ${subject}.`,
       `Chapter/topic: ${chapter}.`,
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
@@ -1993,13 +2245,15 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
 
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
+  const entitlement = await getSubscriptionEntitlement(req.user.id);
+  const dailyLimit = entitlement.aiChatDailyLimit || aiChatDailyLimit;
   const usedToday = await AiChatLog.countDocuments({
     userId: req.user.id,
     createdAt: { $gte: startOfDay },
     "context.feature": "highschool_chat_assistant"
   });
-  if (usedToday >= aiChatDailyLimit) {
-    throw new ApiError(429, `Daily AI limit reached (${aiChatDailyLimit}). Try again tomorrow.`);
+  if (usedToday >= dailyLimit) {
+    throw new ApiError(429, `Daily AI limit reached (${dailyLimit}). Try again tomorrow.`);
   }
 
   const message = String(req.body?.message || "").trim().slice(0, 4000);
@@ -2011,6 +2265,10 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   const classLevel = String(req.body?.academicContext?.classLevel || profile?.classLevel || profile?.className || "10")
     .trim()
     .slice(0, 30);
+  const board = String(req.body?.academicContext?.board || req.body?.academicContext?.academicBoard || "SSC")
+    .trim()
+    .toUpperCase()
+    .slice(0, 20);
   const subject = String(req.body?.academicContext?.subject || "").trim().slice(0, 80);
   const chapter = String(req.body?.academicContext?.chapter || "").trim().slice(0, 120);
   const isGreeting = /^(hi|hii|hello|hey|namaste|good\s*(morning|afternoon|evening)|yo)[\s!.]*$/i.test(message);
@@ -2019,6 +2277,7 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   if (assistantMode === "academic" && subject && classNumber === 10) {
     try {
       academicSummary = summarizeAcademicContext({
+        board,
         classNumber,
         subject,
         chapterName: chapter || undefined
@@ -2045,6 +2304,7 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
       ? "You are ORIN High School General Assistant. Answer naturally, clearly, and directly to user prompt."
       : "You are ORIN High School Academic Assistant. Give concise, exam-useful answer grounded in class/subject/chapter context.",
     `Mode: ${assistantMode}`,
+    `Board: ${board}`,
     `Class: ${classLevel}`,
     `Subject: ${subject || "Not specified"}`,
     `Chapter: ${chapter || "Not specified"}`,
@@ -2095,7 +2355,7 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   const context = {
     feature: "highschool_chat_assistant",
     assistantMode,
-    academicContext: { classLevel, subject, chapter },
+    academicContext: { board, classLevel, subject, chapter },
     source
   };
 
@@ -2120,7 +2380,10 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
     provider,
     model,
     meta: {
-      remainingToday: Math.max(aiChatDailyLimit - usedToday - 1, 0)
+      isPremium: entitlement.isPremium,
+      planId: entitlement.planId,
+      dailyLimit,
+      remainingToday: Math.max(dailyLimit - usedToday - 1, 0)
     }
   });
 });

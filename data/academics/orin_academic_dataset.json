@@ -33971,197 +33971,736 @@
           }
         ]
       },
-      "english": {
+      "biology": {
         "metadata": {
           "board": "SSC",
           "class": 10,
-          "subject": "English",
+          "subject": "Biology",
           "year": "2026",
-          "source": "curated_generation",
-          "source_type": "generated_fallback"
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/Biology.PDF",
+          "source_type": "manual_pdf",
+          "extraction_status": "verified_text_extracted",
+          "verification_status": "pdf_toc_source_backed",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
         },
         "chapters": [
           {
             "chapter_no": 1,
-            "chapter_name": "First Flight Prose",
+            "chapter_name": "Nutrition",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Nutrition - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In First Flight Prose",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           },
           {
             "chapter_no": 2,
-            "chapter_name": "First Flight Poetry",
+            "chapter_name": "Respiration",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Respiration - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In First Flight Poetry",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           },
           {
             "chapter_no": 3,
-            "chapter_name": "Footprints Without Feet",
+            "chapter_name": "Circulation",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Circulation - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In Footprints Without Feet",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           },
           {
             "chapter_no": 4,
-            "chapter_name": "Grammar And Integrated Exercises",
+            "chapter_name": "Excretion",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Excretion - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In Grammar And Integrated Exercises",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           },
           {
             "chapter_no": 5,
-            "chapter_name": "Analytical Paragraph And Letters",
+            "chapter_name": "Coordination",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Coordination - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In Analytical Paragraph And Letters",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           },
           {
             "chapter_no": 6,
-            "chapter_name": "Speaking And Listening Assessment",
+            "chapter_name": "Reproduction",
             "topics": [
               {
-                "topic_name": "Reading And Appreciation",
+                "topic_name": "Reproduction - Concept Understanding",
                 "subtopics": [
-                  "Theme, Setting, And Main Ideas In Speaking And Listening Assessment",
-                  "Characters, Speaker, Narrator, Or Point Of View",
-                  "Vocabulary, Idioms, And Contextual Meaning"
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
                 ]
               },
               {
-                "topic_name": "Language Study",
+                "topic_name": "Diagrams And Labels",
                 "subtopics": [
-                  "Grammar And Usage From The Lesson",
-                  "Sentence Patterns, Punctuation, And Word Forms",
-                  "Figures Of Speech Or Literary Devices Where Applicable"
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
                 ]
               },
               {
-                "topic_name": "Writing And Expression",
+                "topic_name": "Textbook Questions",
                 "subtopics": [
-                  "Short Answers And Long Answers",
-                  "Creative, Descriptive, Or Formal Writing",
-                  "Listening, Speaking, Recitation, Or Presentation Tasks"
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 7,
+            "chapter_name": "Coordination In Life Processes",
+            "topics": [
+              {
+                "topic_name": "Coordination In Life Processes - Concept Understanding",
+                "subtopics": [
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Labels",
+                "subtopics": [
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Textbook Questions",
+                "subtopics": [
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 8,
+            "chapter_name": "Heredity - Evolution",
+            "topics": [
+              {
+                "topic_name": "Heredity - Evolution - Concept Understanding",
+                "subtopics": [
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Labels",
+                "subtopics": [
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Textbook Questions",
+                "subtopics": [
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 9,
+            "chapter_name": "Our Environment",
+            "topics": [
+              {
+                "topic_name": "Our Environment - Concept Understanding",
+                "subtopics": [
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Labels",
+                "subtopics": [
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Textbook Questions",
+                "subtopics": [
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 10,
+            "chapter_name": "Natural Resources",
+            "topics": [
+              {
+                "topic_name": "Natural Resources - Concept Understanding",
+                "subtopics": [
+                  "Life Process",
+                  "Key Definitions",
+                  "Textbook Flow"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Labels",
+                "subtopics": [
+                  "Important Diagrams",
+                  "Parts And Functions",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Textbook Questions",
+                "subtopics": [
+                  "Short Answers",
+                  "Reasoning Questions",
+                  "Application Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Key Terms",
+                  "Compare And Differentiate",
+                  "Final Quiz"
                 ]
               }
             ]
           }
         ]
+      },
+      "english": {
+        "metadata": {
+          "board": "SSC",
+          "class": 10,
+          "subject": "English",
+          "year": "2026",
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/english.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "verified_text_extracted",
+          "verification_status": "pdf_toc_source_backed",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+        },
+        "chapters": [
+          {
+            "chapter_no": 1,
+            "chapter_name": "Personality Development",
+            "topics": [
+              {
+                "topic_name": "Personality Development - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 2,
+            "chapter_name": "Wit And Humour",
+            "topics": [
+              {
+                "topic_name": "Wit And Humour - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 3,
+            "chapter_name": "Human Relations",
+            "topics": [
+              {
+                "topic_name": "Human Relations - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 4,
+            "chapter_name": "Films And Theatre",
+            "topics": [
+              {
+                "topic_name": "Films And Theatre - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 5,
+            "chapter_name": "Social Issues",
+            "topics": [
+              {
+                "topic_name": "Social Issues - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 6,
+            "chapter_name": "Bio-Diversity",
+            "topics": [
+              {
+                "topic_name": "Bio-Diversity - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 7,
+            "chapter_name": "Nation And Diversity",
+            "topics": [
+              {
+                "topic_name": "Nation And Diversity - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 8,
+            "chapter_name": "Human Rights",
+            "topics": [
+              {
+                "topic_name": "Human Rights - Reading",
+                "subtopics": [
+                  "Text Reading",
+                  "Main Idea",
+                  "Important Lines"
+                ]
+              },
+              {
+                "topic_name": "Vocabulary And Meanings",
+                "subtopics": [
+                  "New Words",
+                  "Meanings",
+                  "Sentence Use"
+                ]
+              },
+              {
+                "topic_name": "Grammar And Writing",
+                "subtopics": [
+                  "Grammar Points",
+                  "Writing Practice",
+                  "Exam Format"
+                ]
+              },
+              {
+                "topic_name": "Question Answers",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Revision Questions"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "hindi": {
+        "metadata": {
+          "board": "SSC",
+          "class": 10,
+          "subject": "Hindi",
+          "year": "2026",
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/hindi.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "pending_ocr",
+          "verification_status": "needs_review",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Hindi PDF text is font-encoded and Hindi OCR language data is not installed yet. Topics will appear after Hindi OCR verification."
+        },
+        "chapters": []
       },
       "ict": {
         "metadata": {
@@ -34361,409 +34900,580 @@
           "class": 10,
           "subject": "Mathematics",
           "year": "2026",
-          "source": "curated_generation",
-          "source_type": "generated_fallback"
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/maths.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "verified_text_extracted",
+          "verification_status": "pdf_toc_source_backed",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
         },
         "chapters": [
           {
             "chapter_no": 1,
-            "chapter_name": "Linear Equations In Two Variables",
+            "chapter_name": "Real Numbers",
             "topics": [
               {
-                "topic_name": "Linear Equation Form",
+                "topic_name": "Real Numbers - Concepts",
                 "subtopics": [
-                  "Ax + By + C = 0 Form",
-                  "Solution As An Ordered Pair",
-                  "Graph Of A Linear Equation"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Solving Pair Of Equations",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Graphical Method",
-                  "Substitution Method",
-                  "Elimination Method",
-                  "Cross Multiplication Method"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Number Problems",
-                  "Age Problems",
-                  "Speed Distance Time Problems",
-                  "Money And Mixture Problems"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 2,
-            "chapter_name": "Quadratic Equations",
+            "chapter_name": "Sets",
             "topics": [
               {
-                "topic_name": "Standard Form And Roots",
+                "topic_name": "Sets - Concepts",
                 "subtopics": [
-                  "Ax^2 + Bx + C = 0",
-                  "Roots Of A Quadratic Equation",
-                  "Nature Of Roots Using Discriminant"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Solution Methods",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Factorisation Method",
-                  "Completing The Square",
-                  "Quadratic Formula"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Area Based Problems",
-                  "Number Problems",
-                  "Motion And Height Problems"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 3,
-            "chapter_name": "Arithmetic Progression",
+            "chapter_name": "Polynomials",
             "topics": [
               {
-                "topic_name": "Sequence Basics",
+                "topic_name": "Polynomials - Concepts",
                 "subtopics": [
-                  "Terms Of An Ap",
-                  "Common Difference",
-                  "Finite And Infinite Ap"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Formulae",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Nth Term Of An Ap",
-                  "Sum Of First N Terms",
-                  "Finding Missing Terms"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Pattern Based Questions",
-                  "Savings And Installment Problems",
-                  "Arrangement Problems"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 4,
-            "chapter_name": "Financial Planning",
+            "chapter_name": "Pair Of Linear Equations In Two Variables",
             "topics": [
               {
-                "topic_name": "Tax And Income",
+                "topic_name": "Pair Of Linear Equations In Two Variables - Concepts",
                 "subtopics": [
-                  "Income Tax Slabs",
-                  "Taxable Income",
-                  "Deductions And Rebates"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Savings And Investments",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Simple Interest",
-                  "Compound Interest",
-                  "Recurring Deposits And Returns"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Practical Calculations",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Budget Planning",
-                  "Profit And Loss",
-                  "Discount And Bill Calculation"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 5,
-            "chapter_name": "Probability",
+            "chapter_name": "Quadratic Equations",
             "topics": [
               {
-                "topic_name": "Random Experiments",
+                "topic_name": "Quadratic Equations - Concepts",
                 "subtopics": [
-                  "Outcomes",
-                  "Sample Space",
-                  "Events"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Probability Calculation",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Favourable Outcomes",
-                  "Equally Likely Outcomes",
-                  "Complementary Events"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Examples",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Coins",
-                  "Dice",
-                  "Cards",
-                  "Real-Life Chance Situations"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 6,
-            "chapter_name": "Statistics",
+            "chapter_name": "Progressions",
             "topics": [
               {
-                "topic_name": "Data Organization",
+                "topic_name": "Progressions - Concepts",
                 "subtopics": [
-                  "Raw Data",
-                  "Frequency Distribution",
-                  "Grouped Data"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Measures Of Central Tendency",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Mean",
-                  "Median",
-                  "Mode"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Representation And Interpretation",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Bar Graphs",
-                  "Histograms",
-                  "Ogives",
-                  "Interpreting Results"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 7,
-            "chapter_name": "Similarity",
+            "chapter_name": "Coordinate Geometry",
             "topics": [
               {
-                "topic_name": "Similar Figures",
+                "topic_name": "Coordinate Geometry - Concepts",
                 "subtopics": [
-                  "Corresponding Angles",
-                  "Corresponding Sides",
-                  "Scale Factor"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Similarity Of Triangles",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Aaa Test",
-                  "Sas Test",
-                  "Sss Test"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Heights And Distances",
-                  "Map Scale",
-                  "Area Relation Of Similar Triangles"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 8,
-            "chapter_name": "Pythagoras Theorem",
+            "chapter_name": "Similar Triangles",
             "topics": [
               {
-                "topic_name": "Right Triangle Relation",
+                "topic_name": "Similar Triangles - Concepts",
                 "subtopics": [
-                  "Hypotenuse",
-                  "Legs Of A Right Triangle",
-                  "A^2 + B^2 = C^2"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Converse And Proof",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Converse Of Pythagoras Theorem",
-                  "Verification By Areas",
-                  "Proof Based Questions"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Finding Unknown Side",
-                  "Diagonal Problems",
-                  "Distance In Coordinate Plane"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 9,
-            "chapter_name": "Circle",
+            "chapter_name": "Tangents And Secants To A Circle",
             "topics": [
               {
-                "topic_name": "Circle Terms",
+                "topic_name": "Tangents And Secants To A Circle - Concepts",
                 "subtopics": [
-                  "Radius",
-                  "Diameter",
-                  "Chord",
-                  "Arc",
-                  "Sector",
-                  "Segment"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Tangents And Secants",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Tangent At A Point",
-                  "Length Of Tangents From An External Point",
-                  "Secant Properties"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Angle Properties",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Angle Subtended By Chord",
-                  "Cyclic Quadrilateral",
-                  "Inscribed Angle Theorem"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 10,
-            "chapter_name": "Geometric Constructions",
+            "chapter_name": "Mensuration",
             "topics": [
               {
-                "topic_name": "Basic Constructions",
+                "topic_name": "Mensuration - Concepts",
                 "subtopics": [
-                  "Perpendicular Bisector",
-                  "Angle Bisector",
-                  "Parallel Lines"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Triangle Constructions",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Constructing Triangles From Given Measures",
-                  "Similar Triangle Construction",
-                  "Scale Factor Construction"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Circle Constructions",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Tangents To A Circle",
-                  "Touching Circle Constructions",
-                  "Verification Of Construction Steps"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 11,
-            "chapter_name": "Coordinate Geometry",
+            "chapter_name": "Trigonometry",
             "topics": [
               {
-                "topic_name": "Cartesian Plane",
+                "topic_name": "Trigonometry - Concepts",
                 "subtopics": [
-                  "Axes",
-                  "Quadrants",
-                  "Plotting Points"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Distance And Section",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Distance Formula",
-                  "Section Formula",
-                  "Midpoint Formula"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Area And Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Area Of Triangle",
-                  "Collinearity",
-                  "Coordinate Geometry Word Problems"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 12,
-            "chapter_name": "Trigonometry",
+            "chapter_name": "Applications Of Trigonometry",
             "topics": [
               {
-                "topic_name": "Trigonometric Ratios",
+                "topic_name": "Applications Of Trigonometry - Concepts",
                 "subtopics": [
-                  "Sine",
-                  "Cosine",
-                  "Tangent",
-                  "Cosecant",
-                  "Secant",
-                  "Cotangent"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Identities And Values",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Standard Angle Values",
-                  "Complementary Angle Relations",
-                  "Basic Trigonometric Identities"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Applications",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Heights And Distances",
-                  "Angle Of Elevation",
-                  "Angle Of Depression"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
           },
           {
             "chapter_no": 13,
-            "chapter_name": "Mensuration",
+            "chapter_name": "Probability",
             "topics": [
               {
-                "topic_name": "Plane Figures",
+                "topic_name": "Probability - Concepts",
                 "subtopics": [
-                  "Area",
-                  "Perimeter",
-                  "Circle Area And Circumference"
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
                 ]
               },
               {
-                "topic_name": "Solid Figures",
+                "topic_name": "Solved Examples",
                 "subtopics": [
-                  "Cube",
-                  "Cuboid",
-                  "Cylinder",
-                  "Cone",
-                  "Sphere"
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
                 ]
               },
               {
-                "topic_name": "Surface Area And Volume",
+                "topic_name": "Exercise Practice",
                 "subtopics": [
-                  "Curved Surface Area",
-                  "Total Surface Area",
-                  "Volume",
-                  "Combination Of Solids"
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 14,
+            "chapter_name": "Statistics",
+            "topics": [
+              {
+                "topic_name": "Statistics - Concepts",
+                "subtopics": [
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
+                ]
+              },
+              {
+                "topic_name": "Solved Examples",
+                "subtopics": [
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
+                ]
+              },
+              {
+                "topic_name": "Exercise Practice",
+                "subtopics": [
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 15,
+            "chapter_name": "Mathematical Modelling",
+            "topics": [
+              {
+                "topic_name": "Mathematical Modelling - Concepts",
+                "subtopics": [
+                  "Definitions",
+                  "Formula Map",
+                  "Standard Results"
+                ]
+              },
+              {
+                "topic_name": "Solved Examples",
+                "subtopics": [
+                  "Textbook Examples",
+                  "Step-Wise Method",
+                  "Common Mistakes"
+                ]
+              },
+              {
+                "topic_name": "Exercise Practice",
+                "subtopics": [
+                  "Basic Problems",
+                  "Application Problems",
+                  "Exam Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "Important Formulae",
+                  "One-Mark Questions",
+                  "Final Practice Test"
                 ]
               }
             ]
@@ -35136,6 +35846,478 @@
                   "Daily-Life And Technology Examples",
                   "Experimental Verification And Inference",
                   "Higher-Order And Exam-Style Questions"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "physics": {
+        "metadata": {
+          "board": "SSC",
+          "class": 10,
+          "subject": "Physics",
+          "year": "2026",
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/physics.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "verified_text_extracted",
+          "verification_status": "pdf_toc_source_backed",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
+        },
+        "chapters": [
+          {
+            "chapter_no": 1,
+            "chapter_name": "Reflection Of Light At Curved Surfaces",
+            "topics": [
+              {
+                "topic_name": "Reflection Of Light At Curved Surfaces - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 2,
+            "chapter_name": "Chemical Equations",
+            "topics": [
+              {
+                "topic_name": "Chemical Equations - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 3,
+            "chapter_name": "Acids, Bases And Salts",
+            "topics": [
+              {
+                "topic_name": "Acids, Bases And Salts - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 4,
+            "chapter_name": "Refraction Of Light At Curved Surfaces",
+            "topics": [
+              {
+                "topic_name": "Refraction Of Light At Curved Surfaces - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 5,
+            "chapter_name": "Human Eye And Colourful World",
+            "topics": [
+              {
+                "topic_name": "Human Eye And Colourful World - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 6,
+            "chapter_name": "Structure Of Atom",
+            "topics": [
+              {
+                "topic_name": "Structure Of Atom - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 7,
+            "chapter_name": "Classification Of Elements - The Periodic Table",
+            "topics": [
+              {
+                "topic_name": "Classification Of Elements - The Periodic Table - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 8,
+            "chapter_name": "Chemical Bonding",
+            "topics": [
+              {
+                "topic_name": "Chemical Bonding - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 9,
+            "chapter_name": "Electric Current",
+            "topics": [
+              {
+                "topic_name": "Electric Current - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 10,
+            "chapter_name": "Electromagnetism",
+            "topics": [
+              {
+                "topic_name": "Electromagnetism - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 11,
+            "chapter_name": "Principles Of Metallurgy",
+            "topics": [
+              {
+                "topic_name": "Principles Of Metallurgy - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
+                ]
+              }
+            ]
+          },
+          {
+            "chapter_no": 12,
+            "chapter_name": "Carbon And Its Compounds",
+            "topics": [
+              {
+                "topic_name": "Carbon And Its Compounds - Core Concept",
+                "subtopics": [
+                  "Definitions",
+                  "Laws And Principles",
+                  "Important Terms"
+                ]
+              },
+              {
+                "topic_name": "Diagrams And Experiments",
+                "subtopics": [
+                  "Ray/Process Diagrams",
+                  "Lab Activity",
+                  "Observation Points"
+                ]
+              },
+              {
+                "topic_name": "Numericals And Applications",
+                "subtopics": [
+                  "Formula Use",
+                  "Solved Problems",
+                  "Daily-Life Applications"
+                ]
+              },
+              {
+                "topic_name": "Exam Practice",
+                "subtopics": [
+                  "Short Answers",
+                  "Long Answers",
+                  "Final Quiz"
                 ]
               }
             ]
@@ -35760,696 +36942,808 @@
           "class": 10,
           "subject": "Social Science",
           "year": "2026",
-          "source": "curated_generation",
-          "source_type": "generated_fallback"
+          "source": "raw_data/manual_pdfs/SSC TELANGANA/class 10/social.pdf",
+          "source_type": "manual_pdf",
+          "extraction_status": "verified_text_extracted",
+          "verification_status": "pdf_toc_source_backed",
+          "source_note": "Chapter names are sourced from the uploaded SSC Telangana Class 10 textbook PDF contents/index page.",
+          "extraction_message": "Readable PDF text/index was extracted and converted into app-ready chapter/topic records."
         },
         "chapters": [
           {
             "chapter_no": 1,
-            "chapter_name": "Historiography Development In The West",
+            "chapter_name": "India: Relief Features",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "India: Relief Features - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Historiography Development In The West",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 2,
-            "chapter_name": "Historiography Indian Tradition",
+            "chapter_name": "Ideas Of Development",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Ideas Of Development - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Historiography Indian Tradition",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 3,
-            "chapter_name": "Applied History",
+            "chapter_name": "Production And Employment",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Production And Employment - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Applied History",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 4,
-            "chapter_name": "History Of Indian Arts",
+            "chapter_name": "Climate Of India",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Climate Of India - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In History Of Indian Arts",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 5,
-            "chapter_name": "Mass Media And History",
+            "chapter_name": "Indian Rivers And Water Resources",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Indian Rivers And Water Resources - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Mass Media And History",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 6,
-            "chapter_name": "Entertainment And History",
+            "chapter_name": "The Population",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "The Population - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Entertainment And History",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 7,
-            "chapter_name": "Sports And History",
+            "chapter_name": "Settlements - Migrations",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Settlements - Migrations - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Sports And History",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 8,
-            "chapter_name": "Tourism And History",
+            "chapter_name": "Rampur: A Village Economy",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Rampur: A Village Economy - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Tourism And History",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 9,
-            "chapter_name": "Heritage Management",
+            "chapter_name": "Globalisation",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Globalisation - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Heritage Management",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 10,
-            "chapter_name": "Working Of The Constitution",
+            "chapter_name": "Food Security",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Food Security - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Working Of The Constitution",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 11,
-            "chapter_name": "Electoral Process",
+            "chapter_name": "Sustainable Development With Equity",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Sustainable Development With Equity - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Electoral Process",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 12,
-            "chapter_name": "Political Parties",
+            "chapter_name": "World Between The World Wars (1914-1945)",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "World Between The World Wars (1914-1945) - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Political Parties",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 13,
-            "chapter_name": "Social And Political Movements",
+            "chapter_name": "National Liberation Movements In The Colonies",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "National Liberation Movements In The Colonies - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Social And Political Movements",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 14,
-            "chapter_name": "Challenges Faced By Indian Democracy",
+            "chapter_name": "National Movement In India - Partition And Independence: 1939-1947",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "National Movement In India - Partition And Independence: 1939-1947 - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Challenges Faced By Indian Democracy",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 15,
-            "chapter_name": "Field Visit",
+            "chapter_name": "The Making Of Independent India'S Constitution",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "The Making Of Independent India'S Constitution - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Field Visit",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 16,
-            "chapter_name": "Location And Extent Of India",
+            "chapter_name": "Election Process In India",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Election Process In India - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Location And Extent Of India",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 17,
-            "chapter_name": "Physiography And Drainage",
+            "chapter_name": "Independent India: The First 30 Years (1947-77)",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Independent India: The First 30 Years (1947-77) - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Physiography And Drainage",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 18,
-            "chapter_name": "Climate",
+            "chapter_name": "Emerging Political Trends 1977 To 2000",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Emerging Political Trends 1977 To 2000 - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Climate",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 19,
-            "chapter_name": "Natural Vegetation And Wildlife",
+            "chapter_name": "Post-War World And India",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Post-War World And India - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Natural Vegetation And Wildlife",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 20,
-            "chapter_name": "Population",
+            "chapter_name": "Social Movements In Our Times",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "Social Movements In Our Times - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Population",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
+                ]
+              },
+              {
+                "topic_name": "Revision Check",
+                "subtopics": [
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
           },
           {
             "chapter_no": 21,
-            "chapter_name": "Human Settlements",
+            "chapter_name": "The Movement For The Formation Of Telangana State",
             "topics": [
               {
-                "topic_name": "Key Ideas And Terms",
+                "topic_name": "The Movement For The Formation Of Telangana State - Main Ideas",
                 "subtopics": [
-                  "Main Ideas In Human Settlements",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Key Concepts",
+                  "Important Places/Events",
+                  "Textbook Context"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Maps, Terms And Dates",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
+                  "Map Points",
+                  "Important Terms",
+                  "Timeline/Dates"
                 ]
               },
               {
-                "topic_name": "Civic And Real-Life Connections",
+                "topic_name": "Answer Writing",
                 "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 22,
-            "chapter_name": "Economy And Occupations",
-            "topics": [
-              {
-                "topic_name": "Key Ideas And Terms",
-                "subtopics": [
-                  "Main Ideas In Economy And Occupations",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
+                  "Short Answers",
+                  "Long Answers",
+                  "Case-Based Questions"
                 ]
               },
               {
-                "topic_name": "Evidence And Interpretation",
+                "topic_name": "Revision Check",
                 "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
-                ]
-              },
-              {
-                "topic_name": "Civic And Real-Life Connections",
-                "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
-                ]
-              }
-            ]
-          },
-          {
-            "chapter_no": 23,
-            "chapter_name": "Tourism Transport And Communication",
-            "topics": [
-              {
-                "topic_name": "Key Ideas And Terms",
-                "subtopics": [
-                  "Main Ideas In Tourism Transport And Communication",
-                  "Important People, Places, Events, Or Features",
-                  "Keywords And Definitions"
-                ]
-              },
-              {
-                "topic_name": "Evidence And Interpretation",
-                "subtopics": [
-                  "Maps, Timelines, Pictures, Tables, Or Sources",
-                  "Comparison And Cause-Effect Relationships",
-                  "Reading, Locating, And Interpreting Information"
-                ]
-              },
-              {
-                "topic_name": "Civic And Real-Life Connections",
-                "subtopics": [
-                  "Rights, Duties, Environment, Or Community Links",
-                  "Local, National, And Global Examples",
-                  "Short Answers, Long Answers, And Project Work"
+                  "One-Mark Questions",
+                  "Important Questions",
+                  "Final Practice"
                 ]
               }
             ]
@@ -36473,10 +37767,6 @@
           {
             "chapter_no": 1,
             "chapter_name": "వానలు",
-            "author": "వానమామలై వరదాచార్యులు",
-            "theme": "పర్యావరణం",
-            "genre": "గేయం",
-            "page": 2,
             "topics": [
               {
                 "topic_name": "వానలు",
@@ -36531,10 +37821,6 @@
           {
             "chapter_no": 2,
             "chapter_name": "స్నేహగీతి",
-            "author": "దాశరథి కృష్ణమాచార్య",
-            "theme": "స్నేహం విలువ",
-            "genre": "గేయం",
-            "page": 11,
             "topics": [
               {
                 "topic_name": "స్నేహగీతి",
@@ -36589,10 +37875,6 @@
           {
             "chapter_no": 3,
             "chapter_name": "సత్పాత్రదానము",
-            "author": "భండారు అచ్చమాంబ",
-            "theme": "పరోపకారం",
-            "genre": "కథ",
-            "page": 19,
             "topics": [
               {
                 "topic_name": "సత్పాత్రదానము",
@@ -36647,10 +37929,6 @@
           {
             "chapter_no": 4,
             "chapter_name": "అసామాన్యులు",
-            "author": "కావూరి పాపయ్య శాస్త్రి",
-            "theme": "శ్రమజీవన సౌందర్యం",
-            "genre": "గేయకవిత",
-            "page": 29,
             "topics": [
               {
                 "topic_name": "అసామాన్యులు",
@@ -36705,10 +37983,6 @@
           {
             "chapter_no": 5,
             "chapter_name": "విహారయాత్ర",
-            "author": "-",
-            "theme": "గిరిజన సంస్కృతి",
-            "genre": "సంభాషణ",
-            "page": 39,
             "topics": [
               {
                 "topic_name": "విహారయాత్ర",
@@ -36763,10 +38037,6 @@
           {
             "chapter_no": 6,
             "chapter_name": "మాతృదేశం",
-            "author": "కాళోజీ నారాయణరావు",
-            "theme": "దేశభక్తి",
-            "genre": "వచనకవిత",
-            "page": 50,
             "topics": [
               {
                 "topic_name": "మాతృదేశం",
@@ -36821,10 +38091,6 @@
           {
             "chapter_no": 7,
             "chapter_name": "నా చదువు",
-            "author": "సంగం లక్ష్మీబాయి",
-            "theme": "స్త్రీ సాధికారత",
-            "genre": "ఆత్మకథ",
-            "page": 61,
             "topics": [
               {
                 "topic_name": "నా చదువు",
@@ -36879,10 +38145,6 @@
           {
             "chapter_no": 8,
             "chapter_name": "బాల్యక్రీడలు",
-            "author": "బమ్మెర పోతన",
-            "theme": "పిల్లల స్వభావం",
-            "genre": "పద్యం",
-            "page": 70,
             "topics": [
               {
                 "topic_name": "బాల్యక్రీడలు",
@@ -36937,10 +38199,6 @@
           {
             "chapter_no": 9,
             "chapter_name": "బడి",
-            "author": "మాదిరెడ్డి సులోచన",
-            "theme": "సామాజిక బాధ్యత",
-            "genre": "కథానిక",
-            "page": 80,
             "topics": [
               {
                 "topic_name": "బడి",
@@ -36995,10 +38253,6 @@
           {
             "chapter_no": 10,
             "chapter_name": "గోలకొండ కోట",
-            "author": "వేముగంటి నరసింహాచార్యులు",
-            "theme": "తెలంగాణ చారిత్రక వైభవం",
-            "genre": "పద్యం",
-            "page": 91,
             "topics": [
               {
                 "topic_name": "గోలకొండ కోట",
@@ -37053,10 +38307,6 @@
           {
             "chapter_no": 11,
             "chapter_name": "సాహితీమూర్తి",
-            "author": "బి.ఎన్. శాస్త్రి",
-            "theme": "స్ఫూర్తి",
-            "genre": "అభినందన వ్యాసం",
-            "page": 101,
             "topics": [
               {
                 "topic_name": "సాహితీమూర్తి",
@@ -37111,10 +38361,6 @@
           {
             "chapter_no": 12,
             "chapter_name": "శతక పద్యాలు",
-            "author": "శతక కవులు",
-            "theme": "నైతిక విలువలు",
-            "genre": "పద్యం",
-            "page": 111,
             "topics": [
               {
                 "topic_name": "శతక పద్యాలు",
@@ -37169,10 +38415,6 @@
           {
             "chapter_no": 13,
             "chapter_name": "భాగ్యోదయం",
-            "author": "కృష్ణస్వామి ముదిరాజ్",
-            "theme": "సంఘసేవ / సామాజికస్పృహ",
-            "genre": "జీవిత చరిత్ర",
-            "page": 122,
             "topics": [
               {
                 "topic_name": "భాగ్యోదయం",
@@ -37227,10 +38469,6 @@
           {
             "chapter_no": 14,
             "chapter_name": "ప్రపంచపదులు",
-            "author": "సి. నారాయణరెడ్డి",
-            "theme": "వ్యక్తిత్వ వికాసం",
-            "genre": "కవిత",
-            "page": 131,
             "topics": [
               {
                 "topic_name": "ప్రపంచపదులు",
@@ -37285,10 +38523,6 @@
           {
             "chapter_no": 15,
             "chapter_name": "సీతమ్మ గారి సీమ ప్రయాణం",
-            "author": "పాకాల యశోదారెడ్డి",
-            "theme": "హాస్యం",
-            "genre": "కథ",
-            "page": 140,
             "topics": [
               {
                 "topic_name": "సీతమ్మ గారి సీమ ప్రయాణం",
@@ -37343,10 +38577,6 @@
           {
             "chapter_no": 16,
             "chapter_name": "హితబోధ",
-            "author": "గోనబుద్ధారెడ్డి",
-            "theme": "హితోపదేశం",
-            "genre": "ద్విపద",
-            "page": 149,
             "topics": [
               {
                 "topic_name": "హితబోధ",
@@ -37401,10 +38631,6 @@
           {
             "chapter_no": 17,
             "chapter_name": "పుస్తకాలు మన నిత్య సహచరులు",
-            "author": "ఎ.పి.జె. అబ్దుల్ కలాం",
-            "theme": "ప్రేరణ / పఠనాభిలాష",
-            "genre": "ఆత్మకథ",
-            "page": 159,
             "topics": [
               {
                 "topic_name": "పుస్తకాలు మన నిత్య సహచరులు",
@@ -37459,10 +38685,6 @@
           {
             "chapter_no": 18,
             "chapter_name": "అహంకారం",
-            "author": "కొడవటి గోపరాజు",
-            "theme": "నైతిక విలువలు",
-            "genre": "పద్యం",
-            "page": 170,
             "topics": [
               {
                 "topic_name": "అహంకారం",
