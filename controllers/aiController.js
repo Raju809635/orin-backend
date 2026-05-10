@@ -604,7 +604,7 @@ function buildLessonBackedStudyRoadmap({ subject, studyGoal, currentLevel, timeP
     outcome: "Complete this week by answering every quiz question correctly.",
     xpReward: 20,
     lessonSectionIds: Array.isArray(week.lessonSectionIds) ? week.lessonSectionIds : [],
-    quizQuestions: Array.isArray(lessonPlan?.quizQuestions) ? lessonPlan.quizQuestions.slice(0, 5) : [],
+    quizQuestions: [],
     tasks: [
       { id: `week-${index + 1}-learn`, type: "Read", title: "Study the lesson explanation and key points", duration: "20 min", completed: false },
       { id: `week-${index + 1}-notes`, type: "Practice", title: "Revise definitions, diagrams, and textbook notes", duration: "15 min", completed: false },
@@ -633,6 +633,126 @@ function buildLessonBackedStudyRoadmap({ subject, studyGoal, currentLevel, timeP
     certificatePrompt: `Complete every ${chapterName} week quiz to finish this academic roadmap.`,
     reminders: ["Open the week before attempting the quiz.", "Revise diagrams and definitions.", "All quiz answers must be correct to complete a week."]
   };
+}
+
+function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science", chapter = "") {
+  const options = Array.isArray(item?.options)
+    ? item.options.map((option) => String(option || "").trim()).filter(Boolean).slice(0, 4)
+    : [];
+  const correct = String(item?.correct || "").trim();
+  const question = String(item?.question || "").trim();
+  if (options.length !== 4 || !correct || !options.includes(correct)) return null;
+  if (question.length < 10) return null;
+  if (!hasRealPracticeOptions({ options, correct })) return null;
+  return {
+    id: String(item?.id || `roadmap-quiz-${index + 1}`).trim().slice(0, 80),
+    question: question.slice(0, 280),
+    options,
+    correct,
+    explanation: String(item?.explanation || "Review this concept and retry.").trim().slice(0, 260),
+    subject: normalizeExamSubject(subject) || subject,
+    chapter: cleanAcademicText(chapter || "")
+  };
+}
+
+function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, questionCount = 12 }) {
+  const normalizedSubject = normalizeExamSubject(subject) || subject || "Science";
+  const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "Core Chapter");
+  const keyPoints = Array.isArray(lessonPlan?.lessonSections)
+    ? lessonPlan.lessonSections.flatMap((section) => Array.isArray(section?.keyPoints) ? section.keyPoints : []).map((item) => cleanAcademicText(item)).filter(Boolean)
+    : [];
+  const definitions = Array.isArray(lessonPlan?.chapter?.definitions)
+    ? lessonPlan.chapter.definitions.map((item) => ({ term: cleanAcademicText(item?.term || ""), meaning: cleanAcademicText(item?.meaning || "") })).filter((item) => item.term && item.meaning)
+    : [];
+  const subjectKey = String(normalizedSubject).toLowerCase();
+  const generated = [];
+
+  definitions.slice(0, questionCount).forEach((item, index) => {
+    generated.push({
+      id: `def-${index + 1}`,
+      question: `What is the correct meaning of "${item.term}" in ${chapterName}?`,
+      options: [
+        item.meaning,
+        "A random app setting",
+        "An unrelated shortcut",
+        "Only the chapter name"
+      ],
+      correct: item.meaning,
+      explanation: `In ${chapterName}, ${item.term} means: ${item.meaning}.`
+    });
+  });
+
+  keyPoints.slice(0, Math.max(0, questionCount - generated.length)).forEach((point, index) => {
+    generated.push({
+      id: `kp-${index + 1}`,
+      question: `Which key point is correct for ${chapterName}?`,
+      options: [
+        point,
+        "Ignore all textbook examples",
+        "Do not revise important terms",
+        "Skip diagrams and notes"
+      ],
+      correct: point,
+      explanation: "The correct option is taken from the extracted textbook key points."
+    });
+  });
+
+  if (generated.length < questionCount && subjectKey.includes("math")) {
+    generated.push(...buildDeterministicTopicQuestions("Mathematics", "Numbers", questionCount - generated.length));
+  } else if (generated.length < questionCount && (subjectKey.includes("science") || subjectKey.includes("bio") || subjectKey.includes("physics") || subjectKey.includes("chem"))) {
+    generated.push(...buildDeterministicTopicQuestions("Science", "Life Processes", questionCount - generated.length));
+  } else if (generated.length < questionCount && (subjectKey.includes("english") || subjectKey.includes("telugu") || subjectKey.includes("hindi"))) {
+    generated.push(...buildDeterministicTopicQuestions("English", "Reading", questionCount - generated.length));
+  }
+
+  return generated
+    .map((item, index) => normalizeRoadmapQuizQuestion(item, index, normalizedSubject, chapterName))
+    .filter(Boolean)
+    .slice(0, questionCount);
+}
+
+async function buildAiRoadmapQuizQuestions({ subject, classLevel, board, chapter, lessonPlan, questionCount = 12 }) {
+  const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "");
+  const sectionTitles = Array.isArray(lessonPlan?.lessonSections)
+    ? lessonPlan.lessonSections.map((item) => cleanAcademicText(item?.title || "")).filter(Boolean).slice(0, 12)
+    : [];
+  const keyPoints = Array.isArray(lessonPlan?.lessonSections)
+    ? lessonPlan.lessonSections.flatMap((section) => Array.isArray(section?.keyPoints) ? section.keyPoints : []).map((item) => cleanAcademicText(item)).filter(Boolean).slice(0, 24)
+    : [];
+  const definitions = Array.isArray(lessonPlan?.chapter?.definitions)
+    ? lessonPlan.chapter.definitions.map((item) => `${cleanAcademicText(item?.term || "")}: ${cleanAcademicText(item?.meaning || "")}`).filter(Boolean).slice(0, 24)
+    : [];
+
+  const prompt = [
+    "Generate a high-school chapter quiz with only textbook-grounded MCQs.",
+    "Return JSON only in this shape:",
+    '{"questions":[{"id":"q1","question":"question text","options":["opt1","opt2","opt3","opt4"],"correct":"exact option text","explanation":"short reason"}]}',
+    `Board: ${board}.`,
+    `Class: ${classLevel}.`,
+    `Subject: ${subject}.`,
+    `Chapter: ${chapterName || "Selected chapter"}.`,
+    `Section titles: ${sectionTitles.join("; ") || "Not available"}.`,
+    `Definitions: ${definitions.join("; ") || "Not available"}.`,
+    `Key points: ${keyPoints.join("; ") || "Not available"}.`,
+    `Create exactly ${questionCount} multiple-choice questions.`,
+    "Rules: no placeholders, no random app text, no unrelated options, one clear correct answer that exactly matches one option, concise explanation."
+  ].join("\n");
+
+  const ai = await requestAiResponse({
+    role: "student",
+    message: prompt,
+    context: {
+      assistantMode: HIGH_SCHOOL_JSON_MODE,
+      feature: "highschool_roadmap_week_quiz",
+      expectedFormat: "json",
+      learnerStage: "highschool"
+    }
+  });
+  const parsed = safeJsonParse(ai.answer);
+  const normalized = Array.isArray(parsed?.questions)
+    ? parsed.questions.map((item, index) => normalizeRoadmapQuizQuestion(item, index, subject, chapterName)).filter(Boolean)
+    : [];
+  return normalized.slice(0, questionCount);
 }
 
 function roadmapTopicsForSubject(subjectName, chapter, academicTopics = []) {
@@ -1578,6 +1698,48 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   let model = "deterministic";
 
   if (lessonPlan) {
+    const perWeek = 6;
+    let quizPool = [];
+    try {
+      quizPool = await buildAiRoadmapQuizQuestions({
+        subject,
+        classLevel,
+        board,
+        chapter: chapter || lessonPlan?.chapter?.chapter_name || "",
+        lessonPlan,
+        questionCount: Math.max(18, (roadmap.steps?.length || 1) * perWeek)
+      });
+      if (quizPool.length >= 8) {
+        source = "lesson_dataset_ai_quiz";
+        provider = "ai";
+      }
+    } catch {}
+
+    if (quizPool.length < 8) {
+      quizPool = buildDeterministicRoadmapQuizQuestions({
+        subject,
+        chapter: chapter || lessonPlan?.chapter?.chapter_name || "",
+        lessonPlan,
+        questionCount: Math.max(18, (roadmap.steps?.length || 1) * perWeek)
+      });
+      if (source !== "lesson_dataset_ai_quiz") {
+        source = "lesson_dataset_fallback_quiz";
+        provider = "local";
+      }
+    }
+
+    roadmap = {
+      ...roadmap,
+      steps: (Array.isArray(roadmap.steps) ? roadmap.steps : []).map((step, index) => {
+        const start = index * perWeek;
+        const questions = quizPool.slice(start, start + perWeek);
+        return {
+          ...step,
+          quizQuestions: questions.length ? questions : (Array.isArray(step.quizQuestions) ? step.quizQuestions : [])
+        };
+      })
+    };
+
     return res.status(200).json({
       source,
       roadmap,
