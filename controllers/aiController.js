@@ -1279,6 +1279,55 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
   return filtered.slice(0, 80);
 }
 
+function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects = [], requestedTopics = [] }) {
+  const normalizedBoard = String(board || "").trim().toUpperCase();
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+  const datasetScope = {
+    board: normalizedBoard || "SSC",
+    classLevel: String(classLevel || "10"),
+    subject: subjects[0] || "",
+    chapter: requestedTopics[0] || ""
+  };
+
+  if (normalizedBoard !== "SSC" || classNumber !== 10) {
+    return {
+      ok: false,
+      source: "data_pending",
+      isTopicGrounded: false,
+      dataPendingReason: "Topic-aware generation is currently available only for SSC Class 10.",
+      datasetScope,
+      topics: []
+    };
+  }
+
+  const topics = collectExamAcademicTopics({
+    board: "SSC",
+    classLevel: "10",
+    subjects,
+    requestedTopics
+  }).filter((item) => item?.verified);
+
+  if (!topics.length) {
+    return {
+      ok: false,
+      source: "data_pending",
+      isTopicGrounded: false,
+      dataPendingReason: "Verified SSC 10 chapter/topic extraction is pending for this selection.",
+      datasetScope,
+      topics: []
+    };
+  }
+
+  return {
+    ok: true,
+    source: "dataset_deterministic",
+    isTopicGrounded: true,
+    dataPendingReason: "",
+    datasetScope,
+    topics
+  };
+}
+
 function extractGoalFromMessage(message = "") {
   const text = String(message || "").trim();
   if (!text) return "";
@@ -1521,19 +1570,26 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     ? req.body.subjects.map(normalizeSubject)
     : HIGH_SCHOOL_SUBJECTS;
   const subjects = Array.from(new Set(requestedSubjects)).slice(0, 3);
-  const questionCount = clampNumber(req.body?.questionCount, 5, 15, 9);
+  const questionCount = clampNumber(req.body?.questionCount, 8, 20, 12);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
   const focusTopic = String(req.body?.focusTopic || "").trim().slice(0, 80);
   const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
-  const academicTopics = collectExamAcademicTopics({ board, classLevel, subjects, requestedTopics: focusTopic ? [focusTopic] : [] });
+  const context = resolveStrictSsc10AcademicContext({
+    board,
+    classLevel,
+    subjects,
+    requestedTopics: focusTopic ? [focusTopic] : []
+  });
+  const academicTopics = context.topics;
 
   const fallbackQuestions = buildSubjectGapFallbackQuiz({ subjects, questionCount, focusTopic });
-  let source = "fallback";
+  let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
   let questions = fallbackQuestions;
 
-  try {
+  if (context.ok) {
+    try {
     const prompt = [
       "Create a high-school Subject Gap Analyzer quiz.",
       "Return JSON only with this shape:",
@@ -1563,18 +1619,37 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
       ? parsed.questions.map(normalizeGapQuestion).filter(Boolean).slice(0, questionCount)
       : [];
 
-    if (normalized.length >= Math.min(5, questionCount)) {
+    if (normalized.length >= Math.min(8, questionCount)) {
       questions = normalized;
-      source = "ai";
+      source = "dataset_ai";
       provider = ai.provider;
       model = ai.model;
     }
   } catch (error) {
-    source = "fallback";
+    source = "dataset_deterministic";
+  }
+  }
+
+  if (!context.ok) {
+    questions = [];
+  }
+  if (!context.ok) {
+    strategy = {
+      expectedScore: 0,
+      summary: context.dataPendingReason || "Topic-priority strategy is pending for this board/class selection.",
+      priorityCounts: { high: 0, medium: 0, low: 0 },
+      timeAllocation: [],
+      highPriorityTopics: [],
+      weeklyPlan: [],
+      reminders: ["Switch to SSC Class 10 to use extracted-topic exam strategy."]
+    };
   }
 
   res.status(200).json({
     source,
+    isTopicGrounded: context.ok,
+    datasetScope: context.datasetScope,
+    dataPendingReason: context.dataPendingReason || undefined,
     quiz: {
       title: focusTopic ? `${focusTopic} Practice` : "Subject Gap Analyzer",
       classLevel,
@@ -1593,8 +1668,16 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
 
   const answers = req.body?.answers && typeof req.body.answers === "object" ? req.body.answers : {};
   const score = scoreHighSchoolSubjectGap(questions, answers);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
+  const classLevel = String(req.body?.classLevel || "10").trim().slice(0, 40);
+  const context = resolveStrictSsc10AcademicContext({
+    board,
+    classLevel,
+    subjects: Array.from(new Set(questions.map((q) => normalizeSubject(q.subject)).filter(Boolean))),
+    requestedTopics: []
+  });
   let focusPlan = buildFallbackFocusPlan(score);
-  let source = "fallback";
+  let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
 
@@ -1637,16 +1720,19 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
           ? parsed.focusPlan.steps.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 4)
           : focusPlan.steps
       };
-      source = "ai";
+      source = "dataset_ai";
       provider = ai.provider;
       model = ai.model;
     }
   } catch (error) {
-    source = "fallback";
+    source = context.ok ? "dataset_deterministic" : "data_pending";
   }
 
   res.status(200).json({
     source,
+    isTopicGrounded: context.ok,
+    datasetScope: context.datasetScope,
+    dataPendingReason: context.dataPendingReason || undefined,
     report: {
       ...score,
       praise:
@@ -2029,19 +2115,21 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
   const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
-  const academicTopics = collectExamAcademicTopics({
+  const context = resolveStrictSsc10AcademicContext({
     board,
     classLevel,
     subjects: [subject],
     requestedTopics: skills.split(",").map((item) => item.trim()).filter(Boolean)
   });
+  const academicTopics = context.topics;
 
   let plan = buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel });
-  let source = "fallback";
+  let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
 
-  try {
+  if (context.ok) {
+    try {
     const prompt = [
       "Create a high-school AI Study Planner report.",
       "Return JSON only with this exact shape:",
@@ -2116,15 +2204,40 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
           ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
           : plan.reminders
       };
-      source = "ai";
+      source = "dataset_ai";
       provider = ai.provider;
       model = ai.model;
     }
   } catch (error) {
-    source = "fallback";
+    source = "dataset_deterministic";
+  }
+  }
+  if (!context.ok) {
+    plan = {
+      ...plan,
+      title: `${normalizeExamSubject(subject) || subject || "Subject"} Study Plan`,
+      summary: context.dataPendingReason || "Topic-aware study plan is pending for this board/class selection.",
+      overallProgress: 0,
+      weeks: [],
+      dailyTasks: [],
+      analytics: [],
+      adaptivePlan: {
+        newFocus: "Pending dataset verification",
+        reason: context.dataPendingReason || "Please switch to SSC Class 10 for extracted-topic planning.",
+        updatedWeeks: []
+      },
+      reminders: ["Select SSC board and Class 10 to unlock extracted-topic planning."]
+    };
   }
 
-  res.status(200).json({ source, plan, meta: { provider, model } });
+  res.status(200).json({
+    source,
+    isTopicGrounded: context.ok,
+    datasetScope: context.datasetScope,
+    dataPendingReason: context.dataPendingReason || undefined,
+    plan,
+    meta: { provider, model }
+  });
 });
 
 exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
@@ -2267,14 +2380,21 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
   const rawSubjects = Array.isArray(req.body?.subjects) ? req.body.subjects : [];
   const subjects = Array.from(new Set(rawSubjects.map(normalizeExamSubject).filter(Boolean))).slice(0, 8);
   const selectedTopics = Array.isArray(req.body?.topics) ? req.body.topics.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 40) : [];
-  const academicTopics = collectExamAcademicTopics({ board, classLevel, subjects, requestedTopics: selectedTopics });
+  const context = resolveStrictSsc10AcademicContext({
+    board,
+    classLevel,
+    subjects: subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5),
+    requestedTopics: selectedTopics
+  });
+  const academicTopics = context.topics;
 
   let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics });
-  let source = "fallback";
+  let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
 
-  try {
+  if (context.ok) {
+    try {
     const prompt = [
       "Create an AI-powered high-school Exam Strategy Builder report.",
       "Return JSON only with this exact shape:",
@@ -2350,16 +2470,20 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
           ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
           : strategy.reminders
       };
-      source = "ai";
+      source = "dataset_ai";
       provider = ai.provider;
       model = ai.model;
     }
   } catch (error) {
-    source = "fallback";
+    source = "dataset_deterministic";
+  }
   }
 
   res.status(200).json({
     source,
+    isTopicGrounded: context.ok,
+    datasetScope: context.datasetScope,
+    dataPendingReason: context.dataPendingReason || undefined,
     strategy,
     meta: { provider, model }
   });
