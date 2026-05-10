@@ -1729,6 +1729,14 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
   const answerStyle = String(req.body?.answerStyle || "simple").trim().slice(0, 20);
   const assistantMode = req.body?.assistantMode === "general" ? "general" : "academic";
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
+  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+  const academicTopics = collectExamAcademicTopics({
+    board,
+    classLevel,
+    subjects: [subject],
+    requestedTopics: chapter ? [chapter] : []
+  });
 
   let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel, assistantMode });
   let source = "fallback";
@@ -1743,9 +1751,13 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
       "Return JSON only with this exact shape:",
       '{"title":"Photosynthesis","subject":"Biology","answerStyle":"simple|steps|exam","summary":"short answer","simpleAnswer":"easy answer","stepByStep":["step"],"examAnswer":"exam format answer","keyPoints":["point"],"notes":[{"title":"Short Notes","body":"note"}],"practiceQuestions":[{"id":"q1","question":"question","options":["A","B","C","D"],"correct":"exact option","explanation":"why"}],"dashboardTools":["Short Notes"],"progress":{"questions":120,"accuracy":85,"streakDays":7,"strongTopics":["topic"],"weakTopics":["topic"]}}',
       `Class level: ${classLevel}.`,
+      `Board: ${board}.`,
       assistantMode === "general" ? "Mode: General assistant. Do not force school notes if the question is casual or broad." : `Subject: ${subject}.`,
       assistantMode === "general" ? "" : `Chapter/topic context: ${chapter || "Not specified"}.`,
       assistantMode === "general" ? "Answer style: natural, useful, concise." : `Answer style: ${answerStyle}.`,
+      assistantMode === "academic"
+        ? `Academic dataset topics: ${classNumber === 10 && academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No verified dataset topics found for this selection yet. Do not invent textbook topics."}.`
+        : "",
       `Student doubt: ${question}.`,
       assistantMode === "general"
         ? "Rules: answer the actual question, use clear high-school friendly language, no silly/random content, keep mobile text concise, include practiceQuestions only if useful."
@@ -1968,6 +1980,15 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
     : [];
   const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
   const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
+  const mappedSubjects = Array.from(
+    new Set((academicSubjects.length ? academicSubjects : [interest]).map((item) => normalizeExamSubject(item)).filter(Boolean))
+  ).slice(0, 6);
+  const academicTopics = collectExamAcademicTopics({
+    board,
+    classLevel,
+    subjects: mappedSubjects,
+    requestedTopics: []
+  });
 
   let explorer = buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel });
   let source = "fallback";
@@ -1984,8 +2005,9 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
       `Interest/category: ${interest}.`,
       `Student strengths/interests: ${strengths}.`,
       `Current school subjects/favorites: ${academicSubjects.join(", ") || "Not specified"}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No verified class-topic map available for this selection yet."}.`,
       `Existing career goal: ${profile?.careerGoals || "Not specified"}.`,
-      "Rules: all suggestions must be school-safe, age-appropriate, India-aware where useful, and based on selected interest/strengths. Do not return random unrelated careers."
+      "Rules: all suggestions must be school-safe, age-appropriate, India-aware where useful, and based on selected interest/strengths plus current academics. Do not return random unrelated careers."
     ].join("\n");
 
     const ai = await requestAiResponse({

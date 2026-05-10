@@ -35,12 +35,20 @@ const LeaderboardSnapshot = require("./models/LeaderboardSnapshot");
 
 const app = express();
 app.set("trust proxy", 1);
+app.disable("x-powered-by");
 
 mongoose.set("bufferCommands", false);
 mongoose.set("strictQuery", true);
 
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+});
+app.use(express.json({ limit: "512kb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {

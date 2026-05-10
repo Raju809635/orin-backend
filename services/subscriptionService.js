@@ -38,6 +38,23 @@ const SUBSCRIPTION_PLANS = [
   }
 ];
 
+function sanitizePlanText(value = "") {
+  const text = String(value || "");
+  const blockedTerms = ["mission vishnu", "mv-internal", "team target"];
+  let safeText = text;
+  blockedTerms.forEach((term) => {
+    safeText = safeText.replace(new RegExp(term, "ig"), "ORIN");
+  });
+  return safeText.trim();
+}
+
+const SAFE_SUBSCRIPTION_PLANS = SUBSCRIPTION_PLANS.map((plan) => ({
+  ...plan,
+  title: sanitizePlanText(plan.title),
+  badge: sanitizePlanText(plan.badge || ""),
+  features: Array.isArray(plan.features) ? plan.features.map((item) => sanitizePlanText(item)) : []
+}));
+
 function isSubscriptionActive(subscription, now = new Date()) {
   if (!subscription || subscription.status !== "active") return false;
   if (!subscription.expiresAt) return true;
@@ -87,7 +104,7 @@ function normalizePlanId(planId, basePlanId) {
 module.exports = {
   PREMIUM_PRODUCT_ID,
   SUBSCRIPTION_ENFORCEMENT_ENABLED,
-  SUBSCRIPTION_PLANS,
+  SUBSCRIPTION_PLANS: SAFE_SUBSCRIPTION_PLANS,
   getActiveSubscription,
   getSubscriptionEntitlement,
   getAiChatDailyLimit,

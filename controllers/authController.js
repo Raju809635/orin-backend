@@ -106,6 +106,8 @@ exports.register = asyncHandler(async (req, res) => {
     email,
     password,
     role,
+    learnerStage,
+    studentYear,
     phoneNumber,
     mentorOrgRole,
     institutionName,
@@ -156,7 +158,23 @@ exports.register = asyncHandler(async (req, res) => {
   }
 
   if (normalizedRole === "student") {
-    await StudentProfile.create({ userId: user._id });
+    const normalizedLearnerStage =
+      String(learnerStage || "").trim().toLowerCase() === "highschool" ? "highschool" : "after12";
+    const normalizedInstitutionName = String(institutionName || "").trim();
+    const normalizedInstitutionType = String(institutionType || "").trim();
+    const normalizedInstitutionDistrict = String(institutionDistrict || "").trim();
+    const normalizedInstitutionSource = String(institutionSource || "").trim();
+    const normalizedStudentYear = String(studentYear || "").trim().slice(0, 40);
+    await StudentProfile.create({
+      userId: user._id,
+      learnerStage: normalizedLearnerStage,
+      institutionName: normalizedInstitutionName,
+      collegeName: normalizedInstitutionName,
+      institutionType: normalizedInstitutionType,
+      institutionDistrict: normalizedInstitutionDistrict,
+      institutionSource: normalizedInstitutionSource,
+      className: normalizedLearnerStage === "after12" ? normalizedStudentYear : ""
+    });
   }
 
   if (normalizedRole === "mentor") {
