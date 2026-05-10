@@ -675,6 +675,8 @@ function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science",
   if (options.length !== 4 || !correct || !options.includes(correct)) return null;
   if (question.length < 10) return null;
   if (/\bwhat is the correct meaning of ["']?(this|that|it|these|those)\b/i.test(question)) return null;
+  if (/\bwhich key point is correct\b/i.test(question)) return null;
+  if (options.some((option) => /\b(ignore all textbook examples|do not revise important terms|skip diagrams and notes|random app setting|unrelated shortcut|only the chapter name|grammar meanings|unrelated poems)\b/i.test(option))) return null;
   if (!hasRealPracticeOptions({ options, correct })) return null;
   return {
     id: String(item?.id || `roadmap-quiz-${index + 1}`).trim().slice(0, 80),
@@ -685,6 +687,147 @@ function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science",
     subject: normalizeExamSubject(subject) || subject,
     chapter: cleanAcademicText(chapter || "")
   };
+}
+
+function normalizeQuizText(value = "") {
+  return cleanAcademicText(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function uniquePushQuestion(rows, item) {
+  const normalizedQuestion = normalizeQuizText(item?.question || "");
+  if (!normalizedQuestion || rows.some((row) => normalizeQuizText(row.question) === normalizedQuestion)) return;
+  const optionKey = Array.isArray(item?.options) ? item.options.map(normalizeQuizText).join("|") : "";
+  if (optionKey && rows.some((row) => Array.isArray(row.options) && row.options.map(normalizeQuizText).join("|") === optionKey)) return;
+  rows.push(item);
+}
+
+function plausibleDistractors(correct, candidates = [], fallback = []) {
+  const correctText = cleanAcademicText(correct);
+  const seen = new Set([normalizeQuizText(correctText)]);
+  const options = [correctText];
+  for (const candidate of [...candidates, ...fallback]) {
+    const text = cleanAcademicText(candidate);
+    const key = normalizeQuizText(text);
+    if (!text || text.length < 2 || seen.has(key)) continue;
+    seen.add(key);
+    options.push(text.slice(0, 140));
+    if (options.length === 4) break;
+  }
+  return options.length === 4 ? options : [];
+}
+
+function buildMathConceptQuestions({ chapterName, keyPoints, definitions, questionCount }) {
+  const rows = [];
+  const lowerChapter = chapterName.toLowerCase();
+  const realNumberHints = /\breal\s+numbers?\b/i.test(chapterName) || keyPoints.some((point) => /\b(euclid|hcf|irrational|decimal|prime|fundamental theorem|division algorithm)\b/i.test(point));
+  const templates = realNumberHints
+    ? [
+        {
+          question: "Which method is used to find the HCF of two positive integers efficiently?",
+          options: ["Euclid's division algorithm", "Drawing a bar graph", "Counting only odd numbers", "Changing fractions to percentages"],
+          correct: "Euclid's division algorithm",
+          explanation: "Real Numbers uses Euclid's division algorithm to find HCF through repeated division."
+        },
+        {
+          question: "In Euclid's division lemma, for positive integers a and b, the relation is...",
+          options: ["a = bq + r, where 0 <= r < b", "a = b + q + r, where r > b", "a = bq - r, where r is always negative", "a = q/r, where b is zero"],
+          correct: "a = bq + r, where 0 <= r < b",
+          explanation: "Euclid's division lemma states a = bq + r with remainder r less than divisor b."
+        },
+        {
+          question: "A number whose decimal expansion is non-terminating and non-recurring is...",
+          options: ["Irrational", "A natural number only", "Always an integer", "A terminating decimal"],
+          correct: "Irrational",
+          explanation: "Irrational numbers have decimal expansions that neither terminate nor repeat."
+        },
+        {
+          question: "The Fundamental Theorem of Arithmetic says every composite number can be expressed as...",
+          options: ["A product of primes in a unique way", "A sum of equal fractions only", "A decimal with two digits only", "A square root of an integer only"],
+          correct: "A product of primes in a unique way",
+          explanation: "Every composite number has a unique prime factorisation, apart from order."
+        },
+        {
+          question: "If HCF(a, b) = 1, then a and b are called...",
+          options: ["Co-prime numbers", "Even numbers", "Irrational numbers", "Composite-only numbers"],
+          correct: "Co-prime numbers",
+          explanation: "Two numbers with HCF 1 are co-prime."
+        },
+        {
+          question: "For any positive odd integer n, division by 6 can leave which possible odd remainders?",
+          options: ["1, 3, or 5", "0, 2, or 4", "Only 6", "Only 0"],
+          correct: "1, 3, or 5",
+          explanation: "Odd integers divided by 6 can be represented using remainders 1, 3, or 5."
+        }
+      ]
+    : [];
+
+  templates.forEach((item) => uniquePushQuestion(rows, item));
+
+  definitions.forEach((item) => {
+    if (rows.length >= questionCount) return;
+    const options = plausibleDistractors(item.meaning, definitions.map((entry) => entry.meaning), [
+      "A geometry construction property",
+      "A probability outcome",
+      "A graph scale"
+    ]);
+    if (!options.length) return;
+    uniquePushQuestion(rows, {
+      question: `In ${chapterName}, what does ${item.term} mean?`,
+      options,
+      correct: item.meaning,
+      explanation: `${item.term}: ${item.meaning}`
+    });
+  });
+
+  keyPoints.forEach((point) => {
+    if (rows.length >= questionCount) return;
+    const shortPoint = point.replace(/\s+/g, " ").slice(0, 140);
+    const options = plausibleDistractors(shortPoint, keyPoints, [
+      "Use a geometry construction property",
+      "Apply a probability outcome",
+      "Draw a graph scale"
+    ]);
+    if (!options.length) return;
+    uniquePushQuestion(rows, {
+      question: `Which statement belongs to ${chapterName}${lowerChapter.includes("real") ? " - Real Numbers" : ""}?`,
+      options,
+      correct: shortPoint,
+      explanation: "This statement is from the selected Mathematics chapter context."
+    });
+  });
+
+  return rows;
+}
+
+function buildScienceConceptQuestions({ chapterName, keyPoints, definitions, questionCount }) {
+  const rows = [];
+  definitions.forEach((item) => {
+    if (rows.length >= questionCount) return;
+    const options = plausibleDistractors(item.meaning, definitions.map((entry) => entry.meaning), [
+      "A mathematical theorem",
+      "A poetry device",
+      "A map scale"
+    ]);
+    if (!options.length) return;
+    uniquePushQuestion(rows, {
+      question: `What is ${item.term} in ${chapterName}?`,
+      options,
+      correct: item.meaning,
+      explanation: `${item.term} is explained in this chapter as: ${item.meaning}`
+    });
+  });
+  keyPoints.forEach((point) => {
+    if (rows.length >= questionCount) return;
+    const options = plausibleDistractors(point, keyPoints, ["A banking process", "A grammar rule", "A geometric construction"]);
+    if (!options.length) return;
+    uniquePushQuestion(rows, {
+      question: `Which concept is correctly linked with ${chapterName}?`,
+      options,
+      correct: point,
+      explanation: "The correct option is grounded in the selected Science chapter."
+    });
+  });
+  return rows;
 }
 
 function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, questionCount = 12 }) {
@@ -704,42 +847,20 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
   const subjectKey = String(normalizedSubject).toLowerCase();
   const generated = [];
 
-  definitions.slice(0, questionCount).forEach((item, index) => {
-    generated.push({
-      id: `def-${index + 1}`,
-      question: `What is the correct meaning of "${item.term}" in ${chapterName}?`,
-      options: [
-        item.meaning,
-        "A random app setting",
-        "An unrelated shortcut",
-        "Only the chapter name"
-      ],
-      correct: item.meaning,
-      explanation: `In ${chapterName}, ${item.term} means: ${item.meaning}.`
-    });
-  });
-
-  keyPoints.slice(0, Math.max(0, questionCount - generated.length)).forEach((point, index) => {
-    generated.push({
-      id: `kp-${index + 1}`,
-      question: `Which key point is correct for ${chapterName}?`,
-      options: [
-        point,
-        "Ignore all textbook examples",
-        "Do not revise important terms",
-        "Skip diagrams and notes"
-      ],
-      correct: point,
-      explanation: "The correct option is taken from the extracted textbook key points."
-    });
-  });
+  const subjectQuestions = subjectKey.includes("math")
+    ? buildMathConceptQuestions({ chapterName, keyPoints, definitions, questionCount })
+    : buildScienceConceptQuestions({ chapterName, keyPoints, definitions, questionCount });
+  subjectQuestions.forEach((item) => uniquePushQuestion(generated, item));
 
   if (generated.length < questionCount && subjectKey.includes("math")) {
-    generated.push(...buildDeterministicTopicQuestions("Mathematics", "Numbers", questionCount - generated.length));
+    buildDeterministicTopicQuestions("Mathematics", chapterName.toLowerCase().includes("real") ? "Numbers" : chapterName, questionCount - generated.length)
+      .forEach((item) => uniquePushQuestion(generated, item));
   } else if (generated.length < questionCount && (subjectKey.includes("science") || subjectKey.includes("bio") || subjectKey.includes("physics") || subjectKey.includes("chem"))) {
-    generated.push(...buildDeterministicTopicQuestions("Science", "Life Processes", questionCount - generated.length));
+    buildDeterministicTopicQuestions("Science", chapterName, questionCount - generated.length)
+      .forEach((item) => uniquePushQuestion(generated, item));
   } else if (generated.length < questionCount && (subjectKey.includes("english") || subjectKey.includes("telugu") || subjectKey.includes("hindi"))) {
-    generated.push(...buildDeterministicTopicQuestions("English", "Reading", questionCount - generated.length));
+    buildDeterministicTopicQuestions("English", "Reading", questionCount - generated.length)
+      .forEach((item) => uniquePushQuestion(generated, item));
   }
 
   return generated
@@ -1255,7 +1376,81 @@ const EXAM_SUBJECT_POOL = [
 
 function normalizeExamSubject(value) {
   const text = String(value || "").trim();
+  const lower = text.toLowerCase();
+  if (["math", "maths", "mathematics"].includes(lower)) return "Mathematics";
+  if (["social", "social science", "social studies", "socialstudies"].includes(lower)) return "Social Studies";
+  if (["bio", "biology"].includes(lower)) return "Biology";
+  if (["phy", "physics"].includes(lower)) return "Physics";
+  if (["chem", "chemistry"].includes(lower)) return "Chemistry";
   return EXAM_SUBJECT_POOL.find((item) => item.toLowerCase() === text.toLowerCase()) || text.slice(0, 40);
+}
+
+function topicMatchesSelection(row, selectedTopics = []) {
+  if (!selectedTopics.length) return true;
+  const haystack = [row?.subject, row?.chapter, row?.topic, ...(Array.isArray(row?.subtopics) ? row.subtopics : [])]
+    .map((item) => cleanAcademicText(item || "").toLowerCase())
+    .join(" ");
+  return selectedTopics.some((topic) => {
+    const needle = cleanAcademicText(topic || "").toLowerCase();
+    return needle && (haystack.includes(needle) || needle.includes(String(row?.chapter || "").toLowerCase()) || needle.includes(String(row?.topic || "").toLowerCase()));
+  });
+}
+
+function buildScopedExamTopicUnits({ subjects = [], selectedTopics = [], academicTopics = [] }) {
+  const allowedSubjects = new Set(subjects.map(normalizeExamSubject).filter(Boolean).map((item) => item.toLowerCase()));
+  const rows = Array.isArray(academicTopics)
+    ? academicTopics.filter((row) => {
+        if (row?.verified === false) return false;
+        const subject = normalizeExamSubject(row?.subject || "");
+        if (allowedSubjects.size && !allowedSubjects.has(subject.toLowerCase())) return false;
+        return topicMatchesSelection(row, selectedTopics);
+      })
+    : [];
+
+  const units = [];
+  const seen = new Set();
+  for (const row of rows) {
+    const subject = normalizeExamSubject(row.subject);
+    const chapter = cleanAcademicText(row.chapter || row.topic || "");
+    const topic = cleanAcademicText(row.topic || row.chapter || "");
+    const subtopics = Array.isArray(row.subtopics) ? row.subtopics.map(cleanAcademicText).filter(Boolean).slice(0, 5) : [];
+    const topicNames = subtopics.length ? subtopics : [topic || chapter].filter(Boolean);
+    for (const name of topicNames) {
+      const key = `${subject}:${chapter}:${name}`.toLowerCase();
+      if (!name || seen.has(key)) continue;
+      seen.add(key);
+      units.push({ subject, chapter, topic: name, parentTopic: topic, subtopics });
+    }
+  }
+
+  return units.slice(0, 18);
+}
+
+function isGenericExamTopic(topic = "") {
+  const text = cleanAcademicText(topic).toLowerCase();
+  if (!text || text.length < 3) return true;
+  return /\b(lesson reading|meanings|vocabulary|prepare formulas|learn formulas|revision notes|important questions|core concepts|study focus|grammar|personality development)\b/i.test(text);
+}
+
+function isExamStrategyScopeSafe(strategy, { subjects = [], selectedTopics = [], topicUnits = [] }) {
+  const allowedSubjects = new Set(subjects.map(normalizeExamSubject).filter(Boolean).map((item) => item.toLowerCase()));
+  const allowedTokens = topicUnits
+    .flatMap((unit) => [unit.chapter, unit.topic, unit.parentTopic, ...(Array.isArray(unit.subtopics) ? unit.subtopics : [])])
+    .map((item) => cleanAcademicText(item || "").toLowerCase())
+    .filter((item) => item.length >= 3);
+  if (!Array.isArray(strategy?.highPriorityTopics) || !strategy.highPriorityTopics.length) return false;
+  if (allowedSubjects.size && strategy.highPriorityTopics.some((item) => !allowedSubjects.has(normalizeExamSubject(item?.subject || "").toLowerCase()))) return false;
+  if (strategy.highPriorityTopics.some((item) => isGenericExamTopic(item?.topic))) return false;
+  const selected = selectedTopics.map((item) => cleanAcademicText(item || "").toLowerCase()).filter(Boolean);
+  const priorityText = strategy.highPriorityTopics.map((item) => `${item.topic} ${item.reason} ${(item.tasks || []).join(" ")}`).join(" ").toLowerCase();
+  if (selected.length && !selected.some((item) => priorityText.includes(item))) return false;
+  if (allowedTokens.length && !allowedTokens.some((token) => priorityText.includes(token))) return false;
+  if (Array.isArray(strategy.weeklyPlan)) {
+    const weekText = strategy.weeklyPlan.flatMap((week) => [week?.title, ...(Array.isArray(week?.tasks) ? week.tasks : [])]).join(" ").toLowerCase();
+    if (/\b(personality development|meanings and vocabulary|lesson reading|english)\b/i.test(weekText) && !allowedSubjects.has("english")) return false;
+    if (allowedTokens.length && !allowedTokens.some((token) => weekText.includes(token))) return false;
+  }
+  return true;
 }
 
 function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics = [] }) {
@@ -1312,6 +1507,77 @@ function buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, s
       { week: "Week 3", title: "Mock tests and final revision", tasks: ["Full mock test", "Mistake notebook", "Formula/summary sheet"] }
     ],
     reminders: ["Study high-priority topics first.", "Take one short test every 3 days.", "Review wrong answers the same day."]
+  };
+}
+
+function buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, subjects, selectedTopics = [], academicTopics = [] }) {
+  const selectedSubjects = subjects.length ? subjects : ["Mathematics"];
+  const topicUnits = buildScopedExamTopicUnits({ subjects: selectedSubjects, selectedTopics, academicTopics });
+  if (!topicUnits.length) {
+    return buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects: selectedSubjects, academicTopics });
+  }
+
+  const highPriorityTopics = topicUnits.slice(0, 10).map((unit, index) => {
+    const isHigh = index < Math.max(2, Math.ceil(topicUnits.length * 0.45));
+    return {
+      subject: unit.subject,
+      topic: unit.chapter && unit.topic !== unit.chapter ? `${unit.chapter}: ${unit.topic}` : unit.topic,
+      priority: isHigh ? "high" : index < Math.ceil(topicUnits.length * 0.75) ? "medium" : "low",
+      weightageMarks: isHigh ? 8 : 5,
+      reason: `Selected ${unit.subject} topic from extracted SSC 10 academic data.`,
+      tasks: [
+        `Revise concept notes for ${unit.topic}`,
+        `Solve textbook examples from ${unit.chapter || unit.topic}`,
+        `Attempt 12 MCQs on ${unit.topic}`
+      ]
+    };
+  });
+
+  const weeklyPlan = [
+    {
+      week: "Week 1",
+      title: `${topicUnits[0].chapter || selectedSubjects[0]} concept mastery`,
+      tasks: topicUnits.slice(0, 4).map((unit) => `Study ${unit.topic} and solve worked examples`)
+    },
+    {
+      week: "Week 2",
+      title: "Textbook exercise and weak-area repair",
+      tasks: topicUnits.slice(4, 8).map((unit) => `Practice textbook questions on ${unit.topic}`)
+    },
+    {
+      week: "Week 3",
+      title: "MCQ revision and final test",
+      tasks: [
+        `Take mixed MCQ test on ${topicUnits.slice(0, 5).map((unit) => unit.topic).join(", ")}`,
+        `Rewrite mistakes with correct method`,
+        `Revise ${topicUnits[0].chapter || selectedSubjects[0]} short notes`
+      ]
+    }
+  ].filter((week) => week.tasks.length);
+
+  return {
+    examName,
+    examDate,
+    classLevel,
+    syllabus,
+    expectedScore: 85,
+    summary: `Focus only on ${selectedSubjects.join(", ")} topics selected from extracted SSC 10 data: ${topicUnits.slice(0, 4).map((unit) => unit.topic).join(", ")}.`,
+    priorityCounts: {
+      high: highPriorityTopics.filter((item) => item.priority === "high").length,
+      medium: highPriorityTopics.filter((item) => item.priority === "medium").length,
+      low: highPriorityTopics.filter((item) => item.priority === "low").length
+    },
+    timeAllocation: selectedSubjects.map((subject) => ({
+      subject,
+      percent: Math.max(10, Math.floor(100 / selectedSubjects.length))
+    })),
+    highPriorityTopics,
+    weeklyPlan,
+    reminders: [
+      "Do not switch subjects inside this strategy.",
+      `Complete topic practice before mock test: ${topicUnits[0].topic}.`,
+      "Review every wrong answer with the textbook example method."
+    ]
   };
 }
 
@@ -2519,7 +2785,15 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
   });
   const academicTopics = context.topics;
 
-  let strategy = buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects, academicTopics });
+  const strategySubjects = subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5);
+  const topicUnits = buildScopedExamTopicUnits({
+    subjects: strategySubjects,
+    selectedTopics,
+    academicTopics
+  });
+  let strategy = context.ok
+    ? buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, subjects: strategySubjects, selectedTopics, academicTopics })
+    : buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects: strategySubjects, academicTopics });
   let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
@@ -2535,10 +2809,11 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       `Board: ${board}.`,
       `Class: ${classLevel}.`,
       `Syllabus: ${syllabus}.`,
-      `Subjects: ${(subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5)).join(", ")}.`,
-      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No enriched topics found for this class/subject yet. Use subject-safe topic names only."}.`,
+      `Allowed subjects only: ${strategySubjects.join(", ")}.`,
+      `Selected focus topics only: ${selectedTopics.length ? selectedTopics.join(", ") : "all provided topics"}.`,
+      `Academic dataset topics to use: ${topicUnits.length ? topicUnits.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") || "No enriched topics found for this class/subject yet."}.`,
       selectedTopics.length ? `Student selected focus topics: ${selectedTopics.join(", ")}.` : "",
-      "Rules: prioritize topics from Academic dataset topics first, use smart time allocation, no random data, school-safe language, concise mobile-friendly text."
+      "Rules: every highPriorityTopics item and every weeklyPlan task must stay inside the allowed subjects and selected focus topics. Do not include English, Personality Development, vocabulary, lesson reading, generic formulas, or any other subject unless it is explicitly allowed. Use concrete chapter/topic names from Academic dataset topics. If you cannot do that, return a minimal plan using only the provided topic names."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -2556,7 +2831,7 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
     });
     const parsed = safeJsonParse(ai.answer);
     if (parsed?.summary && Array.isArray(parsed?.highPriorityTopics) && Array.isArray(parsed?.weeklyPlan)) {
-      strategy = {
+      const candidateStrategy = {
         ...strategy,
         expectedScore: clampNumber(parsed.expectedScore, 40, 98, strategy.expectedScore),
         summary: String(parsed.summary || strategy.summary).slice(0, 260),
@@ -2601,9 +2876,12 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
           ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
           : strategy.reminders
       };
-      source = "dataset_ai";
-      provider = ai.provider;
-      model = ai.model;
+      if (isExamStrategyScopeSafe(candidateStrategy, { subjects: strategySubjects, selectedTopics, topicUnits })) {
+        strategy = candidateStrategy;
+        source = "dataset_ai";
+        provider = ai.provider;
+        model = ai.model;
+      }
     }
   } catch (error) {
     source = "dataset_deterministic";
