@@ -1000,28 +1000,87 @@ function buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle,
   };
 }
 
-function buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel }) {
+function buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel, academicTopics = [] }) {
   const subjectName = normalizeExamSubject(subject) || "Science";
-  const skillList = String(skills || "basics, revision, practice tests")
+  const skillList = String(skills || "")
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean)
     .slice(0, 6);
-  const topics = skillList.length ? skillList : ["basics", "revision", "practice tests"];
-  const planTopics = [topics[0], topics[1] || "core concepts", topics[2] || "practice tests", "weak area revision", "mock test"];
-  const weeks = planTopics.map((topic, index) => ({
-    id: `week-${index + 1}`,
-    week: `Week ${index + 1}`,
-    title: topic.replace(/\b\w/g, (char) => char.toUpperCase()),
-    status: index === 0 ? "active" : "locked",
-    progress: index === 0 ? 25 : 0,
-    focus: index === 0 ? "Start with simple revision and a short quiz." : "Unlock after completing the previous week.",
-    tasks: [
-      { id: `w${index + 1}-read`, type: "Read", title: `Read: ${topic}`, duration: "15 min", completed: index === 0 },
-      { id: `w${index + 1}-practice`, type: "Practice", title: "Practice: 10 Questions", duration: "15 min", completed: false },
-      { id: `w${index + 1}-quiz`, type: "Quiz", title: "Quick Quiz", duration: "10 min", completed: false }
-    ]
-  }));
+
+  const topicUnits = Array.isArray(academicTopics)
+    ? academicTopics
+        .map((item) => {
+          const chapter = String(item?.chapter || "").trim();
+          const topic = String(item?.topic || "").trim();
+          const subtopics = Array.isArray(item?.subtopics)
+            ? item.subtopics.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, 3)
+            : [];
+          if (!chapter && !topic) return null;
+          return {
+            chapter: chapter || topic,
+            topic: topic || chapter,
+            subtopics
+          };
+        })
+        .filter(Boolean)
+    : [];
+
+  const selectedUnits = topicUnits.slice(0, 5);
+  const fallbackUnits = skillList.length
+    ? skillList.slice(0, 5).map((item) => ({ chapter: item, topic: item, subtopics: [] }))
+    : [
+        { chapter: `${subjectName} Foundations`, topic: `${subjectName} Core Concepts`, subtopics: [] },
+        { chapter: `${subjectName} Practice`, topic: `${subjectName} Problem Solving`, subtopics: [] },
+        { chapter: `${subjectName} Revision`, topic: `${subjectName} Key Questions`, subtopics: [] }
+      ];
+
+  const planUnits = selectedUnits.length ? selectedUnits : fallbackUnits;
+
+  const weeks = planUnits.map((unit, index) => {
+    const subtopicText = unit.subtopics.length ? unit.subtopics.join(", ") : "key textbook concepts";
+    return {
+      id: `week-${index + 1}`,
+      week: `Week ${index + 1}`,
+      title: `${unit.chapter}: ${unit.topic}`,
+      status: index === 0 ? "active" : "locked",
+      progress: index === 0 ? 20 : 0,
+      focus:
+        index === 0
+          ? `Cover ${unit.topic} with textbook concepts and targeted practice.`
+          : `Unlock after completing Week ${index}. Focus: ${unit.topic}.`,
+      tasks: [
+        {
+          id: `w${index + 1}-concept`,
+          type: "Learn",
+          title: `Learn ${unit.topic} (${subtopicText})`,
+          duration: "25 min",
+          completed: false
+        },
+        {
+          id: `w${index + 1}-examples`,
+          type: "Practice",
+          title: `Solve worked examples from ${unit.chapter}`,
+          duration: "20 min",
+          completed: false
+        },
+        {
+          id: `w${index + 1}-mcq`,
+          type: "Quiz",
+          title: `Topic quiz on ${unit.topic} (12 MCQs)`,
+          duration: "15 min",
+          completed: false
+        },
+        {
+          id: `w${index + 1}-revision`,
+          type: "Revise",
+          title: `Create short notes for ${unit.topic}`,
+          duration: "15 min",
+          completed: false
+        }
+      ]
+    };
+  });
 
   return {
     title: `${subjectName} Study Plan`,
@@ -1030,24 +1089,28 @@ function buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLev
     classLevel,
     currentLevel,
     timePerDay,
-    summary: `A weekly plan for ${subjectName}: ${goal}. ORIN starts from your current chapters and updates the next focus using progress.`,
-    overallProgress: 25,
+    summary: `Topic-oriented SSC plan for ${subjectName}: ${goal}. Each week is mapped to extracted chapter-topic data and quiz practice.`,
+    overallProgress: 20,
     weeks,
     dailyTasks: weeks[0].tasks,
     analytics: [
-      { label: "Revision", percent: 35 },
-      { label: "Practice", percent: 25 },
-      { label: "Tests", percent: 15 }
+      { label: "Topic Coverage", percent: 20 },
+      { label: "Practice Accuracy", percent: 0 },
+      { label: "MCQ Completion", percent: 0 }
     ],
     adaptivePlan: {
       newFocus: weeks[1]?.title || weeks[0].title,
-      reason: "Added to improve the next weak area after the first week.",
+      reason: "Auto-prioritized next topic using completion and quiz performance.",
       updatedWeeks: weeks.map((week, index) => ({
         ...week,
         status: index === 0 ? "completed" : index === 1 ? "active" : week.status
       }))
     },
-    reminders: ["Complete daily tasks first.", "Take one quiz after revision.", "Review wrong answers before moving ahead."]
+    reminders: [
+      "Complete all topic tasks before unlocking the next week.",
+      "Attempt 12 MCQs after each topic block.",
+      "Revise wrong answers with chapter notes on the same day."
+    ]
   };
 }
 
@@ -1363,6 +1426,26 @@ function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects 
     datasetScope,
     topics
   };
+}
+
+function hasTopicGroundedPlanner(weeks = [], academicTopics = []) {
+  if (!Array.isArray(weeks) || !weeks.length) return false;
+  const topicTokens = Array.isArray(academicTopics)
+    ? academicTopics
+        .flatMap((item) => [item?.chapter, item?.topic, ...(Array.isArray(item?.subtopics) ? item.subtopics : [])])
+        .map((item) => String(item || "").trim().toLowerCase())
+        .filter((item) => item.length >= 3)
+    : [];
+  if (!topicTokens.length) return false;
+  const plannerText = weeks
+    .flatMap((week) => [
+      week?.title,
+      week?.focus,
+      ...(Array.isArray(week?.tasks) ? week.tasks.map((task) => task?.title) : [])
+    ])
+    .map((item) => String(item || "").toLowerCase())
+    .join(" ");
+  return topicTokens.some((token) => plannerText.includes(token));
 }
 
 function extractGoalFromMessage(message = "") {
@@ -2160,7 +2243,15 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   });
   const academicTopics = context.topics;
 
-  let plan = buildFallbackHighSchoolStudyPlanner({ subject, goal, skills, currentLevel, timePerDay, classLevel });
+  let plan = buildFallbackHighSchoolStudyPlanner({
+    subject,
+    goal,
+    skills,
+    currentLevel,
+    timePerDay,
+    classLevel,
+    academicTopics
+  });
   let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
@@ -2179,7 +2270,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
-      "Rules: create subject-based weekly plan, daily tasks, quiz/practice, progress tracking, adaptive next focus. Prioritize Academic dataset topics when available. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
+      "Rules: create topic-grounded weekly plan only from provided Academic dataset topics. Each week must include concrete chapter/topic names, worked-example practice, and 12-MCQ quiz tasks. Never output generic lines like 'read definitions' without topic context. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -2215,7 +2306,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
           : []
       });
       const weeks = parsed.weeks.map(normalizeWeek).filter((week) => week.title).slice(0, 6);
-      plan = {
+      const candidatePlan = {
         ...plan,
         title: String(parsed.title || plan.title).trim().slice(0, 80),
         summary: String(parsed.summary || plan.summary).trim().slice(0, 260),
@@ -2241,9 +2332,12 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
           ? parsed.reminders.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 5)
           : plan.reminders
       };
-      source = "dataset_ai";
-      provider = ai.provider;
-      model = ai.model;
+      if (hasTopicGroundedPlanner(candidatePlan.weeks, academicTopics)) {
+        plan = candidatePlan;
+        source = "dataset_ai";
+        provider = ai.provider;
+        model = ai.model;
+      }
     }
   } catch (error) {
     source = "dataset_deterministic";
