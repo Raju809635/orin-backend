@@ -199,12 +199,19 @@ function normalizeGapQuestion(item, index) {
   const placeholderOptions = new Set(["A", "B", "C", "D"]);
   if (options.every((option) => placeholderOptions.has(option.toUpperCase()))) return null;
   if (options.length !== 4 || !correct || !options.includes(correct)) return null;
+  const weakQuestionPatterns = [
+    /\bwhat is the correct meaning of ["']?(this|that|it|these|those)\b/i,
+    /\bwhat is the correct meaning of ["']?this value of x["']?\b/i
+  ];
+  const questionText = String(item?.question || "").trim();
+  if (weakQuestionPatterns.some((pattern) => pattern.test(questionText))) return null;
+  if (questionText.length < 10) return null;
 
   return {
     id: String(item?.id || `${subject.toLowerCase()}-${index + 1}`).trim().slice(0, 80),
     subject,
     topic: String(item?.topic || "Core Concept").trim().slice(0, 80),
-    question: String(item?.question || "").trim().slice(0, 500),
+    question: questionText.slice(0, 500),
     options,
     correct,
     explanation: String(item?.explanation || "Review this concept and try one similar practice question.").trim().slice(0, 500)
@@ -391,6 +398,30 @@ function buildFallbackFocusPlan(score) {
       "Review every wrong answer and retry similar questions."
     ]
   };
+}
+
+const WEAK_DEFINITION_TERMS = new Set([
+  "this", "that", "these", "those", "it", "its", "they", "them", "we", "you", "he", "she"
+]);
+
+function isUsefulDefinitionEntry(term = "", meaning = "") {
+  const cleanedTerm = cleanAcademicText(term).toLowerCase();
+  const cleanedMeaning = cleanAcademicText(meaning);
+  if (!cleanedTerm || !cleanedMeaning) return false;
+  if (WEAK_DEFINITION_TERMS.has(cleanedTerm)) return false;
+  if (cleanedTerm.length < 3 || cleanedTerm.length > 80) return false;
+  if (cleanedMeaning.length < 12) return false;
+  if (/^(this|that|these|those)\b/i.test(cleanedMeaning)) return false;
+  return true;
+}
+
+function isUsefulKeyPoint(point = "") {
+  const cleaned = cleanAcademicText(point);
+  if (!cleaned) return false;
+  if (cleaned.length < 14) return false;
+  if (/^(this|that|these|those)\b/i.test(cleaned)) return false;
+  if (/^(only|just)\b/i.test(cleaned)) return false;
+  return true;
 }
 
 function decodePdfMojibake(value = "") {
@@ -643,6 +674,7 @@ function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science",
   const question = String(item?.question || "").trim();
   if (options.length !== 4 || !correct || !options.includes(correct)) return null;
   if (question.length < 10) return null;
+  if (/\bwhat is the correct meaning of ["']?(this|that|it|these|those)\b/i.test(question)) return null;
   if (!hasRealPracticeOptions({ options, correct })) return null;
   return {
     id: String(item?.id || `roadmap-quiz-${index + 1}`).trim().slice(0, 80),
@@ -659,10 +691,15 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
   const normalizedSubject = normalizeExamSubject(subject) || subject || "Science";
   const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "Core Chapter");
   const keyPoints = Array.isArray(lessonPlan?.lessonSections)
-    ? lessonPlan.lessonSections.flatMap((section) => Array.isArray(section?.keyPoints) ? section.keyPoints : []).map((item) => cleanAcademicText(item)).filter(Boolean)
+    ? lessonPlan.lessonSections
+        .flatMap((section) => Array.isArray(section?.keyPoints) ? section.keyPoints : [])
+        .map((item) => cleanAcademicText(item))
+        .filter((item) => isUsefulKeyPoint(item))
     : [];
   const definitions = Array.isArray(lessonPlan?.chapter?.definitions)
-    ? lessonPlan.chapter.definitions.map((item) => ({ term: cleanAcademicText(item?.term || ""), meaning: cleanAcademicText(item?.meaning || "") })).filter((item) => item.term && item.meaning)
+    ? lessonPlan.chapter.definitions
+        .map((item) => ({ term: cleanAcademicText(item?.term || ""), meaning: cleanAcademicText(item?.meaning || "") }))
+        .filter((item) => isUsefulDefinitionEntry(item.term, item.meaning))
     : [];
   const subjectKey = String(normalizedSubject).toLowerCase();
   const generated = [];
