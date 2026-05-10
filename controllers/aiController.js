@@ -607,11 +607,155 @@ function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
       chapter: selectedChapter,
       weeklyPlan: selectedChapter.weeklyPlan,
       lessonSections: Array.isArray(selectedChapter.lessonSections) ? selectedChapter.lessonSections : [],
+      definitions: Array.isArray(selectedChapter.definitions) ? selectedChapter.definitions : [],
+      diagrams: Array.isArray(selectedChapter.diagrams) ? selectedChapter.diagrams : [],
+      activities: Array.isArray(selectedChapter.activities) ? selectedChapter.activities : [],
       quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
     };
   } catch {
     return null;
   }
+}
+
+function normalizePlannerTextList(items = [], limit = 6, maxLength = 220) {
+  return (Array.isArray(items) ? items : [items])
+    .map((item) => cleanAcademicText(typeof item === "string" ? item : item?.title || item?.summary || item?.body || ""))
+    .filter((item) => item && item.length >= 8 && !hasBrokenPdfText(item))
+    .filter((item, index, arr) => arr.findIndex((entry) => entry.toLowerCase() === item.toLowerCase()) === index)
+    .slice(0, limit)
+    .map((item) => item.slice(0, maxLength));
+}
+
+function normalizePlannerDefinitions(items = [], limit = 6) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => ({
+      term: cleanAcademicText(item?.term || item?.title || ""),
+      meaning: cleanAcademicText(item?.meaning || item?.definition || item?.body || "")
+    }))
+    .filter((item) => item.term.length >= 3 && item.meaning.length >= 8)
+    .filter((item) => !/^(this|that|these|those|it)$/i.test(item.term))
+    .filter((item) => !hasBrokenPdfText(`${item.term} ${item.meaning}`))
+    .filter((item, index, arr) => arr.findIndex((entry) => entry.term.toLowerCase() === item.term.toLowerCase()) === index)
+    .slice(0, limit);
+}
+
+function normalizePlannerDiagrams(items = [], limit = 5) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => ({
+      title: cleanAcademicText(item?.title || item?.name || ""),
+      whatToLearn: cleanAcademicText(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation.")
+    }))
+    .filter((item) => item.title.length >= 6 && !hasBrokenPdfText(item.title))
+    .filter((item, index, arr) => arr.findIndex((entry) => entry.title.toLowerCase() === item.title.toLowerCase()) === index)
+    .slice(0, limit);
+}
+
+function normalizePlannerQuiz(items = [], subject = "Science", chapter = "", limit = 4) {
+  return (Array.isArray(items) ? items : [])
+    .map((item, index) => normalizeRoadmapQuizQuestion(item, index, subject, chapter))
+    .filter(Boolean)
+    .slice(0, limit);
+}
+
+function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallbackUnit }) {
+  const chapterName = cleanAcademicText(lessonPlan?.chapter?.chapter_name || chapter || fallbackUnit?.chapter || "");
+  const lessonSections = Array.isArray(lessonPlan?.lessonSections) ? lessonPlan.lessonSections : [];
+  const ids = Array.isArray(week?.lessonSectionIds) ? week.lessonSectionIds.map((item) => String(item || "")) : [];
+  const selectedSections = ids.length
+    ? lessonSections.filter((section) => ids.includes(String(section?.id || "")))
+    : lessonSections.filter((section) => {
+        const title = cleanAcademicText(section?.title || "").toLowerCase();
+        const weekTitle = cleanAcademicText(week?.title || fallbackUnit?.topic || "").toLowerCase();
+        return title && weekTitle && (title.includes(weekTitle) || weekTitle.includes(title));
+      });
+  const sections = selectedSections.length ? selectedSections : lessonSections.slice(0, 1);
+  const summary = normalizePlannerTextList(sections.flatMap((section) => section?.summary || []), 5, 260);
+  const keyPoints = normalizePlannerTextList(sections.flatMap((section) => section?.keyPoints || []), 8, 260);
+  const definitions = normalizePlannerDefinitions(lessonPlan?.definitions, 6);
+  const diagrams = normalizePlannerDiagrams(lessonPlan?.diagrams, 5);
+  const activities = normalizePlannerTextList((lessonPlan?.activities || []).flatMap((item) => [item?.title, ...(Array.isArray(item?.steps) ? item.steps : [])]), 4, 220);
+  const quizQuestions = normalizePlannerQuiz(lessonPlan?.quizQuestions, subject, chapterName, 4);
+
+  if (!summary.length && !keyPoints.length) {
+    const topic = cleanAcademicText(fallbackUnit?.topic || week?.title || chapterName || "selected topic");
+    const subtopics = Array.isArray(fallbackUnit?.subtopics) ? fallbackUnit.subtopics.map(cleanAcademicText).filter(Boolean) : [];
+    return {
+      source: "topic_dataset",
+      heading: topic,
+      description: `${topic} is selected from the SSC Class 10 extracted topic list. Full lesson explanation for this exact section is still pending, so use the textbook PDF while ORIN shows the verified topic path.`,
+      summary: subtopics.length ? subtopics.slice(0, 5) : [`Study the ${topic} concept from the textbook PDF and write your own explanation.`],
+      keyPoints: subtopics.slice(0, 8),
+      definitions: [],
+      diagrams: [],
+      activities: [],
+      practice: [
+        `Write a 120-word explanation of ${topic}.`,
+        `Solve textbook examples or questions connected to ${topic}.`,
+        `Create short notes only for ${topic}, not the full subject.`
+      ],
+      quizQuestions: []
+    };
+  }
+
+  const heading = cleanAcademicText(sections[0]?.title || week?.title || chapterName);
+  return {
+    source: "lesson_dataset",
+    heading,
+    description: summary.join(" "),
+    summary,
+    keyPoints,
+    definitions,
+    diagrams,
+    activities,
+    practice: [
+      `Explain ${heading} in your own words using the points above.`,
+      `Write textbook-style short answers from ${chapterName || heading}.`,
+      diagrams.length ? `Draw or trace the diagram/process for ${diagrams[0].title}.` : `Create a one-page note for ${heading}.`,
+      quizQuestions.length ? `Attempt the quiz after reading the full explanation.` : `Prepare 5 self-test questions from the key points.`
+    ],
+    quizQuestions
+  };
+}
+
+function attachLessonDetailsToStudyPlan({ plan, lessonPlan, subject, chapter, academicTopics = [] }) {
+  if (!plan || !Array.isArray(plan.weeks) || !lessonPlan) return plan;
+  const weeklyPlan = Array.isArray(lessonPlan.weeklyPlan) ? lessonPlan.weeklyPlan : [];
+  const nextWeeks = plan.weeks.map((week, index) => {
+    const lessonWeek = weeklyPlan[index] || {};
+    const fallbackUnit = academicTopics[index] || academicTopics[0] || {};
+    const baseWeek = {
+      ...week,
+      title: cleanAcademicText(lessonWeek.title || week.title),
+      focus: cleanAcademicText(lessonWeek.focus || week.focus),
+      lessonSectionIds: Array.isArray(lessonWeek.lessonSectionIds) ? lessonWeek.lessonSectionIds : week.lessonSectionIds
+    };
+    return {
+      ...baseWeek,
+      detail: buildPlannerWeekDetail({
+        week: baseWeek,
+        lessonPlan,
+        subject,
+        chapter,
+        fallbackUnit
+      })
+    };
+  });
+
+  return {
+    ...plan,
+    summary: `${plan.summary} Open each week to read the extracted lesson explanation, key points, definitions, diagrams, and practice for that exact topic.`,
+    weeks: nextWeeks,
+    dailyTasks: nextWeeks[0]?.tasks || plan.dailyTasks,
+    adaptivePlan: {
+      ...plan.adaptivePlan,
+      updatedWeeks: Array.isArray(plan.adaptivePlan?.updatedWeeks)
+        ? plan.adaptivePlan.updatedWeeks.map((week, index) => ({
+            ...week,
+            detail: nextWeeks[index]?.detail || week.detail
+          }))
+        : plan.adaptivePlan?.updatedWeeks || []
+    }
+  };
 }
 
 function buildLessonBackedStudyRoadmap({ subject, studyGoal, currentLevel, timePerDay, classLevel, chapter, lessonPlan }) {
@@ -2508,6 +2652,10 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
     requestedTopics: skills.split(",").map((item) => item.trim()).filter(Boolean)
   });
   const academicTopics = context.topics;
+  const selectedChapter = cleanAcademicText(academicTopics[0]?.chapter || skills.split(",")[0] || "");
+  const lessonPlan = context.ok
+    ? findAcademicLessonPlan({ board: "SSC", classLevel: "10", subject, chapter: selectedChapter })
+    : null;
 
   let plan = buildFallbackHighSchoolStudyPlanner({
     subject,
@@ -2625,6 +2773,14 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       },
       reminders: ["Select SSC board and Class 10 to unlock extracted-topic planning."]
     };
+  } else if (lessonPlan) {
+    plan = attachLessonDetailsToStudyPlan({
+      plan,
+      lessonPlan,
+      subject,
+      chapter: selectedChapter,
+      academicTopics
+    });
   }
 
   res.status(200).json({
