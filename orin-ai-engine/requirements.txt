@@ -1,0 +1,12 @@
+langchain
+chromadb
+sentence-transformers
+faiss-cpu
+pymupdf
+spacy
+scikit-learn
+pandas
+numpy
+networkx
+fastapi
+uvicorn[standard]

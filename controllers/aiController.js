@@ -5,6 +5,7 @@ const HighSchoolLearningActivity = require("../models/HighSchoolLearningActivity
 const { aiChatDailyLimit } = require("../config/env");
 const { getSubscriptionEntitlement } = require("../services/subscriptionService");
 const { requestAiResponse } = require("../services/aiService");
+const { retrieveAcademicContext } = require("../services/orinAiEngineService");
 const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass, getManualPdfsForClassSubject, getAcademicImagesForContext } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
@@ -2245,6 +2246,21 @@ function hasTopicGroundedPlanner(weeks = [], academicTopics = []) {
   return topicTokens.some((token) => plannerText.includes(token));
 }
 
+function buildEngineTopicHints(engineResults = []) {
+  if (!Array.isArray(engineResults) || !engineResults.length) return [];
+  return engineResults
+    .map((item) => {
+      const chapter = String(item?.chapter || "").trim();
+      const topic = String(item?.topic || "").trim();
+      const text = String(item?.text || "").trim().replace(/\s+/g, " ");
+      const scope = [item?.subject, chapter, topic].filter(Boolean).join(" > ");
+      if (!text) return null;
+      return `${scope || "SSC Topic"} :: ${text.slice(0, 220)}`;
+    })
+    .filter(Boolean)
+    .slice(0, 8);
+}
+
 function extractGoalFromMessage(message = "") {
   const text = String(message || "").trim();
   if (!text) return "";
@@ -3132,6 +3148,17 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   const lessonPlan = context.ok
     ? findAcademicLessonPlan({ board: "SSC", classLevel, subject, chapter: selectedChapter })
     : null;
+  const aiEngine = context.ok
+    ? await retrieveAcademicContext({
+        query: `${subject} ${plannerGoal} ${plannerSkills}`,
+        board,
+        classLevel,
+        subject,
+        chapter: selectedChapter,
+        limit: 8
+      })
+    : { ok: false, reason: "context_not_ready", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
 
   let plan = buildFallbackHighSchoolStudyPlanner({
     subject,
@@ -3175,6 +3202,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       mode === "adaptive" ? `Student learning profile summary: ${JSON.stringify(studyProfile)}` : "",
       mode === "adaptive" ? `Adaptive priority order: very weak Subject Gap topics, quiz wrong-answer topics, recent doubts, Exam Strategy topics, pending Roadmap topics, then textbook order.` : "",
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed SSC 6-10 topic data found for this selection yet."}.`,
+      engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}` : "Retrieved textbook snippets: unavailable",
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
       "Rules: create topic-grounded weekly plan only from provided Academic dataset topics. Each week must include concrete chapter/topic names, worked-example practice, and 12-MCQ quiz tasks. Never output generic lines like 'read definitions' without topic context. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
@@ -3295,7 +3323,15 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
     dataPendingReason: context.dataPendingReason || undefined,
     profile: studyProfile || undefined,
     plan,
-    meta: { provider, model }
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
   });
 });
 
@@ -3453,6 +3489,17 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
     selectedTopics,
     academicTopics
   });
+  const aiEngine = context.ok
+    ? await retrieveAcademicContext({
+        query: `${examName} ${syllabus} ${strategySubjects.join(", ")} ${selectedTopics.join(", ")}`,
+        board,
+        classLevel,
+        subject: strategySubjects[0] || "",
+        chapter: selectedTopics[0] || "",
+        limit: 10
+      })
+    : { ok: false, reason: "context_not_ready", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
   let strategy = context.ok
     ? buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, subjects: strategySubjects, selectedTopics, academicTopics })
     : buildFallbackExamStrategy({ examName, examDate, classLevel, syllabus, subjects: strategySubjects, academicTopics });
@@ -3474,6 +3521,7 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       `Allowed subjects only: ${strategySubjects.join(", ")}.`,
       `Selected focus topics only: ${selectedTopics.length ? selectedTopics.join(", ") : "all provided topics"}.`,
       `Academic dataset topics to use: ${topicUnits.length ? topicUnits.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") || "No enriched topics found for this class/subject yet."}.`,
+      engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}` : "Retrieved textbook snippets: unavailable",
       selectedTopics.length ? `Student selected focus topics: ${selectedTopics.join(", ")}.` : "",
       "Rules: every highPriorityTopics item and every weeklyPlan task must stay inside the allowed subjects and selected focus topics. Do not include English, Personality Development, vocabulary, lesson reading, generic formulas, or any other subject unless it is explicitly allowed. Use concrete chapter/topic names from Academic dataset topics. If you cannot do that, return a minimal plan using only the provided topic names."
     ].join("\n");
@@ -3571,7 +3619,15 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       importantQuestions,
       questionExtractionStatus: importantQuestions.available ? "available" : "pending"
     },
-    meta: { provider, model }
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
   });
 });
 

@@ -49,6 +49,10 @@ const envSchema = Joi.object({
   NEWS_TRANSLATE_API_URL: Joi.string().uri().allow("").optional(),
   NEWS_TRANSLATE_API_KEY: Joi.string().allow("").optional(),
   CORS_ORIGINS: Joi.string().allow("").optional()
+  ,
+  ORIN_AI_ENGINE_URL: Joi.string().uri().allow("").optional(),
+  ORIN_AI_ENGINE_TIMEOUT_MS: Joi.number().integer().min(1000).max(60000).default(12000),
+  ORIN_AI_ENGINE_ENABLED: Joi.boolean().truthy("true").falsy("false").default(false)
 }).unknown(true);
 
 const { value, error } = envSchema.validate(process.env, {
@@ -126,5 +130,8 @@ module.exports = {
   newsDataApiBaseUrl: value.NEWSDATA_API_BASE_URL || "https://newsdata.io/api/1/news",
   newsTranslateApiUrl: value.NEWS_TRANSLATE_API_URL || "",
   newsTranslateApiKey: value.NEWS_TRANSLATE_API_KEY || "",
-  corsOrigins
+  corsOrigins,
+  orinAiEngineUrl: value.ORIN_AI_ENGINE_URL || "",
+  orinAiEngineTimeoutMs: Number(value.ORIN_AI_ENGINE_TIMEOUT_MS || 12000),
+  orinAiEngineEnabled: Boolean(value.ORIN_AI_ENGINE_ENABLED)
 };
