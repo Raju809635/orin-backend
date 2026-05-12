@@ -2768,6 +2768,15 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
   });
   const lessonPlan = findAcademicLessonPlan({ board, classLevel, subject, chapter });
   const topicPlan = buildRoadmapTopicPlan(subject, chapter, academicTopics);
+  const aiEngine = await retrieveAcademicContext({
+    query: `${subject} ${chapter || ""} ${studyGoal}`.trim(),
+    board,
+    classLevel,
+    subject,
+    chapter: chapter || "",
+    limit: 10
+  });
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
   const subjectRules = roadmapMissionTemplate(subject)
     .map((item, index) => `${index + 1}. ${item.label}: ${item.practice}; proof: ${item.proof}`)
     .join("\n");
@@ -2835,7 +2844,15 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     return res.status(200).json({
       source,
       roadmap,
-      meta: { provider, model }
+      meta: {
+        provider,
+        model,
+        aiEngine: {
+          enabled: aiEngine.ok,
+          reason: aiEngine.reason,
+          hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+        }
+      }
     });
   }
 
@@ -2851,6 +2868,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       `Dataset verification: ${topicPlan.verified ? "verified topic context available" : "verified topic context is pending or unreadable"}.`,
       lessonPlan ? `Lesson-backed weekly plan: ${lessonPlan.weeklyPlan.map((item) => item.title).join("; ")}.` : "No full lesson weekly plan exists yet.",
       `Academic dataset topics: ${topicPlan.verified ? topicPlan.topics.map((item) => `${item.chapter} > ${item.topic}${item.subtopics?.length ? ` (${item.subtopics.slice(0, 3).join(", ")})` : ""}`).join("; ") : topicPlan.pendingMessage}.`,
+      engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}` : "Retrieved textbook snippets: unavailable",
       `Subject-specific mission rules:\n${subjectRules}`,
       `Study goal: ${studyGoal}.`,
       `Current level: ${currentLevel}.`,
@@ -2975,7 +2993,19 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     details: { goal: studyGoal, chapter, source }
   });
 
-  res.status(200).json({ source, roadmap, meta: { provider, model } });
+  res.status(200).json({
+    source,
+    roadmap,
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
+  });
 });
 
 exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) => {
