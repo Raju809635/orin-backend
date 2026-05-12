@@ -4,7 +4,7 @@ const AiChatLog = require("../models/AiChatLog");
 const { aiChatDailyLimit } = require("../config/env");
 const { getSubscriptionEntitlement } = require("../services/subscriptionService");
 const { requestAiResponse } = require("../services/aiService");
-const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass } = require("../services/academicService");
+const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass, getManualPdfsForClassSubject } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const { updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
@@ -150,7 +150,7 @@ function extractStudyKeywords(text) {
     new Set(
       String(text || "")
         .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/[^\p{L}\p{N}\s]/gu, " ")
         .split(/\s+/)
         .map((word) => word.trim())
         .filter((word) => word.length >= 3 && !STUDY_ASSISTANT_STOP_WORDS.has(word))
@@ -187,7 +187,10 @@ function hasRealPracticeOptions(question) {
 
 function normalizeSubject(value) {
   const text = String(value || "").trim();
-  return HIGH_SCHOOL_SUBJECTS.find((item) => item.toLowerCase() === text.toLowerCase()) || "Mathematics";
+  const examSubject = normalizeExamSubject(text);
+  return HIGH_SCHOOL_SUBJECTS.find((item) => item.toLowerCase() === String(examSubject || text).toLowerCase())
+    || examSubject
+    || "Mathematics";
 }
 
 function normalizeGapQuestion(item, index) {
@@ -462,10 +465,23 @@ function recordVerificationState(record = {}) {
   const fallback = ["generated_fallback", "curated_fallback"].includes(sourceType);
   return {
     verified: !pending && !fallback,
+    usable: !fallback && Boolean(extractionStatus || verificationStatus || metadata.extraction_message || metadata.source_note),
+    reviewPending: pending,
     extractionStatus,
     verificationStatus,
     message: metadata.extraction_message || metadata.source_note || ""
   };
+}
+
+function hasUsableExtractedText(record = {}) {
+  const subjectRecord = record?.subject || record || {};
+  const chapters = Array.isArray(subjectRecord?.chapters) ? subjectRecord.chapters : [];
+  return chapters.some((chapter) =>
+    String(chapter?.fullText || "").trim().length >= 500 ||
+    (Array.isArray(chapter?.pages) && chapter.pages.length) ||
+    (Array.isArray(chapter?.lessonSections) && chapter.lessonSections.length) ||
+    (Array.isArray(chapter?.textbookQuestions) && chapter.textbookQuestions.length)
+  );
 }
 
 function roadmapSubjectKind(subjectName = "") {
@@ -601,20 +617,55 @@ function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
     const chapters = Array.isArray(subjectRecord?.chapters) ? subjectRecord.chapters : [];
     const requested = String(chapter || "").trim().toLowerCase();
     const selectedChapter = chapters.find((item) => String(item?.chapter_name || "").trim().toLowerCase() === requested)
-      || chapters.find((item) => String(item?.chapter_name || "").trim().toLowerCase().includes(requested));
-    if (!selectedChapter || !Array.isArray(selectedChapter.weeklyPlan) || !selectedChapter.weeklyPlan.length) return null;
+      || chapters.find((item) => String(item?.chapter_name || "").trim().toLowerCase().includes(requested) || requested.includes(String(item?.chapter_name || "").trim().toLowerCase()))
+      || chapters[0];
+    if (!selectedChapter) return null;
+    const pdfs = getManualPdfsForClassSubject(classNumber, subject, board);
+    const pageRefs = Array.isArray(selectedChapter.pages)
+      ? selectedChapter.pages.slice(0, 12).map((page) => ({
+          page: Number(page?.page || 0),
+          preview: cleanAcademicText(page?.text || "").slice(0, 220),
+          pdfUrl: pdfs[0]?.pdfUrl || ""
+        })).filter((page) => page.page || page.preview)
+      : [];
     return {
       chapter: selectedChapter,
-      weeklyPlan: selectedChapter.weeklyPlan,
+      classNumber,
+      pdfUrl: pdfs[0]?.pdfUrl || "",
+      weeklyPlan: Array.isArray(selectedChapter.weeklyPlan) && selectedChapter.weeklyPlan.length
+        ? selectedChapter.weeklyPlan
+        : buildFallbackWeeklyPlanFromChapter(selectedChapter, subject),
       lessonSections: Array.isArray(selectedChapter.lessonSections) ? selectedChapter.lessonSections : [],
       definitions: Array.isArray(selectedChapter.definitions) ? selectedChapter.definitions : [],
       diagrams: Array.isArray(selectedChapter.diagrams) ? selectedChapter.diagrams : [],
       activities: Array.isArray(selectedChapter.activities) ? selectedChapter.activities : [],
-      quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
+      textbookQuestions: Array.isArray(selectedChapter.textbookQuestions) ? selectedChapter.textbookQuestions : [],
+      quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : [],
+      pageRefs
     };
   } catch {
     return null;
   }
+}
+
+function buildFallbackWeeklyPlanFromChapter(chapter = {}, subject = "Science") {
+  const chapterName = cleanAcademicText(chapter?.chapter_name || "Selected Chapter");
+  const sections = Array.isArray(chapter?.lessonSections) && chapter.lessonSections.length
+    ? chapter.lessonSections
+    : Array.isArray(chapter?.pages)
+      ? chapter.pages.slice(0, 5).map((page, index) => ({
+          id: `page-${page?.page || index + 1}`,
+          title: `Textbook page ${page?.page || index + 1}`,
+          summary: [cleanAcademicText(page?.text || "").slice(0, 240)].filter(Boolean)
+        }))
+      : [];
+  const template = roadmapMissionTemplate(subject);
+  return (sections.length ? sections : template.slice(0, 5)).slice(0, 7).map((section, index) => ({
+    id: `week-${index + 1}`,
+    title: cleanAcademicText(section?.title || `${chapterName}: ${template[index % template.length]?.label || "Study"}`),
+    focus: cleanAcademicText(section?.summary?.[0] || template[index % template.length]?.practice || `Study ${chapterName}`),
+    lessonSectionIds: section?.id ? [section.id] : []
+  }));
 }
 
 function normalizePlannerTextList(items = [], limit = 6, maxLength = 220) {
@@ -643,10 +694,23 @@ function normalizePlannerDiagrams(items = [], limit = 5) {
   return (Array.isArray(items) ? items : [])
     .map((item) => ({
       title: cleanAcademicText(item?.title || item?.name || ""),
-      whatToLearn: cleanAcademicText(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation.")
+      whatToLearn: cleanAcademicText(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation."),
+      page: item?.page ? Number(item.page) : undefined,
+      pdfUrl: String(item?.pdfUrl || "").trim()
     }))
     .filter((item) => item.title.length >= 6 && !hasBrokenPdfText(item.title))
     .filter((item, index, arr) => arr.findIndex((entry) => entry.title.toLowerCase() === item.title.toLowerCase()) === index)
+    .slice(0, limit);
+}
+
+function normalizePlannerPageRefs(items = [], limit = 5) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => ({
+      page: Number(item?.page || 0),
+      preview: cleanAcademicText(item?.preview || item?.text || "").slice(0, 220),
+      pdfUrl: String(item?.pdfUrl || "").trim()
+    }))
+    .filter((item) => item.page || item.preview)
     .slice(0, limit);
 }
 
@@ -673,6 +737,7 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
   const keyPoints = normalizePlannerTextList(sections.flatMap((section) => section?.keyPoints || []), 8, 260);
   const definitions = normalizePlannerDefinitions(lessonPlan?.definitions, 6);
   const diagrams = normalizePlannerDiagrams(lessonPlan?.diagrams, 5);
+  const pageRefs = normalizePlannerPageRefs(lessonPlan?.pageRefs, 5);
   const activities = normalizePlannerTextList((lessonPlan?.activities || []).flatMap((item) => [item?.title, ...(Array.isArray(item?.steps) ? item.steps : [])]), 4, 220);
   const quizQuestions = normalizePlannerQuiz(lessonPlan?.quizQuestions, subject, chapterName, 4);
 
@@ -682,11 +747,12 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
     return {
       source: "topic_dataset",
       heading: topic,
-      description: `${topic} is selected from the SSC Class 10 extracted topic list. Full lesson explanation for this exact section is still pending, so use the textbook PDF while ORIN shows the verified topic path.`,
+      description: `${topic} is selected from the SSC Classes 6-10 extracted topic list. Full lesson explanation for this exact section is still pending, so use the textbook PDF while ORIN shows the verified topic path.`,
       summary: subtopics.length ? subtopics.slice(0, 5) : [`Study the ${topic} concept from the textbook PDF and write your own explanation.`],
       keyPoints: subtopics.slice(0, 8),
       definitions: [],
       diagrams: [],
+      pageRefs,
       activities: [],
       practice: [
         `Write a 120-word explanation of ${topic}.`,
@@ -706,6 +772,7 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
     keyPoints,
     definitions,
     diagrams,
+    pageRefs,
     activities,
     practice: [
       `Explain ${heading} in your own words using the points above.`,
@@ -974,6 +1041,45 @@ function buildScienceConceptQuestions({ chapterName, keyPoints, definitions, que
   return rows;
 }
 
+function normalizeTextbookQuestionRows(items = [], limit = 24) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => cleanAcademicText(typeof item === "string" ? item : item?.question || item?.text || ""))
+    .filter((item) => item.length >= 18 && !hasBrokenPdfText(item))
+    .filter((item, index, arr) => arr.findIndex((entry) => normalizeQuizText(entry) === normalizeQuizText(item)) === index)
+    .slice(0, limit);
+}
+
+function buildTextbookPracticeQuestions({ subject, chapterName, textbookQuestions, keyPoints, questionCount }) {
+  const rows = [];
+  const subjectKind = roadmapSubjectKind(subject);
+  const questions = normalizeTextbookQuestionRows(textbookQuestions, 32);
+  const anchors = [...questions, ...keyPoints].filter(Boolean);
+  questions.forEach((questionText, index) => {
+    if (rows.length >= questionCount) return;
+    const correct = questionText.slice(0, 140);
+    const options = plausibleDistractors(correct, anchors, [
+      `${chapterName}: revise the textbook example first`,
+      `${chapterName}: solve using the given formula or concept`,
+      `${chapterName}: write the answer with steps`
+    ]);
+    if (!options.length) return;
+    const stem = subjectKind === "mathematics"
+      ? `Which textbook problem from ${chapterName} should be solved with steps?`
+      : subjectKind === "language"
+        ? `Which textbook question belongs to ${chapterName}?`
+        : `Which textbook question is from ${chapterName}?`;
+    uniquePushQuestion(rows, {
+      question: `${stem} (${index + 1})`,
+      options,
+      correct,
+      explanation: subjectKind === "mathematics"
+        ? "This is an extracted textbook Maths problem. Solve it step by step using formulas, equations, or examples from the chapter."
+        : "This question was extracted from the selected textbook chapter."
+    });
+  });
+  return rows;
+}
+
 function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, questionCount = 12 }) {
   const normalizedSubject = normalizeExamSubject(subject) || subject || "Science";
   const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "Core Chapter");
@@ -988,8 +1094,14 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
         .map((item) => ({ term: cleanAcademicText(item?.term || ""), meaning: cleanAcademicText(item?.meaning || "") }))
         .filter((item) => isUsefulDefinitionEntry(item.term, item.meaning))
     : [];
+  const textbookQuestions = Array.isArray(lessonPlan?.chapter?.textbookQuestions)
+    ? lessonPlan.chapter.textbookQuestions
+    : Array.isArray(lessonPlan?.textbookQuestions) ? lessonPlan.textbookQuestions : [];
   const subjectKey = String(normalizedSubject).toLowerCase();
   const generated = [];
+
+  buildTextbookPracticeQuestions({ subject: normalizedSubject, chapterName, textbookQuestions, keyPoints, questionCount: Math.min(questionCount, 8) })
+    .forEach((item) => uniquePushQuestion(generated, item));
 
   const subjectQuestions = subjectKey.includes("math")
     ? buildMathConceptQuestions({ chapterName, keyPoints, definitions, questionCount })
@@ -1001,9 +1113,6 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
       .forEach((item) => uniquePushQuestion(generated, item));
   } else if (generated.length < questionCount && (subjectKey.includes("science") || subjectKey.includes("bio") || subjectKey.includes("physics") || subjectKey.includes("chem"))) {
     buildDeterministicTopicQuestions("Science", chapterName, questionCount - generated.length)
-      .forEach((item) => uniquePushQuestion(generated, item));
-  } else if (generated.length < questionCount && (subjectKey.includes("english") || subjectKey.includes("telugu") || subjectKey.includes("hindi"))) {
-    buildDeterministicTopicQuestions("English", "Reading", questionCount - generated.length)
       .forEach((item) => uniquePushQuestion(generated, item));
   }
 
@@ -1668,7 +1777,7 @@ function buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, su
       topic: unit.chapter && unit.topic !== unit.chapter ? `${unit.chapter}: ${unit.topic}` : unit.topic,
       priority: isHigh ? "high" : index < Math.ceil(topicUnits.length * 0.75) ? "medium" : "low",
       weightageMarks: isHigh ? 8 : 5,
-      reason: `Selected ${unit.subject} topic from extracted SSC 10 academic data.`,
+      reason: `Selected ${unit.subject} topic from extracted SSC Classes 6-10 academic data.`,
       tasks: [
         `Revise concept notes for ${unit.topic}`,
         `Solve textbook examples from ${unit.chapter || unit.topic}`,
@@ -1705,7 +1814,7 @@ function buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, su
     classLevel,
     syllabus,
     expectedScore: 85,
-    summary: `Focus only on ${selectedSubjects.join(", ")} topics selected from extracted SSC 10 data: ${topicUnits.slice(0, 4).map((unit) => unit.topic).join(", ")}.`,
+    summary: `Focus only on ${selectedSubjects.join(", ")} topics selected from extracted SSC Classes 6-10 data: ${topicUnits.slice(0, 4).map((unit) => unit.topic).join(", ")}.`,
     priorityCounts: {
       high: highPriorityTopics.filter((item) => item.priority === "high").length,
       medium: highPriorityTopics.filter((item) => item.priority === "medium").length,
@@ -1727,7 +1836,6 @@ function buildDatasetExamStrategy({ examName, examDate, classLevel, syllabus, su
 
 function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], requestedTopics = [] }) {
   const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
-  if (classNumber !== 10) return [];
   const requested = Array.isArray(requestedTopics)
     ? requestedTopics.map((item) => cleanAcademicText(item || "")).filter(Boolean)
     : [];
@@ -1739,7 +1847,8 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
       const subjectRecord = record?.subject || record;
       const verification = recordVerificationState(subjectRecord);
       const chapters = Array.isArray(record?.chapters || record?.subject?.chapters) ? record.chapters || record.subject.chapters : [];
-      if (!verification.verified || !chapters.length) {
+      const usable = chapters.length && (verification.verified || hasUsableExtractedText(subjectRecord));
+      if (!usable) {
         rows.push({
           subject,
           chapter: "",
@@ -1757,7 +1866,17 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
         if (hasBrokenPdfText(chapterName)) continue;
         const topicList = Array.isArray(chapter?.topics) ? chapter.topics : [];
         if (!topicList.length && chapterName) {
-          rows.push({ subject, chapter: chapterName, topic: chapterName, subtopics: [], verified: true });
+          rows.push({
+            subject,
+            chapter: chapterName,
+            topic: chapterName,
+            subtopics: normalizeTextbookQuestionRows(chapter?.textbookQuestions, 4),
+            verified: true,
+            reviewPending: verification.reviewPending,
+            extractionStatus: verification.extractionStatus,
+            verificationStatus: verification.verificationStatus,
+            message: verification.message
+          });
         }
         for (const topic of topicList) {
           const topicName = cleanAcademicText(topic?.topic_name || topic?.title || topic?.name || topic || "");
@@ -1769,6 +1888,7 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
             topic: topicName,
             subtopics: Array.isArray(topic?.subtopics) ? topic.subtopics.map(cleanAcademicText).filter(Boolean) : [],
             verified: true,
+            reviewPending: verification.reviewPending,
             extractionStatus: verification.extractionStatus,
             verificationStatus: verification.verificationStatus,
             message: verification.message
@@ -1780,9 +1900,15 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
     }
   }
 
-  const filtered = requested.length
-    ? rows.filter((row) => requested.some((topic) => topic.toLowerCase() === row.topic.toLowerCase() || topic.toLowerCase() === row.chapter.toLowerCase()))
+  const requestedMatches = requested.length
+    ? rows.filter((row) => requested.some((topic) => {
+        const key = topic.toLowerCase();
+        const rowTopic = String(row.topic || "").toLowerCase();
+        const rowChapter = String(row.chapter || "").toLowerCase();
+        return key === rowTopic || key === rowChapter || rowTopic.includes(key) || rowChapter.includes(key) || key.includes(rowChapter);
+      }))
     : rows;
+  const filtered = requested.length && requestedMatches.length ? requestedMatches : rows;
   if (!filtered.length && rows.some((row) => row.verified === false)) {
     return rows.filter((row) => row.verified === false).slice(0, 3);
   }
@@ -1799,12 +1925,12 @@ function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects 
     chapter: requestedTopics[0] || ""
   };
 
-  if (normalizedBoard !== "SSC" || classNumber !== 10) {
+  if (normalizedBoard !== "SSC" || classNumber < 6 || classNumber > 10) {
     return {
       ok: false,
       source: "data_pending",
       isTopicGrounded: false,
-      dataPendingReason: "Topic-aware generation is currently available only for SSC Class 10.",
+      dataPendingReason: "Topic-aware generation is currently available for SSC Classes 6 to 10.",
       datasetScope,
       topics: []
     };
@@ -1812,7 +1938,7 @@ function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects 
 
   const topics = collectExamAcademicTopics({
     board: "SSC",
-    classLevel: "10",
+    classLevel: String(classNumber),
     subjects,
     requestedTopics
   }).filter((item) => item?.verified);
@@ -1822,7 +1948,7 @@ function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects 
       ok: false,
       source: "data_pending",
       isTopicGrounded: false,
-      dataPendingReason: "Verified SSC 10 chapter/topic extraction is pending for this selection.",
+      dataPendingReason: `SSC Class ${classNumber} chapter/topic extraction is pending for this selection.`,
       datasetScope,
       topics: []
     };
@@ -2162,17 +2288,6 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
 
   if (!context.ok) {
     questions = [];
-  }
-  if (!context.ok) {
-    strategy = {
-      expectedScore: 0,
-      summary: context.dataPendingReason || "Topic-priority strategy is pending for this board/class selection.",
-      priorityCounts: { high: 0, medium: 0, low: 0 },
-      timeAllocation: [],
-      highPriorityTopics: [],
-      weeklyPlan: [],
-      reminders: ["Switch to SSC Class 10 to use extracted-topic exam strategy."]
-    };
   }
 
   res.status(200).json({
@@ -2515,6 +2630,13 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
     subjects: [subject],
     requestedTopics: chapter ? [chapter] : []
   });
+  const lessonPlan = assistantMode === "academic" && subject
+    ? findAcademicLessonPlan({ board, classLevel, subject, chapter: chapter || academicTopics[0]?.chapter || "" })
+    : null;
+  const lessonSnippets = Array.isArray(lessonPlan?.pageRefs)
+    ? lessonPlan.pageRefs.map((item) => `Page ${item.page}: ${item.preview}`).filter(Boolean).slice(0, 5)
+    : [];
+  const lessonQuestions = normalizeTextbookQuestionRows(lessonPlan?.textbookQuestions || lessonPlan?.chapter?.textbookQuestions, 8);
 
   let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel, assistantMode });
   let source = "fallback";
@@ -2534,12 +2656,14 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
       assistantMode === "general" ? "" : `Chapter/topic context: ${chapter || "Not specified"}.`,
       assistantMode === "general" ? "Answer style: natural, useful, concise." : `Answer style: ${answerStyle}.`,
       assistantMode === "academic"
-        ? `Academic dataset topics: ${classNumber === 10 && academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No verified dataset topics found for this selection yet. Do not invent textbook topics."}.`
+        ? `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No verified dataset topics found for this selection yet. Do not invent textbook topics."}.`
         : "",
+      assistantMode === "academic" && lessonSnippets.length ? `Textbook page snippets: ${lessonSnippets.join(" | ")}.` : "",
+      assistantMode === "academic" && lessonQuestions.length ? `Textbook questions: ${lessonQuestions.join(" | ")}.` : "",
       `Student doubt: ${question}.`,
       assistantMode === "general"
         ? "Rules: answer the actual question, use clear high-school friendly language, no silly/random content, keep mobile text concise, include practiceQuestions only if useful."
-        : "Rules: clear high-school language, no random unrelated topics, answer the actual doubt, include practice questions with real options, keep mobile text concise."
+        : "Rules: clear high-school language, no random unrelated topics, answer the actual doubt from the selected textbook context, include formula/problem steps for Maths, keep Telugu/Hindi answers in the selected language when the question is in that language, include practice questions with real options."
     ].join("\n");
 
     const ai = await requestAiResponse({
@@ -2654,7 +2778,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
   const academicTopics = context.topics;
   const selectedChapter = cleanAcademicText(academicTopics[0]?.chapter || skills.split(",")[0] || "");
   const lessonPlan = context.ok
-    ? findAcademicLessonPlan({ board: "SSC", classLevel: "10", subject, chapter: selectedChapter })
+    ? findAcademicLessonPlan({ board: "SSC", classLevel, subject, chapter: selectedChapter })
     : null;
 
   let plan = buildFallbackHighSchoolStudyPlanner({
@@ -2681,7 +2805,7 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       `Subject: ${subject}.`,
       `Study goal: ${goal}.`,
       `Current skills or chapters: ${skills}.`,
-      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed SSC 6-10 topic data found for this selection yet."}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
       "Rules: create topic-grounded weekly plan only from provided Academic dataset topics. Each week must include concrete chapter/topic names, worked-example practice, and 12-MCQ quiz tasks. Never output generic lines like 'read definitions' without topic context. If no dataset topics are available, avoid fake topic names and explain that this class/subject will be added later. Keep text concise and school-safe."
@@ -2768,10 +2892,10 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       analytics: [],
       adaptivePlan: {
         newFocus: "Pending dataset verification",
-        reason: context.dataPendingReason || "Please switch to SSC Class 10 for extracted-topic planning.",
+        reason: context.dataPendingReason || "Please select an SSC class from 6 to 10 with scanned subject data.",
         updatedWeeks: []
       },
-      reminders: ["Select SSC board and Class 10 to unlock extracted-topic planning."]
+      reminders: ["Select SSC board and Classes 6-10 to unlock extracted-topic planning."]
     };
   } else if (lessonPlan) {
     plan = attachLessonDetailsToStudyPlan({
@@ -3089,7 +3213,7 @@ exports.generateHighSchoolSchoolProjects = asyncHandler(async (req, res) => {
       `Board: ${board}.`,
       `Subject: ${subject}.`,
       `Chapter/topic: ${chapter}.`,
-      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}.`,
+      `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed SSC 6-10 topic data found for this selection yet."}.`,
       `Goal: ${goal}.`,
       `Difficulty: ${difficulty}.`,
       "Rules: keep projects school-safe, low-cost, syllabus-linked, and proof-friendly. Prioritize Academic dataset topics when available. Do not invent fake syllabus topics or adult startup/project content."
@@ -3234,7 +3358,8 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
   const isGreeting = /^(hi|hii|hello|hey|namaste|good\s*(morning|afternoon|evening)|yo)[\s!.]*$/i.test(message);
   const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
   let academicSummary = null;
-  if (assistantMode === "academic" && subject && classNumber === 10) {
+  let chatLessonPlan = null;
+  if (assistantMode === "academic" && subject && classNumber >= 6 && classNumber <= 10) {
     try {
       academicSummary = summarizeAcademicContext({
         board,
@@ -3242,10 +3367,16 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
         subject,
         chapterName: chapter || undefined
       });
+      chatLessonPlan = findAcademicLessonPlan({ board, classLevel, subject, chapter: chapter || academicSummary?.selectedChapter?.chapter_name || "" });
     } catch {
       academicSummary = null;
+      chatLessonPlan = null;
     }
   }
+  const chatLessonSnippets = Array.isArray(chatLessonPlan?.pageRefs)
+    ? chatLessonPlan.pageRefs.map((item) => `Page ${item.page}: ${item.preview}`).filter(Boolean).slice(0, 5)
+    : [];
+  const chatTextbookQuestions = normalizeTextbookQuestionRows(chatLessonPlan?.textbookQuestions || chatLessonPlan?.chapter?.textbookQuestions, 6);
 
   let existingConversation = null;
   if (req.body?.conversationId) {
@@ -3269,11 +3400,13 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
     `Subject: ${subject || "Not specified"}`,
     `Chapter: ${chapter || "Not specified"}`,
     assistantMode === "academic"
-      ? `Academic dataset topics: ${academicSummary?.syllabusPreview?.length ? academicSummary.syllabusPreview.map((item) => `${item.chapter_name}${item.topics?.length ? ` (${item.topics.join(", ")})` : ""}`).join("; ") : "No parsed Class 10 topic data found for this selection yet. If class is not 10, say topics will be added later."}`
+      ? `Academic dataset topics: ${academicSummary?.syllabusPreview?.length ? academicSummary.syllabusPreview.map((item) => `${item.chapter_name}${item.topics?.length ? ` (${item.topics.join(", ")})` : ""}`).join("; ") : "No parsed SSC 6-10 topic data found for this selection yet."}`
       : "",
+    assistantMode === "academic" && chatLessonSnippets.length ? `Textbook page snippets: ${chatLessonSnippets.join(" | ")}` : "",
+    assistantMode === "academic" && chatTextbookQuestions.length ? `Textbook questions: ${chatTextbookQuestions.join(" | ")}` : "",
     `Student prompt: ${message}`,
     assistantMode === "academic"
-      ? "Rules: stay on-topic, use clear headings/bullets, include key points and one short exam tip."
+      ? "Rules: stay on-topic, use clear headings/bullets, include key points and one short exam tip. For Maths, show formulas/equations/problem steps. For Telugu/Hindi, keep the answer in the selected language when the prompt uses that language."
       : "Rules: answer the actual prompt without random filler."
   ].join("\n");
 

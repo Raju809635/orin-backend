@@ -455,6 +455,15 @@ function getLessonForBoardClassSubjectChapter(board, classNumber, subject, chapt
       diagrams: Array.isArray(selectedChapter.diagrams) ? selectedChapter.diagrams : [],
       activities: Array.isArray(selectedChapter.activities) ? selectedChapter.activities : [],
       weeklyPlan: Array.isArray(selectedChapter.weeklyPlan) ? selectedChapter.weeklyPlan : [],
+      textbookQuestions: Array.isArray(selectedChapter.textbookQuestions) ? selectedChapter.textbookQuestions : [],
+      pages: Array.isArray(selectedChapter.pages) ? selectedChapter.pages.slice(0, 20) : [],
+      pageRefs: Array.isArray(selectedChapter.pages)
+        ? selectedChapter.pages.slice(0, 8).map((page) => ({
+            page: Number(page?.page || 0),
+            preview: String(page?.text || "").replace(/\s+/g, " ").trim().slice(0, 220)
+          })).filter((page) => page.page || page.preview)
+        : [],
+      fullText: String(selectedChapter.fullText || "").slice(0, 12000),
       quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
     }
   };
