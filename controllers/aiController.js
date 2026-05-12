@@ -2514,11 +2514,22 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     requestedTopics: focusTopic ? [focusTopic] : []
   });
   const academicTopics = context.topics;
+  const aiEngine = context.ok
+    ? await retrieveAcademicContext({
+        query: `${subjects.join(" ")} ${focusTopic || ""} class ${classLevel}`,
+        board,
+        classLevel,
+        subject: subjects[0] || "",
+        chapter: focusTopic || "",
+        limit: 10
+      })
+    : { ok: false, reason: "context_not_ready", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
   const importantQuestions = collectExamImportantQuestions({
     board,
     classLevel,
     subjects: subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5),
-    selectedTopics,
+    selectedTopics: focusTopic ? [focusTopic] : [],
     academicTopics
   });
 
@@ -2539,6 +2550,7 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
       `Subjects: ${subjects.join(", ")}.`,
       focusTopic ? `Focus topic: ${focusTopic}.` : "Mix foundational topics across the selected subjects.",
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No verified textbook topics found for this selection. Avoid fake topic names."}.`,
+      engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}` : "Retrieved textbook snippets: unavailable",
       `Create exactly ${questionCount} questions.`,
       "Rules: textbook-first, school-safe content, no adult career/marketplace content, each correct value must exactly match one option, concise explanations.",
       "Do not use placeholder options like A, B, C, D. Options must be the actual answer text."
@@ -2585,7 +2597,15 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
       subjects,
       questions
     },
-    meta: { provider, model }
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
   });
 });
 
@@ -2609,6 +2629,18 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
   let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
+  const weakTopicNames = Array.isArray(score?.weakRows) ? score.weakRows.map((row) => String(row.label || "").trim()).filter(Boolean) : [];
+  const aiEngine = context.ok
+    ? await retrieveAcademicContext({
+        query: `${weakTopicNames.join(" ")} ${classLevel} weak areas`,
+        board,
+        classLevel,
+        subject: (score.subjectRows?.[0]?.label || "").trim(),
+        chapter: weakTopicNames[0] || "",
+        limit: 8
+      })
+    : { ok: false, reason: "context_not_ready", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
 
   try {
     const prompt = [
@@ -2621,7 +2653,8 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
         subjectRows: score.subjectRows,
         weakRows: score.weakRows,
         averageRows: score.averageRows,
-        strengthRows: score.strengthRows
+        strengthRows: score.strengthRows,
+        retrievedTextbookSnippets: engineTopicHints
       })
     ].join("\n");
 
@@ -2700,7 +2733,15 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
               : "Good attempt. Let us strengthen the basics.",
       focusPlan
     },
-    meta: { provider, model }
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
   });
 });
 
