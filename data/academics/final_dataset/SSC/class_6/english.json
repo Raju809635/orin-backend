@@ -4,187 +4,940 @@
     "class": 6,
     "subject": "English",
     "year": "2026",
-    "source": "curated_generation",
-    "source_type": "generated_fallback"
+    "source": "raw_data/manual_pdfs/SSC TELANGANA/class 6/english.pdf",
+    "source_type": "manual_pdf_full_lesson_text",
+    "extraction_status": "full_text_extracted_needs_review",
+    "verification_status": "chapter_heading_matched_needs_review",
+    "source_note": "Lesson text is extracted from the uploaded SSC Telangana Class 6 textbook PDF.",
+    "extraction_message": "3 chapters and 20825 characters were scanned from the PDF. Page boundaries need human review before marking verified."
   },
   "chapters": [
     {
       "chapter_no": 1,
-      "chapter_name": "Literature Reader",
+      "chapter_name": "Reading Comprehension",
+      "source_pages": {
+        "start": 145,
+        "end": 146
+      },
+      "pageCount": 2,
+      "charCount": 4881,
+      "pages": [
+        {
+          "page": 145,
+          "text": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135",
+          "charCount": 1960
+        },
+        {
+          "page": 146,
+          "text": "A Though the components in a unit have been organised as listening, speaking (oral activity), reading and writing, an integrated treatment of these skills has been worked out. Vocabulary and grammar exercises have been contextually designed. N A few questions and activities, given under comprehension, do not target any fixed responses; instead, they demand the learners to use language authentically both orally A and in writing. These comprehension questions and the language activities are merely stepping stones for the learners to gain proficiency in the language and as such are not goals by themselves. G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions. This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit. The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively. Reading Texts: Every unit consists of three reading texts (Reading A, B and C). The L reading texts include different genres such as stories, narratives, biographical sketches, short plays, speeches, monologues, letters, interviews and essays related to the theme of the unit. All texts are followEed by glossary, and a few comprehension questions. You will find the questions that help students think critically, reflect on what they have read, and interpret the text in their own words. Teachers should follow the suggested transaction T process in the classroom. Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises. You will find matching questions, finding synonyms / antonyms, phrasal verbs, multiple shades of meanings, collocations, homonyms, homophones, homographs, idioms, word- R formation activities, etc. Grammar: This section contains some grammar tasks/activities/exercises. You will fEind tasks that make the students explore the language. You will also find activities that help students identify grammatical errors and edit them. CWriting: This section contains some written discourses that help students write conversations, descriptions, narratives / stories, messages, e-mails, SMSes, diary entries, letters, paragraph, an essays, biographical sketches, songs / poems and some other Sdiscourses. You will also find some tasks that need group discussion, collation of information from various sources, and then writing a piece collaboratively. Study Skills: This section contains some tasks/activities/exercises to improve study skills. You will find some verbal and nonverbal activities like pie charts, bar diagrams, tables, advertisements, dictionary entries, route maps, etc. These activities help children interprete, analyze and transfer the data, and use the language appropriately. 136 Free distribution by T.S. Government 2019-20",
+          "charCount": 2920
+        }
+      ],
+      "fullText": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135 A Though the components in a unit have been organised as listening, speaking (oral activity), reading and writing, an integrated treatment of these skills has been worked out. Vocabulary and grammar exercises have been contextually designed. N A few questions and activities, given under comprehension, do not target any fixed responses; instead, they demand the learners to use language authentically both orally A and in writing. These comprehension questions and the language activities are merely stepping stones for the learners to gain proficiency in the language and as such are not goals by themselves. G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions. This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit. The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively. Reading Texts: Every unit consists of three reading texts (Reading A, B and C). The L reading texts include different genres such as stories, narratives, biographical sketches, short plays, speeches, monologues, letters, interviews and essays related to the theme of the unit. All texts are followEed by glossary, and a few comprehension questions. You will find the questions that help students think critically, reflect on what they have read, and interpret the text in their own words. Teachers should follow the suggested transaction T process in the classroom. Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises. You will find matching questions, finding synonyms / antonyms, phrasal verbs, multiple shades of meanings, collocations, homonyms, homophones, homographs, idioms, word- R formation activities, etc. Grammar: This section contains some grammar tasks/activities/exercises. You will fEind tasks that make the students explore the language. You will also find activities that help students identify grammatical errors and edit them. CWriting: This section contains some written discourses that help students write conversations, descriptions, narratives / stories, messages, e-mails, SMSes, diary entries, letters, paragraph, an essays, biographical sketches, songs / poems and some other Sdiscourses. You will also find some tasks that need group discussion, collation of information from various sources, and then writing a piece collaboratively. Study Skills: This section contains some tasks/activities/exercises to improve study skills. You will find some verbal and nonverbal activities like pie charts, bar diagrams, tables, advertisements, dictionary entries, route maps, etc. These activities help children interprete, analyze and transfer the data, and use the language appropriately. 136 Free distribution by T.S. Government 2019-20",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Reading Comprehension: Lesson reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Literature Reader",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
-          ]
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language.",
+            "A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit."
+          ],
+          "lessonSectionId": "reading-comprehension-section-1"
         },
         {
-          "topic_name": "Language Study",
+          "topic_name": "Meanings and vocabulary",
           "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
-          ]
+            "Activities focus on reading comprehension, vocabulary, grammar and study skills.",
+            "Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc.",
+            "and construct them in oral as well as written forms."
+          ],
+          "lessonSectionId": "reading-comprehension-section-2"
         },
         {
-          "topic_name": "Writing And Expression",
+          "topic_name": "Comprehension questions",
           "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+            "G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions.",
+            "This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit.",
+            "The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively."
+          ],
+          "lessonSectionId": "reading-comprehension-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Teachers should follow the suggested transaction T process in the classroom.",
+            "Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises.",
+            "You will find matching questions, finding synonyms / antonyms, phrasal verbs, multiple shades of meanings, collocations, homonyms, homophones, homographs, idioms, word- R formation activities, etc."
+          ],
+          "lessonSectionId": "reading-comprehension-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "Study Skills: This section contains some tasks/activities/exercises to improve study skills.",
+            "You will find some verbal and nonverbal activities like pie charts, bar diagrams, tables, advertisements, dictionary entries, route maps, etc.",
+            "These activities help children interprete, analyze and transfer the data, and use the language appropriately."
+          ],
+          "lessonSectionId": "reading-comprehension-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "reading-comprehension-section-1",
+          "title": "Reading Comprehension: Lesson reading",
+          "summary": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc.",
+            "E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. Listening and Speaking 2. Reading CoTmprehension 3. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres.",
+            "Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc."
+          ],
+          "keyPoints": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language.",
+            "A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit.",
+            "E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards.",
+            "The everyday classroom transaction should focus on the following areas.",
+            "Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres.",
+            "Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading."
+          ],
+          "pageNumbers": [
+            145
+          ],
+          "pageRange": "145-145",
+          "fullText": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135",
+          "textbookQuestions": []
+        },
+        {
+          "id": "reading-comprehension-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "A Though the components in a unit have been organised as listening, speaking (oral activity), reading and writing, an integrated treatment of these skills has been worked out. Vocabulary and grammar exercises have been contextually designed. N A few questions and activities, given under comprehension, do not target any fixed responses; instead, they demand the learners to use language authentically both orally A and in writing.",
+            "These comprehension questions and the language activities are merely stepping stones for the learners to gain proficiency in the language and as such are not goals by themselves. G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions. This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit.",
+            "The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively. Reading Texts: Every unit consists of three reading texts (Reading A, B and C). The L reading texts include different genres such as stories, narratives, biographical sketches, short plays, speeches, monologues, letters, interviews and essays related to the theme of the unit.",
+            "All texts are followEed by glossary, and a few comprehension questions. You will find the questions that help students think critically, reflect on what they have read, and interpret the text in their own words. Teachers should follow the suggested transaction T process in the classroom. Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises."
+          ],
+          "keyPoints": [
+            "Activities focus on reading comprehension, vocabulary, grammar and study skills.",
+            "Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc.",
+            "and construct them in oral as well as written forms.",
+            "A Though the components in a unit have been organised as listening, speaking (oral activity), reading and writing, an integrated treatment of these skills has been worked out.",
+            "Vocabulary and grammar exercises have been contextually designed.",
+            "N A few questions and activities, given under comprehension, do not target any fixed responses; instead, they demand the learners to use language authentically both orally A and in writing.",
+            "These comprehension questions and the language activities are merely stepping stones for the learners to gain proficiency in the language and as such are not goals by themselves."
+          ],
+          "pageNumbers": [
+            146
+          ],
+          "pageRange": "146-146",
+          "fullText": "A Though the components in a unit have been organised as listening, speaking (oral activity), reading and writing, an integrated treatment of these skills has been worked out. Vocabulary and grammar exercises have been contextually designed. N A few questions and activities, given under comprehension, do not target any fixed responses; instead, they demand the learners to use language authentically both orally A and in writing. These comprehension questions and the language activities are merely stepping stones for the learners to gain proficiency in the language and as such are not goals by themselves. G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions. This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit. The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively. Reading Texts: Every unit consists of three reading texts (Reading A, B and C). The L reading texts include different genres such as stories, narratives, biographical sketches, short plays, speeches, monologues, letters, interviews and essays related to the theme of the unit. All texts are followEed by glossary, and a few comprehension questions. You will find the questions that help students think critically, reflect on what they have read, and interpret the text in their own words. Teachers should follow the suggested transaction T process in the classroom. Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises. You will find matching questions, finding synonyms / antonyms, phrasal verbs, multiple shades of meanings, collocations, homonyms, homophones, homographs, idioms, word- R formation activities, etc. Grammar: This section contains some grammar tasks/activities/exercises. You will fEind tasks that make the students explore the language. You will also find activities that help students identify grammatical errors and edit them. CWriting: This section contains some written discourses that help students write conversations, descriptions, narratives / stories, messages, e-mails, SMSes, diary entries, letters, paragraph, an essays, biographical sketches, songs / poems and some other Sdiscourses. You will also find some tasks that need group discussion, collation of information from various sources, and then writing a piece collaboratively. Study Skills: This section contains some tasks/activities/exercises to improve study skills. You will find some verbal and nonverbal activities like pie charts, bar diagrams, tables, advertisements, dictionary entries, route maps, etc. These activities help children interprete, analyze and transfer the data, and use the language appropriately. 136 Free distribution by T.S. Government 2019-20",
+          "textbookQuestions": []
+        },
+        {
+          "id": "reading-comprehension-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc.",
+            "E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. Listening and Speaking 2. Reading CoTmprehension 3. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres.",
+            "Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc."
+          ],
+          "keyPoints": [
+            "G Components of a Unit Face Sheet / Trigger: Each unit starts with a picture / quotation / poem followed by some N interactive questions.",
+            "This is to warm-up the students and to generate genuine interest towards the theme and the reading texts in the unit.",
+            "The teacher can put more number of questions that demand divergent responses from children in order to encourage them to A interact more effectively.",
+            "Reading Texts: Every unit consists of three reading texts (Reading A, B and C).",
+            "The L reading texts include different genres such as stories, narratives, biographical sketches, short plays, speeches, monologues, letters, interviews and essays related to the theme of the unit.",
+            "All texts are followEed by glossary, and a few comprehension questions.",
+            "You will find the questions that help students think critically, reflect on what they have read, and interpret the text in their own words."
+          ],
+          "pageNumbers": [
+            145
+          ],
+          "pageRange": "145-145",
+          "fullText": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135",
+          "textbookQuestions": []
+        },
+        {
+          "id": "reading-comprehension-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc.",
+            "E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. Listening and Speaking 2. Reading CoTmprehension 3. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres.",
+            "Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc."
+          ],
+          "keyPoints": [
+            "Teachers should follow the suggested transaction T process in the classroom.",
+            "Language Activities Vocabulary: TThis section contains some vocabulary tasks/activities/exercises.",
+            "You will find matching questions, finding synonyms / antonyms, phrasal verbs, multiple shades of meanings, collocations, homonyms, homophones, homographs, idioms, word- R formation activities, etc.",
+            "Grammar: This section contains some grammar tasks/activities/exercises.",
+            "You will fEind tasks that make the students explore the language.",
+            "You will also find activities that help students identify grammatical errors and edit them.",
+            "You will also find some tasks that need group discussion, collation of information from various sources, and then writing a piece collaboratively."
+          ],
+          "pageNumbers": [
+            145
+          ],
+          "pageRange": "145-145",
+          "fullText": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135",
+          "textbookQuestions": []
+        },
+        {
+          "id": "reading-comprehension-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language.",
+            "Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc.",
+            "E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. Listening and Speaking 2. Reading CoTmprehension 3. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres.",
+            "Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc."
+          ],
+          "keyPoints": [
+            "Study Skills: This section contains some tasks/activities/exercises to improve study skills.",
+            "You will find some verbal and nonverbal activities like pie charts, bar diagrams, tables, advertisements, dictionary entries, route maps, etc.",
+            "These activities help children interprete, analyze and transfer the data, and use the language appropriately."
+          ],
+          "pageNumbers": [
+            145
+          ],
+          "pageRange": "145-145",
+          "fullText": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the syllabus for a ten-year course in English as a second language. A Teachers should act as facilitators and encourage children to do individual and group work, in order to make them as autonomous users of the language. Interactive approach should be followed while transacting the language activities iGn each unit. The Goals After the completion of the course, the students are eNxpected to attain the basic proficiency, such as is acquired in natural language learning i.e., the spontaneous and appropriate use of language for at least everyday use, A to develop his/her linguistic competence for abstract thought and knowledge acquisition and, to construct discourses (oral and written) such as narratives, descriptions, essays, L conversations, diary, plays, script writing, profile writing, dramas, posters, slogans, letters, etc. E Learning Outcomes / Academic Standards At the end of the academic year the children are expected to achieve certain academic T standards. The everyday classroom transaction should focus on the following areas. 1. Listening and Speaking 2. Reading CoTmprehension 3. Vocabulary R 4. Grammar 5. Conventions of Writing E6. Creative Expression (Oral and Written Discourses) In order to achieve the above learning outcomes, the new textbooks have eight units with Cdifferent themes and genres. Features of the Textbook SThe following are the features of the Textbook: Units are thematically organized with passages meant for listening and reading. Activities focus on reading comprehension, vocabulary, grammar and study skills. Measures have been taken to help learners get the rules familiarised with different genres such as narratives, essays, biographical sketches, plays, poems, etc. and construct them in oral as well as written forms. Free distribution by T.S. Government 2019-20 135",
+          "textbookQuestions": []
+        }
+      ],
+      "textbookQuestions": [],
+      "definitions": [
+        {
+          "term": "Reading Comprehension",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "activity), reading and writing, an integrated treatment of these skills has been worked ou",
+          "steps": [
+            "activity), reading and writing, an integrated treatment of these skills has been worked out"
           ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Reading Comprehension: Lesson reading",
+          "lessonSectionIds": [
+            "reading-comprehension-section-1"
+          ],
+          "focus": "Read the lesson. Section: Reading Comprehension: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "reading-comprehension-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "reading-comprehension-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "reading-comprehension-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "reading-comprehension-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Reading Comprehension key terms and exam answers",
+          "lessonSectionIds": [
+            "reading-comprehension-section-4",
+            "reading-comprehension-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "reading-comprehension-q1",
+          "question": "Which word/idea is important in Reading Comprehension?",
+          "options": [
+            "Reading Comprehension",
+            "Reading Comprehension",
+            "Reading Comprehension: Lesson reading",
+            "Important exercise question"
+          ],
+          "correct": "Reading Comprehension",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "reading-comprehension-q2",
+          "question": "Which statement is explained in 'Reading Comprehension: Lesson reading'?",
+          "options": [
+            "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the s",
+            "Reading Comprehension",
+            "Reading Comprehension: Lesson reading",
+            "A different chapter topic"
+          ],
+          "correct": "A Appendix II About the Textbook and Assessment Procedures N ‘Our World through English’ Class VI has been prepared in accordance with the s",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "reading-comprehension-q4",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 2,
-      "chapter_name": "Poetry And Appreciation",
+      "chapter_name": "Speaking And Listening",
+      "source_pages": {
+        "start": 147,
+        "end": 147
+      },
+      "pageCount": 1,
+      "charCount": 2892,
+      "pages": [
+        {
+          "page": 147,
+          "text": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "charCount": 2892
+        }
+      ],
+      "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Speaking And Listening: Lesson reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Poetry And Appreciation",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies.",
+            "You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to.",
+            "Oral Activity: This section contains some oral discourses to improve speaking A competencies."
+          ],
+          "lessonSectionId": "speaking-and-listening-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class.",
+            "Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning.",
+            "The self-assessment tools reflect all the sections in a A unit."
+          ],
+          "lessonSectionId": "speaking-and-listening-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "The Continuous and Comprehensive Assessment is proposed.",
+            "E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required.",
+            "CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "lessonSectionId": "speaking-and-listening-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Types of Assessment R There are two types of assessment - 1.",
+            "Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards).",
+            "Slip Test Teacher has to assess the performance of the learners for each term."
+          ],
+          "lessonSectionId": "speaking-and-listening-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "Children have to read, comprehend and express their opinion in oral and written.",
+            "The oral and written reflections are the evidences for awarding marks."
+          ],
+          "lessonSectionId": "speaking-and-listening-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "speaking-and-listening-section-1",
+          "title": "Speaking And Listening: Lesson reading",
+          "summary": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e.",
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "keyPoints": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies.",
+            "You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to.",
+            "Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc.",
+            "G Project: This section contains one or two projects related to the theme of the unit.",
+            "They require students to find resources, to work out the task i.e."
+          ],
+          "pageNumbers": [
+            147
+          ],
+          "pageRange": "147-147",
+          "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "textbookQuestions": []
+        },
+        {
+          "id": "speaking-and-listening-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e.",
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "keyPoints": [
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class.",
+            "Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning.",
+            "The self-assessment tools reflect all the sections in a A unit.",
+            "This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process.",
+            "Assessment is not an activity distinct from learning."
+          ],
+          "pageNumbers": [
+            147
+          ],
+          "pageRange": "147-147",
+          "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "textbookQuestions": []
+        },
+        {
+          "id": "speaking-and-listening-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e.",
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "keyPoints": [
+            "The Continuous and Comprehensive Assessment is proposed.",
+            "E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required.",
+            "CCE is an ongoing process and is an integral part of the lesson.",
+            "At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used.",
+            "The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt.",
+            "So ‘mugging up’ by the student will not be of any use to him or her."
+          ],
+          "pageNumbers": [
+            147
+          ],
+          "pageRange": "147-147",
+          "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "textbookQuestions": []
+        },
+        {
+          "id": "speaking-and-listening-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e.",
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "keyPoints": [
+            "Types of Assessment R There are two types of assessment - 1.",
+            "Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards).",
+            "Slip Test Teacher has to assess the performance of the learners for each term.",
+            "20 marks allotted S for Formative test in which 5 marks are allotted for each tool.",
+            "This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction.",
+            "Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc."
+          ],
+          "pageNumbers": [
+            147
+          ],
+          "pageRange": "147-147",
+          "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "textbookQuestions": []
+        },
+        {
+          "id": "speaking-and-listening-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies.",
+            "In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e.",
+            "collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children.",
+            "The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson."
+          ],
+          "keyPoints": [
+            "Children have to read, comprehend and express their opinion in oral and written.",
+            "The oral and written reflections are the evidences for awarding marks."
+          ],
+          "pageNumbers": [
+            147
+          ],
+          "pageRange": "147-147",
+          "fullText": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and listening competencies. You will find some listening comprehension questions, and questions that call for the students’ reflection N on what they have listened to. Oral Activity: This section contains some oral discourses to improve speaking A competencies. In this section you will find some oral activities that encourage the children to participate in the conversations, discussions, debates, compering, presenting reports, speeches, etc. G Project: This section contains one or two projects related to the theme of the unit. They require students to find resources, to work out the task i.e. collection, analysis and interpretation of data, to prepare a report and to prNesent their findings before the class. Self -Assessment Checklist: The checklist given at the end of each unit helps the learner to assess his / her own learning. The self-assessment tools reflect all the sections in a A unit. This check list also helps the teacher to assess the learning levels of children. The Assessment L Language learning is a continuous process. Assessment is not an activity distinct from learning. The Continuous and Comprehensive Assessment is proposed. E CCE is an attempt to shift from rote-learning to constructing knowledge and applying it as and when required. CCE is an ongoing process and is an integral part of the lesson. At every point of classroom trTansaction, we will have to assess what the child has learnt for which the same activities that are used for teaching / learning are used. The questions in the examination paper shall not simply be based on information given in the textbooks but shall create slots for the learner to use language in a meaningful way applying what she has T learnt. So ‘mugging up’ by the student will not be of any use to him or her. Types of Assessment R There are two types of assessment - 1. Formative Assessment 2. Summative Assessment Guidelines for Formative Assessment E Formative assessment is done based on four tools that cover all the language competencies (Academic Standards). These are: C 1. Read and Reflect 2.Written Works 3. Project Work 4. Slip Test Teacher has to assess the performance of the learners for each term. 20 marks allotted S for Formative test in which 5 marks are allotted for each tool. This is not a single day activity; it is a cumulative account of what has happened in day- to-day class room transaction. Criteria for awarding marks under each tool: Read and Reflect : The child has to read one reading text (other than text book) such as story, news report, article etc. Children have to read, comprehend and express their opinion in oral and written. The oral and written reflections are the evidences for awarding marks. Free distribution by T.S. Government 2019-20 137",
+          "textbookQuestions": []
+        }
+      ],
+      "textbookQuestions": [],
+      "definitions": [
+        {
+          "term": "Speaking And Listening",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Activity: This section contains some oral discourses to improve speaking A competencies",
+          "steps": [
+            "Activity: This section contains some oral discourses to improve speaking A competencies"
           ]
         },
         {
-          "topic_name": "Language Study",
-          "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
+          "title": "Project: This section contains one or two projects related to the theme of the unit",
+          "steps": [
+            "Project: This section contains one or two projects related to the theme of the unit"
           ]
         },
         {
-          "topic_name": "Writing And Expression",
-          "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          "title": "activity distinct from learning",
+          "steps": [
+            "activity distinct from learning"
           ]
+        },
+        {
+          "title": "activity; it is a cumulative account of what has happened in day- to-day class room transa",
+          "steps": [
+            "activity; it is a cumulative account of what has happened in day- to-day class room transaction"
+          ]
+        }
+      ],
+      "weeklyPlan": [
+        {
+          "id": "week-1",
+          "title": "Week 1: Speaking And Listening: Lesson reading",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-1"
+          ],
+          "focus": "Read the lesson. Section: Speaking And Listening: Lesson reading."
+        },
+        {
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
+        },
+        {
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Speaking And Listening key terms and exam answers",
+          "lessonSectionIds": [
+            "speaking-and-listening-section-4",
+            "speaking-and-listening-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "speaking-and-listening-q1",
+          "question": "Which word/idea is important in Speaking And Listening?",
+          "options": [
+            "Speaking And Listening",
+            "Speaking And Listening",
+            "Speaking And Listening: Lesson reading",
+            "Important exercise question"
+          ],
+          "correct": "Speaking And Listening",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "speaking-and-listening-q2",
+          "question": "Which statement is explained in 'Speaking And Listening: Lesson reading'?",
+          "options": [
+            "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and list",
+            "Speaking And Listening",
+            "Speaking And Listening: Lesson reading",
+            "A different chapter topic"
+          ],
+          "correct": "A Listening: This section contains a listening text (given in Appendix-I) and a few tasks/ activities/exercises to improve speaking and list",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "speaking-and-listening-q4",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     },
     {
       "chapter_no": 3,
-      "chapter_name": "Grammar And Usage",
-      "topics": [
-        {
-          "topic_name": "Reading And Appreciation",
-          "subtopics": [
-            "Theme, Setting, And Main Ideas In Grammar And Usage",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
-          ]
-        },
-        {
-          "topic_name": "Language Study",
-          "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
-          ]
-        },
-        {
-          "topic_name": "Writing And Expression",
-          "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 4,
-      "chapter_name": "Reading Comprehension",
-      "topics": [
-        {
-          "topic_name": "Reading And Appreciation",
-          "subtopics": [
-            "Theme, Setting, And Main Ideas In Reading Comprehension",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
-          ]
-        },
-        {
-          "topic_name": "Language Study",
-          "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
-          ]
-        },
-        {
-          "topic_name": "Writing And Expression",
-          "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
-          ]
-        }
-      ]
-    },
-    {
-      "chapter_no": 5,
       "chapter_name": "Creative Writing",
+      "source_pages": {
+        "start": 148,
+        "end": 154
+      },
+      "pageCount": 7,
+      "charCount": 13052,
+      "pages": [
+        {
+          "page": 148,
+          "text": "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. 3. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences. The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e. planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully. The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test. T The average marks of Formative 1 and 2 should be added to first Summative-I. The average marks of four Formative tests should be added to final Summative-II (Public exam). R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment. E The following are the domains of Summative assessment. 1. Oral performance (10 marks) C 2. Reading comprehension (25 marks) 3. Vocabulary and grammar (20 marks) S 4. Conventions of writing & spelling (5 marks) 5. Creative writing (Discourses) (20 marks) Note: The marks (10) allotted for oral performance in summative assessment are based on the children oral performance during the period of particualar summative assessment. The teachers unit cum period plan should be the evidence for awarding the marks. 138 Free distribution by T.S. Government 2019-20",
+          "charCount": 2411
+        },
+        {
+          "page": 149,
+          "text": "Details of the Major and Minor written Discourses included in the summAative assessment under the domain of creative expression. Major discourses: N Sl. No. Group A Group B 1 Story / Narrative Biography A 2 Conversation Essay 3 Description Letter G 4 Play / Skit (script) New report 5 Interview Speech (script) N Minor discourses: Sl. No. Group A Group B A 1 Message Poster 2 Notice Invitation 3 Diary LProfile 4 Slogan Placard E Targeted discourses with indicators/ features Conversations: contains dialogues with ten to twelve exchanges - proper sequence of T exchanges - sustaining the conversation with social norms - discourse markers (well, precisely, etc.) - dialogues apt to the context - appropriate cohesive devises - voice modulation Descriptions: descriptio n of objects/ things/persons creating vivid images - variety of sentence forms - T proper sequence of the ideas - personal reflections on the event or person - appropriate cohesive devices. Poems / SRongs: suitable structural patterns. - rhyme scheme - specific patterns (rhythm / structure /metre / music / theme, etc.) - expressing emotions and reflections – use of images, thoughts and feelings - use of figures of speech - assonance and alliteration - E point of view. Narrative/Story: sequence of events and dialogues – evoking of sensory perceptions and Cemotions - images, setting and other details - use characterization – coherence - point of view Diary: expression of personal reflections, thoughts and feelings – use of variety of sentences - use of language appropriate to the mood - self criticism and future plans - S point of view- coherence Letter: appropriate language to the context - appropriate format, layout and conventions – expressing ideas sequentially - use of persuasive language - maintaining coherence Messages/e-mail/SMS: relevant ideas to the context – maintaining brevity – use of conventions, layout and format – appropriate language to the content and context. Notice /Poster / Ads / Invitation: occasions and purposes showing the context details of Free distribution by T.S. Government 2019-20 139",
+          "charCount": 2102
+        },
+        {
+          "page": 150,
+          "text": "A venue, date, time, salutation, invitation, programme - persuasive language - organisation, layout and design – maintaining brevity – design and graphics – rhythm in language (for ads) Slogans/Placards: appropriate to the context - maintaining brevity and rhyNthm Drama/Skit: dialogues relevant to the context with emotions and feelings - stage directions, movements and settings - dramatic conflict: beginning, rising actions and ending - reference A to costumes and props – dramatisation - theatrical performance like dialogue delivery, actions, stage sense, costumes, etc.. G Compeering: arrangement of the programme sequentially as required by the context – presenting the background - highlighting the persons and the events - reviews and reflections relevant to the context – use of polite and entertaining expressions - following the N conventions of the stage - use of spontaneous language in a lively manner – modulation of voice in an appealing way. Choreography: identification of the main theAme and stanza wise themes - bringing out a single and multiple themes - identification and sequences of actions of the protagonists (main characters) – identification and sequence of actions of the chorus - maintaining L proper layout of script – performance of the actions of the protagonist and the chorus. Essay (All types): title, introduction, thesis statement, body and conclusion - appropriate E paragraphing with main ideas - supporting details and examples –organization of ideas and use of cohesive devices - maintaining coherence - point of view. T News report / Report: appropriate headline - lead sentence (five W’s) - body of the news- organisation and use of cohesive devices – coherence - reporting style (reported speech, passivization, appropria te tense) - point of view T Speech: makes speeches /talks contextually - organisation of ideas – use of argumentative/ persuasive / interactive language to substantiate views and ideas – use of discourse markers– citation ofR examples, quotations, etc - coherence, voice modulation and body language. Review: states the context of the review (story/novel/drama/essay/film) - highlights and comments on certain features of the item reviewed (e.g. characters/theme/setting /events/ E turning points etc.) – brevity - citation from the text to substantiate the point. (authenticity)- making personal impressions – maintaining coherence. C Debates and Discussions: expression of ideas as main points and sub points – presentation of arguments in a sequential order - citing suitable examples, quotations, and evidences – defending one’s own point of view and rebutting opponent’s point of view – use of discourse S markers for agreeing, disagreeing, substantiating, enumerating, etc.. – use of polite expressions respecting other’s views – use of logical and emotional appeals. Biographical sketch/Profile/Autobiography: Details of the person - presentation of relevant ideas and information - organization of the data – interpretation of data and drawing inference - reflections, thoughts and feelings - anecdotes, events, achievements - point of view - organisation and the use of cohesive devices – maintaining coherence and flow. *** 140 Free distribution by T.S. Government 2019-20",
+          "charCount": 3252
+        },
+        {
+          "page": 151,
+          "text": "CONSTITUTION OF INDIA A Part IV A (Article 51 A) N Fundamental Duties A Fundamental duties … It shall be the duty of every citizens of India- G (a) to abide by the Constitution and respect its ideals and institutions, the National Flag and N the National Anthem; (b)to cherish and follow the noble ideals which inspired our national struggle for freedom; A (c)to uphold and protect the sovereignty, unity and integrity of India; L (d)to defend the country and render national service when called upon to do so; E (e)to promote harmony and the spirit of common brotherhood amongst all the people of India transcending religTious, linguistic and regional or sectional diversities; to renounce practices derogatory to the dignity of women; T (f) to value and preserve the rich heritage of our composite culture; (g)to protRect and improve the natural environment including forests, lakes, rivers and wild life, and to have compassion for living creatures; E (h)to develop the scientific temper, humanism and the spirit of inquiry and reform; C (i) to safeguard public property and to abjure violence; (j) to strive towards excellence in all spheres of individual and collective activity so that the S nation constantly rises to higher levels of endeavour and achievement. (k)who is a parent or guardian, to provide opportunities for education to his child or, as the case may be ward between the age of six and fourteen years. Free distribution by T.S. Government 2019-20 141",
+          "charCount": 1472
+        },
+        {
+          "page": 152,
+          "text": "General Service List - Common Words of English A 701 to 1000 Words N 701. cool 726. boat 751. hot 776. quiet 702. army 727. fail 752. bed 777. marry A 703. patient 728. clean 753. electric 778. corner G 704. combine 729. dress 754. dream 779. handle 705. summer 730. anyone 755. due 780. danger N 706. hall 731. gain 756. season 781. hospital 707. slight 732. pain 757. manner 782. pool A 708. command 733. object 758. fit 783. promise 709. enjoy 734. knowledge 759. left 784. blood L 710. length 735. depend 760. progress 785. shoot E 711. proper 736. relate 761. neither 786. scene 712. express 737. below 762. strength 787. literature T 713. health 738. dollar 763. notice 788. arrive 714. chief 739. advance 764. finish 789. film T 715. evening 740. shape 765. opinion 790. base R 716. store 741. arrange 766. bill 791. freedom 717. language 742. population 767. western 792. bar E 718. degree 743. yes 768. truth 793. maybe 719. lay 744. sell 769. wrong 794. hang C 720. current 745. mention 770. travel 795. suffer S721. gun 746. dry 771. suit 796. manufacture 722. dog 747. check 772. bank 797. frequent 723. hotel 748. poet 773. exact 798. rock 724. strange 749. sleep 774. honor 799. loss 725. separate 750. join 775. brother 800. burn 142 Free distribution by T.S. Government 2019-20",
+          "charCount": 1293
+        },
+        {
+          "page": 153,
+          "text": "801. sun 826. distance 851. choice 876. encourage A 802. audience 827. memory 852. refer 877. governor N 803. essential 828. recommend 853. enemy 878. worry 804. glass 829. division 854. practical 879. affair A 805. prevent 830. staff 855. marriage 880. shoulder G 806. poem 831. leg 856. bridge 881. bright 807. poor 832. discussion 857. declare 882. mass N 808. inch 833. address 858. lady 883. sample 809. song 834. fly 859. cross 884. pretty A 810. skill 835. dependent 860. daily 885. repeat L 811. post 836. ball 861. afternoon 886. roll 812 . popular 837. shake E862. attend 887. push 813 . radio 838. frame 863. director 888. trip T 814 . animal 839. extreme 864. balance 889. council 815 . conscious 840. engineer 865. wash 890. clothe T 816. worth 841. thick 866. capital 891. parent 817 . eat R842. comfort 867. speed 892. forward 818. election 843. latter 868. block 893. sharp E 819 . faith 844. camp 869. citizen 894. straight C820. wave 845. oil 870. mouth 895. gas 821. murder 846. discover 871. hill 896. weight S 822. model 847. examine 872. green 897. discuss 823. forget 848. difficulty 873. please 898. fix 824. extend 849. tooth 874. motor 899. load 825. edge 850. middle 875. agency 900. master Free distribution by T.S. Government 2019-20 143",
+          "charCount": 1266
+        },
+        {
+          "page": 154,
+          "text": "901. whatever 926. advantage 951. solid 976. article A 902. round 927. match 952. page 977. cry N 903. rapid 928. regular 953. weapon 978. captain 904. laugh 929. wage 954. fast 979. familiar A 905. finger 930. refuse 955. representative 980. seat 906. spot 931. existence 956. search G981. guest 907. propose 932. hardly 957. pure 982. weak N 908. shop 933. perform 958. escape 983. excite 909. broad 934. title 959. crowd 984. king A 910. replace 935. tend 960. stick 985. everyone L 911. reply 936. exercise 961. telephone 986. wine 912. extent 937. thin E962. avoid 987. hole 913. lock 938. coat 963. garden 988. duty T 914. employee 939. bit 964. favor 989. beat 915. ahead 940. mountain 965. news 990. perfect T 916. sight 941. youth 966. unless 991. bottom 917. spreadR942. behavior 967. dinner 992. compose 918. wind 943. newspaper 968. someone 993. battle E 919. approve 944. secret 969. signal 994. expense 920. destroy 945. ability 970. yard 995. cattle C 921. none 946. sea 971. ideal 996. flow S 922. pound 947. soft 972. warm 997. kitchen 923. fame 948. justice 973. miss 998. dust 924. importance 949. reasonable 974. shelter 999. bottle 925. reflect 950. circle 975. soldier 1000.admit 144 Free distribution by T.S. Government 2019-20",
+          "charCount": 1250
+        }
+      ],
+      "fullText": "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. 3. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences. The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e. planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully. The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test. T The average marks of Formative 1 and 2 should be added to first Summative-I. The average marks of four Formative tests should be added to final Summative-II (Public exam). R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment. E The following are the domains of Summative assessment. 1. Oral performance (10 marks) C 2. Reading comprehension (25 marks) 3. Vocabulary and grammar (20 marks) S 4. Conventions of writing & spelling (5 marks) 5. Creative writing (Discourses) (20 marks) Note: The marks (10) allotted for oral performance in summative assessment are based on the children oral performance during the period of particualar summative assessment. The teachers unit cum period plan should be the evidence for awarding the marks. 138 Free distribution by T.S. Government 2019-20 Details of the Major and Minor written Discourses included in the summAative assessment under the domain of creative expression. Major discourses: N Sl. No. Group A Group B 1 Story / Narrative Biography A 2 Conversation Essay 3 Description Letter G 4 Play / Skit (script) New report 5 Interview Speech (script) N Minor discourses: Sl. No. Group A Group B A 1 Message Poster 2 Notice Invitation 3 Diary LProfile 4 Slogan Placard E Targeted discourses with indicators/ features Conversations: contains dialogues with ten to twelve exchanges - proper sequence of T exchanges - sustaining the conversation with social norms - discourse markers (well, precisely, etc.) - dialogues apt to the context - appropriate cohesive devises - voice modulation Descriptions: descriptio n of objects/ things/persons creating vivid images - variety of sentence forms - T proper sequence of the ideas - personal reflections on the event or person - appropriate cohesive devices. Poems / SRongs: suitable structural patterns. - rhyme scheme - specific patterns (rhythm / structure /metre / music / theme, etc.) - expressing emotions and reflections – use of images, thoughts and feelings - use of figures of speech - assonance and alliteration - E point of view. Narrative/Story: sequence of events and dialogues – evoking of sensory perceptions and Cemotions - images, setting and other details - use characterization – coherence - point of view Diary: expression of personal reflections, thoughts and feelings – use of variety of sentences - use of language appropriate to the mood - self criticism and future plans - S point of view- coherence Letter: appropriate language to the context - appropriate format, layout and conventions – expressing ideas sequentially - use of persuasive language - maintaining coherence Messages/e-mail/SMS: relevant ideas to the context – maintaining brevity – use of conventions, layout and format – appropriate language to the content and context. Notice /Poster / Ads / Invitation: occasions and purposes showing the context details of Free distribution by T.S. Government 2019-20 139 A venue, date, time, salutation, invitation, programme - persuasive language - organisation, layout and design – maintaining brevity – design and graphics – rhythm in language (for ads) Slogans/Placards: appropriate to the context - maintaining brevity and rhyNthm Drama/Skit: dialogues relevant to the context with emotions and feelings - stage directions, movements and settings - dramatic conflict: beginning, rising actions and ending - reference A to costumes and props – dramatisation - theatrical performance like dialogue delivery, actions, stage sense, costumes, etc.. G Compeering: arrangement of the programme sequentially as required by the context – presenting the background - highlighting the persons and the events - reviews and reflections relevant to the context – use of polite and entertaining expressions - following the N conventions of the stage - use of spontaneous language in a lively manner – modulation of voice in an appealing way. Choreography: identification of the main theAme and stanza wise themes - bringing out a single and multiple themes - identification and sequences of actions of the protagonists (main characters) – identification and sequence of actions of the chorus - maintaining L proper layout of script – performance of the actions of the protagonist and the chorus. Essay (All types): title, introduction, thesis statement, body and conclusion - appropriate E paragraphing with main ideas - supporting details and examples –organization of ideas and use of cohesive devices - maintaining coherence - point of view. T News report / Report: appropriate headline - lead sentence (five W’s) - body of the news- organisation and use of cohesive devices – coherence - reporting style (reported speech, passivization, appropria te tense) - point of view T Speech: makes speeches /talks contextually - organisation of ideas – use of argumentative/ persuasive / interactive language to substantiate views and ideas – use of discourse markers– citation ofR examples, quotations, etc - coherence, voice modulation and body language. Review: states the context of the review (story/novel/drama/essay/film) - highlights and comments on certain features of the item reviewed (e.g. characters/theme/setting /events/ E turning points etc.) – brevity - citation from the text to substantiate the point. (authenticity)- making personal impressions – maintaining coherence. C Debates and Discussions: expression of ideas as main points and sub points – presentation of arguments in a sequential order - citing suitable examples, quotations, and evidences – defending one’s own point of view and rebutting opponent’s point of view – use of discourse S markers for agreeing, disagreeing, substantiating, enumerating, etc.. – use of polite expressions respecting other’s views – use of logical and emotional appeals. Biographical sketch/Profile/Autobiography: Details of the person - presentation of relevant ideas and information - organization of the data – interpretation of data and drawing inference - reflections, thoughts and feelings - anecdotes, events, achievements - point of view - organisation and the use of cohesive devices – maintaining coherence and flow. *** 140 Free distribution by T.S. Government 2019-20 CONSTITUTION OF INDIA A Part IV A (Article 51 A) N Fundamental Duties A Fundamental duties … It shall be the duty of every citizens of India- G (a) to abide by the Constitution and respect its ideals and institutions, the National Flag and N the National Anthem; (b)to cherish and follow the noble ideals which inspired our national struggle for freedom; A (c)to uphold and protect the sovereignty, unity and integrity of India; L (d)to defend the country and render national service when called upon to do so; E (e)to promote harmony and the spirit of common brotherhood amongst all the people of India transcending religTious, linguistic and regional or sectional diversities; to renounce practices derogatory to the dignity of women; T (f) to value and preserve the rich heritage of our composite culture; (g)to protRect and improve the natural environment including forests, lakes, rivers and wild life, and to have compassion for living creatures; E (h)to develop the scientific temper, humanism and the spirit of inquiry and reform; C (i) to safeguard public property and to abjure violence; (j) to strive towards excellence in all spheres of individual and collective activity so that the S nation constantly rises to higher levels of endeavour and achievement. (k)who is a parent or guardian, to provide opportunities for education to his child or, as the case may be ward between the age of six and fourteen years. Free distribution by T.S. Government 2019-20 141 General Service List - Common Words of English A 701 to 1000 Words N 701. cool 726. boat 751. hot 776. quiet 702. army 727. fail 752. bed 777. marry A 703. patient 728. clean 753. electric 778. corner G 704. combine 729. dress 754. dream 779. handle 705. summer 730. anyone 755. due 780. danger N 706. hall 731. gain 756. season 781. hospital 707. slight 732. pain 757. manner 782. pool A 708. command 733. object 758. fit 783. promise 709. enjoy 734. knowledge 759. left 784. blood L 710. length 735. depend 760. progress 785. shoot E 711. proper 736. relate 761. neither 786. scene 712. express 737. below 762. strength 787. literature T 713. health 738. dollar 763. notice 788. arrive 714. chief 739. advance 764. finish 789. film T 715. evening 740. shape 765. opinion 790. base R 716. store 741. arrange 766. bill 791. freedom 717. language 742. population 767. western 792. bar E 718. degree 743. yes 768. truth 793. maybe 719. lay 744. sell 769. wrong 794. hang C 720. current 745. mention 770. travel 795. suffer S721. gun 746. dry 771. suit 796. manufacture 722. dog 747. check 772. bank 797. frequent 723. hotel 748. poet 773. exact 798. rock 724. strange 749. sleep 774. honor 799. loss 725. separate 750. join 775. brother 800. burn 142 Free distribution by T.S. Government 2019-20 801. sun 826. distance 851. choice 876. encourage A 802. audience 827. memory 852. refer 877. governor N 803. essential 828. recommend 853. enemy 878. worry 804. glass 829. division 854. practical 879. affair A 805. prevent 830. staff 855. marriage 880. shoulder G 806. poem 831. leg 856. bridge 881. bright 807. poor 832. discussion 857. declare 882. mass N 808. inch 833. address 858. lady 883. sample 809. song 834. fly 859. cross 884. pretty A 810. skill 835. dependent 860. daily 885. repeat L 811. post 836. ball 861. afternoon 886. roll 812 . popular 837. shake E862. attend 887. push 813 . radio 838. frame 863. director 888. trip T 814 . animal 839. extreme 864. balance 889. council 815 . conscious 840. engineer 865. wash 890. clothe T 816. worth 841. thick 866. capital 891. parent 817 . eat R842. comfort 867. speed 892. forward 818. election 843. latter 868. block 893. sharp E 819 . faith 844. camp 869. citizen 894. straight C820. wave 845. oil 870. mouth 895. gas 821. murder 846. discover 871. hill 896. weight S 822. model 847. examine 872. green 897. discuss 823. forget 848. difficulty 873. please 898. fix 824. extend 849. tooth 874. motor 899. load 825. edge 850. middle 875. agency 900. master Free distribution by T.S. Government 2019-20 143 901. whatever 926. advantage 951. solid 976. article A 902. round 927. match 952. page 977. cry N 903. rapid 928. regular 953. weapon 978. captain 904. laugh 929. wage 954. fast 979. familiar A 905. finger 930. refuse 955. representative 980. seat 906. spot 931. existence 956. search G981. guest 907. propose 932. hardly 957. pure 982. weak N 908. shop 933. perform 958. escape 983. excite 909. broad 934. title 959. crowd 984. king A 910. replace 935. tend 960. stick 985. everyone L 911. reply 936. exercise 961. telephone 986. wine 912. extent 937. thin E962. avoid 987. hole 913. lock 938. coat 963. garden 988. duty T 914. employee 939. bit 964. favor 989. beat 915. ahead 940. mountain 965. news 990. perfect T 916. sight 941. youth 966. unless 991. bottom 917. spreadR942. behavior 967. dinner 992. compose 918. wind 943. newspaper 968. someone 993. battle E 919. approve 944. secret 969. signal 994. expense 920. destroy 945. ability 970. yard 995. cattle C 921. none 946. sea 971. ideal 996. flow S 922. pound 947. soft 972. warm 997. kitchen 923. fame 948. justice 973. miss 998. dust 924. importance 949. reasonable 974. shelter 999. bottle 925. reflect 950. circle 975. soldier 1000.admit 144 Free distribution by T.S. Government 2019-20",
       "topics": [
         {
-          "topic_name": "Reading And Appreciation",
+          "topic_name": "Creative Writing: Lesson reading",
           "subtopics": [
-            "Theme, Setting, And Main Ideas In Creative Writing",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
+            "Discourses assigned to individuals during classroom transaction.",
+            "N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences.",
+            "The first one is meant for read and reflect, project work and slip test."
+          ],
+          "lessonSectionId": "creative-writing-section-1"
+        },
+        {
+          "topic_name": "Meanings and vocabulary",
+          "subtopics": [
+            "This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment).",
+            "This practice will help children in attempting the written L discourses in Summative Tests successfully.",
+            "The teacher may conduct the slip test for 20 marks so as to cover more number of questions."
+          ],
+          "lessonSectionId": "creative-writing-section-2"
+        },
+        {
+          "topic_name": "Comprehension questions",
+          "subtopics": [
+            "The average marks of four Formative tests should be added to final Summative-II (Public exam).",
+            "R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment.",
+            "E The following are the domains of Summative assessment."
+          ],
+          "lessonSectionId": "creative-writing-section-3"
+        },
+        {
+          "topic_name": "Grammar or writing practice",
+          "subtopics": [
+            "Group A Group B 1 Story / Narrative Biography A 2 Conversation Essay 3 Description Letter G 4 Play / Skit (script) New report 5 Interview Speech (script) N Minor discourses: Sl.",
+            "Poems / SRongs: suitable structural patterns.",
+            "Notice /Poster / Ads / Invitation: occasions and purposes showing the context details of Free distribution by T.S."
+          ],
+          "lessonSectionId": "creative-writing-section-4"
+        },
+        {
+          "topic_name": "Revision quiz",
+          "subtopics": [
+            "(k)who is a parent or guardian, to provide opportunities for education to his child or, as the case may be ward between the age of six and fourteen years.",
+            "General Service List - Common Words of English A 701 to 1000 Words N 701.",
+            "soldier 1000.admit 144 Free distribution by T.S."
+          ],
+          "lessonSectionId": "creative-writing-section-5"
+        }
+      ],
+      "lessonSections": [
+        {
+          "id": "creative-writing-section-1",
+          "title": "Creative Writing: Lesson reading",
+          "summary": [
+            "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences.",
+            "The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e.",
+            "planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully.",
+            "The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test."
+          ],
+          "keyPoints": [
+            "Discourses assigned to individuals during classroom transaction.",
+            "N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences.",
+            "The first one is meant for read and reflect, project work and slip test.",
+            "The second one is exclusively for Gwritten works.",
+            "Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e.",
+            "planning, execution, analysis and interpretation of data, report writing and presentation with feedback.",
+            "Slip Test: This test should be conducted withoAut giving any prior notice to children."
+          ],
+          "pageNumbers": [
+            148,
+            149
+          ],
+          "pageRange": "148-149",
+          "fullText": "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. 3. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences. The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e. planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully. The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test. T The average marks of Formative 1 and 2 should be added to first Summative-I. The average marks of four Formative tests should be added to final Summative-II (Public exam). R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment. E The following are the domains of Summative assessment. 1. Oral performance (10 marks) C 2. Reading comprehension (25 marks) 3. Vocabulary and grammar (20 marks) S 4. Conventions of writing & spelling (5 marks) 5. Creative writing (Discourses) (20 marks) Note: The marks (10) allotted for oral performance in summative assessment are based on the children oral performance during the period of particualar summative assessment. The teachers unit cum period plan should be the evidence for awarding the marks. 138 Free distribution by T.S. Government 2019-20 Details of the Major and Minor written Discourses included in the summAative assessment under the domain of creative expression. Major discourses: N Sl. No. Group A Group B 1 Story / Narrative Biography A 2 Conversation Essay 3 Description Letter G 4 Play / Skit (script) New report 5 Interview Speech (script) N Minor discourses: Sl. No. Group A Group B A 1 Message Poster 2 Notice Invitation 3 Diary LProfile 4 Slogan Placard E Targeted discourses with indicators/ features Conversations: contains dialogues with ten to twelve exchanges - proper sequence of T exchanges - sustaining the conversation with social norms - discourse markers (well, precisely, etc.) - dialogues apt to the context - appropriate cohesive devises - voice modulation Descriptions: descriptio n of objects/ things/persons creating vivid images - variety of sentence forms - T proper sequence of the ideas - personal reflections on the event or person - appropriate cohesive devices. Poems / SRongs: suitable structural patterns. - rhyme scheme - specific patterns (rhythm / structure /metre / music / theme, etc.) - expressing emotions and reflections – use of images, thoughts and feelings - use of figures of speech - assonance and alliteration - E point of view. Narrative/Story: sequence of events and dialogues – evoking of sensory perceptions and Cemotions - images, setting and other details - use characterization – coherence - point of view Diary: expression of personal reflections, thoughts and feelings – use of variety of sentences - use of language appropriate to the mood - self criticism and future plans - S point of view- coherence Letter: appropriate language to the context - appropriate format, layout and conventions – expressing ideas sequentially - use of persuasive language - maintaining coherence Messages/e-mail/SMS: relevant ideas to the context – maintaining brevity – use of conventions, layout and format – appropriate language to the content and context. Notice /Poster / Ads / Invitation: occasions and purposes showing the context details of Free distribution by T.S. Government 2019-20 139",
+          "textbookQuestions": []
+        },
+        {
+          "id": "creative-writing-section-2",
+          "title": "Meanings and vocabulary",
+          "summary": [
+            "A venue, date, time, salutation, invitation, programme - persuasive language - organisation, layout and design – maintaining brevity – design and graphics – rhythm in language (for ads) Slogans/Placards: appropriate to the context - maintaining brevity and rhyNthm Drama/Skit: dialogues relevant to the context with emotions and feelings - stage directions, movements and settings - dramatic conflict: beginning, rising actions and ending - reference A to costumes and props – dramatisation - theatrical performance like dialogue delivery, actions, stage sense, costumes, etc..",
+            "G Compeering: arrangement of the programme sequentially as required by the context – presenting the background - highlighting the persons and the events - reviews and reflections relevant to the context – use of polite and entertaining expressions - following the N conventions of the stage - use of spontaneous language in a lively manner – modulation of voice in an appealing way.",
+            "Choreography: identification of the main theAme and stanza wise themes - bringing out a single and multiple themes - identification and sequences of actions of the protagonists (main characters) – identification and sequence of actions of the chorus - maintaining L proper layout of script – performance of the actions of the protagonist and the chorus.",
+            "Essay (All types): title, introduction, thesis statement, body and conclusion - appropriate E paragraphing with main ideas - supporting details and examples –organization of ideas and use of cohesive devices - maintaining coherence - point of view. T News report / Report: appropriate headline - lead sentence (five W’s) - body of the news- organisation and use of cohesive devices – coherence - reporting style (reported speech, passivization, appropria te tense) - point of view T Speech: makes speeches /talks contextually - organisation of ideas – use of argumentative/ persuasive / interactive language to substantiate views and ideas – use of discourse markers– citation ofR examples, quotations, etc - coherence, voice modulation and body language."
+          ],
+          "keyPoints": [
+            "This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment).",
+            "This practice will help children in attempting the written L discourses in Summative Tests successfully.",
+            "The teacher may conduct the slip test for 20 marks so as to cover more number of questions.",
+            "E Teacher’s unit cum period plan should reflect children’s oral performance.",
+            "Summative Assessment T There will be a Summative Assessment after every term.",
+            "Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test.",
+            "T The average marks of Formative 1 and 2 should be added to first Summative-I."
+          ],
+          "pageNumbers": [
+            150,
+            151
+          ],
+          "pageRange": "150-151",
+          "fullText": "A venue, date, time, salutation, invitation, programme - persuasive language - organisation, layout and design – maintaining brevity – design and graphics – rhythm in language (for ads) Slogans/Placards: appropriate to the context - maintaining brevity and rhyNthm Drama/Skit: dialogues relevant to the context with emotions and feelings - stage directions, movements and settings - dramatic conflict: beginning, rising actions and ending - reference A to costumes and props – dramatisation - theatrical performance like dialogue delivery, actions, stage sense, costumes, etc.. G Compeering: arrangement of the programme sequentially as required by the context – presenting the background - highlighting the persons and the events - reviews and reflections relevant to the context – use of polite and entertaining expressions - following the N conventions of the stage - use of spontaneous language in a lively manner – modulation of voice in an appealing way. Choreography: identification of the main theAme and stanza wise themes - bringing out a single and multiple themes - identification and sequences of actions of the protagonists (main characters) – identification and sequence of actions of the chorus - maintaining L proper layout of script – performance of the actions of the protagonist and the chorus. Essay (All types): title, introduction, thesis statement, body and conclusion - appropriate E paragraphing with main ideas - supporting details and examples –organization of ideas and use of cohesive devices - maintaining coherence - point of view. T News report / Report: appropriate headline - lead sentence (five W’s) - body of the news- organisation and use of cohesive devices – coherence - reporting style (reported speech, passivization, appropria te tense) - point of view T Speech: makes speeches /talks contextually - organisation of ideas – use of argumentative/ persuasive / interactive language to substantiate views and ideas – use of discourse markers– citation ofR examples, quotations, etc - coherence, voice modulation and body language. Review: states the context of the review (story/novel/drama/essay/film) - highlights and comments on certain features of the item reviewed (e.g. characters/theme/setting /events/ E turning points etc.) – brevity - citation from the text to substantiate the point. (authenticity)- making personal impressions – maintaining coherence. C Debates and Discussions: expression of ideas as main points and sub points – presentation of arguments in a sequential order - citing suitable examples, quotations, and evidences – defending one’s own point of view and rebutting opponent’s point of view – use of discourse S markers for agreeing, disagreeing, substantiating, enumerating, etc.. – use of polite expressions respecting other’s views – use of logical and emotional appeals. Biographical sketch/Profile/Autobiography: Details of the person - presentation of relevant ideas and information - organization of the data – interpretation of data and drawing inference - reflections, thoughts and feelings - anecdotes, events, achievements - point of view - organisation and the use of cohesive devices – maintaining coherence and flow. *** 140 Free distribution by T.S. Government 2019-20 CONSTITUTION OF INDIA A Part IV A (Article 51 A) N Fundamental Duties A Fundamental duties … It shall be the duty of every citizens of India- G (a) to abide by the Constitution and respect its ideals and institutions, the National Flag and N the National Anthem; (b)to cherish and follow the noble ideals which inspired our national struggle for freedom; A (c)to uphold and protect the sovereignty, unity and integrity of India; L (d)to defend the country and render national service when called upon to do so; E (e)to promote harmony and the spirit of common brotherhood amongst all the people of India transcending religTious, linguistic and regional or sectional diversities; to renounce practices derogatory to the dignity of women; T (f) to value and preserve the rich heritage of our composite culture; (g)to protRect and improve the natural environment including forests, lakes, rivers and wild life, and to have compassion for living creatures; E (h)to develop the scientific temper, humanism and the spirit of inquiry and reform; C (i) to safeguard public property and to abjure violence; (j) to strive towards excellence in all spheres of individual and collective activity so that the S nation constantly rises to higher levels of endeavour and achievement. (k)who is a parent or guardian, to provide opportunities for education to his child or, as the case may be ward between the age of six and fourteen years. Free distribution by T.S. Government 2019-20 141",
+          "textbookQuestions": []
+        },
+        {
+          "id": "creative-writing-section-3",
+          "title": "Comprehension questions",
+          "summary": [
+            "General Service List - Common Words of English A 701 to 1000 Words N 701. burn 142 Free distribution by T.S. Government 2019-20 801. master Free distribution by T.S. Government 2019-20 143"
+          ],
+          "keyPoints": [
+            "The average marks of four Formative tests should be added to final Summative-II (Public exam).",
+            "R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment.",
+            "E The following are the domains of Summative assessment.",
+            "Conventions of writing & spelling (5 marks) 5.",
+            "Creative writing (Discourses) (20 marks) Note: The marks (10) allotted for oral performance in summative assessment are based on the children oral performance during the period of particualar summative assessment.",
+            "The teachers unit cum period plan should be the evidence for awarding the marks.",
+            "Details of the Major and Minor written Discourses included in the summAative assessment under the domain of creative expression."
+          ],
+          "pageNumbers": [
+            152,
+            153
+          ],
+          "pageRange": "152-153",
+          "fullText": "General Service List - Common Words of English A 701 to 1000 Words N 701. cool 726. boat 751. hot 776. quiet 702. army 727. fail 752. bed 777. marry A 703. patient 728. clean 753. electric 778. corner G 704. combine 729. dress 754. dream 779. handle 705. summer 730. anyone 755. due 780. danger N 706. hall 731. gain 756. season 781. hospital 707. slight 732. pain 757. manner 782. pool A 708. command 733. object 758. fit 783. promise 709. enjoy 734. knowledge 759. left 784. blood L 710. length 735. depend 760. progress 785. shoot E 711. proper 736. relate 761. neither 786. scene 712. express 737. below 762. strength 787. literature T 713. health 738. dollar 763. notice 788. arrive 714. chief 739. advance 764. finish 789. film T 715. evening 740. shape 765. opinion 790. base R 716. store 741. arrange 766. bill 791. freedom 717. language 742. population 767. western 792. bar E 718. degree 743. yes 768. truth 793. maybe 719. lay 744. sell 769. wrong 794. hang C 720. current 745. mention 770. travel 795. suffer S721. gun 746. dry 771. suit 796. manufacture 722. dog 747. check 772. bank 797. frequent 723. hotel 748. poet 773. exact 798. rock 724. strange 749. sleep 774. honor 799. loss 725. separate 750. join 775. brother 800. burn 142 Free distribution by T.S. Government 2019-20 801. sun 826. distance 851. choice 876. encourage A 802. audience 827. memory 852. refer 877. governor N 803. essential 828. recommend 853. enemy 878. worry 804. glass 829. division 854. practical 879. affair A 805. prevent 830. staff 855. marriage 880. shoulder G 806. poem 831. leg 856. bridge 881. bright 807. poor 832. discussion 857. declare 882. mass N 808. inch 833. address 858. lady 883. sample 809. song 834. fly 859. cross 884. pretty A 810. skill 835. dependent 860. daily 885. repeat L 811. post 836. ball 861. afternoon 886. roll 812 . popular 837. shake E862. attend 887. push 813 . radio 838. frame 863. director 888. trip T 814 . animal 839. extreme 864. balance 889. council 815 . conscious 840. engineer 865. wash 890. clothe T 816. worth 841. thick 866. capital 891. parent 817 . eat R842. comfort 867. speed 892. forward 818. election 843. latter 868. block 893. sharp E 819 . faith 844. camp 869. citizen 894. straight C820. wave 845. oil 870. mouth 895. gas 821. murder 846. discover 871. hill 896. weight S 822. model 847. examine 872. green 897. discuss 823. forget 848. difficulty 873. please 898. fix 824. extend 849. tooth 874. motor 899. load 825. edge 850. middle 875. agency 900. master Free distribution by T.S. Government 2019-20 143",
+          "textbookQuestions": []
+        },
+        {
+          "id": "creative-writing-section-4",
+          "title": "Grammar or writing practice",
+          "summary": [
+            "soldier 1000.admit 144 Free distribution by T.S."
+          ],
+          "keyPoints": [
+            "Group A Group B 1 Story / Narrative Biography A 2 Conversation Essay 3 Description Letter G 4 Play / Skit (script) New report 5 Interview Speech (script) N Minor discourses: Sl.",
+            "Poems / SRongs: suitable structural patterns.",
+            "Notice /Poster / Ads / Invitation: occasions and purposes showing the context details of Free distribution by T.S.",
+            "Review: states the context of the review (story/novel/drama/essay/film) - highlights and comments on certain features of the item reviewed (e.g.",
+            "characters/theme/setting /events/ E turning points etc.) – brevity - citation from the text to substantiate the point.",
+            "(authenticity)- making personal impressions – maintaining coherence.",
+            "– use of polite expressions respecting other’s views – use of logical and emotional appeals."
+          ],
+          "pageNumbers": [
+            154
+          ],
+          "pageRange": "154-154",
+          "fullText": "901. whatever 926. advantage 951. solid 976. article A 902. round 927. match 952. page 977. cry N 903. rapid 928. regular 953. weapon 978. captain 904. laugh 929. wage 954. fast 979. familiar A 905. finger 930. refuse 955. representative 980. seat 906. spot 931. existence 956. search G981. guest 907. propose 932. hardly 957. pure 982. weak N 908. shop 933. perform 958. escape 983. excite 909. broad 934. title 959. crowd 984. king A 910. replace 935. tend 960. stick 985. everyone L 911. reply 936. exercise 961. telephone 986. wine 912. extent 937. thin E962. avoid 987. hole 913. lock 938. coat 963. garden 988. duty T 914. employee 939. bit 964. favor 989. beat 915. ahead 940. mountain 965. news 990. perfect T 916. sight 941. youth 966. unless 991. bottom 917. spreadR942. behavior 967. dinner 992. compose 918. wind 943. newspaper 968. someone 993. battle E 919. approve 944. secret 969. signal 994. expense 920. destroy 945. ability 970. yard 995. cattle C 921. none 946. sea 971. ideal 996. flow S 922. pound 947. soft 972. warm 997. kitchen 923. fame 948. justice 973. miss 998. dust 924. importance 949. reasonable 974. shelter 999. bottle 925. reflect 950. circle 975. soldier 1000.admit 144 Free distribution by T.S. Government 2019-20",
+          "textbookQuestions": []
+        },
+        {
+          "id": "creative-writing-section-5",
+          "title": "Revision quiz",
+          "summary": [
+            "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences.",
+            "The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e.",
+            "planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully.",
+            "The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test."
+          ],
+          "keyPoints": [
+            "(k)who is a parent or guardian, to provide opportunities for education to his child or, as the case may be ward between the age of six and fourteen years.",
+            "General Service List - Common Words of English A 701 to 1000 Words N 701.",
+            "soldier 1000.admit 144 Free distribution by T.S."
+          ],
+          "pageNumbers": [
+            148
+          ],
+          "pageRange": "148-148",
+          "fullText": "A Written Works : This is with regard to: 1. Exercises given in the text book, 2. Discourses assigned to individuals during classroom transaction. 3. Answers to a few extrapolating questions. N The facilitator has to go through the written works and award marks based on the children’s performance in view of the presentation of their own thoughts with well formed A sentences. The child has to maintain 2 note books. The first one is meant for read and reflect, project work and slip test. The second one is exclusively for Gwritten works. Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i.e. planning, execution, analysis and interpretation of data, report writing and presentation with feedback. Slip Test: This test should be conducted withoAut giving any prior notice to children. This test should cover the targeted discourses (by taking two / three targeted discourses in each formative assessment). This practice will help children in attempting the written L discourses in Summative Tests successfully. The teacher may conduct the slip test for 20 marks so as to cover more number of questions. Finally it has to be reduced to 5 marks. E Teacher’s unit cum period plan should reflect children’s oral performance. Summative Assessment T There will be a Summative Assessment after every term. The test is for 100 marks. Out of these, 20 marks are allotted for Formative assessment and 80 marks are allotted for written test. T The average marks of Formative 1 and 2 should be added to first Summative-I. The average marks of four Formative tests should be added to final Summative-II (Public exam). R As CCE is a school based assessment, every school should prepare their own question papers for summative assessment. E The following are the domains of Summative assessment. 1. Oral performance (10 marks) C 2. Reading comprehension (25 marks) 3. Vocabulary and grammar (20 marks) S 4. Conventions of writing & spelling (5 marks) 5. Creative writing (Discourses) (20 marks) Note: The marks (10) allotted for oral performance in summative assessment are based on the children oral performance during the period of particualar summative assessment. The teachers unit cum period plan should be the evidence for awarding the marks. 138 Free distribution by T.S. Government 2019-20",
+          "textbookQuestions": []
+        }
+      ],
+      "textbookQuestions": [],
+      "definitions": [
+        {
+          "term": "Creative Writing",
+          "meaning": "Important lesson idea or vocabulary item from the selected reading."
+        }
+      ],
+      "diagrams": [],
+      "activities": [
+        {
+          "title": "Projects: The oral and written performance of children which cover all the academic standa",
+          "steps": [
+            "Projects: The oral and written performance of children which cover all the academic standards / learning outcomes should be considered while awarding marks in various stages N i"
           ]
         },
         {
-          "topic_name": "Language Study",
-          "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
-          ]
-        },
-        {
-          "topic_name": "Writing And Expression",
-          "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
+          "title": "activity so that the S nation constantly rises to higher levels of endeavour and achieveme",
+          "steps": [
+            "activity so that the S nation constantly rises to higher levels of endeavour and achievement"
           ]
         }
-      ]
-    },
-    {
-      "chapter_no": 6,
-      "chapter_name": "Speaking And Listening",
-      "topics": [
+      ],
+      "weeklyPlan": [
         {
-          "topic_name": "Reading And Appreciation",
-          "subtopics": [
-            "Theme, Setting, And Main Ideas In Speaking And Listening",
-            "Characters, Speaker, Narrator, Or Point Of View",
-            "Vocabulary, Idioms, And Contextual Meaning"
-          ]
+          "id": "week-1",
+          "title": "Week 1: Creative Writing: Lesson reading",
+          "lessonSectionIds": [
+            "creative-writing-section-1"
+          ],
+          "focus": "Read the lesson. Section: Creative Writing: Lesson reading."
         },
         {
-          "topic_name": "Language Study",
-          "subtopics": [
-            "Grammar And Usage From The Lesson",
-            "Sentence Patterns, Punctuation, And Word Forms",
-            "Figures Of Speech Or Literary Devices Where Applicable"
-          ]
+          "id": "week-2",
+          "title": "Week 2: Meanings and vocabulary",
+          "lessonSectionIds": [
+            "creative-writing-section-2"
+          ],
+          "focus": "Revise meanings. Section: Meanings and vocabulary."
         },
         {
-          "topic_name": "Writing And Expression",
-          "subtopics": [
-            "Short Answers And Long Answers",
-            "Creative, Descriptive, Or Formal Writing",
-            "Listening, Speaking, Recitation, Or Presentation Tasks"
-          ]
+          "id": "week-3",
+          "title": "Week 3: Comprehension questions",
+          "lessonSectionIds": [
+            "creative-writing-section-3"
+          ],
+          "focus": "Answer comprehension. Section: Comprehension questions."
+        },
+        {
+          "id": "week-4",
+          "title": "Week 4: Grammar or writing practice",
+          "lessonSectionIds": [
+            "creative-writing-section-4"
+          ],
+          "focus": "Practice grammar/writing. Section: Grammar or writing practice."
+        },
+        {
+          "id": "week-5",
+          "title": "Week 5: Revision quiz",
+          "lessonSectionIds": [
+            "creative-writing-section-5"
+          ],
+          "focus": "Complete the quiz. Section: Revision quiz."
+        },
+        {
+          "id": "week-6",
+          "title": "Week 6: Creative Writing key terms and exam answers",
+          "lessonSectionIds": [
+            "creative-writing-section-4",
+            "creative-writing-section-5"
+          ],
+          "focus": "Revise definitions, meanings, formulae, or key terms and write exam-ready answers."
+        }
+      ],
+      "quizQuestions": [
+        {
+          "id": "creative-writing-q1",
+          "question": "Which word/idea is important in Creative Writing?",
+          "options": [
+            "Creative Writing",
+            "Creative Writing",
+            "Creative Writing: Lesson reading",
+            "Important exercise question"
+          ],
+          "correct": "Creative Writing",
+          "explanation": "Important lesson idea or vocabulary item from the selected reading."
+        },
+        {
+          "id": "creative-writing-q2",
+          "question": "Which statement is explained in 'Creative Writing: Lesson reading'?",
+          "options": [
+            "Discourses assigned to individuals during classroom transaction.",
+            "Creative Writing",
+            "Creative Writing: Lesson reading",
+            "A different chapter topic"
+          ],
+          "correct": "Discourses assigned to individuals during classroom transaction.",
+          "explanation": "This point is extracted from the selected textbook lesson section."
+        },
+        {
+          "id": "creative-writing-q4",
+          "question": "How does ORIN complete this academic week?",
+          "options": [
+            "All quiz answers must be correct",
+            "Any proof text is enough",
+            "Changing subject completes it",
+            "Opening the PDF only"
+          ],
+          "correct": "All quiz answers must be correct",
+          "explanation": "Academic roadmap weeks are completed by learning checks, not random proof notes."
         }
       ]
     }

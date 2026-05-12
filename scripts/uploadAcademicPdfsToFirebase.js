@@ -13,6 +13,7 @@ const manifestPath = path.resolve(
   process.env.ACADEMICS_MANUAL_PDF_MANIFEST ||
     path.join(backendRoot, "data/academics/manual_pdf_manifest.json")
 );
+const onlyPrefix = String(process.env.ACADEMICS_UPLOAD_ONLY_PREFIX || "").replace(/\\/g, "/").trim();
 
 function fail(message) {
   console.error(message);
@@ -62,6 +63,26 @@ function walk(dirPath) {
   });
 }
 
+function loadExistingManifest() {
+  if (!fs.existsSync(manifestPath)) return new Map();
+  try {
+    const parsed = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    return new Map((parsed.pdfs || []).map((row) => [`${row.relativePath}|${row.sizeBytes}`, row]));
+  } catch {
+    return new Map();
+  }
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function writeManifest(rows) {
+  const sortedRows = [...rows].sort((a, b) => `${a.board}/${a.classNumber}/${a.subject}/${a.fileName}`.localeCompare(`${b.board}/${b.classNumber}/${b.subject}/${b.fileName}`, undefined, { numeric: true }));
+  fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+  fs.writeFileSync(manifestPath, `${JSON.stringify({ generatedAt: new Date().toISOString(), count: sortedRows.length, pdfs: sortedRows }, null, 2)}\n`, "utf8");
+}
+
 async function uploadOne(bucket, filePath) {
   const relativePath = path.relative(sourceDir, filePath).replace(/\\/g, "/");
   const parts = relativePath.split("/");
@@ -84,7 +105,7 @@ async function uploadOne(bucket, filePath) {
 
   await bucket.upload(filePath, {
     destination: storagePath,
-    resumable: false,
+    resumable: fs.statSync(filePath).size > 8 * 1024 * 1024,
     metadata: {
       contentType: "application/pdf",
       cacheControl: "public, max-age=31536000"
@@ -108,6 +129,22 @@ async function uploadOne(bucket, filePath) {
   };
 }
 
+async function uploadOneWithRetry(bucket, filePath, attempts = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await uploadOne(bucket, filePath);
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) {
+        console.warn(`Retrying upload (${attempt}/${attempts}) for ${path.relative(sourceDir, filePath)}: ${error.message}`);
+        await delay(1000 * attempt);
+      }
+    }
+  }
+  throw lastError;
+}
+
 async function main() {
   if (!fs.existsSync(sourceDir)) {
     fail(`Academic manual PDF source folder not found: ${sourceDir}`);
@@ -119,18 +156,34 @@ async function main() {
   }
 
   const pdfFiles = walk(sourceDir);
-  const manifest = [];
+  const existingManifest = loadExistingManifest();
+  const manifest = onlyPrefix
+    ? [...existingManifest.values()].filter((row) => !String(row.relativePath || "").replace(/\\/g, "/").startsWith(onlyPrefix))
+    : [];
   for (const filePath of pdfFiles) {
-    const row = await uploadOne(bucket, filePath);
+    const relativePath = path.relative(sourceDir, filePath).replace(/\\/g, "/");
+    if (onlyPrefix && !relativePath.startsWith(onlyPrefix)) continue;
+    const sizeBytes = fs.statSync(filePath).size;
+    if (sizeBytes === 0) {
+      console.warn(`Skipped empty PDF: ${relativePath}`);
+      continue;
+    }
+    const existing = existingManifest.get(`${relativePath}|${sizeBytes}`);
+    if (existing) {
+      manifest.push(existing);
+      console.log(`Reused ${relativePath} -> ${existing.storagePath}`);
+      writeManifest(manifest);
+      continue;
+    }
+    const row = await uploadOneWithRetry(bucket, filePath);
     if (row) {
       manifest.push(row);
       console.log(`Uploaded ${row.relativePath} -> ${row.storagePath}`);
+      writeManifest(manifest);
     }
   }
 
-  manifest.sort((a, b) => `${a.board}/${a.classNumber}/${a.subject}/${a.fileName}`.localeCompare(`${b.board}/${b.classNumber}/${b.subject}/${b.fileName}`, undefined, { numeric: true }));
-  fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
-  fs.writeFileSync(manifestPath, `${JSON.stringify({ generatedAt: new Date().toISOString(), count: manifest.length, pdfs: manifest }, null, 2)}\n`, "utf8");
+  writeManifest(manifest);
 
   console.log(`Wrote ${path.relative(backendRoot, manifestPath)} with ${manifest.length} PDFs`);
 }
