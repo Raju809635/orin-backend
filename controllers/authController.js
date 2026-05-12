@@ -70,6 +70,20 @@ function userPayload(user) {
 
 async function authUserPayload(user) {
   const payload = userPayload(user);
+  if (user.role === "student") {
+    const profile = await StudentProfile.findOne({ userId: user._id })
+      .select("learnerStage className institutionName collegeName institutionType")
+      .lean();
+
+    return {
+      ...payload,
+      learnerStage: profile?.learnerStage === "highschool" ? "highschool" : "after12",
+      className: profile?.className || "",
+      institutionName: profile?.institutionName || profile?.collegeName || "",
+      institutionType: profile?.institutionType || ""
+    };
+  }
+
   if (user.role !== "mentor") {
     return payload;
   }
@@ -361,7 +375,8 @@ exports.refresh = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     token: newAccessToken,
-    refreshToken: newRefreshToken
+    refreshToken: newRefreshToken,
+    user: await authUserPayload(user)
   });
 });
 

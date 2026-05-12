@@ -8,6 +8,8 @@ const DEFAULT_DATASET_DIR = fs.existsSync(BACKEND_DATASET_DIR) ? BACKEND_DATASET
 const BACKEND_MANUAL_PDF_DIR = path.resolve(process.cwd(), "data/academics/manual_pdfs");
 const PIPELINE_MANUAL_PDF_DIR = path.resolve(process.cwd(), "../acadamics/orin-data-pipeline/raw_data/manual_pdfs");
 const MANUAL_PDF_MANIFEST_PATH = path.resolve(process.cwd(), "data/academics/manual_pdf_manifest.json");
+const ACADEMIC_IMAGE_ASSET_DIR = path.resolve(process.cwd(), "data/academics/pdf_images");
+const ACADEMIC_IMAGE_MANIFEST_PATH = path.resolve(process.cwd(), "data/academics/pdf_image_manifest.json");
 const DATASET_DIR = process.env.ACADEMICS_DATASET_DIR
   ? path.resolve(process.env.ACADEMICS_DATASET_DIR)
   : DEFAULT_DATASET_DIR;
@@ -42,6 +44,16 @@ function readAggregateDataset() {
   return readJson(filePath);
 }
 
+function readAcademicImageManifest() {
+  if (!fs.existsSync(ACADEMIC_IMAGE_MANIFEST_PATH)) return [];
+  try {
+    const payload = JSON.parse(fs.readFileSync(ACADEMIC_IMAGE_MANIFEST_PATH, "utf8"));
+    return Array.isArray(payload) ? payload : Array.isArray(payload?.images) ? payload.images : [];
+  } catch {
+    return [];
+  }
+}
+
 function titleFromSlug(value) {
   return String(value || "")
     .split("_")
@@ -56,6 +68,19 @@ function subjectSlug(subject) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
+}
+
+function canonicalSubjectKey(subject) {
+  const slug = subjectSlug(subject);
+  const aliases = {
+    maths: "mathematics",
+    math: "mathematics",
+    social: "social_science",
+    social_studies: "social_science",
+    physical_science: "physics",
+    biological_science: "biology"
+  };
+  return aliases[slug] || slug;
 }
 
 function subjectMatches(slug, record, requestedSubject) {
@@ -79,6 +104,43 @@ function subjectMatches(slug, record, requestedSubject) {
   };
   const requestedOptions = new Set([requested, aliases[requested]].filter(Boolean));
   return names.some((name) => requestedOptions.has(name) || requestedOptions.has(aliases[name]));
+}
+
+function normalizeImageAssetRow(item = {}) {
+  const assetPath = String(item.assetPath || item.relativePath || item.path || "").replace(/^[/\\]+/, "").replace(/\\/g, "/");
+  if (!assetPath) return null;
+  return {
+    id: String(item.id || assetPath).trim(),
+    board: normalizeBoard(item.board || ""),
+    classNumber: Number(item.classNumber || item.class || 0),
+    subject: String(item.subject || "").trim(),
+    chapter: String(item.chapter || item.chapterName || "").trim(),
+    title: String(item.title || item.caption || "Textbook image").trim(),
+    caption: String(item.caption || item.whatToLearn || "").trim(),
+    page: Number(item.page || 0),
+    sourcePdf: String(item.sourcePdf || item.pdf || item.pdfPath || "").trim(),
+    assetPath,
+    imageUrl: `/api/academics/image?path=${encodeURIComponent(assetPath)}`
+  };
+}
+
+function getAcademicImagesForContext({ board = "", classNumber = "", subject = "", chapter = "", pages = [] } = {}) {
+  const requestedBoard = normalizeBoard(board);
+  const requestedClass = Number(classNumber || 0);
+  const requestedChapter = normalizeChapterKey(chapter);
+  const requestedPages = new Set((Array.isArray(pages) ? pages : []).map((page) => Number(page || 0)).filter(Boolean));
+  return readAcademicImageManifest()
+    .map(normalizeImageAssetRow)
+    .filter(Boolean)
+    .filter((item) => {
+      if (requestedBoard && item.board && item.board !== requestedBoard) return false;
+      if (requestedClass && item.classNumber && item.classNumber !== requestedClass) return false;
+      if (subject && item.subject && !namesMatchSubject(item.subject, subject)) return false;
+      if (requestedChapter && item.chapter && normalizeChapterKey(item.chapter) !== requestedChapter) return false;
+      if (requestedPages.size && item.page && !requestedPages.has(item.page)) return false;
+      return true;
+    })
+    .slice(0, 24);
 }
 
 function namesMatchSubject(value, requestedSubject) {
@@ -173,11 +235,34 @@ function getSubjects(board, classNumber) {
       .filter((subject) => order.has(subjectSlug(subject.name || subject.subject || subject.slug || subject.key)))
       .sort((a, b) => order.get(subjectSlug(a.name || a.subject || a.slug || a.key)) - order.get(subjectSlug(b.name || b.subject || b.slug || b.key)));
   };
+  const mergePdfSubjects = (subjects) => {
+    const seen = new Map();
+    subjects.forEach((subject) => {
+      const key = canonicalSubjectKey(subject.name || subject.subject || subject.slug || subject.key);
+      if (!key) return;
+      seen.set(key, subject);
+    });
+    getManualPdfSubjectsForClass(board, classNumber).forEach((subject) => {
+      const key = canonicalSubjectKey(subject.name || subject.subject || subject.slug || subject.key);
+      if (!key) return;
+      const existing = seen.get(key);
+      if (existing) {
+        seen.set(key, {
+          ...existing,
+          pdfCount: subject.pdfCount,
+          hasAcademicPdf: true
+        });
+        return;
+      }
+      seen.set(key, subject);
+    });
+    return applyVisibleSubjects(Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name)));
+  };
   const classDir = path.join(DATASET_DIR, normalizeBoard(board), classDirName(classNumber));
   const aggregate = readAggregateDataset();
   const aggregateClass = aggregate?.[normalizeBoard(board)]?.[classDirName(classNumber)];
   if (!existsDir(classDir) && aggregateClass) {
-    return applyVisibleSubjects(Object.entries(aggregateClass)
+    return mergePdfSubjects(Object.entries(aggregateClass)
       .map(([slug, record]) => {
         const name = record?.metadata?.subject || titleFromSlug(slug);
         return {
@@ -194,8 +279,8 @@ function getSubjects(board, classNumber) {
       })
       .sort((a, b) => a.name.localeCompare(b.name)));
   }
-  if (!existsDir(classDir)) return [];
-  return applyVisibleSubjects(fs
+  if (!existsDir(classDir)) return mergePdfSubjects([]);
+  return mergePdfSubjects(fs
     .readdirSync(classDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
     .map((entry) => {
@@ -464,6 +549,13 @@ function getLessonForBoardClassSubjectChapter(board, classNumber, subject, chapt
           })).filter((page) => page.page || page.preview)
         : [],
       fullText: String(selectedChapter.fullText || "").slice(0, 12000),
+      images: getAcademicImagesForContext({
+        board: wrappedRecord.board,
+        classNumber: wrappedRecord.classNumber,
+        subject,
+        chapter: chapterTitle(selectedChapter),
+        pages: Array.isArray(selectedChapter.pages) ? selectedChapter.pages.map((page) => page?.page) : []
+      }),
       quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : []
     }
   };
@@ -582,6 +674,70 @@ function getManualPdfDir() {
   return hasPdfFiles(BACKEND_MANUAL_PDF_DIR) ? BACKEND_MANUAL_PDF_DIR : PIPELINE_MANUAL_PDF_DIR;
 }
 
+function getManualPdfSubjectsForClass(boardFilter = "", classNumber = "") {
+  const requestedBoard = normalizeBoard(boardFilter);
+  const requestedClass = Number(classNumber);
+  const seen = new Map();
+
+  readManualPdfManifest()
+    .filter((item) => {
+      const board = normalizeManualBoard(item.board);
+      if (requestedBoard && board !== requestedBoard) return false;
+      return Number(item.classNumber || item.class) === requestedClass && item.pdfUrl;
+    })
+    .forEach((item) => {
+      const subject = String(item.subject || "").trim();
+      const key = canonicalSubjectKey(subject);
+      if (!key) return;
+      const existing = seen.get(key);
+      seen.set(key, {
+        slug: subjectSlug(subject),
+        key: subjectSlug(subject),
+        name: subject,
+        subject,
+        available: false,
+        extractionStatus: "pdf_available",
+        message: "Textbook PDF is available in Resources. Topic extraction may still be pending.",
+        verificationStatus: "pdf_available",
+        chapterCount: 0,
+        pdfCount: (existing?.pdfCount || 0) + 1,
+        hasAcademicPdf: true
+      });
+    });
+
+  const manualPdfDir = getManualPdfDir();
+  if (fs.existsSync(manualPdfDir)) {
+    walkPdfFiles(manualPdfDir).forEach((filePath) => {
+      const relativePath = path.relative(manualPdfDir, filePath);
+      const parts = relativePath.split(path.sep);
+      if (parts.length < 3) return;
+      const board = normalizeManualBoard(parts[0]);
+      const detectedClass = Number(String(parts[1] || "").match(/\d+/)?.[0] || 0);
+      if (requestedBoard && board !== requestedBoard) return;
+      if (detectedClass !== requestedClass) return;
+      const subject = manualPdfSubject(parts, filePath);
+      const key = canonicalSubjectKey(subject);
+      if (!key) return;
+      const existing = seen.get(key);
+      seen.set(key, {
+        slug: subjectSlug(subject),
+        key: subjectSlug(subject),
+        name: subject,
+        subject,
+        available: false,
+        extractionStatus: "pdf_available",
+        message: "Textbook PDF is available in Resources. Topic extraction may still be pending.",
+        verificationStatus: "pdf_available",
+        chapterCount: existing?.chapterCount || 0,
+        pdfCount: (existing?.pdfCount || 0) + 1,
+        hasAcademicPdf: true
+      });
+    });
+  }
+
+  return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 function getManualPdfsForClassSubject(classNumber, subject, boardFilter = "") {
   const requestedClass = Number(classNumber);
   const requestedBoard = normalizeBoard(boardFilter);
@@ -649,6 +805,19 @@ function resolveManualPdf(relativePath) {
   return resolvedPath;
 }
 
+function resolveAcademicImage(relativePath) {
+  const cleanRelativePath = String(relativePath || "").replace(/^[/\\]+/, "");
+  const resolvedPath = path.resolve(ACADEMIC_IMAGE_ASSET_DIR, cleanRelativePath);
+  const allowedExtensions = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+  if (!resolvedPath.startsWith(ACADEMIC_IMAGE_ASSET_DIR) || !allowedExtensions.has(path.extname(resolvedPath).toLowerCase())) {
+    throw new ApiError(400, "Invalid academic image path");
+  }
+  if (!fs.existsSync(resolvedPath) || !fs.statSync(resolvedPath).isFile()) {
+    throw new ApiError(404, "Academic image not found");
+  }
+  return resolvedPath;
+}
+
 function getManualPdfUrl(relativePath) {
   const cleanRelativePath = String(relativePath || "").replace(/^[/\\]+/, "").replace(/\\/g, "/");
   if (!cleanRelativePath) return "";
@@ -671,7 +840,9 @@ module.exports = {
   getLessonForBoardClassSubjectChapter,
   getResourceLibrary,
   getManualPdfsForClassSubject,
+  getAcademicImagesForContext,
   resolveManualPdf,
+  resolveAcademicImage,
   getManualPdfUrl,
   summarizeAcademicContext
 };

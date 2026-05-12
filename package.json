@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "admin:create": "node scripts/createAdmin.js",
     "sync:academics": "node scripts/syncAcademicDataset.js",
-    "academics:upload-pdfs": "node scripts/uploadAcademicPdfsToFirebase.js"
+    "academics:upload-pdfs": "node scripts/uploadAcademicPdfsToFirebase.js",
+    "academics:extract-images": "node scripts/extractAcademicPdfImages.js"
   },
   "keywords": [],
   "author": "",

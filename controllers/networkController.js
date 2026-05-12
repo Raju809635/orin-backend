@@ -7512,8 +7512,16 @@ exports.getSkillGapAnalysis = asyncHandler(async (req, res) => {
   });
 });
 
-exports.getVerifiedMentors = asyncHandler(async (_req, res) => {
-  const mentors = await MentorProfile.find({ verifiedBadge: true })
+exports.getVerifiedMentors = asyncHandler(async (req, res) => {
+  const requestedAudienceStage = String(req.query?.audienceStage || req.query?.learnerStage || "").trim().toLowerCase();
+  const mentorQuery = { verifiedBadge: true };
+  if (requestedAudienceStage === "highschool") {
+    mentorQuery.mentorOrgRole = "institution_teacher";
+  } else if (requestedAudienceStage === "after12") {
+    mentorQuery.mentorOrgRole = { $ne: "institution_teacher" };
+  }
+
+  const mentors = await MentorProfile.find(mentorQuery)
     .populate("userId", "name role approvalStatus isDeleted")
     .sort({ rating: -1, totalSessionsConducted: -1, updatedAt: -1 })
     .limit(60)
@@ -7530,6 +7538,9 @@ exports.getVerifiedMentors = asyncHandler(async (_req, res) => {
       totalSessionsConducted: Number(item.totalSessionsConducted || 0),
       verifiedBadge: true,
       profilePhotoUrl: item.profilePhotoUrl || "",
+      mentorOrgRole: item.mentorOrgRole || "global_mentor",
+      expertiseDomains: Array.isArray(item.expertiseDomains) ? item.expertiseDomains : [],
+      specializations: Array.isArray(item.specializations) ? item.specializations : [],
       primaryCategory: item.primaryCategory || "",
       subCategory: item.subCategory || ""
     }));

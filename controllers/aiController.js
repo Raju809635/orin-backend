@@ -1,10 +1,11 @@
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const AiChatLog = require("../models/AiChatLog");
+const HighSchoolLearningActivity = require("../models/HighSchoolLearningActivity");
 const { aiChatDailyLimit } = require("../config/env");
 const { getSubscriptionEntitlement } = require("../services/subscriptionService");
 const { requestAiResponse } = require("../services/aiService");
-const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass, getManualPdfsForClassSubject } = require("../services/academicService");
+const { summarizeAcademicContext, getSubjectRecord, getSubjectRecordForClass, getManualPdfsForClassSubject, getAcademicImagesForContext } = require("../services/academicService");
 const User = require("../models/User");
 const StudentProfile = require("../models/StudentProfile");
 const { updateJourneyGoal, updateSkillProfile } = require("../services/journeyStateService");
@@ -118,6 +119,7 @@ function safeJsonParse(text) {
 }
 
 const HIGH_SCHOOL_JSON_MODE = "highschool_json";
+const MAX_PROFILE_ACTIVITY_ROWS = 80;
 const STUDY_ASSISTANT_STOP_WORDS = new Set([
   "what",
   "when",
@@ -444,6 +446,177 @@ function cleanAcademicText(value = "") {
     .trim();
 }
 
+function normalizeClassLevel(value = "") {
+  const number = String(value || "").match(/\d+/)?.[0];
+  return number || String(value || "").trim().slice(0, 40);
+}
+
+function normalizeBoard(value = "") {
+  return String(value || "SSC").trim().toUpperCase().slice(0, 20);
+}
+
+function uniqueCleanList(items = [], limit = 12) {
+  const seen = new Set();
+  const out = [];
+  for (const item of Array.isArray(items) ? items : []) {
+    const clean = cleanAcademicText(item || "").slice(0, 120);
+    const key = clean.toLowerCase();
+    if (!clean || seen.has(key)) continue;
+    seen.add(key);
+    out.push(clean);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+function normalizePlannerSubject(value = "") {
+  return normalizeExamSubject(value) || normalizeSubject(value);
+}
+
+async function recordHighSchoolActivity(userId, source, payload = {}) {
+  if (!userId) return null;
+  const subject = normalizePlannerSubject(payload.subject || "");
+  const doc = {
+    userId,
+    source,
+    board: normalizeBoard(payload.board),
+    classLevel: normalizeClassLevel(payload.classLevel || "10"),
+    subject,
+    topics: uniqueCleanList(payload.topics, 30),
+    weakTopics: uniqueCleanList(payload.weakTopics, 20),
+    strongTopics: uniqueCleanList(payload.strongTopics, 20),
+    wrongAnswerTopics: uniqueCleanList(payload.wrongAnswerTopics, 20),
+    doubts: uniqueCleanList(payload.doubts, 10),
+    selectedTopics: uniqueCleanList(payload.selectedTopics, 30),
+    pendingTopics: uniqueCleanList(payload.pendingTopics, 30),
+    completedTopics: uniqueCleanList(payload.completedTopics, 30),
+    score: Number.isFinite(Number(payload.score)) ? Number(payload.score) : null,
+    details: payload.details && typeof payload.details === "object" ? payload.details : {}
+  };
+  if (!doc.subject) return null;
+  try {
+    return await HighSchoolLearningActivity.create(doc);
+  } catch {
+    return null;
+  }
+}
+
+function incrementTopic(map, topic, weight, source) {
+  const clean = cleanAcademicText(topic || "");
+  if (!clean) return;
+  const key = clean.toLowerCase();
+  const existing = map.get(key) || { topic: clean, score: 0, sources: new Set() };
+  existing.score += weight;
+  if (source) existing.sources.add(source);
+  map.set(key, existing);
+}
+
+function compactTopicMap(map, limit = 10) {
+  return Array.from(map.values())
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((item) => ({ topic: item.topic, score: item.score, sources: Array.from(item.sources) }));
+}
+
+function summarizeHighSchoolActivities(activities = []) {
+  const weak = new Map();
+  const wrong = new Map();
+  const doubts = [];
+  const exam = new Map();
+  const roadmap = new Map();
+  const planner = new Map();
+  const strong = new Map();
+
+  for (const row of activities) {
+    const source = row.source;
+    (row.weakTopics || []).forEach((topic) => incrementTopic(weak, topic, source === "subject_gap" ? 8 : 4, source));
+    (row.wrongAnswerTopics || []).forEach((topic) => incrementTopic(wrong, topic, 7, source));
+    (row.strongTopics || []).forEach((topic) => incrementTopic(strong, topic, 3, source));
+    (row.selectedTopics || []).forEach((topic) => incrementTopic(exam, topic, source === "exam_strategy" ? 4 : 2, source));
+    (row.pendingTopics || []).forEach((topic) => incrementTopic(roadmap, topic, source === "study_roadmap" ? 3 : 2, source));
+    (row.topics || []).forEach((topic) => {
+      if (source === "study_planner") incrementTopic(planner, topic, 2, source);
+    });
+    (row.doubts || []).forEach((doubt) => {
+      const clean = cleanAcademicText(doubt || "");
+      if (clean) doubts.push({ text: clean.slice(0, 160), createdAt: row.createdAt });
+    });
+  }
+
+  const recentDoubts = doubts
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 6)
+    .map((item) => item.text);
+
+  const hasUsefulHistory = Boolean(
+    weak.size || wrong.size || recentDoubts.length || exam.size || roadmap.size || planner.size
+  );
+
+  return {
+    hasUsefulHistory,
+    activityCount: activities.length,
+    weakTopics: compactTopicMap(weak, 10),
+    wrongAnswerTopics: compactTopicMap(wrong, 10),
+    recentDoubts,
+    examFocusTopics: compactTopicMap(exam, 10),
+    pendingRoadmapTopics: compactTopicMap(roadmap, 10),
+    plannerTopics: compactTopicMap(planner, 8),
+    strongTopics: compactTopicMap(strong, 8),
+    lastActivityAt: activities[0]?.createdAt || null
+  };
+}
+
+async function buildHighSchoolStudyProfile(userId, { board, classLevel, subject }) {
+  const filter = {
+    userId,
+    board: normalizeBoard(board),
+    classLevel: normalizeClassLevel(classLevel || "10"),
+    subject: normalizePlannerSubject(subject)
+  };
+  const activities = await HighSchoolLearningActivity.find(filter)
+    .sort({ createdAt: -1 })
+    .limit(MAX_PROFILE_ACTIVITY_ROWS)
+    .lean();
+  return {
+    board: filter.board,
+    classLevel: filter.classLevel,
+    subject: filter.subject,
+    ...summarizeHighSchoolActivities(activities)
+  };
+}
+
+function profilePriorityTopics(profile = {}, academicTopics = []) {
+  const ranked = [
+    ...(profile.weakTopics || []).map((item) => ({ ...item, weight: 100 })),
+    ...(profile.wrongAnswerTopics || []).map((item) => ({ ...item, weight: 80 })),
+    ...(profile.recentDoubts || []).map((text) => ({ topic: text, score: 1, sources: ["study_assistant"], weight: 60 })),
+    ...(profile.examFocusTopics || []).map((item) => ({ ...item, weight: 40 })),
+    ...(profile.pendingRoadmapTopics || []).map((item) => ({ ...item, weight: 25 }))
+  ];
+  const seen = new Set();
+  const picked = [];
+  for (const item of ranked.sort((a, b) => (b.weight + b.score) - (a.weight + a.score))) {
+    const clean = cleanAcademicText(item.topic || "");
+    const key = clean.toLowerCase();
+    if (!clean || seen.has(key)) continue;
+    seen.add(key);
+    picked.push(clean);
+    if (picked.length >= 8) break;
+  }
+  if (picked.length < 5) {
+    for (const row of academicTopics) {
+      const topic = cleanAcademicText(row?.topic || row?.chapter || "");
+      const key = topic.toLowerCase();
+      if (topic && !seen.has(key)) {
+        seen.add(key);
+        picked.push(topic);
+      }
+      if (picked.length >= 8) break;
+    }
+  }
+  return picked;
+}
+
 function hasBrokenPdfText(value = "") {
   const text = String(value || "");
   return /(?:à°|à±|Â|�)/.test(text);
@@ -628,6 +801,13 @@ function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
           pdfUrl: pdfs[0]?.pdfUrl || ""
         })).filter((page) => page.page || page.preview)
       : [];
+    const images = getAcademicImagesForContext({
+      board,
+      classNumber,
+      subject,
+      chapter: selectedChapter.chapter_name,
+      pages: pageRefs.map((item) => item.page)
+    });
     return {
       chapter: selectedChapter,
       classNumber,
@@ -638,6 +818,7 @@ function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
       lessonSections: Array.isArray(selectedChapter.lessonSections) ? selectedChapter.lessonSections : [],
       definitions: Array.isArray(selectedChapter.definitions) ? selectedChapter.definitions : [],
       diagrams: Array.isArray(selectedChapter.diagrams) ? selectedChapter.diagrams : [],
+      images,
       activities: Array.isArray(selectedChapter.activities) ? selectedChapter.activities : [],
       textbookQuestions: Array.isArray(selectedChapter.textbookQuestions) ? selectedChapter.textbookQuestions : [],
       quizQuestions: Array.isArray(selectedChapter.quizQuestions) ? selectedChapter.quizQuestions : [],
@@ -696,10 +877,25 @@ function normalizePlannerDiagrams(items = [], limit = 5) {
       title: cleanAcademicText(item?.title || item?.name || ""),
       whatToLearn: cleanAcademicText(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation."),
       page: item?.page ? Number(item.page) : undefined,
+      imageUrl: String(item?.imageUrl || item?.url || "").trim(),
       pdfUrl: String(item?.pdfUrl || "").trim()
     }))
     .filter((item) => item.title.length >= 6 && !hasBrokenPdfText(item.title))
     .filter((item, index, arr) => arr.findIndex((entry) => entry.title.toLowerCase() === item.title.toLowerCase()) === index)
+    .slice(0, limit);
+}
+
+function normalizePlannerImages(items = [], limit = 6) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => ({
+      id: String(item?.id || item?.assetPath || item?.imageUrl || "").trim(),
+      title: cleanAcademicText(item?.title || item?.caption || "Textbook image"),
+      caption: cleanAcademicText(item?.caption || item?.whatToLearn || ""),
+      page: Number(item?.page || 0),
+      imageUrl: String(item?.imageUrl || item?.url || "").trim(),
+      sourcePdf: String(item?.sourcePdf || "").trim()
+    }))
+    .filter((item) => item.imageUrl)
     .slice(0, limit);
 }
 
@@ -737,6 +933,7 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
   const keyPoints = normalizePlannerTextList(sections.flatMap((section) => section?.keyPoints || []), 8, 260);
   const definitions = normalizePlannerDefinitions(lessonPlan?.definitions, 6);
   const diagrams = normalizePlannerDiagrams(lessonPlan?.diagrams, 5);
+  const images = normalizePlannerImages(lessonPlan?.images, 6);
   const pageRefs = normalizePlannerPageRefs(lessonPlan?.pageRefs, 5);
   const activities = normalizePlannerTextList((lessonPlan?.activities || []).flatMap((item) => [item?.title, ...(Array.isArray(item?.steps) ? item.steps : [])]), 4, 220);
   const quizQuestions = normalizePlannerQuiz(lessonPlan?.quizQuestions, subject, chapterName, 4);
@@ -752,6 +949,7 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
       keyPoints: subtopics.slice(0, 8),
       definitions: [],
       diagrams: [],
+      images,
       pageRefs,
       activities: [],
       practice: [
@@ -772,6 +970,7 @@ function buildPlannerWeekDetail({ week = {}, lessonPlan, subject, chapter, fallb
     keyPoints,
     definitions,
     diagrams,
+    images,
     pageRefs,
     activities,
     practice: [
@@ -1915,6 +2114,68 @@ function collectExamAcademicTopics({ board, classLevel = "10", subjects = [], re
   return filtered.slice(0, 80);
 }
 
+function classifyAcademicQuestion(text = "") {
+  const value = cleanAcademicText(text);
+  const lower = value.toLowerCase();
+  if (/\b(mcq|choose|objective|fill in|match|true or false|one word)\b/i.test(lower)) return "objective";
+  if (/\b(essay|long answer|explain in detail|describe in detail|write an essay)\b/i.test(lower) || value.length > 180) return "long";
+  if (/\b(draw|diagram|map|label|locate|experiment|activity)\b/i.test(lower)) return "diagram";
+  if (/\b(what is|define|name|who|when|where|why)\b/i.test(lower) || value.length < 80) return "veryShort";
+  return "short";
+}
+
+function collectExamImportantQuestions({ board, classLevel = "10", subjects = [], selectedTopics = [], academicTopics = [] }) {
+  const allowedTopicText = buildScopedExamTopicUnits({ subjects, selectedTopics, academicTopics })
+    .flatMap((item) => [item.chapter, item.topic, item.parentTopic, ...(item.subtopics || [])])
+    .map((item) => cleanAcademicText(item || "").toLowerCase())
+    .filter(Boolean);
+  const groups = { objective: [], veryShort: [], short: [], long: [], diagram: [] };
+  const seen = new Set();
+  const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
+
+  for (const subject of subjects) {
+    try {
+      const record = board ? getSubjectRecord(board, classNumber, subject) : getSubjectRecordForClass(classNumber, subject);
+      const subjectRecord = record?.subject || record;
+      const chapters = Array.isArray(record?.chapters || record?.subject?.chapters) ? record.chapters || record.subject.chapters : [];
+      for (const chapter of chapters) {
+        const chapterName = cleanAcademicText(chapter?.chapter_name || chapter?.title || chapter?.name || "");
+        const chapterKey = chapterName.toLowerCase();
+        if (allowedTopicText.length && !allowedTopicText.some((topic) => chapterKey.includes(topic) || topic.includes(chapterKey))) {
+          const topicText = (Array.isArray(chapter?.topics) ? chapter.topics : [])
+            .map((topic) => cleanAcademicText(topic?.topic_name || topic?.title || topic?.name || topic || "").toLowerCase())
+            .join(" ");
+          if (!allowedTopicText.some((topic) => topicText.includes(topic) || topic.includes(chapterKey))) continue;
+        }
+        const questions = normalizeTextbookQuestionRows(chapter?.textbookQuestions, 24);
+        for (const question of questions) {
+          const key = `${subject}:${chapterName}:${question}`.toLowerCase();
+          if (seen.has(key) || hasBrokenPdfText(question)) continue;
+          seen.add(key);
+          const type = classifyAcademicQuestion(question);
+          groups[type].push({
+            subject,
+            chapter: chapterName,
+            question,
+            source: "academic_pdf",
+            page: Number(chapter?.source_pages?.start || 0) || undefined
+          });
+        }
+      }
+    } catch {
+      // Keep exam strategy resilient for pending subjects.
+    }
+  }
+
+  Object.keys(groups).forEach((key) => {
+    groups[key] = groups[key].slice(0, 8);
+  });
+  return {
+    available: Object.values(groups).some((items) => items.length > 0),
+    groups
+  };
+}
+
 function resolveStrictSsc10AcademicContext({ board, classLevel = "10", subjects = [], requestedTopics = [] }) {
   const normalizedBoard = String(board || "").trim().toUpperCase();
   const classNumber = Number(String(classLevel || "").match(/\d+/)?.[0] || 10);
@@ -2237,6 +2498,13 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     requestedTopics: focusTopic ? [focusTopic] : []
   });
   const academicTopics = context.topics;
+  const importantQuestions = collectExamImportantQuestions({
+    board,
+    classLevel,
+    subjects: subjects.length ? subjects : EXAM_SUBJECT_POOL.slice(0, 5),
+    selectedTopics,
+    academicTopics
+  });
 
   const fallbackQuestions = buildSubjectGapFallbackQuiz({ subjects, questionCount, focusTopic });
   let source = context.ok ? "dataset_deterministic" : "data_pending";
@@ -2373,6 +2641,32 @@ exports.analyzeHighSchoolSubjectGap = asyncHandler(async (req, res) => {
     source = context.ok ? "dataset_deterministic" : "data_pending";
   }
 
+  const subjects = Array.from(new Set(score.subjectRows.map((row) => normalizePlannerSubject(row.label)).filter(Boolean)));
+  await Promise.all(subjects.map((activitySubject) => {
+    const subjectTopics = score.topicRows.filter((row) => normalizePlannerSubject(row.subject) === activitySubject);
+    const weakTopics = score.weakRows.filter((row) => normalizePlannerSubject(row.subject) === activitySubject).map((row) => row.label);
+    const wrongAnswerTopics = questions
+      .filter((question) => normalizePlannerSubject(question.subject) === activitySubject && String(answers?.[question.id] || "") !== String(question.correct || ""))
+      .map((question) => question.topic);
+    const strongTopics = score.strengthRows.filter((row) => normalizePlannerSubject(row.subject) === activitySubject).map((row) => row.label);
+    const subjectRow = score.subjectRows.find((row) => normalizePlannerSubject(row.label) === activitySubject);
+    return recordHighSchoolActivity(req.user.id, "subject_gap", {
+      board,
+      classLevel,
+      subject: activitySubject,
+      topics: subjectTopics.map((row) => row.label),
+      weakTopics,
+      wrongAnswerTopics,
+      strongTopics,
+      score: subjectRow?.percent,
+      details: {
+        overallScore: score.overallScore,
+        completedQuestions: score.completedQuestions,
+        focusPlan
+      }
+    });
+  }));
+
   res.status(200).json({
     source,
     isTopicGrounded: context.ok,
@@ -2470,6 +2764,16 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         };
       })
     };
+
+    await recordHighSchoolActivity(req.user.id, "study_roadmap", {
+      board,
+      classLevel,
+      subject,
+      topics: (roadmap.steps || []).map((step) => step.title),
+      pendingTopics: (roadmap.steps || []).filter((step) => !step.completed && step.status !== "completed").map((step) => step.title),
+      completedTopics: (roadmap.steps || []).filter((step) => step.completed || step.status === "completed").map((step) => step.title),
+      details: { goal: studyGoal, chapter, source }
+    });
 
     return res.status(200).json({
       source,
@@ -2603,6 +2907,16 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
       req.user.role
     );
   }
+
+  await recordHighSchoolActivity(req.user.id, "study_roadmap", {
+    board,
+    classLevel,
+    subject,
+    topics: (roadmap.steps || []).map((step) => step.title),
+    pendingTopics: (roadmap.steps || []).filter((step) => !step.completed && step.status !== "completed").map((step) => step.title),
+    completedTopics: (roadmap.steps || []).filter((step) => step.completed || step.status === "completed").map((step) => step.title),
+    details: { goal: studyGoal, chapter, source }
+  });
 
   res.status(200).json({ source, roadmap, meta: { provider, model } });
 });
@@ -2751,7 +3065,36 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
     source = "fallback";
   }
 
+  if (assistantMode === "academic") {
+    await recordHighSchoolActivity(req.user.id, "study_assistant", {
+      board,
+      classLevel,
+      subject,
+      topics: [chapter, result?.title, ...(result?.progress?.weakTopics || [])],
+      weakTopics: result?.progress?.weakTopics || [],
+      strongTopics: result?.progress?.strongTopics || [],
+      doubts: [question],
+      details: { chapter, answerStyle, source }
+    });
+  }
+
   res.status(200).json({ source, result, meta: { provider, model } });
+});
+
+exports.getHighSchoolStudyProfile = asyncHandler(async (req, res) => {
+  const profile = await StudentProfile.findOne({ userId: req.user.id })
+    .select("learnerStage classLevel className institutionName")
+    .lean();
+  if (profile?.learnerStage && profile.learnerStage !== "highschool") {
+    throw new ApiError(403, "Study Profile is available for high school learners.");
+  }
+
+  const board = normalizeBoard(req.query?.board || "SSC");
+  const classLevel = normalizeClassLevel(req.query?.classLevel || profile?.classLevel || profile?.className || "10");
+  const subject = normalizePlannerSubject(req.query?.subject || "Science");
+  const studyProfile = await buildHighSchoolStudyProfile(req.user.id, { board, classLevel, subject });
+
+  res.status(200).json({ profile: studyProfile });
 });
 
 exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
@@ -2762,37 +3105,60 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
     throw new ApiError(403, "Study Planner is available for high school learners.");
   }
 
-  const subject = String(req.body?.subject || "Science").trim().slice(0, 50);
+  const mode = req.body?.mode === "adaptive" ? "adaptive" : "manual";
+  const subject = normalizePlannerSubject(req.body?.subject || "Science").slice(0, 50);
   const goal = String(req.body?.goal || "Improve marks and complete weekly revision").trim().slice(0, 160);
   const skills = String(req.body?.skills || "basics, revision, practice tests").trim().slice(0, 240);
   const currentLevel = String(req.body?.currentLevel || "Basics").trim().slice(0, 40);
   const timePerDay = String(req.body?.timePerDay || "1-2 hours").trim().slice(0, 40);
-  const classLevel = String(req.body?.classLevel || profile?.classLevel || profile?.className || "High School").trim().slice(0, 40);
-  const board = String(req.body?.board || req.body?.academicBoard || "SSC").trim().toUpperCase().slice(0, 20);
+  const classLevel = normalizeClassLevel(req.body?.classLevel || profile?.classLevel || profile?.className || "10");
+  const board = normalizeBoard(req.body?.board || req.body?.academicBoard || "SSC");
+  const studyProfile = mode === "adaptive"
+    ? await buildHighSchoolStudyProfile(req.user.id, { board, classLevel, subject })
+    : null;
   const context = resolveStrictSsc10AcademicContext({
     board,
     classLevel,
     subjects: [subject],
-    requestedTopics: skills.split(",").map((item) => item.trim()).filter(Boolean)
+    requestedTopics: mode === "adaptive" ? [] : skills.split(",").map((item) => item.trim()).filter(Boolean)
   });
   const academicTopics = context.topics;
-  const selectedChapter = cleanAcademicText(academicTopics[0]?.chapter || skills.split(",")[0] || "");
+  const adaptiveTopics = mode === "adaptive" ? profilePriorityTopics(studyProfile, academicTopics) : [];
+  const plannerSkills = mode === "adaptive" && adaptiveTopics.length ? adaptiveTopics.join(", ") : skills;
+  const plannerGoal = mode === "adaptive"
+    ? `Personalized ${subject} repair plan from learning history`
+    : goal;
+  const selectedChapter = cleanAcademicText(academicTopics[0]?.chapter || plannerSkills.split(",")[0] || "");
   const lessonPlan = context.ok
     ? findAcademicLessonPlan({ board: "SSC", classLevel, subject, chapter: selectedChapter })
     : null;
 
   let plan = buildFallbackHighSchoolStudyPlanner({
     subject,
-    goal,
-    skills,
+    goal: plannerGoal,
+    skills: plannerSkills,
     currentLevel,
     timePerDay,
     classLevel,
-    academicTopics
+    academicTopics: mode === "adaptive" && adaptiveTopics.length
+      ? academicTopics.filter((row) => topicMatchesSelection(row, adaptiveTopics))
+      : academicTopics
   });
   let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
+
+  if (mode === "adaptive" && !studyProfile?.hasUsefulHistory) {
+    return res.status(200).json({
+      source: "profile_empty",
+      isTopicGrounded: context.ok,
+      datasetScope: context.datasetScope,
+      dataPendingReason: "Take Subject Gap Analyzer first to unlock Smart Plan.",
+      profile: studyProfile,
+      plan: null,
+      meta: { provider, model }
+    });
+  }
 
   if (context.ok) {
     try {
@@ -2803,8 +3169,11 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
       `Class level: ${classLevel}.`,
       `Board: ${board}.`,
       `Subject: ${subject}.`,
-      `Study goal: ${goal}.`,
-      `Current skills or chapters: ${skills}.`,
+      `Planner mode: ${mode}.`,
+      `Study goal: ${plannerGoal}.`,
+      `Current skills or chapters: ${plannerSkills}.`,
+      mode === "adaptive" ? `Student learning profile summary: ${JSON.stringify(studyProfile)}` : "",
+      mode === "adaptive" ? `Adaptive priority order: very weak Subject Gap topics, quiz wrong-answer topics, recent doubts, Exam Strategy topics, pending Roadmap topics, then textbook order.` : "",
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.chapter} > ${item.topic}`).join("; ") : "No parsed SSC 6-10 topic data found for this selection yet."}.`,
       `Current level: ${currentLevel}.`,
       `Available time per day: ${timePerDay}.`,
@@ -2907,11 +3276,24 @@ exports.generateHighSchoolStudyPlanner = asyncHandler(async (req, res) => {
     });
   }
 
+  if (plan) {
+    await recordHighSchoolActivity(req.user.id, "study_planner", {
+      board,
+      classLevel,
+      subject,
+      topics: (plan.weeks || []).map((week) => week.title),
+      pendingTopics: (plan.weeks || []).filter((week) => week.status !== "completed").map((week) => week.title),
+      completedTopics: (plan.weeks || []).filter((week) => week.status === "completed").map((week) => week.title),
+      details: { mode, goal: plannerGoal, source }
+    });
+  }
+
   res.status(200).json({
     source,
     isTopicGrounded: context.ok,
     datasetScope: context.datasetScope,
     dataPendingReason: context.dataPendingReason || undefined,
+    profile: studyProfile || undefined,
     plan,
     meta: { provider, model }
   });
@@ -3168,12 +3550,27 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
   }
   }
 
+  await Promise.all(strategySubjects.map((activitySubject) => recordHighSchoolActivity(req.user.id, "exam_strategy", {
+    board,
+    classLevel,
+    subject: activitySubject,
+    topics: strategy.highPriorityTopics.filter((item) => normalizePlannerSubject(item.subject) === activitySubject).map((item) => item.topic),
+    selectedTopics: selectedTopics.length
+      ? selectedTopics
+      : strategy.highPriorityTopics.filter((item) => normalizePlannerSubject(item.subject) === activitySubject).map((item) => item.topic),
+    details: { examName, examDate, source, targetScore: req.body?.targetScore, timePerDay: req.body?.timePerDay }
+  })));
+
   res.status(200).json({
     source,
     isTopicGrounded: context.ok,
     datasetScope: context.datasetScope,
     dataPendingReason: context.dataPendingReason || undefined,
-    strategy,
+    strategy: {
+      ...strategy,
+      importantQuestions,
+      questionExtractionStatus: importantQuestions.available ? "available" : "pending"
+    },
     meta: { provider, model }
   });
 });
@@ -3465,6 +3862,17 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
     response: answer,
     context
   });
+
+  if (assistantMode === "academic" && subject) {
+    await recordHighSchoolActivity(req.user.id, "study_assistant", {
+      board,
+      classLevel,
+      subject,
+      topics: [chapter],
+      doubts: [message],
+      details: { chapter, source, conversationId }
+    });
+  }
 
   res.status(200).json({
     answer,

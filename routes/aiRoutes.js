@@ -10,6 +10,7 @@ const {
   generateHighSchoolStudyRoadmap,
   generateHighSchoolStudyAssistantAnswer,
   chatWithHighSchoolAssistant,
+  getHighSchoolStudyProfile,
   getHighSchoolAssistantHistory,
   getHighSchoolAssistantConversationMessages,
   updateHighSchoolAssistantConversation,
@@ -78,6 +79,12 @@ router.post(
   verifyToken,
   authorizeRoles("student"),
   generateHighSchoolStudyAssistantAnswer
+);
+router.get(
+  "/highschool/study-profile",
+  verifyToken,
+  authorizeRoles("student"),
+  getHighSchoolStudyProfile
 );
 router.post(
   "/highschool/study-planner",

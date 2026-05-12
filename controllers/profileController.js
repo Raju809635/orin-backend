@@ -271,6 +271,20 @@ function normalizeMentorProfilePayload(payload = {}) {
   return nextPayload;
 }
 
+const HIGH_SCHOOL_TEACHER_SUBJECTS = [
+  "Telugu",
+  "Hindi",
+  "English",
+  "Mathematics",
+  "Science",
+  "Physical Science",
+  "Biological Science",
+  "Social Studies",
+  "Social Science",
+  "Computer",
+  "Sanskrit"
+];
+
 async function upsertProfileDocument(Model, userId, nextPayload) {
   const objectUserId = new mongoose.Types.ObjectId(String(userId));
   await Model.collection.updateOne(
@@ -406,7 +420,15 @@ exports.updateMyMentorProfileV2 = asyncHandler(async (req, res) => {
     ...nextPayload
   };
 
-  if (
+  if ((nextPayload.mentorOrgRole || mergedProfile.mentorOrgRole) === "institution_teacher") {
+    const selectedSubjects = toStringArray(nextPayload.specializations || nextPayload.expertiseDomains || mergedProfile.specializations || [])
+      .filter((item) => HIGH_SCHOOL_TEACHER_SUBJECTS.some((subject) => subject.toLowerCase() === item.toLowerCase()))
+      .slice(0, 12);
+    nextPayload.primaryCategory = "Academic";
+    nextPayload.subCategory = "School";
+    nextPayload.specializations = selectedSubjects;
+    nextPayload.expertiseDomains = selectedSubjects;
+  } else if (
     nextPayload.primaryCategory !== undefined ||
     nextPayload.subCategory !== undefined ||
     nextPayload.specializations !== undefined

@@ -11,7 +11,9 @@ const {
   getLessonForBoardClassSubjectChapter,
   getResourceLibrary,
   getManualPdfsForClassSubject,
+  getAcademicImagesForContext,
   resolveManualPdf,
+  resolveAcademicImage,
   getManualPdfUrl
 } = require("../services/academicService");
 
@@ -47,11 +49,14 @@ exports.getAcademicSubject = asyncHandler(async (req, res) => {
 
 exports.getAcademicSubjectForClass = asyncHandler(async (req, res) => {
   if (Number(req.params.classNumber) !== 10) {
+    const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject);
     return res.status(200).json({
       classNumber: Number(req.params.classNumber),
       subjectKey: req.params.subject,
       available: false,
-      message: "Academic topics for this class will be added later.",
+      message: pdfs.length
+        ? "Textbook PDF is available in Resources. Topic extraction for this class is pending."
+        : "Academic topics for this class will be added later.",
       subject: { metadata: { class: Number(req.params.classNumber), subject: req.params.subject }, chapters: [] }
     });
   }
@@ -60,11 +65,14 @@ exports.getAcademicSubjectForClass = asyncHandler(async (req, res) => {
 
 exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
   if (Number(req.params.classNumber) !== 10) {
+    const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject);
     return res.status(200).json({
       classNumber: Number(req.params.classNumber),
       subjectKey: req.params.subject,
       available: false,
-      message: "Academic topics for this class will be added later.",
+      message: pdfs.length
+        ? "Textbook PDF is available in Resources. Topic extraction for this class is pending."
+        : "Academic topics for this class will be added later.",
       chapters: []
     });
   }
@@ -72,7 +80,20 @@ exports.getAcademicTopicsForClassSubject = asyncHandler(async (req, res) => {
 });
 
 exports.getAcademicTopicsForBoardClassSubject = asyncHandler(async (req, res) => {
-  res.status(200).json(getTopicsForBoardClassSubject(req.params.board, req.params.classNumber, req.params.subject));
+  try {
+    return res.status(200).json(getTopicsForBoardClassSubject(req.params.board, req.params.classNumber, req.params.subject));
+  } catch (error) {
+    const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject, req.params.board);
+    if (!pdfs.length) throw error;
+    return res.status(200).json({
+      board: String(req.params.board || "").toUpperCase(),
+      classNumber: Number(req.params.classNumber),
+      subjectKey: req.params.subject,
+      available: false,
+      message: "Textbook PDF is available in Resources. Topic extraction for this class is pending.",
+      chapters: []
+    });
+  }
 });
 
 exports.getAcademicLessonForBoardClassSubjectChapter = asyncHandler(async (req, res) => {
@@ -86,20 +107,31 @@ exports.getAcademicLessonForBoardClassSubjectChapter = asyncHandler(async (req, 
   );
 });
 
+exports.getAcademicImagesForBoardClassSubject = asyncHandler(async (req, res) => {
+  const images = getAcademicImagesForContext({
+    board: req.params.board,
+    classNumber: req.params.classNumber,
+    subject: req.params.subject,
+    chapter: req.query.chapter,
+    pages: String(req.query.pages || "")
+      .split(",")
+      .map((item) => Number(item.trim()))
+      .filter(Boolean)
+  });
+  res.status(200).json({
+    board: String(req.params.board || "").toUpperCase(),
+    classNumber: Number(req.params.classNumber),
+    subject: req.params.subject,
+    available: images.length > 0,
+    images
+  });
+});
+
 exports.getAcademicResourceLibrary = asyncHandler(async (req, res) => {
   res.status(200).json(getResourceLibrary());
 });
 
 exports.getAcademicPdfsForClassSubject = asyncHandler(async (req, res) => {
-  if (Number(req.params.classNumber) !== 10) {
-    return res.status(200).json({
-      classNumber: Number(req.params.classNumber),
-      subjectKey: req.params.subject,
-      available: false,
-      message: "Academic PDFs for this class will be added later.",
-      pdfs: []
-    });
-  }
   const pdfs = getManualPdfsForClassSubject(req.params.classNumber, req.params.subject);
   res.status(200).json({
     classNumber: Number(req.params.classNumber),
@@ -131,5 +163,10 @@ exports.openAcademicPdf = asyncHandler(async (req, res) => {
   const filePath = resolveManualPdf(req.query.path);
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `inline; filename="${encodeURIComponent(require("path").basename(filePath))}"`);
+  res.sendFile(filePath);
+});
+
+exports.openAcademicImage = asyncHandler(async (req, res) => {
+  const filePath = resolveAcademicImage(req.query.path);
   res.sendFile(filePath);
 });
