@@ -1849,6 +1849,34 @@ function topicMatchesSelection(row, selectedTopics = []) {
   });
 }
 
+function isVerboseExamText(value = "") {
+  const text = cleanAcademicText(value);
+  if (!text) return true;
+  if (hasBrokenPdfText(text)) return true;
+  if (text.length > 90) return true;
+  if (/[A-Za-z]{4,}/.test(text) && /[^\x00-\x7F]/.test(text)) return true;
+  if (/[=<>@~]{2,}/.test(text)) return true;
+  return false;
+}
+
+function isGenericAcademicBucket(value = "") {
+  const text = cleanAcademicText(value).toLowerCase();
+  return /\b(lesson reading|meanings?|vocabulary|comprehension questions?|grammar|grammar or writing practice|revision quiz|project work|study skills|oral activity|writing)\b/i.test(text)
+    || /^(పాఠ్యభాగం చదవడం|పదజాలం|అవగాహన - ప్రతిస్పందన|వ్యక్తీకరణ - సృజనాత్మకత|గేయం - ప్రక్రియ|కథ - ప్రక్రియ)$/i.test(cleanAcademicText(value));
+}
+
+function buildReadableExamUnitLabel({ chapter = "", topic = "" } = {}) {
+  const cleanChapter = cleanAcademicText(chapter || "");
+  const cleanTopic = cleanAcademicText(topic || "");
+  if (!cleanTopic || isVerboseExamText(cleanTopic) || isGenericAcademicBucket(cleanTopic)) {
+    return cleanChapter || cleanTopic;
+  }
+  if (!cleanChapter || cleanTopic.toLowerCase() === cleanChapter.toLowerCase()) {
+    return cleanTopic || cleanChapter;
+  }
+  return `${cleanChapter}: ${cleanTopic}`;
+}
+
 function buildScopedExamTopicUnits({ subjects = [], selectedTopics = [], academicTopics = [] }) {
   const allowedSubjects = new Set(subjects.map(normalizeExamSubject).filter(Boolean).map((item) => item.toLowerCase()));
   const rows = Array.isArray(academicTopics)
@@ -1867,13 +1895,11 @@ function buildScopedExamTopicUnits({ subjects = [], selectedTopics = [], academi
     const chapter = cleanAcademicText(row.chapter || row.topic || "");
     const topic = cleanAcademicText(row.topic || row.chapter || "");
     const subtopics = Array.isArray(row.subtopics) ? row.subtopics.map(cleanAcademicText).filter(Boolean).slice(0, 5) : [];
-    const topicNames = subtopics.length ? subtopics : [topic || chapter].filter(Boolean);
-    for (const name of topicNames) {
-      const key = `${subject}:${chapter}:${name}`.toLowerCase();
-      if (!name || seen.has(key)) continue;
-      seen.add(key);
-      units.push({ subject, chapter, topic: name, parentTopic: topic, subtopics });
-    }
+    const label = buildReadableExamUnitLabel({ chapter, topic });
+    const key = `${subject}:${chapter}:${label}`.toLowerCase();
+    if (!label || seen.has(key)) continue;
+    seen.add(key);
+    units.push({ subject, chapter, topic: label, parentTopic: topic, subtopics });
   }
 
   return units.slice(0, 18);
