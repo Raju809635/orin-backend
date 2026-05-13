@@ -447,6 +447,52 @@ function cleanAcademicText(value = "") {
     .trim();
 }
 
+function stripAcademicPdfFooterNoise(value = "") {
+  return String(value || "")
+    .replace(/\bXXX\b[\s\S]*$/i, " ")
+    .replace(/\b[\w-]+\.pdf\b[\s\S]*$/i, " ")
+    .replace(/\b\d{1,3}\s+\d{1,3}\/\d{1,3}\/\d{2,4}\s+\d{1,3}[:\/]\d{1,3}[:\/]\d{1,3}\s*(?:AM|PM)\b[\s\S]*$/i, " ");
+}
+
+function cleanReadableAcademicText(value = "") {
+  return cleanAcademicText(stripAcademicPdfFooterNoise(value))
+    .replace(/\b(?:[A-Z]\s+){3,}(?=[A-Z0-9])/g, " ")
+    .replace(/\b(?:[A-Z]\s+){2,}(?=[A-Z][a-z])/g, " ")
+    .replace(/\b(?:\d{1,3}\s+){4,}\d{1,3}\b/g, " ")
+    .replace(/([A-Za-z])\1{2,}/g, "$1")
+    .replace(/([A-Za-z])([A-Za-z])\2{2,}/g, "$1$2")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isUnreadableAcademicText(value = "") {
+  const text = cleanReadableAcademicText(value);
+  if (!text) return true;
+  if (hasBrokenPdfText(text)) return true;
+  if (/\bXXX\b/i.test(value) || /\.pdf\b/i.test(value)) return true;
+  if (/MMM[a-z]+|FFF[ia-z]+|PPP[M]+/i.test(value)) return true;
+  if (/[A-Za-z]{4,}/.test(text) && /[^\x00-\x7F]/.test(text)) return true;
+  if ((text.match(/\b\d+\b/g) || []).length >= 25 && text.length > 180) return true;
+  if ((text.match(/\b(?:find|show that|prove that|exercise|question|do this|try this)\b/gi) || []).length >= 4 && text.length > 220) return true;
+  if ((text.match(/\([ivx]+\)|\b\d+\./gi) || []).length >= 6 && text.length > 180) return true;
+  return false;
+}
+
+function summarizeAcademicPassage(value = "", { maxParts = 3, maxLength = 220 } = {}) {
+  const cleaned = cleanReadableAcademicText(value);
+  if (!cleaned || isUnreadableAcademicText(cleaned)) return "";
+  const pieces = cleaned
+    .split(/(?<=[.!?])\s+|(?<=:)\s+(?=[A-Z\u0C00-\u0C7F])|(?<=;)\s+/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .filter((item) => item.length >= 18)
+    .filter((item) => !isUnreadableAcademicText(item))
+    .filter((item) => !/\b(?:exercise|do this|try this|question bank)\b/i.test(item))
+    .filter((item) => !/\b(?:\d{1,3}\/\d{1,3}\/\d{2,4}|am|pm)\b/i.test(item));
+  const joined = pieces.slice(0, maxParts).join(" ").trim();
+  return joined.slice(0, maxLength).trim();
+}
+
 function normalizeClassLevel(value = "") {
   const number = String(value || "").match(/\d+/)?.[0];
   return number || String(value || "").trim().slice(0, 40);
@@ -460,7 +506,7 @@ function uniqueCleanList(items = [], limit = 12) {
   const seen = new Set();
   const out = [];
   for (const item of Array.isArray(items) ? items : []) {
-    const clean = cleanAcademicText(item || "").slice(0, 120);
+    const clean = cleanReadableAcademicText(item || "").slice(0, 120);
     const key = clean.toLowerCase();
     if (!clean || seen.has(key)) continue;
     seen.add(key);
@@ -798,7 +844,7 @@ function findAcademicLessonPlan({ board, classLevel, subject, chapter }) {
     const pageRefs = Array.isArray(selectedChapter.pages)
       ? selectedChapter.pages.slice(0, 12).map((page) => ({
           page: Number(page?.page || 0),
-          preview: cleanAcademicText(page?.text || "").slice(0, 220),
+          preview: summarizeAcademicPassage(page?.text || "", { maxParts: 2, maxLength: 220 }),
           pdfUrl: pdfs[0]?.pdfUrl || ""
         })).filter((page) => page.page || page.preview)
       : [];
@@ -838,7 +884,7 @@ function buildFallbackWeeklyPlanFromChapter(chapter = {}, subject = "Science") {
       ? chapter.pages.slice(0, 5).map((page, index) => ({
           id: `page-${page?.page || index + 1}`,
           title: `Textbook page ${page?.page || index + 1}`,
-          summary: [cleanAcademicText(page?.text || "").slice(0, 240)].filter(Boolean)
+          summary: [summarizeAcademicPassage(page?.text || "", { maxParts: 2, maxLength: 240 })].filter(Boolean)
         }))
       : [];
   const template = roadmapMissionTemplate(subject);
@@ -852,8 +898,8 @@ function buildFallbackWeeklyPlanFromChapter(chapter = {}, subject = "Science") {
 
 function normalizePlannerTextList(items = [], limit = 6, maxLength = 220) {
   return (Array.isArray(items) ? items : [items])
-    .map((item) => cleanAcademicText(typeof item === "string" ? item : item?.title || item?.summary || item?.body || ""))
-    .filter((item) => item && item.length >= 8 && !hasBrokenPdfText(item))
+    .map((item) => summarizeAcademicPassage(typeof item === "string" ? item : item?.title || item?.summary || item?.body || "", { maxParts: 2, maxLength }))
+    .filter((item) => item && item.length >= 8 && !hasBrokenPdfText(item) && !isUnreadableAcademicText(item))
     .filter((item, index, arr) => arr.findIndex((entry) => entry.toLowerCase() === item.toLowerCase()) === index)
     .slice(0, limit)
     .map((item) => item.slice(0, maxLength));
@@ -862,12 +908,12 @@ function normalizePlannerTextList(items = [], limit = 6, maxLength = 220) {
 function normalizePlannerDefinitions(items = [], limit = 6) {
   return (Array.isArray(items) ? items : [])
     .map((item) => ({
-      term: cleanAcademicText(item?.term || item?.title || ""),
-      meaning: cleanAcademicText(item?.meaning || item?.definition || item?.body || "")
+      term: cleanReadableAcademicText(item?.term || item?.title || ""),
+      meaning: summarizeAcademicPassage(item?.meaning || item?.definition || item?.body || "", { maxParts: 2, maxLength: 180 })
     }))
     .filter((item) => item.term.length >= 3 && item.meaning.length >= 8)
     .filter((item) => !/^(this|that|these|those|it)$/i.test(item.term))
-    .filter((item) => !hasBrokenPdfText(`${item.term} ${item.meaning}`))
+    .filter((item) => !hasBrokenPdfText(`${item.term} ${item.meaning}`) && !isUnreadableAcademicText(`${item.term} ${item.meaning}`))
     .filter((item, index, arr) => arr.findIndex((entry) => entry.term.toLowerCase() === item.term.toLowerCase()) === index)
     .slice(0, limit);
 }
@@ -875,13 +921,13 @@ function normalizePlannerDefinitions(items = [], limit = 6) {
 function normalizePlannerDiagrams(items = [], limit = 5) {
   return (Array.isArray(items) ? items : [])
     .map((item) => ({
-      title: cleanAcademicText(item?.title || item?.name || ""),
-      whatToLearn: cleanAcademicText(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation."),
+      title: cleanReadableAcademicText(item?.title || item?.name || ""),
+      whatToLearn: summarizeAcademicPassage(item?.whatToLearn || item?.description || "Identify labels, process order, and textbook explanation.", { maxParts: 2, maxLength: 160 }),
       page: item?.page ? Number(item.page) : undefined,
       imageUrl: String(item?.imageUrl || item?.url || "").trim(),
       pdfUrl: String(item?.pdfUrl || "").trim()
     }))
-    .filter((item) => item.title.length >= 6 && !hasBrokenPdfText(item.title))
+    .filter((item) => item.title.length >= 6 && !hasBrokenPdfText(item.title) && !isUnreadableAcademicText(item.title))
     .filter((item, index, arr) => arr.findIndex((entry) => entry.title.toLowerCase() === item.title.toLowerCase()) === index)
     .slice(0, limit);
 }
@@ -890,8 +936,8 @@ function normalizePlannerImages(items = [], limit = 6) {
   return (Array.isArray(items) ? items : [])
     .map((item) => ({
       id: String(item?.id || item?.assetPath || item?.imageUrl || "").trim(),
-      title: cleanAcademicText(item?.title || item?.caption || "Textbook image"),
-      caption: cleanAcademicText(item?.caption || item?.whatToLearn || ""),
+      title: cleanReadableAcademicText(item?.title || item?.caption || "Textbook image"),
+      caption: summarizeAcademicPassage(item?.caption || item?.whatToLearn || "", { maxParts: 2, maxLength: 160 }),
       page: Number(item?.page || 0),
       imageUrl: String(item?.imageUrl || item?.url || "").trim(),
       sourcePdf: String(item?.sourcePdf || "").trim()
@@ -904,7 +950,7 @@ function normalizePlannerPageRefs(items = [], limit = 5) {
   return (Array.isArray(items) ? items : [])
     .map((item) => ({
       page: Number(item?.page || 0),
-      preview: cleanAcademicText(item?.preview || item?.text || "").slice(0, 220),
+      preview: summarizeAcademicPassage(item?.preview || item?.text || "", { maxParts: 2, maxLength: 220 }),
       pdfUrl: String(item?.pdfUrl || "").trim()
     }))
     .filter((item) => item.page || item.preview)
@@ -1243,8 +1289,8 @@ function buildScienceConceptQuestions({ chapterName, keyPoints, definitions, que
 
 function normalizeTextbookQuestionRows(items = [], limit = 24) {
   return (Array.isArray(items) ? items : [])
-    .map((item) => cleanAcademicText(typeof item === "string" ? item : item?.question || item?.text || ""))
-    .filter((item) => item.length >= 18 && !hasBrokenPdfText(item))
+    .map((item) => summarizeAcademicPassage(typeof item === "string" ? item : item?.question || item?.text || "", { maxParts: 2, maxLength: 220 }))
+    .filter((item) => item.length >= 18 && !hasBrokenPdfText(item) && !isUnreadableAcademicText(item))
     .filter((item, index, arr) => arr.findIndex((entry) => normalizeQuizText(entry) === normalizeQuizText(item)) === index)
     .slice(0, limit);
 }
