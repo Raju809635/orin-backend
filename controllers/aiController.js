@@ -3038,6 +3038,17 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
     ? lessonPlan.pageRefs.map((item) => `Page ${item.page}: ${item.preview}`).filter(Boolean).slice(0, 5)
     : [];
   const lessonQuestions = normalizeTextbookQuestionRows(lessonPlan?.textbookQuestions || lessonPlan?.chapter?.textbookQuestions, 8);
+  const aiEngine = assistantMode === "academic"
+    ? await retrieveAcademicContext({
+        query: `${subject} ${chapter || ""} ${question}`.trim(),
+        board,
+        classLevel,
+        subject,
+        chapter: chapter || "",
+        limit: 8
+      })
+    : { ok: false, reason: "general_mode", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
 
   let result = buildFallbackHighSchoolStudyAssistant({ question, subject, answerStyle, classLevel, assistantMode });
   let source = "fallback";
@@ -3061,6 +3072,7 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
         : "",
       assistantMode === "academic" && lessonSnippets.length ? `Textbook page snippets: ${lessonSnippets.join(" | ")}.` : "",
       assistantMode === "academic" && lessonQuestions.length ? `Textbook questions: ${lessonQuestions.join(" | ")}.` : "",
+      assistantMode === "academic" && engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}.` : "",
       `Student doubt: ${question}.`,
       assistantMode === "general"
         ? "Rules: answer the actual question, use clear high-school friendly language, no silly/random content, keep mobile text concise, include practiceQuestions only if useful."
@@ -3165,7 +3177,19 @@ exports.generateHighSchoolStudyAssistantAnswer = asyncHandler(async (req, res) =
     });
   }
 
-  res.status(200).json({ source, result, meta: { provider, model } });
+  res.status(200).json({
+    source,
+    result,
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
+  });
 });
 
 exports.getHighSchoolStudyProfile = asyncHandler(async (req, res) => {
@@ -3430,6 +3454,15 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
     subjects: mappedSubjects,
     requestedTopics: []
   });
+  const aiEngine = await retrieveAcademicContext({
+    query: `${interest} career path ${strengths} ${mappedSubjects.join(" ")}`.trim(),
+    board,
+    classLevel,
+    subject: mappedSubjects[0] || interest,
+    chapter: "",
+    limit: 6
+  });
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
 
   let explorer = buildFallbackHighSchoolCareerExplorer({ interest, strengths, classLevel });
   let source = "fallback";
@@ -3447,6 +3480,7 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
       `Student strengths/interests: ${strengths}.`,
       `Current school subjects/favorites: ${academicSubjects.join(", ") || "Not specified"}.`,
       `Academic dataset topics: ${academicTopics.length ? academicTopics.map((item) => `${item.subject} > ${item.chapter} > ${item.topic}`).join("; ") : "No verified class-topic map available for this selection yet."}.`,
+      engineTopicHints.length ? `Retrieved textbook snippets for academic alignment: ${engineTopicHints.join(" || ")}` : "Retrieved textbook snippets: unavailable.",
       `Existing career goal: ${profile?.careerGoals || "Not specified"}.`,
       "Rules: all suggestions must be school-safe, age-appropriate, India-aware where useful, and based on selected interest/strengths plus current academics. Do not return random unrelated careers."
     ].join("\n");
@@ -3527,7 +3561,19 @@ exports.generateHighSchoolCareerExplorer = asyncHandler(async (req, res) => {
     source = "fallback";
   }
 
-  res.status(200).json({ source, explorer, meta: { provider, model } });
+  res.status(200).json({
+    source,
+    explorer,
+    meta: {
+      provider,
+      model,
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
+    }
+  });
 });
 
 exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
@@ -3901,6 +3947,17 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
     ? chatLessonPlan.pageRefs.map((item) => `Page ${item.page}: ${item.preview}`).filter(Boolean).slice(0, 5)
     : [];
   const chatTextbookQuestions = normalizeTextbookQuestionRows(chatLessonPlan?.textbookQuestions || chatLessonPlan?.chapter?.textbookQuestions, 6);
+  const aiEngine = assistantMode === "academic"
+    ? await retrieveAcademicContext({
+        query: `${subject} ${chapter || ""} ${message}`.trim(),
+        board,
+        classLevel,
+        subject,
+        chapter: chapter || "",
+        limit: 8
+      })
+    : { ok: false, reason: "general_mode", results: [] };
+  const engineTopicHints = buildEngineTopicHints(aiEngine.results);
 
   let existingConversation = null;
   if (req.body?.conversationId) {
@@ -3928,6 +3985,7 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
       : "",
     assistantMode === "academic" && chatLessonSnippets.length ? `Textbook page snippets: ${chatLessonSnippets.join(" | ")}` : "",
     assistantMode === "academic" && chatTextbookQuestions.length ? `Textbook questions: ${chatTextbookQuestions.join(" | ")}` : "",
+    assistantMode === "academic" && engineTopicHints.length ? `Retrieved textbook snippets: ${engineTopicHints.join(" || ")}` : "",
     `Student prompt: ${message}`,
     assistantMode === "academic"
       ? "Rules: stay on-topic, use clear headings/bullets, include key points and one short exam tip. For Maths, show formulas/equations/problem steps. For Telugu/Hindi, keep the answer in the selected language when the prompt uses that language."
@@ -3973,6 +4031,11 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
     feature: "highschool_chat_assistant",
     assistantMode,
     academicContext: { board, classLevel, subject, chapter },
+    aiEngine: {
+      enabled: aiEngine.ok,
+      reason: aiEngine.reason,
+      hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+    },
     source
   };
 
@@ -4011,7 +4074,12 @@ exports.chatWithHighSchoolAssistant = asyncHandler(async (req, res) => {
       isPremium: entitlement.isPremium,
       planId: entitlement.planId,
       dailyLimit,
-      remainingToday: Math.max(dailyLimit - usedToday - 1, 0)
+      remainingToday: Math.max(dailyLimit - usedToday - 1, 0),
+      aiEngine: {
+        enabled: aiEngine.ok,
+        reason: aiEngine.reason,
+        hits: Array.isArray(aiEngine.results) ? aiEngine.results.length : 0
+      }
     }
   });
 });

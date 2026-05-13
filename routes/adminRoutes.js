@@ -67,6 +67,7 @@ const {
   getAppMetricsVersions,
   getAppMetricsActivity
 } = require("../controllers/appMetricsController");
+const { getAiEngineHealth } = require("../services/orinAiEngineService");
 
 router.get("/pending-mentors", verifyToken, authorizeRoles("admin"), getPendingMentors);
 router.put("/approve/:id", verifyToken, authorizeRoles("admin"), approveMentor);
@@ -78,6 +79,13 @@ router.get("/app-metrics/countries", verifyToken, authorizeRoles("admin"), getAp
 router.get("/app-metrics/devices", verifyToken, authorizeRoles("admin"), getAppMetricsDevices);
 router.get("/app-metrics/versions", verifyToken, authorizeRoles("admin"), getAppMetricsVersions);
 router.get("/app-metrics/activity", verifyToken, authorizeRoles("admin"), getAppMetricsActivity);
+router.get("/ai-engine/health", verifyToken, authorizeRoles("admin"), async (req, res, next) => {
+  try {
+    res.status(200).json(await getAiEngineHealth());
+  } catch (error) {
+    next(error);
+  }
+});
 router.get("/notifications", verifyToken, authorizeRoles("admin"), getNotifications);
 router.get("/audit-logs", verifyToken, authorizeRoles("admin"), getAuditLogs);
 router.get("/collaborate/applications", verifyToken, authorizeRoles("admin"), getCollaborateApplications);

@@ -133,5 +133,5 @@ module.exports = {
   corsOrigins,
   orinAiEngineUrl: value.ORIN_AI_ENGINE_URL || "",
   orinAiEngineTimeoutMs: Number(value.ORIN_AI_ENGINE_TIMEOUT_MS || 12000),
-  orinAiEngineEnabled: Boolean(value.ORIN_AI_ENGINE_ENABLED)
+  orinAiEngineEnabled: Boolean(value.ORIN_AI_ENGINE_URL || value.ORIN_AI_ENGINE_ENABLED)
 };
