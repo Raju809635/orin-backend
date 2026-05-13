@@ -3725,6 +3725,13 @@ exports.generateHighSchoolExamStrategy = asyncHandler(async (req, res) => {
       : strategy.highPriorityTopics.filter((item) => normalizePlannerSubject(item.subject) === activitySubject).map((item) => item.topic),
     details: { examName, examDate, source, targetScore: req.body?.targetScore, timePerDay: req.body?.timePerDay }
   })));
+  const importantQuestions = collectExamImportantQuestions({
+    board,
+    classLevel,
+    subjects: strategySubjects,
+    selectedTopics,
+    academicTopics
+  });
 
   res.status(200).json({
     source,
