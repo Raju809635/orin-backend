@@ -8226,6 +8226,8 @@ exports.getMentorGroups = asyncHandler(async (req, res) => {
           name: item.name,
           domain: item.domain,
           description: item.description,
+          avatarUrl: item.avatarUrl || "",
+          rules: item.rules || "",
           mentor: {
             id: item.mentorId?._id || null,
             name: item.mentorId?.name || "Mentor"
@@ -8251,11 +8253,49 @@ exports.getMentorGroups = asyncHandler(async (req, res) => {
               }))
             : [],
           topicTags: item.topicTags || [],
-          schedule: item.schedule || "Weekly sessions"
+          schedule: item.schedule || "Weekly sessions",
+          settings: {
+            joinApproval: item.settings?.joinApproval !== false,
+            allowMemberMessages: item.settings?.allowMemberMessages !== false,
+            allowMemberMedia: item.settings?.allowMemberMedia !== false,
+            allowReactions: item.settings?.allowReactions !== false
+          }
         };
       })
   );
 });
+
+function buildMentorGroupMessagePayload(msg) {
+  return {
+    id: msg._id,
+    text: msg.text || "",
+    attachments: Array.isArray(msg.attachments)
+      ? msg.attachments
+          .map((item) => ({
+            type: item.type === "image" ? "image" : "file",
+            url: item.url || "",
+            name: item.name || "",
+            mimeType: item.mimeType || ""
+          }))
+          .filter((item) => item.url)
+      : [],
+    reactions: Array.isArray(msg.reactions)
+      ? msg.reactions.map((item) => ({
+          emoji: item.emoji,
+          count: (item.userIds || []).length,
+          reactedByMe: false,
+          userIds: (item.userIds || []).map((id) => String(id))
+        }))
+      : [],
+    createdAt: msg.createdAt,
+    editedAt: msg.editedAt,
+    sender: {
+      id: msg.senderId?._id || msg.senderId,
+      name: msg.senderId?.name || "Member",
+      role: msg.senderId?.role || "member"
+    }
+  };
+}
 
 async function ensureMentorGroupAccess(groupId, user) {
   if (!mongoose.Types.ObjectId.isValid(groupId)) throw new ApiError(400, "Invalid groupId");
@@ -8286,48 +8326,65 @@ exports.getMentorGroupMessages = asyncHandler(async (req, res) => {
       name: group.name,
       domain: group.domain,
       description: group.description,
-      membersCount: group.memberIds.length
-    },
-    messages: messages.map((msg) => ({
-      id: msg._id,
-      text: msg.text,
-      createdAt: msg.createdAt,
-      editedAt: msg.editedAt,
-      sender: {
-        id: msg.senderId?._id,
-        name: msg.senderId?.name || "Member",
-        role: msg.senderId?.role || "member"
+      avatarUrl: group.avatarUrl || "",
+      rules: group.rules || "",
+      schedule: group.schedule || "Weekly sessions",
+      membersCount: group.memberIds.length,
+      ownedByMe: String(group.mentorId) === String(req.user.id),
+      settings: {
+        joinApproval: group.settings?.joinApproval !== false,
+        allowMemberMessages: group.settings?.allowMemberMessages !== false,
+        allowMemberMedia: group.settings?.allowMemberMedia !== false,
+        allowReactions: group.settings?.allowReactions !== false
       }
-    }))
+    },
+    messages: messages.map((msg) => {
+      const payload = buildMentorGroupMessagePayload(msg);
+      payload.reactions = payload.reactions.map((reaction) => ({
+        ...reaction,
+        reactedByMe: reaction.userIds.includes(String(req.user.id)),
+        userIds: undefined
+      }));
+      return payload;
+    })
   });
 });
 
 exports.sendMentorGroupMessage = asyncHandler(async (req, res) => {
   const { groupId } = req.params;
-  const { group, userId } = await ensureMentorGroupAccess(groupId, req.user);
+  const { group, userId, isMentorOwner } = await ensureMentorGroupAccess(groupId, req.user);
   const text = String(req.body?.text || "").trim();
-  if (!text) throw new ApiError(400, "Message text is required");
+  const attachments = Array.isArray(req.body?.attachments)
+    ? req.body.attachments
+        .map((item) => ({
+          type: item?.type === "image" ? "image" : "file",
+          url: String(item?.url || "").trim(),
+          name: String(item?.name || "").trim().slice(0, 160),
+          mimeType: String(item?.mimeType || "").trim().slice(0, 120)
+        }))
+        .filter((item) => item.url)
+        .slice(0, 4)
+    : [];
+  if (!text && !attachments.length) throw new ApiError(400, "Message text or attachment is required");
+  if (!isMentorOwner && group.settings?.allowMemberMessages === false) {
+    throw new ApiError(403, "Only the group mentor can send messages right now");
+  }
+  if (!isMentorOwner && attachments.length && group.settings?.allowMemberMedia === false) {
+    throw new ApiError(403, "Media sharing is disabled for members in this group");
+  }
 
   const message = await MentorGroupMessage.create({
     groupId: group._id,
     senderId: userId,
-    text
+    text,
+    attachments
   });
 
   const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
+  const chatMessage = buildMentorGroupMessagePayload(populated);
   res.status(201).json({
     message: "Message sent",
-    chatMessage: {
-      id: populated._id,
-      text: populated.text,
-      createdAt: populated.createdAt,
-      editedAt: populated.editedAt,
-      sender: {
-        id: populated.senderId?._id,
-        name: populated.senderId?.name || "Member",
-        role: populated.senderId?.role || "member"
-      }
-    }
+    chatMessage
   });
 });
 
@@ -8348,20 +8405,47 @@ exports.updateMentorGroupMessage = asyncHandler(async (req, res) => {
   await message.save();
 
   const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
+  const chatMessage = buildMentorGroupMessagePayload(populated);
   res.json({
     message: "Message updated",
-    chatMessage: {
-      id: populated._id,
-      text: populated.text,
-      createdAt: populated.createdAt,
-      editedAt: populated.editedAt,
-      sender: {
-        id: populated.senderId?._id,
-        name: populated.senderId?.name || "Member",
-        role: populated.senderId?.role || "member"
-      }
-    }
+    chatMessage
   });
+});
+
+exports.reactMentorGroupMessage = asyncHandler(async (req, res) => {
+  const { groupId, messageId } = req.params;
+  const { group, userId } = await ensureMentorGroupAccess(groupId, req.user);
+  if (group.settings?.allowReactions === false) throw new ApiError(403, "Reactions are disabled for this group");
+  if (!mongoose.Types.ObjectId.isValid(messageId)) throw new ApiError(400, "Invalid message id");
+  const emoji = String(req.body?.emoji || "").trim().slice(0, 8);
+  if (!emoji) throw new ApiError(400, "emoji is required");
+
+  const message = await MentorGroupMessage.findById(messageId);
+  if (!message || String(message.groupId) !== String(groupId) || message.deletedAt) {
+    throw new ApiError(404, "Message not found");
+  }
+
+  message.reactions = message.reactions || [];
+  let reaction = message.reactions.find((item) => item.emoji === emoji);
+  if (!reaction) {
+    message.reactions.push({ emoji, userIds: [userId] });
+  } else {
+    const exists = (reaction.userIds || []).some((id) => String(id) === String(userId));
+    reaction.userIds = exists
+      ? reaction.userIds.filter((id) => String(id) !== String(userId))
+      : [...reaction.userIds, userId];
+  }
+  message.reactions = message.reactions.filter((item) => (item.userIds || []).length > 0);
+  await message.save();
+
+  const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
+  const chatMessage = buildMentorGroupMessagePayload(populated);
+  chatMessage.reactions = chatMessage.reactions.map((item) => ({
+    ...item,
+    reactedByMe: item.userIds.includes(String(userId)),
+    userIds: undefined
+  }));
+  res.json({ message: "Reaction updated", chatMessage });
 });
 
 exports.deleteMentorGroupMessage = asyncHandler(async (req, res) => {
@@ -8395,11 +8479,19 @@ exports.joinMentorGroup = asyncHandler(async (req, res) => {
     if (group.maxStudents > 0 && group.memberIds.length >= group.maxStudents) {
       throw new ApiError(400, "Group is full");
     }
-    group.pendingRequestIds.push(userId);
+    if (group.settings?.joinApproval === false) {
+      group.memberIds.push(userId);
+      await applyReputationDelta(userId, { activityPosts: 1 });
+    } else {
+      group.pendingRequestIds.push(userId);
+    }
     await group.save();
   }
 
-  res.json({ message: pending || already ? "Group request already exists" : "Join request sent", membersCount: group.memberIds.length });
+  res.json({
+    message: pending || already ? "Group request already exists" : group.settings?.joinApproval === false ? "Group joined" : "Join request sent",
+    membersCount: group.memberIds.length
+  });
 });
 
 exports.respondMentorGroupJoinRequest = asyncHandler(async (req, res) => {
@@ -8424,6 +8516,42 @@ exports.respondMentorGroupJoinRequest = asyncHandler(async (req, res) => {
   }
   await group.save();
   res.status(200).json({ message: action === "approve" ? "Student approved" : "Join request rejected", group });
+});
+
+exports.updateMentorGroup = asyncHandler(async (req, res) => {
+  const { groupId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(groupId)) throw new ApiError(400, "Invalid groupId");
+  const group = await MentorGroup.findById(groupId);
+  if (!group || !group.isActive) throw new ApiError(404, "Group not found");
+  if (String(group.mentorId) !== String(req.user.id)) {
+    throw new ApiError(403, "Only the mentor who created the group can update it");
+  }
+
+  const patch = req.body || {};
+  if (patch.name !== undefined) group.name = String(patch.name || "").trim().slice(0, 120) || group.name;
+  if (patch.domain !== undefined) group.domain = String(patch.domain || "").trim().slice(0, 120);
+  if (patch.description !== undefined) group.description = String(patch.description || "").trim().slice(0, 1000);
+  if (patch.avatarUrl !== undefined) group.avatarUrl = String(patch.avatarUrl || "").trim();
+  if (patch.rules !== undefined) group.rules = String(patch.rules || "").trim().slice(0, 1200);
+  if (patch.schedule !== undefined) group.schedule = String(patch.schedule || "").trim().slice(0, 160) || "Weekly sessions";
+  if (patch.maxStudents !== undefined) {
+    const maxStudents = Number(patch.maxStudents || group.maxStudents || 50);
+    group.maxStudents = Number.isFinite(maxStudents) ? Math.max(1, Math.min(500, maxStudents)) : group.maxStudents;
+  }
+  if (Array.isArray(patch.topicTags)) {
+    group.topicTags = patch.topicTags.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8);
+  }
+  if (patch.settings && typeof patch.settings === "object") {
+    group.settings = {
+      joinApproval: patch.settings.joinApproval !== false,
+      allowMemberMessages: patch.settings.allowMemberMessages !== false,
+      allowMemberMedia: patch.settings.allowMemberMedia !== false,
+      allowReactions: patch.settings.allowReactions !== false
+    };
+  }
+
+  await group.save();
+  res.json({ message: "Group settings updated", group });
 });
 
 function buildQuizBattleQuestionSet({ subject = "", topic = "" } = {}) {
@@ -9451,6 +9579,8 @@ exports.createMentorGroup = asyncHandler(async (req, res) => {
   const name = String(req.body?.name || "").trim();
   const domain = String(req.body?.domain || "").trim();
   const description = String(req.body?.description || "").trim();
+  const avatarUrl = String(req.body?.avatarUrl || "").trim();
+  const rules = String(req.body?.rules || "").trim();
   const schedule = String(req.body?.schedule || "Weekly sessions").trim();
   const maxStudents = Number(req.body?.maxStudents || 50);
   const topicTags = Array.isArray(req.body?.topicTags)
@@ -9464,11 +9594,19 @@ exports.createMentorGroup = asyncHandler(async (req, res) => {
     name,
     domain,
     description,
+    avatarUrl,
+    rules,
     schedule,
     maxStudents: Number.isFinite(maxStudents) ? Math.max(1, Math.min(500, maxStudents)) : 50,
     memberIds: [],
     pendingRequestIds: [],
     topicTags,
+    settings: {
+      joinApproval: req.body?.settings?.joinApproval !== false,
+      allowMemberMessages: req.body?.settings?.allowMemberMessages !== false,
+      allowMemberMedia: req.body?.settings?.allowMemberMedia !== false,
+      allowReactions: req.body?.settings?.allowReactions !== false
+    },
     isActive: true
   });
 

@@ -82,10 +82,12 @@ const {
   getMentorGroups,
   joinMentorGroup,
   respondMentorGroupJoinRequest,
+  updateMentorGroup,
   createMentorGroup,
   getMentorGroupMessages,
   sendMentorGroupMessage,
   updateMentorGroupMessage,
+  reactMentorGroupMessage,
   deleteMentorGroupMessage,
   createHighSchoolQuizBattleRoom,
   joinHighSchoolQuizBattleRoom,
@@ -197,11 +199,13 @@ router.post("/certification-tracks/:trackId/request", verifyToken, authorizeRole
 router.get("/certification-requests/me", verifyToken, authorizeRoles("student", "mentor"), getMyCertificationRequests);
 router.get("/mentor-groups", verifyToken, authorizeRoles("student", "mentor"), getMentorGroups);
 router.post("/mentor-groups", verifyToken, authorizeRoles("mentor"), createMentorGroup);
+router.patch("/mentor-groups/:groupId", verifyToken, authorizeRoles("mentor"), updateMentorGroup);
 router.post("/mentor-groups/:groupId/join", verifyToken, authorizeRoles("student"), joinMentorGroup);
 router.patch("/mentor-groups/:groupId/requests/:studentId", verifyToken, authorizeRoles("mentor"), respondMentorGroupJoinRequest);
 router.get("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("student", "mentor"), getMentorGroupMessages);
 router.post("/mentor-groups/:groupId/messages", verifyToken, authorizeRoles("student", "mentor"), sendMentorGroupMessage);
 router.patch("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), updateMentorGroupMessage);
+router.post("/mentor-groups/:groupId/messages/:messageId/reactions", verifyToken, authorizeRoles("student", "mentor"), reactMentorGroupMessage);
 router.delete("/mentor-groups/:groupId/messages/:messageId", verifyToken, authorizeRoles("student", "mentor"), deleteMentorGroupMessage);
 router.post("/highschool-quiz-battle/rooms", verifyToken, authorizeRoles("student"), createHighSchoolQuizBattleRoom);
 router.post("/highschool-quiz-battle/rooms/:roomId/join", verifyToken, authorizeRoles("student"), joinHighSchoolQuizBattleRoom);

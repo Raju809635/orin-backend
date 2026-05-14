@@ -16,8 +16,28 @@ const mentorGroupMessageSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
+      default: "",
       maxlength: 2000
+    },
+    attachments: {
+      type: [
+        {
+          type: { type: String, enum: ["image", "file"], default: "file" },
+          url: { type: String, default: "" },
+          name: { type: String, default: "" },
+          mimeType: { type: String, default: "" }
+        }
+      ],
+      default: []
+    },
+    reactions: {
+      type: [
+        {
+          emoji: { type: String, required: true },
+          userIds: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] }
+        }
+      ],
+      default: []
     },
     editedAt: {
       type: Date,
