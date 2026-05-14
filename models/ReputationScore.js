@@ -22,7 +22,12 @@ const reputationScoreSchema = new mongoose.Schema(
       skillEndorsements: { type: Number, default: 0 },
       dailyChallenges: { type: Number, default: 0 },
       mentorReviews: { type: Number, default: 0 },
-      activityPosts: { type: Number, default: 0 }
+      activityPosts: { type: Number, default: 0 },
+      dailyQuizXp: { type: Number, default: 0 },
+      quizBattleXp: { type: Number, default: 0 },
+      roadmapXp: { type: Number, default: 0 },
+      challengeXp: { type: Number, default: 0 },
+      resourceXp: { type: Number, default: 0 }
     }
   },
   { timestamps: true }

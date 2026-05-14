@@ -3382,22 +3382,50 @@ async function ensureReputation(userId) {
 
 async function applyReputationDelta(userId, updates = {}) {
   const rep = await ensureReputation(userId);
+  const add = (current, delta) => Math.max(0, Number(current || 0) + Number(delta || 0));
 
-  rep.breakdown.projectUploads += updates.projectUploads || 0;
-  rep.breakdown.skillEndorsements += updates.skillEndorsements || 0;
-  rep.breakdown.dailyChallenges += updates.dailyChallenges || 0;
-  rep.breakdown.mentorReviews += updates.mentorReviews || 0;
-  rep.breakdown.activityPosts += updates.activityPosts || 0;
+  rep.breakdown = rep.breakdown || {};
+  rep.breakdown.projectUploads = add(rep.breakdown.projectUploads, updates.projectUploads);
+  rep.breakdown.skillEndorsements = add(rep.breakdown.skillEndorsements, updates.skillEndorsements);
+  rep.breakdown.dailyChallenges = add(rep.breakdown.dailyChallenges, updates.dailyChallenges);
+  rep.breakdown.mentorReviews = add(rep.breakdown.mentorReviews, updates.mentorReviews);
+  rep.breakdown.activityPosts = add(rep.breakdown.activityPosts, updates.activityPosts);
+  rep.breakdown.dailyQuizXp = add(rep.breakdown.dailyQuizXp, updates.dailyQuizXp);
+  rep.breakdown.quizBattleXp = add(rep.breakdown.quizBattleXp, updates.quizBattleXp);
+  rep.breakdown.roadmapXp = add(rep.breakdown.roadmapXp, updates.roadmapXp);
+  rep.breakdown.challengeXp = add(rep.breakdown.challengeXp, updates.challengeXp);
+  rep.breakdown.resourceXp = add(rep.breakdown.resourceXp, updates.resourceXp);
 
   rep.score =
     rep.breakdown.projectUploads * 40 +
     rep.breakdown.skillEndorsements * 25 +
     rep.breakdown.dailyChallenges * 20 +
     rep.breakdown.mentorReviews * 30 +
-    rep.breakdown.activityPosts * 15;
+    rep.breakdown.activityPosts * 15 +
+    Number(rep.breakdown.dailyQuizXp || 0) +
+    Number(rep.breakdown.quizBattleXp || 0) +
+    Number(rep.breakdown.roadmapXp || 0) +
+    Number(rep.breakdown.challengeXp || 0) +
+    Number(rep.breakdown.resourceXp || 0);
   rep.levelTag = computeLevelTag(rep.score);
   await rep.save();
   return rep;
+}
+
+function reputationBreakdownPayload(rep) {
+  const breakdown = rep?.breakdown || {};
+  return {
+    projectUploads: Number(breakdown.projectUploads || 0),
+    skillEndorsements: Number(breakdown.skillEndorsements || 0),
+    dailyChallenges: Number(breakdown.dailyChallenges || 0),
+    mentorReviews: Number(breakdown.mentorReviews || 0),
+    activityPosts: Number(breakdown.activityPosts || 0),
+    dailyQuizXp: Number(breakdown.dailyQuizXp || 0),
+    quizBattleXp: Number(breakdown.quizBattleXp || 0),
+    roadmapXp: Number(breakdown.roadmapXp || 0),
+    challengeXp: Number(breakdown.challengeXp || 0),
+    resourceXp: Number(breakdown.resourceXp || 0)
+  };
 }
 
 async function upsertLeaderboardForToday({ collegeName = "", stateName = "" } = {}) {
@@ -4145,6 +4173,7 @@ exports.getDailyDashboard = asyncHandler(async (req, res) => {
     xp: todayAttempt?.xpAwarded || 0,
     levelTag: reputation.levelTag,
     reputationScore: reputation.score,
+    reputationBreakdown: reputationBreakdownPayload(reputation),
     dailyQuiz: {
       completedToday: Boolean(todayAttempt),
       domain,
@@ -4326,7 +4355,7 @@ exports.submitDailyQuiz = asyncHandler(async (req, res) => {
     answers: normalizedAnswers
   });
 
-  await applyReputationDelta(userId, { dailyChallenges: 1 });
+  await applyReputationDelta(userId, { dailyQuizXp: totalXp });
 
   const sortedSkills = [...updatedSkillRows].sort((a, b) => Number(b.skillScore || 0) - Number(a.skillScore || 0));
   const strength = sortedSkills[0]?.skillName || "Consistent Learning";
@@ -5203,14 +5232,16 @@ exports.reviewInstitutionRoadmapSubmission = asyncHandler(async (req, res) => {
   if (!["accepted", "rejected"].includes(status)) throw new ApiError(400, "status must be accepted or rejected");
   const xpAwarded = Math.max(0, Number(req.body?.xpAwarded || 0));
   const notes = String(req.body?.notes || "").trim();
+  const previousRoadmapXp = submission.status === "accepted" ? Number(submission.mentorReview?.xpAwarded || 0) : 0;
 
   submission.status = status;
   submission.mentorReview.reviewedAt = new Date();
   submission.mentorReview.notes = notes;
   submission.mentorReview.xpAwarded = status === "accepted" ? xpAwarded : 0;
 
-  if (status === "accepted" && xpAwarded > 0) {
-    await applyReputationDelta(submission.studentId, { dailyChallenges: Math.max(1, Math.round(xpAwarded / 20)) });
+  const roadmapXpDelta = Number(submission.mentorReview.xpAwarded || 0) - previousRoadmapXp;
+  if (roadmapXpDelta !== 0) {
+    await applyReputationDelta(submission.studentId, { roadmapXp: roadmapXpDelta });
   }
 
   if (status === "accepted" && req.body?.issueCertificate) {
@@ -7845,6 +7876,7 @@ exports.reviewCommunityChallengeSubmission = asyncHandler(async (req, res) => {
   if (!["accept", "reject", "review"].includes(action)) {
     throw new ApiError(400, "action must be accept, reject, or review");
   }
+  const previousChallengeXp = submission.status === "accepted" ? Number(submission.mentorReview?.xpAwarded || 0) : 0;
 
   submission.status = action === "accept" ? "accepted" : action === "reject" ? "rejected" : "reviewed";
   submission.mentorReview = {
@@ -7856,8 +7888,9 @@ exports.reviewCommunityChallengeSubmission = asyncHandler(async (req, res) => {
     certificateId: submission.mentorReview?.certificateId || null
   };
 
-  if (submission.status === "accepted" && submission.mentorReview.xpAwarded > 0) {
-    await applyReputationDelta(submission.userId, { dailyChallenges: Math.max(1, Math.round(submission.mentorReview.xpAwarded / 20)) });
+  const challengeXpDelta = (submission.status === "accepted" ? Number(submission.mentorReview.xpAwarded || 0) : 0) - previousChallengeXp;
+  if (challengeXpDelta !== 0) {
+    await applyReputationDelta(submission.userId, { challengeXp: challengeXpDelta });
   }
 
   if (submission.status === "accepted" && req.body?.issueCertificate) {
@@ -8607,6 +8640,7 @@ exports.submitHighSchoolQuizBattleAnswer = asyncHandler(async (req, res) => {
 
   const isCorrect = normalizeText(selectedOption) === normalizeText(question.correctOption);
   let awardedScore = 0;
+  let reputation = null;
   if (isCorrect) {
     if (!room.currentQuestionFirstCorrectUserId) {
       room.currentQuestionFirstCorrectUserId = req.user.id;
@@ -8615,6 +8649,7 @@ exports.submitHighSchoolQuizBattleAnswer = asyncHandler(async (req, res) => {
       awardedScore = 6;
     }
     participant.score = Number(participant.score || 0) + awardedScore;
+    reputation = await applyReputationDelta(req.user.id, { quizBattleXp: awardedScore });
   }
 
   const changed = maybeAdvanceQuizBattleRoom(room);
@@ -8624,6 +8659,8 @@ exports.submitHighSchoolQuizBattleAnswer = asyncHandler(async (req, res) => {
     message: isCorrect ? "Correct answer submitted" : "Answer submitted",
     isCorrect,
     awardedScore,
+    xpAwarded: awardedScore,
+    reputationScore: reputation?.score || null,
     explanation: question.explanation || "",
     room: quizBattleRoomPayload(room, req.user.id),
     advanced: changed
@@ -9293,6 +9330,7 @@ exports.reviewKnowledgeResourceSubmission = asyncHandler(async (req, res) => {
   if (!["accepted", "rejected", "reviewed"].includes(status)) throw new ApiError(400, "status must be accepted, rejected, or reviewed");
   const xpAwarded = Math.max(0, Number(req.body?.xpAwarded || 0));
   const notes = String(req.body?.notes || "").trim();
+  const previousResourceXp = submission.status === "accepted" ? Number(submission.mentorReview?.xpAwarded || 0) : 0;
 
   submission.status = status;
   submission.mentorReview.reviewedAt = new Date();
@@ -9300,8 +9338,9 @@ exports.reviewKnowledgeResourceSubmission = asyncHandler(async (req, res) => {
   submission.mentorReview.notes = notes;
   submission.mentorReview.xpAwarded = status === "accepted" ? xpAwarded : 0;
 
-  if (status === "accepted" && xpAwarded > 0) {
-    await applyReputationDelta(submission.studentId, { dailyChallenges: Math.max(1, Math.round(xpAwarded / 20)) });
+  const resourceXpDelta = Number(submission.mentorReview.xpAwarded || 0) - previousResourceXp;
+  if (resourceXpDelta !== 0) {
+    await applyReputationDelta(submission.studentId, { resourceXp: resourceXpDelta });
   }
 
   if (status === "accepted" && req.body?.issueCertificate) {
@@ -9450,6 +9489,6 @@ exports.getReputationSummary = asyncHandler(async (req, res) => {
     score: rep.score,
     levelTag: rep.levelTag,
     topPercent: percentile,
-    breakdown: rep.breakdown
+    breakdown: reputationBreakdownPayload(rep)
   });
 });
