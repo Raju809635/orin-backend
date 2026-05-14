@@ -3732,8 +3732,9 @@ exports.getFeed = asyncHandler(async (req, res) => {
 
 exports.getInstitutionFeed = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const profile = await StudentProfile.findOne({ userId }).select("institutionName collegeName").lean();
+  const profile = await StudentProfile.findOne({ userId }).select("institutionName collegeName className classLevel").lean();
   const institutionName = String(profile?.institutionName || profile?.collegeName || "").trim();
+  const className = String(profile?.className || profile?.classLevel || "").trim();
 
   if (!institutionName) {
     return res.json([]);
@@ -3752,23 +3753,30 @@ exports.getInstitutionFeed = asyncHandler(async (req, res) => {
     return res.json([]);
   }
 
+  const targetedFilters = [
+    { scope: "institution", institutionName },
+    ...(className ? [{ scope: "class", institutionName, className }] : [{ scope: "class", institutionName }])
+  ];
+
   const posts = await FeedPost.find({
-    authorId: { $in: institutionUserIds },
-    visibility: { $in: ["public", "connections"] }
+    visibility: { $in: ["public", "connections"] },
+    $or: [
+      { authorId: { $in: institutionUserIds }, scope: { $in: [undefined, null, "", "global"] } },
+      ...targetedFilters
+    ]
   })
     .populate("authorId", "name role")
     .sort({ createdAt: -1 })
     .limit(50)
     .lean();
 
-  const studentOnlyPosts = posts.filter((post) => String(post?.authorId?.role || "").toLowerCase() === "student");
-  const postIds = studentOnlyPosts.map((p) => p._id);
+  const postIds = posts.map((p) => p._id);
   const comments = await FeedComment.find({ postId: { $in: postIds } })
     .populate("authorId", "name role")
     .sort({ createdAt: -1 })
     .lean();
 
-  await attachFeedAuthorPhotos(studentOnlyPosts, comments);
+  await attachFeedAuthorPhotos(posts, comments);
 
   const commentsByPostId = comments.reduce((acc, item) => {
     const key = String(item.postId);
@@ -3777,7 +3785,7 @@ exports.getInstitutionFeed = asyncHandler(async (req, res) => {
     return acc;
   }, {});
 
-  res.json(studentOnlyPosts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
 });
 
 exports.getPublicFeed = asyncHandler(async (req, res) => {
@@ -3836,6 +3844,20 @@ exports.createPost = asyncHandler(async (req, res) => {
 
   const profile = await StudentProfile.findOne({ userId: authorId }).select("institutionName collegeName").lean();
   const institutionTag = String(profile?.institutionName || profile?.collegeName || "").trim();
+  const requestedScope = ["global", "institution", "class"].includes(String(req.body?.scope || ""))
+    ? String(req.body.scope)
+    : "global";
+  const institutionName = requestedScope === "global"
+    ? ""
+    : String(req.body?.institutionName || "").trim().slice(0, 160);
+  const className = requestedScope === "class"
+    ? String(req.body?.className || "").trim().slice(0, 80)
+    : "";
+  if (requestedScope !== "global" && !institutionName) throw new ApiError(400, "Select an institution for this post");
+  if (requestedScope === "class" && !className) throw new ApiError(400, "Select a class for this post");
+  const audienceStage = ["highschool", "after12", "all"].includes(String(req.body?.audienceStage || ""))
+    ? String(req.body.audienceStage)
+    : "all";
 
   const post = await FeedPost.create({
     authorId,
@@ -3844,7 +3866,11 @@ exports.createPost = asyncHandler(async (req, res) => {
     domainTags: Array.isArray(domainTags) ? domainTags : [],
     mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
     visibility,
-    collegeTag: institutionTag
+    collegeTag: institutionName || institutionTag,
+    scope: requestedScope,
+    audienceStage,
+    institutionName,
+    className
   });
 
   await applyReputationDelta(authorId, { activityPosts: 1 });

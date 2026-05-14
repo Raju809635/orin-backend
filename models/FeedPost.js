@@ -32,6 +32,28 @@ const feedPostSchema = new mongoose.Schema(
       type: String,
       default: ""
     },
+    scope: {
+      type: String,
+      enum: ["global", "institution", "class"],
+      default: "global",
+      index: true
+    },
+    audienceStage: {
+      type: String,
+      enum: ["all", "highschool", "after12"],
+      default: "all",
+      index: true
+    },
+    institutionName: {
+      type: String,
+      default: "",
+      index: true
+    },
+    className: {
+      type: String,
+      default: "",
+      index: true
+    },
     visibility: {
       type: String,
       enum: ["public", "connections", "private"],
@@ -101,5 +123,6 @@ const feedPostSchema = new mongoose.Schema(
 feedPostSchema.index({ createdAt: -1 });
 feedPostSchema.index({ authorId: 1, createdAt: -1 });
 feedPostSchema.index({ domainTags: 1 });
+feedPostSchema.index({ scope: 1, institutionName: 1, className: 1, createdAt: -1 });
 
 module.exports = mongoose.model("FeedPost", feedPostSchema);
