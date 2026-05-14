@@ -8336,6 +8336,27 @@ async function ensureMentorGroupAccess(groupId, user) {
   return { group, userId, isMentorOwner };
 }
 
+async function sendMentorGroupPushNotifications({ group, senderId, senderName, text, attachments = [] }) {
+  const memberIds = (group.memberIds || []).map((id) => String(id));
+  const recipientIds = [...new Set([String(group.mentorId), ...memberIds])].filter((id) => id && id !== String(senderId));
+  if (!recipientIds.length) return;
+
+  const fallbackBody = attachments.length ? `${senderName} sent an attachment` : `${senderName} sent a message`;
+  const cleanText = String(text || "").trim();
+  const body = cleanText ? `${senderName}: ${cleanText.slice(0, 120)}` : fallbackBody;
+
+  await Notification.insertMany(
+    recipientIds.slice(0, 120).map((recipientId) => ({
+      title: group.name || "Study Group",
+      message: body,
+      type: "direct",
+      sentBy: senderId,
+      targetRole: "all",
+      recipient: recipientId
+    }))
+  );
+}
+
 exports.getMentorGroupMessages = asyncHandler(async (req, res) => {
   const { groupId } = req.params;
   const { group } = await ensureMentorGroupAccess(groupId, req.user);
@@ -8408,6 +8429,14 @@ exports.sendMentorGroupMessage = asyncHandler(async (req, res) => {
 
   const populated = await MentorGroupMessage.findById(message._id).populate("senderId", "name role").lean();
   const chatMessage = buildMentorGroupMessagePayload(populated);
+  sendMentorGroupPushNotifications({
+    group,
+    senderId: userId,
+    senderName: populated.senderId?.name || "Member",
+    text,
+    attachments
+  }).catch(() => null);
+
   res.status(201).json({
     message: "Message sent",
     chatMessage
@@ -8510,6 +8539,14 @@ exports.joinMentorGroup = asyncHandler(async (req, res) => {
       await applyReputationDelta(userId, { activityPosts: 1 });
     } else {
       group.pendingRequestIds.push(userId);
+      await Notification.create({
+        title: "Study Group Join Request",
+        message: "A student requested to join your study group.",
+        type: "direct",
+        sentBy: userId,
+        targetRole: "mentor",
+        recipient: group.mentorId
+      });
     }
     await group.save();
   }
@@ -8541,6 +8578,14 @@ exports.respondMentorGroupJoinRequest = asyncHandler(async (req, res) => {
     await applyReputationDelta(studentId, { activityPosts: 1 });
   }
   await group.save();
+  await Notification.create({
+    title: action === "approve" ? "Study Group Request Approved" : "Study Group Request Rejected",
+    message: action === "approve" ? `You can now open ${group.name || "the study group"} chat.` : `Your request to join ${group.name || "the study group"} was rejected.`,
+    type: "direct",
+    sentBy: req.user.id,
+    targetRole: "student",
+    recipient: studentId
+  });
   res.status(200).json({ message: action === "approve" ? "Student approved" : "Join request rejected", group });
 });
 
