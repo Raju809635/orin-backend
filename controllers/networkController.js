@@ -8158,6 +8158,8 @@ exports.getMyCertificationRequests = asyncHandler(async (req, res) => {
 exports.getMentorGroups = asyncHandler(async (req, res) => {
   let groups = await MentorGroup.find({ isActive: true })
     .populate("mentorId", "name role approvalStatus isDeleted")
+    .populate("memberIds", "name email role")
+    .populate("pendingRequestIds", "name email role")
     .sort({ updatedAt: -1 })
     .limit(60)
     .lean();
@@ -8181,23 +8183,44 @@ exports.getMentorGroups = asyncHandler(async (req, res) => {
   res.json(
     groups
       .filter((item) => !item.mentorId || (item.mentorId.role === "mentor" && item.mentorId.approvalStatus === "approved" && item.mentorId.isDeleted !== true))
-      .map((item) => ({
-        id: item._id,
-        name: item.name,
-        domain: item.domain,
-        description: item.description,
-        mentor: {
-          id: item.mentorId?._id || null,
-          name: item.mentorId?.name || "Mentor"
-        },
-        maxStudents: item.maxStudents || 0,
-        membersCount: (item.memberIds || []).length,
-        pendingRequestsCount: (item.pendingRequestIds || []).length,
-        joined: (item.memberIds || []).some((id) => String(id) === String(req.user.id)),
-        requestPending: (item.pendingRequestIds || []).some((id) => String(id) === String(req.user.id)),
-        topicTags: item.topicTags || [],
-        schedule: item.schedule || "Weekly sessions"
-      }))
+      .map((item) => {
+        const memberIds = item.memberIds || [];
+        const pendingRequestIds = item.pendingRequestIds || [];
+        const idOf = (value) => String(value?._id || value || "");
+        const isOwner = String(item.mentorId?._id || "") === String(req.user.id);
+        return {
+          id: item._id,
+          name: item.name,
+          domain: item.domain,
+          description: item.description,
+          mentor: {
+            id: item.mentorId?._id || null,
+            name: item.mentorId?.name || "Mentor"
+          },
+          maxStudents: item.maxStudents || 0,
+          membersCount: memberIds.length,
+          pendingRequestsCount: pendingRequestIds.length,
+          joined: memberIds.some((id) => idOf(id) === String(req.user.id)),
+          requestPending: pendingRequestIds.some((id) => idOf(id) === String(req.user.id)),
+          ownedByMe: isOwner,
+          members: isOwner
+            ? memberIds.slice(0, 30).map((member) => ({
+                id: member._id,
+                name: member.name || "Student",
+                email: member.email || ""
+              }))
+            : [],
+          pendingRequests: isOwner
+            ? pendingRequestIds.slice(0, 30).map((student) => ({
+                id: student._id,
+                name: student.name || "Student",
+                email: student.email || ""
+              }))
+            : [],
+          topicTags: item.topicTags || [],
+          schedule: item.schedule || "Weekly sessions"
+        };
+      })
   );
 });
 
