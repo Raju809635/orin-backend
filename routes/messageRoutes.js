@@ -9,12 +9,14 @@ const {
   getMyNotifications,
   markNotificationRead,
   registerPushToken,
-  unregisterPushToken
+  unregisterPushToken,
+  sendTestPushNotification
 } = require("../controllers/messageController");
 
 router.get("/me", verifyToken, getMyMessages);
 router.get("/notifications", verifyToken, getMyNotifications);
 router.patch("/notifications/:id/read", verifyToken, markNotificationRead);
+router.post("/notifications/test-push", verifyToken, sendTestPushNotification);
 router.post("/push-token", verifyToken, validate(pushTokenSchema), registerPushToken);
 router.delete("/push-token", verifyToken, validate(pushTokenSchema), unregisterPushToken);
 router.post(

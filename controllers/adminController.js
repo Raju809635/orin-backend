@@ -3,7 +3,6 @@ const User = require("../models/User");
 const Booking = require("../models/Booking");
 const Session = require("../models/Session");
 const Notification = require("../models/Notification");
-const { dispatchPushNotification } = require("../services/pushNotificationService");
 const AuditLog = require("../models/AuditLog");
 const StudentProfile = require("../models/StudentProfile");
 const MentorProfile = require("../models/MentorProfile");
@@ -310,14 +309,6 @@ exports.sendNotification = asyncHandler(async (req, res) => {
       recipient: recipientUser._id
     });
 
-    dispatchPushNotification({
-      title,
-      message,
-      type,
-      recipientUserId: recipientUser._id,
-      notificationId: notification._id
-    }).catch(() => null);
-
     return res.status(201).json({
       message: "Notification sent to user",
       notification
@@ -331,14 +322,6 @@ exports.sendNotification = asyncHandler(async (req, res) => {
     sentBy: req.user.id,
     targetRole: targetRole || "all"
   });
-
-  dispatchPushNotification({
-    title,
-    message,
-    type,
-    targetRole: targetRole || "all",
-    notificationId: notification._id
-  }).catch(() => null);
 
   return res.status(201).json({
     message: "Notification sent",

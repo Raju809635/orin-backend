@@ -4,7 +4,7 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
-const { dispatchPushNotification, isExpoPushToken } = require("../services/pushNotificationService");
+const { isExpoPushToken } = require("../services/pushNotificationService");
 
 exports.getMyMessages = asyncHandler(async (req, res) => {
   const messages = await Notification.find({
@@ -42,14 +42,6 @@ exports.sendMessageToAdmin = asyncHandler(async (req, res) => {
     targetRole,
     recipient: adminUser._id
   });
-
-  dispatchPushNotification({
-    title,
-    message,
-    type: "direct",
-    recipientUserId: adminUser._id,
-    notificationId: notification._id
-  }).catch(() => null);
 
   res.status(201).json({
     message: "Message sent to admin",
@@ -142,6 +134,22 @@ exports.markNotificationRead = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     message: "Notification marked as read",
+    notification
+  });
+});
+
+exports.sendTestPushNotification = asyncHandler(async (req, res) => {
+  const notification = await Notification.create({
+    title: "ORIN notifications are on",
+    message: "This is a test mobile notification from ORIN.",
+    type: "system",
+    sentBy: req.user.id,
+    targetRole: req.user.role || "all",
+    recipient: req.user.id
+  });
+
+  res.status(201).json({
+    message: "Test notification queued",
     notification
   });
 });
