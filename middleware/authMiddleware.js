@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const MentorProfile = require("../models/MentorProfile");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { accessTokenSecret } = require("../config/env");
@@ -27,9 +28,16 @@ const verifyToken = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Invalid token user");
   }
 
+  let mentorOrgRole = "";
+  if (user.role === "mentor") {
+    const mentorProfile = await MentorProfile.findOne({ userId: user._id }).select("mentorOrgRole").lean();
+    mentorOrgRole = mentorProfile?.mentorOrgRole || "global_mentor";
+  }
+
   req.user = {
     id: user._id.toString(),
     role: user.role,
+    mentorOrgRole,
     isAdmin: Boolean(user.isAdmin),
     phoneNumber: user.phoneNumber || "",
     approvalStatus: user.approvalStatus || "approved",
