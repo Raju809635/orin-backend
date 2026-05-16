@@ -5317,13 +5317,33 @@ exports.reviewInstitutionRoadmapSubmission = asyncHandler(async (req, res) => {
 exports.getCareerOpportunities = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const role = req.user.role;
-  const [profile, user, journeyState] = await Promise.all([
-    StudentProfile.findOne({ userId }).select("skills careerGoals projects").lean(),
+  const [profile, user, journeyState, audienceProfile] = await Promise.all([
+    StudentProfile.findOne({ userId }).select("skills careerGoals projects institutionName collegeName className learnerStage").lean(),
     User.findById(userId).select("primaryCategory subCategory").lean(),
-    getJourneyState(userId, role || "student")
+    getJourneyState(userId, role || "student"),
+    role === "mentor"
+      ? MentorProfile.findOne({ userId }).select("institutionName mentorOrgRole").lean()
+      : StudentProfile.findOne({ userId }).select("institutionName collegeName className learnerStage").lean()
   ]);
   const goal = String(journeyState?.goal?.title || profile?.careerGoals || user?.primaryCategory || "Career Growth").trim();
   const internshipState = buildInternshipReadinessState({ journeyState, profile, goal });
+  const audienceInstitutionName = String(audienceProfile?.institutionName || audienceProfile?.collegeName || "").trim();
+  const audienceClassName = String(audienceProfile?.className || "").trim();
+  const viewerAudienceStage = audienceStageForViewer(role, audienceProfile);
+  const audienceStageFilter = audienceStageVisibilityFilter(viewerAudienceStage, "postedBy", userId);
+  const opportunityAudienceFilters = [
+    { scope: { $exists: false } },
+    { scope: "global" },
+    { scope: "", institutionName: "" },
+    { scope: null, institutionName: "" }
+  ];
+  if (audienceInstitutionName) {
+    opportunityAudienceFilters.push({ scope: "institution", institutionName: audienceInstitutionName });
+    opportunityAudienceFilters.push({ scope: { $exists: false }, institutionName: audienceInstitutionName });
+    if (audienceClassName) {
+      opportunityAudienceFilters.push({ scope: "class", institutionName: audienceInstitutionName, className: audienceClassName });
+    }
+  }
 
   const queryTokens = uniqueTokens([
     ...(profile?.skills || []),
@@ -5339,13 +5359,24 @@ exports.getCareerOpportunities = asyncHandler(async (req, res) => {
   const opportunitiesQuery =
     role === "mentor"
       ? {
-          $or: [
-            { isActive: true },
-            // Mentors can see their own submissions even if not active yet (admin review workflow).
-            { postedBy: userId }
+          $and: [
+            { $or: opportunityAudienceFilters },
+            audienceStageFilter,
+            {
+              $or: [
+                { isActive: true },
+                { postedBy: userId }
+              ]
+            }
           ]
         }
-      : { isActive: true };
+      : {
+          isActive: true,
+          $and: [
+            { $or: opportunityAudienceFilters },
+            audienceStageFilter
+          ]
+        };
 
   let opportunities = await CareerOpportunity.find(opportunitiesQuery)
     .sort({ createdAt: -1 })
@@ -9210,6 +9241,40 @@ exports.deleteHighSchoolCompetition = asyncHandler(async (req, res) => {
 
   await competition.deleteOne();
   res.json({ message: "Championship deleted" });
+});
+
+exports.updateHighSchoolCompetitionLevel1Questions = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can update questions");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) {
+    throw new ApiError(403, "Only creator teacher can update questions");
+  }
+  if ((competition.attempts || []).some((item) => Number(item.level) === 1)) {
+    throw new ApiError(400, "Level 1 already has student attempts. Questions cannot be changed now.");
+  }
+
+  const questionSet = parseCompetitionQuestionSet(
+    req.body?.questions || [],
+    Number(competition.level1TimeModeSec || 30),
+    "L1"
+  );
+  const expectedCount = Math.max(5, Number(competition.level1QuestionCount || 5));
+  if (questionSet.length < expectedCount) {
+    throw new ApiError(400, `Add ${expectedCount} valid Level 1 questions before saving.`);
+  }
+
+  competition.level1Questions = questionSet.slice(0, expectedCount);
+  await competition.save();
+
+  res.json({
+    message: "Level 1 questions saved",
+    questionCount: competition.level1Questions.length,
+    competition: withCompetitionRuntimeFields(competition.toObject())
+  });
 });
 
 exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
