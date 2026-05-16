@@ -29,9 +29,12 @@ const competitionRegistrationSchema = new mongoose.Schema(
 const competitionAnswerLogSchema = new mongoose.Schema(
   {
     questionId: { type: String, required: true },
+    questionText: { type: String, default: "" },
     selectedOption: { type: String, default: "" },
+    correctOption: { type: String, default: "" },
     isCorrect: { type: Boolean, default: false },
-    responseMs: { type: Number, default: 0 }
+    responseMs: { type: Number, default: 0 },
+    explanation: { type: String, default: "" }
   },
   { _id: false }
 );

@@ -9494,7 +9494,21 @@ exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
                 correctCount: Number(myLevel1Attempt.correctCount || 0),
                 percentage: Number(myLevel1Attempt.percentage || 0),
                 grade: myLevel1Attempt.grade || gradeFromPercentage(Number(myLevel1Attempt.percentage || 0)),
-                submittedAt: myLevel1Attempt.submittedAt || null
+                submittedAt: myLevel1Attempt.submittedAt || null,
+                totalTimeMs: Number(myLevel1Attempt.totalTimeMs || 0),
+                averageResponseMs:
+                  Number(myLevel1Attempt.totalTimeMs || 0) > 0 && Number(myLevel1Attempt.answers?.length || 0) > 0
+                    ? Math.round(Number(myLevel1Attempt.totalTimeMs || 0) / Number(myLevel1Attempt.answers?.length || 1))
+                    : 0,
+                review: (myLevel1Attempt.answers || []).map((answer) => ({
+                  questionId: answer.questionId,
+                  questionText: answer.questionText || "",
+                  selectedOption: answer.selectedOption || "",
+                  correctOption: answer.correctOption || "",
+                  isCorrect: Boolean(answer.isCorrect),
+                  responseMs: Number(answer.responseMs || 0),
+                  explanation: answer.explanation || ""
+                }))
               }
             : null,
           myLevel1Rank: myLevel1Rank
@@ -9759,9 +9773,12 @@ exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
     }
     answerLogs.push({
       questionId: String(question.id || `Q${index + 1}`),
+      questionText: question.text,
       selectedOption,
+      correctOption: question.correctOption,
       isCorrect,
-      responseMs
+      responseMs,
+      explanation: question.explanation || ""
     });
   });
 
@@ -9807,7 +9824,10 @@ exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
     grade,
     correctCount,
     totalQuestions: questions.length,
-    rank: myRank?.rank || null
+    totalTimeMs,
+    averageResponseMs: questions.length ? Math.round(totalTimeMs / questions.length) : 0,
+    rank: myRank?.rank || null,
+    review: answerLogs
   });
 });
 
