@@ -9456,7 +9456,7 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
 exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const role = req.user.role;
-  let filter = { status: { $in: ["registration_open", "level1_live", "level1_closed", "level2_live", "completed"] } };
+  let filter = { status: { $in: ["registration_not_started", "registration_open", "registration_closed", "level1_live", "level1_closed", "level2_live", "completed"] } };
   if (role === "mentor") {
     const mentorProfile = await MentorProfile.findOne({ userId }).select("mentorOrgRole institutionName").lean();
     if (isInstitutionTeacherProfile(mentorProfile)) {
@@ -9597,6 +9597,15 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   competition.level1EndAt = level1EndAt;
   competition.level2At = level2At;
   competition.level2EndAt = level2EndAt;
+  competition.status = effectiveHighSchoolCompetitionStatus({
+    ...competition.toObject(),
+    registrationStartAt,
+    registrationDeadline,
+    level1At,
+    level1EndAt,
+    level2At,
+    level2EndAt
+  });
   competition.title = String(req.body?.title || competition.title || "").trim() || competition.title;
   competition.subject = String(req.body?.subject || competition.subject || "").trim() || competition.subject;
   competition.chapter = String(req.body?.chapter || competition.chapter || "").trim();
