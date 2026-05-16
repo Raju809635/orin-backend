@@ -8754,48 +8754,231 @@ function buildQuizBattleQuestionSet({ subject = "", topic = "" } = {}) {
   }));
 }
 
+function meaningfulDraftTokens(value = "") {
+  const stopwords = new Set([
+    "class",
+    "chapter",
+    "topic",
+    "lesson",
+    "unit",
+    "and",
+    "the",
+    "for",
+    "with",
+    "from",
+    "into",
+    "this",
+    "that"
+  ]);
+  return tokenize(value)
+    .map((item) => item.replace(/[^a-z0-9]/gi, ""))
+    .filter((item) => item.length >= 3 && !stopwords.has(item));
+}
+
+function isCrossSubjectDraftContent(question = {}, subject = "") {
+  const subjectKey = normalizeText(subject);
+  const combined = normalizeText(`${question.text || ""} ${question.explanation || ""} ${(question.options || []).join(" ")}`);
+  if (!combined) return true;
+
+  const socialSignals = [
+    "constitution",
+    "ambedkar",
+    "gandhi",
+    "nehru",
+    "patel",
+    "parliament",
+    "democracy",
+    "president",
+    "freedom struggle",
+    "empire",
+    "kingdom"
+  ];
+  const scienceSignals = ["photosynthesis", "force", "newton", "heart", "lungs", "cell", "atom", "acid", "base"];
+  const languageSignals = ["grammar", "sentence", "noun", "verb", "adjective", "pronoun", "essay", "paragraph"];
+  const mathSignals = ["hcf", "lcm", "prime", "factor", "multiple", "divisible", "equation", "triangle", "area", "number", "algebra"];
+
+  if (subjectKey.includes("math")) return socialSignals.concat(scienceSignals, languageSignals).some((signal) => combined.includes(signal));
+  if (subjectKey.includes("science")) return socialSignals.concat(languageSignals).some((signal) => combined.includes(signal));
+  if (subjectKey.includes("english") || subjectKey.includes("telugu") || subjectKey.includes("hindi")) {
+    return socialSignals.concat(scienceSignals, mathSignals).some((signal) => combined.includes(signal));
+  }
+  if (subjectKey.includes("social")) return scienceSignals.concat(mathSignals).some((signal) => combined.includes(signal));
+  return false;
+}
+
+function isRelevantCompetitionDraftQuestion(question = {}, { subject = "", topic = "" } = {}) {
+  const subjectKey = normalizeText(subject);
+  const topicKey = normalizeText(topic);
+  const itemSubjectKey = normalizeText(question.subject || "");
+  const itemTopicKey = normalizeText(question.topic || "");
+  const combined = normalizeText(`${question.text || ""} ${question.explanation || ""} ${(question.options || []).join(" ")} ${question.topic || ""}`);
+
+  if (!question?.text || !Array.isArray(question.options) || question.options.length < 4 || !question.correctOption) return false;
+  if (subjectKey && itemSubjectKey && itemSubjectKey !== subjectKey) return false;
+  if (subjectKey && isCrossSubjectDraftContent(question, subject)) return false;
+
+  if (!topicKey) return !subjectKey || !itemSubjectKey || itemSubjectKey === subjectKey;
+  if (itemTopicKey && itemTopicKey === topicKey) return true;
+  if (combined.includes(topicKey)) return true;
+
+  const tokens = meaningfulDraftTokens(topicKey);
+  return tokens.length > 0 && tokens.some((token) => combined.includes(token));
+}
+
+function buildTopicAnchoredDraftQuestion({ subject = "", topic = "", classLevel = "10", index = 0, durationSec = 30, level = "L1" } = {}) {
+  const normalizedSubject = String(subject || "").trim() || "General Studies";
+  const normalizedTopic = String(topic || "").trim() || "Core Concepts";
+  const subjectKey = normalizeText(normalizedSubject);
+  const topicKey = normalizeText(normalizedTopic);
+  const safeDuration = Math.max(5, Math.min(90, Number(durationSec || 30)));
+
+  const mathSets = [
+    {
+      text: `In Class ${classLevel} ${normalizedSubject}, which idea is most directly connected to ${normalizedTopic}?`,
+      options: ["Factors, multiples and divisibility", "Only a random guess", "Only copying the question", "Only choosing the longest option"],
+      correctOption: "Factors, multiples and divisibility",
+      explanation: `${normalizedTopic} in Mathematics should be checked using number properties such as factors, multiples, divisibility and prime numbers.`
+    },
+    {
+      text: `For a ${normalizedTopic} question, which method should a student try first?`,
+      options: ["Identify number properties and given conditions", "Pick any option quickly", "Ignore the given numbers", "Use no working steps"],
+      correctOption: "Identify number properties and given conditions",
+      explanation: `${normalizedTopic} problems need careful use of the given numbers, factors, multiples or divisibility rules.`
+    },
+    {
+      text: `Which mistake is common while solving ${normalizedTopic} problems?`,
+      options: ["Ignoring factors or divisibility conditions", "Checking every given condition", "Writing clear working", "Verifying the final answer"],
+      correctOption: "Ignoring factors or divisibility conditions",
+      explanation: `For ${normalizedTopic}, students should verify factors, multiples, remainders and divisibility before selecting an answer.`
+    }
+  ];
+
+  const scienceSets = [
+    {
+      text: `In Class ${classLevel} ${normalizedSubject}, what should a question on ${normalizedTopic} mainly test?`,
+      options: ["Concept, process and cause-effect understanding", "Only spelling of keywords", "Only political dates", "Only arithmetic speed"],
+      correctOption: "Concept, process and cause-effect understanding",
+      explanation: `${normalizedTopic} questions in Science should connect the concept with process, observation and application.`
+    },
+    {
+      text: `While answering ${normalizedTopic}, what is the best first step?`,
+      options: ["Recall the concept and connect it to the given situation", "Write an unrelated social example", "Skip the diagram or observation", "Choose the longest option"],
+      correctOption: "Recall the concept and connect it to the given situation",
+      explanation: `${normalizedTopic} should be answered by linking the scientific concept to the example or observation.`
+    }
+  ];
+
+  const languageSets = [
+    {
+      text: `For ${normalizedSubject} ${normalizedTopic}, what should the student focus on first?`,
+      options: ["Meaning, usage and context", "Only numerical calculation", "Only chemical formulae", "Only map locations"],
+      correctOption: "Meaning, usage and context",
+      explanation: `${normalizedTopic} in ${normalizedSubject} should be reviewed through meaning, sentence usage and context.`
+    },
+    {
+      text: `Which answer style fits a ${normalizedSubject} question on ${normalizedTopic}?`,
+      options: ["Clear language with correct context", "Random formula substitution", "Only a diagram label", "Only a political name"],
+      correctOption: "Clear language with correct context",
+      explanation: `A ${normalizedSubject} answer on ${normalizedTopic} should stay clear, relevant and grammatically correct.`
+    }
+  ];
+
+  const socialSets = [
+    {
+      text: `In Class ${classLevel} ${normalizedSubject}, what should a question on ${normalizedTopic} mainly check?`,
+      options: ["Key idea, context and importance", "Only multiplication tables", "Only grammar tense", "Only lab apparatus"],
+      correctOption: "Key idea, context and importance",
+      explanation: `${normalizedTopic} in Social Studies should connect the main idea with its context and importance.`
+    },
+    {
+      text: `Which preparation method is best for ${normalizedTopic}?`,
+      options: ["Revise key points, dates/terms and cause-effect links", "Practise only unrelated exercises", "Memorise only random symbols", "Ignore examples from the lesson"],
+      correctOption: "Revise key points, dates/terms and cause-effect links",
+      explanation: `${normalizedTopic} should be prepared through key terms, context and important links.`
+    }
+  ];
+
+  const genericSets = [
+    {
+      text: `In Class ${classLevel} ${normalizedSubject}, which option best matches ${normalizedTopic}?`,
+      options: [`A key concept from ${normalizedTopic}`, `An unrelated topic outside ${normalizedSubject}`, "A random current affairs fact", "A topic from another class"],
+      correctOption: `A key concept from ${normalizedTopic}`,
+      explanation: `This draft is anchored to ${normalizedTopic}; the teacher should replace it with a precise textbook-backed question if needed.`
+    },
+    {
+      text: `What should a student revise before attempting ${normalizedTopic} questions?`,
+      options: [`Important definitions and examples from ${normalizedTopic}`, "Unrelated general knowledge", "Only another subject", "Only app instructions"],
+      correctOption: `Important definitions and examples from ${normalizedTopic}`,
+      explanation: `${normalizedTopic} practice should stay within Class ${classLevel} ${normalizedSubject}.`
+    }
+  ];
+
+  let templatePool = genericSets;
+  if (subjectKey.includes("math") || topicKey.includes("number")) templatePool = mathSets;
+  else if (subjectKey.includes("science")) templatePool = scienceSets;
+  else if (subjectKey.includes("english") || subjectKey.includes("telugu") || subjectKey.includes("hindi")) templatePool = languageSets;
+  else if (subjectKey.includes("social")) templatePool = socialSets;
+
+  const selected = templatePool[index % templatePool.length];
+  return {
+    id: `${level}-${index + 1}`,
+    text: selected.text,
+    options: selected.options,
+    correctOption: selected.correctOption,
+    explanation: selected.explanation,
+    durationSec: safeDuration,
+    subject: normalizedSubject,
+    topic: normalizedTopic
+  };
+}
+
 function buildCompetitionQuestionDraftSet({ subject = "", topic = "", classLevel = "10", questionCount = 15, durationSec = 30, level = "L1" } = {}) {
   const normalizedSubject = String(subject || "").trim() || "General Studies";
   const normalizedTopic = String(topic || "").trim() || "Core Concepts";
   const count = Math.max(5, Math.min(30, Number(questionCount || 15)));
-  const basePool = buildQuizBattleQuestionSet({ subject: normalizedSubject, topic: normalizedTopic })
-    .filter((item) => item?.text && Array.isArray(item.options) && item.options.length >= 4 && item.correctOption);
+  const safeDuration = Math.max(5, Math.min(90, Number(durationSec || 30)));
+  const basePool = QUIZ_BATTLE_QUESTION_BANK
+    .filter((item) => isRelevantCompetitionDraftQuestion(item, { subject: normalizedSubject, topic: normalizedTopic }))
+    .map((item) => ({
+      id: item.id,
+      text: item.text,
+      options: item.options,
+      correctOption: item.correctOption,
+      explanation: item.explanation,
+      durationSec: safeDuration,
+      subject: item.subject,
+      topic: item.topic
+    }));
   const questions = [];
 
   for (let index = 0; index < count; index += 1) {
-    const seed = basePool[index % Math.max(1, basePool.length)];
+    const seed = basePool[index % basePool.length];
     if (seed) {
       const optionOffset = index % seed.options.length;
       const rotatedOptions = [...seed.options.slice(optionOffset), ...seed.options.slice(0, optionOffset)];
       const correct = rotatedOptions.find((item) => normalizeText(item) === normalizeText(seed.correctOption)) || seed.correctOption;
       questions.push({
         id: `${level}-${index + 1}`,
-        text: count > basePool.length ? `${seed.text} (${normalizedTopic} ${index + 1})` : seed.text,
+        text: count > basePool.length ? `${seed.text} (${normalizedTopic} practice ${index + 1})` : seed.text,
         options: rotatedOptions.slice(0, 4),
         correctOption: correct,
         explanation: seed.explanation || `Review the ${normalizedTopic} concept from Class ${classLevel} ${normalizedSubject}.`,
-        durationSec: Math.max(5, Math.min(90, Number(durationSec || 30)))
+        durationSec: safeDuration
       });
       continue;
     }
 
-    const fallbackOptions = [
-      `${normalizedTopic} main concept`,
-      `${normalizedTopic} formula`,
-      `${normalizedTopic} diagram`,
-      `${normalizedTopic} example`
-    ];
-    questions.push({
-      id: `${level}-${index + 1}`,
-      text: `In Class ${classLevel} ${normalizedSubject}, which statement best matches ${normalizedTopic}?`,
-      options: fallbackOptions,
-      correctOption: fallbackOptions[0],
-      explanation: `Teacher should review this draft and align it with the selected ${normalizedTopic} lesson.`,
-      durationSec: Math.max(5, Math.min(90, Number(durationSec || 30)))
-    });
+    questions.push(buildTopicAnchoredDraftQuestion({
+      subject: normalizedSubject,
+      topic: normalizedTopic,
+      classLevel,
+      index,
+      durationSec: safeDuration,
+      level
+    }));
   }
 
-  return questions;
+  return questions.filter((item) => isRelevantCompetitionDraftQuestion(item, { subject: normalizedSubject, topic: normalizedTopic }));
 }
 
 function buildQuizBattleRoomCode() {
