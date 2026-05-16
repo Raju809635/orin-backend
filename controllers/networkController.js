@@ -9390,14 +9390,8 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (registrationStartAt.getTime() >= registrationDeadline.getTime()) {
     throw new ApiError(400, "Registration start time must be before registration end time");
   }
-  if (registrationDeadline.getTime() > level1At.getTime()) {
-    throw new ApiError(400, "Registration deadline must be at or before Level 1 start time");
-  }
   if (resolvedLevel1EndAt.getTime() <= level1At.getTime()) {
     throw new ApiError(400, "Level 1 end time must be after Level 1 start time");
-  }
-  if (level2At && !Number.isNaN(level2At.getTime()) && level2At.getTime() <= resolvedLevel1EndAt.getTime()) {
-    throw new ApiError(400, "Level 2 start time must be after Level 1 end time");
   }
   if (resolvedLevel2EndAt && resolvedLevel2EndAt.getTime() <= level2At.getTime()) {
     throw new ApiError(400, "Level 2 end time must be after Level 2 start time");
@@ -9578,14 +9572,8 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (registrationStartAt.getTime() >= registrationDeadline.getTime()) {
     throw new ApiError(400, "Registration start time must be before registration end time");
   }
-  if (registrationDeadline.getTime() >= level1At.getTime()) {
-    throw new ApiError(400, "Registration deadline must be before Level 1 start time");
-  }
   if (level1EndAt.getTime() <= level1At.getTime()) {
     throw new ApiError(400, "Level 1 end time must be after Level 1 start time");
-  }
-  if (level2At && level2At.getTime() < level1EndAt.getTime()) {
-    throw new ApiError(400, "Level 2 start time must be at or after Level 1 end time");
   }
   if (level2EndAt && level2At && level2EndAt.getTime() <= level2At.getTime()) {
     throw new ApiError(400, "Level 2 end time must be after Level 2 start time");
