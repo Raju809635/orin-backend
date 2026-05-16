@@ -98,6 +98,7 @@ const {
   deleteHighSchoolCompetition,
   updateHighSchoolCompetition,
   updateHighSchoolCompetitionLevel1Questions,
+  updateHighSchoolCompetitionLevel2Questions,
   generateHighSchoolCompetitionQuestionDraft,
   registerHighSchoolCompetition,
   submitHighSchoolCompetitionLevel1,
@@ -230,6 +231,7 @@ router.get("/highschool-competitions", verifyToken, authorizeRoles("student", "m
 router.delete("/highschool-competitions/:competitionId", verifyToken, authorizeRoles("mentor"), deleteHighSchoolCompetition);
 router.patch("/highschool-competitions/:competitionId", verifyToken, authorizeRoles("mentor"), updateHighSchoolCompetition);
 router.patch("/highschool-competitions/:competitionId/level1/questions", verifyToken, authorizeRoles("mentor"), updateHighSchoolCompetitionLevel1Questions);
+router.patch("/highschool-competitions/:competitionId/level2/questions", verifyToken, authorizeRoles("mentor"), updateHighSchoolCompetitionLevel2Questions);
 router.post("/highschool-competitions/question-draft", verifyToken, authorizeRoles("mentor"), generateHighSchoolCompetitionQuestionDraft);
 router.post("/highschool-competitions/:competitionId/register", verifyToken, authorizeRoles("student"), registerHighSchoolCompetition);
 router.post("/highschool-competitions/:competitionId/level1/submit", verifyToken, authorizeRoles("student"), submitHighSchoolCompetitionLevel1);

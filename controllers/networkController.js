@@ -9260,7 +9260,8 @@ function effectiveHighSchoolCompetitionStatus(competition, nowMs = Date.now()) {
   if (storedStatus === "completed") return "completed";
   if (level2EndAt && nowMs > level2EndAt) return "completed";
   if (level2At && nowMs >= level2At && (!level2EndAt || nowMs <= level2EndAt)) {
-    return storedStatus === "level1_closed" || storedStatus === "level2_live" ? "level2_ready" : "level1_closed";
+    if (storedStatus === "level2_live") return "level2_live";
+    return storedStatus === "level1_closed" ? "level2_ready" : "level1_closed";
   }
   if (level1EndAt && nowMs > level1EndAt) return "level1_closed";
   if (level1At && nowMs >= level1At && (!level1EndAt || nowMs <= level1EndAt)) return "level1_live";
@@ -9302,6 +9303,38 @@ function parseCompetitionQuestionSet(payload = [], defaultDurationSec = 30, fall
       };
     })
     .filter(Boolean);
+}
+
+function normalizeCompetitionQuestionCount(value, fallback = 15) {
+  return Math.max(5, Math.min(30, Number(value || fallback)));
+}
+
+function normalizeCompetitionTimeMode(value, fallback = 30) {
+  return [10, 30].includes(Number(value)) ? Number(value) : fallback;
+}
+
+function normalizeLevel2BatchSize(value, fallback = 10) {
+  return Math.max(2, Math.min(50, Number(value || fallback)));
+}
+
+function hasLevel1CompetitionAttempts(competition) {
+  return (competition?.attempts || []).some((item) => Number(item.level) === 1);
+}
+
+function hasLevel2CompetitionStarted(competition) {
+  return (competition?.level2Batches || []).some(
+    (batch) =>
+      batch.status !== "waiting" ||
+      Boolean(batch.questionStartedAt) ||
+      (batch.participants || []).some((member) => Number(member.answeredCount || 0) > 0 || (member.answers || []).length > 0)
+  );
+}
+
+function ensureNotPastShortening(nextDate, currentDate, nowMs, label) {
+  if (!nextDate || !currentDate) return;
+  if (currentDate.getTime() > nowMs && nextDate.getTime() < currentDate.getTime() && nextDate.getTime() <= nowMs) {
+    throw new ApiError(400, `${label} cannot be shortened to a time that has already passed`);
+  }
 }
 
 function gradeFromPercentage(percentage = 0) {
@@ -9402,8 +9435,11 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     : "institution_only";
   const allowedInstitutions = normalizeList(req.body?.allowedInstitutions || []);
   const classLevelFilter = normalizeList(req.body?.classLevelFilter || []);
-  const level1TimeModeSec = [10, 30].includes(Number(req.body?.level1TimeModeSec)) ? Number(req.body.level1TimeModeSec) : 30;
-  const level1QuestionCount = Math.max(5, Math.min(30, Number(req.body?.level1QuestionCount || 15)));
+  const level1TimeModeSec = normalizeCompetitionTimeMode(req.body?.level1TimeModeSec, 30);
+  const level1QuestionCount = normalizeCompetitionQuestionCount(req.body?.level1QuestionCount, 15);
+  const level2TimeModeSec = normalizeCompetitionTimeMode(req.body?.level2TimeModeSec, 30);
+  const level2QuestionCount = normalizeCompetitionQuestionCount(req.body?.level2QuestionCount, 15);
+  const level2BatchSize = normalizeLevel2BatchSize(req.body?.level2BatchSize, 10);
   const qualificationTopN = Math.max(1, Math.min(500, Number(req.body?.qualificationTopN || 20)));
   const creator = await User.findById(req.user.id).select("name").lean();
 
@@ -9438,6 +9474,10 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     level1QuestionCount,
     level1TimeModeSec,
     level1Questions,
+    level2QuestionCount,
+    level2TimeModeSec,
+    level2BatchSize,
+    level2Questions: parseCompetitionQuestionSet(req.body?.level2Questions || [], level2TimeModeSec, "L2").slice(0, level2QuestionCount),
     status: "registration_open",
     createdBy: req.user.id,
     createdByName: creator?.name || "Teacher",
@@ -9487,6 +9527,8 @@ exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
             options: question.options,
             durationSec: question.durationSec
           })),
+          level2Questions: [],
+          level2Batches: [],
           myRegistration: registration || null,
           myLevel1Attempt: myLevel1Attempt
             ? {
@@ -9551,28 +9593,42 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (!competition) throw new ApiError(404, "Competition not found");
   if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can update this championship");
 
+  const nowMs = Date.now();
+  const storedRegistrationStartAt = competition.registrationStartAt
+    ? new Date(competition.registrationStartAt)
+    : competition.createdAt
+      ? new Date(competition.createdAt)
+      : new Date();
+  const storedRegistrationDeadline = new Date(competition.registrationDeadline);
+  const storedLevel1At = new Date(competition.level1At);
+  const storedLevel1EndAt = competition.level1EndAt
+    ? new Date(competition.level1EndAt)
+    : competition.level2At
+      ? new Date(competition.level2At)
+      : new Date(storedLevel1At.getTime() + 60 * 60 * 1000);
+  const storedLevel2At = competition.level2At ? new Date(competition.level2At) : null;
+  const storedLevel2EndAt = competition.level2EndAt
+    ? new Date(competition.level2EndAt)
+    : storedLevel2At
+      ? new Date(storedLevel2At.getTime() + 60 * 60 * 1000)
+      : null;
+  const registrationStarted = storedRegistrationStartAt.getTime() <= nowMs;
+  const level1Started = storedLevel1At.getTime() <= nowMs;
+  const level1AttemptsExist = hasLevel1CompetitionAttempts(competition);
+  const level2Started = hasLevel2CompetitionStarted(competition) || (storedLevel2At ? storedLevel2At.getTime() <= nowMs : false);
+
   const registrationStartAt = req.body?.registrationStartAt
     ? new Date(req.body.registrationStartAt)
-    : competition.registrationStartAt
-      ? new Date(competition.registrationStartAt)
-      : competition.createdAt
-        ? new Date(competition.createdAt)
-        : new Date();
-  const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : new Date(competition.registrationDeadline);
-  const level1At = req.body?.level1At ? new Date(req.body.level1At) : new Date(competition.level1At);
+    : storedRegistrationStartAt;
+  const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : storedRegistrationDeadline;
+  const level1At = req.body?.level1At ? new Date(req.body.level1At) : storedLevel1At;
   const level1EndAt = req.body?.level1EndAt
     ? new Date(req.body.level1EndAt)
-    : competition.level1EndAt
-      ? new Date(competition.level1EndAt)
-      : new Date(level1At.getTime() + 60 * 60 * 1000);
-  const level2At = req.body?.level2At ? new Date(req.body.level2At) : competition.level2At ? new Date(competition.level2At) : null;
+    : storedLevel1EndAt;
+  const level2At = req.body?.level2At ? new Date(req.body.level2At) : storedLevel2At;
   const level2EndAt = req.body?.level2EndAt
     ? new Date(req.body.level2EndAt)
-    : competition.level2EndAt
-      ? new Date(competition.level2EndAt)
-      : level2At
-        ? new Date(level2At.getTime() + 60 * 60 * 1000)
-        : null;
+    : storedLevel2EndAt;
   if (
     Number.isNaN(registrationStartAt.getTime()) ||
     Number.isNaN(registrationDeadline.getTime()) ||
@@ -9592,6 +9648,27 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (level2EndAt && level2At && level2EndAt.getTime() <= level2At.getTime()) {
     throw new ApiError(400, "Level 2 end time must be after Level 2 start time");
   }
+  if (registrationStarted && registrationStartAt.getTime() !== storedRegistrationStartAt.getTime()) {
+    throw new ApiError(400, "Registration start cannot be changed after registration has started");
+  }
+  if (registrationStarted && registrationDeadline.getTime() < storedRegistrationDeadline.getTime()) {
+    throw new ApiError(400, "Registration end can only be extended after registration starts");
+  }
+  if (level1Started && level1At.getTime() !== storedLevel1At.getTime()) {
+    throw new ApiError(400, "Level 1 start cannot be changed after Level 1 starts");
+  }
+  if (level1Started && level1EndAt.getTime() < storedLevel1EndAt.getTime()) {
+    throw new ApiError(400, "Level 1 end can only be extended after Level 1 starts");
+  }
+  if (level2Started && storedLevel2At && level2At && level2At.getTime() !== storedLevel2At.getTime()) {
+    throw new ApiError(400, "Level 2 start cannot be changed after Level 2 starts");
+  }
+  if (level2Started && storedLevel2EndAt && level2EndAt && level2EndAt.getTime() < storedLevel2EndAt.getTime()) {
+    throw new ApiError(400, "Level 2 end can only be extended after Level 2 starts");
+  }
+  ensureNotPastShortening(registrationDeadline, storedRegistrationDeadline, nowMs, "Registration end");
+  ensureNotPastShortening(level1EndAt, storedLevel1EndAt, nowMs, "Level 1 end");
+  if (level2EndAt && storedLevel2EndAt) ensureNotPastShortening(level2EndAt, storedLevel2EndAt, nowMs, "Level 2 end");
 
   competition.registrationStartAt = registrationStartAt;
   competition.registrationDeadline = registrationDeadline;
@@ -9614,10 +9691,58 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   competition.description = String(req.body?.description || competition.description || "").trim();
   competition.bannerImageUrl = String(req.body?.bannerImageUrl || competition.bannerImageUrl || "").trim();
   competition.qualificationTopN = Math.max(1, Math.min(500, Number(req.body?.qualificationTopN || competition.qualificationTopN || 20)));
-  competition.level1QuestionCount = Math.max(5, Math.min(30, Number(req.body?.level1QuestionCount || competition.level1QuestionCount || 15)));
-  competition.level1TimeModeSec = [10, 30].includes(Number(req.body?.level1TimeModeSec))
-    ? Number(req.body.level1TimeModeSec)
-    : Number(competition.level1TimeModeSec || 30);
+  if (!registrationStarted && req.body?.scopeType) {
+    const nextScopeType = ["institution_only", "multi_institution", "open_highschool"].includes(String(req.body.scopeType))
+      ? String(req.body.scopeType)
+      : competition.scopeType;
+    const nextAllowedInstitutions = normalizeList(req.body?.allowedInstitutions || competition.allowedInstitutions || []);
+    const nextClassLevelFilter = normalizeList(req.body?.classLevelFilter || competition.classLevelFilter || []);
+    const nextInstitutionName = String(req.body?.selectedInstitutionName || req.body?.institutionName || competition.institutionName || "").trim();
+    if (nextScopeType === "institution_only" && !nextInstitutionName) throw new ApiError(400, "Select an institution for institution-only competition");
+    if (nextScopeType === "multi_institution" && nextAllowedInstitutions.length < 2) throw new ApiError(400, "Inter-school competition requires at least two selected institutions");
+    competition.scopeType = nextScopeType;
+    competition.allowedInstitutions = nextScopeType === "multi_institution" ? nextAllowedInstitutions : [];
+    competition.classLevelFilter = nextClassLevelFilter;
+    competition.institutionName = nextScopeType === "institution_only" ? nextInstitutionName : competition.institutionName;
+  } else if (registrationStarted && (req.body?.scopeType || req.body?.allowedInstitutions || req.body?.classLevelFilter || req.body?.selectedInstitutionName)) {
+    const requestedScopeType = req.body?.scopeType ? String(req.body.scopeType) : competition.scopeType;
+    const requestedAllowed = normalizeList(req.body?.allowedInstitutions || competition.allowedInstitutions || []);
+    const requestedClasses = normalizeList(req.body?.classLevelFilter || competition.classLevelFilter || []);
+    const requestedInstitution = String(req.body?.selectedInstitutionName || req.body?.institutionName || competition.institutionName || "").trim();
+    const sameAllowed = JSON.stringify(requestedAllowed) === JSON.stringify(normalizeList(competition.allowedInstitutions || []));
+    const sameClasses = JSON.stringify(requestedClasses) === JSON.stringify(normalizeList(competition.classLevelFilter || []));
+    if (
+      requestedScopeType !== competition.scopeType ||
+      !sameAllowed ||
+      !sameClasses ||
+      (competition.scopeType === "institution_only" && requestedInstitution !== String(competition.institutionName || "").trim())
+    ) {
+      throw new ApiError(400, "Audience and class targeting cannot be changed after registration starts");
+    }
+  }
+  if (!level1AttemptsExist) {
+    competition.level1QuestionCount = normalizeCompetitionQuestionCount(req.body?.level1QuestionCount, competition.level1QuestionCount || 15);
+    competition.level1TimeModeSec = normalizeCompetitionTimeMode(req.body?.level1TimeModeSec, Number(competition.level1TimeModeSec || 30));
+  } else if (
+    (req.body?.level1QuestionCount && normalizeCompetitionQuestionCount(req.body.level1QuestionCount, competition.level1QuestionCount || 15) !== Number(competition.level1QuestionCount || 15)) ||
+    (req.body?.level1TimeModeSec && normalizeCompetitionTimeMode(req.body.level1TimeModeSec, Number(competition.level1TimeModeSec || 30)) !== Number(competition.level1TimeModeSec || 30))
+  ) {
+    throw new ApiError(400, "Level 1 question count and timer are locked after students attempt Level 1");
+  }
+  if (!level2Started) {
+    competition.level2QuestionCount = normalizeCompetitionQuestionCount(req.body?.level2QuestionCount, competition.level2QuestionCount || 15);
+    competition.level2TimeModeSec = normalizeCompetitionTimeMode(req.body?.level2TimeModeSec, Number(competition.level2TimeModeSec || 30));
+    competition.level2BatchSize = normalizeLevel2BatchSize(req.body?.level2BatchSize, competition.level2BatchSize || 10);
+  } else if (
+    (req.body?.level2QuestionCount && normalizeCompetitionQuestionCount(req.body.level2QuestionCount, competition.level2QuestionCount || 15) !== Number(competition.level2QuestionCount || 15)) ||
+    (req.body?.level2TimeModeSec && normalizeCompetitionTimeMode(req.body.level2TimeModeSec, Number(competition.level2TimeModeSec || 30)) !== Number(competition.level2TimeModeSec || 30)) ||
+    (req.body?.level2BatchSize && normalizeLevel2BatchSize(req.body.level2BatchSize, competition.level2BatchSize || 10) !== Number(competition.level2BatchSize || 10))
+  ) {
+    throw new ApiError(400, "Level 2 question count, timer and batch size are locked after Level 2 starts");
+  }
+  if ((competition.level2Questions || []).length > competition.level2QuestionCount && !(competition.level2Batches || []).some((batch) => batch.status !== "waiting" || (batch.participants || []).some((member) => Number(member.answeredCount || 0) > 0))) {
+    competition.level2Questions = (competition.level2Questions || []).slice(0, competition.level2QuestionCount);
+  }
   await competition.save();
 
   res.json({ message: "Championship updated", competition: withCompetitionRuntimeFields(competition.toObject()) });
@@ -9653,6 +9778,51 @@ exports.updateHighSchoolCompetitionLevel1Questions = asyncHandler(async (req, re
   res.json({
     message: "Level 1 questions saved",
     questionCount: competition.level1Questions.length,
+    competition: withCompetitionRuntimeFields(competition.toObject())
+  });
+});
+
+exports.updateHighSchoolCompetitionLevel2Questions = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can update questions");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) {
+    throw new ApiError(403, "Only creator teacher can update questions");
+  }
+  const level2Started = (competition.level2Batches || []).some(
+    (batch) =>
+      batch.status !== "waiting" ||
+      Boolean(batch.questionStartedAt) ||
+      (batch.participants || []).some((member) => Number(member.answeredCount || 0) > 0 || (member.answers || []).length > 0)
+  );
+  if (level2Started) {
+    throw new ApiError(400, "Level 2 battle already started. Questions cannot be changed now.");
+  }
+
+  const questionSet = parseCompetitionQuestionSet(
+    req.body?.questions || [],
+    Number(competition.level2TimeModeSec || 30),
+    "L2"
+  );
+  const expectedCount = normalizeCompetitionQuestionCount(competition.level2QuestionCount || 15, 15);
+  if (questionSet.length < expectedCount) {
+    throw new ApiError(400, `Add ${expectedCount} valid Level 2 questions before saving.`);
+  }
+
+  competition.level2Questions = questionSet.slice(0, expectedCount);
+  competition.level2Batches = [];
+  competition.registrations = (competition.registrations || []).map((reg) => ({
+    ...reg,
+    level2BatchIndex: -1
+  }));
+  await competition.save();
+
+  res.json({
+    message: "Level 2 questions saved",
+    questionCount: competition.level2Questions.length,
     competition: withCompetitionRuntimeFields(competition.toObject())
   });
 });
@@ -9863,11 +10033,7 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
   if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
-  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
   const level2EndAtMs = competition.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
-  if (level2AtMs && Date.now() < level2AtMs) {
-    throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
-  }
   if (level2EndAtMs && Date.now() > level2EndAtMs) {
     throw new ApiError(400, "Level 2 window is closed");
   }
@@ -9875,16 +10041,27 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
 
   const qualified = (competition.registrations || []).filter((item) => item.qualifiedForLevel2);
   if (!qualified.length) throw new ApiError(400, "No qualified students for Level 2");
-  const questionSetsPayload = Array.isArray(req.body?.questionSets) ? req.body.questionSets : [];
-  const questionSets = questionSetsPayload
-    .map((set, setIndex) => parseCompetitionQuestionSet(set?.questions || [], 30, `L2-${setIndex + 1}`))
-    .filter((set) => set.length > 0);
-  if (!questionSets.length) throw new ApiError(400, "At least one Level 2 question set is required");
+  const expectedCount = normalizeCompetitionQuestionCount(competition.level2QuestionCount || 15, 15);
+  const savedQuestions = parseCompetitionQuestionSet(
+    competition.level2Questions || [],
+    Number(competition.level2TimeModeSec || 30),
+    "L2"
+  ).slice(0, expectedCount);
+  if (savedQuestions.length < expectedCount) {
+    throw new ApiError(400, `Save ${expectedCount} Level 2 questions before creating batches.`);
+  }
+  const level2Started = (competition.level2Batches || []).some(
+    (batch) =>
+      batch.status !== "waiting" ||
+      Boolean(batch.questionStartedAt) ||
+      (batch.participants || []).some((member) => Number(member.answeredCount || 0) > 0 || (member.answers || []).length > 0)
+  );
+  if (level2Started) throw new ApiError(400, "Level 2 battle already started. Batches cannot be recreated now.");
 
   const batches = [];
-  for (let i = 0; i < qualified.length; i += 10) {
-    const members = qualified.slice(i, i + 10);
-    const set = questionSets[batches.length % questionSets.length];
+  const batchSize = normalizeLevel2BatchSize(competition.level2BatchSize || req.body?.batchSize || 10, 10);
+  for (let i = 0; i < qualified.length; i += batchSize) {
+    const members = qualified.slice(i, i + batchSize);
     batches.push({
       index: batches.length,
       label: `Batch ${batches.length + 1}`,
@@ -9895,12 +10072,14 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
         institutionName: item.institutionName,
         className: item.className,
         score: 0,
+        correctCount: 0,
         avgResponseMs: 0,
         totalResponseMs: 0,
         answeredCount: 0,
+        answers: [],
         lastAnsweredAt: null
       })),
-      questionSet: set,
+      questionSet: savedQuestions,
       currentQuestionIndex: 0,
       questionStartedAt: null,
       currentQuestionAnsweredUserIds: [],
@@ -9918,7 +10097,7 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
       level2BatchIndex: batchIndex
     };
   });
-  competition.status = "level2_live";
+  competition.status = "level1_closed";
   await competition.save();
   res.json({ message: "Level 2 batches created", batchesCount: batches.length });
 });
@@ -9927,6 +10106,7 @@ function competitionBatchPayload(competition, batchIndex, viewerId) {
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) return null;
   const question = batch.questionSet?.[batch.currentQuestionIndex] || null;
+  const viewerAnsweredCurrent = (batch.currentQuestionAnsweredUserIds || []).some((item) => String(item) === String(viewerId));
   const leaderboard = [...(batch.participants || [])]
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
@@ -9939,14 +10119,24 @@ function competitionBatchPayload(competition, batchIndex, viewerId) {
       institutionName: row.institutionName,
       className: row.className,
       score: Number(row.score || 0),
+      correctCount: Number(row.correctCount || 0),
+      answeredCount: Number(row.answeredCount || 0),
       avgResponseMs: Number(row.avgResponseMs || 0)
     }));
+  const me = leaderboard.find((row) => String(row.studentId) === String(viewerId)) || null;
+  const myParticipant = (batch.participants || []).find((row) => String(row.studentId) === String(viewerId));
+  const winner = batch.winnerStudentId
+    ? leaderboard.find((row) => String(row.studentId) === String(batch.winnerStudentId)) || null
+    : batch.status === "completed"
+      ? leaderboard[0] || null
+      : null;
   return {
     competitionId: String(competition._id),
     title: competition.title,
     batchIndex,
     label: batch.label || `Batch ${batchIndex + 1}`,
     status: batch.status,
+    participantCount: (batch.participants || []).length,
     questionIndex: Number(batch.currentQuestionIndex || 0),
     totalQuestions: (batch.questionSet || []).length,
     question: question
@@ -9958,16 +10148,129 @@ function competitionBatchPayload(competition, batchIndex, viewerId) {
           startedAt: batch.questionStartedAt
         }
       : null,
+    answeredCurrentQuestion: viewerAnsweredCurrent,
     leaderboard,
-    me: leaderboard.find((row) => String(row.studentId) === String(viewerId)) || null
+    me,
+    winner,
+    review: (myParticipant?.answers || []).map((answer) => ({
+      questionId: answer.questionId,
+      questionText: answer.questionText || "",
+      selectedOption: answer.selectedOption || "",
+      correctOption: answer.correctOption || "",
+      isCorrect: Boolean(answer.isCorrect),
+      responseMs: Number(answer.responseMs || 0),
+      awardedScore: Number(answer.awardedScore || 0),
+      explanation: answer.explanation || ""
+    }))
   };
 }
 
-function maybeAdvanceCompetitionBatch(batch) {
+function level2BatchLeaderboard(batch) {
+  return [...(batch.participants || [])].sort((a, b) => {
+    if (Number(b.score || 0) !== Number(a.score || 0)) return Number(b.score || 0) - Number(a.score || 0);
+    return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
+  });
+}
+
+function upsertLevel2BatchAttempts(competition, batch) {
+  (batch.participants || []).forEach((participant) => {
+    const answers = participant.answers || [];
+    const existingIdx = (competition.attempts || []).findIndex(
+      (item) => String(item.studentId) === String(participant.studentId) && Number(item.level) === 2 && Number(item.batchIndex) === Number(batch.index)
+    );
+    const payload = {
+      studentId: participant.studentId,
+      studentName: participant.studentName,
+      institutionName: participant.institutionName,
+      className: participant.className,
+      level: 2,
+      batchIndex: Number(batch.index || 0),
+      score: Number(participant.score || 0),
+      correctCount: Number(participant.correctCount || 0),
+      totalTimeMs: Number(participant.totalResponseMs || 0),
+      percentage: (batch.questionSet || []).length ? Math.round((Number(participant.correctCount || 0) / (batch.questionSet || []).length) * 100) : 0,
+      grade: gradeFromPercentage((batch.questionSet || []).length ? Math.round((Number(participant.correctCount || 0) / (batch.questionSet || []).length) * 100) : 0),
+      strengths: answers.filter((answer) => answer.isCorrect).map((answer) => answer.questionId).slice(0, 6),
+      weakAreas: answers.filter((answer) => !answer.isCorrect).map((answer) => answer.questionId).slice(0, 6),
+      recommendations: [
+        "Review the answer explanations from this Level 2 battle.",
+        "Practice weak questions again with the same timer.",
+        "Improve speed only after accuracy is stable."
+      ],
+      answers,
+      submittedAt: new Date()
+    };
+    if (existingIdx >= 0) competition.attempts[existingIdx] = payload;
+    else competition.attempts.push(payload);
+  });
+}
+
+function completeCompetitionBatch(competition, batch) {
+  batch.status = "completed";
+  const winner = level2BatchLeaderboard(batch)[0];
+  batch.winnerStudentId = winner?.studentId || null;
+  if (winner) {
+    const reg = (competition.registrations || []).find((item) => String(item.studentId) === String(winner.studentId));
+    if (reg) reg.status = "winner";
+  }
+  upsertLevel2BatchAttempts(competition, batch);
+  const allCompleted = (competition.level2Batches || []).length > 0 && (competition.level2Batches || []).every((item) => item.status === "completed");
+  if (allCompleted) {
+    const overallWinner = (competition.level2Batches || [])
+      .flatMap((item) => item.participants || [])
+      .sort((a, b) => {
+        if (Number(b.score || 0) !== Number(a.score || 0)) return Number(b.score || 0) - Number(a.score || 0);
+        return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
+      })[0];
+    competition.winnerStudentId = overallWinner?.studentId || competition.winnerStudentId || null;
+    competition.winnerStudentName = overallWinner?.studentName || competition.winnerStudentName || "";
+    competition.winnerInstitutionName = overallWinner?.institutionName || competition.winnerInstitutionName || "";
+    competition.status = "completed";
+  }
+}
+
+function addTimedOutAnswersForCurrentQuestion(batch) {
+  const question = batch.questionSet?.[batch.currentQuestionIndex];
+  if (!question) return;
+  const answeredIds = new Set((batch.currentQuestionAnsweredUserIds || []).map((item) => String(item)));
+  const durationMs = Number(question.durationSec || 30) * 1000;
+  (batch.participants || []).forEach((participant) => {
+    if (answeredIds.has(String(participant.studentId))) return;
+    participant.answeredCount = Number(participant.answeredCount || 0) + 1;
+    participant.totalResponseMs = Number(participant.totalResponseMs || 0) + durationMs;
+    participant.avgResponseMs = Math.round(participant.totalResponseMs / Math.max(1, participant.answeredCount));
+    participant.lastAnsweredAt = new Date();
+    participant.answers = [
+      ...(participant.answers || []),
+      {
+        questionId: String(question.id || `L2-${Number(batch.currentQuestionIndex || 0) + 1}`),
+        questionText: question.text,
+        selectedOption: "",
+        correctOption: question.correctOption,
+        isCorrect: false,
+        responseMs: durationMs,
+        awardedScore: 0,
+        explanation: question.explanation || ""
+      }
+    ];
+  });
+}
+
+function maybeAutoStartCompetitionBatch(competition, batch, nowMs = Date.now()) {
+  if (!batch || batch.status !== "waiting") return false;
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (level2AtMs && nowMs < level2AtMs) return false;
+  batch.status = "live";
+  batch.questionStartedAt = new Date(nowMs);
+  competition.status = "level2_live";
+  return true;
+}
+
+function maybeAdvanceCompetitionBatch(competition, batch) {
   if (!batch || batch.status !== "live") return false;
   const question = batch.questionSet?.[batch.currentQuestionIndex];
   if (!question) {
-    batch.status = "completed";
+    completeCompetitionBatch(competition, batch);
     return true;
   }
   const durationSec = Number(question.durationSec || 30);
@@ -9976,16 +10279,12 @@ function maybeAdvanceCompetitionBatch(batch) {
   const answeredCount = (batch.currentQuestionAnsweredUserIds || []).length;
   const participantsCount = (batch.participants || []).length;
   if (elapsed < durationSec && answeredCount < participantsCount) return false;
+  if (elapsed >= durationSec) addTimedOutAnswersForCurrentQuestion(batch);
   batch.currentQuestionIndex += 1;
   batch.currentQuestionAnsweredUserIds = [];
   batch.currentQuestionFirstCorrectUserId = null;
   if (batch.currentQuestionIndex >= (batch.questionSet || []).length) {
-    batch.status = "completed";
-    const winner = [...(batch.participants || [])].sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
-    })[0];
-    batch.winnerStudentId = winner?.studentId || null;
+    completeCompetitionBatch(competition, batch);
     return true;
   }
   batch.questionStartedAt = new Date();
@@ -10011,9 +10310,7 @@ exports.joinHighSchoolCompetitionLevel2Batch = asyncHandler(async (req, res) => 
   if (!batch) throw new ApiError(404, "Batch not found");
   const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
   if (!member) throw new ApiError(403, "You are not part of this batch");
-  if (batch.status === "waiting") {
-    batch.status = "live";
-    if (!batch.questionStartedAt) batch.questionStartedAt = new Date();
+  if (maybeAutoStartCompetitionBatch(competition, batch)) {
     await competition.save();
   }
   res.json({ room: competitionBatchPayload(competition, batchIndex, req.user.id) });
@@ -10037,8 +10334,9 @@ exports.getHighSchoolCompetitionLevel2BatchState = asyncHandler(async (req, res)
   if (!batch) throw new ApiError(404, "Batch not found");
   const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
   if (!member && req.user.role !== "mentor") throw new ApiError(403, "Not allowed");
-  const changed = maybeAdvanceCompetitionBatch(batch);
-  if (changed) await competition.save();
+  const started = maybeAutoStartCompetitionBatch(competition, batch);
+  const changed = maybeAdvanceCompetitionBatch(competition, batch);
+  if (started || changed) await competition.save();
   res.json(competitionBatchPayload(competition, batchIndex, req.user.id));
 });
 
@@ -10048,7 +10346,7 @@ exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, 
   const batchIndex = Number(req.params?.batchIndex);
   if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
   const selectedOption = String(req.body?.selectedOption || "").trim();
-  const responseMs = Math.max(0, Number(req.body?.responseMs || 0));
+  const clientResponseMs = Math.max(0, Number(req.body?.responseMs || 0));
   if (!selectedOption) throw new ApiError(400, "selectedOption is required");
 
   const competition = await HighSchoolCompetition.findById(competitionId);
@@ -10063,11 +10361,15 @@ exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, 
   }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
+  maybeAutoStartCompetitionBatch(competition, batch);
   if (batch.status !== "live") throw new ApiError(400, "Batch is not live");
   const participant = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
   if (!participant) throw new ApiError(403, "You are not part of this batch");
   const question = batch.questionSet?.[batch.currentQuestionIndex];
   if (!question) throw new ApiError(400, "No active question");
+  const durationMs = Number(question.durationSec || competition.level2TimeModeSec || 30) * 1000;
+  const elapsedMs = batch.questionStartedAt ? Math.max(0, Date.now() - new Date(batch.questionStartedAt).getTime()) : durationMs;
+  const responseMs = Math.max(500, Math.min(durationMs, clientResponseMs || elapsedMs));
   const alreadyAnswered = (batch.currentQuestionAnsweredUserIds || []).some((item) => String(item) === String(req.user.id));
   if (alreadyAnswered) throw new ApiError(400, "You already answered this question");
 
@@ -10080,28 +10382,31 @@ exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, 
   const isCorrect = normalizeText(selectedOption) === normalizeText(question.correctOption);
   let awardedScore = 0;
   if (isCorrect) {
+    const speedBonus = Math.max(0, Math.round((durationMs - responseMs) / 1000));
     if (!batch.currentQuestionFirstCorrectUserId) {
       batch.currentQuestionFirstCorrectUserId = req.user.id;
-      awardedScore = 10;
+      awardedScore = 15 + speedBonus;
     } else {
-      awardedScore = 6;
+      awardedScore = 10 + speedBonus;
     }
+    participant.correctCount = Number(participant.correctCount || 0) + 1;
     participant.score = Number(participant.score || 0) + awardedScore;
   }
-
-  const changed = maybeAdvanceCompetitionBatch(batch);
-  if (changed && batch.status === "completed") {
-    const winner = (batch.participants || [])
-      .slice()
-      .sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
-      })[0];
-    if (winner) {
-      const reg = (competition.registrations || []).find((item) => String(item.studentId) === String(winner.studentId));
-      if (reg) reg.status = "winner";
+  participant.answers = [
+    ...(participant.answers || []),
+    {
+      questionId: String(question.id || `L2-${Number(batch.currentQuestionIndex || 0) + 1}`),
+      questionText: question.text,
+      selectedOption,
+      correctOption: question.correctOption,
+      isCorrect,
+      responseMs,
+      awardedScore,
+      explanation: question.explanation || ""
     }
-  }
+  ];
+
+  maybeAdvanceCompetitionBatch(competition, batch);
   await competition.save();
 
   res.json({
@@ -10196,6 +10501,24 @@ exports.getHighSchoolCompetitionReports = asyncHandler(async (req, res) => {
 
   const qualifiedCount = (competition.registrations || []).filter((item) => item.qualifiedForLevel2).length;
   const winnersCount = (competition.registrations || []).filter((item) => item.status === "winner").length;
+  const level2Attempts = (competition.attempts || []).filter((item) => Number(item.level) === 2);
+  const level2Leaderboard = competitionLeaderboardRows(level2Attempts);
+  const level2Batches = (competition.level2Batches || []).map((batch) => {
+    const rows = level2BatchLeaderboard(batch);
+    const winner = batch.winnerStudentId
+      ? rows.find((row) => String(row.studentId) === String(batch.winnerStudentId))
+      : rows[0];
+    return {
+      index: Number(batch.index || 0),
+      label: batch.label || `Batch ${Number(batch.index || 0) + 1}`,
+      status: batch.status,
+      participants: (batch.participants || []).length,
+      questionIndex: Number(batch.currentQuestionIndex || 0),
+      totalQuestions: (batch.questionSet || []).length,
+      winnerStudentId: winner?.studentId ? String(winner.studentId) : "",
+      winnerStudentName: winner?.studentName || ""
+    };
+  });
 
   res.json({
     competition: {
@@ -10207,11 +10530,14 @@ exports.getHighSchoolCompetitionReports = asyncHandler(async (req, res) => {
     },
     overallLeaderboard,
     institutionLeaderboard,
+    level2Leaderboard,
+    level2Batches,
     institutionBreakdown,
     studentReports,
     qualificationFunnel: {
       registered: (competition.registrations || []).length,
       level1Attempted: level1Attempts.length,
+      level2Attempted: level2Attempts.length,
       level2Qualified: qualifiedCount,
       winners: winnersCount
     }

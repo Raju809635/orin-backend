@@ -34,6 +34,7 @@ const competitionAnswerLogSchema = new mongoose.Schema(
     correctOption: { type: String, default: "" },
     isCorrect: { type: Boolean, default: false },
     responseMs: { type: Number, default: 0 },
+    awardedScore: { type: Number, default: 0 },
     explanation: { type: String, default: "" }
   },
   { _id: false }
@@ -68,9 +69,11 @@ const competitionBatchParticipantSchema = new mongoose.Schema(
     institutionName: { type: String, default: "" },
     className: { type: String, default: "" },
     score: { type: Number, default: 0 },
+    correctCount: { type: Number, default: 0 },
     avgResponseMs: { type: Number, default: 0 },
     totalResponseMs: { type: Number, default: 0 },
     answeredCount: { type: Number, default: 0 },
+    answers: { type: [competitionAnswerLogSchema], default: [] },
     lastAnsweredAt: { type: Date, default: null }
   },
   { _id: false }
@@ -113,6 +116,10 @@ const highSchoolCompetitionSchema = new mongoose.Schema(
     level1QuestionCount: { type: Number, default: 15 },
     level1TimeModeSec: { type: Number, enum: [10, 30], default: 30 },
     level1Questions: { type: [competitionQuestionSchema], default: [] },
+    level2QuestionCount: { type: Number, default: 15 },
+    level2TimeModeSec: { type: Number, enum: [10, 30], default: 30 },
+    level2BatchSize: { type: Number, default: 10 },
+    level2Questions: { type: [competitionQuestionSchema], default: [] },
     level2Batches: { type: [competitionLevel2BatchSchema], default: [] },
     registrations: { type: [competitionRegistrationSchema], default: [] },
     attempts: { type: [competitionLevelAttemptSchema], default: [] },
