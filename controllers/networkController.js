@@ -8754,6 +8754,50 @@ function buildQuizBattleQuestionSet({ subject = "", topic = "" } = {}) {
   }));
 }
 
+function buildCompetitionQuestionDraftSet({ subject = "", topic = "", classLevel = "10", questionCount = 15, durationSec = 30, level = "L1" } = {}) {
+  const normalizedSubject = String(subject || "").trim() || "General Studies";
+  const normalizedTopic = String(topic || "").trim() || "Core Concepts";
+  const count = Math.max(5, Math.min(30, Number(questionCount || 15)));
+  const basePool = buildQuizBattleQuestionSet({ subject: normalizedSubject, topic: normalizedTopic })
+    .filter((item) => item?.text && Array.isArray(item.options) && item.options.length >= 4 && item.correctOption);
+  const questions = [];
+
+  for (let index = 0; index < count; index += 1) {
+    const seed = basePool[index % Math.max(1, basePool.length)];
+    if (seed) {
+      const optionOffset = index % seed.options.length;
+      const rotatedOptions = [...seed.options.slice(optionOffset), ...seed.options.slice(0, optionOffset)];
+      const correct = rotatedOptions.find((item) => normalizeText(item) === normalizeText(seed.correctOption)) || seed.correctOption;
+      questions.push({
+        id: `${level}-${index + 1}`,
+        text: count > basePool.length ? `${seed.text} (${normalizedTopic} ${index + 1})` : seed.text,
+        options: rotatedOptions.slice(0, 4),
+        correctOption: correct,
+        explanation: seed.explanation || `Review the ${normalizedTopic} concept from Class ${classLevel} ${normalizedSubject}.`,
+        durationSec: Math.max(5, Math.min(90, Number(durationSec || 30)))
+      });
+      continue;
+    }
+
+    const fallbackOptions = [
+      `${normalizedTopic} main concept`,
+      `${normalizedTopic} formula`,
+      `${normalizedTopic} diagram`,
+      `${normalizedTopic} example`
+    ];
+    questions.push({
+      id: `${level}-${index + 1}`,
+      text: `In Class ${classLevel} ${normalizedSubject}, which statement best matches ${normalizedTopic}?`,
+      options: fallbackOptions,
+      correctOption: fallbackOptions[0],
+      explanation: `Teacher should review this draft and align it with the selected ${normalizedTopic} lesson.`,
+      durationSec: Math.max(5, Math.min(90, Number(durationSec || 30)))
+    });
+  }
+
+  return questions;
+}
+
 function buildQuizBattleRoomCode() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "";
@@ -9322,21 +9366,20 @@ exports.generateHighSchoolCompetitionQuestionDraft = asyncHandler(async (req, re
   if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can generate drafts");
   const subject = String(req.body?.subject || "").trim();
   const topic = String(req.body?.topic || req.body?.chapter || "").trim();
+  const classLevel = String(req.body?.classLevel || "10").trim() || "10";
   const level = String(req.body?.level || "L1").trim().toUpperCase();
   const questionCount = Math.max(5, Math.min(30, Number(req.body?.questionCount || 15)));
   const durationSec = [10, 30].includes(Number(req.body?.durationSec)) ? Number(req.body.durationSec) : 30;
   if (!subject) throw new ApiError(400, "subject is required");
 
-  const generated = buildQuizBattleQuestionSet({ subject, topic })
-    .slice(0, questionCount)
-    .map((item, index) => ({
-      id: `${level}-${index + 1}`,
-      text: item.question,
-      options: item.options,
-      correctOption: item.correctOption || item.correct || item.options?.[0] || "",
-      explanation: item.explanation || "",
-      durationSec
-    }));
+  const generated = buildCompetitionQuestionDraftSet({
+    subject,
+    topic,
+    classLevel,
+    level,
+    questionCount,
+    durationSec
+  });
 
   if (!generated.length) throw new ApiError(400, "Unable to generate draft questions");
   res.json({ questions: generated });
