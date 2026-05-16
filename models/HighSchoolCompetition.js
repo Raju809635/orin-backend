@@ -93,6 +93,7 @@ const highSchoolCompetitionSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
+    bannerImageUrl: { type: String, default: "" },
     subject: { type: String, required: true, trim: true },
     chapter: { type: String, default: "", trim: true },
     topics: { type: [String], default: [] },
@@ -131,4 +132,3 @@ highSchoolCompetitionSchema.index({ subject: 1, scopeType: 1, createdAt: -1 });
 module.exports =
   mongoose.models.HighSchoolCompetition ||
   mongoose.model("HighSchoolCompetition", highSchoolCompetitionSchema);
-

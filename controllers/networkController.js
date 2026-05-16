@@ -9088,6 +9088,8 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
 
   const level1Questions = parseCompetitionQuestionSet(req.body?.level1Questions || [], level1TimeModeSec, "L1");
   const creatorInstitution = String(mentorProfile?.institutionName || "").trim();
+  const selectedInstitutionName = String(req.body?.selectedInstitutionName || "").trim();
+  const normalizedInstitutionName = selectedInstitutionName || creatorInstitution;
   if (scopeType === "institution_only" && !creatorInstitution) {
     throw new ApiError(400, "Teacher institution is required for institution-only competition");
   }
@@ -9098,6 +9100,7 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
   const competition = await HighSchoolCompetition.create({
     title,
     description: String(req.body?.description || "").trim(),
+    bannerImageUrl: String(req.body?.bannerImageUrl || "").trim(),
     subject,
     chapter: String(req.body?.chapter || "").trim(),
     topics: normalizeList(req.body?.topics || []),
@@ -9114,7 +9117,7 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     status: "registration_open",
     createdBy: req.user.id,
     createdByName: creator?.name || "Teacher",
-    institutionName: creatorInstitution
+    institutionName: scopeType === "institution_only" ? normalizedInstitutionName : creatorInstitution
   });
 
   res.status(201).json({ message: "Competition created", competition });
