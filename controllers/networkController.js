@@ -5526,15 +5526,42 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
   const photoMap = new Map(
     profileRows.map((item) => [String(item.userId), item.profilePhotoUrl || ""])
   );
+  const streakRows = profileIds.length
+    ? await QuizStreak.find({ userId: { $in: profileIds } }).select("userId currentStreak").lean()
+    : [];
+  const streakMap = new Map(streakRows.map((item) => [String(item.userId), Number(item.currentStreak || 0)]));
 
-  const mapEntries = (entries = []) =>
-    entries.slice(0, 20).map((item) => ({
-      rank: item.rank,
-      userId: item.userId?._id || item.userId || null,
-      name: item.userId?.name || "User",
-      score: item.score || 0,
-      profilePhotoUrl: photoMap.get(String(item.userId?._id || item.userId || "")) || ""
+  const mapEntries = (entries = []) => {
+    const rows = entries.map((item) => {
+      const userIdValue = item.userId?._id || item.userId || null;
+      const streakDays = streakMap.get(String(userIdValue || "")) || 0;
+      const streakBonusScore = Math.min(150, streakDays * 3);
+      return {
+        baseRank: Number(item.rank || 0),
+        userId: userIdValue,
+        name: item.userId?.name || "User",
+        score: Number(item.score || 0) + streakBonusScore,
+        baseScore: Number(item.score || 0),
+        streakDays,
+        streakBonusScore,
+        profilePhotoUrl: photoMap.get(String(userIdValue || "")) || ""
+      };
+    });
+    rows.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.baseRank - b.baseRank;
+    });
+    return rows.slice(0, 20).map((item, index) => ({
+      rank: index + 1,
+      userId: item.userId,
+      name: item.name,
+      score: item.score,
+      baseScore: item.baseScore,
+      streakDays: item.streakDays,
+      streakBonusScore: item.streakBonusScore,
+      profilePhotoUrl: item.profilePhotoUrl
     }));
+  };
 
   const globalEntries = mapEntries(globalSnapshot?.entries || []);
   const stateEntries = mapEntries(stateSnapshot?.entries || []);
@@ -5542,6 +5569,53 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
   const meCollege = collegeEntries.find((item) => String(item.userId) === String(userId)) || null;
   const meState = stateEntries.find((item) => String(item.userId) === String(userId)) || null;
   const meGlobal = globalEntries.find((item) => String(item.userId) === String(userId)) || null;
+  const meStreak = streakMap.get(String(userId)) || 0;
+
+  const completedCompetitions = await HighSchoolCompetition.find({
+    status: "completed"
+  })
+    .sort({ updatedAt: -1 })
+    .limit(50)
+    .select("title subject winnerStudentId winnerStudentName winnerInstitutionName level2Batches")
+    .lean();
+
+  const programsLeaderboard = completedCompetitions
+    .map((item, index) => {
+      let winnerStudentName = String(item.winnerStudentName || "").trim();
+      let winnerInstitutionName = String(item.winnerInstitutionName || "").trim();
+      if (!winnerStudentName && Array.isArray(item.level2Batches) && item.level2Batches.length) {
+        for (const batch of item.level2Batches) {
+          const winnerId = String(batch?.winnerStudentId || "").trim();
+          if (!winnerId) continue;
+          const participant = (batch?.participants || []).find((row) => String(row.studentId) === winnerId);
+          if (participant) {
+            winnerStudentName = String(participant.studentName || "").trim();
+            winnerInstitutionName = String(participant.institutionName || "").trim();
+            break;
+          }
+        }
+      }
+      return {
+        rank: index + 1,
+        competitionId: String(item._id),
+        title: item.title,
+        subject: item.subject,
+        winnerStudentId: item.winnerStudentId || null,
+        winnerStudentName: winnerStudentName || "Winner Pending",
+        winnerInstitutionName: winnerInstitutionName || "Institution Pending"
+      };
+    })
+    .filter((item) => String(item.winnerStudentName || "").trim());
+
+  const institutionProgramTable = new Map();
+  programsLeaderboard.forEach((row) => {
+    const key = String(row.winnerInstitutionName || "Unknown Institution").trim() || "Unknown Institution";
+    institutionProgramTable.set(key, Number(institutionProgramTable.get(key) || 0) + 1);
+  });
+  const programsInstitutionLeaderboard = [...institutionProgramTable.entries()]
+    .map(([institutionName, wins]) => ({ institutionName, wins }))
+    .sort((a, b) => b.wins - a.wins || a.institutionName.localeCompare(b.institutionName))
+    .map((item, index) => ({ rank: index + 1, ...item }));
 
   res.json({
     dateKey,
@@ -5552,9 +5626,14 @@ exports.getCollegeLeaderboard = asyncHandler(async (req, res) => {
     globalTop: globalEntries,
     me: {
       score: meCollege?.score || meState?.score || meGlobal?.score || 0,
+      streakDays: meStreak,
       collegeRank: meCollege?.rank || null,
       stateRank: meState?.rank || null,
       globalRank: meGlobal?.rank || null
+    },
+    programsLeaderboard: {
+      competitions: programsLeaderboard,
+      institutions: programsInstitutionLeaderboard
     }
   });
 });
