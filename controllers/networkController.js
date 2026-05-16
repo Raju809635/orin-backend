@@ -8986,6 +8986,34 @@ function canStudentJoinCompetition(competition, identity) {
   return false;
 }
 
+function effectiveHighSchoolCompetitionStatus(competition, nowMs = Date.now()) {
+  const storedStatus = String(competition?.status || "registration_open");
+  if (storedStatus === "completed") return "completed";
+  if (storedStatus === "level2_live") return "level2_live";
+  if (storedStatus === "level1_closed") {
+    const level2At = competition?.level2At ? new Date(competition.level2At).getTime() : 0;
+    return level2At && nowMs >= level2At ? "level2_ready" : "level1_closed";
+  }
+
+  const registrationDeadline = competition?.registrationDeadline ? new Date(competition.registrationDeadline).getTime() : 0;
+  const level1At = competition?.level1At ? new Date(competition.level1At).getTime() : 0;
+  const level2At = competition?.level2At ? new Date(competition.level2At).getTime() : 0;
+
+  if (registrationDeadline && nowMs <= registrationDeadline) return "registration_open";
+  if (level1At && nowMs < level1At) return "registration_closed";
+  if (level2At && nowMs >= level2At) return storedStatus === "level1_closed" ? "level2_ready" : "level1_closed";
+  if (level1At && nowMs >= level1At) return "level1_live";
+  return storedStatus;
+}
+
+function withCompetitionRuntimeFields(competition) {
+  return {
+    ...competition,
+    status: effectiveHighSchoolCompetitionStatus(competition),
+    storedStatus: competition.status
+  };
+}
+
 function parseCompetitionQuestionSet(payload = [], defaultDurationSec = 30, fallbackPrefix = "Q") {
   const rows = Array.isArray(payload) ? payload : [];
   return rows
@@ -9075,6 +9103,12 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (!title || !subject || !registrationDeadline || Number.isNaN(registrationDeadline.getTime()) || !level1At || Number.isNaN(level1At.getTime())) {
     throw new ApiError(400, "title, subject, registrationDeadline and level1At are required");
   }
+  if (registrationDeadline.getTime() >= level1At.getTime()) {
+    throw new ApiError(400, "Registration deadline must be before Level 1 start time");
+  }
+  if (level2At && !Number.isNaN(level2At.getTime()) && level2At.getTime() <= level1At.getTime()) {
+    throw new ApiError(400, "Level 2 start time must be after Level 1 start time");
+  }
 
   const scopeType = ["institution_only", "multi_institution", "open_highschool"].includes(String(req.body?.scopeType || ""))
     ? String(req.body.scopeType)
@@ -9152,14 +9186,14 @@ exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
       .map((item) => {
         const registration = (item.registrations || []).find((reg) => String(reg.studentId) === String(userId));
         return {
-          ...item,
+          ...withCompetitionRuntimeFields(item),
           myRegistration: registration || null
         };
       });
     return res.json({ competitions });
   }
 
-  const competitions = await HighSchoolCompetition.find(filter).sort({ createdAt: -1 }).lean();
+  const competitions = (await HighSchoolCompetition.find(filter).sort({ createdAt: -1 }).lean()).map(withCompetitionRuntimeFields);
   res.json({ competitions });
 });
 
@@ -9169,8 +9203,9 @@ exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
-  if (competition.status !== "registration_open") throw new ApiError(400, "Registration is closed");
-  if (new Date(competition.registrationDeadline).getTime() < Date.now()) throw new ApiError(400, "Registration deadline is over");
+  const nowMs = Date.now();
+  if (effectiveHighSchoolCompetitionStatus(competition, nowMs) !== "registration_open") throw new ApiError(400, "Registration is closed");
+  if (new Date(competition.registrationDeadline).getTime() < nowMs) throw new ApiError(400, "Registration deadline is over");
 
   const identity = await getStudentIdentity(req.user.id);
   if (!canStudentJoinCompetition(competition, identity)) throw new ApiError(403, "You are not eligible for this competition");
@@ -9196,6 +9231,15 @@ exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
+  const nowMs = Date.now();
+  const level1AtMs = new Date(competition.level1At).getTime();
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (Number.isFinite(level1AtMs) && nowMs < level1AtMs) {
+    throw new ApiError(400, `Level 1 opens at ${new Date(competition.level1At).toLocaleString("en-IN")}`);
+  }
+  if (level2AtMs && nowMs >= level2AtMs) {
+    throw new ApiError(400, "Level 1 window is closed");
+  }
   const registration = (competition.registrations || []).find((item) => String(item.studentId) === String(req.user.id));
   if (!registration) throw new ApiError(400, "Register first");
 
@@ -9311,6 +9355,10 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
   if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (level2AtMs && Date.now() < level2AtMs) {
+    throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
   if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can create batches");
 
   const qualified = (competition.registrations || []).filter((item) => item.qualifiedForLevel2);
@@ -9439,6 +9487,10 @@ exports.joinHighSchoolCompetitionLevel2Batch = asyncHandler(async (req, res) => 
   if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (level2AtMs && Date.now() < level2AtMs) {
+    throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
   const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
@@ -9457,6 +9509,10 @@ exports.getHighSchoolCompetitionLevel2BatchState = asyncHandler(async (req, res)
   if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (level2AtMs && Date.now() < level2AtMs && req.user.role !== "mentor") {
+    throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
   const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
@@ -9477,6 +9533,10 @@ exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, 
 
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
+  const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  if (level2AtMs && Date.now() < level2AtMs) {
+    throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
   if (batch.status !== "live") throw new ApiError(400, "Batch is not live");
