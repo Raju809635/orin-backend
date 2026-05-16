@@ -9246,27 +9246,38 @@ function canStudentJoinCompetition(competition, identity) {
 
 function effectiveHighSchoolCompetitionStatus(competition, nowMs = Date.now()) {
   const storedStatus = String(competition?.status || "registration_open");
-  if (storedStatus === "completed") return "completed";
-  if (storedStatus === "level2_live") return "level2_live";
-  if (storedStatus === "level1_closed") {
-    const level2At = competition?.level2At ? new Date(competition.level2At).getTime() : 0;
-    return level2At && nowMs >= level2At ? "level2_ready" : "level1_closed";
-  }
-
+  const registrationStartAt = competition?.registrationStartAt ? new Date(competition.registrationStartAt).getTime() : 0;
   const registrationDeadline = competition?.registrationDeadline ? new Date(competition.registrationDeadline).getTime() : 0;
   const level1At = competition?.level1At ? new Date(competition.level1At).getTime() : 0;
+  const level1EndAt = competition?.level1EndAt
+    ? new Date(competition.level1EndAt).getTime()
+    : competition?.level2At
+      ? new Date(competition.level2At).getTime()
+      : 0;
   const level2At = competition?.level2At ? new Date(competition.level2At).getTime() : 0;
+  const level2EndAt = competition?.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
 
+  if (storedStatus === "completed") return "completed";
+  if (level2EndAt && nowMs > level2EndAt) return "completed";
+  if (level2At && nowMs >= level2At && (!level2EndAt || nowMs <= level2EndAt)) {
+    return storedStatus === "level1_closed" || storedStatus === "level2_live" ? "level2_ready" : "level1_closed";
+  }
+  if (level1EndAt && nowMs > level1EndAt) return "level1_closed";
+  if (level1At && nowMs >= level1At && (!level1EndAt || nowMs <= level1EndAt)) return "level1_live";
+  if (registrationStartAt && nowMs < registrationStartAt) return "registration_not_started";
   if (registrationDeadline && nowMs <= registrationDeadline) return "registration_open";
   if (level1At && nowMs < level1At) return "registration_closed";
-  if (level2At && nowMs >= level2At) return storedStatus === "level1_closed" ? "level2_ready" : "level1_closed";
-  if (level1At && nowMs >= level1At) return "level1_live";
   return storedStatus;
 }
 
 function withCompetitionRuntimeFields(competition) {
+  const level1At = competition?.level1At ? new Date(competition.level1At) : null;
+  const level2At = competition?.level2At ? new Date(competition.level2At) : null;
   return {
     ...competition,
+    registrationStartAt: competition.registrationStartAt || competition.createdAt || null,
+    level1EndAt: competition.level1EndAt || (level2At ? level2At : level1At ? new Date(level1At.getTime() + 60 * 60 * 1000) : null),
+    level2EndAt: competition.level2EndAt || (level2At ? new Date(level2At.getTime() + 60 * 60 * 1000) : null),
     status: effectiveHighSchoolCompetitionStatus(competition),
     storedStatus: competition.status
   };
@@ -9355,17 +9366,41 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
 
   const title = String(req.body?.title || "").trim();
   const subject = String(req.body?.subject || "").trim();
+  const registrationStartAt = req.body?.registrationStartAt ? new Date(req.body.registrationStartAt) : new Date();
   const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : null;
   const level1At = req.body?.level1At ? new Date(req.body.level1At) : null;
+  const level1EndAt = req.body?.level1EndAt ? new Date(req.body.level1EndAt) : null;
   const level2At = req.body?.level2At ? new Date(req.body.level2At) : null;
+  const level2EndAt = req.body?.level2EndAt ? new Date(req.body.level2EndAt) : null;
   if (!title || !subject || !registrationDeadline || Number.isNaN(registrationDeadline.getTime()) || !level1At || Number.isNaN(level1At.getTime())) {
     throw new ApiError(400, "title, subject, registrationDeadline and level1At are required");
+  }
+  if (
+    Number.isNaN(registrationStartAt.getTime()) ||
+    (level1EndAt && Number.isNaN(level1EndAt.getTime())) ||
+    (level2At && Number.isNaN(level2At.getTime())) ||
+    (level2EndAt && Number.isNaN(level2EndAt.getTime()))
+  ) {
+    throw new ApiError(400, "Invalid schedule");
+  }
+  const resolvedLevel1EndAt = level1EndAt || new Date(level1At.getTime() + 60 * 60 * 1000);
+  const resolvedLevel2EndAt = level2At && !Number.isNaN(level2At.getTime())
+    ? level2EndAt || new Date(level2At.getTime() + 60 * 60 * 1000)
+    : null;
+  if (registrationStartAt.getTime() >= registrationDeadline.getTime()) {
+    throw new ApiError(400, "Registration start time must be before registration end time");
   }
   if (registrationDeadline.getTime() >= level1At.getTime()) {
     throw new ApiError(400, "Registration deadline must be before Level 1 start time");
   }
-  if (level2At && !Number.isNaN(level2At.getTime()) && level2At.getTime() <= level1At.getTime()) {
-    throw new ApiError(400, "Level 2 start time must be after Level 1 start time");
+  if (resolvedLevel1EndAt.getTime() <= level1At.getTime()) {
+    throw new ApiError(400, "Level 1 end time must be after Level 1 start time");
+  }
+  if (level2At && !Number.isNaN(level2At.getTime()) && level2At.getTime() <= resolvedLevel1EndAt.getTime()) {
+    throw new ApiError(400, "Level 2 start time must be after Level 1 end time");
+  }
+  if (resolvedLevel2EndAt && resolvedLevel2EndAt.getTime() <= level2At.getTime()) {
+    throw new ApiError(400, "Level 2 end time must be after Level 2 start time");
   }
 
   const scopeType = ["institution_only", "multi_institution", "open_highschool"].includes(String(req.body?.scopeType || ""))
@@ -9399,9 +9434,12 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     scopeType,
     allowedInstitutions,
     classLevelFilter,
+    registrationStartAt,
     registrationDeadline,
     level1At,
+    level1EndAt: resolvedLevel1EndAt,
     level2At: level2At && !Number.isNaN(level2At.getTime()) ? level2At : null,
+    level2EndAt: resolvedLevel2EndAt,
     qualificationTopN,
     level1QuestionCount,
     level1TimeModeSec,
@@ -9412,7 +9450,7 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     institutionName: scopeType === "institution_only" ? normalizedInstitutionName : creatorInstitution
   });
 
-  res.status(201).json({ message: "Competition created", competition });
+  res.status(201).json({ message: "Competition created", competition: withCompetitionRuntimeFields(competition.toObject()) });
 });
 
 exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
@@ -9505,22 +9543,60 @@ exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (!competition) throw new ApiError(404, "Competition not found");
   if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can update this championship");
 
+  const registrationStartAt = req.body?.registrationStartAt
+    ? new Date(req.body.registrationStartAt)
+    : competition.registrationStartAt
+      ? new Date(competition.registrationStartAt)
+      : competition.createdAt
+        ? new Date(competition.createdAt)
+        : new Date();
   const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : new Date(competition.registrationDeadline);
   const level1At = req.body?.level1At ? new Date(req.body.level1At) : new Date(competition.level1At);
+  const level1EndAt = req.body?.level1EndAt
+    ? new Date(req.body.level1EndAt)
+    : competition.level1EndAt
+      ? new Date(competition.level1EndAt)
+      : new Date(level1At.getTime() + 60 * 60 * 1000);
   const level2At = req.body?.level2At ? new Date(req.body.level2At) : competition.level2At ? new Date(competition.level2At) : null;
-  if (Number.isNaN(registrationDeadline.getTime()) || Number.isNaN(level1At.getTime()) || (level2At && Number.isNaN(level2At.getTime()))) {
+  const level2EndAt = req.body?.level2EndAt
+    ? new Date(req.body.level2EndAt)
+    : competition.level2EndAt
+      ? new Date(competition.level2EndAt)
+      : level2At
+        ? new Date(level2At.getTime() + 60 * 60 * 1000)
+        : null;
+  if (
+    Number.isNaN(registrationStartAt.getTime()) ||
+    Number.isNaN(registrationDeadline.getTime()) ||
+    Number.isNaN(level1At.getTime()) ||
+    Number.isNaN(level1EndAt.getTime()) ||
+    (level2At && Number.isNaN(level2At.getTime())) ||
+    (level2EndAt && Number.isNaN(level2EndAt.getTime()))
+  ) {
     throw new ApiError(400, "Invalid schedule");
+  }
+  if (registrationStartAt.getTime() >= registrationDeadline.getTime()) {
+    throw new ApiError(400, "Registration start time must be before registration end time");
   }
   if (registrationDeadline.getTime() >= level1At.getTime()) {
     throw new ApiError(400, "Registration deadline must be before Level 1 start time");
   }
-  if (level2At && level2At.getTime() <= level1At.getTime()) {
-    throw new ApiError(400, "Level 2 start time must be after Level 1 start time");
+  if (level1EndAt.getTime() <= level1At.getTime()) {
+    throw new ApiError(400, "Level 1 end time must be after Level 1 start time");
+  }
+  if (level2At && level2At.getTime() <= level1EndAt.getTime()) {
+    throw new ApiError(400, "Level 2 start time must be after Level 1 end time");
+  }
+  if (level2EndAt && level2At && level2EndAt.getTime() <= level2At.getTime()) {
+    throw new ApiError(400, "Level 2 end time must be after Level 2 start time");
   }
 
+  competition.registrationStartAt = registrationStartAt;
   competition.registrationDeadline = registrationDeadline;
   competition.level1At = level1At;
+  competition.level1EndAt = level1EndAt;
   competition.level2At = level2At;
+  competition.level2EndAt = level2EndAt;
   competition.title = String(req.body?.title || competition.title || "").trim() || competition.title;
   competition.subject = String(req.body?.subject || competition.subject || "").trim() || competition.subject;
   competition.chapter = String(req.body?.chapter || competition.chapter || "").trim();
@@ -9603,6 +9679,10 @@ exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (!competition) throw new ApiError(404, "Competition not found");
   const nowMs = Date.now();
   if (effectiveHighSchoolCompetitionStatus(competition, nowMs) !== "registration_open") throw new ApiError(400, "Registration is closed");
+  const registrationStartAtMs = competition.registrationStartAt ? new Date(competition.registrationStartAt).getTime() : 0;
+  if (registrationStartAtMs && nowMs < registrationStartAtMs) {
+    throw new ApiError(400, `Registration opens at ${new Date(competition.registrationStartAt).toLocaleString("en-IN")}`);
+  }
   if (new Date(competition.registrationDeadline).getTime() < nowMs) throw new ApiError(400, "Registration deadline is over");
 
   const identity = await getStudentIdentity(req.user.id);
@@ -9631,9 +9711,17 @@ exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
   if (!competition) throw new ApiError(404, "Competition not found");
   const nowMs = Date.now();
   const level1AtMs = new Date(competition.level1At).getTime();
+  const level1EndAtMs = competition.level1EndAt
+    ? new Date(competition.level1EndAt).getTime()
+    : competition.level2At
+      ? new Date(competition.level2At).getTime()
+      : 0;
   const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
   if (Number.isFinite(level1AtMs) && nowMs < level1AtMs) {
     throw new ApiError(400, `Level 1 opens at ${new Date(competition.level1At).toLocaleString("en-IN")}`);
+  }
+  if (level1EndAtMs && nowMs > level1EndAtMs) {
+    throw new ApiError(400, "Level 1 window is closed");
   }
   if (level2AtMs && nowMs >= level2AtMs) {
     throw new ApiError(400, "Level 1 window is closed");
@@ -9759,8 +9847,12 @@ exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res)
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
   const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  const level2EndAtMs = competition.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
   if (level2AtMs && Date.now() < level2AtMs) {
     throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
+  if (level2EndAtMs && Date.now() > level2EndAtMs) {
+    throw new ApiError(400, "Level 2 window is closed");
   }
   if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can create batches");
 
@@ -9891,8 +9983,12 @@ exports.joinHighSchoolCompetitionLevel2Batch = asyncHandler(async (req, res) => 
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
   const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  const level2EndAtMs = competition.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
   if (level2AtMs && Date.now() < level2AtMs) {
     throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
+  if (level2EndAtMs && Date.now() > level2EndAtMs) {
+    throw new ApiError(400, "Level 2 window is closed");
   }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
@@ -9913,8 +10009,12 @@ exports.getHighSchoolCompetitionLevel2BatchState = asyncHandler(async (req, res)
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
   const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  const level2EndAtMs = competition.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
   if (level2AtMs && Date.now() < level2AtMs && req.user.role !== "mentor") {
     throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
+  if (level2EndAtMs && Date.now() > level2EndAtMs && req.user.role !== "mentor") {
+    throw new ApiError(400, "Level 2 window is closed");
   }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
@@ -9937,8 +10037,12 @@ exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, 
   const competition = await HighSchoolCompetition.findById(competitionId);
   if (!competition) throw new ApiError(404, "Competition not found");
   const level2AtMs = competition.level2At ? new Date(competition.level2At).getTime() : 0;
+  const level2EndAtMs = competition.level2EndAt ? new Date(competition.level2EndAt).getTime() : 0;
   if (level2AtMs && Date.now() < level2AtMs) {
     throw new ApiError(400, `Level 2 opens at ${new Date(competition.level2At).toLocaleString("en-IN")}`);
+  }
+  if (level2EndAtMs && Date.now() > level2EndAtMs) {
+    throw new ApiError(400, "Level 2 window is closed");
   }
   const batch = competition.level2Batches?.[batchIndex];
   if (!batch) throw new ApiError(404, "Batch not found");
