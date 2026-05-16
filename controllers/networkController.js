@@ -8998,12 +8998,12 @@ async function getStudentIdentity(userId) {
 function canStudentJoinCompetition(competition, identity) {
   if (!competition || !identity) return false;
   if (identity.learnerStage !== "highschool") return false;
+  if (competition.scopeType === "open_highschool") return true;
   if (competition.classLevelFilter?.length) {
     const normalizedClass = normalizeText(identity.className);
     const classAllowed = competition.classLevelFilter.some((item) => normalizeText(item) === normalizedClass);
     if (!classAllowed) return false;
   }
-  if (competition.scopeType === "open_highschool") return true;
   const institutionName = normalizeText(identity.institutionName);
   if (!institutionName) return false;
   if (competition.scopeType === "institution_only") {
