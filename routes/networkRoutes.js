@@ -96,7 +96,9 @@ const {
   createHighSchoolCompetition,
   listHighSchoolCompetitions,
   deleteHighSchoolCompetition,
+  updateHighSchoolCompetition,
   updateHighSchoolCompetitionLevel1Questions,
+  generateHighSchoolCompetitionQuestionDraft,
   registerHighSchoolCompetition,
   submitHighSchoolCompetitionLevel1,
   finalizeHighSchoolCompetitionLevel1,
@@ -226,7 +228,9 @@ router.post("/highschool-quiz-battle/rooms/:roomId/answer", verifyToken, authori
 router.post("/highschool-competitions", verifyToken, authorizeRoles("mentor"), createHighSchoolCompetition);
 router.get("/highschool-competitions", verifyToken, authorizeRoles("student", "mentor"), listHighSchoolCompetitions);
 router.delete("/highschool-competitions/:competitionId", verifyToken, authorizeRoles("mentor"), deleteHighSchoolCompetition);
+router.patch("/highschool-competitions/:competitionId", verifyToken, authorizeRoles("mentor"), updateHighSchoolCompetition);
 router.patch("/highschool-competitions/:competitionId/level1/questions", verifyToken, authorizeRoles("mentor"), updateHighSchoolCompetitionLevel1Questions);
+router.post("/highschool-competitions/question-draft", verifyToken, authorizeRoles("mentor"), generateHighSchoolCompetitionQuestionDraft);
 router.post("/highschool-competitions/:competitionId/register", verifyToken, authorizeRoles("student"), registerHighSchoolCompetition);
 router.post("/highschool-competitions/:competitionId/level1/submit", verifyToken, authorizeRoles("student"), submitHighSchoolCompetitionLevel1);
 router.post("/highschool-competitions/:competitionId/level1/finalize", verifyToken, authorizeRoles("mentor"), finalizeHighSchoolCompetitionLevel1);

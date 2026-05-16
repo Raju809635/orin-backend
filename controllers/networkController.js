@@ -9243,6 +9243,45 @@ exports.deleteHighSchoolCompetition = asyncHandler(async (req, res) => {
   res.json({ message: "Championship deleted" });
 });
 
+exports.updateHighSchoolCompetition = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can update competitions");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can update this championship");
+
+  const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : new Date(competition.registrationDeadline);
+  const level1At = req.body?.level1At ? new Date(req.body.level1At) : new Date(competition.level1At);
+  const level2At = req.body?.level2At ? new Date(req.body.level2At) : competition.level2At ? new Date(competition.level2At) : null;
+  if (Number.isNaN(registrationDeadline.getTime()) || Number.isNaN(level1At.getTime()) || (level2At && Number.isNaN(level2At.getTime()))) {
+    throw new ApiError(400, "Invalid schedule");
+  }
+  if (registrationDeadline.getTime() >= level1At.getTime()) {
+    throw new ApiError(400, "Registration deadline must be before Level 1 start time");
+  }
+  if (level2At && level2At.getTime() <= level1At.getTime()) {
+    throw new ApiError(400, "Level 2 start time must be after Level 1 start time");
+  }
+
+  competition.registrationDeadline = registrationDeadline;
+  competition.level1At = level1At;
+  competition.level2At = level2At;
+  competition.title = String(req.body?.title || competition.title || "").trim() || competition.title;
+  competition.subject = String(req.body?.subject || competition.subject || "").trim() || competition.subject;
+  competition.chapter = String(req.body?.chapter || competition.chapter || "").trim();
+  competition.description = String(req.body?.description || competition.description || "").trim();
+  competition.bannerImageUrl = String(req.body?.bannerImageUrl || competition.bannerImageUrl || "").trim();
+  competition.qualificationTopN = Math.max(1, Math.min(500, Number(req.body?.qualificationTopN || competition.qualificationTopN || 20)));
+  competition.level1QuestionCount = Math.max(5, Math.min(30, Number(req.body?.level1QuestionCount || competition.level1QuestionCount || 15)));
+  competition.level1TimeModeSec = [10, 30].includes(Number(req.body?.level1TimeModeSec))
+    ? Number(req.body.level1TimeModeSec)
+    : Number(competition.level1TimeModeSec || 30);
+  await competition.save();
+
+  res.json({ message: "Championship updated", competition: withCompetitionRuntimeFields(competition.toObject()) });
+});
+
 exports.updateHighSchoolCompetitionLevel1Questions = asyncHandler(async (req, res) => {
   if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can update questions");
   const competitionId = String(req.params?.competitionId || "").trim();
@@ -9275,6 +9314,32 @@ exports.updateHighSchoolCompetitionLevel1Questions = asyncHandler(async (req, re
     questionCount: competition.level1Questions.length,
     competition: withCompetitionRuntimeFields(competition.toObject())
   });
+});
+
+exports.generateHighSchoolCompetitionQuestionDraft = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can generate question drafts");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("mentorOrgRole").lean();
+  if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can generate drafts");
+  const subject = String(req.body?.subject || "").trim();
+  const topic = String(req.body?.topic || req.body?.chapter || "").trim();
+  const level = String(req.body?.level || "L1").trim().toUpperCase();
+  const questionCount = Math.max(5, Math.min(30, Number(req.body?.questionCount || 15)));
+  const durationSec = [10, 30].includes(Number(req.body?.durationSec)) ? Number(req.body.durationSec) : 30;
+  if (!subject) throw new ApiError(400, "subject is required");
+
+  const generated = buildQuizBattleQuestionSet({ subject, topic })
+    .slice(0, questionCount)
+    .map((item, index) => ({
+      id: `${level}-${index + 1}`,
+      text: item.question,
+      options: item.options,
+      correctOption: item.correctOption || item.correct || item.options?.[0] || "",
+      explanation: item.explanation || "",
+      durationSec
+    }));
+
+  if (!generated.length) throw new ApiError(400, "Unable to generate draft questions");
+  res.json({ questions: generated });
 });
 
 exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
