@@ -9260,9 +9260,36 @@ exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
       .filter((item) => canStudentJoinCompetition(item, identity))
       .map((item) => {
         const registration = (item.registrations || []).find((reg) => String(reg.studentId) === String(userId));
+        const level1Attempts = (item.attempts || []).filter((attempt) => Number(attempt.level) === 1);
+        const level1Leaderboard = competitionLeaderboardRows(level1Attempts);
+        const myLevel1Rank = level1Leaderboard.find((row) => String(row.studentId) === String(userId));
+        const myLevel1Attempt = level1Attempts.find((attempt) => String(attempt.studentId) === String(userId));
         return {
           ...withCompetitionRuntimeFields(item),
-          myRegistration: registration || null
+          level1Questions: (item.level1Questions || []).map((question) => ({
+            id: question.id,
+            text: question.text,
+            options: question.options,
+            durationSec: question.durationSec
+          })),
+          myRegistration: registration || null,
+          myLevel1Attempt: myLevel1Attempt
+            ? {
+                score: Number(myLevel1Attempt.score || 0),
+                correctCount: Number(myLevel1Attempt.correctCount || 0),
+                percentage: Number(myLevel1Attempt.percentage || 0),
+                grade: myLevel1Attempt.grade || gradeFromPercentage(Number(myLevel1Attempt.percentage || 0)),
+                submittedAt: myLevel1Attempt.submittedAt || null
+              }
+            : null,
+          myLevel1Rank: myLevel1Rank
+            ? {
+                overall: myLevel1Rank.rank,
+                score: myLevel1Rank.score,
+                percentage: myLevel1Rank.percentage,
+                correctCount: myLevel1Rank.correctCount
+              }
+            : null
         };
       });
     return res.json({ competitions });
@@ -9502,12 +9529,17 @@ exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
   else competition.attempts.push(payload);
   if (competition.status === "registration_open") competition.status = "level1_live";
   await competition.save();
+  const leaderboard = competitionLeaderboardRows((competition.attempts || []).filter((item) => Number(item.level) === 1));
+  const myRank = leaderboard.find((row) => String(row.studentId) === String(req.user.id)) || null;
 
   res.json({
     message: "Level 1 submitted",
     score,
     percentage,
-    grade
+    grade,
+    correctCount,
+    totalQuestions: questions.length,
+    rank: myRank?.rank || null
   });
 });
 
