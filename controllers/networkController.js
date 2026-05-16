@@ -9090,8 +9090,8 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
   const creatorInstitution = String(mentorProfile?.institutionName || "").trim();
   const selectedInstitutionName = String(req.body?.selectedInstitutionName || "").trim();
   const normalizedInstitutionName = selectedInstitutionName || creatorInstitution;
-  if (scopeType === "institution_only" && !creatorInstitution) {
-    throw new ApiError(400, "Teacher institution is required for institution-only competition");
+  if (scopeType === "institution_only" && !normalizedInstitutionName) {
+    throw new ApiError(400, "Select an institution for institution-only competition");
   }
   if (scopeType === "multi_institution" && allowedInstitutions.length < 2) {
     throw new ApiError(400, "Inter-school competition requires at least two selected institutions");
