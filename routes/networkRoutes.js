@@ -93,6 +93,16 @@ const {
   joinHighSchoolQuizBattleRoom,
   getHighSchoolQuizBattleState,
   submitHighSchoolQuizBattleAnswer,
+  createHighSchoolCompetition,
+  listHighSchoolCompetitions,
+  registerHighSchoolCompetition,
+  submitHighSchoolCompetitionLevel1,
+  finalizeHighSchoolCompetitionLevel1,
+  createHighSchoolCompetitionLevel2Batches,
+  joinHighSchoolCompetitionLevel2Batch,
+  getHighSchoolCompetitionLevel2BatchState,
+  submitHighSchoolCompetitionLevel2BatchAnswer,
+  getHighSchoolCompetitionReports,
   getProjectIdeas,
   startProjectIdea,
   toggleProjectIdeaTask,
@@ -211,6 +221,16 @@ router.post("/highschool-quiz-battle/rooms", verifyToken, authorizeRoles("studen
 router.post("/highschool-quiz-battle/rooms/:roomId/join", verifyToken, authorizeRoles("student"), joinHighSchoolQuizBattleRoom);
 router.get("/highschool-quiz-battle/rooms/:roomId/state", verifyToken, authorizeRoles("student"), getHighSchoolQuizBattleState);
 router.post("/highschool-quiz-battle/rooms/:roomId/answer", verifyToken, authorizeRoles("student"), submitHighSchoolQuizBattleAnswer);
+router.post("/highschool-competitions", verifyToken, authorizeRoles("mentor"), createHighSchoolCompetition);
+router.get("/highschool-competitions", verifyToken, authorizeRoles("student", "mentor"), listHighSchoolCompetitions);
+router.post("/highschool-competitions/:competitionId/register", verifyToken, authorizeRoles("student"), registerHighSchoolCompetition);
+router.post("/highschool-competitions/:competitionId/level1/submit", verifyToken, authorizeRoles("student"), submitHighSchoolCompetitionLevel1);
+router.post("/highschool-competitions/:competitionId/level1/finalize", verifyToken, authorizeRoles("mentor"), finalizeHighSchoolCompetitionLevel1);
+router.post("/highschool-competitions/:competitionId/level2/batches", verifyToken, authorizeRoles("mentor"), createHighSchoolCompetitionLevel2Batches);
+router.post("/highschool-competitions/:competitionId/level2/batches/:batchIndex/join", verifyToken, authorizeRoles("student"), joinHighSchoolCompetitionLevel2Batch);
+router.get("/highschool-competitions/:competitionId/level2/batches/:batchIndex/state", verifyToken, authorizeRoles("student", "mentor"), getHighSchoolCompetitionLevel2BatchState);
+router.post("/highschool-competitions/:competitionId/level2/batches/:batchIndex/answer", verifyToken, authorizeRoles("student"), submitHighSchoolCompetitionLevel2BatchAnswer);
+router.get("/highschool-competitions/:competitionId/reports", verifyToken, authorizeRoles("mentor"), getHighSchoolCompetitionReports);
 router.get("/project-ideas", verifyToken, authorizeRoles("student"), getProjectIdeas);
 router.post("/project-ideas/:projectKey/start", verifyToken, authorizeRoles("student"), startProjectIdea);
 router.post("/project-ideas/:projectKey/task", verifyToken, authorizeRoles("student"), toggleProjectIdeaTask);

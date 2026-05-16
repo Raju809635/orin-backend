@@ -24,6 +24,7 @@ const CertificateTemplate = require("../models/CertificateTemplate");
 const MentorGroup = require("../models/MentorGroup");
 const MentorGroupMessage = require("../models/MentorGroupMessage");
 const HighSchoolQuizBattleRoom = require("../models/HighSchoolQuizBattleRoom");
+const HighSchoolCompetition = require("../models/HighSchoolCompetition");
 const InstitutionRoadmap = require("../models/InstitutionRoadmap");
 const InstitutionRoadmapSubmission = require("../models/InstitutionRoadmapSubmission");
 const KnowledgeResource = require("../models/KnowledgeResource");
@@ -8863,6 +8864,683 @@ exports.submitHighSchoolQuizBattleAnswer = asyncHandler(async (req, res) => {
     explanation: question.explanation || "",
     room: quizBattleRoomPayload(room, req.user.id),
     advanced: changed
+  });
+});
+
+function isInstitutionTeacherProfile(profile = null) {
+  return String(profile?.mentorOrgRole || "") === "institution_teacher";
+}
+
+async function getStudentIdentity(userId) {
+  const [user, profile] = await Promise.all([
+    User.findById(userId).select("name").lean(),
+    StudentProfile.findOne({ userId }).select("institutionName collegeName className classLevel learnerStage").lean()
+  ]);
+  return {
+    studentId: userId,
+    studentName: user?.name || "Student",
+    institutionName: String(profile?.institutionName || profile?.collegeName || "").trim(),
+    className: String(profile?.className || profile?.classLevel || "").trim(),
+    learnerStage: String(profile?.learnerStage || "").trim() || "after12"
+  };
+}
+
+function canStudentJoinCompetition(competition, identity) {
+  if (!competition || !identity) return false;
+  if (identity.learnerStage !== "highschool") return false;
+  if (competition.classLevelFilter?.length) {
+    const normalizedClass = normalizeText(identity.className);
+    const classAllowed = competition.classLevelFilter.some((item) => normalizeText(item) === normalizedClass);
+    if (!classAllowed) return false;
+  }
+  if (competition.scopeType === "open_highschool") return true;
+  const institutionName = normalizeText(identity.institutionName);
+  if (!institutionName) return false;
+  if (competition.scopeType === "institution_only") {
+    return institutionName === normalizeText(competition.institutionName);
+  }
+  if (competition.scopeType === "multi_institution") {
+    const allowed = (competition.allowedInstitutions || []).map((item) => normalizeText(item));
+    if (!allowed.length) return false;
+    return allowed.includes(institutionName);
+  }
+  return false;
+}
+
+function parseCompetitionQuestionSet(payload = [], defaultDurationSec = 30, fallbackPrefix = "Q") {
+  const rows = Array.isArray(payload) ? payload : [];
+  return rows
+    .map((item, index) => {
+      const text = String(item?.text || "").trim();
+      const options = normalizeList(item?.options || []);
+      const correctOption = String(item?.correctOption || "").trim();
+      if (!text || options.length < 2 || !correctOption) return null;
+      if (!options.some((opt) => normalizeText(opt) === normalizeText(correctOption))) return null;
+      return {
+        id: String(item?.id || `${fallbackPrefix}-${index + 1}`).trim(),
+        text,
+        options,
+        correctOption,
+        explanation: String(item?.explanation || "").trim(),
+        durationSec: Math.max(5, Math.min(90, Number(item?.durationSec || defaultDurationSec || 30)))
+      };
+    })
+    .filter(Boolean);
+}
+
+function gradeFromPercentage(percentage = 0) {
+  if (percentage >= 90) return "A+";
+  if (percentage >= 80) return "A";
+  if (percentage >= 70) return "B+";
+  if (percentage >= 60) return "B";
+  if (percentage >= 50) return "C";
+  return "D";
+}
+
+function buildCompetitionStudentReport(competition, attempt, overallRank, schoolRank) {
+  return {
+    competitionId: String(competition._id),
+    title: competition.title,
+    subject: competition.subject,
+    chapter: competition.chapter || "",
+    studentId: String(attempt.studentId),
+    name: attempt.studentName || "Student",
+    institutionName: attempt.institutionName || "",
+    className: attempt.className || "",
+    score: Number(attempt.score || 0),
+    percentage: Number(attempt.percentage || 0),
+    grade: attempt.grade || gradeFromPercentage(Number(attempt.percentage || 0)),
+    strengths: normalizeList(attempt.strengths || []),
+    weakAreas: normalizeList(attempt.weakAreas || []),
+    recommendations: normalizeList(attempt.recommendations || []),
+    rankContext: {
+      overall: overallRank,
+      school: schoolRank
+    }
+  };
+}
+
+function competitionLeaderboardRows(attempts = []) {
+  const rows = attempts.map((item) => ({
+    studentId: String(item.studentId),
+    studentName: item.studentName || "Student",
+    institutionName: item.institutionName || "",
+    className: item.className || "",
+    score: Number(item.score || 0),
+    percentage: Number(item.percentage || 0),
+    correctCount: Number(item.correctCount || 0),
+    avgResponseMs:
+      Number(item.totalTimeMs || 0) > 0 && Number(item.answers?.length || 0) > 0
+        ? Math.round(Number(item.totalTimeMs || 0) / Number(item.answers?.length || 1))
+        : 0,
+    submittedAt: item.submittedAt ? new Date(item.submittedAt).toISOString() : null
+  }));
+  rows.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    if (a.avgResponseMs !== b.avgResponseMs) return a.avgResponseMs - b.avgResponseMs;
+    return new Date(a.submittedAt || 0).getTime() - new Date(b.submittedAt || 0).getTime();
+  });
+  return rows.map((item, index) => ({ rank: index + 1, ...item }));
+}
+
+exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only institution teachers can create competitions");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("mentorOrgRole institutionName").lean();
+  if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can create competitions");
+
+  const title = String(req.body?.title || "").trim();
+  const subject = String(req.body?.subject || "").trim();
+  const registrationDeadline = req.body?.registrationDeadline ? new Date(req.body.registrationDeadline) : null;
+  const level1At = req.body?.level1At ? new Date(req.body.level1At) : null;
+  const level2At = req.body?.level2At ? new Date(req.body.level2At) : null;
+  if (!title || !subject || !registrationDeadline || Number.isNaN(registrationDeadline.getTime()) || !level1At || Number.isNaN(level1At.getTime())) {
+    throw new ApiError(400, "title, subject, registrationDeadline and level1At are required");
+  }
+
+  const scopeType = ["institution_only", "multi_institution", "open_highschool"].includes(String(req.body?.scopeType || ""))
+    ? String(req.body.scopeType)
+    : "institution_only";
+  const allowedInstitutions = normalizeList(req.body?.allowedInstitutions || []);
+  const classLevelFilter = normalizeList(req.body?.classLevelFilter || []);
+  const level1TimeModeSec = [10, 30].includes(Number(req.body?.level1TimeModeSec)) ? Number(req.body.level1TimeModeSec) : 30;
+  const level1QuestionCount = Math.max(5, Math.min(30, Number(req.body?.level1QuestionCount || 15)));
+  const qualificationTopN = Math.max(1, Math.min(500, Number(req.body?.qualificationTopN || 20)));
+  const creator = await User.findById(req.user.id).select("name").lean();
+
+  const level1Questions = parseCompetitionQuestionSet(req.body?.level1Questions || [], level1TimeModeSec, "L1");
+  const competition = await HighSchoolCompetition.create({
+    title,
+    description: String(req.body?.description || "").trim(),
+    subject,
+    chapter: String(req.body?.chapter || "").trim(),
+    topics: normalizeList(req.body?.topics || []),
+    scopeType,
+    allowedInstitutions,
+    classLevelFilter,
+    registrationDeadline,
+    level1At,
+    level2At: level2At && !Number.isNaN(level2At.getTime()) ? level2At : null,
+    qualificationTopN,
+    level1QuestionCount,
+    level1TimeModeSec,
+    level1Questions,
+    status: "registration_open",
+    createdBy: req.user.id,
+    createdByName: creator?.name || "Teacher",
+    institutionName: String(mentorProfile?.institutionName || "").trim()
+  });
+
+  res.status(201).json({ message: "Competition created", competition });
+});
+
+exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const role = req.user.role;
+  let filter = { status: { $in: ["registration_open", "level1_live", "level1_closed", "level2_live", "completed"] } };
+  if (role === "mentor") {
+    const mentorProfile = await MentorProfile.findOne({ userId }).select("mentorOrgRole institutionName").lean();
+    if (isInstitutionTeacherProfile(mentorProfile)) {
+      filter = {
+        $and: [
+          filter,
+          {
+            $or: [
+              { createdBy: userId },
+              { scopeType: "open_highschool" },
+              { scopeType: "multi_institution", allowedInstitutions: String(mentorProfile?.institutionName || "").trim() },
+              { scopeType: "institution_only", institutionName: String(mentorProfile?.institutionName || "").trim() }
+            ]
+          }
+        ]
+      };
+    }
+  } else {
+    const identity = await getStudentIdentity(userId);
+    const all = await HighSchoolCompetition.find(filter).sort({ createdAt: -1 }).lean();
+    const competitions = all
+      .filter((item) => canStudentJoinCompetition(item, identity))
+      .map((item) => {
+        const registration = (item.registrations || []).find((reg) => String(reg.studentId) === String(userId));
+        return {
+          ...item,
+          myRegistration: registration || null
+        };
+      });
+    return res.json({ competitions });
+  }
+
+  const competitions = await HighSchoolCompetition.find(filter).sort({ createdAt: -1 }).lean();
+  res.json({ competitions });
+});
+
+exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can register");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (competition.status !== "registration_open") throw new ApiError(400, "Registration is closed");
+  if (new Date(competition.registrationDeadline).getTime() < Date.now()) throw new ApiError(400, "Registration deadline is over");
+
+  const identity = await getStudentIdentity(req.user.id);
+  if (!canStudentJoinCompetition(competition, identity)) throw new ApiError(403, "You are not eligible for this competition");
+  const exists = (competition.registrations || []).some((item) => String(item.studentId) === String(req.user.id));
+  if (exists) return res.json({ message: "Already registered" });
+
+  competition.registrations.push({
+    studentId: req.user.id,
+    studentName: identity.studentName,
+    institutionName: identity.institutionName,
+    className: identity.className,
+    status: "registered",
+    qualifiedForLevel2: false,
+    level2BatchIndex: -1
+  });
+  await competition.save();
+  res.json({ message: "Registered successfully" });
+});
+
+exports.submitHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can submit Level 1");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  const registration = (competition.registrations || []).find((item) => String(item.studentId) === String(req.user.id));
+  if (!registration) throw new ApiError(400, "Register first");
+
+  const questions = (competition.level1Questions || []).length
+    ? competition.level1Questions
+    : buildQuizBattleQuestionSet({ subject: competition.subject, topic: competition.chapter }).map((item) => ({
+        ...item,
+        durationSec: competition.level1TimeModeSec || 30
+      }));
+  if (!questions.length) throw new ApiError(400, "No Level 1 questions configured");
+
+  const answers = Array.isArray(req.body?.answers) ? req.body.answers : [];
+  const answerLogs = [];
+  let score = 0;
+  let correctCount = 0;
+  let totalTimeMs = 0;
+  const strengths = [];
+  const weakAreas = [];
+
+  questions.forEach((question, index) => {
+    const given = answers[index] || {};
+    const selectedOption = String(given?.selectedOption || "").trim();
+    const responseMs = Math.max(0, Number(given?.responseMs || 0));
+    totalTimeMs += responseMs;
+    const isCorrect = normalizeText(selectedOption) === normalizeText(question.correctOption);
+    if (isCorrect) {
+      correctCount += 1;
+      const secBudget = Number(question.durationSec || competition.level1TimeModeSec || 30);
+      const speedBonus = responseMs > 0 ? Math.max(0, Math.round((secBudget * 1000 - responseMs) / 1000)) : 0;
+      score += 10 + speedBonus;
+      strengths.push(question.id || `Q${index + 1}`);
+    } else {
+      weakAreas.push(question.id || `Q${index + 1}`);
+    }
+    answerLogs.push({
+      questionId: String(question.id || `Q${index + 1}`),
+      selectedOption,
+      isCorrect,
+      responseMs
+    });
+  });
+
+  const percentage = questions.length ? Math.round((correctCount / questions.length) * 100) : 0;
+  const grade = gradeFromPercentage(percentage);
+  const existingIdx = (competition.attempts || []).findIndex(
+    (item) => String(item.studentId) === String(req.user.id) && Number(item.level) === 1
+  );
+  const payload = {
+    studentId: req.user.id,
+    studentName: registration.studentName,
+    institutionName: registration.institutionName,
+    className: registration.className,
+    level: 1,
+    batchIndex: -1,
+    score,
+    correctCount,
+    totalTimeMs,
+    percentage,
+    grade,
+    strengths: normalizeList(strengths.slice(0, 6)),
+    weakAreas: normalizeList(weakAreas.slice(0, 6)),
+    recommendations: [
+      "Review weak topics and retry with timed practice.",
+      "Attempt mentor-guided revision for low-speed questions.",
+      "Focus on conceptual accuracy before speed."
+    ],
+    answers: answerLogs,
+    submittedAt: new Date()
+  };
+
+  if (existingIdx >= 0) competition.attempts[existingIdx] = payload;
+  else competition.attempts.push(payload);
+  if (competition.status === "registration_open") competition.status = "level1_live";
+  await competition.save();
+
+  res.json({
+    message: "Level 1 submitted",
+    score,
+    percentage,
+    grade
+  });
+});
+
+exports.finalizeHighSchoolCompetitionLevel1 = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only institution teachers can finalize");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("mentorOrgRole").lean();
+  if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can finalize");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can finalize");
+
+  const rows = competitionLeaderboardRows((competition.attempts || []).filter((item) => Number(item.level) === 1));
+  const topN = Math.max(1, Number(competition.qualificationTopN || 20));
+  const qualifiedIds = new Set(rows.slice(0, topN).map((item) => String(item.studentId)));
+
+  competition.registrations = (competition.registrations || []).map((reg) => ({
+    ...reg,
+    qualifiedForLevel2: qualifiedIds.has(String(reg.studentId)),
+    status: qualifiedIds.has(String(reg.studentId)) ? "qualified_level2" : "eliminated"
+  }));
+  competition.status = "level1_closed";
+  await competition.save();
+  res.json({ message: "Level 1 finalized", qualifiedCount: qualifiedIds.size, totalAttempted: rows.length });
+});
+
+exports.createHighSchoolCompetitionLevel2Batches = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only institution teachers can create batches");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("mentorOrgRole").lean();
+  if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can create batches");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can create batches");
+
+  const qualified = (competition.registrations || []).filter((item) => item.qualifiedForLevel2);
+  if (!qualified.length) throw new ApiError(400, "No qualified students for Level 2");
+  const questionSetsPayload = Array.isArray(req.body?.questionSets) ? req.body.questionSets : [];
+  const questionSets = questionSetsPayload
+    .map((set, setIndex) => parseCompetitionQuestionSet(set?.questions || [], 30, `L2-${setIndex + 1}`))
+    .filter((set) => set.length > 0);
+  if (!questionSets.length) throw new ApiError(400, "At least one Level 2 question set is required");
+
+  const batches = [];
+  for (let i = 0; i < qualified.length; i += 10) {
+    const members = qualified.slice(i, i + 10);
+    const set = questionSets[batches.length % questionSets.length];
+    batches.push({
+      index: batches.length,
+      label: `Batch ${batches.length + 1}`,
+      status: "waiting",
+      participants: members.map((item) => ({
+        studentId: item.studentId,
+        studentName: item.studentName,
+        institutionName: item.institutionName,
+        className: item.className,
+        score: 0,
+        avgResponseMs: 0,
+        totalResponseMs: 0,
+        answeredCount: 0,
+        lastAnsweredAt: null
+      })),
+      questionSet: set,
+      currentQuestionIndex: 0,
+      questionStartedAt: null,
+      currentQuestionAnsweredUserIds: [],
+      currentQuestionFirstCorrectUserId: null,
+      winnerStudentId: null
+    });
+  }
+  competition.level2Batches = batches;
+  competition.registrations = (competition.registrations || []).map((reg) => {
+    const batchIndex = batches.findIndex((batch) =>
+      (batch.participants || []).some((member) => String(member.studentId) === String(reg.studentId))
+    );
+    return {
+      ...reg,
+      level2BatchIndex: batchIndex
+    };
+  });
+  competition.status = "level2_live";
+  await competition.save();
+  res.json({ message: "Level 2 batches created", batchesCount: batches.length });
+});
+
+function competitionBatchPayload(competition, batchIndex, viewerId) {
+  const batch = competition.level2Batches?.[batchIndex];
+  if (!batch) return null;
+  const question = batch.questionSet?.[batch.currentQuestionIndex] || null;
+  const leaderboard = [...(batch.participants || [])]
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
+    })
+    .map((row, index) => ({
+      rank: index + 1,
+      studentId: String(row.studentId),
+      studentName: row.studentName,
+      institutionName: row.institutionName,
+      className: row.className,
+      score: Number(row.score || 0),
+      avgResponseMs: Number(row.avgResponseMs || 0)
+    }));
+  return {
+    competitionId: String(competition._id),
+    title: competition.title,
+    batchIndex,
+    label: batch.label || `Batch ${batchIndex + 1}`,
+    status: batch.status,
+    questionIndex: Number(batch.currentQuestionIndex || 0),
+    totalQuestions: (batch.questionSet || []).length,
+    question: question
+      ? {
+          id: question.id,
+          text: question.text,
+          options: question.options,
+          durationSec: question.durationSec,
+          startedAt: batch.questionStartedAt
+        }
+      : null,
+    leaderboard,
+    me: leaderboard.find((row) => String(row.studentId) === String(viewerId)) || null
+  };
+}
+
+function maybeAdvanceCompetitionBatch(batch) {
+  if (!batch || batch.status !== "live") return false;
+  const question = batch.questionSet?.[batch.currentQuestionIndex];
+  if (!question) {
+    batch.status = "completed";
+    return true;
+  }
+  const durationSec = Number(question.durationSec || 30);
+  const startedAt = batch.questionStartedAt ? new Date(batch.questionStartedAt).getTime() : 0;
+  const elapsed = (Date.now() - startedAt) / 1000;
+  const answeredCount = (batch.currentQuestionAnsweredUserIds || []).length;
+  const participantsCount = (batch.participants || []).length;
+  if (elapsed < durationSec && answeredCount < participantsCount) return false;
+  batch.currentQuestionIndex += 1;
+  batch.currentQuestionAnsweredUserIds = [];
+  batch.currentQuestionFirstCorrectUserId = null;
+  if (batch.currentQuestionIndex >= (batch.questionSet || []).length) {
+    batch.status = "completed";
+    const winner = [...(batch.participants || [])].sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
+    })[0];
+    batch.winnerStudentId = winner?.studentId || null;
+    return true;
+  }
+  batch.questionStartedAt = new Date();
+  return true;
+}
+
+exports.joinHighSchoolCompetitionLevel2Batch = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can join Level 2 batch");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  const batchIndex = Number(req.params?.batchIndex);
+  if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  const batch = competition.level2Batches?.[batchIndex];
+  if (!batch) throw new ApiError(404, "Batch not found");
+  const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
+  if (!member) throw new ApiError(403, "You are not part of this batch");
+  if (batch.status === "waiting") {
+    batch.status = "live";
+    if (!batch.questionStartedAt) batch.questionStartedAt = new Date();
+    await competition.save();
+  }
+  res.json({ room: competitionBatchPayload(competition, batchIndex, req.user.id) });
+});
+
+exports.getHighSchoolCompetitionLevel2BatchState = asyncHandler(async (req, res) => {
+  const competitionId = String(req.params?.competitionId || "").trim();
+  const batchIndex = Number(req.params?.batchIndex);
+  if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  const batch = competition.level2Batches?.[batchIndex];
+  if (!batch) throw new ApiError(404, "Batch not found");
+  const member = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
+  if (!member && req.user.role !== "mentor") throw new ApiError(403, "Not allowed");
+  const changed = maybeAdvanceCompetitionBatch(batch);
+  if (changed) await competition.save();
+  res.json(competitionBatchPayload(competition, batchIndex, req.user.id));
+});
+
+exports.submitHighSchoolCompetitionLevel2BatchAnswer = asyncHandler(async (req, res) => {
+  if (req.user.role !== "student") throw new ApiError(403, "Only students can answer");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  const batchIndex = Number(req.params?.batchIndex);
+  if (!mongoose.Types.ObjectId.isValid(competitionId) || Number.isNaN(batchIndex)) throw new ApiError(400, "Invalid params");
+  const selectedOption = String(req.body?.selectedOption || "").trim();
+  const responseMs = Math.max(0, Number(req.body?.responseMs || 0));
+  if (!selectedOption) throw new ApiError(400, "selectedOption is required");
+
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  const batch = competition.level2Batches?.[batchIndex];
+  if (!batch) throw new ApiError(404, "Batch not found");
+  if (batch.status !== "live") throw new ApiError(400, "Batch is not live");
+  const participant = (batch.participants || []).find((item) => String(item.studentId) === String(req.user.id));
+  if (!participant) throw new ApiError(403, "You are not part of this batch");
+  const question = batch.questionSet?.[batch.currentQuestionIndex];
+  if (!question) throw new ApiError(400, "No active question");
+  const alreadyAnswered = (batch.currentQuestionAnsweredUserIds || []).some((item) => String(item) === String(req.user.id));
+  if (alreadyAnswered) throw new ApiError(400, "You already answered this question");
+
+  batch.currentQuestionAnsweredUserIds.push(req.user.id);
+  participant.answeredCount = Number(participant.answeredCount || 0) + 1;
+  participant.totalResponseMs = Number(participant.totalResponseMs || 0) + responseMs;
+  participant.avgResponseMs = Math.round(participant.totalResponseMs / Math.max(1, participant.answeredCount));
+  participant.lastAnsweredAt = new Date();
+
+  const isCorrect = normalizeText(selectedOption) === normalizeText(question.correctOption);
+  let awardedScore = 0;
+  if (isCorrect) {
+    if (!batch.currentQuestionFirstCorrectUserId) {
+      batch.currentQuestionFirstCorrectUserId = req.user.id;
+      awardedScore = 10;
+    } else {
+      awardedScore = 6;
+    }
+    participant.score = Number(participant.score || 0) + awardedScore;
+  }
+
+  const changed = maybeAdvanceCompetitionBatch(batch);
+  if (changed && batch.status === "completed") {
+    const winner = (batch.participants || [])
+      .slice()
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return Number(a.avgResponseMs || 0) - Number(b.avgResponseMs || 0);
+      })[0];
+    if (winner) {
+      const reg = (competition.registrations || []).find((item) => String(item.studentId) === String(winner.studentId));
+      if (reg) reg.status = "winner";
+    }
+  }
+  await competition.save();
+
+  res.json({
+    isCorrect,
+    awardedScore,
+    explanation: question.explanation || "",
+    room: competitionBatchPayload(competition, batchIndex, req.user.id)
+  });
+});
+
+exports.getHighSchoolCompetitionReports = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can view reports");
+  const mentorProfile = await MentorProfile.findOne({ userId: req.user.id }).select("mentorOrgRole").lean();
+  if (!isInstitutionTeacherProfile(mentorProfile)) throw new ApiError(403, "Only institution teachers can view reports");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+  const competition = await HighSchoolCompetition.findById(competitionId).lean();
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) throw new ApiError(403, "Only creator teacher can view reports");
+
+  const level1Attempts = (competition.attempts || []).filter((item) => Number(item.level) === 1);
+  const overallLeaderboard = competitionLeaderboardRows(level1Attempts);
+
+  const institutionBuckets = new Map();
+  overallLeaderboard.forEach((row) => {
+    const key = row.institutionName || "Unknown Institution";
+    if (!institutionBuckets.has(key)) institutionBuckets.set(key, []);
+    institutionBuckets.get(key).push(row);
+  });
+  const institutionLeaderboard = [...institutionBuckets.entries()]
+    .map(([institutionName, rows]) => {
+      const totalScore = rows.reduce((sum, item) => sum + Number(item.score || 0), 0);
+      const avgScore = rows.length ? Math.round(totalScore / rows.length) : 0;
+      return {
+        institutionName,
+        participants: rows.length,
+        totalScore,
+        avgScore,
+        topStudent: rows[0]?.studentName || ""
+      };
+    })
+    .sort((a, b) => {
+      if (b.avgScore !== a.avgScore) return b.avgScore - a.avgScore;
+      return b.totalScore - a.totalScore;
+    })
+    .map((row, index) => ({ rank: index + 1, ...row }));
+
+  const institutionBreakdown = institutionLeaderboard.map((inst) => {
+    const rows = institutionBuckets.get(inst.institutionName) || [];
+    return {
+      institutionName: inst.institutionName,
+      schoolRank: inst.rank,
+      topPerformers: rows.slice(0, 5).map((item) => ({
+        studentId: item.studentId,
+        studentName: item.studentName,
+        className: item.className,
+        score: item.score,
+        overallRank: item.rank
+      })),
+      subjectPerformance: {
+        subject: competition.subject,
+        avgScore: inst.avgScore,
+        participants: rows.length
+      },
+      overallAnalysis: rows.length
+        ? `Average score ${inst.avgScore}. ${rows.length} participants from ${inst.institutionName}.`
+        : "No submissions yet."
+    };
+  });
+
+  const schoolRankMap = new Map(institutionLeaderboard.map((item) => [item.institutionName, item.rank]));
+  const studentReports = overallLeaderboard.map((row) => {
+    const attempt = level1Attempts.find((item) => String(item.studentId) === String(row.studentId));
+    return buildCompetitionStudentReport(
+      competition,
+      attempt || {
+        studentId: row.studentId,
+        studentName: row.studentName,
+        institutionName: row.institutionName,
+        className: row.className,
+        score: row.score,
+        percentage: row.percentage,
+        grade: gradeFromPercentage(row.percentage),
+        strengths: [],
+        weakAreas: [],
+        recommendations: []
+      },
+      row.rank,
+      schoolRankMap.get(row.institutionName || "Unknown Institution") || null
+    );
+  });
+
+  const qualifiedCount = (competition.registrations || []).filter((item) => item.qualifiedForLevel2).length;
+  const winnersCount = (competition.registrations || []).filter((item) => item.status === "winner").length;
+
+  res.json({
+    competition: {
+      id: String(competition._id),
+      title: competition.title,
+      subject: competition.subject,
+      chapter: competition.chapter || "",
+      scopeType: competition.scopeType
+    },
+    overallLeaderboard,
+    institutionLeaderboard,
+    institutionBreakdown,
+    studentReports,
+    qualificationFunnel: {
+      registered: (competition.registrations || []).length,
+      level1Attempted: level1Attempts.length,
+      level2Qualified: qualifiedCount,
+      winners: winnersCount
+    }
   });
 });
 
