@@ -9197,6 +9197,21 @@ exports.listHighSchoolCompetitions = asyncHandler(async (req, res) => {
   res.json({ competitions });
 });
 
+exports.deleteHighSchoolCompetition = asyncHandler(async (req, res) => {
+  if (req.user.role !== "mentor") throw new ApiError(403, "Only teachers can delete competitions");
+  const competitionId = String(req.params?.competitionId || "").trim();
+  if (!mongoose.Types.ObjectId.isValid(competitionId)) throw new ApiError(400, "Invalid competition id");
+
+  const competition = await HighSchoolCompetition.findById(competitionId);
+  if (!competition) throw new ApiError(404, "Competition not found");
+  if (String(competition.createdBy) !== String(req.user.id)) {
+    throw new ApiError(403, "Only the teacher who created this championship can delete it");
+  }
+
+  await competition.deleteOne();
+  res.json({ message: "Championship deleted" });
+});
+
 exports.registerHighSchoolCompetition = asyncHandler(async (req, res) => {
   if (req.user.role !== "student") throw new ApiError(403, "Only students can register");
   const competitionId = String(req.params?.competitionId || "").trim();

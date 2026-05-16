@@ -95,6 +95,7 @@ const {
   submitHighSchoolQuizBattleAnswer,
   createHighSchoolCompetition,
   listHighSchoolCompetitions,
+  deleteHighSchoolCompetition,
   registerHighSchoolCompetition,
   submitHighSchoolCompetitionLevel1,
   finalizeHighSchoolCompetitionLevel1,
@@ -223,6 +224,7 @@ router.get("/highschool-quiz-battle/rooms/:roomId/state", verifyToken, authorize
 router.post("/highschool-quiz-battle/rooms/:roomId/answer", verifyToken, authorizeRoles("student"), submitHighSchoolQuizBattleAnswer);
 router.post("/highschool-competitions", verifyToken, authorizeRoles("mentor"), createHighSchoolCompetition);
 router.get("/highschool-competitions", verifyToken, authorizeRoles("student", "mentor"), listHighSchoolCompetitions);
+router.delete("/highschool-competitions/:competitionId", verifyToken, authorizeRoles("mentor"), deleteHighSchoolCompetition);
 router.post("/highschool-competitions/:competitionId/register", verifyToken, authorizeRoles("student"), registerHighSchoolCompetition);
 router.post("/highschool-competitions/:competitionId/level1/submit", verifyToken, authorizeRoles("student"), submitHighSchoolCompetitionLevel1);
 router.post("/highschool-competitions/:competitionId/level1/finalize", verifyToken, authorizeRoles("mentor"), finalizeHighSchoolCompetitionLevel1);
