@@ -23,7 +23,7 @@ const verifyToken = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Invalid token");
   }
 
-  const user = await User.findOne({ _id: decoded.id, isDeleted: false }).select("-password").lean();
+  const user = await User.findOne({ _id: decoded.id, isDeleted: { $ne: true } }).select("-password").lean();
   if (!user) {
     throw new ApiError(401, "Invalid token user");
   }

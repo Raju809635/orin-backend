@@ -41,7 +41,18 @@ async function releaseDeletedEmailIfNeeded(email) {
 
 async function persistRefreshToken({ user, refreshToken, req }) {
   const refreshTokenHash = hashToken(refreshToken);
-  const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  let expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  try {
+    const decoded = verifyRefreshToken(refreshToken);
+    if (decoded?.exp) {
+      const expiresAt = new Date(decoded.exp * 1000);
+      if (!Number.isNaN(expiresAt.getTime())) {
+        expiry = expiresAt;
+      }
+    }
+  } catch {
+    // Keep fallback expiry window.
+  }
 
   await RefreshToken.create({
     user: user._id,
@@ -50,6 +61,18 @@ async function persistRefreshToken({ user, refreshToken, req }) {
     userAgent: req.headers["user-agent"] || "",
     ipAddress: req.ip || ""
   });
+
+  // Keep token table bounded for long-lived users.
+  const activeRows = await RefreshToken.find({ user: user._id, revokedAt: null })
+    .sort({ createdAt: -1 })
+    .select("_id")
+    .lean();
+  if (activeRows.length > 12) {
+    const overflowIds = activeRows.slice(12).map((item) => item._id);
+    if (overflowIds.length) {
+      await RefreshToken.updateMany({ _id: { $in: overflowIds } }, { $set: { revokedAt: new Date() } });
+    }
+  }
 }
 
 function userPayload(user) {
@@ -353,7 +376,7 @@ exports.refresh = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Refresh token expired or revoked");
   }
 
-  const user = await User.findById(decoded.id);
+  const user = await User.findOne({ _id: decoded.id, isDeleted: { $ne: true } });
   if (!user) {
     throw new ApiError(401, "User not found");
   }
