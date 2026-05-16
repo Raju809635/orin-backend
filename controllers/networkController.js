@@ -9008,6 +9008,14 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
   const creator = await User.findById(req.user.id).select("name").lean();
 
   const level1Questions = parseCompetitionQuestionSet(req.body?.level1Questions || [], level1TimeModeSec, "L1");
+  const creatorInstitution = String(mentorProfile?.institutionName || "").trim();
+  if (scopeType === "institution_only" && !creatorInstitution) {
+    throw new ApiError(400, "Teacher institution is required for institution-only competition");
+  }
+  if (scopeType === "multi_institution" && allowedInstitutions.length < 2) {
+    throw new ApiError(400, "Inter-school competition requires at least two selected institutions");
+  }
+
   const competition = await HighSchoolCompetition.create({
     title,
     description: String(req.body?.description || "").trim(),
@@ -9027,7 +9035,7 @@ exports.createHighSchoolCompetition = asyncHandler(async (req, res) => {
     status: "registration_open",
     createdBy: req.user.id,
     createdByName: creator?.name || "Teacher",
-    institutionName: String(mentorProfile?.institutionName || "").trim()
+    institutionName: creatorInstitution
   });
 
   res.status(201).json({ message: "Competition created", competition });
