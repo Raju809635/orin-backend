@@ -196,6 +196,42 @@ function normalizeSubject(value) {
     || "Mathematics";
 }
 
+function isLanguageSubject(subject = "") {
+  const key = String(normalizeExamSubject(subject) || subject).toLowerCase();
+  return key.includes("english") || key.includes("hindi") || key.includes("telugu") || key.includes("sanskrit");
+}
+
+function cleanLanguageTopicLabel(value = "") {
+  const text = cleanAcademicText(value || "");
+  if (!text) return "";
+  const cleaned = text
+    .replace(/\s*:\s*(lesson reading|meanings?\s*(and|&)\s*vocabulary|question answers?|grammar\s*(\/|or)\s*writing|writing practice|revision check|revision quiz)\s*$/i, "")
+    .replace(/\b(lesson reading|meanings?\s*(and|&)\s*vocabulary|question answers?|grammar\s*(\/|or)\s*writing|writing practice|revision check|revision quiz)\b/ig, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  return cleaned || text;
+}
+
+function isQuestionCrossSubject(question = {}, subject = "") {
+  const subjectKey = String(normalizeExamSubject(subject) || subject).toLowerCase();
+  const text = [
+    question.question,
+    question.correct,
+    question.explanation,
+    ...(Array.isArray(question.options) ? question.options : [])
+  ].map((item) => cleanAcademicText(item || "").toLowerCase()).join(" ");
+  const blocks = {
+    telugu: /\b(euclid|hcf|decimal|prime factor|algebra|geometry|photosynthesis|respiration|constitution|democracy)\b/i,
+    hindi: /\b(euclid|hcf|decimal|prime factor|algebra|geometry|photosynthesis|respiration|constitution|democracy)\b/i,
+    english: /\b(euclid|hcf|prime factor|photosynthesis|respiration|chemical equation)\b/i,
+    mathematics: /\b(grammar|poem|poetry|vocabulary|speaker|central idea|constitution|photosynthesis)\b/i,
+    science: /\b(grammar|poem|poetry|vocabulary|euclid|hcf|constitution|democracy)\b/i,
+    "social studies": /\b(euclid|hcf|photosynthesis|chemical equation|grammar exercise|poem meaning)\b/i
+  };
+  const block = blocks[subjectKey] || blocks[subjectKey.replace("social science", "social studies")];
+  return Boolean(block && block.test(text));
+}
+
 function normalizeGapQuestion(item, index) {
   const subject = normalizeSubject(item?.subject);
   const options = Array.isArray(item?.options)
@@ -336,8 +372,61 @@ function buildSubjectGapFallbackQuiz({ subjects = HIGH_SCHOOL_SUBJECTS, question
     const generated = buildDeterministicTopicQuestions(subjects[0], focusTopic, questionCount);
     if (generated.length) return generated;
   }
+  if (!filtered.length && subjects.length === 1) return [];
   const source = filtered.length ? filtered : FALLBACK_SUBJECT_GAP_QUESTIONS;
   return source.slice(0, questionCount).map((item, index) => ({ ...item, id: `${item.id}-${index}` }));
+}
+
+function buildDatasetSubjectGapQuiz({ subjects = [], academicTopics = [], questionCount = 12, focusTopic = "" }) {
+  const allowed = new Set(subjects.map(normalizeSubject).map((item) => item.toLowerCase()));
+  const rows = [];
+  const seen = new Set();
+  const scoped = buildScopedExamTopicUnits({
+    subjects,
+    selectedTopics: focusTopic ? [focusTopic] : [],
+    academicTopics
+  });
+
+  for (const unit of scoped) {
+    if (rows.length >= questionCount) break;
+    const subject = normalizeSubject(unit.subject || subjects[0]);
+    if (allowed.size && !allowed.has(subject.toLowerCase())) continue;
+    const chapter = cleanAcademicText(unit.chapter || focusTopic || "");
+    const topic = cleanLanguageTopicLabel(unit.topic || unit.parentTopic || chapter);
+    const subtopics = Array.isArray(unit.subtopics)
+      ? unit.subtopics.map(cleanAcademicText).filter((item) => item.length >= 6 && !hasBrokenPdfText(item) && !isGenericAcademicBucket(item)).slice(0, 8)
+      : [];
+    const anchors = [topic, ...subtopics].filter(Boolean);
+    if (!topic || isGenericAcademicBucket(topic)) continue;
+
+    const correct = isLanguageSubject(subject)
+      ? (subtopics.find((item) => !isVerboseExamText(item)) || topic)
+      : topic;
+    const options = plausibleDistractors(correct, anchors.filter((item) => normalizeQuizText(item) !== normalizeQuizText(correct)), [
+      `${chapter || topic}: related textbook idea`,
+      `${chapter || topic}: practice application`,
+      `${chapter || topic}: revision point`
+    ]);
+    if (!options.length) continue;
+
+    const question = isLanguageSubject(subject)
+      ? `Which point is connected to ${topic}${chapter && chapter !== topic ? ` from ${chapter}` : ""}?`
+      : `Which topic is being tested in ${chapter || topic}?`;
+    const key = `${subject}:${question}:${correct}`.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    rows.push({
+      id: `dataset-gap-${rows.length + 1}`,
+      subject,
+      topic,
+      question,
+      options,
+      correct,
+      explanation: `This question is grounded in ${subject}${chapter ? `, ${chapter}` : ""}.`
+    });
+  }
+
+  return rows.slice(0, questionCount);
 }
 
 function scoreHighSchoolSubjectGap(questions = [], answers = {}) {
@@ -1173,6 +1262,7 @@ function isRoadmapQuizScopeSafe(question = {}, { subject = "", chapterName = "",
   };
   const block = crossSubjectBlocks[subjectKey];
   if (block && block.test(text)) return false;
+  if (isQuestionCrossSubject(question, normalizedSubject)) return false;
 
   const tokens = [
     chapterName,
@@ -1427,13 +1517,16 @@ function buildSubjectStyleRoadmapQuestions({ subject, chapterName, topicUnits = 
   const rows = [];
   const subjectName = normalizeExamSubject(subject) || subject;
   const subjectKey = String(subjectName).toLowerCase();
+  const languageSubject = isLanguageSubject(subjectName);
   const units = topicUnits.length
     ? topicUnits
     : [{ subject: subjectName, chapter: chapterName, topic: chapterName, subtopics: keyPoints.slice(0, 4) }];
 
   units.forEach((unit, index) => {
     if (rows.length >= questionCount) return;
-    const topic = cleanAcademicText(unit.topic || unit.chapter || chapterName);
+    const topic = languageSubject
+      ? cleanLanguageTopicLabel(unit.topic || unit.chapter || chapterName)
+      : cleanAcademicText(unit.topic || unit.chapter || chapterName);
     const subtopics = Array.isArray(unit.subtopics) ? unit.subtopics.map(cleanAcademicText).filter(Boolean) : [];
     const anchors = [
       ...subtopics,
@@ -1443,12 +1536,12 @@ function buildSubjectStyleRoadmapQuestions({ subject, chapterName, topicUnits = 
     const mainAnchor = anchors.find((item) => !isVerboseExamText(item)) || topic;
     const skill = subjectPracticeSkill(subjectName, chapterName, topic);
 
-    const skillOptions = plausibleDistractors(skill.correct, skill.distractors, [
+    const skillOptions = languageSubject ? [] : plausibleDistractors(skill.correct, skill.distractors, [
       `Use the textbook example connected to ${topic}`,
       `Check the answer using the selected ${chapterName} concept`,
       `Revise the key term linked with ${topic}`
     ]);
-    if (skillOptions.length) {
+    if (!languageSubject && skillOptions.length) {
       uniquePushQuestion(rows, {
         question: subjectKey.includes("math")
           ? `In SSC ${chapterName}, what is the best way to solve a question on ${topic}?`
@@ -1460,15 +1553,20 @@ function buildSubjectStyleRoadmapQuestions({ subject, chapterName, topicUnits = 
     }
 
     if (rows.length >= questionCount) return;
-    const conceptOptions = plausibleDistractors(mainAnchor, anchors.filter((item) => normalizeQuizText(item) !== normalizeQuizText(mainAnchor)), skill.distractors);
+    if (languageSubject && (!anchors.length || mainAnchor === topic || isGenericAcademicBucket(mainAnchor))) return;
+    const conceptOptions = plausibleDistractors(
+      mainAnchor,
+      anchors.filter((item) => normalizeQuizText(item) !== normalizeQuizText(mainAnchor)),
+      languageSubject ? [] : skill.distractors
+    );
     if (conceptOptions.length) {
       uniquePushQuestion(rows, {
         question: subjectKey.includes("math")
           ? `Which concept or step is most directly connected with ${topic} in ${chapterName}?`
-          : subjectKey.includes("social")
-            ? `Which point best connects with ${topic} in ${chapterName}?`
-            : subjectKey.includes("english") || subjectKey.includes("hindi") || subjectKey.includes("telugu")
-              ? `Which point should you use while answering ${topic} from ${chapterName}?`
+            : subjectKey.includes("social")
+              ? `Which point best connects with ${topic} in ${chapterName}?`
+            : languageSubject
+              ? `Which textbook point is connected to ${topic} from ${chapterName}?`
               : `Which idea is most directly connected with ${topic} in ${chapterName}?`,
         options: conceptOptions,
         correct: mainAnchor,
@@ -1495,6 +1593,7 @@ function buildSubjectStyleRoadmapQuestions({ subject, chapterName, topicUnits = 
 }
 
 function buildRoadmapQuizTopicUnits({ subject, chapterName, lessonPlan, academicTopics = [] }) {
+  const languageSubject = isLanguageSubject(subject);
   const scoped = buildScopedExamTopicUnits({
     subjects: [subject],
     selectedTopics: chapterName ? [chapterName] : [],
@@ -1503,7 +1602,9 @@ function buildRoadmapQuizTopicUnits({ subject, chapterName, lessonPlan, academic
   const fromDataset = scoped.map((unit) => ({
     subject: normalizeExamSubject(unit.subject || subject) || subject,
     chapter: cleanAcademicText(unit.chapter || chapterName),
-    topic: cleanAcademicText(unit.parentTopic || unit.topic || chapterName),
+    topic: languageSubject
+      ? cleanLanguageTopicLabel(unit.parentTopic || unit.topic || chapterName)
+      : cleanAcademicText(unit.parentTopic || unit.topic || chapterName),
     subtopics: Array.isArray(unit.subtopics) ? unit.subtopics.map(cleanAcademicText).filter(Boolean).slice(0, 6) : [],
     source: "academic_topics"
   }));
@@ -1512,7 +1613,9 @@ function buildRoadmapQuizTopicUnits({ subject, chapterName, lessonPlan, academic
     ? lessonPlan.lessonSections.map((section) => ({
         subject: normalizeExamSubject(subject) || subject,
         chapter: chapterName,
-        topic: cleanAcademicText(section?.title || chapterName),
+        topic: languageSubject
+          ? cleanLanguageTopicLabel(section?.title || chapterName)
+          : cleanAcademicText(section?.title || chapterName),
         subtopics: [
           ...(Array.isArray(section?.summary) ? section.summary : []),
           ...(Array.isArray(section?.keyPoints) ? section.keyPoints : [])
@@ -2948,7 +3051,12 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     academicTopics
   });
 
-  const fallbackQuestions = buildSubjectGapFallbackQuiz({ subjects, questionCount, focusTopic });
+  const datasetQuestions = context.ok
+    ? buildDatasetSubjectGapQuiz({ subjects, academicTopics, questionCount, focusTopic })
+    : [];
+  const fallbackQuestions = datasetQuestions.length
+    ? datasetQuestions
+    : buildSubjectGapFallbackQuiz({ subjects, questionCount, focusTopic });
   let source = context.ok ? "dataset_deterministic" : "data_pending";
   let provider = "local";
   let model = "deterministic";
@@ -2983,7 +3091,12 @@ exports.generateHighSchoolSubjectGapQuiz = asyncHandler(async (req, res) => {
     });
     const parsed = safeJsonParse(ai.answer);
     const normalized = Array.isArray(parsed?.questions)
-      ? parsed.questions.map(normalizeGapQuestion).filter(Boolean).slice(0, questionCount)
+      ? parsed.questions
+          .map(normalizeGapQuestion)
+          .filter(Boolean)
+          .filter((item) => subjects.some((subject) => normalizeSubject(subject).toLowerCase() === normalizeSubject(item.subject).toLowerCase()))
+          .filter((item) => !isQuestionCrossSubject(item, item.subject))
+          .slice(0, questionCount)
       : [];
 
     if (normalized.length >= Math.min(8, questionCount)) {
