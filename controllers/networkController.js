@@ -3711,22 +3711,9 @@ exports.getFeed = asyncHandler(async (req, res) => {
     .limit(50)
     .lean();
 
-  const postIds = posts.map((p) => p._id);
-  const comments = await FeedComment.find({ postId: { $in: postIds } })
-    .populate("authorId", "name role")
-    .sort({ createdAt: -1 })
-    .lean();
+  await attachFeedAuthorPhotos(posts, []);
 
-  await attachFeedAuthorPhotos(posts, comments);
-
-  const commentsByPostId = comments.reduce((acc, item) => {
-    const key = String(item.postId);
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {});
-
-  const data = posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || []));
+  const data = posts.map((post) => toFeedResponse(post, userId, []));
 
   res.json(data);
 });
@@ -3771,22 +3758,9 @@ exports.getInstitutionFeed = asyncHandler(async (req, res) => {
     .limit(50)
     .lean();
 
-  const postIds = posts.map((p) => p._id);
-  const comments = await FeedComment.find({ postId: { $in: postIds } })
-    .populate("authorId", "name role")
-    .sort({ createdAt: -1 })
-    .lean();
+  await attachFeedAuthorPhotos(posts, []);
 
-  await attachFeedAuthorPhotos(posts, comments);
-
-  const commentsByPostId = comments.reduce((acc, item) => {
-    const key = String(item.postId);
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {});
-
-  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+  res.json(posts.map((post) => toFeedResponse(post, userId, [])));
 });
 
 exports.getPublicFeed = asyncHandler(async (req, res) => {
@@ -3796,19 +3770,8 @@ exports.getPublicFeed = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(80)
     .lean();
-  const postIds = posts.map((p) => p._id);
-  const comments = await FeedComment.find({ postId: { $in: postIds } })
-    .populate("authorId", "name role")
-    .sort({ createdAt: -1 })
-    .lean();
-  await attachFeedAuthorPhotos(posts, comments);
-  const commentsByPostId = comments.reduce((acc, item) => {
-    const key = String(item.postId);
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {});
-  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+  await attachFeedAuthorPhotos(posts, []);
+  res.json(posts.map((post) => toFeedResponse(post, userId, [])));
 });
 
 exports.getSavedPosts = asyncHandler(async (req, res) => {
@@ -3818,23 +3781,8 @@ exports.getSavedPosts = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(80)
     .lean();
-
-  const postIds = posts.map((p) => p._id);
-  const comments = await FeedComment.find({ postId: { $in: postIds } })
-    .populate("authorId", "name role")
-    .sort({ createdAt: -1 })
-    .lean();
-
-  await attachFeedAuthorPhotos(posts, comments);
-
-  const commentsByPostId = comments.reduce((acc, item) => {
-    const key = String(item.postId);
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {});
-
-  res.json(posts.map((post) => toFeedResponse(post, userId, commentsByPostId[String(post._id)] || [])));
+  await attachFeedAuthorPhotos(posts, []);
+  res.json(posts.map((post) => toFeedResponse(post, userId, [])));
 });
 
 exports.createPost = asyncHandler(async (req, res) => {
@@ -8474,8 +8422,8 @@ exports.getMentorGroupMessages = asyncHandler(async (req, res) => {
 
   const messages = await MentorGroupMessage.find({ groupId: group._id, deletedAt: null })
     .populate("senderId", "name role")
-    .sort({ createdAt: 1 })
-    .limit(500)
+    .sort({ createdAt: -1 })
+    .limit(120)
     .lean();
 
   res.json({
@@ -8496,7 +8444,7 @@ exports.getMentorGroupMessages = asyncHandler(async (req, res) => {
         allowReactions: group.settings?.allowReactions !== false
       }
     },
-    messages: messages.map((msg) => {
+    messages: messages.reverse().map((msg) => {
       const payload = buildMentorGroupMessagePayload(msg);
       payload.reactions = payload.reactions.map((reaction) => ({
         ...reaction,

@@ -47,7 +47,10 @@ async function retrieveAcademicContext({ query, board, classLevel, subject, chap
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), Math.max(1000, Number(orinAiEngineTimeoutMs || 12000)));
+  const timeout = setTimeout(
+    () => controller.abort(),
+    Math.min(Math.max(1500, Number(orinAiEngineTimeoutMs || 12000)), 4500)
+  );
   try {
     const response = await fetch(`${baseUrl}/retrieve`, {
       method: "POST",
@@ -94,7 +97,10 @@ async function getAiEngineHealth() {
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), Math.max(1000, Number(orinAiEngineTimeoutMs || 12000)));
+  const timeout = setTimeout(
+    () => controller.abort(),
+    Math.min(Math.max(1000, Number(orinAiEngineTimeoutMs || 12000)), 3000)
+  );
   try {
     const response = await fetch(`${baseUrl}/health`, { method: "GET", signal: controller.signal });
     const data = await response.json().catch(() => ({}));

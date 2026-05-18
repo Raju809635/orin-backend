@@ -8,6 +8,25 @@ const {
 } = require("../config/env");
 const { buildOrinAssistantContext } = require("../config/orinAssistantContext");
 const ApiError = require("../utils/ApiError");
+const AI_PROVIDER_TIMEOUT_MS = 9000;
+
+async function fetchWithTimeout(url, options) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AI_PROVIDER_TIMEOUT_MS);
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      throw new ApiError(504, "AI provider timed out");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 function buildSystemPrompt(role, mode = "personalized") {
   const roleGuide =
@@ -80,7 +99,7 @@ async function requestAiResponse({ role, message, context }) {
   }
 
   if (groqApiKey) {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetchWithTimeout("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +146,7 @@ async function requestAiResponse({ role, message, context }) {
 
     let lastReason = "Failed to get AI response from Gemini";
     for (const modelName of candidates) {
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${geminiApiKey}`,
         {
           method: "POST",
@@ -176,7 +195,7 @@ async function requestAiResponse({ role, message, context }) {
   }
 
   if (openaiApiKey) {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetchWithTimeout("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
