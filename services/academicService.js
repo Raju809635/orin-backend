@@ -108,9 +108,10 @@ function subjectMatches(slug, record, requestedSubject) {
 
 function normalizeImageAssetRow(item = {}) {
   const assetPath = String(item.assetPath || item.relativePath || item.path || "").replace(/^[/\\]+/, "").replace(/\\/g, "/");
-  if (!assetPath) return null;
+  const remoteImageUrl = String(item.imageUrl || item.url || item.secureUrl || "").trim();
+  if (!assetPath && !remoteImageUrl) return null;
   return {
-    id: String(item.id || assetPath).trim(),
+    id: String(item.id || assetPath || remoteImageUrl).trim(),
     board: normalizeBoard(item.board || ""),
     classNumber: Number(item.classNumber || item.class || 0),
     subject: String(item.subject || "").trim(),
@@ -120,7 +121,8 @@ function normalizeImageAssetRow(item = {}) {
     page: Number(item.page || 0),
     sourcePdf: String(item.sourcePdf || item.pdf || item.pdfPath || "").trim(),
     assetPath,
-    imageUrl: `/api/academics/image?path=${encodeURIComponent(assetPath)}`
+    cloudinaryPublicId: String(item.cloudinaryPublicId || item.publicId || "").trim(),
+    imageUrl: remoteImageUrl || `/api/academics/image?path=${encodeURIComponent(assetPath)}`
   };
 }
 

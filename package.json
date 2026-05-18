@@ -9,7 +9,8 @@
     "admin:create": "node scripts/createAdmin.js",
     "sync:academics": "node scripts/syncAcademicDataset.js",
     "academics:upload-pdfs": "node scripts/uploadAcademicPdfsToFirebase.js",
-    "academics:extract-images": "node scripts/extractAcademicPdfImages.js"
+    "academics:extract-images": "node scripts/extractAcademicPdfImages.js",
+    "academics:extract-images:cloudinary": "node scripts/extractAcademicPdfImages.js --upload-cloudinary --cleanup-local"
   },
   "keywords": [],
   "author": "",
