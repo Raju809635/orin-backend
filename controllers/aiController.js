@@ -1133,7 +1133,12 @@ function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science",
   if (question.length < 10) return null;
   if (/\bwhat is the correct meaning of ["']?(this|that|it|these|those)\b/i.test(question)) return null;
   if (/\bwhich key point is correct\b/i.test(question)) return null;
+  if (/\bwhich textbook question\b/i.test(question)) return null;
+  if (/\bwhich statement belongs\b/i.test(question)) return null;
+  if (/\bwhich concept is correctly linked\b/i.test(question)) return null;
   if (options.some((option) => /\b(ignore all textbook examples|do not revise important terms|skip diagrams and notes|random app setting|unrelated shortcut|only the chapter name|grammar meanings|unrelated poems)\b/i.test(option))) return null;
+  if (options.some((option) => /\b(revise the textbook example first|solve using the given formula or concept|write the answer with steps)\b/i.test(option))) return null;
+  if (correct.length > 160) return null;
   if (!hasRealPracticeOptions({ options, correct })) return null;
   return {
     id: String(item?.id || `roadmap-quiz-${index + 1}`).trim().slice(0, 80),
@@ -1144,6 +1149,40 @@ function normalizeRoadmapQuizQuestion(item = {}, index = 0, subject = "Science",
     subject: normalizeExamSubject(subject) || subject,
     chapter: cleanAcademicText(chapter || "")
   };
+}
+
+function isRoadmapQuizScopeSafe(question = {}, { subject = "", chapterName = "", topicUnits = [] } = {}) {
+  const normalizedSubject = normalizeExamSubject(subject) || subject;
+  const subjectKey = String(normalizedSubject || "").toLowerCase();
+  const text = [
+    question.question,
+    question.correct,
+    question.explanation,
+    ...(Array.isArray(question.options) ? question.options : [])
+  ].map((item) => cleanAcademicText(item || "").toLowerCase()).join(" ");
+  if (!text.trim()) return false;
+  const crossSubjectBlocks = {
+    mathematics: /\b(grammar|poem|poetry|vocabulary|constitution|democracy|map work|photosynthesis|respiration|crop|microorganism)\b/i,
+    science: /\b(grammar|poem|poetry|vocabulary|euclid|hcf|decimal expansion|prime factorisation|constitution|democracy)\b/i,
+    physics: /\b(grammar|poem|poetry|vocabulary|constitution|democracy|photosynthesis|nutrition)\b/i,
+    biology: /\b(grammar|poem|poetry|vocabulary|euclid|hcf|decimal expansion|constitution|democracy)\b/i,
+    "social science": /\b(euclid|hcf|decimal expansion|photosynthesis|chemical equation|grammar exercise|poem meaning)\b/i,
+    english: /\b(euclid|hcf|decimal expansion|photosynthesis|chemical equation|constitution article calculation)\b/i,
+    hindi: /\b(euclid|hcf|decimal expansion|photosynthesis|chemical equation)\b/i,
+    telugu: /\b(euclid|hcf|decimal expansion|photosynthesis|chemical equation)\b/i
+  };
+  const block = crossSubjectBlocks[subjectKey];
+  if (block && block.test(text)) return false;
+
+  const tokens = [
+    chapterName,
+    ...topicUnits.flatMap((unit) => [unit.chapter, unit.topic, ...(Array.isArray(unit.subtopics) ? unit.subtopics : [])])
+  ]
+    .map((item) => cleanAcademicText(item || "").toLowerCase())
+    .filter((item) => item.length >= 4 && !isGenericAcademicBucket(item))
+    .slice(0, 60);
+  if (!tokens.length) return true;
+  return tokens.some((token) => text.includes(token) || token.split(/\s+/).filter((part) => part.length >= 5).some((part) => text.includes(part)));
 }
 
 function normalizeQuizText(value = "") {
@@ -1246,7 +1285,7 @@ function buildMathConceptQuestions({ chapterName, keyPoints, definitions, questi
     ]);
     if (!options.length) return;
     uniquePushQuestion(rows, {
-      question: `Which statement belongs to ${chapterName}${lowerChapter.includes("real") ? " - Real Numbers" : ""}?`,
+      question: `Which result or rule should you apply in ${chapterName}${lowerChapter.includes("real") ? " - Real Numbers" : ""}?`,
       options,
       correct: shortPoint,
       explanation: "This statement is from the selected Mathematics chapter context."
@@ -1278,7 +1317,7 @@ function buildScienceConceptQuestions({ chapterName, keyPoints, definitions, que
     const options = plausibleDistractors(point, keyPoints, ["A banking process", "A grammar rule", "A geometric construction"]);
     if (!options.length) return;
     uniquePushQuestion(rows, {
-      question: `Which concept is correctly linked with ${chapterName}?`,
+      question: `Which idea should be used to answer a ${chapterName} question?`,
       options,
       correct: point,
       explanation: "The correct option is grounded in the selected Science chapter."
@@ -1310,10 +1349,10 @@ function buildTextbookPracticeQuestions({ subject, chapterName, textbookQuestion
     ]);
     if (!options.length) return;
     const stem = subjectKind === "mathematics"
-      ? `Which textbook problem from ${chapterName} should be solved with steps?`
+      ? `Which practice focus from ${chapterName} should be solved with steps?`
       : subjectKind === "language"
-        ? `Which textbook question belongs to ${chapterName}?`
-        : `Which textbook question is from ${chapterName}?`;
+        ? `Which practice focus belongs to ${chapterName}?`
+        : `Which practice focus is from ${chapterName}?`;
     uniquePushQuestion(rows, {
       question: `${stem} (${index + 1})`,
       options,
@@ -1326,9 +1365,232 @@ function buildTextbookPracticeQuestions({ subject, chapterName, textbookQuestion
   return rows;
 }
 
-function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, questionCount = 12 }) {
+function subjectPracticeSkill(subject = "", chapterName = "", topic = "") {
+  const subjectKey = String(normalizeExamSubject(subject) || subject).toLowerCase();
+  const topicText = cleanAcademicText(topic || chapterName || "this topic");
+  if (subjectKey.includes("math")) {
+    return {
+      correct: `Use the ${topicText} rule or method and show each calculation step`,
+      distractors: [
+        `Estimate first, then verify with the ${topicText} method`,
+        `Draw a neat figure only if ${topicText} involves geometry or measurement`,
+        `Compare the given values before applying the ${topicText} method`
+      ],
+      explanation: `Mathematics questions on ${topicText} should check the method, calculation steps, and final answer.`
+    };
+  }
+  if (subjectKey.includes("science") || subjectKey.includes("physics") || subjectKey.includes("chem") || subjectKey.includes("bio")) {
+    return {
+      correct: `Connect ${topicText} with cause, process, observation, and result`,
+      distractors: [
+        `Identify the definition before explaining ${topicText}`,
+        `Use a labelled diagram when ${topicText} has a structure or process`,
+        `Apply ${topicText} to a daily-life or experiment-based situation`
+      ],
+      explanation: `Science questions on ${topicText} should test understanding, process, application, and evidence.`
+    };
+  }
+  if (subjectKey.includes("social")) {
+    return {
+      correct: `Link ${topicText} with place, time, cause, effect, and evidence`,
+      distractors: [
+        `Use map, timeline, or data support where ${topicText} needs it`,
+        `Compare different groups or regions connected to ${topicText}`,
+        `Explain the reason and impact of ${topicText}`
+      ],
+      explanation: `Social Science questions on ${topicText} should test cause-effect, timeline/map awareness, and evidence.`
+    };
+  }
+  if (subjectKey.includes("english") || subjectKey.includes("hindi") || subjectKey.includes("telugu")) {
+    return {
+      correct: `Use the selected lesson context to answer meaning, grammar, and expression questions`,
+      distractors: [
+        `Identify the speaker, situation, or central idea from ${topicText}`,
+        `Use the sentence context before choosing the meaning in ${topicText}`,
+        `Write the answer in clear textbook language for ${topicText}`
+      ],
+      explanation: `Language questions should stay inside the selected lesson, passage, vocabulary, grammar, or writing context.`
+    };
+  }
+  return {
+    correct: `Use the core idea of ${topicText} and explain it with one example`,
+    distractors: [
+      `Identify the important term in ${topicText}`,
+      `Apply ${topicText} to a short practice question`,
+      `Review the textbook example linked to ${topicText}`
+    ],
+    explanation: `This question is grounded in the selected topic: ${topicText}.`
+  };
+}
+
+function buildSubjectStyleRoadmapQuestions({ subject, chapterName, topicUnits = [], keyPoints = [], definitions = [], questionCount = 12 }) {
+  const rows = [];
+  const subjectName = normalizeExamSubject(subject) || subject;
+  const subjectKey = String(subjectName).toLowerCase();
+  const units = topicUnits.length
+    ? topicUnits
+    : [{ subject: subjectName, chapter: chapterName, topic: chapterName, subtopics: keyPoints.slice(0, 4) }];
+
+  units.forEach((unit, index) => {
+    if (rows.length >= questionCount) return;
+    const topic = cleanAcademicText(unit.topic || unit.chapter || chapterName);
+    const subtopics = Array.isArray(unit.subtopics) ? unit.subtopics.map(cleanAcademicText).filter(Boolean) : [];
+    const anchors = [
+      ...subtopics,
+      ...keyPoints,
+      ...definitions.map((item) => `${item.term}: ${item.meaning}`)
+    ].filter((item) => item.length >= 8 && !hasBrokenPdfText(item) && !isGenericAcademicBucket(item));
+    const mainAnchor = anchors.find((item) => !isVerboseExamText(item)) || topic;
+    const skill = subjectPracticeSkill(subjectName, chapterName, topic);
+
+    const skillOptions = plausibleDistractors(skill.correct, skill.distractors, [
+      `Use the textbook example connected to ${topic}`,
+      `Check the answer using the selected ${chapterName} concept`,
+      `Revise the key term linked with ${topic}`
+    ]);
+    if (skillOptions.length) {
+      uniquePushQuestion(rows, {
+        question: subjectKey.includes("math")
+          ? `In SSC ${chapterName}, what is the best way to solve a question on ${topic}?`
+          : `In SSC ${chapterName}, what should a good answer on ${topic} mainly show?`,
+        options: skillOptions,
+        correct: skill.correct,
+        explanation: skill.explanation
+      });
+    }
+
+    if (rows.length >= questionCount) return;
+    const conceptOptions = plausibleDistractors(mainAnchor, anchors.filter((item) => normalizeQuizText(item) !== normalizeQuizText(mainAnchor)), skill.distractors);
+    if (conceptOptions.length) {
+      uniquePushQuestion(rows, {
+        question: subjectKey.includes("math")
+          ? `Which concept or step is most directly connected with ${topic} in ${chapterName}?`
+          : subjectKey.includes("social")
+            ? `Which point best connects with ${topic} in ${chapterName}?`
+            : subjectKey.includes("english") || subjectKey.includes("hindi") || subjectKey.includes("telugu")
+              ? `Which point should you use while answering ${topic} from ${chapterName}?`
+              : `Which idea is most directly connected with ${topic} in ${chapterName}?`,
+        options: conceptOptions,
+        correct: mainAnchor,
+        explanation: `${mainAnchor} is taken from the selected ${subjectName} chapter/topic context.`
+      });
+    }
+
+    if (rows.length >= questionCount) return;
+    const definition = definitions[index % Math.max(definitions.length, 1)];
+    if (definition?.term && definition?.meaning) {
+      const definitionOptions = plausibleDistractors(definition.meaning, definitions.map((item) => item.meaning), anchors);
+      if (definitionOptions.length) {
+        uniquePushQuestion(rows, {
+          question: `What does ${definition.term} mean in ${chapterName}?`,
+          options: definitionOptions,
+          correct: definition.meaning,
+          explanation: `${definition.term}: ${definition.meaning}`
+        });
+      }
+    }
+  });
+
+  return rows.slice(0, questionCount);
+}
+
+function buildRoadmapQuizTopicUnits({ subject, chapterName, lessonPlan, academicTopics = [] }) {
+  const scoped = buildScopedExamTopicUnits({
+    subjects: [subject],
+    selectedTopics: chapterName ? [chapterName] : [],
+    academicTopics
+  });
+  const fromDataset = scoped.map((unit) => ({
+    subject: normalizeExamSubject(unit.subject || subject) || subject,
+    chapter: cleanAcademicText(unit.chapter || chapterName),
+    topic: cleanAcademicText(unit.parentTopic || unit.topic || chapterName),
+    subtopics: Array.isArray(unit.subtopics) ? unit.subtopics.map(cleanAcademicText).filter(Boolean).slice(0, 6) : [],
+    source: "academic_topics"
+  }));
+
+  const fromSections = Array.isArray(lessonPlan?.lessonSections)
+    ? lessonPlan.lessonSections.map((section) => ({
+        subject: normalizeExamSubject(subject) || subject,
+        chapter: chapterName,
+        topic: cleanAcademicText(section?.title || chapterName),
+        subtopics: [
+          ...(Array.isArray(section?.summary) ? section.summary : []),
+          ...(Array.isArray(section?.keyPoints) ? section.keyPoints : [])
+        ].map(cleanAcademicText).filter((item) => item.length >= 8 && !isGenericAcademicBucket(item)).slice(0, 6),
+        source: "lesson_sections"
+      }))
+    : [];
+
+  const seen = new Set();
+  return [...fromDataset, ...fromSections]
+    .filter((unit) => unit.topic && !hasBrokenPdfText(unit.topic))
+    .filter((unit) => {
+      const key = `${unit.subject}:${unit.chapter}:${unit.topic}`.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 24);
+}
+
+function buildRealNumbersRoadmapQuestions({ questionCount }) {
+  return [
+    {
+      question: "Euclid's division lemma writes any positive integers a and b in which form?",
+      options: ["a = bq + r, 0 <= r < b", "a = b + q + r, r > b", "a = q - br, r < 0", "a = b/r, r = 0"],
+      correct: "a = bq + r, 0 <= r < b",
+      explanation: "The lemma states a = bq + r where the remainder is non-negative and less than the divisor."
+    },
+    {
+      question: "Which method is most suitable for finding HCF of 900 and 196 quickly?",
+      options: ["Euclid's division algorithm", "Drawing a frequency polygon", "Changing both numbers to percentages", "Using only square roots"],
+      correct: "Euclid's division algorithm",
+      explanation: "Repeated division in Euclid's algorithm gives the HCF efficiently."
+    },
+    {
+      question: "What does the Fundamental Theorem of Arithmetic guarantee for every composite number?",
+      options: ["Unique prime factorisation apart from order", "Only one possible decimal expansion", "It is always a perfect square", "It has HCF equal to zero"],
+      correct: "Unique prime factorisation apart from order",
+      explanation: "Every composite number can be expressed as a product of primes uniquely, except for order."
+    },
+    {
+      question: "A rational number p/q has a terminating decimal when q, after simplification, has prime factors only...",
+      options: ["2 and/or 5", "3 and/or 7", "Only odd primes", "All prime numbers"],
+      correct: "2 and/or 5",
+      explanation: "Terminating decimals occur when the denominator has no prime factors other than 2 and 5."
+    },
+    {
+      question: "Which statement correctly identifies an irrational number?",
+      options: ["Its decimal expansion is non-terminating and non-recurring", "Its decimal expansion always terminates", "It can always be written as p/q", "It must be a negative integer"],
+      correct: "Its decimal expansion is non-terminating and non-recurring",
+      explanation: "Irrational numbers cannot be written as p/q and have non-terminating, non-recurring decimals."
+    },
+    {
+      question: "If two positive integers have HCF 1, what are they called?",
+      options: ["Co-prime numbers", "Twin prime numbers", "Irrational numbers", "Terminating decimals"],
+      correct: "Co-prime numbers",
+      explanation: "Co-prime numbers share no common factor except 1."
+    },
+    {
+      question: "Which option is an error when applying Euclid's division lemma?",
+      options: ["Using a remainder greater than or equal to the divisor", "Choosing positive integers a and b", "Writing a as bq + r", "Keeping the remainder non-negative"],
+      correct: "Using a remainder greater than or equal to the divisor",
+      explanation: "The remainder must satisfy 0 <= r < b."
+    },
+    {
+      question: "Why is prime factorisation useful in Real Numbers?",
+      options: ["It helps find HCF, LCM, and prove divisibility results", "It changes all decimals into poems", "It removes the need for division", "It is used only for drawing diagrams"],
+      correct: "It helps find HCF, LCM, and prove divisibility results",
+      explanation: "Prime factors reveal number structure and support HCF/LCM and proof questions."
+    }
+  ].slice(0, questionCount);
+}
+
+function buildGapStyleRoadmapQuizQuestions({ subject, classLevel = "", chapter, lessonPlan, academicTopics = [], questionCount = 12 }) {
   const normalizedSubject = normalizeExamSubject(subject) || subject || "Science";
   const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "Core Chapter");
+  const subjectKey = String(normalizedSubject).toLowerCase();
+  const topicUnits = buildRoadmapQuizTopicUnits({ subject: normalizedSubject, chapterName, lessonPlan, academicTopics });
   const keyPoints = Array.isArray(lessonPlan?.lessonSections)
     ? lessonPlan.lessonSections
         .flatMap((section) => Array.isArray(section?.keyPoints) ? section.keyPoints : [])
@@ -1343,16 +1605,91 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
   const textbookQuestions = Array.isArray(lessonPlan?.chapter?.textbookQuestions)
     ? lessonPlan.chapter.textbookQuestions
     : Array.isArray(lessonPlan?.textbookQuestions) ? lessonPlan.textbookQuestions : [];
-  const subjectKey = String(normalizedSubject).toLowerCase();
   const generated = [];
 
-  buildTextbookPracticeQuestions({ subject: normalizedSubject, chapterName, textbookQuestions, keyPoints, questionCount: Math.min(questionCount, 8) })
-    .forEach((item) => uniquePushQuestion(generated, item));
+  if (subjectKey.includes("math") && /\breal\s+numbers?\b/i.test(chapterName)) {
+    buildRealNumbersRoadmapQuestions({ questionCount }).forEach((item) => uniquePushQuestion(generated, item));
+  }
+
+  buildSubjectStyleRoadmapQuestions({
+    subject: normalizedSubject,
+    chapterName,
+    topicUnits,
+    keyPoints,
+    definitions,
+    questionCount
+  }).forEach((item) => uniquePushQuestion(generated, item));
+
+  topicUnits.forEach((unit, index) => {
+    if (generated.length >= questionCount) return;
+    const topic = cleanAcademicText(unit.topic || chapterName);
+    const anchors = [
+      topic,
+      ...unit.subtopics,
+      ...keyPoints,
+      ...definitions.map((item) => `${item.term}: ${item.meaning}`)
+    ].filter((item) => item && item.length >= 4 && !isGenericAcademicBucket(item));
+    const correct = topic;
+    const options = plausibleDistractors(correct, anchors.filter((item) => normalizeQuizText(item) !== normalizeQuizText(correct)), [
+      `${chapterName}: worked example method`,
+      `${chapterName}: theorem statement`,
+      `${chapterName}: practice application`
+    ]);
+    if (options.length) {
+      uniquePushQuestion(generated, {
+        question: subjectKey.includes("math")
+          ? `Which topic should you use for this ${chapterName} practice step?`
+          : `Which topic is being tested in this ${chapterName} roadmap question?`,
+        options,
+        correct,
+        explanation: `${topic} is part of the selected ${normalizedSubject} chapter roadmap.`
+      });
+    }
+
+    const usableSubtopic = unit.subtopics.find((item) => item.length >= 8 && !isVerboseExamText(item) && !isGenericAcademicBucket(item));
+    if (generated.length < questionCount && usableSubtopic) {
+      const subtopicOptions = plausibleDistractors(usableSubtopic, [...unit.subtopics, ...keyPoints], [
+        `${chapterName}: formula or rule check`,
+        `${chapterName}: solved example step`,
+        `${chapterName}: revision application`
+      ]);
+      if (subtopicOptions.length) {
+        uniquePushQuestion(generated, {
+          question: `Which option correctly matches ${topic} in ${chapterName}?`,
+          options: subtopicOptions,
+          correct: usableSubtopic,
+          explanation: `This point is grounded in the selected textbook topic: ${topic}.`
+        });
+      }
+    }
+
+    if (generated.length < questionCount && subjectKey.includes("math") && index % 2 === 0) {
+      const mathOptions = plausibleDistractors("Use the related theorem/algorithm and show steps", [
+        "Use the related theorem/algorithm and show steps",
+        "Guess the option from grammar clues",
+        "Write only the chapter heading",
+        "Skip the calculation"
+      ]);
+      if (mathOptions.length) {
+        uniquePushQuestion(generated, {
+          question: `For a ${chapterName} problem on ${topic}, what is the best solving approach?`,
+          options: mathOptions,
+          correct: "Use the related theorem/algorithm and show steps",
+          explanation: "Maths roadmap quizzes should check method, reasoning, and steps for the selected topic."
+        });
+      }
+    }
+  });
 
   const subjectQuestions = subjectKey.includes("math")
     ? buildMathConceptQuestions({ chapterName, keyPoints, definitions, questionCount })
     : buildScienceConceptQuestions({ chapterName, keyPoints, definitions, questionCount });
   subjectQuestions.forEach((item) => uniquePushQuestion(generated, item));
+
+  if (generated.length < questionCount && textbookQuestions.length) {
+    buildTextbookPracticeQuestions({ subject: normalizedSubject, chapterName, textbookQuestions, keyPoints, questionCount: questionCount - generated.length })
+      .forEach((item) => uniquePushQuestion(generated, item));
+  }
 
   if (generated.length < questionCount && subjectKey.includes("math")) {
     buildDeterministicTopicQuestions("Mathematics", chapterName.toLowerCase().includes("real") ? "Numbers" : chapterName, questionCount - generated.length)
@@ -1365,11 +1702,13 @@ function buildDeterministicRoadmapQuizQuestions({ subject, chapter, lessonPlan, 
   return generated
     .map((item, index) => normalizeRoadmapQuizQuestion(item, index, normalizedSubject, chapterName))
     .filter(Boolean)
+    .filter((item) => isRoadmapQuizScopeSafe(item, { subject: normalizedSubject, chapterName, topicUnits }))
     .slice(0, questionCount);
 }
 
-async function buildAiRoadmapQuizQuestions({ subject, classLevel, board, chapter, lessonPlan, questionCount = 12 }) {
+async function buildAiRoadmapQuizQuestions({ subject, classLevel, board, chapter, lessonPlan, academicTopics = [], questionCount = 12 }) {
   const chapterName = cleanAcademicText(chapter || lessonPlan?.chapter?.chapter_name || "");
+  const topicUnits = buildRoadmapQuizTopicUnits({ subject, chapterName, lessonPlan, academicTopics }).slice(0, 12);
   const sectionTitles = Array.isArray(lessonPlan?.lessonSections)
     ? lessonPlan.lessonSections.map((item) => cleanAcademicText(item?.title || "")).filter(Boolean).slice(0, 12)
     : [];
@@ -1388,11 +1727,14 @@ async function buildAiRoadmapQuizQuestions({ subject, classLevel, board, chapter
     `Class: ${classLevel}.`,
     `Subject: ${subject}.`,
     `Chapter: ${chapterName || "Selected chapter"}.`,
+    `Allowed topic scope: ${topicUnits.length ? topicUnits.map((item) => `${item.chapter} > ${item.topic}${item.subtopics?.length ? ` (${item.subtopics.slice(0, 3).join(", ")})` : ""}`).join("; ") : chapterName || "Selected chapter only"}.`,
     `Section titles: ${sectionTitles.join("; ") || "Not available"}.`,
     `Definitions: ${definitions.join("; ") || "Not available"}.`,
     `Key points: ${keyPoints.join("; ") || "Not available"}.`,
     `Create exactly ${questionCount} multiple-choice questions.`,
-    "Rules: no placeholders, no random app text, no unrelated options, one clear correct answer that exactly matches one option, concise explanation."
+    "Rules: questions must look like Subject Gap Analyzer MCQs: concept identification, application, error spotting, worked-example reasoning, or definition/application checks.",
+    "Do not ask users to choose raw textbook lines. Do not use stems like 'Which textbook question', 'Which statement belongs', or 'Which key point is correct'.",
+    "No placeholders, no random app text, no unrelated options, one clear correct answer that exactly matches one option, concise explanation."
   ].join("\n");
 
   const ai = await requestAiResponse({
@@ -1408,6 +1750,7 @@ async function buildAiRoadmapQuizQuestions({ subject, classLevel, board, chapter
   const parsed = safeJsonParse(ai.answer);
   const normalized = Array.isArray(parsed?.questions)
     ? parsed.questions.map((item, index) => normalizeRoadmapQuizQuestion(item, index, subject, chapterName)).filter(Boolean)
+        .filter((item) => isRoadmapQuizScopeSafe(item, { subject, chapterName, topicUnits }))
     : [];
   return normalized.slice(0, questionCount);
 }
@@ -2870,6 +3213,7 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
         board,
         chapter: chapter || lessonPlan?.chapter?.chapter_name || "",
         lessonPlan,
+        academicTopics,
         questionCount: Math.max(18, (roadmap.steps?.length || 1) * perWeek)
       });
       if (quizPool.length >= 8) {
@@ -2879,10 +3223,12 @@ exports.generateHighSchoolStudyRoadmap = asyncHandler(async (req, res) => {
     } catch {}
 
     if (quizPool.length < 8) {
-      quizPool = buildDeterministicRoadmapQuizQuestions({
+      quizPool = buildGapStyleRoadmapQuizQuestions({
         subject,
+        classLevel,
         chapter: chapter || lessonPlan?.chapter?.chapter_name || "",
         lessonPlan,
+        academicTopics,
         questionCount: Math.max(18, (roadmap.steps?.length || 1) * perWeek)
       });
       if (source !== "lesson_dataset_ai_quiz") {
